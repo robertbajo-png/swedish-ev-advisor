@@ -1,0 +1,120 @@
+brand,model,normalized_brand,normalized_model,market_seen,available_confirmed,discontinued_candidate,coming_or_low_volume,validation_status
+Tesla,Model Y,tesla,model y,True,False,False,False,draft
+Volvo,Ex30,volvo,ex30,True,False,False,False,draft
+Polestar,4,polestar,4,True,False,False,False,draft
+Kia,Ev3,kia,ev3,True,False,False,False,draft
+Toyota,bZ4X,toyota,bz4x,True,False,False,False,draft
+Kia,Ev5,kia,ev5,True,False,False,False,draft
+Skoda,Enyaq,skoda,enyaq,True,False,False,False,draft
+Volkswagen,Id.4,volkswagen,id 4,True,False,False,False,draft
+Kia,Ev9,kia,ev9,True,False,False,False,draft
+Mercedes-Benz,Eqa,mercedes benz,eqa,True,False,False,False,draft
+Renault,5,renault,5,True,False,False,False,draft
+BMW,iX1,bmw,ix1,True,False,False,False,draft
+Mercedes-Benz,Cla,mercedes benz,cla,True,False,False,False,draft
+Tesla,Model 3,tesla,model 3,True,False,False,False,draft
+BMW,iX3,bmw,ix3,True,False,False,False,draft
+Kia,Ev6,kia,ev6,True,False,False,False,draft
+Audi,Q4 E-Tron,audi,q4 e tron,True,False,False,False,draft
+Audi,A6 E-Tron,audi,a6 e tron,True,False,False,False,draft
+BMW,i4,bmw,i4,True,False,False,False,draft
+BMW,i5,bmw,i5,True,False,False,False,draft
+Volkswagen,Id.3,volkswagen,id 3,True,False,False,False,draft
+Ford,Explorer,ford,explorer,True,False,False,False,draft
+Cupra,Born,cupra,born,True,False,False,False,draft
+Zeekr,7X,zeekr,7x,True,False,False,False,draft
+Audi,Q6 E-Tron,audi,q6 e tron,True,False,False,False,draft
+Kia,Ev4,kia,ev4,True,False,False,False,draft
+Polestar,2,polestar,2,True,False,False,False,draft
+Volvo,Es90,volvo,es90,True,False,False,False,draft
+Mazda,6E,mazda,6e,True,False,False,False,draft
+Skoda,Elroq,skoda,elroq,True,False,False,False,draft
+Renault,Scenic,renault,scenic,True,False,False,False,draft
+Volkswagen,Id. Buzz,volkswagen,id buzz,True,False,False,False,draft
+Volvo,Ex90,volvo,ex90,True,False,False,False,draft
+BMW,iX,bmw,ix,True,False,False,False,draft
+MG,Mg4 Electric,mg,mg4 electric,True,False,False,False,draft
+Mercedes-Benz,Eqe,mercedes benz,eqe,True,False,False,False,draft
+Polestar,3,polestar,3,True,False,False,False,draft
+Lexus,Rz,lexus,rz,True,False,False,False,draft
+Toyota,C-Hr+,toyota,c hr,True,False,False,False,draft
+Xpeng,G6,xpeng,g6,True,False,False,False,draft
+Mercedes-Benz,Eqb,mercedes benz,eqb,True,False,False,False,draft
+Subaru,Solterra,subaru,solterra,True,False,False,False,draft
+Porsche,Macan,porsche,macan,True,False,False,False,draft
+Mini,Countryman,mini,countryman,True,False,False,False,draft
+Renault,4,renault,4,True,False,False,False,draft
+BMW,iX2,bmw,ix2,True,False,False,False,draft
+Xpeng,G9,xpeng,g9,True,False,False,False,draft
+Hyundai,Inster,hyundai,inster,True,False,False,False,draft
+Mercedes-Benz,Glb,mercedes benz,glb,True,False,False,False,draft
+Ford,Capri,ford,capri,True,False,False,False,draft
+Cupra,Tavascan,cupra,tavascan,True,False,False,False,draft
+Mini,Aceman,mini,aceman,True,False,False,False,draft
+Mini,Hatch,mini,hatch,True,False,False,False,draft
+Hyundai,Ioniq 9,hyundai,ioniq 9,True,False,False,False,draft
+Opel,Corsa,opel,corsa,True,False,False,False,draft
+Hyundai,Ioniq 5,hyundai,ioniq 5,True,False,False,False,draft
+Nissan,Micra,nissan,micra,True,False,False,False,draft
+Nissan,Ariya,nissan,ariya,True,False,False,False,draft
+Kia,Pv5 Passenger,kia,pv5 passenger,True,False,False,False,draft
+Ford,Puma,ford,puma,True,False,False,False,draft
+Mercedes-Benz,Eqs,mercedes benz,eqs,True,False,False,False,draft
+Zeekr,001,zeekr,001,True,False,False,False,draft
+Lynk & Co,02,lynk and co,02,True,False,False,False,draft
+Peugeot,5008,peugeot,5008,True,False,False,False,draft
+Peugeot,3008,peugeot,3008,True,False,False,False,draft
+Citroen,C3 Aircross,citroen,c3 aircross,True,False,False,False,draft
+Hyundai,Kona,hyundai,kona,True,False,False,False,draft
+BYD,Sealion,byd,sealion,True,False,False,False,draft
+MG,S5 Ev,mg,s5 ev,True,False,False,False,draft
+Opel,Frontera,opel,frontera,True,False,False,False,draft
+Porsche,Taycan,porsche,taycan,True,False,False,False,draft
+Alfa,Romeo Junior,alfa,romeo junior,True,False,False,False,draft
+Polestar,5,polestar,5,True,False,False,False,draft
+Leapmotor,B10,leapmotor,b10,True,False,False,False,draft
+BYD,Atto 2,byd,atto 2,True,False,False,False,draft
+Smart,#1,smart,1,True,False,False,False,draft
+BYD,Atto 3,byd,atto 3,True,False,False,False,draft
+Peugeot,Expert,peugeot,expert,True,False,False,False,draft
+Mercedes-Benz,G Wagon,mercedes benz,g wagon,True,False,False,False,draft
+Peugeot,208,peugeot,208,True,False,False,False,draft
+BYD,Dolphin,byd,dolphin,True,False,False,False,draft
+Smart,#5,smart,5,True,False,False,False,draft
+Peugeot,2008,peugeot,2008,True,False,False,False,draft
+Fiat,600,fiat,600,True,False,False,False,draft
+Opel,Grandland,opel,grandland,True,False,False,False,draft
+Citroen,C3,citroen,c3,True,False,False,False,draft
+Suzuki,E Vitara,suzuki,e vitara,True,False,False,False,draft
+Volkswagen,Caravelle,volkswagen,caravelle,True,False,False,False,draft
+Polestar,Ysm,polestar,ysm,True,False,False,False,draft
+Citroen,C5 Aircross,citroen,c5 aircross,True,False,False,False,draft
+Mercedes-Benz,Citan,mercedes benz,citan,True,False,False,False,draft
+Lotus,Eletre,lotus,eletre,True,False,False,False,draft
+Tesla,Model X,tesla,model x,True,False,False,False,draft
+Jeep,Avenger,jeep,avenger,True,False,False,False,draft
+Kia,Ev2,kia,ev2,True,False,False,False,draft
+Smart,#3,smart,3,True,False,False,False,draft
+Citroen,Spacetourer,citroen,spacetourer,True,False,False,False,draft
+BMW,i7,bmw,i7,True,False,False,True,draft
+Fiat,Panda,fiat,panda,True,False,False,True,draft
+Jeep,Compass,jeep,compass,True,False,False,True,draft
+Tesla,Model S,tesla,model s,True,False,False,True,draft
+Ssangyong,Torres,ssangyong,torres,True,False,False,True,draft
+Leapmotor,C10,leapmotor,c10,True,False,False,True,draft
+Ford,Mustang Mach-E,ford,mustang mach e,True,False,False,True,draft
+Mercedes-Benz,V-Klass,mercedes benz,v klass,True,False,False,True,draft
+Mercedes-Benz,Vito,mercedes benz,vito,True,False,False,True,draft
+Mercedes-Benz,Eqt,mercedes benz,eqt,True,False,False,True,draft
+Cadillac,Lyriq,cadillac,lyriq,True,False,False,True,draft
+Opel,Mokka,opel,mokka,True,False,False,True,draft
+DS,N° 8,ds,n 8,True,False,False,True,draft
+Cadillac,Optiq,cadillac,optiq,True,False,False,True,draft
+Audi,E-Tron Gt,audi,e tron gt,True,False,False,True,draft
+Xpeng,P7,xpeng,p7,True,False,False,True,draft
+Volkswagen,Id.5,volkswagen,id 5,True,False,False,True,draft
+Ford,Transit Custom,ford,transit custom,True,False,False,True,draft
+Leapmotor,T03,leapmotor,t03,True,False,False,True,draft
+Ford,Tourneo Custom,ford,tourneo custom,True,False,False,True,draft
+Toyota,Proace,toyota,proace,True,False,False,True,draft
+MG,Cyberster,mg,cyberster,True,False,False,True,draft

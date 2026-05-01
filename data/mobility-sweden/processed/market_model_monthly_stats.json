@@ -1,0 +1,994 @@
+[
+  {
+    "market_model_key": "volvo:ex xc40:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "EX/XC40",
+    "fuel_type_raw": "EL",
+    "registrations": 988
+  },
+  {
+    "market_model_key": "tesla:model y:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TESLA",
+    "model_raw": "MODEL Y",
+    "fuel_type_raw": "EL",
+    "registrations": 1382
+  },
+  {
+    "market_model_key": "volvo:ex30:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "EX30",
+    "fuel_type_raw": "EL",
+    "registrations": 592
+  },
+  {
+    "market_model_key": "volkswagen:id 7 id 7 tourer:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "ID.7/ID.7 TOURER",
+    "fuel_type_raw": "EL",
+    "registrations": 548
+  },
+  {
+    "market_model_key": "polestar:4:EL",
+    "month": "2026-03-01",
+    "brand_raw": "POLESTAR",
+    "model_raw": "4",
+    "fuel_type_raw": "EL",
+    "registrations": 496
+  },
+  {
+    "market_model_key": "kia:ev3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV3",
+    "fuel_type_raw": "EL",
+    "registrations": 422
+  },
+  {
+    "market_model_key": "toyota:bz4x:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TOYOTA",
+    "model_raw": "BZ4X",
+    "fuel_type_raw": "EL",
+    "registrations": 263
+  },
+  {
+    "market_model_key": "kia:ev5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV5",
+    "fuel_type_raw": "EL",
+    "registrations": 340
+  },
+  {
+    "market_model_key": "skoda:enyaq:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SKODA",
+    "model_raw": "ENYAQ",
+    "fuel_type_raw": "EL",
+    "registrations": 219
+  },
+  {
+    "market_model_key": "volkswagen:id 4:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "ID.4",
+    "fuel_type_raw": "EL",
+    "registrations": 295
+  },
+  {
+    "market_model_key": "volvo:ec c40:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "EC/C40",
+    "fuel_type_raw": "EL",
+    "registrations": 241
+  },
+  {
+    "market_model_key": "kia:ev9:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV9",
+    "fuel_type_raw": "EL",
+    "registrations": 199
+  },
+  {
+    "market_model_key": "mercedes benz:eqa:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQA",
+    "fuel_type_raw": "EL",
+    "registrations": 288
+  },
+  {
+    "market_model_key": "renault:5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "RENAULT",
+    "model_raw": "5",
+    "fuel_type_raw": "EL",
+    "registrations": 196
+  },
+  {
+    "market_model_key": "bmw:ix1:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "IX1",
+    "fuel_type_raw": "EL",
+    "registrations": 198
+  },
+  {
+    "market_model_key": "mercedes benz:cla:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "CLA",
+    "fuel_type_raw": "EL",
+    "registrations": 204
+  },
+  {
+    "market_model_key": "tesla:model 3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TESLA",
+    "model_raw": "MODEL 3",
+    "fuel_type_raw": "EL",
+    "registrations": 397
+  },
+  {
+    "market_model_key": "bmw:ix3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "IX3",
+    "fuel_type_raw": "EL",
+    "registrations": 318
+  },
+  {
+    "market_model_key": "kia:ev6:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV6",
+    "fuel_type_raw": "EL",
+    "registrations": 127
+  },
+  {
+    "market_model_key": "audi:q4 e tron:EL",
+    "month": "2026-03-01",
+    "brand_raw": "AUDI",
+    "model_raw": "Q4 E-TRON",
+    "fuel_type_raw": "EL",
+    "registrations": 150
+  },
+  {
+    "market_model_key": "audi:a6 e tron:EL",
+    "month": "2026-03-01",
+    "brand_raw": "AUDI",
+    "model_raw": "A6 E-TRON",
+    "fuel_type_raw": "EL",
+    "registrations": 127
+  },
+  {
+    "market_model_key": "bmw:i4:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "I4",
+    "fuel_type_raw": "EL",
+    "registrations": 129
+  },
+  {
+    "market_model_key": "bmw:i5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "I5",
+    "fuel_type_raw": "EL",
+    "registrations": 128
+  },
+  {
+    "market_model_key": "volkswagen:id 3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "ID.3",
+    "fuel_type_raw": "EL",
+    "registrations": 82
+  },
+  {
+    "market_model_key": "ford:explorer:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "EXPLORER",
+    "fuel_type_raw": "EL",
+    "registrations": 116
+  },
+  {
+    "market_model_key": "cupra:born:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CUPRA",
+    "model_raw": "BORN",
+    "fuel_type_raw": "EL",
+    "registrations": 87
+  },
+  {
+    "market_model_key": "zeekr:7x:EL",
+    "month": "2026-03-01",
+    "brand_raw": "ZEEKR",
+    "model_raw": "7X",
+    "fuel_type_raw": "EL",
+    "registrations": 129
+  },
+  {
+    "market_model_key": "audi:q6 e tron:EL",
+    "month": "2026-03-01",
+    "brand_raw": "AUDI",
+    "model_raw": "Q6 E-TRON",
+    "fuel_type_raw": "EL",
+    "registrations": 111
+  },
+  {
+    "market_model_key": "kia:ev4:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV4",
+    "fuel_type_raw": "EL",
+    "registrations": 130
+  },
+  {
+    "market_model_key": "polestar:2:EL",
+    "month": "2026-03-01",
+    "brand_raw": "POLESTAR",
+    "model_raw": "2",
+    "fuel_type_raw": "EL",
+    "registrations": 90
+  },
+  {
+    "market_model_key": "volvo:es90:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "ES90",
+    "fuel_type_raw": "EL",
+    "registrations": 27
+  },
+  {
+    "market_model_key": "mazda:6e:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MAZDA",
+    "model_raw": "6E",
+    "fuel_type_raw": "EL",
+    "registrations": 117
+  },
+  {
+    "market_model_key": "skoda:elroq:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SKODA",
+    "model_raw": "ELROQ",
+    "fuel_type_raw": "EL",
+    "registrations": 75
+  },
+  {
+    "market_model_key": "renault:scenic:EL",
+    "month": "2026-03-01",
+    "brand_raw": "RENAULT",
+    "model_raw": "SCENIC",
+    "fuel_type_raw": "EL",
+    "registrations": 95
+  },
+  {
+    "market_model_key": "volkswagen:id buzz:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "ID. BUZZ",
+    "fuel_type_raw": "EL",
+    "registrations": 77
+  },
+  {
+    "market_model_key": "volvo:ex90:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "EX90",
+    "fuel_type_raw": "EL",
+    "registrations": 39
+  },
+  {
+    "market_model_key": "bmw:ix:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "IX",
+    "fuel_type_raw": "EL",
+    "registrations": 58
+  },
+  {
+    "market_model_key": "mg:mg4 electric:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MG",
+    "model_raw": "MG4 ELECTRIC",
+    "fuel_type_raw": "EL",
+    "registrations": 62
+  },
+  {
+    "market_model_key": "mercedes benz:eqe:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQE",
+    "fuel_type_raw": "EL",
+    "registrations": 39
+  },
+  {
+    "market_model_key": "polestar:3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "POLESTAR",
+    "model_raw": "3",
+    "fuel_type_raw": "EL",
+    "registrations": 42
+  },
+  {
+    "market_model_key": "lexus:rz:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LEXUS",
+    "model_raw": "RZ",
+    "fuel_type_raw": "EL",
+    "registrations": 45
+  },
+  {
+    "market_model_key": "toyota:c hr:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TOYOTA",
+    "model_raw": "C-HR+",
+    "fuel_type_raw": "EL",
+    "registrations": 106
+  },
+  {
+    "market_model_key": "xpeng:g6:EL",
+    "month": "2026-03-01",
+    "brand_raw": "XPENG",
+    "model_raw": "G6",
+    "fuel_type_raw": "EL",
+    "registrations": 49
+  },
+  {
+    "market_model_key": "mercedes benz:eqb:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQB",
+    "fuel_type_raw": "EL",
+    "registrations": 26
+  },
+  {
+    "market_model_key": "subaru:solterra:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SUBARU",
+    "model_raw": "SOLTERRA",
+    "fuel_type_raw": "EL",
+    "registrations": 34
+  },
+  {
+    "market_model_key": "porsche:macan:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PORSCHE",
+    "model_raw": "MACAN",
+    "fuel_type_raw": "EL",
+    "registrations": 32
+  },
+  {
+    "market_model_key": "mini:countryman:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MINI",
+    "model_raw": "COUNTRYMAN",
+    "fuel_type_raw": "EL",
+    "registrations": 42
+  },
+  {
+    "market_model_key": "renault:4:EL",
+    "month": "2026-03-01",
+    "brand_raw": "RENAULT",
+    "model_raw": "4",
+    "fuel_type_raw": "EL",
+    "registrations": 39
+  },
+  {
+    "market_model_key": "volvo:ovriga:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VOLVO",
+    "model_raw": "ÖVRIGA",
+    "fuel_type_raw": "EL",
+    "registrations": 77
+  },
+  {
+    "market_model_key": "bmw:ix2:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "IX2",
+    "fuel_type_raw": "EL",
+    "registrations": 31
+  },
+  {
+    "market_model_key": "xpeng:g9:EL",
+    "month": "2026-03-01",
+    "brand_raw": "XPENG",
+    "model_raw": "G9",
+    "fuel_type_raw": "EL",
+    "registrations": 38
+  },
+  {
+    "market_model_key": "hyundai:inster:EL",
+    "month": "2026-03-01",
+    "brand_raw": "HYUNDAI",
+    "model_raw": "INSTER",
+    "fuel_type_raw": "EL",
+    "registrations": 20
+  },
+  {
+    "market_model_key": "mercedes benz:glb:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "GLB",
+    "fuel_type_raw": "EL",
+    "registrations": 77
+  },
+  {
+    "market_model_key": "ford:capri:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "CAPRI",
+    "fuel_type_raw": "EL",
+    "registrations": 34
+  },
+  {
+    "market_model_key": "cupra:tavascan:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CUPRA",
+    "model_raw": "TAVASCAN",
+    "fuel_type_raw": "EL",
+    "registrations": 73
+  },
+  {
+    "market_model_key": "mini:aceman:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MINI",
+    "model_raw": "ACEMAN",
+    "fuel_type_raw": "EL",
+    "registrations": 24
+  },
+  {
+    "market_model_key": "mini:hatch:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MINI",
+    "model_raw": "HATCH",
+    "fuel_type_raw": "EL",
+    "registrations": 21
+  },
+  {
+    "market_model_key": "hyundai:ioniq 9:EL",
+    "month": "2026-03-01",
+    "brand_raw": "HYUNDAI",
+    "model_raw": "IONIQ 9",
+    "fuel_type_raw": "EL",
+    "registrations": 25
+  },
+  {
+    "market_model_key": "opel:corsa:EL",
+    "month": "2026-03-01",
+    "brand_raw": "OPEL",
+    "model_raw": "CORSA",
+    "fuel_type_raw": "EL",
+    "registrations": 17
+  },
+  {
+    "market_model_key": "hyundai:ioniq 5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "HYUNDAI",
+    "model_raw": "IONIQ 5",
+    "fuel_type_raw": "EL",
+    "registrations": 23
+  },
+  {
+    "market_model_key": "nissan:micra:EL",
+    "month": "2026-03-01",
+    "brand_raw": "NISSAN",
+    "model_raw": "MICRA",
+    "fuel_type_raw": "EL",
+    "registrations": 3
+  },
+  {
+    "market_model_key": "nissan:ariya:EL",
+    "month": "2026-03-01",
+    "brand_raw": "NISSAN",
+    "model_raw": "ARIYA",
+    "fuel_type_raw": "EL",
+    "registrations": 11
+  },
+  {
+    "market_model_key": "kia:pv5 passenger:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "PV5 PASSENGER",
+    "fuel_type_raw": "EL",
+    "registrations": 15
+  },
+  {
+    "market_model_key": "ford:puma:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "PUMA",
+    "fuel_type_raw": "EL",
+    "registrations": 20
+  },
+  {
+    "market_model_key": "mercedes benz:eqs:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQS",
+    "fuel_type_raw": "EL",
+    "registrations": 16
+  },
+  {
+    "market_model_key": "zeekr:001:EL",
+    "month": "2026-03-01",
+    "brand_raw": "ZEEKR",
+    "model_raw": "001",
+    "fuel_type_raw": "EL",
+    "registrations": 4
+  },
+  {
+    "market_model_key": "lynk and co:02:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LYNK & CO",
+    "model_raw": "02",
+    "fuel_type_raw": "EL",
+    "registrations": 15
+  },
+  {
+    "market_model_key": "peugeot:5008:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PEUGEOT",
+    "model_raw": "5008",
+    "fuel_type_raw": "EL",
+    "registrations": 28
+  },
+  {
+    "market_model_key": "peugeot:3008:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PEUGEOT",
+    "model_raw": "3008",
+    "fuel_type_raw": "EL",
+    "registrations": 18
+  },
+  {
+    "market_model_key": "citroen:c3 aircross:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CITROEN",
+    "model_raw": "C3 AIRCROSS",
+    "fuel_type_raw": "EL",
+    "registrations": 12
+  },
+  {
+    "market_model_key": "hyundai:kona:EL",
+    "month": "2026-03-01",
+    "brand_raw": "HYUNDAI",
+    "model_raw": "KONA",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "byd:sealion:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BYD",
+    "model_raw": "SEALION",
+    "fuel_type_raw": "EL",
+    "registrations": 7
+  },
+  {
+    "market_model_key": "mg:s5 ev:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MG",
+    "model_raw": "S5 EV",
+    "fuel_type_raw": "EL",
+    "registrations": 8
+  },
+  {
+    "market_model_key": "opel:frontera:EL",
+    "month": "2026-03-01",
+    "brand_raw": "OPEL",
+    "model_raw": "FRONTERA",
+    "fuel_type_raw": "EL",
+    "registrations": 9
+  },
+  {
+    "market_model_key": "porsche:taycan:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PORSCHE",
+    "model_raw": "TAYCAN",
+    "fuel_type_raw": "EL",
+    "registrations": 7
+  },
+  {
+    "market_model_key": "alfa:romeo junior:EL",
+    "month": "2026-03-01",
+    "brand_raw": "ALFA",
+    "model_raw": "ROMEO JUNIOR",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "polestar:5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "POLESTAR",
+    "model_raw": "5",
+    "fuel_type_raw": "EL",
+    "registrations": 16
+  },
+  {
+    "market_model_key": "leapmotor:b10:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LEAPMOTOR",
+    "model_raw": "B10",
+    "fuel_type_raw": "EL",
+    "registrations": 16
+  },
+  {
+    "market_model_key": "byd:atto 2:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BYD",
+    "model_raw": "ATTO 2",
+    "fuel_type_raw": "EL",
+    "registrations": 16
+  },
+  {
+    "market_model_key": "smart:1:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SMART",
+    "model_raw": "#1",
+    "fuel_type_raw": "EL",
+    "registrations": 14
+  },
+  {
+    "market_model_key": "byd:atto 3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BYD",
+    "model_raw": "ATTO 3",
+    "fuel_type_raw": "EL",
+    "registrations": 14
+  },
+  {
+    "market_model_key": "peugeot:expert:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PEUGEOT",
+    "model_raw": "EXPERT",
+    "fuel_type_raw": "EL",
+    "registrations": 3
+  },
+  {
+    "market_model_key": "mercedes benz:g wagon:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "G WAGON",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "peugeot:208:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PEUGEOT",
+    "model_raw": "208",
+    "fuel_type_raw": "EL",
+    "registrations": 10
+  },
+  {
+    "market_model_key": "byd:dolphin:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BYD",
+    "model_raw": "DOLPHIN",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "smart:5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SMART",
+    "model_raw": "#5",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "peugeot:2008:EL",
+    "month": "2026-03-01",
+    "brand_raw": "PEUGEOT",
+    "model_raw": "2008",
+    "fuel_type_raw": "EL",
+    "registrations": 10
+  },
+  {
+    "market_model_key": "fiat:600:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FIAT",
+    "model_raw": "600",
+    "fuel_type_raw": "EL",
+    "registrations": 6
+  },
+  {
+    "market_model_key": "opel:grandland:EL",
+    "month": "2026-03-01",
+    "brand_raw": "OPEL",
+    "model_raw": "GRANDLAND",
+    "fuel_type_raw": "EL",
+    "registrations": 9
+  },
+  {
+    "market_model_key": "citroen:c3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CITROEN",
+    "model_raw": "C3",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "suzuki:e vitara:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SUZUKI",
+    "model_raw": "E VITARA",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "volkswagen:caravelle:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "CARAVELLE",
+    "fuel_type_raw": "EL",
+    "registrations": 9
+  },
+  {
+    "market_model_key": "polestar:ysm:EL",
+    "month": "2026-03-01",
+    "brand_raw": "POLESTAR",
+    "model_raw": "YSM",
+    "fuel_type_raw": "EL",
+    "registrations": 6
+  },
+  {
+    "market_model_key": "citroen:c5 aircross:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CITROEN",
+    "model_raw": "C5 AIRCROSS",
+    "fuel_type_raw": "EL",
+    "registrations": 6
+  },
+  {
+    "market_model_key": "mercedes benz:citan:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "CITAN",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "lotus:eletre:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LOTUS",
+    "model_raw": "ELETRE",
+    "fuel_type_raw": "EL",
+    "registrations": 7
+  },
+  {
+    "market_model_key": "tesla:model x:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TESLA",
+    "model_raw": "MODEL X",
+    "fuel_type_raw": "EL",
+    "registrations": 3
+  },
+  {
+    "market_model_key": "jeep:avenger:EL",
+    "month": "2026-03-01",
+    "brand_raw": "JEEP",
+    "model_raw": "AVENGER",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "kia:ev2:EL",
+    "month": "2026-03-01",
+    "brand_raw": "KIA",
+    "model_raw": "EV2",
+    "fuel_type_raw": "EL",
+    "registrations": 6
+  },
+  {
+    "market_model_key": "smart:3:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SMART",
+    "model_raw": "#3",
+    "fuel_type_raw": "EL",
+    "registrations": 6
+  },
+  {
+    "market_model_key": "citroen:spacetourer:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CITROEN",
+    "model_raw": "SPACETOURER",
+    "fuel_type_raw": "EL",
+    "registrations": 5
+  },
+  {
+    "market_model_key": "bmw:i7:EL",
+    "month": "2026-03-01",
+    "brand_raw": "BMW",
+    "model_raw": "I7",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "fiat:panda:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FIAT",
+    "model_raw": "PANDA",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "jeep:compass:EL",
+    "month": "2026-03-01",
+    "brand_raw": "JEEP",
+    "model_raw": "COMPASS",
+    "fuel_type_raw": "EL",
+    "registrations": 4
+  },
+  {
+    "market_model_key": "tesla:model s:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TESLA",
+    "model_raw": "MODEL S",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "ssangyong:torres:EL",
+    "month": "2026-03-01",
+    "brand_raw": "SSANGYONG",
+    "model_raw": "TORRES",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "leapmotor:c10:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LEAPMOTOR",
+    "model_raw": "C10",
+    "fuel_type_raw": "EL",
+    "registrations": 4
+  },
+  {
+    "market_model_key": "ford:mustang mach e:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "MUSTANG MACH-E",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "mercedes benz:v klass:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "V-KLASS",
+    "fuel_type_raw": "EL",
+    "registrations": 3
+  },
+  {
+    "market_model_key": "mercedes benz:vito:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "VITO",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "mercedes benz:eqt:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQT",
+    "fuel_type_raw": "EL",
+    "registrations": 3
+  },
+  {
+    "market_model_key": "cadillac:lyriq:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CADILLAC",
+    "model_raw": "LYRIQ",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "opel:mokka:EL",
+    "month": "2026-03-01",
+    "brand_raw": "OPEL",
+    "model_raw": "MOKKA",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "ds:n 8:EL",
+    "month": "2026-03-01",
+    "brand_raw": "DS",
+    "model_raw": "N° 8",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "cadillac:optiq:EL",
+    "month": "2026-03-01",
+    "brand_raw": "CADILLAC",
+    "model_raw": "OPTIQ",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "audi:e tron gt:EL",
+    "month": "2026-03-01",
+    "brand_raw": "AUDI",
+    "model_raw": "E-TRON GT",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "xpeng:p7:EL",
+    "month": "2026-03-01",
+    "brand_raw": "XPENG",
+    "model_raw": "P7",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "volkswagen:id 5:EL",
+    "month": "2026-03-01",
+    "brand_raw": "VW",
+    "model_raw": "ID.5",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "ford:transit custom:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "TRANSIT CUSTOM",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  },
+  {
+    "market_model_key": "leapmotor:t03:EL",
+    "month": "2026-03-01",
+    "brand_raw": "LEAPMOTOR",
+    "model_raw": "T03",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "ford:tourneo custom:EL",
+    "month": "2026-03-01",
+    "brand_raw": "FORD",
+    "model_raw": "TOURNEO CUSTOM",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "toyota:proace:EL",
+    "month": "2026-03-01",
+    "brand_raw": "TOYOTA",
+    "model_raw": "PROACE",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "mg:cyberster:EL",
+    "month": "2026-03-01",
+    "brand_raw": "MG",
+    "model_raw": "CYBERSTER",
+    "fuel_type_raw": "EL",
+    "registrations": 1
+  },
+  {
+    "market_model_key": "ovriga:fabrikat:EL",
+    "month": "2026-03-01",
+    "brand_raw": "ÖVRIGA",
+    "model_raw": "FABRIKAT",
+    "fuel_type_raw": "EL",
+    "registrations": 2
+  }
+]

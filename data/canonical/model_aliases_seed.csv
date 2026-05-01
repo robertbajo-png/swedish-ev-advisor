@@ -1,0 +1,125 @@
+brand_raw,model_raw,normalized_brand,normalized_model,alias_rule,model_group,needs_mapping,confidence
+VOLVO,EX/XC40,volvo,ex xc40,manual_mapping_required,VOLVO EX/XC40,True,0.0
+TESLA,MODEL Y,tesla,model y,mobility_sweden_exact_raw_name,,False,1.0
+VOLVO,EX30,volvo,ex30,mobility_sweden_exact_raw_name,,False,1.0
+VW,ID.7/ID.7 TOURER,volkswagen,id 7 id 7 tourer,manual_mapping_required,VW ID.7/ID.7 TOURER,True,0.0
+POLESTAR,4,polestar,4,mobility_sweden_exact_raw_name,,False,1.0
+KIA,EV3,kia,ev3,mobility_sweden_exact_raw_name,,False,1.0
+TOYOTA,BZ4X,toyota,bz4x,mobility_sweden_exact_raw_name,,False,1.0
+KIA,EV5,kia,ev5,mobility_sweden_exact_raw_name,,False,1.0
+SKODA,ENYAQ,skoda,enyaq,mobility_sweden_exact_raw_name,,False,1.0
+VW,ID.4,volkswagen,id 4,mobility_sweden_exact_raw_name,,False,1.0
+VOLVO,EC/C40,volvo,ec c40,manual_mapping_required,VOLVO EC/C40,True,0.0
+KIA,EV9,kia,ev9,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQA,mercedes benz,eqa,mobility_sweden_exact_raw_name,,False,1.0
+RENAULT,5,renault,5,mobility_sweden_exact_raw_name,,False,1.0
+BMW,IX1,bmw,ix1,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,CLA,mercedes benz,cla,mobility_sweden_exact_raw_name,,False,1.0
+TESLA,MODEL 3,tesla,model 3,mobility_sweden_exact_raw_name,,False,1.0
+BMW,IX3,bmw,ix3,mobility_sweden_exact_raw_name,,False,1.0
+KIA,EV6,kia,ev6,mobility_sweden_exact_raw_name,,False,1.0
+AUDI,Q4 E-TRON,audi,q4 e tron,mobility_sweden_exact_raw_name,,False,1.0
+AUDI,A6 E-TRON,audi,a6 e tron,mobility_sweden_exact_raw_name,,False,1.0
+BMW,I4,bmw,i4,mobility_sweden_exact_raw_name,,False,1.0
+BMW,I5,bmw,i5,mobility_sweden_exact_raw_name,,False,1.0
+VW,ID.3,volkswagen,id 3,mobility_sweden_exact_raw_name,,False,1.0
+FORD,EXPLORER,ford,explorer,mobility_sweden_exact_raw_name,,False,1.0
+CUPRA,BORN,cupra,born,mobility_sweden_exact_raw_name,,False,1.0
+ZEEKR,7X,zeekr,7x,mobility_sweden_exact_raw_name,,False,1.0
+AUDI,Q6 E-TRON,audi,q6 e tron,mobility_sweden_exact_raw_name,,False,1.0
+KIA,EV4,kia,ev4,mobility_sweden_exact_raw_name,,False,1.0
+POLESTAR,2,polestar,2,mobility_sweden_exact_raw_name,,False,1.0
+VOLVO,ES90,volvo,es90,mobility_sweden_exact_raw_name,,False,1.0
+MAZDA,6E,mazda,6e,mobility_sweden_exact_raw_name,,False,1.0
+SKODA,ELROQ,skoda,elroq,mobility_sweden_exact_raw_name,,False,1.0
+RENAULT,SCENIC,renault,scenic,mobility_sweden_exact_raw_name,,False,1.0
+VW,ID. BUZZ,volkswagen,id buzz,mobility_sweden_exact_raw_name,,False,1.0
+VOLVO,EX90,volvo,ex90,mobility_sweden_exact_raw_name,,False,1.0
+BMW,IX,bmw,ix,mobility_sweden_exact_raw_name,,False,1.0
+MG,MG4 ELECTRIC,mg,mg4 electric,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQE,mercedes benz,eqe,mobility_sweden_exact_raw_name,,False,1.0
+POLESTAR,3,polestar,3,mobility_sweden_exact_raw_name,,False,1.0
+LEXUS,RZ,lexus,rz,mobility_sweden_exact_raw_name,,False,1.0
+TOYOTA,C-HR+,toyota,c hr,mobility_sweden_exact_raw_name,,False,1.0
+XPENG,G6,xpeng,g6,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQB,mercedes benz,eqb,mobility_sweden_exact_raw_name,,False,1.0
+SUBARU,SOLTERRA,subaru,solterra,mobility_sweden_exact_raw_name,,False,1.0
+PORSCHE,MACAN,porsche,macan,mobility_sweden_exact_raw_name,,False,1.0
+MINI,COUNTRYMAN,mini,countryman,mobility_sweden_exact_raw_name,,False,1.0
+RENAULT,4,renault,4,mobility_sweden_exact_raw_name,,False,1.0
+VOLVO,ÖVRIGA,volvo,ovriga,manual_mapping_required,VOLVO ÖVRIGA,True,0.0
+BMW,IX2,bmw,ix2,mobility_sweden_exact_raw_name,,False,1.0
+XPENG,G9,xpeng,g9,mobility_sweden_exact_raw_name,,False,1.0
+HYUNDAI,INSTER,hyundai,inster,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,GLB,mercedes benz,glb,mobility_sweden_exact_raw_name,,False,1.0
+FORD,CAPRI,ford,capri,mobility_sweden_exact_raw_name,,False,1.0
+CUPRA,TAVASCAN,cupra,tavascan,mobility_sweden_exact_raw_name,,False,1.0
+MINI,ACEMAN,mini,aceman,mobility_sweden_exact_raw_name,,False,1.0
+MINI,HATCH,mini,hatch,mobility_sweden_exact_raw_name,,False,1.0
+HYUNDAI,IONIQ 9,hyundai,ioniq 9,mobility_sweden_exact_raw_name,,False,1.0
+OPEL,CORSA,opel,corsa,mobility_sweden_exact_raw_name,,False,1.0
+HYUNDAI,IONIQ 5,hyundai,ioniq 5,mobility_sweden_exact_raw_name,,False,1.0
+NISSAN,MICRA,nissan,micra,mobility_sweden_exact_raw_name,,False,1.0
+NISSAN,ARIYA,nissan,ariya,mobility_sweden_exact_raw_name,,False,1.0
+KIA,PV5 PASSENGER,kia,pv5 passenger,mobility_sweden_exact_raw_name,,False,1.0
+FORD,PUMA,ford,puma,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQS,mercedes benz,eqs,mobility_sweden_exact_raw_name,,False,1.0
+ZEEKR,001,zeekr,001,mobility_sweden_exact_raw_name,,False,1.0
+LYNK & CO,02,lynk and co,02,mobility_sweden_exact_raw_name,,False,1.0
+PEUGEOT,5008,peugeot,5008,mobility_sweden_exact_raw_name,,False,1.0
+PEUGEOT,3008,peugeot,3008,mobility_sweden_exact_raw_name,,False,1.0
+CITROEN,C3 AIRCROSS,citroen,c3 aircross,mobility_sweden_exact_raw_name,,False,1.0
+HYUNDAI,KONA,hyundai,kona,mobility_sweden_exact_raw_name,,False,1.0
+BYD,SEALION,byd,sealion,mobility_sweden_exact_raw_name,,False,1.0
+MG,S5 EV,mg,s5 ev,mobility_sweden_exact_raw_name,,False,1.0
+OPEL,FRONTERA,opel,frontera,mobility_sweden_exact_raw_name,,False,1.0
+PORSCHE,TAYCAN,porsche,taycan,mobility_sweden_exact_raw_name,,False,1.0
+ALFA,ROMEO JUNIOR,alfa,romeo junior,mobility_sweden_exact_raw_name,,False,1.0
+POLESTAR,5,polestar,5,mobility_sweden_exact_raw_name,,False,1.0
+LEAPMOTOR,B10,leapmotor,b10,mobility_sweden_exact_raw_name,,False,1.0
+BYD,ATTO 2,byd,atto 2,mobility_sweden_exact_raw_name,,False,1.0
+SMART,#1,smart,1,mobility_sweden_exact_raw_name,,False,1.0
+BYD,ATTO 3,byd,atto 3,mobility_sweden_exact_raw_name,,False,1.0
+PEUGEOT,EXPERT,peugeot,expert,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,G WAGON,mercedes benz,g wagon,mobility_sweden_exact_raw_name,,False,1.0
+PEUGEOT,208,peugeot,208,mobility_sweden_exact_raw_name,,False,1.0
+BYD,DOLPHIN,byd,dolphin,mobility_sweden_exact_raw_name,,False,1.0
+SMART,#5,smart,5,mobility_sweden_exact_raw_name,,False,1.0
+PEUGEOT,2008,peugeot,2008,mobility_sweden_exact_raw_name,,False,1.0
+FIAT,600,fiat,600,mobility_sweden_exact_raw_name,,False,1.0
+OPEL,GRANDLAND,opel,grandland,mobility_sweden_exact_raw_name,,False,1.0
+CITROEN,C3,citroen,c3,mobility_sweden_exact_raw_name,,False,1.0
+SUZUKI,E VITARA,suzuki,e vitara,mobility_sweden_exact_raw_name,,False,1.0
+VW,CARAVELLE,volkswagen,caravelle,mobility_sweden_exact_raw_name,,False,1.0
+POLESTAR,YSM,polestar,ysm,mobility_sweden_exact_raw_name,,False,1.0
+CITROEN,C5 AIRCROSS,citroen,c5 aircross,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,CITAN,mercedes benz,citan,mobility_sweden_exact_raw_name,,False,1.0
+LOTUS,ELETRE,lotus,eletre,mobility_sweden_exact_raw_name,,False,1.0
+TESLA,MODEL X,tesla,model x,mobility_sweden_exact_raw_name,,False,1.0
+JEEP,AVENGER,jeep,avenger,mobility_sweden_exact_raw_name,,False,1.0
+KIA,EV2,kia,ev2,mobility_sweden_exact_raw_name,,False,1.0
+SMART,#3,smart,3,mobility_sweden_exact_raw_name,,False,1.0
+CITROEN,SPACETOURER,citroen,spacetourer,mobility_sweden_exact_raw_name,,False,1.0
+BMW,I7,bmw,i7,mobility_sweden_exact_raw_name,,False,1.0
+FIAT,PANDA,fiat,panda,mobility_sweden_exact_raw_name,,False,1.0
+JEEP,COMPASS,jeep,compass,mobility_sweden_exact_raw_name,,False,1.0
+TESLA,MODEL S,tesla,model s,mobility_sweden_exact_raw_name,,False,1.0
+SSANGYONG,TORRES,ssangyong,torres,mobility_sweden_exact_raw_name,,False,1.0
+LEAPMOTOR,C10,leapmotor,c10,mobility_sweden_exact_raw_name,,False,1.0
+FORD,MUSTANG MACH-E,ford,mustang mach e,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,V-KLASS,mercedes benz,v klass,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,VITO,mercedes benz,vito,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQT,mercedes benz,eqt,mobility_sweden_exact_raw_name,,False,1.0
+CADILLAC,LYRIQ,cadillac,lyriq,mobility_sweden_exact_raw_name,,False,1.0
+OPEL,MOKKA,opel,mokka,mobility_sweden_exact_raw_name,,False,1.0
+DS,N° 8,ds,n 8,mobility_sweden_exact_raw_name,,False,1.0
+CADILLAC,OPTIQ,cadillac,optiq,mobility_sweden_exact_raw_name,,False,1.0
+AUDI,E-TRON GT,audi,e tron gt,mobility_sweden_exact_raw_name,,False,1.0
+XPENG,P7,xpeng,p7,mobility_sweden_exact_raw_name,,False,1.0
+VW,ID.5,volkswagen,id 5,mobility_sweden_exact_raw_name,,False,1.0
+FORD,TRANSIT CUSTOM,ford,transit custom,mobility_sweden_exact_raw_name,,False,1.0
+LEAPMOTOR,T03,leapmotor,t03,mobility_sweden_exact_raw_name,,False,1.0
+FORD,TOURNEO CUSTOM,ford,tourneo custom,mobility_sweden_exact_raw_name,,False,1.0
+TOYOTA,PROACE,toyota,proace,mobility_sweden_exact_raw_name,,False,1.0
+MG,CYBERSTER,mg,cyberster,mobility_sweden_exact_raw_name,,False,1.0
+ÖVRIGA,FABRIKAT,ovriga,fabrikat,manual_mapping_required,ÖVRIGA FABRIKAT,True,0.0
