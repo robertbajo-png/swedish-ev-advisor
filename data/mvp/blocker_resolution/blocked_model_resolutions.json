@@ -1,0 +1,38 @@
+[
+  {
+    "brand": "Tesla",
+    "model": "Model Y",
+    "rank": "1",
+    "source_type": "",
+    "url": "https://www.tesla.com/sv_SE/modely",
+    "source_domain": "",
+    "source_file": "",
+    "source_text_path": "",
+    "content_hash": "",
+    "extraction_status": "blocked",
+    "priority_reason": "browser_rendered_required",
+    "plan_order": "3",
+    "resolution_action": "browser_render_official_source",
+    "resolution_reason": "raw_fetch_blocked_or_page_not_rendered",
+    "candidate_url": "https://www.tesla.com/sv_SE/modely",
+    "candidate_source_type": "manufacturer_model_page"
+  },
+  {
+    "brand": "Tesla",
+    "model": "Model 3",
+    "rank": "14",
+    "source_type": "",
+    "url": "https://www.tesla.com/sv_SE/model3",
+    "source_domain": "",
+    "source_file": "",
+    "source_text_path": "",
+    "content_hash": "",
+    "extraction_status": "blocked",
+    "priority_reason": "browser_rendered_required",
+    "plan_order": "4",
+    "resolution_action": "browser_render_official_source",
+    "resolution_reason": "raw_fetch_blocked_or_page_not_rendered",
+    "candidate_url": "https://www.tesla.com/sv_SE/model3",
+    "candidate_source_type": "manufacturer_model_page"
+  }
+]

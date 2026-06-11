@@ -8,3 +8,5 @@ __pycache__/
 .DS_Store
 
 data/mobility-sweden/raw/
+data/local/*.sqlite
+data/local/*.sqlite-*

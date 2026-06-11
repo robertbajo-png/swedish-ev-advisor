@@ -1,0 +1,158 @@
+[
+  {
+    "key": "Volvo|Ex30|EX30 Plus",
+    "brand": "Volvo",
+    "model": "Ex30",
+    "variant_name": "EX30 Plus",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Volvo|Ex30|EX30 Ultra",
+    "brand": "Volvo",
+    "model": "Ex30",
+    "variant_name": "EX30 Ultra",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Volvo|Ex30|EX30 Cross Country",
+    "brand": "Volvo",
+    "model": "Ex30",
+    "variant_name": "EX30 Cross Country",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Volvo|Ex30|EX30 Black Edition",
+    "brand": "Volvo",
+    "model": "Ex30",
+    "variant_name": "EX30 Black Edition",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Audi|Q6 E-Tron|Q6 e-tron",
+    "brand": "Audi",
+    "model": "Q6 E-Tron",
+    "variant_name": "Q6 e-tron",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Volvo|Es90|ES90 Ultra",
+    "brand": "Volvo",
+    "model": "Es90",
+    "variant_name": "ES90 Ultra",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "codex-review",
+    "reason": "Source quote contains price and/or WLTP from official rendered manufacturer page; only validation issue was confidence below automatic publish threshold.",
+    "promoted_at": "2026-05-03T17:14:57.192825+00:00"
+  },
+  {
+    "key": "Skoda|Enyaq|Solid Edition RS",
+    "brand": "Skoda",
+    "model": "Enyaq",
+    "variant_name": "Solid Edition RS",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Volkswagen|ID.4|ID.4 Pro Sweden Olympic Edition",
+    "brand": "Volkswagen",
+    "model": "ID.4",
+    "variant_name": "ID.4 Pro Sweden Olympic Edition",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Renault|5 E-Tech|evolution EV 40",
+    "brand": "Renault",
+    "model": "5 E-Tech",
+    "variant_name": "evolution EV 40",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Renault|5 E-Tech|techno EV52",
+    "brand": "Renault",
+    "model": "5 E-Tech",
+    "variant_name": "techno EV52",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Renault|5 E-Tech|iconic five EV 52",
+    "brand": "Renault",
+    "model": "5 E-Tech",
+    "variant_name": "iconic five EV 52",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Renault|5 E-Tech|roland garros EV52",
+    "brand": "Renault",
+    "model": "5 E-Tech",
+    "variant_name": "roland garros EV52",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  },
+  {
+    "key": "Mercedes-Benz|Cla|CLA Advanced Edition",
+    "brand": "Mercedes-Benz",
+    "model": "Cla",
+    "variant_name": "CLA Advanced Edition",
+    "previous_validation_errors": [
+      "confidence_below_threshold"
+    ],
+    "approved_by": "pipeline_auto_review",
+    "reason": "Auto-promoted: only confidence_below_threshold remained; source hash, source quote and price or WLTP present.",
+    "promoted_at": "2026-05-10T10:00:45.263008+00:00"
+  }
+]

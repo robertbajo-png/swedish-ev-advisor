@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-05-16T09:55:23.799353+00:00",
+  "mode": "local_portable_pipeline",
+  "public_variants": 66,
+  "review_queue_variants": 1,
+  "mvp_scope_models": 30,
+  "source_health": {
+    "fetch_timeout": 3,
+    "ready": 6,
+    "source_hash_refresh_needed": 1,
+    "source_text_too_short": 1
+  },
+  "blocker_queues": {},
+  "next_ready_model": null,
+  "top_blocker": null,
+  "automation_blocker": null,
+  "public_contract_ok": true,
+  "local_pipeline_ready": true,
+  "supabase_deployment_ready": false,
+  "deployment_blocker": "supabase_service_env_missing"
+}

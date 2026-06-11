@@ -1,0 +1,12 @@
+brand,model,url,source_type,preflight_status,health_status,source_text_length,preflight_errors
+Kia,EV3,https://www.kia.com/se/kopa/prislista/,manufacturer_price_list,blocked,fetch_timeout,0,fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>
+Kia,EV5,https://www.kia.com/se/kopa/prislista/,manufacturer_price_list,blocked,fetch_timeout,0,fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>
+Kia,EV9,https://www.kia.com/se/kopa/prislista/,manufacturer_price_list,blocked,fetch_timeout,0,fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>
+Ford,Explorer,https://ford.se/brochures_and_pricelists/31,manufacturer_price_list,ready_for_ai_extraction,ready,8168,source_hash_refreshed
+Kia,EV4,https://www.kia.com/se/kopa/prislista/,manufacturer_price_list,ready_for_ai_extraction,ready,16365,source_hash_refreshed
+Kia,EV6,https://www.kia.com/se/kopa/prislista/,manufacturer_price_list,ready_for_ai_extraction,ready,16365,source_hash_refreshed
+Polestar,2,https://www.polestar.com/se/polestar-2/specifications/,manufacturer_specs_page,ready_for_ai_extraction,ready,21494,
+Renault,5 E-Tech,https://www.renault.se/personbilar/elbilar/r5-e-tech-electric,manufacturer_model_page,ready_for_ai_extraction,ready,12103,source_hash_refreshed
+Skoda,Elroq,https://www.skoda.se/modeller/elroq/,manufacturer_model_page,ready_for_ai_extraction,ready,11148,
+Renault,5 E-Tech,https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner_och_priser,manufacturer_price_list,blocked,source_hash_refresh_needed,7495,source_hash_changed
+Mazda,6e,https://www.mazda.se/modeller/mazda-6e/specifikationer-och-jamforelser/,manufacturer_specs_page,blocked,source_text_too_short,31,source_hash_changed;source_text_too_short

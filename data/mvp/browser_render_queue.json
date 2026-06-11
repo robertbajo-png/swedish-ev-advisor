@@ -1,0 +1,30 @@
+[
+  {
+    "rank": "1",
+    "mvp_scope": "top_30",
+    "brand": "Tesla",
+    "model": "Model Y",
+    "registrations_ytd": "",
+    "source_url": "https://www.tesla.com/sv_SE/modely",
+    "source_validation": "",
+    "render_reason": "browser_render_official_source",
+    "target_strategy": "browser_rendered_fetch",
+    "queue_status": "queued",
+    "priority": 1,
+    "notes": "Fetch candidate official source with a rendered browser. Rendered text still goes through AI extraction and hard validation before public use."
+  },
+  {
+    "rank": "14",
+    "mvp_scope": "top_30",
+    "brand": "Tesla",
+    "model": "Model 3",
+    "registrations_ytd": "",
+    "source_url": "https://www.tesla.com/sv_SE/model3",
+    "source_validation": "",
+    "render_reason": "browser_render_official_source",
+    "target_strategy": "browser_rendered_fetch",
+    "queue_status": "queued",
+    "priority": 2,
+    "notes": "Fetch candidate official source with a rendered browser. Rendered text still goes through AI extraction and hard validation before public use."
+  }
+]

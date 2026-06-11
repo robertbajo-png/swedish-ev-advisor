@@ -1,0 +1,120 @@
+{
+  "counts": {
+    "fetch_timeout": 3,
+    "ready": 6,
+    "source_hash_refresh_needed": 1,
+    "source_text_too_short": 1
+  },
+  "rows": [
+    {
+      "brand": "Kia",
+      "model": "EV3",
+      "url": "https://www.kia.com/se/kopa/prislista/",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "blocked",
+      "health_status": "fetch_timeout",
+      "source_text_length": "0",
+      "preflight_errors": "fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>"
+    },
+    {
+      "brand": "Kia",
+      "model": "EV5",
+      "url": "https://www.kia.com/se/kopa/prislista/",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "blocked",
+      "health_status": "fetch_timeout",
+      "source_text_length": "0",
+      "preflight_errors": "fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>"
+    },
+    {
+      "brand": "Kia",
+      "model": "EV9",
+      "url": "https://www.kia.com/se/kopa/prislista/",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "blocked",
+      "health_status": "fetch_timeout",
+      "source_text_length": "0",
+      "preflight_errors": "fetch_failed:<urlopen error [WinError 10060] Anslutningsförsöket misslyckades eftersom den anslutna datorn inte svarade inom en viss tid eller på grund av att den etablerade anslutningen till värddatorn inte längre fungerar>"
+    },
+    {
+      "brand": "Ford",
+      "model": "Explorer",
+      "url": "https://ford.se/brochures_and_pricelists/31",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "8168",
+      "preflight_errors": "source_hash_refreshed"
+    },
+    {
+      "brand": "Kia",
+      "model": "EV4",
+      "url": "https://www.kia.com/se/kopa/prislista/",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "16365",
+      "preflight_errors": "source_hash_refreshed"
+    },
+    {
+      "brand": "Kia",
+      "model": "EV6",
+      "url": "https://www.kia.com/se/kopa/prislista/",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "16365",
+      "preflight_errors": "source_hash_refreshed"
+    },
+    {
+      "brand": "Polestar",
+      "model": "2",
+      "url": "https://www.polestar.com/se/polestar-2/specifications/",
+      "source_type": "manufacturer_specs_page",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "21494",
+      "preflight_errors": ""
+    },
+    {
+      "brand": "Renault",
+      "model": "5 E-Tech",
+      "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+      "source_type": "manufacturer_model_page",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "12103",
+      "preflight_errors": "source_hash_refreshed"
+    },
+    {
+      "brand": "Skoda",
+      "model": "Elroq",
+      "url": "https://www.skoda.se/modeller/elroq/",
+      "source_type": "manufacturer_model_page",
+      "preflight_status": "ready_for_ai_extraction",
+      "health_status": "ready",
+      "source_text_length": "11148",
+      "preflight_errors": ""
+    },
+    {
+      "brand": "Renault",
+      "model": "5 E-Tech",
+      "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner_och_priser",
+      "source_type": "manufacturer_price_list",
+      "preflight_status": "blocked",
+      "health_status": "source_hash_refresh_needed",
+      "source_text_length": "7495",
+      "preflight_errors": "source_hash_changed"
+    },
+    {
+      "brand": "Mazda",
+      "model": "6e",
+      "url": "https://www.mazda.se/modeller/mazda-6e/specifikationer-och-jamforelser/",
+      "source_type": "manufacturer_specs_page",
+      "preflight_status": "blocked",
+      "health_status": "source_text_too_short",
+      "source_text_length": "31",
+      "preflight_errors": "source_hash_changed;source_text_too_short"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+[
+  {
+    "started_at": "2026-05-11T20:20:21.602958+00:00",
+    "dry_run": true,
+    "selected": 3,
+    "selected_models": [
+      "Kia EV3",
+      "Kia EV5",
+      "Kia EV9"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:20:21.602958+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:20:27.167924+00:00",
+    "dry_run": false,
+    "selected": 3,
+    "selected_models": [
+      "Kia EV3",
+      "Kia EV5",
+      "Kia EV9"
+    ],
+    "drafts_created": 8,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py",
+      "export_pipeline_status.py",
+      "build_mvp_coverage_report.py",
+      "generate_sitemap.py"
+    ],
+    "completed_at": "2026-05-11T20:20:42.322474+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:24:57.497382+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:24:57.497382+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:25:17.950452+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:25:17.950452+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:25:18.521218+00:00",
+    "dry_run": false,
+    "selected": 0,
+    "selected_models": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:25:18.521218+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:25:46.007126+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:25:46.007126+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:25:46.565660+00:00",
+    "dry_run": false,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:25:47.738362+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:30:48.641492+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:30:48.641492+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:30:49.206535+00:00",
+    "dry_run": false,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:30:51.158062+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:35:43.720480+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:35:43.720480+00:00"
+  },
+  {
+    "started_at": "2026-05-11T20:35:44.282981+00:00",
+    "dry_run": false,
+    "selected": 1,
+    "selected_models": [
+      "Mercedes-Benz Eqa"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "completed_at": "2026-05-11T20:35:45.603953+00:00"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "brand_raw": "VOLVO",
+    "model_raw": "EX/XC40",
+    "normalized_brand": "volvo",
+    "normalized_model": "ex xc40",
+    "registrations_ytd": 2945,
+    "registrations_last_month": 988,
+    "reason": "needs_mapping",
+    "model_group": "VOLVO EX/XC40"
+  },
+  {
+    "brand_raw": "VW",
+    "model_raw": "ID.7/ID.7 TOURER",
+    "normalized_brand": "volkswagen",
+    "normalized_model": "id 7 id 7 tourer",
+    "registrations_ytd": 1436,
+    "registrations_last_month": 548,
+    "reason": "needs_mapping",
+    "model_group": "VW ID.7/ID.7 TOURER"
+  },
+  {
+    "brand_raw": "VOLVO",
+    "model_raw": "EC/C40",
+    "normalized_brand": "volvo",
+    "normalized_model": "ec c40",
+    "registrations_ytd": 594,
+    "registrations_last_month": 241,
+    "reason": "needs_mapping",
+    "model_group": "VOLVO EC/C40"
+  },
+  {
+    "brand_raw": "VOLVO",
+    "model_raw": "ÖVRIGA",
+    "normalized_brand": "volvo",
+    "normalized_model": "ovriga",
+    "registrations_ytd": 92,
+    "registrations_last_month": 77,
+    "reason": "needs_mapping",
+    "model_group": "VOLVO ÖVRIGA"
+  },
+  {
+    "brand_raw": "ÖVRIGA",
+    "model_raw": "FABRIKAT",
+    "normalized_brand": "ovriga",
+    "normalized_model": "fabrikat",
+    "registrations_ytd": 12,
+    "registrations_last_month": 2,
+    "reason": "needs_mapping",
+    "model_group": "ÖVRIGA FABRIKAT"
+  }
+]

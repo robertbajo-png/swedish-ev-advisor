@@ -1,0 +1,7 @@
+rank,brand,canonical_model,mobility_sweden_name,confidence,source_domain,reason,notes
+1,Volvo,EX40,VOLVO EX/XC40,medium,volvocars.com,needs_canonical_alias_before_source_extraction,Mobility Sweden bundles EX40 (renamed from XC40 Recharge) with XC40 ICE registrations. Confirm canonical split before publishing.
+4,Volkswagen,ID.7,VW ID.7/ID.7 TOURER,medium,volkswagen.se,needs_canonical_alias_before_source_extraction,"Mobility Sweden bundles sedan + Tourer. Sedan URL verified. Inconsistent VW pattern: sedan under /elbilar/vara-elbilar/, Tourer under /modeller/."
+4b,Volkswagen,ID.7 Tourer,VW ID.7/ID.7 TOURER,medium,volkswagen.se,needs_canonical_alias_before_source_extraction,Same model group in Mobility Sweden. Need to split if treated as separate canonical.
+11,Volvo,EC40,VOLVO EC/C40,medium,volvocars.com,needs_canonical_alias_before_source_extraction,Mobility Sweden bundles EC40 (renamed from C40 Recharge) with C40 mild-hybrid. Same canonical split as EX/XC40.
+16,Mercedes-Benz,CLA,MERCEDES CLA,medium,mercedes-benz.se,needs_canonical_alias_before_source_extraction,"Mobility Sweden ""CLA"" likely refers to ""CLA with EQ Technology"" (electric variant). Confirm vs ICE CLA before publishing. Fleet page available at /cars-guide/fleet-business/modeller/cla-eq.html."
+34,Renault,Scenic E-Tech,RENAULT SCENIC,medium,renault.se,needs_canonical_alias_before_source_extraction,"Mobility Sweden ""Scenic"" maps to ""Scenic E-Tech electric"" (the EV — old Scenic ICE was discontinued). Verify before publishing."

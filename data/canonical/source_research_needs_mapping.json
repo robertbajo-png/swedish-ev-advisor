@@ -1,0 +1,62 @@
+[
+  {
+    "rank": "1",
+    "brand": "Volvo",
+    "canonical_model": "EX40",
+    "mobility_sweden_name": "VOLVO EX/XC40",
+    "confidence": "medium",
+    "source_domain": "volvocars.com",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Mobility Sweden bundles EX40 (renamed from XC40 Recharge) with XC40 ICE registrations. Confirm canonical split before publishing."
+  },
+  {
+    "rank": "4",
+    "brand": "Volkswagen",
+    "canonical_model": "ID.7",
+    "mobility_sweden_name": "VW ID.7/ID.7 TOURER",
+    "confidence": "medium",
+    "source_domain": "volkswagen.se",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Mobility Sweden bundles sedan + Tourer. Sedan URL verified. Inconsistent VW pattern: sedan under /elbilar/vara-elbilar/, Tourer under /modeller/."
+  },
+  {
+    "rank": "4b",
+    "brand": "Volkswagen",
+    "canonical_model": "ID.7 Tourer",
+    "mobility_sweden_name": "VW ID.7/ID.7 TOURER",
+    "confidence": "medium",
+    "source_domain": "volkswagen.se",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Same model group in Mobility Sweden. Need to split if treated as separate canonical."
+  },
+  {
+    "rank": "11",
+    "brand": "Volvo",
+    "canonical_model": "EC40",
+    "mobility_sweden_name": "VOLVO EC/C40",
+    "confidence": "medium",
+    "source_domain": "volvocars.com",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Mobility Sweden bundles EC40 (renamed from C40 Recharge) with C40 mild-hybrid. Same canonical split as EX/XC40."
+  },
+  {
+    "rank": "16",
+    "brand": "Mercedes-Benz",
+    "canonical_model": "CLA",
+    "mobility_sweden_name": "MERCEDES CLA",
+    "confidence": "medium",
+    "source_domain": "mercedes-benz.se",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Mobility Sweden \"CLA\" likely refers to \"CLA with EQ Technology\" (electric variant). Confirm vs ICE CLA before publishing. Fleet page available at /cars-guide/fleet-business/modeller/cla-eq.html."
+  },
+  {
+    "rank": "34",
+    "brand": "Renault",
+    "canonical_model": "Scenic E-Tech",
+    "mobility_sweden_name": "RENAULT SCENIC",
+    "confidence": "medium",
+    "source_domain": "renault.se",
+    "reason": "needs_canonical_alias_before_source_extraction",
+    "notes": "Mobility Sweden \"Scenic\" maps to \"Scenic E-Tech electric\" (the EV — old Scenic ICE was discontinued). Verify before publishing."
+  }
+]

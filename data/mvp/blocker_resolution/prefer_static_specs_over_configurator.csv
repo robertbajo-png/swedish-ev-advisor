@@ -1,0 +1,3 @@
+brand,model,rank,source_type,url,source_domain,source_file,source_text_path,content_hash,extraction_status,priority_reason,plan_order,resolution_action,resolution_reason,candidate_url,candidate_source_type
+BMW,iX1,12,manufacturer_configurator,https://hitta.bmw.se/r/U11-iX1,,,,,blocked,configurator_extraction_required,3,prefer_static_specs_over_configurator,configurator_only_currently_selected,https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html,manufacturer_specs_page
+BMW,i5,20,manufacturer_configurator,https://hitta.bmw.se/r/G60-i5,,,,,blocked,configurator_extraction_required,5,prefer_static_specs_over_configurator,configurator_only_currently_selected,https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html,manufacturer_specs_page

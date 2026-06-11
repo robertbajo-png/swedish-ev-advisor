@@ -12,11 +12,58 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from pypdf import PdfReader
+from supabase_client import load_local_env
 
 
 ROOT = Path(__file__).resolve().parents[1]
 APPROVED_SOURCE_VALIDATION = "reachable_official_model_source"
-DEFAULT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini")
+load_local_env()
+DEFAULT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4-mini")
+MAX_SOURCE_CHARS = 45000
+MIN_SOURCE_CHARS = 500
+
+STRICT_EXTRACTION_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "properties": {
+        "variants": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "variant_name": {"type": "string"},
+                    "price_sek": {"type": ["integer", "null"]},
+                    "wltp_range_km": {"type": ["integer", "null"]},
+                    "battery_kwh": {"type": ["number", "null"]},
+                    "dc_charge_kw": {"type": ["integer", "null"]},
+                    "ac_charge_kw": {"type": ["integer", "null"]},
+                    "boot_liters": {"type": ["integer", "null"]},
+                    "tow_kg": {"type": ["integer", "null"]},
+                    "seats": {"type": ["integer", "null"]},
+                    "drivetrain": {"type": ["string", "null"]},
+                    "source_quote": {"type": ["string", "null"]},
+                    "confidence": {"type": "number"},
+                },
+                "required": [
+                    "variant_name",
+                    "price_sek",
+                    "wltp_range_km",
+                    "battery_kwh",
+                    "dc_charge_kw",
+                    "ac_charge_kw",
+                    "boot_liters",
+                    "tow_kg",
+                    "seats",
+                    "drivetrain",
+                    "source_quote",
+                    "confidence",
+                ],
+            },
+        }
+    },
+    "required": ["variants"],
+}
 
 
 def fetch_bytes(url: str) -> tuple[bytes, str]:
@@ -51,61 +98,51 @@ def fetch_source_text(url: str) -> tuple[str, str]:
         text = pdf_to_text(content)
     else:
         text = html_to_text(content)
-    return text[:50000], hashlib.sha256(content).hexdigest()
+    return text, hashlib.sha256(content).hexdigest()
 
 
-def call_openai(brand: str, model: str, source_url: str, source_text: str) -> dict:
+def source_text_from_row(row: dict) -> tuple[str, str]:
+    source_text_path = row.get("source_text_path")
+    if source_text_path:
+        text = Path(source_text_path).read_text(encoding="utf-8")
+        source_hash = hashlib.sha256(text.strip().encode("utf-8")).hexdigest()
+        expected_hash = row.get("content_hash") or row.get("source_hash")
+        if expected_hash and source_hash != expected_hash:
+            raise RuntimeError("Rendered source text hash does not match batch content_hash")
+        return text, source_hash
+    return fetch_source_text(row["url"])
+
+
+def chunk_source_text(source_text: str, max_chars: int = MAX_SOURCE_CHARS) -> list[str]:
+    text = re.sub(r"\s+", " ", source_text).strip()
+    if len(text) <= max_chars:
+        return [text]
+
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = min(start + max_chars, len(text))
+        if end < len(text):
+            boundary = max(text.rfind(". ", start, end), text.rfind("\n", start, end), text.rfind(" ", start, end))
+            if boundary > start + max_chars // 2:
+                end = boundary + 1
+        chunks.append(text[start:end].strip())
+        start = end
+    return [chunk for chunk in chunks if chunk]
+
+
+def call_openai(brand: str, model: str, source_url: str, source_text: str, chunk_index: int = 1, chunk_count: int = 1) -> dict:
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is required for extraction")
 
-    schema = {
-        "type": "object",
-        "additionalProperties": False,
-        "properties": {
-            "variants": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "additionalProperties": False,
-                    "properties": {
-                        "variant_name": {"type": "string"},
-                        "price_sek": {"type": ["integer", "null"]},
-                        "wltp_range_km": {"type": ["integer", "null"]},
-                        "battery_kwh": {"type": ["number", "null"]},
-                        "dc_charge_kw": {"type": ["integer", "null"]},
-                        "ac_charge_kw": {"type": ["integer", "null"]},
-                        "boot_liters": {"type": ["integer", "null"]},
-                        "tow_kg": {"type": ["integer", "null"]},
-                        "seats": {"type": ["integer", "null"]},
-                        "drivetrain": {"type": ["string", "null"]},
-                        "source_quote": {"type": ["string", "null"]},
-                        "confidence": {"type": "number"},
-                    },
-                    "required": [
-                        "variant_name",
-                        "price_sek",
-                        "wltp_range_km",
-                        "battery_kwh",
-                        "dc_charge_kw",
-                        "ac_charge_kw",
-                        "boot_liters",
-                        "tow_kg",
-                        "seats",
-                        "drivetrain",
-                        "source_quote",
-                        "confidence",
-                    ],
-                },
-            }
-        },
-        "required": ["variants"],
-    }
     prompt = (
         "Extract Swedish EV model variant data only from the provided official source text. "
         "Do not infer missing values. Use null when the source text does not explicitly support a value. "
         "Prices must be SEK integers. WLTP range is km. DC/AC charging are kW. "
-        "Return only variants for the requested model.\n\n"
+        "Every non-null fact must be supported by source_quote. "
+        "Return only variants for the requested model. "
+        f"This is source chunk {chunk_index} of {chunk_count}; only extract facts present in this chunk.\n\n"
         f"Brand: {brand}\nModel: {model}\nSource URL: {source_url}\n\nSOURCE TEXT:\n{source_text}"
     )
     payload = {
@@ -115,7 +152,7 @@ def call_openai(brand: str, model: str, source_url: str, source_text: str) -> di
             "format": {
                 "type": "json_schema",
                 "name": "ev_variant_extraction",
-                "schema": schema,
+                "schema": STRICT_EXTRACTION_SCHEMA,
                 "strict": True,
             }
         },
@@ -138,13 +175,39 @@ def call_openai(brand: str, model: str, source_url: str, source_text: str) -> di
     return json.loads("".join(text_parts))
 
 
+def variant_merge_key(variant: dict) -> str:
+    return re.sub(r"\s+", " ", str(variant.get("variant_name", "")).strip().lower())
+
+
+def merge_extracted_variants(extractions: list[dict]) -> list[dict]:
+    merged: dict[str, dict] = {}
+    for extraction in extractions:
+        for variant in extraction.get("variants", []):
+            key = variant_merge_key(variant)
+            if not key:
+                continue
+            current = merged.get(key)
+            if current is None or float(variant.get("confidence") or 0) > float(current.get("confidence") or 0):
+                merged[key] = variant
+    return list(merged.values())
+
+
+def extract_variants_with_openai(brand: str, model: str, source_url: str, source_text: str) -> list[dict]:
+    chunks = chunk_source_text(source_text)
+    extractions = [
+        call_openai(brand, model, source_url, chunk, chunk_index=index, chunk_count=len(chunks))
+        for index, chunk in enumerate(chunks, start=1)
+    ]
+    return merge_extracted_variants(extractions)
+
+
 def safe_extract(row: dict) -> list[dict]:
-    text, source_hash = fetch_source_text(row["url"])
-    if len(text) < 500:
+    text, source_hash = source_text_from_row(row)
+    if len(text) < MIN_SOURCE_CHARS:
         raise RuntimeError("Source text too short for reliable extraction")
-    extraction = call_openai(row["brand"], row["model"], row["url"], text)
+    variants = extract_variants_with_openai(row["brand"], row["model"], row["url"], text)
     drafts = []
-    for variant in extraction.get("variants", []):
+    for variant in variants:
         drafts.append(
             {
                 "brand": row["brand"],
@@ -171,9 +234,23 @@ def safe_extract(row: dict) -> list[dict]:
     return drafts
 
 
-def write_outputs(drafts: list[dict]) -> None:
+def draft_key(draft: dict) -> tuple[str, str, str, str]:
+    return (draft["brand"], draft["model"], draft["variant_name"], draft["source_url"])
+
+
+def merge_drafts(existing: list[dict], new_drafts: list[dict]) -> list[dict]:
+    merged = {draft_key(draft): draft for draft in existing}
+    for draft in new_drafts:
+        merged[draft_key(draft)] = draft
+    return list(merged.values())
+
+
+def write_outputs(drafts: list[dict], append: bool = True) -> None:
     out_dir = ROOT / "data/extraction"
     out_dir.mkdir(parents=True, exist_ok=True)
+    draft_path = out_dir / "extracted_variant_drafts.json"
+    if append and draft_path.exists():
+        drafts = merge_drafts(json.loads(draft_path.read_text(encoding="utf-8")), drafts)
     (out_dir / "extracted_variant_drafts.json").write_text(
         json.dumps(drafts, ensure_ascii=False, indent=2), encoding="utf-8"
     )
@@ -190,12 +267,14 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int)
     parser.add_argument("--source-file", type=Path, default=ROOT / "data/canonical/manufacturer_sources_validated.csv")
+    parser.add_argument("--no-append", action="store_true")
     args = parser.parse_args()
 
     rows = [
         row
         for row in csv.DictReader(args.source_file.open(encoding="utf-8"))
         if row.get("source_validation") == APPROVED_SOURCE_VALIDATION
+        and row.get("preflight_status", APPROVED_SOURCE_VALIDATION) in (APPROVED_SOURCE_VALIDATION, "ready_for_ai_extraction")
     ]
     if args.limit:
         rows = rows[: args.limit]
@@ -210,7 +289,7 @@ def main() -> None:
             errors.append({"brand": row["brand"], "model": row["model"], "url": row["url"], "error": str(error)})
             print(f"Skipped {row['brand']} {row['model']}: {error}")
 
-    write_outputs(all_drafts)
+    write_outputs(all_drafts, append=not args.no_append)
     error_path = ROOT / "data/extraction/extraction_errors.json"
     error_path.parent.mkdir(parents=True, exist_ok=True)
     error_path.write_text(json.dumps(errors, ensure_ascii=False, indent=2), encoding="utf-8")

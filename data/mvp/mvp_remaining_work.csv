@@ -1,0 +1,31 @@
+rank,mvp_scope,brand,model,registrations_ytd,source_url,source_type,source_validation,next_strategy,reason
+1,top_20,Tesla,Model Y,2412,https://www.tesla.com/sv_SE/modely,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+2,top_20,Volvo,Ex30,1494,https://www.volvocars.com/se/cars/ex30-electric/,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+3,top_20,Polestar,4,1306,https://www.polestar.com/se/polestar-4/specifications/,manufacturer_specs_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+4,top_20,Kia,Ev3,980,https://www.kia.com/se/nya-bilar/ev3/upptack/,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+5,top_20,Toyota,bZ4X,877,https://www.toyota.se/nya-bilar/bz4x/,manufacturer_model_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+6,top_20,Kia,Ev5,871,https://www.kia.com/se/nya-bilar/ev5/upptack/,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+7,top_20,Skoda,Enyaq,734,https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660,manufacturer_price_list,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+8,top_20,Volkswagen,Id.4,710,https://www.volkswagen.se/sv/modeller/id4.html,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+9,top_20,Kia,Ev9,573,https://www.kia.com/se/nya-bilar/ev9/upptack/,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+10,top_20,Mercedes-Benz,Eqa,556,https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Eqa+elbil+pris+Sverige,,needs_discovery,done_or_in_review,already_has_extracted_draft
+11,top_20,Renault,5,552,https://www.renault.se/elbilar/r5-e-tech-electric.html,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+12,top_20,BMW,iX1,477,https://hitta.bmw.se/r/U11-iX1,manufacturer_configurator,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+13,top_20,Mercedes-Benz,Cla,460,https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Cla+elbil+pris+Sverige,,needs_discovery,done_or_in_review,already_has_extracted_draft
+14,top_20,Tesla,Model 3,424,https://www.tesla.com/sv_SE/model3,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+15,top_20,BMW,iX3,341,https://hitta.bmw.se/r/NA5-iX3,manufacturer_configurator,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+16,top_20,Kia,Ev6,335,https://www.kia.com/se/nya-bilar/ev6/upptack/,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+17,top_20,Audi,Q4 E-Tron,324,https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+18,top_20,Audi,A6 E-Tron,304,https://www.audi.se/se/web/sv/models/a6-e-tron/a6-e-tron.html,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+19,top_20,BMW,i4,300,https://hitta.bmw.se/r/G26-i4,manufacturer_configurator,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+20,top_20,BMW,i5,292,https://hitta.bmw.se/r/G60-i5,manufacturer_configurator,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+21,top_30,Volkswagen,Id.3,284,https://www.volkswagen.se/sv/modeller/id3.html,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+22,top_30,Ford,Explorer,276,https://ford.se/brochures_and_pricelists/31,manufacturer_price_list,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+23,top_30,Cupra,Born,274,https://www.cupraofficial.se/bilar/born,manufacturer_model_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+24,top_30,Zeekr,7X,251,https://www.zeekr.eu/sv-se/models/7x,manufacturer_model_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+25,top_30,Audi,Q6 E-Tron,247,https://www.audi.se/se/web/sv/models/q6-e-tron/q6-e-tron.html,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+26,top_30,Kia,Ev4,228,https://www.kia.com/se/nya-bilar/ev4/upptack/,,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+27,top_30,Polestar,2,226,https://www.polestar.com/se/polestar-2/specifications/,manufacturer_specs_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft
+28,top_30,Volvo,Es90,215,https://www.volvocars.com/se/cars/es90-electric/,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+29,top_30,Mazda,6E,202,https://www.mazda.se/modeller/mazda6e/,,unreachable_or_redirect_problem,done_or_in_review,already_has_extracted_draft
+30,top_30,Skoda,Elroq,195,https://www.skoda.se/modeller/elroq/,manufacturer_model_page,reachable_official_model_source,done_or_in_review,already_has_extracted_draft

@@ -1,4 +1,11 @@
 brand,model,normalized_brand,normalized_model,market_seen,available_confirmed,discontinued_candidate,coming_or_low_volume,validation_status
+Volvo,EX40,volvo,ex40,True,False,False,False,draft
+Volvo,EC40,volvo,ec40,True,False,False,False,draft
+Volkswagen,ID.7 Tourer,volkswagen,id 7 tourer,True,False,False,False,draft
+Mercedes-Benz,CLA EQ,mercedes benz,cla eq,True,False,False,False,draft
+Renault,Scenic E-Tech,renault,scenic e tech,True,False,False,False,draft
+Mercedes-Benz,EQE Sedan,mercedes benz,eqe sedan,True,False,False,False,draft
+Mercedes-Benz,EQE SUV,mercedes benz,eqe suv,True,False,False,False,draft
 Tesla,Model Y,tesla,model y,True,False,False,False,draft
 Volvo,Ex30,volvo,ex30,True,False,False,False,draft
 Polestar,4,polestar,4,True,False,False,False,draft

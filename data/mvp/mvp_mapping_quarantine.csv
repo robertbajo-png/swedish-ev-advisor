@@ -1,0 +1,6 @@
+brand_raw,model_raw,normalized_brand,normalized_model,registrations_ytd,registrations_last_month,reason,model_group
+VOLVO,EX/XC40,volvo,ex xc40,2945,988,needs_mapping,VOLVO EX/XC40
+VW,ID.7/ID.7 TOURER,volkswagen,id 7 id 7 tourer,1436,548,needs_mapping,VW ID.7/ID.7 TOURER
+VOLVO,EC/C40,volvo,ec c40,594,241,needs_mapping,VOLVO EC/C40
+VOLVO,ÖVRIGA,volvo,ovriga,92,77,needs_mapping,VOLVO ÖVRIGA
+ÖVRIGA,FABRIKAT,ovriga,fabrikat,12,2,needs_mapping,ÖVRIGA FABRIKAT

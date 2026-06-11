@@ -1,0 +1,47 @@
+[
+  {
+    "attempted_at": "2026-05-09T12:58:42.854225+00:00",
+    "brand": "Mercedes-Benz",
+    "model": "Eqa",
+    "url": "https://www.mercedes-benz.se/passengercars/models/suv/eqa/overview.html",
+    "content_hash": "c1a36a177aa5be02cd13c69f869fdb8769b3592b81150dd79936a6678368a2ce",
+    "drafts_created": 0,
+    "status": "no_drafts_created"
+  },
+  {
+    "attempted_at": "2026-05-09T13:02:34.033642+00:00",
+    "brand": "BMW",
+    "model": "iX3",
+    "url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+    "content_hash": "1afb57e0afa0c0938a7ef8a9038c387e9c1404c6fef705724d43722b6ec9a6c9",
+    "drafts_created": 1,
+    "status": "drafts_created"
+  },
+  {
+    "attempted_at": "2026-05-09T13:02:36.248030+00:00",
+    "brand": "BMW",
+    "model": "i4",
+    "url": "https://www.bmw.se/sv/alla-modeller/i-series/i4/bmw-i4-gran-coupe.html",
+    "content_hash": "38522e8886d9c47e5bf7c151974b1821ccd550886b07d21072e6b3fca882c513",
+    "drafts_created": 2,
+    "status": "drafts_created"
+  },
+  {
+    "attempted_at": "2026-05-09T13:08:47.793788+00:00",
+    "brand": "BMW",
+    "model": "iX1",
+    "url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+    "content_hash": "745d98611dd50f06e68b976a0f76cd731fd0a67e9858fd449b195113f7f3f5f2",
+    "drafts_created": 2,
+    "status": "drafts_created"
+  },
+  {
+    "attempted_at": "2026-05-09T13:08:51.299280+00:00",
+    "brand": "BMW",
+    "model": "i5",
+    "url": "https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html",
+    "content_hash": "8c04ba6ee4fea49cbf5954bb107b5390fdf67d61e834c66a21fdb0b464980ee5",
+    "drafts_created": 1,
+    "status": "drafts_created"
+  }
+]

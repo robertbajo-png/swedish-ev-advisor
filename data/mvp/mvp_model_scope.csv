@@ -1,0 +1,31 @@
+rank,mvp_scope,brand,model,brand_raw,model_raw,normalized_brand,normalized_model,registrations_ytd,registrations_last_month,first_seen_month,last_seen_month,alias_rule,source_url,source_validation,extraction_ready
+1,top_20,Tesla,Model Y,TESLA,MODEL Y,tesla,model y,2412,1382,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.tesla.com/sv_SE/modely,unreachable_or_redirect_problem,False
+2,top_20,Volvo,Ex30,VOLVO,EX30,volvo,ex30,1494,592,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.volvocars.com/se/cars/ex30-electric/,unreachable_or_redirect_problem,False
+3,top_20,Polestar,4,POLESTAR,4,polestar,4,1306,496,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.polestar.com/se/polestar-4/,reachable_official_model_source,True
+4,top_20,Kia,Ev3,KIA,EV3,kia,ev3,980,422,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.kia.com/se/nya-bilar/ev3/upptack/,reachable_official_model_source,True
+5,top_20,Toyota,bZ4X,TOYOTA,BZ4X,toyota,bz4x,877,263,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.toyota.se/nya-bilar/bz4x,reachable_official_model_source,True
+6,top_20,Kia,Ev5,KIA,EV5,kia,ev5,871,340,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.kia.com/se/nya-bilar/ev5/upptack/,reachable_official_model_source,True
+7,top_20,Skoda,Enyaq,SKODA,ENYAQ,skoda,enyaq,734,219,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.skoda.se/modeller/enyaq/enyaq,reachable_official_model_source,True
+8,top_20,Volkswagen,Id.4,VW,ID.4,volkswagen,id 4,710,295,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.volkswagen.se/sv/modeller/id4.html,reachable_official_model_source,True
+9,top_20,Kia,Ev9,KIA,EV9,kia,ev9,573,199,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.kia.com/se/nya-bilar/ev9/upptack/,reachable_official_model_source,True
+10,top_20,Mercedes-Benz,Eqa,MERCEDES,EQA,mercedes benz,eqa,556,288,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Eqa+elbil+pris+Sverige,needs_discovery,False
+11,top_20,Renault,5,RENAULT,5,renault,5,552,196,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.renault.se/elbilar/r5-e-tech-electric.html,unreachable_or_redirect_problem,False
+12,top_20,BMW,iX1,BMW,IX1,bmw,ix1,477,198,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.bmw.se/sv/alla-modeller/bmw-i/ix1/2022/bmw-ix1-overview.html,needs_discovery,False
+13,top_20,Mercedes-Benz,Cla,MERCEDES,CLA,mercedes benz,cla,460,204,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Cla+elbil+pris+Sverige,needs_discovery,False
+14,top_20,Tesla,Model 3,TESLA,MODEL 3,tesla,model 3,424,397,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.tesla.com/sv_SE/model3,unreachable_or_redirect_problem,False
+15,top_20,BMW,iX3,BMW,IX3,bmw,ix3,341,318,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.bmw.se?ev_advisor_discovery_query=BMW+iX3+elbil+pris+Sverige,needs_discovery,False
+16,top_20,Kia,Ev6,KIA,EV6,kia,ev6,335,127,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.kia.com/se/nya-bilar/ev6/upptack/,reachable_official_model_source,True
+17,top_20,Audi,Q4 E-Tron,AUDI,Q4 E-TRON,audi,q4 e tron,324,150,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html,unreachable_or_redirect_problem,False
+18,top_20,Audi,A6 E-Tron,AUDI,A6 E-TRON,audi,a6 e tron,304,127,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.audi.se/se/web/sv/models/a6-e-tron/a6-e-tron.html,unreachable_or_redirect_problem,False
+19,top_20,BMW,i4,BMW,I4,bmw,i4,300,129,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.bmw.se/sv/alla-modeller/bmw-i/i4/2024/bmw-i4-overview.html,needs_discovery,False
+20,top_20,BMW,i5,BMW,I5,bmw,i5,292,128,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-sedan-overview.html,needs_discovery,False
+21,top_30,Volkswagen,Id.3,VW,ID.3,volkswagen,id 3,284,82,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.volkswagen.se/sv/modeller/id3.html,reachable_official_model_source,True
+22,top_30,Ford,Explorer,FORD,EXPLORER,ford,explorer,276,116,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.ford.se/personbilar/explorer-elektrisk,unreachable_or_redirect_problem,False
+23,top_30,Cupra,Born,CUPRA,BORN,cupra,born,274,87,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.cupraofficial.se/bilar/cupra-born,unreachable_or_redirect_problem,False
+24,top_30,Zeekr,7X,ZEEKR,7X,zeekr,7x,251,129,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.zeekr.eu/se-se?ev_advisor_discovery_query=Zeekr+7X+elbil+pris+Sverige,needs_discovery,False
+25,top_30,Audi,Q6 E-Tron,AUDI,Q6 E-TRON,audi,q6 e tron,247,111,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.audi.se/se/web/sv/models/q6-e-tron/q6-e-tron.html,unreachable_or_redirect_problem,False
+26,top_30,Kia,Ev4,KIA,EV4,kia,ev4,228,130,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.kia.com/se/nya-bilar/ev4/upptack/,reachable_official_model_source,True
+27,top_30,Polestar,2,POLESTAR,2,polestar,2,226,90,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.polestar.com/se/polestar-2/,reachable_official_model_source,True
+28,top_30,Volvo,Es90,VOLVO,ES90,volvo,es90,215,27,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.volvocars.com/se/cars/es90-electric/,unreachable_or_redirect_problem,False
+29,top_30,Mazda,6E,MAZDA,6E,mazda,6e,202,117,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.mazda.se/modeller/mazda6e/,unreachable_or_redirect_problem,False
+30,top_30,Skoda,Elroq,SKODA,ELROQ,skoda,elroq,195,75,2026-03-01,2026-03-01,mobility_sweden_exact_raw_name,https://www.skoda.se/modeller/elroq/elroq,reachable_official_model_source,True

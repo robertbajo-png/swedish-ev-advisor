@@ -2,9 +2,30 @@ import csv
 import json
 from pathlib import Path
 
+from canonical_model_names import canonical_model_lookup, canonicalize_model_row
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIDENCE_THRESHOLD = 0.92
+MAINSTREAM_PRICE_REVIEW_THRESHOLD = 1200000
+MAINSTREAM_BRANDS = {
+    "citroen",
+    "cupra",
+    "fiat",
+    "ford",
+    "hyundai",
+    "kia",
+    "mazda",
+    "mg",
+    "nissan",
+    "opel",
+    "peugeot",
+    "renault",
+    "skoda",
+    "toyota",
+    "volkswagen",
+    "volvo",
+}
 
 
 RANGES = {
@@ -19,10 +40,21 @@ RANGES = {
 
 
 def load_sources() -> dict[str, dict]:
-    path = ROOT / "data/canonical/manufacturer_sources_validated.csv"
-    if not path.exists():
-        return {}
-    return {row["url"]: row for row in csv.DictReader(path.open(encoding="utf-8"))}
+    sources = {}
+    for path in (
+        ROOT / "data/canonical/manufacturer_sources_validated.csv",
+        ROOT / "data/canonical/manufacturer_sources_mvp_validated.csv",
+        ROOT / "data/extraction/rendered_extraction_batch.csv",
+    ):
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8") as handle:
+            for row in csv.DictReader(handle):
+                url = row.get("url")
+                if not url:
+                    continue
+                sources[url] = row
+    return sources
 
 
 def validate_draft(draft: dict, sources: dict[str, dict]) -> list[str]:
@@ -38,6 +70,12 @@ def validate_draft(draft: dict, sources: dict[str, dict]) -> list[str]:
         errors.append("missing_source_quote")
     if draft.get("price_sek") is None and draft.get("wltp_range_km") is None:
         errors.append("missing_price_or_wltp")
+    if (
+        draft.get("price_sek") is not None
+        and str(draft.get("brand", "")).strip().lower() in MAINSTREAM_BRANDS
+        and float(draft["price_sek"]) > MAINSTREAM_PRICE_REVIEW_THRESHOLD
+    ):
+        errors.append("mainstream_price_requires_review")
 
     for field, (low, high) in RANGES.items():
         value = draft.get(field)
@@ -54,7 +92,8 @@ def validate_draft(draft: dict, sources: dict[str, dict]) -> list[str]:
 
 
 def public_variant_from_draft(draft: dict) -> dict:
-    return {
+    draft = canonicalize_model_row(draft)
+    row = {
         "brand": draft["brand"],
         "model": draft["model"],
         "variant_name": draft["variant_name"],
@@ -67,18 +106,38 @@ def public_variant_from_draft(draft: dict) -> dict:
         "tow_kg": draft.get("tow_kg"),
         "seats": draft.get("seats"),
         "drivetrain": draft.get("drivetrain"),
+        "source_url": draft.get("source_url"),
+        "source_hash": draft.get("source_hash"),
         "source_quote": draft.get("source_quote"),
         "extraction_confidence": draft.get("extraction_confidence"),
         "validation_status": "published",
     }
+    for key in ("review_approved_by", "review_reason", "review_promoted_at"):
+        if draft.get(key):
+            row[key] = draft[key]
+    return row
+
+
+def variant_key(row: dict) -> tuple[str, str, str]:
+    return (str(row.get("brand", "")), str(row.get("model", "")), str(row.get("variant_name", "")))
+
+
+def upsert_public_variant(rows: list[dict], row: dict) -> list[dict]:
+    key = variant_key(row)
+    return [existing for existing in rows if variant_key(existing) != key] + [row]
 
 
 def write_csv(path: Path, rows: list[dict]) -> None:
     if not rows:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = []
+    for row in rows:
+        for key in row.keys():
+            if key not in fieldnames:
+                fieldnames.append(key)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
@@ -92,8 +151,17 @@ def main() -> None:
     published = []
     review = []
     updated_drafts = []
+    canonical_lookup = canonical_model_lookup()
 
     for draft in drafts:
+        draft = canonicalize_model_row(draft, canonical_lookup)
+        if draft.get("validation_status") == "published_reviewed":
+            public_row = public_variant_from_draft(draft)
+            public_row["validation_status"] = "published_reviewed"
+            published = upsert_public_variant(published, public_row)
+            updated_drafts.append(draft)
+            continue
+
         errors = validate_draft(draft, sources)
         draft["validation_errors"] = errors
         if errors:
@@ -101,7 +169,7 @@ def main() -> None:
             review.append(draft)
         else:
             draft["validation_status"] = "published"
-            published.append(public_variant_from_draft(draft))
+            published = upsert_public_variant(published, public_variant_from_draft(draft))
         updated_drafts.append(draft)
 
     out_dir = ROOT / "data/canonical"

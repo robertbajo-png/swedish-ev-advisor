@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-06-07T12:53:45.751640+00:00",
+  "summary": {
+    "mvp_models": 30,
+    "public_models": 30,
+    "public_variants": 66,
+    "review_queue_variants": 1,
+    "local_status": "OK",
+    "deployment_status": "OK"
+  },
+  "checks": {
+    "local_pipeline_ready": true,
+    "public_contract_ok": true,
+    "remote_public_contract_ok": true,
+    "validation_contract_ok": true,
+    "advisor_data_contract_ok": true,
+    "all_mvp_models_public": true,
+    "strict_images_ok": true,
+    "supabase_ready_for_seed": true
+  },
+  "blocking_items": [],
+  "pipeline": {
+    "mode": "local_portable_pipeline",
+    "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+    "next_action": "run_supabase_seed_then_verify_public_views",
+    "deployment_next_action": "run_supabase_seed_then_verify_public_views",
+    "source_health": {
+      "fetch_timeout": 3,
+      "ready": 6,
+      "source_hash_refresh_needed": 1,
+      "source_text_too_short": 1
+    },
+    "seed_plan": {
+      "market_models": 124,
+      "market_model_monthly_stats": 124,
+      "canonical_models": 126,
+      "model_aliases": 124,
+      "manufacturer_sources": 224,
+      "manufacturer_sources_by_status": {
+        "blocked": 50,
+        "draft": 104,
+        "needs_review": 11,
+        "queued": 56,
+        "verified": 3
+      },
+      "extracted_variant_drafts": 67,
+      "canonical_model_variants": 66
+    }
+  },
+  "coverage": {
+    "coverage_by_status": {
+      "public": 30
+    },
+    "highest_priority_next": null
+  },
+  "seo": {
+    "expected_routes": 74,
+    "vehicle_routes": 66,
+    "errors": []
+  },
+  "remote_public_contract": {
+    "checked": true,
+    "error": null,
+    "remote_public_variants": 66,
+    "local_public_variants": 66,
+    "missing_in_remote": [],
+    "extra_in_remote": [],
+    "remote_bad_statuses": [],
+    "remote_missing_source_hash": 0
+  }
+}

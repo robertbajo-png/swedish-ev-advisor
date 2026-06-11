@@ -1,0 +1,2 @@
+key,brand,model,variant_name,price_sek,wltp_range_km,source_url,extraction_confidence,validation_errors,source_quote
+Kia|Ev9|EV9 AWD Plus,Kia,Ev9,EV9 AWD Plus,849900,512,https://www.kia.com/se/nya-bilar/ev9/upptack/,0.9,confidence_below_threshold,"EV9 AWD Plus ... Rek ca pris från 849 900 kr ... Kia EV9 med fyrhjulsdrift kombinerar ... Batterikapacitet: 99,8 kWh ... Räckvidd: upp till 512 km ... Dragvikt (bromsat släp): 2 500 kg"

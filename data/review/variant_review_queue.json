@@ -1,0 +1,38 @@
+[
+  {
+    "brand": "Kia",
+    "model": "Ev9",
+    "variant_name": "EV9 AWD Plus",
+    "price_sek": 849900,
+    "wltp_range_km": 512,
+    "battery_kwh": 99.8,
+    "dc_charge_kw": null,
+    "ac_charge_kw": null,
+    "boot_liters": null,
+    "tow_kg": 2500,
+    "seats": null,
+    "drivetrain": "AWD",
+    "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+    "source_quote": "EV9 AWD Plus ... Rek ca pris från 849 900 kr ... Kia EV9 med fyrhjulsdrift kombinerar ... Batterikapacitet: 99,8 kWh ... Räckvidd: upp till 512 km ... Dragvikt (bromsat släp): 2 500 kg",
+    "source_hash": "00f23764a37ae340ca0c96d0b6b64eee8198674a79f7877c4ff2cd3e30ebf91c",
+    "extraction_confidence": 0.9,
+    "extraction_payload": {
+      "variant_name": "EV9 AWD Plus",
+      "price_sek": 849900,
+      "wltp_range_km": 512,
+      "battery_kwh": 99.8,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": 2500,
+      "seats": null,
+      "drivetrain": "AWD",
+      "source_quote": "EV9 AWD Plus ... Rek ca pris från 849 900 kr ... Kia EV9 med fyrhjulsdrift kombinerar ... Batterikapacitet: 99,8 kWh ... Räckvidd: upp till 512 km ... Dragvikt (bromsat släp): 2 500 kg",
+      "confidence": 0.9
+    },
+    "validation_status": "extracted",
+    "validation_errors": [
+      "confidence_below_threshold"
+    ]
+  }
+]

@@ -1,0 +1,341 @@
+{
+  "mvp_models": 30,
+  "public_models": 30,
+  "public_variants": 66,
+  "coverage_by_status": {
+    "public": 30
+  },
+  "highest_priority_next": null,
+  "rows": [
+    {
+      "rank": 1,
+      "brand": "Tesla",
+      "model": "Model Y",
+      "registrations_ytd": 2412,
+      "coverage_status": "public",
+      "public_variants": 4,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.tesla.com/sv_SE/modely",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 2,
+      "brand": "Volvo",
+      "model": "Ex30",
+      "registrations_ytd": 1494,
+      "coverage_status": "public",
+      "public_variants": 5,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.volvocars.com/se/cars/ex30-electric/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 3,
+      "brand": "Polestar",
+      "model": "4",
+      "registrations_ytd": 1306,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.polestar.com/se/polestar-4/specifications/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 4,
+      "brand": "Kia",
+      "model": "Ev3",
+      "registrations_ytd": 980,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev3/upptack/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 5,
+      "brand": "Toyota",
+      "model": "bZ4X",
+      "registrations_ytd": 877,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.toyota.se/nya-bilar/bz4x/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 6,
+      "brand": "Kia",
+      "model": "Ev5",
+      "registrations_ytd": 871,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 7,
+      "brand": "Skoda",
+      "model": "Enyaq",
+      "registrations_ytd": 734,
+      "coverage_status": "public",
+      "public_variants": 4,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 8,
+      "brand": "Volkswagen",
+      "model": "Id.4",
+      "registrations_ytd": 710,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.volkswagen.se/sv/modeller/id4.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 9,
+      "brand": "Kia",
+      "model": "Ev9",
+      "registrations_ytd": 573,
+      "coverage_status": "public",
+      "public_variants": 4,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 10,
+      "brand": "Mercedes-Benz",
+      "model": "Eqa",
+      "registrations_ytd": 556,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Eqa+elbil+pris+Sverige",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 11,
+      "brand": "Renault",
+      "model": "5",
+      "registrations_ytd": 552,
+      "coverage_status": "public",
+      "public_variants": 5,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.renault.se/elbilar/r5-e-tech-electric.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 12,
+      "brand": "BMW",
+      "model": "iX1",
+      "registrations_ytd": 477,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://hitta.bmw.se/r/U11-iX1",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 13,
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "registrations_ytd": 460,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Cla+elbil+pris+Sverige",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 14,
+      "brand": "Tesla",
+      "model": "Model 3",
+      "registrations_ytd": 424,
+      "coverage_status": "public",
+      "public_variants": 4,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.tesla.com/sv_SE/model3",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 15,
+      "brand": "BMW",
+      "model": "iX3",
+      "registrations_ytd": 341,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://hitta.bmw.se/r/NA5-iX3",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 16,
+      "brand": "Kia",
+      "model": "Ev6",
+      "registrations_ytd": 335,
+      "coverage_status": "public",
+      "public_variants": 3,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 17,
+      "brand": "Audi",
+      "model": "Q4 E-Tron",
+      "registrations_ytd": 324,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 18,
+      "brand": "Audi",
+      "model": "A6 E-Tron",
+      "registrations_ytd": 304,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.audi.se/se/web/sv/models/a6-e-tron/a6-e-tron.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 19,
+      "brand": "BMW",
+      "model": "i4",
+      "registrations_ytd": 300,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://hitta.bmw.se/r/G26-i4",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 20,
+      "brand": "BMW",
+      "model": "i5",
+      "registrations_ytd": 292,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://hitta.bmw.se/r/G60-i5",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 21,
+      "brand": "Volkswagen",
+      "model": "Id.3",
+      "registrations_ytd": 284,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.volkswagen.se/sv/modeller/id3.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 22,
+      "brand": "Ford",
+      "model": "Explorer",
+      "registrations_ytd": 276,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://ford.se/brochures_and_pricelists/31",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 23,
+      "brand": "Cupra",
+      "model": "Born",
+      "registrations_ytd": 274,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.cupraofficial.se/bilar/born",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 24,
+      "brand": "Zeekr",
+      "model": "7X",
+      "registrations_ytd": 251,
+      "coverage_status": "public",
+      "public_variants": 3,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.zeekr.eu/sv-se/models/7x",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 25,
+      "brand": "Audi",
+      "model": "Q6 E-Tron",
+      "registrations_ytd": 247,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.audi.se/se/web/sv/models/q6-e-tron/q6-e-tron.html",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 26,
+      "brand": "Kia",
+      "model": "Ev4",
+      "registrations_ytd": 228,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev4/upptack/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 27,
+      "brand": "Polestar",
+      "model": "2",
+      "registrations_ytd": 226,
+      "coverage_status": "public",
+      "public_variants": 3,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 28,
+      "brand": "Volvo",
+      "model": "Es90",
+      "registrations_ytd": 215,
+      "coverage_status": "public",
+      "public_variants": 2,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.volvocars.com/se/cars/es90-electric/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 29,
+      "brand": "Mazda",
+      "model": "6E",
+      "registrations_ytd": 202,
+      "coverage_status": "public",
+      "public_variants": 1,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.mazda.se/modeller/mazda6e/",
+      "reason": "already_has_extracted_draft"
+    },
+    {
+      "rank": 30,
+      "brand": "Skoda",
+      "model": "Elroq",
+      "registrations_ytd": 195,
+      "coverage_status": "public",
+      "public_variants": 4,
+      "next_strategy": "done_or_in_review",
+      "source_url": "https://www.skoda.se/modeller/elroq/",
+      "reason": "already_has_extracted_draft"
+    }
+  ]
+}

@@ -1,0 +1,3537 @@
+[
+  {
+    "started_at": "2026-05-08T18:07:08.093372+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 12,
+      "by_status": {
+        "blocked": 11,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:07:09.440690+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 12,
+      "by_status": {
+        "blocked": 11,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:08:28.190144+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Kia EV3",
+      "Kia EV5",
+      "Kia EV9",
+      "Renault 5 E-Tech",
+      "Kia EV6"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 19,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 7,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 9
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:08:34.588996+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Kia EV3",
+      "Kia EV5",
+      "Kia EV9",
+      "Renault 5 E-Tech",
+      "Kia EV6"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 19,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 7,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 9
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:09:28.914910+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Kia EV3",
+      "Kia EV5",
+      "Kia EV9",
+      "Renault 5 E-Tech",
+      "Kia EV6"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 19,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 7,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 9
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:11:28.886699+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Ford Explorer"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 14,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 2,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 4
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:11:52.277178+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Kia EV3",
+      "Kia EV5",
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 18,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 6,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 8
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:13:36.008524+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 16,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 4,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:14:00.231943+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 16,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 4,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:26:37.706291+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 16,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 4,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T18:27:41.181086+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 16,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 4,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-08T19:48:13.011819+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 16,
+      "by_status": {
+        "blocked": 11,
+        "needs_preflight": 4,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:07:49.908801+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 12,
+      "by_status": {
+        "blocked": 11,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:08:13.315398+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 12,
+      "by_status": {
+        "blocked": 11,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:22:47.356790+00:00",
+    "dry_run": false,
+    "selected": 1,
+    "selected_models": [
+      "Audi Q4 E-Tron"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 1,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 12,
+      "by_status": {
+        "blocked": 11,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Audi",
+        "model": "Q4 E-Tron",
+        "rank": 17,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+        "source_domain": "audi.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\17-audi-q4-e-tron-295fc3d8b1.txt",
+        "content_hash": "295fc3d8b1d10f2300efeeb07c0a39d28dc5c8915b1c5c08f94ada19c534ec20",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    },
+    "completed_at": "2026-05-09T06:22:50.489254+00:00"
+  },
+  {
+    "started_at": "2026-05-09T06:23:04.845873+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:23:36.569291+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:33:32.892240+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:34:00.689798+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:35:51.739288+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:37:38.002107+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:39:09.236659+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:41:57.833157+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:42:42.186404+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [
+      "Renault 5 E-Tech",
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4",
+      "Mazda 6e"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 15,
+      "by_status": {
+        "blocked": 10,
+        "needs_preflight": 5
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:42:58.991404+00:00",
+    "dry_run": false,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [
+      "Mazda 6e"
+    ],
+    "drafts_created": 4,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 15,
+      "by_status": {
+        "blocked": 10,
+        "needs_preflight": 1,
+        "ready_for_ai_extraction": 4
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 6
+      }
+    },
+    "completed_at": "2026-05-09T06:43:04.025119+00:00"
+  },
+  {
+    "started_at": "2026-05-09T06:43:11.057832+00:00",
+    "dry_run": false,
+    "selected": 3,
+    "selected_models": [
+      "Kia EV6",
+      "Ford Explorer",
+      "Kia EV4"
+    ],
+    "needs_preflight_next": [
+      "Mazda 6e"
+    ],
+    "drafts_created": 6,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 14,
+      "by_status": {
+        "blocked": 10,
+        "needs_preflight": 1,
+        "ready_for_ai_extraction": 3
+      },
+      "next_ready": {
+        "brand": "Kia",
+        "model": "EV6",
+        "rank": 19,
+        "source_type": "manufacturer_price_list",
+        "url": "https://www.kia.com/se/kopa/prislista/",
+        "source_domain": "kia.com",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "dea82b773b066dc09337b0135615aef1534353c36f5014e1ecd7c4c2aa1d4987",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 5
+      }
+    },
+    "completed_at": "2026-05-09T06:43:20.929923+00:00"
+  },
+  {
+    "started_at": "2026-05-09T06:43:45.503568+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [
+      "Mazda 6e"
+    ],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 10,
+        "needs_preflight": 1
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T06:44:37.473752+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T07:20:46.694261+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T09:20:16.112525+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 11
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T09:24:13.637770+00:00",
+    "dry_run": false,
+    "selected": 3,
+    "selected_models": [
+      "Renault 5",
+      "Audi A6 E-Tron",
+      "Mazda 6E"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 7,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 11,
+      "by_status": {
+        "blocked": 8,
+        "ready_for_ai_extraction": 3
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5",
+        "rank": 11,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner_och_priser",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\11-renault-5-90ec2595ea.txt",
+        "content_hash": "90ec2595ea7aff4feb7e631d4753ae770ae493b30e57687dc720d3f94160db4c",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 4
+      }
+    },
+    "completed_at": "2026-05-09T09:24:32.258747+00:00"
+  },
+  {
+    "started_at": "2026-05-09T09:26:28.051560+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 8,
+      "by_status": {
+        "blocked": 8
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T09:31:03.223599+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 8,
+      "by_status": {
+        "blocked": 8
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T12:56:50.324506+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 8,
+      "by_status": {
+        "blocked": 8
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T12:58:31.964516+00:00",
+    "dry_run": true,
+    "selected": 2,
+    "selected_models": [
+      "Mercedes-Benz Eqa",
+      "Mercedes-Benz Cla"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 8,
+      "by_status": {
+        "blocked": 6,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "Mercedes-Benz",
+        "model": "Eqa",
+        "rank": 10,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.mercedes-benz.se/passengercars/models/suv/eqa/overview.html",
+        "source_domain": "mercedes-benz.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\10-mercedes-benz-eqa-c1a36a177a.txt",
+        "content_hash": "c1a36a177aa5be02cd13c69f869fdb8769b3592b81150dd79936a6678368a2ce",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T12:58:37.755689+00:00",
+    "dry_run": false,
+    "selected": 2,
+    "selected_models": [
+      "Mercedes-Benz Eqa",
+      "Mercedes-Benz Cla"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 1,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 8,
+      "by_status": {
+        "blocked": 6,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "Mercedes-Benz",
+        "model": "Eqa",
+        "rank": 10,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.mercedes-benz.se/passengercars/models/suv/eqa/overview.html",
+        "source_domain": "mercedes-benz.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\10-mercedes-benz-eqa-c1a36a177a.txt",
+        "content_hash": "c1a36a177aa5be02cd13c69f869fdb8769b3592b81150dd79936a6678368a2ce",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    },
+    "completed_at": "2026-05-09T12:58:42.854225+00:00"
+  },
+  {
+    "started_at": "2026-05-09T13:00:10.708460+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 7,
+      "by_status": {
+        "blocked": 7
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T13:00:29.537088+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 7,
+      "by_status": {
+        "blocked": 7
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T13:02:23.794103+00:00",
+    "dry_run": true,
+    "selected": 2,
+    "selected_models": [
+      "BMW iX3",
+      "BMW i4"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 7,
+      "by_status": {
+        "blocked": 5,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "BMW",
+        "model": "iX3",
+        "rank": 15,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+        "source_domain": "bmw.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\15-bmw-ix3-1afb57e0af.txt",
+        "content_hash": "1afb57e0afa0c0938a7ef8a9038c387e9c1404c6fef705724d43722b6ec9a6c9",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T13:02:29.889406+00:00",
+    "dry_run": false,
+    "selected": 2,
+    "selected_models": [
+      "BMW iX3",
+      "BMW i4"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 3,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 7,
+      "by_status": {
+        "blocked": 5,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "BMW",
+        "model": "iX3",
+        "rank": 15,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+        "source_domain": "bmw.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\15-bmw-ix3-1afb57e0af.txt",
+        "content_hash": "1afb57e0afa0c0938a7ef8a9038c387e9c1404c6fef705724d43722b6ec9a6c9",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    },
+    "attempts": [
+      {
+        "attempted_at": "2026-05-09T13:02:34.033642+00:00",
+        "brand": "BMW",
+        "model": "iX3",
+        "url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+        "content_hash": "1afb57e0afa0c0938a7ef8a9038c387e9c1404c6fef705724d43722b6ec9a6c9",
+        "drafts_created": 1,
+        "status": "drafts_created"
+      },
+      {
+        "attempted_at": "2026-05-09T13:02:36.248030+00:00",
+        "brand": "BMW",
+        "model": "i4",
+        "url": "https://www.bmw.se/sv/alla-modeller/i-series/i4/bmw-i4-gran-coupe.html",
+        "content_hash": "38522e8886d9c47e5bf7c151974b1821ccd550886b07d21072e6b3fca882c513",
+        "drafts_created": 2,
+        "status": "drafts_created"
+      }
+    ],
+    "completed_at": "2026-05-09T13:02:36.572485+00:00"
+  },
+  {
+    "started_at": "2026-05-09T13:08:33.818049+00:00",
+    "dry_run": true,
+    "selected": 2,
+    "selected_models": [
+      "BMW iX1",
+      "BMW i5"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 5,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "BMW",
+        "model": "iX1",
+        "rank": 12,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+        "source_domain": "bmw.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\12-bmw-ix1-745d98611d.txt",
+        "content_hash": "745d98611dd50f06e68b976a0f76cd731fd0a67e9858fd449b195113f7f3f5f2",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-09T13:08:40.664122+00:00",
+    "dry_run": false,
+    "selected": 2,
+    "selected_models": [
+      "BMW iX1",
+      "BMW i5"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 3,
+    "errors": [],
+    "post_steps": [
+      "validate_extracted_variants.py",
+      "export_public_ev_data.py",
+      "seed_local_sqlite.py",
+      "export_public_from_sqlite.py"
+    ],
+    "plan_summary": {
+      "planned_models": 5,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 2
+      },
+      "next_ready": {
+        "brand": "BMW",
+        "model": "iX1",
+        "rank": 12,
+        "source_type": "manufacturer_rendered_model_page",
+        "url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+        "source_domain": "bmw.se",
+        "source_file": "data/extraction/rendered_extraction_batch.csv",
+        "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\12-bmw-ix1-745d98611d.txt",
+        "content_hash": "745d98611dd50f06e68b976a0f76cd731fd0a67e9858fd449b195113f7f3f5f2",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "browser_rendered_text_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 3
+      }
+    },
+    "attempts": [
+      {
+        "attempted_at": "2026-05-09T13:08:47.793788+00:00",
+        "brand": "BMW",
+        "model": "iX1",
+        "url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+        "content_hash": "745d98611dd50f06e68b976a0f76cd731fd0a67e9858fd449b195113f7f3f5f2",
+        "drafts_created": 2,
+        "status": "drafts_created"
+      },
+      {
+        "attempted_at": "2026-05-09T13:08:51.299280+00:00",
+        "brand": "BMW",
+        "model": "i5",
+        "url": "https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html",
+        "content_hash": "8c04ba6ee4fea49cbf5954bb107b5390fdf67d61e834c66a21fdb0b464980ee5",
+        "drafts_created": 1,
+        "status": "drafts_created"
+      }
+    ],
+    "completed_at": "2026-05-09T13:08:51.629920+00:00"
+  },
+  {
+    "started_at": "2026-05-09T13:09:03.503847+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 3,
+      "by_status": {
+        "blocked": 3
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:00:37.643213+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 3,
+      "by_status": {
+        "blocked": 3
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:00:55.435744+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 3,
+      "by_status": {
+        "blocked": 3
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:03:07.638280+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 3,
+      "by_status": {
+        "blocked": 3
+      },
+      "next_ready": null,
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 1
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:05:40.469922+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:05:40.495167+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:17:13.628320+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:17:13.651989+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:17:54.717968+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:17:54.746647+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:37:37.562371+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:37:37.591614+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:40:54.214732+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T10:40:54.246994+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T11:01:01.274076+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T11:01:01.315118+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T15:56:09.295100+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T15:56:09.319060+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T16:22:50.276424+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T16:22:50.322045+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T17:09:04.854435+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T17:09:04.889799+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T17:11:33.535663+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T17:11:33.569456+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:06:35.813181+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:06:35.845893+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:10:29.352174+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:10:29.380596+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:13:33.498481+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-10T18:13:33.527548+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-11T19:54:12.142184+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-11T19:54:12.207006+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 4,
+      "by_status": {
+        "blocked": 3,
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": {
+        "brand": "Tesla",
+        "model": "Model Y",
+        "rank": 1,
+        "source_type": "",
+        "url": "https://www.tesla.com/sv_SE/modely",
+        "source_domain": "",
+        "source_file": "",
+        "source_text_path": "",
+        "content_hash": "",
+        "extraction_status": "blocked",
+        "priority_reason": "browser_rendered_required",
+        "plan_order": 2
+      }
+    }
+  },
+  {
+    "started_at": "2026-05-15T17:58:13.260927+00:00",
+    "dry_run": true,
+    "selected": 1,
+    "selected_models": [
+      "Renault 5 E-Tech"
+    ],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 1,
+      "by_status": {
+        "ready_for_ai_extraction": 1
+      },
+      "next_ready": {
+        "brand": "Renault",
+        "model": "5 E-Tech",
+        "rank": 14,
+        "source_type": "manufacturer_model_page",
+        "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+        "source_domain": "renault.se",
+        "source_file": "data/extraction/mvp_extraction_preflight.csv",
+        "source_text_path": "",
+        "content_hash": "2a2325f8561688e26fb5ab24e262bc08ab73d9cec14cdaeee0677d83d0305f35",
+        "extraction_status": "ready_for_ai_extraction",
+        "priority_reason": "static_source_preflight_ready",
+        "plan_order": 1
+      },
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-15T17:58:56.788062+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-15T17:59:17.789579+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-16T09:55:49.976347+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-16T09:56:33.728003+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-16T09:57:09.607453+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-16T10:34:50.196054+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-30T11:50:48.004657+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-30T11:57:47.733117+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-05-30T11:59:01.616982+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-06-06T19:54:52.800542+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-06-06T19:55:38.538210+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-06-07T12:54:37.951058+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  },
+  {
+    "started_at": "2026-06-07T12:58:49.737585+00:00",
+    "dry_run": true,
+    "selected": 0,
+    "selected_models": [],
+    "needs_preflight_next": [],
+    "drafts_created": 0,
+    "errors": [],
+    "post_steps": [],
+    "plan_summary": {
+      "planned_models": 0,
+      "by_status": {},
+      "next_ready": null,
+      "top_blocker": null
+    }
+  }
+]

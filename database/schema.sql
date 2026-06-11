@@ -1,13 +1,39 @@
 create extension if not exists pgcrypto;
 
 do $$ begin
-  create type validation_status as enum ('draft', 'extracted', 'validated', 'published', 'rejected');
+  create type validation_status as enum ('draft', 'extracted', 'validated', 'published', 'published_reviewed', 'rejected', 'needs_review', 'verified', 'blocked', 'queued');
 exception
   when duplicate_object then null;
 end $$;
 
 do $$ begin
-  create type source_type as enum ('manufacturer_page', 'importer_page', 'price_list_pdf', 'technical_pdf', 'configurator', 'mobility_sweden_export');
+  alter type validation_status add value if not exists 'published_reviewed';
+  alter type validation_status add value if not exists 'needs_review';
+  alter type validation_status add value if not exists 'verified';
+  alter type validation_status add value if not exists 'blocked';
+  alter type validation_status add value if not exists 'queued';
+exception
+  when duplicate_object then null;
+end $$;
+
+do $$ begin
+  create type source_type as enum ('manufacturer_page', 'importer_page', 'price_list_pdf', 'technical_pdf', 'configurator', 'mobility_sweden_export', 'model_page', 'specs_page', 'price_list', 'fleet_page', 'manufacturer_specs_page', 'manufacturer_model_page', 'manufacturer_configurator', 'manufacturer_price_list', 'manufacturer_rendered_model_page', 'manufacturer_indexed_model_page', 'manufacturer_official_override_source');
+exception
+  when duplicate_object then null;
+end $$;
+
+do $$ begin
+  alter type source_type add value if not exists 'model_page';
+  alter type source_type add value if not exists 'specs_page';
+  alter type source_type add value if not exists 'price_list';
+  alter type source_type add value if not exists 'fleet_page';
+  alter type source_type add value if not exists 'manufacturer_specs_page';
+  alter type source_type add value if not exists 'manufacturer_model_page';
+  alter type source_type add value if not exists 'manufacturer_configurator';
+  alter type source_type add value if not exists 'manufacturer_price_list';
+  alter type source_type add value if not exists 'manufacturer_rendered_model_page';
+  alter type source_type add value if not exists 'manufacturer_indexed_model_page';
+  alter type source_type add value if not exists 'manufacturer_official_override_source';
 exception
   when duplicate_object then null;
 end $$;
@@ -74,7 +100,7 @@ create table if not exists market_model_monthly_stats (
   municipality text,
   imported_at timestamptz not null default now(),
   constraint monthly_registrations_nonnegative check (registrations >= 0),
-  unique (market_model_id, month, county, municipality)
+  unique nulls not distinct (market_model_id, month, county, municipality)
 );
 
 create index if not exists market_model_monthly_stats_month_idx on market_model_monthly_stats(month);
@@ -191,8 +217,13 @@ create table if not exists canonical_model_variants (
   tow_kg integer,
   seats integer,
   drivetrain text,
+  source_url text,
+  source_hash text,
   source_quote text,
   extraction_confidence numeric(4,3),
+  review_approved_by text,
+  review_reason text,
+  review_promoted_at timestamptz,
   source_id uuid references manufacturer_sources(id),
   validation_status validation_status not null default 'draft',
   published_at timestamptz,
@@ -211,7 +242,7 @@ create table if not exists canonical_model_variants (
 
 create index if not exists canonical_model_variants_public_idx
   on canonical_model_variants(canonical_model_id, validation_status)
-  where validation_status = 'published';
+  where validation_status in ('published', 'published_reviewed');
 
 create or replace view public_ev_models as
 select
@@ -225,8 +256,13 @@ select
   cm.coming_or_low_volume,
   cm.published_at
 from canonical_models cm
-where cm.validation_status = 'published'
-  and cm.available_confirmed = true;
+where cm.validation_status <> 'rejected'
+  and exists (
+    select 1
+    from canonical_model_variants cv
+    where cv.canonical_model_id = cm.id
+      and cv.validation_status in ('published', 'published_reviewed')
+  );
 
 create or replace view public_ev_variants as
 select
@@ -249,16 +285,20 @@ select
   cv.tow_kg,
   cv.seats,
   cv.drivetrain,
+  coalesce(cv.source_url, ms.url) as source_url,
+  coalesce(cv.source_hash, ms.content_hash) as source_hash,
   cv.source_quote,
   cv.extraction_confidence,
-  ms.url as source_url,
+  cv.validation_status,
+  cv.review_approved_by,
+  cv.review_reason,
+  cv.review_promoted_at,
   ms.verified_at
 from canonical_model_variants cv
 join canonical_models cm on cm.id = cv.canonical_model_id
 left join manufacturer_sources ms on ms.id = cv.source_id
-where cm.validation_status = 'published'
-  and cv.validation_status = 'published'
-  and cm.available_confirmed = true;
+where cm.validation_status <> 'rejected'
+  and cv.validation_status in ('published', 'published_reviewed');
 
 grant select on public_ev_models to anon, authenticated;
 grant select on public_ev_variants to anon, authenticated;

@@ -1,0 +1,2 @@
+brand,model,rank,source_type,url,source_domain,source_file,source_text_path,content_hash,extraction_status,priority_reason,plan_order,resolution_action,resolution_reason,candidate_url,candidate_source_type
+Mercedes-Benz,Eqa,10,,https://www.mercedes-benz.se?ev_advisor_discovery_query=Mercedes-Benz+Eqa+elbil+pris+Sverige,,,,,blocked,source_discovery_required,3,validate_research_candidate,needs_official_source_validation,https://www.mercedes-benz.se/passengercars/models/suv/h243-fl-25-2-spa/finance.html,manufacturer_specs_page

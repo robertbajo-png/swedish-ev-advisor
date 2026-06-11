@@ -1,0 +1,3 @@
+rank,mvp_scope,brand,model,registrations_ytd,source_url,source_validation,render_reason,target_strategy,queue_status,priority,notes
+1,top_30,Tesla,Model Y,,https://www.tesla.com/sv_SE/modely,,browser_render_official_source,browser_rendered_fetch,queued,1,Fetch candidate official source with a rendered browser. Rendered text still goes through AI extraction and hard validation before public use.
+14,top_30,Tesla,Model 3,,https://www.tesla.com/sv_SE/model3,,browser_render_official_source,browser_rendered_fetch,queued,2,Fetch candidate official source with a rendered browser. Rendered text still goes through AI extraction and hard validation before public use.

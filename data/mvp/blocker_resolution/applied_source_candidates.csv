@@ -1,0 +1,4 @@
+brand,model,source_type,url,source_domain,research_rank,research_confidence,blocker_resolution_action,blocker_resolution_reason,official_domain_match,http_status,final_url,content_hash,content_type,fetched_at,source_validation,extraction_status
+Mercedes-Benz,Eqa,manufacturer_model_page,https://www.mercedes-benz.se/passengercars/models/suv/eqa/overview.html,mercedes-benz.se,10,medium,validate_research_candidate,needs_official_source_validation,True,,,,,,needs_discovery,blocked
+BMW,iX1,manufacturer_specs_page,https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html,bmw.se,12,high,prefer_static_specs_over_configurator,configurator_only_currently_selected,True,,,,,,needs_discovery,blocked
+BMW,i5,manufacturer_specs_page,https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html,bmw.se,20,high,prefer_static_specs_over_configurator,configurator_only_currently_selected,True,,,,,,needs_discovery,blocked

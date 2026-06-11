@@ -1,0 +1,47 @@
+[
+  {
+    "batch_order": 1,
+    "brand": "Toyota",
+    "model": "bZ4X",
+    "source_type": "manufacturer_model_page",
+    "url": "https://www.toyota.se/nya-bilar/bz4x/",
+    "source_domain": "toyota.se",
+    "research_rank": "7",
+    "research_confidence": "high",
+    "content_hash": "72828d83a4e1a7f02066004a6f873670e694f9936f0171c27997892dfdee0c20",
+    "content_type": "text/html;charset=utf-8",
+    "source_validation": "reachable_official_model_source",
+    "extraction_status": "ready_for_ai_extraction",
+    "batch_reason": "static_reachable_official_source"
+  },
+  {
+    "batch_order": 2,
+    "brand": "Renault",
+    "model": "5 E-Tech",
+    "source_type": "manufacturer_model_page",
+    "url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric",
+    "source_domain": "renault.se",
+    "research_rank": "14",
+    "research_confidence": "high",
+    "content_hash": "7ec58abfa713cfa91c194c4ff23c51921c6ef8b10d4cdde69600fa3e81ecd32a",
+    "content_type": "text/html; charset=utf-8",
+    "source_validation": "reachable_official_model_source",
+    "extraction_status": "ready_for_ai_extraction",
+    "batch_reason": "static_reachable_official_source"
+  },
+  {
+    "batch_order": 3,
+    "brand": "Skoda",
+    "model": "Elroq",
+    "source_type": "manufacturer_model_page",
+    "url": "https://www.skoda.se/modeller/elroq/",
+    "source_domain": "skoda.se",
+    "research_rank": "33",
+    "research_confidence": "medium",
+    "content_hash": "c72e6aded8940d130ce25b8b9a1e09533847b9915d6ed5807bdfbd9a690e8f4e",
+    "content_type": "text/html; charset=utf-8",
+    "source_validation": "reachable_official_model_source",
+    "extraction_status": "ready_for_ai_extraction",
+    "batch_reason": "static_reachable_official_source"
+  }
+]

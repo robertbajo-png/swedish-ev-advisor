@@ -1,0 +1,2 @@
+brand,model,source_type,url,source_domain,content_hash,source_text_path,source_validation
+Mercedes-Benz,Eqa,manufacturer_rendered_model_page,https://www.mercedes-benz.se/passengercars/models/suv/eqa/overview.html,mercedes-benz.se,c1a36a177aa5be02cd13c69f869fdb8769b3592b81150dd79936a6678368a2ce,C:\Users\rober\OneDrive\Dokumentet\New project\swedish-ev-advisor\data\extraction\rendered_source_texts\10-mercedes-benz-eqa-c1a36a177a.txt,reachable_official_model_source

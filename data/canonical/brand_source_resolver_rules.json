@@ -1,0 +1,106 @@
+{
+  "Audi": {
+    "strategy": "official_model_page_pattern",
+    "accepted_domains": ["audi.se"],
+    "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page"],
+    "notes": "Audi Sverige has stable model pages under /se/web/sv/models/ and /sv/models/."
+  },
+  "BMW": {
+    "strategy": "split_product_and_stock_architecture",
+    "accepted_domains": ["bmw.se", "hitta.bmw.se"],
+    "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page", "manufacturer_configurator"],
+    "notes": "BMW product/spec pages live on bmw.se; stock/configuration style pages live on hitta.bmw.se."
+  },
+  "Cupra": {
+    "strategy": "official_model_page_pattern",
+    "accepted_domains": ["cupraofficial.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_configurator"],
+    "notes": "Cupra Sverige model pages are accepted official importer/manufacturer sources."
+  },
+  "Ford": {
+    "strategy": "official_model_page_and_brochure_links",
+    "accepted_domains": ["ford.se"],
+    "preferred_source_types": ["manufacturer_price_list", "manufacturer_model_page"],
+    "notes": "Ford Sverige exposes model pages and brochure/pricelist routes."
+  },
+  "Kia": {
+    "strategy": "shared_price_list_plus_dedicated_specs_pages",
+    "accepted_domains": ["kia.com"],
+    "preferred_source_types": ["manufacturer_price_list", "manufacturer_specs_page", "manufacturer_model_page"],
+    "notes": "Kia Sverige has a shared price list URL plus clean /nya-bilar/{model}/specifikationer/ pages."
+  },
+  "Mazda": {
+    "strategy": "official_model_specs_page",
+    "accepted_domains": ["mazda.se"],
+    "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page"],
+    "notes": "Mazda Sverige exposes specification/comparison pages per model."
+  },
+  "Mercedes-Benz": {
+    "strategy": "official_model_page_with_rendered_or_indexed_specs_fallback",
+    "accepted_domains": ["mercedes-benz.se"],
+    "preferred_source_types": ["manufacturer_specs_page", "manufacturer_rendered_model_page", "manufacturer_indexed_model_page"],
+    "notes": "Mercedes pages may require rendered or indexed source packets when public HTML lacks specs."
+  },
+  "MG": {
+    "strategy": "official_eu_sv_se_importer_pages",
+    "accepted_domains": ["mgmotor.eu"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "MG Sverige uses mgmotor.eu/sv-SE rather than mg.se."
+  },
+  "Polestar": {
+    "strategy": "official_specs_page_pattern",
+    "accepted_domains": ["polestar.com"],
+    "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page"],
+    "notes": "Polestar has stable /se/polestar-{n}/specifications/ URLs."
+  },
+  "Renault": {
+    "strategy": "official_model_version_price_pages",
+    "accepted_domains": ["renault.se"],
+    "preferred_source_types": ["manufacturer_price_list", "manufacturer_model_page"],
+    "aliases": { "5 E-Tech": "5" },
+    "notes": "Renault model names may include E-Tech suffixes; canonical MVP model can be shorter."
+  },
+  "Skoda": {
+    "strategy": "dynamic_pdf_link_discovery",
+    "accepted_domains": ["skoda.se"],
+    "preferred_source_types": ["manufacturer_price_list", "manufacturer_model_page"],
+    "notes": "Skoda price list PDFs use rotating UUID-like /_doc/ URLs; resolver must discover current PDF links from official pages."
+  },
+  "Tesla": {
+    "strategy": "blocked_official_site_with_indexed_source_packet",
+    "accepted_domains": ["tesla.com"],
+    "preferred_source_types": ["manufacturer_indexed_model_page", "manufacturer_configurator", "manufacturer_model_page"],
+    "notes": "Tesla blocks local fetch/browser automation; use official indexed snippets/source packets until a partner feed exists."
+  },
+  "Toyota": {
+    "strategy": "official_model_page_and_pdf_price_lists",
+    "accepted_domains": ["toyota.se"],
+    "preferred_source_types": ["manufacturer_price_list", "manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Toyota Sverige model pages and PDFs are accepted official sources."
+  },
+  "Volkswagen": {
+    "strategy": "explicit_model_url_resolver",
+    "accepted_domains": ["volkswagen.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page", "manufacturer_configurator"],
+    "explicit_patterns": {
+      "ID.3": "/sv/modeller/id3.html",
+      "ID.4": "/sv/modeller/id4.html",
+      "ID.7": "/sv/elbilar/vara-elbilar/id7.html",
+      "ID.7 Tourer": "/sv/modeller/id7-tourer.html",
+      "ID. Buzz": "/sv/modeller/id-buzz.html"
+    },
+    "notes": "Volkswagen Sverige has inconsistent EV URL architecture; use explicit model rules rather than brand-wide regex."
+  },
+  "Volvo": {
+    "strategy": "blocked_official_site_with_rendered_source_fallback",
+    "accepted_domains": ["volvocars.com"],
+    "preferred_source_types": ["manufacturer_rendered_model_page", "manufacturer_specs_page", "manufacturer_model_page"],
+    "notes": "Volvo blocks direct fetch; use rendered source text or official indexed source packet with hash."
+  },
+  "Zeekr": {
+    "strategy": "official_eu_sv_se_importer_pages",
+    "accepted_domains": ["zeekr.eu"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Zeekr Sverige uses zeekr.eu/sv-se rather than a .se domain."
+  }
+}

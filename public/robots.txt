@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://swedish-ev-advisor.se/sitemap.xml

@@ -1,0 +1,3 @@
+brand,model,rank,source_type,url,source_domain,source_file,source_text_path,content_hash,extraction_status,priority_reason,plan_order,resolution_action,resolution_reason,candidate_url,candidate_source_type
+Tesla,Model Y,1,,https://www.tesla.com/sv_SE/modely,,,,,blocked,browser_rendered_required,3,browser_render_official_source,raw_fetch_blocked_or_page_not_rendered,https://www.tesla.com/sv_SE/modely,manufacturer_model_page
+Tesla,Model 3,14,,https://www.tesla.com/sv_SE/model3,,,,,blocked,browser_rendered_required,4,browser_render_official_source,raw_fetch_blocked_or_page_not_rendered,https://www.tesla.com/sv_SE/model3,manufacturer_model_page

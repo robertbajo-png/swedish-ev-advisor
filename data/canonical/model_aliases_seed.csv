@@ -1,20 +1,20 @@
 brand_raw,model_raw,normalized_brand,normalized_model,alias_rule,model_group,needs_mapping,confidence
-VOLVO,EX/XC40,volvo,ex xc40,manual_mapping_required,VOLVO EX/XC40,True,0.0
+VOLVO,EX/XC40,volvo,ex xc40,resolved_ev_only_filter,VOLVO EX/XC40,False,1.0
 TESLA,MODEL Y,tesla,model y,mobility_sweden_exact_raw_name,,False,1.0
 VOLVO,EX30,volvo,ex30,mobility_sweden_exact_raw_name,,False,1.0
-VW,ID.7/ID.7 TOURER,volkswagen,id 7 id 7 tourer,manual_mapping_required,VW ID.7/ID.7 TOURER,True,0.0
+VW,ID.7/ID.7 TOURER,volkswagen,id 7 id 7 tourer,resolved_split_into_two_canonicals,VW ID.7/ID.7 TOURER,False,0.6
 POLESTAR,4,polestar,4,mobility_sweden_exact_raw_name,,False,1.0
 KIA,EV3,kia,ev3,mobility_sweden_exact_raw_name,,False,1.0
 TOYOTA,BZ4X,toyota,bz4x,mobility_sweden_exact_raw_name,,False,1.0
 KIA,EV5,kia,ev5,mobility_sweden_exact_raw_name,,False,1.0
 SKODA,ENYAQ,skoda,enyaq,mobility_sweden_exact_raw_name,,False,1.0
 VW,ID.4,volkswagen,id 4,mobility_sweden_exact_raw_name,,False,1.0
-VOLVO,EC/C40,volvo,ec c40,manual_mapping_required,VOLVO EC/C40,True,0.0
+VOLVO,EC/C40,volvo,ec c40,resolved_ev_only_filter,VOLVO EC/C40,False,1.0
 KIA,EV9,kia,ev9,mobility_sweden_exact_raw_name,,False,1.0
 MERCEDES,EQA,mercedes benz,eqa,mobility_sweden_exact_raw_name,,False,1.0
 RENAULT,5,renault,5,mobility_sweden_exact_raw_name,,False,1.0
 BMW,IX1,bmw,ix1,mobility_sweden_exact_raw_name,,False,1.0
-MERCEDES,CLA,mercedes benz,cla,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,CLA,mercedes benz,cla eq,resolved_ev_only_filter,,False,1.0
 TESLA,MODEL 3,tesla,model 3,mobility_sweden_exact_raw_name,,False,1.0
 BMW,IX3,bmw,ix3,mobility_sweden_exact_raw_name,,False,1.0
 KIA,EV6,kia,ev6,mobility_sweden_exact_raw_name,,False,1.0
@@ -32,12 +32,12 @@ POLESTAR,2,polestar,2,mobility_sweden_exact_raw_name,,False,1.0
 VOLVO,ES90,volvo,es90,mobility_sweden_exact_raw_name,,False,1.0
 MAZDA,6E,mazda,6e,mobility_sweden_exact_raw_name,,False,1.0
 SKODA,ELROQ,skoda,elroq,mobility_sweden_exact_raw_name,,False,1.0
-RENAULT,SCENIC,renault,scenic,mobility_sweden_exact_raw_name,,False,1.0
+RENAULT,SCENIC,renault,scenic e tech,resolved_ev_only_filter,,False,1.0
 VW,ID. BUZZ,volkswagen,id buzz,mobility_sweden_exact_raw_name,,False,1.0
 VOLVO,EX90,volvo,ex90,mobility_sweden_exact_raw_name,,False,1.0
 BMW,IX,bmw,ix,mobility_sweden_exact_raw_name,,False,1.0
 MG,MG4 ELECTRIC,mg,mg4 electric,mobility_sweden_exact_raw_name,,False,1.0
-MERCEDES,EQE,mercedes benz,eqe,mobility_sweden_exact_raw_name,,False,1.0
+MERCEDES,EQE,mercedes benz,eqe sedan,resolved_split_into_two_canonicals,,False,0.6
 POLESTAR,3,polestar,3,mobility_sweden_exact_raw_name,,False,1.0
 LEXUS,RZ,lexus,rz,mobility_sweden_exact_raw_name,,False,1.0
 TOYOTA,C-HR+,toyota,c hr,mobility_sweden_exact_raw_name,,False,1.0
