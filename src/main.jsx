@@ -1054,6 +1054,7 @@ function App() {
 function HeroSearch({ advisor, setAdvisor, shortlist, advisorResult, advisorStatus, onRunAdvisor }) {
   const topCar = shortlist[0] ?? fallbackCars[0];
   const advisorShortlist = advisorResult?.shortlist ?? [];
+  const heroShortlist = (advisorShortlist.length ? advisorShortlist : shortlist.length ? shortlist : [fallbackCars[0]]).slice(0, 2);
   const requirementChips = [
     `Max ${formatSEK(advisor.budget)}`,
     `Minst ${advisor.range} km`,
@@ -1077,7 +1078,7 @@ function HeroSearch({ advisor, setAdvisor, shortlist, advisorResult, advisorStat
             value={advisor.prompt}
             onChange={(event) => setAdvisor({ ...advisor, prompt: event.target.value })}
             placeholder="Beskriv dina behov, t.ex. “familjebil under 650 000 kr, minst 550 km räckvidd, dragkrok och bra vinteregenskaper”."
-            rows="4"
+            rows="3"
           />
         </div>
         <p className="advisorHint">Beskriv dina behov – AI tolkar kraven, visar osäker data öppet och ger en källbunden shortlist.</p>
@@ -1135,7 +1136,7 @@ function HeroSearch({ advisor, setAdvisor, shortlist, advisorResult, advisorStat
             </div>
             {advisorResult?.summary && <p className="advisorSummary">{advisorResult.summary}</p>}
             <div className="advisorResultGrid">
-              {(advisorShortlist.length ? advisorShortlist : shortlist.length ? shortlist : [fallbackCars[0]]).map((car, index) => (
+              {heroShortlist.map((car, index) => (
                 <AdvisorResultCard key={car.id} car={car} rank={index + 1} />
               ))}
             </div>

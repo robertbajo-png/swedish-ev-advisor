@@ -2378,9 +2378,210 @@ footer button {
   cursor: pointer;
 }
 
+/* Usability polish pass: keep the product premium, but make tool pages feel useful first. */
+.siteHeader:not(.siteHeaderCinematic) {
+  min-height: 4.35rem;
+}
+
+.siteHeader:not(.siteHeaderCinematic) .brandMark {
+  width: 2.15rem;
+  height: 2.15rem;
+}
+
+.siteHeader:not(.siteHeaderCinematic) nav {
+  gap: clamp(0.35rem, 1.5vw, 1rem);
+}
+
+.siteHeader:not(.siteHeaderCinematic) nav button,
+.siteHeader:not(.siteHeaderCinematic) nav a {
+  min-height: 2.25rem;
+  padding: 0.42rem 0.82rem;
+}
+
+.heroSearch {
+  min-height: min(760px, calc(100vh - 4.35rem));
+  align-items: center;
+  padding-top: clamp(1.5rem, 3.5vw, 3.6rem);
+  padding-bottom: clamp(2rem, 4vw, 3.8rem);
+}
+
+.heroCopy h1 {
+  max-width: 13.5ch;
+  font-size: clamp(2.75rem, 5.15vw, 4.9rem);
+  line-height: 0.98;
+}
+
+.heroSearchBox {
+  align-self: center;
+  max-width: 43rem;
+}
+
+.heroRecommendation {
+  align-self: end;
+  max-width: 25rem;
+}
+
+.promptBox {
+  min-height: 5.9rem;
+}
+
+.mockResponse {
+  gap: 0.62rem;
+  padding: 0.78rem;
+}
+
+.advisorResultGrid {
+  gap: 0.48rem;
+}
+
+.heroSearchBox .advisorResultCard {
+  gap: 0.42rem;
+  padding: 0.68rem;
+}
+
+.heroSearchBox .advisorSignals {
+  gap: 0.18rem;
+}
+
+.heroSearchBox .advisorSignals div:nth-child(2),
+.heroSearchBox .advisorResultFooter {
+  display: none;
+}
+
+.heroSearchBox .advisorSignals p,
+.heroSearchBox .advisorSummary,
+.heroSearchBox .advisorNote {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.compareBar {
+  display: flex;
+  align-items: center;
+  bottom: 1.2rem;
+  max-width: 84rem;
+  padding: 0.72rem 0.85rem;
+  border-color: rgba(22, 75, 61, 0.1);
+  box-shadow: 0 18px 55px rgba(32, 48, 40, 0.12);
+}
+
+.compareBar > span {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.compareBar > button:not(.clearCompare) {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.65rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 15px;
+  color: #fafff5;
+  background: var(--pine);
+  font-weight: 850;
+  box-shadow: 0 12px 28px rgba(22, 75, 61, 0.16);
+}
+
+.compareSection {
+  padding-top: clamp(2.25rem, 4vw, 4rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(238, 243, 238, 0.92)),
+    #eef3ee;
+}
+
+.decisionReport {
+  grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.7fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: center;
+  max-width: 1180px;
+  margin-inline: auto;
+  margin-bottom: 1.25rem;
+  padding: clamp(1.3rem, 3vw, 2.2rem);
+  border: 1px solid rgba(22, 75, 61, 0.11);
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(238, 243, 238, 0.88)),
+    #fff;
+  box-shadow: 0 24px 70px rgba(32, 48, 40, 0.1);
+}
+
+.decisionReport h2 {
+  max-width: 15ch;
+  color: var(--ink);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+}
+
+.decisionReport p,
+.decisionReport .eyebrow {
+  color: var(--muted);
+}
+
+.decisionReport .reportCard {
+  align-self: stretch;
+  min-height: 0;
+  padding: clamp(1rem, 2.2vw, 1.5rem);
+  border: 1px solid rgba(22, 75, 61, 0.1);
+  color: var(--ink);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(220, 233, 223, 0.72)),
+    #f7faf6;
+  box-shadow: 0 16px 44px rgba(32, 48, 40, 0.09);
+}
+
+.decisionReport .reportCard svg {
+  color: var(--pine);
+}
+
+.decisionReport .reportCard h3 {
+  color: var(--ink);
+}
+
+.decisionReport .reportCard p,
+.decisionReport .reportStatus,
+.decisionReport .localReportNote {
+  color: var(--muted);
+}
+
+.decisionReport .reportBody button {
+  color: #fafff5;
+  border: 0;
+  background: var(--pine);
+}
+
+.decisionReport .reportBody .secondaryReportAction {
+  color: var(--pine);
+  border: 1px solid rgba(22, 75, 61, 0.12);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.decisionReport .reportStatus.error {
+  color: #8f3420;
+}
+
+.comparisonTable {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+.tableRow span,
+.tableRow strong {
+  padding: 0.9rem 1rem;
+}
+
+.tableHead span,
+.tableHead strong {
+  background: #1e5948;
+}
+
 .advisorHint {
   margin: 0.55rem 0 0;
-  color: rgba(251, 255, 249, 0.72);
+  color: #66756c;
   font-size: 0.86rem;
   line-height: 1.45;
 }
@@ -2563,6 +2764,44 @@ footer button {
 }
 
 @media (max-width: 900px) {
+  .heroSearch {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .heroCopy h1 {
+    max-width: 12ch;
+    font-size: clamp(2.8rem, 10vw, 4.4rem);
+  }
+
+  .heroSearchBox,
+  .heroRecommendation {
+    max-width: none;
+  }
+
+  .compareBar {
+    align-items: stretch;
+    flex-direction: column;
+    width: min(42rem, calc(100% - 1.25rem));
+  }
+
+  .compareBar div {
+    width: 100%;
+  }
+
+  .compareBar > button:not(.clearCompare),
+  .clearCompare {
+    width: 100%;
+  }
+
+  .decisionReport {
+    grid-template-columns: 1fr;
+  }
+
+  .decisionReport h2 {
+    max-width: 16ch;
+  }
+
   .verificationGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2577,6 +2816,93 @@ footer button {
 }
 
 @media (max-width: 620px) {
+  .siteHeader:not(.siteHeaderCinematic) {
+    gap: 0.75rem;
+    padding-inline: 0.9rem;
+  }
+
+  .brand {
+    font-size: 0.98rem;
+  }
+
+  .siteHeader:not(.siteHeaderCinematic) nav {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .heroSearch {
+    padding-inline: 0.9rem;
+  }
+
+  .heroCopy {
+    order: 1;
+  }
+
+  .heroRecommendation {
+    order: 2;
+  }
+
+  .heroSearchBox {
+    order: 3;
+  }
+
+  .heroRecommendation img,
+  .heroRecommendation .missingCarImage {
+    aspect-ratio: 16 / 8.5;
+  }
+
+  .heroSearchBox .advisorResultCard:nth-child(n+2) {
+    display: none;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.65rem, 14vw, 3.55rem);
+  }
+
+  .heroSearchBox,
+  .heroRecommendation,
+  .decisionReport,
+  .comparisonTable {
+    border-radius: 20px;
+  }
+
+  .advisorActions,
+  .heroControls {
+    grid-template-columns: 1fr;
+  }
+
+  .compareSection {
+    padding-inline: 0.85rem;
+  }
+
+  .compareBar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+  }
+
+  .compareBar > span,
+  .compareBar div {
+    grid-column: 1 / -1;
+  }
+
+  .compareBar div button {
+    max-width: 15rem;
+  }
+
+  .decisionReport {
+    padding: 1rem;
+  }
+
+  .decisionReport h2 {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+
+  .tableRow span,
+  .tableRow strong {
+    padding: 0.8rem;
+  }
+
   .verificationGrid {
     grid-template-columns: 1fr;
   }
