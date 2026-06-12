@@ -2911,3 +2911,72 @@ footer button {
     grid-template-columns: 1fr;
   }
 }
+
+/* Visual QA fixes */
+.siteHeaderCinematic .brandButton {
+  padding: 0.28rem 0.36rem;
+  border-radius: 12px;
+  background: rgba(4, 15, 13, 0.46);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(16px);
+}
+
+.siteHeaderCinematic .brand span:last-child {
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+.siteHeaderCinematic nav {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(4, 15, 13, 0.38);
+}
+
+.filterFooter button {
+  min-height: 2.45rem;
+  padding-inline: 0.85rem;
+  color: #fafff5;
+  border-color: transparent;
+  background: var(--pine);
+}
+
+.filterFooter button:hover {
+  background: #0f3d31;
+}
+
+@media (min-width: 1100px) {
+  .heroCopy h1 {
+    font-size: clamp(2.75rem, 4.7vw, 4.5rem);
+  }
+}
+
+@media (max-width: 620px) {
+  .compareBar div {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .compareBar div button {
+    flex: 1 1 10rem;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .siteHeaderCinematic {
+    gap: 0.7rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .siteHeaderCinematic .brandButton {
+    width: fit-content;
+  }
+
+  .siteHeaderCinematic nav {
+    width: 100%;
+    justify-content: space-between;
+    background: rgba(4, 15, 13, 0.58);
+  }
+
+  .cinematicDetailPage .carDetailHero h1 {
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+}
