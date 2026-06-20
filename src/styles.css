@@ -2980,3 +2980,26 @@ footer button {
     font-size: clamp(3rem, 14vw, 4rem);
   }
 }
+
+/* Hero rhythm correction: align the three desktop columns to one clear top line. */
+@media (min-width: 981px) {
+  .heroSearch {
+    align-items: start;
+    min-height: auto;
+    padding-top: clamp(2.25rem, 4vw, 4.5rem);
+  }
+
+  .heroCopy,
+  .heroSearchBox,
+  .heroRecommendation {
+    align-self: start;
+  }
+
+  .heroCopy {
+    padding-top: 0.65rem;
+  }
+
+  .heroRecommendation {
+    margin-top: 0;
+  }
+}
