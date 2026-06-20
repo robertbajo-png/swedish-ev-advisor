@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://robertbajo-png.github.io/swedish-ev-advisor/sitemap.xml
