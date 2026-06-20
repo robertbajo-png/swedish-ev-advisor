@@ -547,16 +547,6 @@ input[type="range"] {
   font-size: 1.05rem;
 }
 
-.dataNotice {
-  margin-top: 0.65rem;
-  padding: 0.65rem 0.8rem;
-  border: 1px solid rgba(22, 75, 61, 0.14);
-  border-radius: 14px;
-  background: rgba(220, 233, 223, 0.48);
-  color: var(--pine) !important;
-  font-size: 0.9rem !important;
-}
-
 .needGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

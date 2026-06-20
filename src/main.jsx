@@ -718,7 +718,6 @@ function carJsonLd(car) {
 function App() {
   const [cars, setCars] = useState(fallbackCars);
   const [route, setRoute] = useState(getRoute);
-  const [dataNotice, setDataNotice] = useState('Visar lokal fallbackdata tills Supabase public views är konfigurerade.');
   const [advisor, setAdvisor] = useState({
     prompt: 'Vi är en familj i Stockholm med två barn, kör till fjällen ibland och vill ha dragkrok.',
     budget: 620000,
@@ -746,14 +745,9 @@ function App() {
         if (!result?.cars?.length) return;
         setCars(result.cars);
         setCompare(result.cars.slice(0, 3).map((car) => car.id));
-        setDataNotice(
-          result.source === 'supabase'
-            ? 'Visar publicerade elbilar från Supabase public views.'
-            : `Visar ${result.cars.length} publicerade varianter från lokal canonical-export.`
-        );
       })
       .catch((error) => {
-        setDataNotice(`Visar lokal fallbackdata. ${error.message}`);
+        console.warn('Public car data source unavailable, using bundled data.', error);
       });
   }, []);
 
@@ -943,7 +937,6 @@ function App() {
           <span className="eyebrow">Elbilar</span>
           <h2>Utforska verifierade elbilar i Sverige.</h2>
           <p>Kort först, tabell sen. Filtrera på det som faktiskt påverkar vardagen.</p>
-          <p className="dataNotice" aria-live="polite">{dataNotice}</p>
           <details className="scoreInfo">
             <summary>Hur räknas matchningspoängen?</summary>
             <p>
