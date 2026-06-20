@@ -1350,6 +1350,60 @@ input[type="range"] {
   background: #fbfcfa;
 }
 
+.compactTrust {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+  padding-block: clamp(2rem, 4vw, 3rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(220, 233, 223, 0.42)),
+    #f7faf6;
+}
+
+.compactTrust h2 {
+  max-width: 20ch;
+  margin-bottom: 0.45rem;
+  color: var(--ink);
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  line-height: 1.05;
+}
+
+.compactTrust p {
+  max-width: 52rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.98rem, 1.5vw, 1.1rem);
+}
+
+.trustPills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.trustPills span,
+.trustPills button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  min-height: 2.75rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(22, 75, 61, 0.12);
+  border-radius: 999px;
+  color: var(--pine);
+  background: rgba(255, 255, 255, 0.76);
+  font-weight: 840;
+  box-shadow: 0 10px 28px rgba(32, 48, 40, 0.06);
+}
+
+.trustPills button {
+  color: #fafff5;
+  border-color: transparent;
+  background: var(--pine);
+}
+
 .pipelineStatusPanel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
@@ -1683,6 +1737,21 @@ footer a {
   footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .compactTrust {
+    grid-template-columns: 1fr;
+  }
+
+  .trustPills {
+    justify-content: flex-start;
+  }
+
+  .trustPills span,
+  .trustPills button {
+    width: 100%;
+    justify-content: center;
+    border-radius: 16px;
   }
 }
 

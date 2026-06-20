@@ -1023,21 +1023,19 @@ function App() {
         <ComparisonTable cars={compareCars} />
       </section>}
 
-      {route.type === 'home' && <section className="qualitySection" id="quality">
-        <div className="sectionIntro wide">
-          <span className="eyebrow">Verifierad data</span>
-          <h2>Marknadsdata först, specifikationer från källan.</h2>
+{route.type === 'home' && <section className="qualitySection compactTrust" id="quality">
+        <div>
+          <span className="eyebrow">Tryggare val</span>
+          <h2>Verifierade uppgifter, tydliga luckor.</h2>
           <p>
-            Mobility Sweden används för att se vilka elbilsmodeller som faktiskt registreras i Sverige.
-            Priser, versioner och tekniska värden hämtas därefter från officiella svenska tillverkar-
-            eller importörskällor innan något visas publikt.
+            Vi visar bara publicerade biluppgifter med källor. Saknas ett värde står det “Uppgift saknas”,
+            inte missvisande nollor.
           </p>
         </div>
-        <PipelineStatusPanel status={pipelineStatus} />
-        <div className="qualityGrid">
-          <QualityStep icon={CarFront} title="1. Marknadsindex" text="Mobility Sweden identifierar elbilar med svensk registreringsaktivitet." />
-          <QualityStep icon={ShieldCheck} title="2. Primärkällor" text="Officiella tillverkar- och importörssidor används för pris och specifikationer." />
-          <QualityStep icon={BadgeCheck} title="3. Validerad publicering" text="Extraktionen blir aldrig publik förrän regler och granskning godkänt datan." />
+        <div className="trustPills" aria-label="Datakvalitet">
+          <span><BadgeCheck size={16} /> Källor visas</span>
+          <span><ShieldCheck size={16} /> Bara publicerad data</span>
+          <button type="button" onClick={() => navigate('/verifiering')}>Så kontrolleras datan <ArrowRight size={16} /></button>
         </div>
       </section>}
       </>
