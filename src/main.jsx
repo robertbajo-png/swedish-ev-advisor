@@ -33,6 +33,8 @@ import './styles.css';
 import { DEFAULT_TCO_ASSUMPTIONS, calculateTco } from './tco.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
+import { preferredScrollBehavior } from './ui-navigation.js';
+import { advisorEndpoints } from './api-endpoints.js';
 import { HomePage } from './home.jsx';
 import './design-system.css';
 import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity } from './vehicle-ui.jsx';
@@ -263,7 +265,11 @@ async function requestAdvisor(advisor) {
     range: advisor.range,
     need: advisor.need
   };
-  const endpoints = [appPath('/api/advisor'), 'http://127.0.0.1:8787/api/advisor'];
+  const endpoints = advisorEndpoints('/api/advisor', {
+    basePath: import.meta.env.BASE_URL,
+    hostname: window.location.hostname,
+    development: import.meta.env.DEV
+  });
   let lastError;
   for (const endpoint of endpoints) {
     try {
@@ -285,7 +291,11 @@ async function requestCompareReport(cars) {
   const payload = {
     variant_keys: cars.map((car) => car.canonicalKey).filter(Boolean)
   };
-  const endpoints = [appPath('/api/compare'), 'http://127.0.0.1:8787/api/compare'];
+  const endpoints = advisorEndpoints('/api/compare', {
+    basePath: import.meta.env.BASE_URL,
+    hostname: window.location.hostname,
+    development: import.meta.env.DEV
+  });
   let lastError;
   for (const endpoint of endpoints) {
     try {
@@ -490,7 +500,7 @@ function navigate(path) {
   const nextPath = APP_BASE_PATH ? `${APP_BASE_PATH}${path === '/' ? '' : path}` : path;
   window.history.pushState({}, '', nextPath || '/');
   window.dispatchEvent(new PopStateEvent('popstate'));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: preferredScrollBehavior() });
 }
 
 function findCarBySlug(cars, routeSlug) {
@@ -534,7 +544,7 @@ function setSeo({ title, description, jsonLd }) {
   upsertMeta('meta[name="twitter:title"]', { identity: { name: 'twitter:title' }, content: title });
   upsertMeta('meta[name="twitter:description"]', { identity: { name: 'twitter:description' }, content: description });
 
-  document.querySelectorAll('script[data-jsonld="page"]').forEach((node) => node.remove());
+  document.querySelectorAll('script[data-jsonld="page"], script[data-prerender="page"]').forEach((node) => node.remove());
   if (jsonLd) {
     const script = document.createElement('script');
     script.type = 'application/ld+json';
@@ -546,10 +556,10 @@ function setSeo({ title, description, jsonLd }) {
 
 function carJsonLd(car) {
   const properties = [
-    car.rangeVerified ? { '@type': 'PropertyValue', name: 'WLTP-räckvidd', value: `${car.rangeVerified} km` } : null,
-    car.dcVerified ? { '@type': 'PropertyValue', name: 'DC-laddning', value: `${car.dcVerified} kW` } : null,
-    car.towingVerified ? { '@type': 'PropertyValue', name: 'Dragvikt', value: `${car.towingVerified} kg` } : null,
-    car.cargoVerified ? { '@type': 'PropertyValue', name: 'Bagage', value: `${car.cargoVerified} liter` } : null
+    car.rangeVerified != null ? { '@type': 'PropertyValue', name: 'WLTP-räckvidd', value: `${car.rangeVerified} km` } : null,
+    car.dcVerified != null ? { '@type': 'PropertyValue', name: 'DC-laddning', value: `${car.dcVerified} kW` } : null,
+    car.towingVerified != null ? { '@type': 'PropertyValue', name: 'Dragvikt', value: `${car.towingVerified} kg` } : null,
+    car.cargoVerified != null ? { '@type': 'PropertyValue', name: 'Bagage', value: `${car.cargoVerified} liter` } : null
   ].filter(Boolean);
   return {
     '@context': 'https://schema.org',
@@ -559,13 +569,14 @@ function carJsonLd(car) {
     model: car.model,
     image: car.image || undefined,
     url: `${BASE_URL}/bilar/${car.id}`,
-    vehicleSeatingCapacity: car.seats,
+    vehicleSeatingCapacity: car.seatsVerified ?? undefined,
     offers: car.price
       ? {
           '@type': 'Offer',
           price: car.price,
           priceCurrency: 'SEK',
-          availability: 'https://schema.org/InStock',
+          availability: car.availableConfirmed === true ? 'https://schema.org/InStock' : undefined,
+          priceValidUntil: /^\d{4}-\d{2}-\d{2}$/.test(car.priceValidUntil || '') ? car.priceValidUntil : undefined,
           url: `${BASE_URL}/bilar/${car.id}`
         }
       : undefined,
@@ -578,6 +589,12 @@ function App() {
   const [dataStatus, setDataStatus] = useState('loading');
   const news = useNews(APP_BASE_PATH);
   const [route, setRoute] = useState(getRoute);
+  const contentRef = useRef(null);
+  const previousRoute = useRef(route);
+  useEffect(() => {
+    if (previousRoute.current !== route) contentRef.current?.focus({ preventScroll: true });
+    previousRoute.current = route;
+  }, [route]);
   const [advisor, setAdvisor] = useState({
     prompt: '',
     budget: 620000,
@@ -719,6 +736,17 @@ function App() {
         });
         return;
       }
+      setSeo({ title: `${dataStatus === 'error' ? 'Biluppgifterna kunde inte hämtas' : dataStatus === 'loading' ? 'Biluppgifter' : 'Bilen hittades inte'} | Elbilsguiden`, description: 'Utforska elbilar, jämför detaljer och hitta en modell som passar dina behov.', jsonLd: null });
+      return;
+    }
+    const routeMetadata = {
+      cars: ['Alla elbilar', 'Filtrera elbilar på svenska marknaden efter pris, räckvidd och dina behov.'],
+      compare: ['Jämför elbilar', 'Jämför valda elbilar sida vid sida: priser, räckvidd, laddning och uppskattad ägandekostnad.'],
+      verification: ['Om våra uppgifter', 'Så använder Elbilsguiden svenska källor och skiljer biluppgifter från antaganden.'],
+    }[route.type];
+    if (routeMetadata) {
+      setSeo({ title: `${routeMetadata[0]} | Elbilsguiden`, description: routeMetadata[1], jsonLd: null });
+      return;
     }
     if (route.type === 'segment') {
       setSeo({
@@ -745,7 +773,7 @@ function App() {
         operatingSystem: 'Web'
       }
     });
-  }, [route, routeCar, routeArticle]);
+  }, [route, routeCar, routeArticle, dataStatus]);
 
   function toggleCompare(id) {
     setCompare((current) => {
@@ -757,8 +785,9 @@ function App() {
   const compareLimitReached = compare.length >= MAX_COMPARE;
 
   return (
-    <main className={`appShell page-${route.type} ${compare.length ? 'hasComparison' : ''}`}>
-      <header className={`siteHeader premiumHeader ${route.type === 'car' ? 'siteHeaderCinematic' : ''}`}>
+    <div className={`appShell page-${route.type} ${compare.length ? 'hasComparison' : ''}`}>
+      <a className="skipLink" href="#main-content" onClick={(event) => { event.preventDefault(); contentRef.current?.focus(); contentRef.current?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' }); }}>Hoppa till innehållet</a>
+      <header className={`siteHeader premiumHeader ${route.type === 'car' && routeCar ? 'siteHeaderCinematic' : ''}`}>
         <button className="brand brandButton" type="button" onClick={() => navigate('/')}>
           <span className="brandMark"><Zap size={18} /></span>
           <span>Elbilsguiden</span>
@@ -768,12 +797,13 @@ function App() {
         </nav>
         <button className="uiPrimary" type="button" onClick={() => {
           if (route.type !== 'home') navigate('/');
-          requestAnimationFrame(() => { document.getElementById('home-advisor-query')?.focus(); document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: 'smooth' }); });
+          requestAnimationFrame(() => { document.getElementById('home-advisor-query')?.focus(); document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior() }); });
         }}><Sparkles size={16} /> Fråga AI</button>
       </header>
 
+      <main id="main-content" className="siteMain" ref={contentRef} tabIndex={-1} aria-label="Huvudinnehåll">
       {route.type === 'car' ? (
-        dataStatus === 'loading' ? <section className="newsPage"><p role="status">Hämtar bilen...</p></section> : <CarDetailPage
+        dataStatus === 'loading' ? <section className="newsPage"><p role="status">Hämtar bilen...</p></section> : dataStatus === 'error' ? <section className="notFoundPage vehicleContainer"><h1>Biluppgifterna kunde inte hämtas.</h1><p>Försök igen om en stund.</p><button className="uiPrimary" type="button" onClick={() => window.location.reload()}>Försök igen</button></section> : <CarDetailPage
           car={routeCar}
           cars={cars}
           onCompare={toggleCompare}
@@ -812,7 +842,7 @@ function App() {
         resetFilters={resetFilters} dataStatus={dataStatus} segment={route.segment}
         compare={compare} onCompare={toggleCompare} navigate={navigate} appPath={appPath}
         renderFilters={(prefix, brands) => <FilterSidebar prefix={prefix} brands={brands} bodies={[...new Set(cars.map((car) => car.body).filter((body) => body !== 'Elbil'))]} filters={filters} setFilters={setFilters} resultCount={ranked.length} totalCount={cars.length} onReset={resetFilters} />}
-        renderCard={(car) => <CarCard key={car.id} car={car} selected={compare.includes(car.id)} onCompare={() => toggleCompare(car.id)} compareLimitReached={!compare.includes(car.id) && compareLimitReached} />}
+        renderCard={(car) => <CarCard key={car.id} headingLevel={2} car={car} selected={compare.includes(car.id)} onCompare={() => toggleCompare(car.id)} compareLimitReached={!compare.includes(car.id) && compareLimitReached} />}
       />}
       {route.type === 'compare' && <section className="compareSection vehicleCompare vehicleContainer" id="compare">
         <div className="vehiclePageIntro"><span className="vehicleEyebrow">Ditt beslutsunderlag</span><h1>Jämför sida vid sida</h1><p>Vilken passar dig bäst? Se skillnaderna i pris, räckvidd och livet med bilen.</p></div>
@@ -829,13 +859,14 @@ function App() {
 
       </>
       )}
+      </main>
 
       {!['car', 'compare', 'news', 'newsArticle', 'verification'].includes(route.type) && <CompareBar cars={compareCars} onRemove={toggleCompare} onClear={() => setCompare([])} />}
       <footer>
         <span><Zap size={16} /> Elbilsguiden · Ditt nästa bilval.</span>
-        <div><button type="button" onClick={() => navigate('/verifiering')}>Om våra uppgifter</button><button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Home size={16} /> Till toppen</button></div>
+        <div><button type="button" onClick={() => navigate('/verifiering')}>Om våra uppgifter</button><button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
       </footer>
-    </main>
+    </div>
   );
 }
 
@@ -907,8 +938,8 @@ function MarketStatusBadges({ car, compact = false }) {
   );
 }
 
-function CarCard({ car, selected, onCompare, compareLimitReached }) {
-  return <VehicleCard className="carCard" car={car} selected={selected} compareLimitReached={compareLimitReached}
+function CarCard({ car, selected, onCompare, compareLimitReached, headingLevel = 3 }) {
+  return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached}
     onCompare={onCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />;
 }
 
@@ -1430,7 +1461,7 @@ function QualityStep({ icon: Icon = HeartHandshake, title, text }) {
   return (
     <article>
       <Icon size={22} />
-      <h3>{title}</h3>
+      <h2>{title}</h2>
       <p>{text}</p>
     </article>
   );

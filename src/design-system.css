@@ -31,11 +31,17 @@
 }
 
 body { background: var(--ui-background); }
+.siteMain { min-width: 0; overflow: visible; }
+.siteMain:focus { outline: none; }
+.skipLink { position: fixed; z-index: 100; top: 8px; left: 16px; padding: 12px 20px; border: 1px solid var(--pine); border-radius: 6px; background: #fff; color: var(--pine); font-size: 14px; font-weight: 700; transform: translateY(-160%); }
+.skipLink:focus { transform: translateY(0); }
+html:has(.vehicleCompareBar) { scroll-padding-bottom: 112px; }
 button, input, textarea, select { font-family: inherit; }
 h1, h2, h3, h4, p, button, a, label { letter-spacing: 0; }
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible {
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible, [tabindex="0"]:focus-visible {
   outline: 3px solid #245e5b;
   outline-offset: 4px;
+  scroll-margin-block: 24px 112px;
 }
 button:disabled { cursor: not-allowed; opacity: .6; }
 .uiPrimary {

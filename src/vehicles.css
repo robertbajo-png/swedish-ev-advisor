@@ -9,6 +9,8 @@
 .vehiclePageIntro p { margin: 0; max-width: 720px; font-size: 16px; line-height: 1.8; color: var(--muted); }
 .vehicleSectionHeading { margin-bottom: 32px; }
 .vehicleSectionHeading h2 { margin: 12px 0 0; font-size: 32px; line-height: 1.2; font-weight: 700; }
+.vehicleContainer.notFoundPage { min-height: 400px; padding: 48px 0 64px; }
+.vehicleContainer.notFoundPage h1 { max-width: 30ch; font-size: 48px; line-height: 1.15; }
 .vehicleCardGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .vehicleCard.homeVehicleCard { display: flex; flex-direction: column; border: 1px solid var(--line); background: #fff; border-radius: 8px; overflow: hidden; box-shadow: none; transition: border-color .18s ease, box-shadow .18s ease; }
 .vehicleCard.homeVehicleCard:hover { border-color: #b5cac4; box-shadow: 0 6px 20px rgb(23 27 28 / 4%); transform: none; }
@@ -17,7 +19,7 @@
 .vehicleCard img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
 .vehicleCard .homeVehicleBody { display: flex; flex-direction: column; padding: 24px; flex: 1; }
 .vehicleCard .homeVehicleBrand { font-size: 12px; color: var(--muted); }
-.vehicleCard.homeVehicleCard h3 { min-height: 0; font-size: 22px; line-height: 1.3; margin: 0 0 8px; font-weight: 700; }
+.vehicleCard.homeVehicleCard .vehicleCardTitle { min-height: 0; font-size: 22px; line-height: 1.3; margin: 0 0 8px; font-weight: 700; }
 .vehicleCard .vehicleVariant { min-height: 40px; margin: 0 0 16px; color: #5c6768; font-size: 13px; line-height: 1.5; }
 .vehicleCard .homeVehiclePrice { font-size: 24px; margin: 0 0 20px; line-height: 1.4; font-weight: 700; }
 .vehicleCard .homeVehiclePrice > span { display: block; color: var(--muted); font-size: 12px; font-weight: 400; margin-top: 4px; }
@@ -34,7 +36,7 @@
 .vehicleCard .homeVehicleActions button { border: 1px solid #c9d7d2; border-radius: 6px; background: white; padding: 8px 12px; }
 .vehicleCard .homeVehicleActions button:hover, .vehicleCard .homeVehicleActions button[aria-pressed=true] { background: var(--sage); }
 .catalogLayout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; align-items: start; padding-bottom: 64px; }
-.catalogFiltersDesktop { position: sticky; top: 24px; }
+.catalogFiltersDesktop { position: sticky; top: 24px; max-height: calc(100dvh - 48px); overflow-y: auto; padding: 4px; }
 .vehicleCatalog .vehicleFilters, .catalogFilterDialog .vehicleFilters { position: static; display: flex; flex-direction: column; gap: 12px; width: auto; margin: 0; padding: 0; color: var(--ink); background: transparent; border: 0; border-radius: 0; box-shadow: none; }
 .vehicleFilters .filterTitle { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; padding-bottom: 20px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
 .vehicleFilters .filterTitle button { margin-left: auto; padding: 8px 0; min-height: 36px; color: var(--pine); font-size: 11px; font-weight: 500; border: 0; background: none; }
@@ -212,6 +214,11 @@
 .vehicleCompare .tcoRange input { accent-color: var(--pine); }
 .vehicleCompare .tcoResultCard { border: 1px solid var(--line); border-radius: 8px; padding: 24px; box-shadow: none; background: white; }
 .vehicleCompare .tcoResultCard.isBest { border-color: #9db9ab; background: white; }
+.vehicleCompare .tcoResultCard > span, .vehicleCompare .tcoResultHeading span, .vehicleCompare .tcoPrimaryValue span, .vehicleCompare .tcoSecondaryValues span, .vehicleCompare .tcoLegend span, .vehicleCompare .tcoConsumptionNote small { color: var(--muted); font-size: 12px; }
+.vehicleCompare .tcoLegend { gap: 8px 12px; }
+.vehicleCompare .tcoConsumptionNote { flex-wrap: wrap; }
+.vehicleCompare .tcoResultCard.isMissing { color: var(--muted); }
+.vehicleCompare .tcoNumberInput small { color: var(--muted); font-size: 12px; }
 .vehicleCompare .tcoPrimaryValue strong { font-size: 28px; }
 .vehicleCompare .tcoBestBadge { background: #e2eee7; color: #244b3b; font-size: 11px; }
 .vehicleCompare .tcoDisclosure { color: var(--muted); font-size: 12px; background: transparent; border-top: 1px solid var(--line); border-radius: 0; padding: 20px 0; }
@@ -253,6 +260,7 @@
   .vehicleContainer { width: calc(100% - 40px); }
   .vehiclePageIntro { padding-block: 32px; }
   .vehiclePageIntro h1 { font-size: 34px; }
+  .vehicleContainer.notFoundPage h1 { font-size: 34px; }
   .vehiclePageIntro p { font-size: 14px; }
   .vehicleSectionHeading h2 { font-size: 26px; }
   .vehicleCatalog .carGrid, .vehicleCardGrid { grid-template-columns: 1fr; }
@@ -300,6 +308,7 @@
   .comparisonReport > div > h2 { font-size: 26px; }
   .vehicleCompare .tcoHeader h2 { font-size: 26px; }
   .vehicleCompare .tcoControls { grid-template-columns: 1fr; }
+  .vehicleCompare .tcoNumberInput input { font-size: 16px; }
   .vehicleCompare .comparisonTable th, .vehicleCompare .comparisonTable td { padding: 16px; }
   .vehicleDetail .newsPreview { width: calc(100% - 40px); }
 }

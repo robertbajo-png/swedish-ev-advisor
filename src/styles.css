@@ -2659,42 +2659,55 @@ footer button {
 }
 
 .verificationPage {
-  padding: clamp(5.5rem, 8vw, 8rem) clamp(1rem, 5vw, 5rem) clamp(3.5rem, 6vw, 6rem);
-  background:
-    radial-gradient(circle at 12% 0%, rgba(216, 240, 122, 0.18), transparent 28rem),
-    linear-gradient(180deg, #fbfcfa 0%, #eef3ee 100%);
+  width: min(1320px, calc(100% - 64px));
+  margin-inline: auto;
+  padding-block: 48px 64px;
+  background: transparent;
+}
+
+.verificationPage .sectionIntro {
+  max-width: 800px;
+  margin: 0;
+}
+
+.verificationPage .sectionIntro p {
+  font-size: 16px;
+  line-height: 1.8;
 }
 
 .verificationPage h1 {
-  max-width: 13ch;
-  font-size: clamp(2.6rem, 5.2vw, 5rem);
-  line-height: 1;
+  max-width: 24ch;
+  margin-block: 16px 24px;
+  font-size: 48px;
+  line-height: 1.1;
 }
 
 .verificationGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
 }
 
 .verificationGrid article,
 .verificationNote {
-  padding: 1.15rem;
-  border: 1px solid rgba(22, 75, 61, 0.12);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 36px rgba(32, 48, 40, 0.07);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
 }
 
 .verificationGrid svg {
   color: var(--pine);
 }
 
-.verificationGrid h3,
+.verificationGrid h2,
 .verificationNote h2 {
-  margin: 0.55rem 0 0.35rem;
-  color: #102016;
+  margin: 16px 0 12px;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.4;
 }
 
 .verificationGrid p,
@@ -2705,7 +2718,18 @@ footer button {
 }
 
 .verificationNote {
-  margin-top: 1rem;
+  margin-top: 32px;
+  padding: 24px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+@media (max-width: 600px) {
+  .verificationPage { width: calc(100% - 40px); padding-block: 32px 48px; }
+  .verificationPage h1 { font-size: 34px; }
+  .verificationGrid { grid-template-columns: 1fr; }
 }
 
 .sectionSource {

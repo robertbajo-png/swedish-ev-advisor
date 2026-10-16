@@ -181,3 +181,34 @@ Changed: `src/news.jsx`, `src/news.css`, `src/news-presentation.js`, the minimal
 `src/main.jsx` bindings, Newsreader font/OFL, presentation/browser tests,
 `package.json` and planning/status documents. Next: phase 5 cross-site QA.
 Repository sharing and snapshot status are recorded in `docs/PROJECT_STATUS.md`.
+
+## Phase 5: Cross-site QA
+
+Inspection found skipped heading levels in the catalog/information page, low
+contrast in TCO values/units, missing skip navigation and route focus, scripted
+scrolling ignoring reduced motion, and an open mobile filter surviving desktop
+resizing. Car-data outages were also presented as a missing model or offered a
+filter reset instead of a retry. The older information page retained oversized
+typography and unrelated card styling.
+
+Implemented the smallest UI fixes for those cases, without changing ingestion,
+canonical data or news publication. Source-aware metadata now omits unknown
+availability/seats instead of asserting stock or default seating. Static SEO
+offers follow the same rule; a missing price does not generate an empty offer.
+Client navigation removes stale prerendered page metadata.
+
+`npm run verify:site-qa` adds an axe/Playwright audit of nine views on desktop and
+mobile, plus keyboard, 320/640px reflow, filter-resize, outage/retry and metadata
+checks. Fixtures exist only in browser transport. Existing home, vehicle and
+journal regression suites still cover four viewport sizes. Production bundle
+budgets are 130 KiB gzip JS and 30 KiB CSS; the accessibility dependency is dev-only.
+
+Outcome: 18 audited views and the filter dialog have no automated accessibility
+violations. Existing UI/API/data/TCO/image contracts, 23 news unit tests, five SEO
+unit tests and the production build pass. Screenshots were visually reviewed.
+The CI workflow now includes UI checks against the production preview and stores
+diagnostic artifacts. Its remote execution is not confirmed by local tests.
+
+This is not a complete WCAG certification, a Safari/device test, or a live AI /
+database integration test. Full release limitations and the next task are in
+`docs/ui-phase5-qa.md`. News remains paused and no public records are changed.

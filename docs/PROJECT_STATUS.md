@@ -7,8 +7,8 @@ En GitHub-push betyder inte att webbplatsen eller databasen har driftsatts.
 
 - Repo: https://github.com/robertbajo-png/swedish-ev-advisor
 - Lokal gren: `main`.
-- Bas före denna snapshot: `15eecb5`.
-- Snapshoten omfattar UI-faserna 1-4, tidigare pipelinearbete, nyhetskod och tester.
+- Föregående GitHub-snapshot: `25f3aff`, med UI-faserna 1-4 och tidigare plattformsarbete.
+- Denna snapshot omfattar även fas 5 och återanvändbara publiceringskontroller.
 - Exakt version kan identifieras med `git rev-parse HEAD` efter checkout.
 - Lokala miljöfiler, databaser, beroenden och QA-skärmbilder följer inte med.
 - Nyhetsjobbet kräver `NEWS_AUTOMATION_ENABLED=true` som GitHub Actions-variabel.
@@ -25,7 +25,14 @@ förhandsvisning eller skärmbilder. En lokal adress fungerar bara på värddato
 - Fas 3 klar: katalog, filter, gemensamma bilkort, cinematic bilsida och jämförelse.
 - Fas 4 implementerad och testad: redaktionell nyhetsöversikt och artikelsidor,
   källor, köparperspektiv och kopplade canonical-bilar.
-- Nästa: fas 5, samlad visuell QA, tillgänglighet, prestanda och regressioner.
+- Fas 5 klar för denna iteration: samlad QA, kontrast och rubrikstruktur,
+  tangentbordsnavigering, responsiva fel- och filterlägen samt korrekt sökmetadata.
+- Resultat och avgränsningar: `docs/ui-phase5-qa.md`.
+- Nästa: bekräfta GitHub-kontrollen, anslut Cloudflare, publicera en separat
+  förhandsversion och testa driftens publika datavyer och serverbaserade AI-tjänst.
+- Read-only driftkontroll: Supabase svarar med 66 publicerade, källbundna varianter.
+  Den lokala exporten har 69; inget har skrivits till produktionsdatabasen.
+- Extern publicering är ännu inte bekräftad. Se `docs/deployment-status.md`.
 
 ## Viktiga avgränsningar
 
@@ -42,6 +49,8 @@ förhandsvisning eller skärmbilder. En lokal adress fungerar bara på värddato
 
 ```text
 npm run build
+npm run verify:site-qa
+npm run verify:deployment-contract
 npm run verify:news-presentation
 npm run verify:journal-ui
 npm run verify:news-ui

@@ -1,0 +1,51 @@
+# Publiceringsstatus
+
+Kontrollerad 2026-10-16. Ingen produktionsdatabas eller DNS har ändrats.
+
+## Bekräftat
+
+- Föregående GitHub-snapshot `25f3aff` har en grön `Verify SeekEV`-körning:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/38864282339
+- UI-fas 5 är testad enligt `docs/ui-phase5-qa.md`.
+- Cloudflare Pages Functions kompilerar med Wrangler.
+- Publika byggen försöker aldrig kontakta besökarens localhost vid API-fel.
+  Lokal API-reservadress används endast i utvecklingsläge på loopback-värd.
+- Lokalt Pages-runtime-test på port 5184 passerar app-, deep-link-, hälso-,
+  bilunderlags- och sitemapkontroller. Health är JSON, inte HTML-fallback.
+- Rådgivning och jämförelse returnerar giltiga svar i `deterministic_fallback`.
+  Den lokala kontrollen använder ingen AI-nyckel och gör inga betalda AI-anrop.
+- Supabases publika vy svarar med 66 publicerade rader med källhash. Den lokala
+  canonical-exporten har 69. De gemensamma radernas pris/WLTP skiljer sig inte.
+
+## Kvarstående skillnader
+
+Dessa lokala varianter saknas i Supabases publika vy:
+
+- Cupra / Tavascan / Tavascan
+- Subaru / Solterra / Solterra
+- Volvo / Ex90 / EX90
+
+Ingen automatisk databassynk har körts i detta leveranssteg. Kontrollera källornas
+aktualitet och publiceringskontrakt innan eventuell separat synk.
+
+## Extern hosting
+
+- `https://seekev.se/` och `/health` svarar med samma HTML: `Parked at Loopia`.
+  Domänen visar alltså inte Elbilsguiden ännu, trots HTTP 200.
+- Wrangler saknade inloggning vid första kontrollen. Kontoanslutning pågår med
+  användarens medverkan; ingen extern deployment är ännu bekräftad.
+- Ingen AI-/Supabase-nyckel har lagts in i en extern hostingmiljö i detta steg.
+- Nyhetsautomatiken förblir pausad. Inga nyhetsartiklar publiceras av testerna.
+
+## Nästa åtgärder
+
+1. Bekräfta push och GitHub Actions för denna snapshot.
+2. Slutför Cloudflare-anslutningen och identifiera rätt konto/projekt.
+3. Publicera en separat preview och kör `verify:deployment -- URL --expect-preview`.
+4. Konfigurera endast publika läsnycklar respektive serverhemligheter i rätt miljö.
+5. Kör ett begränsat AI-smoketest med `SMOKE_REQUIRE_AI=1` innan tjänsten kallas
+   skarpt AI-driven. Databaserat reservläge räcker inte för den kontrollen.
+6. Koppla `seekev.se` först när preview, API, datakontrakt och nyckelhantering är godkända.
+
+Alla kontroller, utom det uttryckliga smoketestet, är skrivskyddade och gör inga
+AI-POST-anrop. `verify:deployment-contract` testar kontrollverktyget med fixturer.

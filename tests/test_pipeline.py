@@ -1261,6 +1261,26 @@ class SeoRouteTests(unittest.TestCase):
         self.assertEqual(vehicle_json_ld["@type"], "Vehicle")
         self.assertEqual(vehicle_json_ld["offers"]["price"], 457000)
 
+    def test_prerender_does_not_invent_offer_or_availability(self):
+        row = {"brand": "Kia", "model": "Ev6", "variant_name": "RWD", "validation_status": "published"}
+        vehicle = public_variant_routes([row])[0]["json_ld"][0]
+        self.assertNotIn("offers", vehicle)
+        for flag in (False, None, True):
+            with self.subTest(available_confirmed=flag):
+                vehicle = public_variant_routes([{**row, "price_sek": 600000, "available_confirmed": flag}])[0]["json_ld"][0]
+                self.assertEqual(vehicle["offers"].get("availability"), "https://schema.org/InStock" if flag is True else None)
+
+    def test_prerender_preserves_zero_and_price_expiry_not_missing_specs(self):
+        row = {
+            "brand": "Kia", "model": "Ev6", "variant_name": "RWD", "validation_status": "published",
+            "price_sek": 600000, "price_valid_until": "2026-12-31", "tow_kg": 0, "dc_charge_kw": None,
+        }
+        vehicle = public_variant_routes([row])[0]["json_ld"][0]
+        self.assertEqual(vehicle["offers"]["priceValidUntil"], "2026-12-31")
+        properties = {item["name"]: item["value"] for item in vehicle["additionalProperty"]}
+        self.assertEqual(properties["Dragvikt"], "0 kg")
+        self.assertNotIn("DC-laddning", properties)
+
 
 class PublicImageContractTests(unittest.TestCase):
     def test_public_models_have_exact_images_and_no_stock_fallbacks(self):

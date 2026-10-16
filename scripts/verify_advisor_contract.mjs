@@ -1,8 +1,17 @@
 import assert from 'node:assert/strict';
+import { advisorEndpoints } from '../src/api-endpoints.js';
 import {
   normalizeAdvisorResult,
   normalizeCompareReport,
 } from '../server/advisor_api.mjs';
+
+for (const path of ['/api/advisor', '/api/compare']) {
+  assert.deepEqual(advisorEndpoints(path, { hostname: 'seekev.se' }), [path]);
+  assert.deepEqual(advisorEndpoints(path, { hostname: 'seekev.se', development: true }), [path]);
+  assert.deepEqual(advisorEndpoints(path, { hostname: '127.0.0.1' }), [path]);
+  assert.deepEqual(advisorEndpoints(path, { hostname: 'localhost', development: true }), [path, `http://127.0.0.1:8787${path}`]);
+  assert.deepEqual(advisorEndpoints(path, { basePath: '/swedish-ev-advisor/', hostname: 'robertbajo-png.github.io' }), [`/swedish-ev-advisor${path}`]);
+}
 
 const variants = [
   {

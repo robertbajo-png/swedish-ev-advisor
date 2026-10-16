@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
 import { VehicleLink, VehicleCard as HomeVehicleCard } from './vehicle-ui.jsx';
+import { preferredScrollBehavior } from './ui-navigation.js';
 
 const money = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 const metric = (value, unit) => value == null ? 'Uppgift saknas' : `${value} ${unit}`;
@@ -26,7 +27,7 @@ const needNames = { familj: 'Familj', vinter: 'Vinter & fyrhjulsdrift', pendling
 export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
-    if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   }, [status.state]);
   // Browse previews favour complete records and different brands, not a personalised ranking.
   const coverage = (car) => [car.price, car.rangeVerified, car.dcVerified, car.towingVerified].filter((value) => value != null).length;
@@ -54,7 +55,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
   const applySuggestion = (suggestion) => {
     setAdvisor({ ...advisor, prompt: suggestion.prompt, need: suggestion.need });
     document.getElementById('home-advisor-query')?.focus();
-    document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   };
   const cardProps = { navigate, renderImage, appPath, onCompare };
 
@@ -89,7 +90,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
     </section>
 
     {(status.state === 'loading' || result) && <section className="homeAdvisorResults homeContainer" id="dina-forslag" aria-labelledby="advisor-results-title" aria-busy={status.state === 'loading'}>
-      <div className="homeSectionHeading"><div><span className="homeKicker">Ditt nästa steg</span><h2 id="advisor-results-title">{status.state === 'loading' ? 'Vi letar efter din nästa elbil.' : 'Dina rekommendationer'}</h2></div><div className="homeResultActions"><button type="button" className="homeTextLink" onClick={() => { setAdvanced(true); document.getElementById('home-advisor-query')?.focus(); document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}><SlidersHorizontal size={16} /> Justera sökningen</button>{compare.length > 0 && <button type="button" className="homeTextLink" onClick={() => navigate('/jamfor')}>Jämför valda ({compare.length}) <ArrowRight size={17} /></button>}</div></div>
+      <div className="homeSectionHeading"><div><span className="homeKicker">Ditt nästa steg</span><h2 id="advisor-results-title">{status.state === 'loading' ? 'Vi letar efter din nästa elbil.' : 'Dina rekommendationer'}</h2></div><div className="homeResultActions"><button type="button" className="homeTextLink" onClick={() => { setAdvanced(true); document.getElementById('home-advisor-query')?.focus(); document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' }); }}><SlidersHorizontal size={16} /> Justera sökningen</button>{compare.length > 0 && <button type="button" className="homeTextLink" onClick={() => navigate('/jamfor')}>Jämför valda ({compare.length}) <ArrowRight size={17} /></button>}</div></div>
       <div className="homeRequirements"><strong>Dina önskemål</strong><div>{requirements.map((requirement) => <span key={requirement}>{requirement}</span>)}</div></div>
       <p className="homeResultStatus" role="status">{status.message}</p>
       {dirty && <p className="homeRefinementNote">Du har ändrat din sökning. Välj ”Hitta min elbil” för att uppdatera förslagen.</p>}

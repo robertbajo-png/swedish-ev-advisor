@@ -60,6 +60,9 @@ const advisor = await requestJson('/api/advisor', {
   }),
 });
 assertCanonicalShortlist(advisor);
+if (process.env.SMOKE_REQUIRE_AI === '1' && advisor.mode !== 'openai') {
+  throw new Error('Advisor returned database fallback; a real AI response was required.');
+}
 
 const compare = await requestJson('/api/compare', {
   method: 'POST',
@@ -69,6 +72,9 @@ const compare = await requestJson('/api/compare', {
   }),
 });
 assertCanonicalCompare(compare);
+if (process.env.SMOKE_REQUIRE_AI === '1' && compare.mode !== 'openai') {
+  throw new Error('Compare returned database fallback; a real AI response was required.');
+}
 
 console.log(JSON.stringify({
   health_ok: true,

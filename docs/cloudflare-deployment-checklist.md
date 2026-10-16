@@ -51,3 +51,26 @@ https://seekev.se/sitemap.xml
 ```
 
 Then submit `https://seekev.se/sitemap.xml` in Google Search Console and verify that advisor and comparison requests return HTTP 200.
+
+## 6. Preview and release gates
+
+Use a non-production branch for the preview. Do not move the registrar DNS or
+attach the production domain until the preview has been checked.
+
+```text
+npm run verify:deployment -- https://YOUR_PREVIEW.pages.dev --expect-preview
+```
+
+This performs GET checks only: app HTML, deep links, JSON health, published and
+source-bound car export, and sitemap. It rejects parking pages, HTML in place of
+API responses, and redirects from a public address to localhost. It makes no AI
+requests. See Cloudflare's [preview deployment documentation](https://developers.cloudflare.com/pages/configuration/preview-deployments/).
+
+For the separate, bounded advisor/compare smoke test, set
+`ADVISOR_API_BASE_URL` to the preview origin and run `npm run smoke:advisor`.
+It performs two POST requests and may incur two AI calls when the server has an
+AI key. Set `SMOKE_REQUIRE_AI=1` to reject deterministic fallback as a release
+result. A successful database fallback is not proof that the LLM is configured.
+
+Local credentials belong in ignored `.dev.vars*` / `.env*` files, never Git.
+Keep Cloudflare's `.wrangler/` runtime/cache directory ignored as well.

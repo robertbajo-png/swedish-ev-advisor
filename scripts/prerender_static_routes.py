@@ -234,14 +234,15 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
             "brand": {"@type": "Brand", "name": row.get("brand", "")},
             "model": row.get("model", ""),
             "url": f"{SITE_URL}{path}",
-            "offers": {
-                "@type": "Offer",
-                "priceCurrency": "SEK",
-                "price": row.get("price_sek"),
-                "availability": "https://schema.org/InStock" if row.get("available_confirmed") else "https://schema.org/LimitedAvailability",
-            },
             "additionalProperty": [item for item in properties if item],
         }
+        if row.get("price_sek"):
+            offer = {"@type": "Offer", "priceCurrency": "SEK", "price": row["price_sek"]}
+            if row.get("available_confirmed") is True:
+                offer["availability"] = "https://schema.org/InStock"
+            if re.fullmatch(r"\d{4}-\d{2}-\d{2}", row.get("price_valid_until") or ""):
+                offer["priceValidUntil"] = row["price_valid_until"]
+            json_ld["offers"] = offer
 
         routes.append(
             {
