@@ -1,0 +1,2 @@
+rank,mvp_scope,brand,model,registrations_ytd,source_url,source_validation,render_reason,target_strategy,queue_status,priority,notes
+50,rank_31_60,BMW,iX2,91,https://www.bmw.se/sv/alla-modeller/bmw-i/ix2/2023/bmw-ix2-overview.html,needs_discovery,free_web_http_blocked_or_dynamic,browser_rendered_fetch,queued,1,Rendered exact official model page; still requires extraction and hard validation.

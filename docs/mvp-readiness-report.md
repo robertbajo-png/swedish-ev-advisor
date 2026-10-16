@@ -8,14 +8,14 @@ Generated operational snapshot for the portable MVP pipeline.
 - Public models: 30
 - Public variants: 66
 - Review queue variants: 1
-- Local MVP status: `OK`
-- Supabase deployment status: `OK`
+- Local MVP status: `BLOCKED`
+- Supabase deployment status: `BLOCKED`
 
 ## Readiness Checks
 
 - `local_pipeline_ready`: `OK`
 - `public_contract_ok`: `OK`
-- `remote_public_contract_ok`: `OK`
+- `remote_public_contract_ok`: `BLOCKED`
 - `validation_contract_ok`: `OK`
 - `advisor_data_contract_ok`: `OK`
 - `all_mvp_models_public`: `OK`
@@ -24,7 +24,8 @@ Generated operational snapshot for the portable MVP pipeline.
 
 ## Blocking Items
 
-- None
+- `remote_public_contract_failed`
+- `deployment:remote_public_contract_failed`
 
 ## Source Health
 
@@ -38,4 +39,4 @@ Generated operational snapshot for the portable MVP pipeline.
 - Local next action: `run_supabase_seed_then_verify_public_views`
 - Deployment next action: `run_supabase_seed_then_verify_public_views`
 
-Recommended immediate task: Deploy the latest frontend build, then verify the public URL, sitemap, car detail pages, compare page, and Supabase-backed public data.
+Recommended immediate task: Add Supabase credentials to `.env.local`, run the seed dry-run, then verify remote public views.

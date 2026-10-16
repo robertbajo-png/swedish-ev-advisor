@@ -33,6 +33,15 @@ npm run pipeline:auto
 `pipeline:auto` runs the local refresh, plans next work, preflights available official sources, runs AI extraction only when `OPENAI_API_KEY` exists, reports blockers, and builds the frontend.
 `mvp:readiness` writes `docs/mvp-readiness-report.md` and `data/mvp/mvp_readiness_report.json` with the current MVP coverage, public-data contracts, source health, and deployment blockers.
 
+Expand the next Mobility Sweden wave with free manufacturer/importer pages and verified authorized-dealer fallbacks:
+
+```bash
+npm run expansion:auto:dry-run
+npm run expansion:auto
+```
+
+`expansion:auto` processes market ranks 31-60 in restartable batches of five. It performs sitemap discovery, rendered-browser fallback, deterministic extraction, optional OpenAI extraction, validation, local export, conditional Supabase sync, sitemap generation, and a frontend build. Progress and blockers are written to `data/expansion/expansion_run_report.json`.
+
 Run the next ready official-source extraction batch:
 
 ```bash
@@ -103,3 +112,31 @@ Copy `.env.example` and set:
 - `OPENAI_API_KEY`
 
 Public UI reads only from Supabase public views when configured.
+
+## Production on seekev.se
+
+The production target is Cloudflare Pages with Pages Functions:
+
+- Vite/React and prerendered SEO pages are served from `dist/`.
+- `/api/advisor`, `/api/compare`, and `/health` run in Cloudflare Pages Functions.
+- The Functions read `public_ev_variants` from Supabase and use the validated static export as a fallback.
+- `OPENAI_API_KEY` is a server-side Cloudflare secret and is never included in the frontend build.
+
+Build and verify the complete production artifact:
+
+```bash
+bun run verify:advisor
+bun run verify:advisor-data
+bun run verify:cloudflare
+bun run seo:build
+bun run verify:seo
+```
+
+For local Pages Functions testing and a manual deploy:
+
+```bash
+bun run pages:dev
+bun run pages:deploy
+```
+
+See `docs/cloudflare-deployment-checklist.md` for the account, environment-variable, domain, and DNS steps.

@@ -1,0 +1,19 @@
+[
+  {
+    "batch_order": 1,
+    "brand": "Volvo",
+    "model": "Ex90",
+    "source_type": "manufacturer_rendered_model_page",
+    "url": "https://www.volvocars.com/se/cars/ex90-electric/",
+    "source_domain": "volvocars.com",
+    "research_rank": "36",
+    "research_confidence": "high",
+    "content_hash": "95860d59423a97a3dc1174c54c2651e6cec1051250cbc4b94e8c06c9c6b2febf",
+    "content_type": "text/plain; rendered",
+    "source_validation": "reachable_official_model_source",
+    "preflight_status": "ready_for_ai_extraction",
+    "source_text_path": "C:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\data\\extraction\\rendered_source_texts\\36-volvo-ex90-95860d5942.txt",
+    "extraction_status": "ready_for_ai_extraction",
+    "batch_reason": "browser_rendered_official_source"
+  }
+]

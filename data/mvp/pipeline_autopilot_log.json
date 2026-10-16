@@ -9167,5 +9167,1457 @@
     ],
     "completed_at": "2026-06-07T12:58:49.789747+00:00",
     "ok": true
+  },
+  {
+    "started_at": "2026-06-27T10:25:29.061082+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-06-27T10:25:29.061082+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-06-27T10:25:29.061082+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 1,
+          "public_variants": 66,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 224,
+            "manufacturer_sources_by_status": {
+              "blocked": 50,
+              "draft": 104,
+              "needs_review": 11,
+              "queued": 56,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 67,
+            "canonical_model_variants": 66
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-06-27T10:25:29.092369+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-06-27T10:26:32.357816+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-06-27T10:26:32.357816+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-06-27T10:26:32.357816+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 1,
+          "public_variants": 66,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 224,
+            "manufacturer_sources_by_status": {
+              "blocked": 50,
+              "draft": 104,
+              "needs_review": 11,
+              "queued": 56,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 67,
+            "canonical_model_variants": 66
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-06-27T10:26:32.389372+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-06-27T10:39:23.057829+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-06-27T10:39:23.057829+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-06-27T10:39:23.057829+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 2,
+          "public_variants": 66,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 227,
+            "manufacturer_sources_by_status": {
+              "blocked": 50,
+              "draft": 103,
+              "needs_review": 11,
+              "queued": 60,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 68,
+            "canonical_model_variants": 66
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-06-27T10:39:23.086829+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-06-27T10:43:59.424137+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-06-27T10:43:59.424137+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-06-27T10:43:59.424137+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 2,
+          "public_variants": 67,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 227,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 103,
+              "needs_review": 11,
+              "queued": 61,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 69,
+            "canonical_model_variants": 67
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-06-27T10:43:59.449193+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-08-25T01:56:28.797402+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-08-25T01:56:28.797402+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-08-25T01:56:28.797402+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 71,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-08-25T01:56:28.871827+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-08-30T14:53:57.883598+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-08-30T14:53:57.883598+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-08-30T14:53:57.883598+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 71,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-08-30T14:53:57.933613+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-08-30T15:00:02.096870+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-08-30T15:00:02.096870+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-08-30T15:00:02.096870+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 71,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-08-30T15:00:02.135867+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-08-30T15:01:53.366109+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-08-30T15:01:53.366109+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-08-30T15:01:53.366109+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 69,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-08-30T15:01:53.409636+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-10-15T20:04:36.469686+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-10-15T20:04:36.469686+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-10-15T20:04:36.469686+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 69,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-10-15T20:04:36.855880+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-10-15T20:11:50.994239+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-10-15T20:11:50.994239+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-10-15T20:11:50.995237+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 69,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-10-15T20:11:51.397704+00:00",
+    "ok": true
+  },
+  {
+    "started_at": "2026-10-16T06:52:25.331693+00:00",
+    "dry_run": true,
+    "max_cycles": 1,
+    "actions": [
+      {
+        "step": "refresh_local_pipeline",
+        "status": "ok",
+        "result": {
+          "started_at": "2026-10-16T06:52:25.331693+00:00",
+          "dry_run": true,
+          "steps": [
+            {
+              "script": "apply_official_variant_overrides.py",
+              "status": "dry_run",
+              "description": "apply source-backed official variant corrections"
+            },
+            {
+              "script": "validate_extracted_variants.py",
+              "status": "dry_run",
+              "description": "validate drafts and canonical public variants"
+            },
+            {
+              "script": "export_public_ev_data.py",
+              "status": "dry_run",
+              "description": "export canonical JSON fallback"
+            },
+            {
+              "script": "seed_local_sqlite.py",
+              "status": "dry_run",
+              "description": "seed local SQLite database"
+            },
+            {
+              "script": "export_public_from_sqlite.py",
+              "status": "dry_run",
+              "description": "export public JSON from SQLite public view"
+            },
+            {
+              "script": "export_pipeline_status.py",
+              "status": "dry_run",
+              "description": "export public-safe pipeline status"
+            },
+            {
+              "script": "generate_sitemap.py",
+              "status": "dry_run",
+              "description": "generate sitemap and robots"
+            }
+          ],
+          "completed_at": "2026-10-16T06:52:25.331693+00:00",
+          "ok": true
+        }
+      },
+      {
+        "step": "plan",
+        "status": "ok",
+        "cycle": 1,
+        "summary": {
+          "planned_models": 0,
+          "by_status": {},
+          "next_ready": null,
+          "top_blocker": null
+        }
+      },
+      {
+        "step": "pipeline_queue",
+        "status": "no_ready_or_preflight_work",
+        "cycle": 1
+      },
+      {
+        "step": "source_health",
+        "status": "ok",
+        "counts": {
+          "fetch_timeout": 3,
+          "ready": 6,
+          "source_hash_refresh_needed": 1,
+          "source_text_too_short": 1
+        }
+      },
+      {
+        "step": "resolve_blockers",
+        "status": "ok",
+        "queues": {}
+      },
+      {
+        "step": "pipeline_status",
+        "status": "ok",
+        "result": {
+          "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
+          "mode": "local_portable_pipeline",
+          "mvp_scope_models": 30,
+          "mvp_remaining_by_strategy": {
+            "done_or_in_review": 30
+          },
+          "review_queue_variants": 4,
+          "public_variants": 69,
+          "source_health": {
+            "fetch_timeout": 3,
+            "ready": 6,
+            "source_hash_refresh_needed": 1,
+            "source_text_too_short": 1
+          },
+          "blocker_queues": {},
+          "seed_plan": {
+            "market_models": 124,
+            "market_model_monthly_stats": 124,
+            "canonical_models": 126,
+            "model_aliases": 124,
+            "manufacturer_sources": 245,
+            "manufacturer_sources_by_status": {
+              "blocked": 49,
+              "draft": 101,
+              "needs_review": 11,
+              "queued": 81,
+              "verified": 3
+            },
+            "extracted_variant_drafts": 73,
+            "canonical_model_variants": 69
+          },
+          "local_pipeline_ready": true,
+          "supabase_preflight_ready_for_seed": true,
+          "supabase_deployment_ready": true,
+          "public_contract_ok": true,
+          "blocker": null,
+          "deployment_blocker": null,
+          "next_action": "run_supabase_seed_then_verify_public_views",
+          "deployment_next_action": "run_supabase_seed_then_verify_public_views"
+        }
+      }
+    ],
+    "completed_at": "2026-10-16T06:52:25.724942+00:00",
+    "ok": true
   }
 ]

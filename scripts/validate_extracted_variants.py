@@ -1,8 +1,11 @@
 import csv
+import argparse
+import csv
 import json
 from pathlib import Path
 
-from canonical_model_names import canonical_model_lookup, canonicalize_model_row
+from canonical_model_names import canonical_model_lookup, canonicalize_model_row, normalize
+from source_policy import source_is_publishable, source_priority
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +34,7 @@ MAINSTREAM_BRANDS = {
 RANGES = {
     "price_sek": (100000, 3000000),
     "wltp_range_km": (50, 1200),
+    "wltp_consumption_kwh_100km": (5, 50),
     "dc_charge_kw": (20, 600),
     "ac_charge_kw": (1, 50),
     "boot_liters": (50, 3500),
@@ -45,6 +49,7 @@ def load_sources() -> dict[str, dict]:
         ROOT / "data/canonical/manufacturer_sources_validated.csv",
         ROOT / "data/canonical/manufacturer_sources_mvp_validated.csv",
         ROOT / "data/extraction/rendered_extraction_batch.csv",
+        ROOT / "data/expansion/expansion_sources.csv",
     ):
         if not path.exists():
             continue
@@ -60,8 +65,10 @@ def load_sources() -> dict[str, dict]:
 def validate_draft(draft: dict, sources: dict[str, dict]) -> list[str]:
     errors = []
     source = sources.get(draft.get("source_url"))
-    if not source or source.get("source_validation") != "reachable_official_model_source":
-        errors.append("source_not_reachable_official")
+    if source:
+        source = {"url": draft.get("source_url"), **source}
+    if not source or not source_is_publishable(source):
+        errors.append("source_not_publishable")
     if float(draft.get("extraction_confidence") or 0) < CONFIDENCE_THRESHOLD:
         errors.append("confidence_below_threshold")
     if not draft.get("source_hash"):
@@ -70,6 +77,18 @@ def validate_draft(draft: dict, sources: dict[str, dict]) -> list[str]:
         errors.append("missing_source_quote")
     if draft.get("price_sek") is None and draft.get("wltp_range_km") is None:
         errors.append("missing_price_or_wltp")
+    if draft.get("wltp_range_km") is not None and float(draft["wltp_range_km"]) < 150:
+        errors.append("passenger_ev_range_implausibly_low")
+    source_type = str((source or {}).get("source_type") or "")
+    if source_type in {"configurator", "manufacturer_configurator", "authorized_dealer_stock_page"} and normalize(draft.get("variant_name")) == normalize(draft.get("model")):
+        errors.append("variant_identity_not_specific")
+    price_type = draft.get("price_type")
+    if price_type not in (None, "list_price", "campaign_price", "dealer_offer"):
+        errors.append("invalid_price_type")
+    if draft.get("price_sek") is not None and (source or {}).get("source_authority") == "authorized_dealer" and price_type in (None, "list_price"):
+        errors.append("dealer_price_must_be_offer_or_campaign")
+    if draft.get("price_sek") is not None and (source or {}).get("source_validation") == "reachable_eu_official_source":
+        errors.append("non_swedish_source_cannot_publish_price")
     if (
         draft.get("price_sek") is not None
         and str(draft.get("brand", "")).strip().lower() in MAINSTREAM_BRANDS
@@ -98,7 +117,10 @@ def public_variant_from_draft(draft: dict) -> dict:
         "model": draft["model"],
         "variant_name": draft["variant_name"],
         "price_sek": draft.get("price_sek"),
+        "price_type": draft.get("price_type") or ("list_price" if draft.get("price_sek") is not None else None),
+        "price_valid_until": draft.get("price_valid_until"),
         "wltp_range_km": draft.get("wltp_range_km"),
+        "wltp_consumption_kwh_100km": draft.get("wltp_consumption_kwh_100km"),
         "battery_kwh": draft.get("battery_kwh"),
         "dc_charge_kw": draft.get("dc_charge_kw"),
         "ac_charge_kw": draft.get("ac_charge_kw"),
@@ -127,6 +149,10 @@ def upsert_public_variant(rows: list[dict], row: dict) -> list[dict]:
     return [existing for existing in rows if variant_key(existing) != key] + [row]
 
 
+def draft_source_priority(draft: dict, sources: dict[str, dict]) -> tuple[int, int]:
+    return source_priority(sources.get(draft.get("source_url"), {}))
+
+
 def write_csv(path: Path, rows: list[dict]) -> None:
     if not rows:
         return
@@ -153,6 +179,9 @@ def main() -> None:
     updated_drafts = []
     canonical_lookup = canonical_model_lookup()
 
+    # Lower-authority rows are processed first so official manufacturer/importer
+    # rows deterministically replace dealer rows for the same canonical variant.
+    drafts.sort(key=lambda draft: draft_source_priority(draft, sources), reverse=True)
     for draft in drafts:
         draft = canonicalize_model_row(draft, canonical_lookup)
         if draft.get("validation_status") == "published_reviewed":

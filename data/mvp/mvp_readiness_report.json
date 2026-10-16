@@ -1,24 +1,27 @@
 {
-  "generated_at": "2026-06-07T12:53:45.751640+00:00",
+  "generated_at": "2026-06-27T09:52:47.160745+00:00",
   "summary": {
     "mvp_models": 30,
     "public_models": 30,
     "public_variants": 66,
     "review_queue_variants": 1,
-    "local_status": "OK",
-    "deployment_status": "OK"
+    "local_status": "BLOCKED",
+    "deployment_status": "BLOCKED"
   },
   "checks": {
     "local_pipeline_ready": true,
     "public_contract_ok": true,
-    "remote_public_contract_ok": true,
+    "remote_public_contract_ok": false,
     "validation_contract_ok": true,
     "advisor_data_contract_ok": true,
     "all_mvp_models_public": true,
     "strict_images_ok": true,
     "supabase_ready_for_seed": true
   },
-  "blocking_items": [],
+  "blocking_items": [
+    "remote_public_contract_failed",
+    "deployment:remote_public_contract_failed"
+  ],
   "pipeline": {
     "mode": "local_portable_pipeline",
     "phase_focus": "Phase 9 operations/readiness with portable local MVP data",
@@ -60,12 +63,6 @@
   },
   "remote_public_contract": {
     "checked": true,
-    "error": null,
-    "remote_public_variants": 66,
-    "local_public_variants": 66,
-    "missing_in_remote": [],
-    "extra_in_remote": [],
-    "remote_bad_statuses": [],
-    "remote_missing_source_hash": 0
+    "error": "<urlopen error [Errno 11001] getaddrinfo failed>"
   }
 }

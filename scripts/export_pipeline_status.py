@@ -10,7 +10,7 @@ from supabase_client import load_local_env
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUT = ROOT / "public/data/pipeline_status.json"
+DEFAULT_OUT = ROOT / "data/reports/pipeline_status.json"
 
 
 def build_public_status() -> dict:
@@ -43,7 +43,7 @@ def build_public_status() -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export public-safe pipeline status for the frontend.")
+    parser = argparse.ArgumentParser(description="Export internal pipeline status for operational checks.")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     args = parser.parse_args()
     payload = build_public_status()

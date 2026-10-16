@@ -16,7 +16,7 @@ from supabase_client import load_local_env
 
 
 ROOT = Path(__file__).resolve().parents[1]
-APPROVED_SOURCE_VALIDATION = "reachable_official_model_source"
+APPROVED_SOURCE_VALIDATIONS = {"reachable_official_model_source", "reachable_eu_official_source", "reachable_approved_source"}
 load_local_env()
 DEFAULT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4-mini")
 MAX_SOURCE_CHARS = 45000
@@ -34,7 +34,10 @@ STRICT_EXTRACTION_SCHEMA = {
                 "properties": {
                     "variant_name": {"type": "string"},
                     "price_sek": {"type": ["integer", "null"]},
+                    "price_type": {"type": ["string", "null"], "enum": ["list_price", "campaign_price", "dealer_offer", None]},
+                    "price_valid_until": {"type": ["string", "null"]},
                     "wltp_range_km": {"type": ["integer", "null"]},
+                    "wltp_consumption_kwh_100km": {"type": ["number", "null"]},
                     "battery_kwh": {"type": ["number", "null"]},
                     "dc_charge_kw": {"type": ["integer", "null"]},
                     "ac_charge_kw": {"type": ["integer", "null"]},
@@ -48,7 +51,10 @@ STRICT_EXTRACTION_SCHEMA = {
                 "required": [
                     "variant_name",
                     "price_sek",
+                    "price_type",
+                    "price_valid_until",
                     "wltp_range_km",
+                    "wltp_consumption_kwh_100km",
                     "battery_kwh",
                     "dc_charge_kw",
                     "ac_charge_kw",
@@ -131,7 +137,94 @@ def chunk_source_text(source_text: str, max_chars: int = MAX_SOURCE_CHARS) -> li
     return [chunk for chunk in chunks if chunk]
 
 
-def call_openai(brand: str, model: str, source_url: str, source_text: str, chunk_index: int = 1, chunk_count: int = 1) -> dict:
+def _number(value: str) -> int:
+    return int(re.sub(r"\D", "", value))
+
+
+def vehicle_price_match(text: str):
+    patterns = (
+        r"(?i)(?:rek\.?\s*pris\s*från|kontantpris)\s*([1-9][0-9\s.]{4,12})\s*kr",
+        r"(?i)(?:pris\s+från|från)\s*([1-9][0-9\s.]{4,12})\s*kr",
+    )
+    for pattern in patterns:
+        for match in re.finditer(pattern, text):
+            trailing = text[match.end():match.end() + 12].lower()
+            value = _number(match.group(1))
+            if "/mån" not in trailing and "per månad" not in trailing and 100000 <= value <= 3000000:
+                return match
+    return None
+
+
+def vehicle_range_match(text: str):
+    pattern = r"(?i)(?:WLTP.{0,80}?|räckvidd.{0,80}?)(?:upp\s+till\s+)?([1-9][0-9]{2,3})\s*km"
+    for match in re.finditer(pattern, text):
+        value = int(match.group(1))
+        prefix = text[max(0, match.start(1) - 5):match.start(1)]
+        if value >= 150 and not re.search(r"0\s*[-–]\s*$", prefix):
+            return match
+    return None
+
+
+def exact_wltp_consumption(text: str) -> float | None:
+    normalized = re.sub(r"\s+", " ", text)
+    unit = r"kwh\s*/\s*100\s*km"
+    number = r"([0-9]{1,2}(?:[.,][0-9])?)"
+    range_pattern = rf"{number}\s*(?:\([^)]*\)\s*)?[\-\u2013\u2014]\s*{number}\s*(?:\([^)]*\)\s*)?{unit}"
+    if re.search(range_pattern, normalized, flags=re.IGNORECASE):
+        return None
+
+    values = {
+        float(value.replace(",", "."))
+        for value in re.findall(rf"{number}\s*{unit}", normalized, flags=re.IGNORECASE)
+    }
+    if len(values) != 1:
+        return None
+    value = values.pop()
+    return round(value, 1) if 5 <= value <= 50 else None
+
+
+def deterministic_extract(brand: str, model: str, source_text: str, source_authority: str) -> list[dict]:
+    text = re.sub(r"\s+", " ", source_text).strip()
+    normalized = text.lower()
+    tokens = [token for token in re.findall(r"[a-z0-9]+", model.lower()) if len(token) > 1]
+    if not tokens or not all(token in normalized for token in tokens):
+        return []
+
+    price_match = vehicle_price_match(text)
+    range_match = vehicle_range_match(text)
+    consumption = exact_wltp_consumption(text)
+    if not price_match and not range_match:
+        return []
+
+    matches = [match for match in (price_match, range_match) if match]
+    price = _number(price_match.group(1)) if price_match else None
+    range_km = int(range_match.group(1)) if range_match else None
+    if price is not None and not 100000 <= price <= 3000000:
+        price = None
+    if range_km is not None and not 50 <= range_km <= 1200:
+        range_km = None
+    if price is None and range_km is None:
+        return []
+    return [{
+        "variant_name": model,
+        "price_sek": price,
+        "price_type": "dealer_offer" if source_authority == "authorized_dealer" and price is not None else "list_price" if price is not None else None,
+        "price_valid_until": None,
+        "wltp_range_km": range_km,
+        "wltp_consumption_kwh_100km": consumption,
+        "battery_kwh": None,
+        "dc_charge_kw": None,
+        "ac_charge_kw": None,
+        "boot_liters": None,
+        "tow_kg": None,
+        "seats": None,
+        "drivetrain": None,
+        "source_quote": " … ".join(text[max(0, match.start() - 90):min(len(text), match.end() + 120)] for match in matches),
+        "confidence": 0.93,
+    }]
+
+
+def call_openai(brand: str, model: str, source_url: str, source_text: str, source_authority: str = "manufacturer", chunk_index: int = 1, chunk_count: int = 1) -> dict:
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is required for extraction")
@@ -139,11 +232,13 @@ def call_openai(brand: str, model: str, source_url: str, source_text: str, chunk
     prompt = (
         "Extract Swedish EV model variant data only from the provided official source text. "
         "Do not infer missing values. Use null when the source text does not explicitly support a value. "
-        "Prices must be SEK integers. WLTP range is km. DC/AC charging are kW. "
+        "Prices must be SEK integers. Set price_type to list_price, campaign_price or dealer_offer. "
+        "Use dealer_offer for prices from an authorized dealer source. Preserve an explicit validity date as YYYY-MM-DD. "
+        "WLTP range is km. WLTP combined energy consumption is kWh/100 km. DC/AC charging are kW. "
         "Every non-null fact must be supported by source_quote. "
         "Return only variants for the requested model. "
         f"This is source chunk {chunk_index} of {chunk_count}; only extract facts present in this chunk.\n\n"
-        f"Brand: {brand}\nModel: {model}\nSource URL: {source_url}\n\nSOURCE TEXT:\n{source_text}"
+        f"Brand: {brand}\nModel: {model}\nSource authority: {source_authority}\nSource URL: {source_url}\n\nSOURCE TEXT:\n{source_text}"
     )
     payload = {
         "model": DEFAULT_MODEL,
@@ -192,10 +287,10 @@ def merge_extracted_variants(extractions: list[dict]) -> list[dict]:
     return list(merged.values())
 
 
-def extract_variants_with_openai(brand: str, model: str, source_url: str, source_text: str) -> list[dict]:
+def extract_variants_with_openai(brand: str, model: str, source_url: str, source_text: str, source_authority: str = "manufacturer") -> list[dict]:
     chunks = chunk_source_text(source_text)
     extractions = [
-        call_openai(brand, model, source_url, chunk, chunk_index=index, chunk_count=len(chunks))
+        call_openai(brand, model, source_url, chunk, source_authority=source_authority, chunk_index=index, chunk_count=len(chunks))
         for index, chunk in enumerate(chunks, start=1)
     ]
     return merge_extracted_variants(extractions)
@@ -205,7 +300,21 @@ def safe_extract(row: dict) -> list[dict]:
     text, source_hash = source_text_from_row(row)
     if len(text) < MIN_SOURCE_CHARS:
         raise RuntimeError("Source text too short for reliable extraction")
-    variants = extract_variants_with_openai(row["brand"], row["model"], row["url"], text)
+    deterministic_source_types = {
+        "manufacturer_model_page", "manufacturer_specs_page", "manufacturer_price_list",
+        "manufacturer_rendered_model_page",
+        "model_page", "specs_page", "price_list", "price_list_pdf", "technical_pdf",
+        "authorized_dealer_model_page",
+    }
+    variants = (
+        deterministic_extract(row["brand"], row["model"], text, row.get("source_authority", "manufacturer"))
+        if row.get("source_type") in deterministic_source_types
+        else []
+    )
+    if not variants:
+        variants = extract_variants_with_openai(
+            row["brand"], row["model"], row["url"], text, source_authority=row.get("source_authority", "manufacturer")
+        )
     drafts = []
     for variant in variants:
         drafts.append(
@@ -214,7 +323,10 @@ def safe_extract(row: dict) -> list[dict]:
                 "model": row["model"],
                 "variant_name": variant["variant_name"],
                 "price_sek": variant["price_sek"],
+                "price_type": variant.get("price_type"),
+                "price_valid_until": variant.get("price_valid_until"),
                 "wltp_range_km": variant["wltp_range_km"],
+                "wltp_consumption_kwh_100km": variant["wltp_consumption_kwh_100km"],
                 "battery_kwh": variant["battery_kwh"],
                 "dc_charge_kw": variant["dc_charge_kw"],
                 "ac_charge_kw": variant["ac_charge_kw"],
@@ -273,8 +385,8 @@ def main() -> None:
     rows = [
         row
         for row in csv.DictReader(args.source_file.open(encoding="utf-8"))
-        if row.get("source_validation") == APPROVED_SOURCE_VALIDATION
-        and row.get("preflight_status", APPROVED_SOURCE_VALIDATION) in (APPROVED_SOURCE_VALIDATION, "ready_for_ai_extraction")
+        if row.get("source_validation") in APPROVED_SOURCE_VALIDATIONS
+        and row.get("preflight_status", row.get("source_validation")) in (*APPROVED_SOURCE_VALIDATIONS, "ready_for_ai_extraction")
     ]
     if args.limit:
         rows = rows[: args.limit]

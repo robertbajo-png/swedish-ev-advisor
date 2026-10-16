@@ -20,7 +20,8 @@ from build_browser_render_queue import (
 )
 from build_rendered_extraction_batch import build_rendered_batch
 from fetch_browser_rendered_sources import build_rendered_sources
-from extract_manufacturer_specs import merge_drafts, source_text_from_row
+from extract_manufacturer_specs import deterministic_extract, exact_wltp_consumption, merge_drafts, source_text_from_row
+from backfill_verified_consumption import backfill_rows as backfill_consumption_rows
 from export_public_ev_data import export_rows
 from generate_sitemap import public_variant_urls
 from import_source_research import build_research_candidates
@@ -60,6 +61,10 @@ from validate_research_sources import build_extraction_queue, official_domain_ma
 from validate_extracted_variants import load_sources, public_variant_from_draft, validate_draft
 from apply_official_variant_overrides import apply_overrides, read_overrides
 from verify_public_images import build_report as build_public_image_report
+from build_expansion_scope import build_expansion_scope
+from source_policy import source_is_publishable, source_policy_errors, source_url_matches_model
+from apply_expansion_sources import apply_images, merge_sources
+from run_expansion_wave import run as run_expansion_wave
 
 
 class MobilitySwedenImportTests(unittest.TestCase):
@@ -107,7 +112,7 @@ class ValidationTests(unittest.TestCase):
             "wltp_range_km": 1500,
         }
         errors = validate_draft(draft, {})
-        self.assertIn("source_not_reachable_official", errors)
+        self.assertIn("source_not_publishable", errors)
         self.assertIn("confidence_below_threshold", errors)
         self.assertIn("missing_source_hash", errors)
         self.assertIn("price_sek_out_of_range", errors)
@@ -130,6 +135,22 @@ class ValidationTests(unittest.TestCase):
         }
 
         self.assertIn("mainstream_price_requires_review", validate_draft(draft, sources))
+
+    def test_consumption_outside_hard_range_is_blocked(self):
+        draft = {
+            "source_url": "https://www.kia.com/se/nya-bilar/ev6/",
+            "source_hash": "abc",
+            "source_quote": "WLTP 570 km. Energiforbrukning 62 kWh/100 km.",
+            "extraction_confidence": 0.95,
+            "wltp_range_km": 570,
+            "wltp_consumption_kwh_100km": 62,
+        }
+        sources = {
+            draft["source_url"]: {
+                "source_validation": "reachable_official_model_source",
+            }
+        }
+        self.assertIn("wltp_consumption_kwh_100km_out_of_range", validate_draft(draft, sources))
 
 
 class MvpScopeTests(unittest.TestCase):
@@ -215,6 +236,202 @@ class MvpScopeTests(unittest.TestCase):
         self.assertEqual(scope[0]["extraction_ready"], "True")
         self.assertEqual(scope[1]["extraction_ready"], "False")
         self.assertEqual(quarantined[0]["reason"], "needs_mapping")
+
+
+class ExpansionWaveTests(unittest.TestCase):
+    def test_scope_uses_absolute_market_rank_and_quarantines_ambiguous_rows(self):
+        market_rows = []
+        canonical_rows = []
+        alias_rows = []
+        for index in range(1, 66):
+            brand = f"brand {index}"
+            model = f"model {index}"
+            ambiguous = index == 34
+            market_rows.append({
+                "brand_raw": brand,
+                "model_raw": model,
+                "normalized_brand": brand,
+                "normalized_model": model,
+                "model_group": "group" if ambiguous else "",
+                "needs_mapping": str(ambiguous),
+                "registrations_ytd": str(1000 - index),
+                "registrations_last_month": str(100 - index),
+                "registrations_12m": "0",
+                "last_seen_month": "2026-03-01",
+            })
+            canonical_rows.append({"brand": brand.title(), "model": model.title(), "normalized_brand": brand, "normalized_model": model})
+            alias_rows.append({
+                "normalized_brand": brand,
+                "normalized_model": model,
+                "alias_rule": "exact",
+                "needs_mapping": str(ambiguous),
+            })
+
+        public = [{"brand": "Brand 31", "model": "Model 31", "variant_name": "Base"}]
+        scope, quarantine = build_expansion_scope(market_rows, canonical_rows, alias_rows, public, 31, 60)
+
+        self.assertNotIn(31, [row["market_rank"] for row in scope])
+        self.assertNotIn(34, [row["market_rank"] for row in scope])
+        self.assertIn(60, [row["market_rank"] for row in scope])
+        self.assertEqual(quarantine[0]["market_rank"], 34)
+
+    def test_authorized_dealer_requires_evidence_but_one_source_can_publish(self):
+        source = {
+            "url": "https://dealer.example/models/g6",
+            "source_type": "authorized_dealer_model_page",
+            "source_authority": "authorized_dealer",
+            "source_name": "Example Motors",
+            "authorization_evidence_url": "https://manufacturer.example/dealers/example-motors",
+            "source_validation": "reachable_approved_source",
+        }
+        self.assertEqual(source_policy_errors(source), [])
+        self.assertTrue(source_is_publishable(source))
+        source["authorization_evidence_url"] = ""
+        self.assertIn("dealer_authorization_evidence_required", source_policy_errors(source))
+
+    def test_comparison_site_is_never_accepted(self):
+        source = {
+            "url": "https://ev-database.org/car/example",
+            "source_type": "authorized_dealer_model_page",
+            "source_authority": "authorized_dealer",
+            "source_name": "Not a dealer",
+            "authorization_evidence_url": "https://example.com/evidence",
+            "source_validation": "reachable_approved_source",
+        }
+        self.assertIn("comparison_site_not_allowed", source_policy_errors(source))
+        self.assertFalse(source_is_publishable(source))
+
+    def test_discovery_query_placeholder_is_never_publishable(self):
+        source = {
+            "url": "https://mgmotor.eu/sv-SE?ev_advisor_discovery_query=MG4",
+            "source_type": "importer_page",
+            "source_authority": "importer",
+            "source_validation": "reachable_official_model_source",
+        }
+        self.assertIn("discovery_query_not_source", source_policy_errors(source))
+        self.assertFalse(source_is_publishable(source))
+
+    def test_sitemap_is_never_a_content_source(self):
+        source = {
+            "url": "https://manufacturer.example/model-g6-sitemap.xml",
+            "source_type": "manufacturer_model_page",
+            "source_authority": "manufacturer",
+            "source_validation": "reachable_official_model_source",
+        }
+        self.assertIn("sitemap_not_content_source", source_policy_errors(source))
+        self.assertFalse(source_is_publishable(source))
+
+    def test_plus_model_does_not_match_non_plus_model_page(self):
+        self.assertFalse(source_url_matches_model("https://www.toyota.se/bilar/c-hr", "C-Hr+"))
+        self.assertTrue(source_url_matches_model("https://www.toyota.se/bilar/c-hr-plus", "C-Hr+"))
+
+    def test_dealer_draft_can_publish_after_hard_validation(self):
+        draft = {
+            "source_url": "https://dealer.example/models/g6",
+            "source_hash": "abc",
+            "source_quote": "XPeng G6 räckvidd enligt WLTP 570 km.",
+            "extraction_confidence": 0.95,
+            "price_sek": None,
+            "wltp_range_km": 570,
+        }
+        sources = {draft["source_url"]: {
+            "url": draft["source_url"],
+            "source_type": "authorized_dealer_model_page",
+            "source_authority": "authorized_dealer",
+            "source_name": "Example Motors",
+            "authorization_evidence_url": "https://manufacturer.example/dealers/example-motors",
+            "source_validation": "reachable_approved_source",
+        }}
+        self.assertEqual(validate_draft(draft, sources), [])
+
+    def test_eu_fallback_cannot_publish_swedish_price(self):
+        draft = {
+            "source_url": "https://manufacturer.example/eu/model-g6",
+            "source_hash": "abc", "source_quote": "G6 range WLTP 570 km and price 45 000 EUR.",
+            "extraction_confidence": 0.95, "price_sek": 529900, "price_type": "list_price", "wltp_range_km": 570,
+        }
+        sources = {draft["source_url"]: {
+            "url": draft["source_url"], "model": "G6", "source_type": "manufacturer_model_page",
+            "source_authority": "manufacturer", "source_validation": "reachable_eu_official_source",
+        }}
+        self.assertIn("non_swedish_source_cannot_publish_price", validate_draft(draft, sources))
+
+    def test_deterministic_extraction_labels_dealer_price(self):
+        variants = deterministic_extract(
+            "XPeng",
+            "G6",
+            "XPeng G6 erbjuds från 529 900 kr med räckvidd enligt WLTP upp till 570 km.",
+            "authorized_dealer",
+        )
+        self.assertEqual(len(variants), 1)
+        self.assertEqual(variants[0]["price_type"], "dealer_offer")
+        self.assertEqual(variants[0]["price_sek"], 529900)
+        self.assertEqual(variants[0]["wltp_range_km"], 570)
+
+    def test_deterministic_extraction_ignores_monthly_lease_price(self):
+        variants = deterministic_extract(
+            "Volvo",
+            "EX90",
+            "EX90 Care från 15 695 kr/mån. Rek. pris från 899 000 kr. Räckvidd enligt WLTP 625 km.",
+            "manufacturer",
+        )
+        self.assertEqual(variants[0]["price_sek"], 899000)
+        self.assertEqual(variants[0]["price_type"], "list_price")
+
+    def test_deterministic_extraction_does_not_treat_acceleration_as_range(self):
+        variants = deterministic_extract(
+            "Ford", "Capri", "Ford Capri pris från 519 000 kr. Räckvidd och prestanda. 0-100 km/h på 5,3 sekunder.", "manufacturer"
+        )
+        self.assertIsNone(variants[0]["wltp_range_km"])
+
+    def test_deterministic_extraction_keeps_exact_wltp_consumption(self):
+        variants = deterministic_extract(
+            "Kia",
+            "EV6",
+            "Kia EV6 GT pris fran 749 900 kr. Rackvidd enligt WLTP 424 km. Energiforbrukning 20,9 kWh/100km.",
+            "manufacturer",
+        )
+        self.assertEqual(variants[0]["wltp_consumption_kwh_100km"], 20.9)
+
+    def test_consumption_range_is_not_collapsed_to_one_value(self):
+        self.assertIsNone(exact_wltp_consumption("Elforbrukning 17,0-17,7 kWh/100 km."))
+        rows, evidence = backfill_consumption_rows(
+            [{
+                "brand": "Kia",
+                "model": "EV6",
+                "variant_name": "AWD",
+                "source_hash": "abc",
+                "source_quote": "Elforbrukning 17,0-17,7 kWh/100 km.",
+                "extraction_confidence": 0.97,
+            }]
+        )
+        self.assertIsNone(rows[0].get("wltp_consumption_kwh_100km"))
+        self.assertEqual(evidence, [])
+
+    def test_official_source_and_image_replace_dealer_candidate(self):
+        dealer = {
+            "brand": "XPeng", "model": "G6", "url": "https://dealer.example/g6",
+            "source_type": "authorized_dealer_model_page", "source_authority": "authorized_dealer",
+            "source_name": "Dealer", "authorization_evidence_url": "https://xpeng.com/se/dealers",
+            "source_validation": "reachable_approved_source", "image_url": "https://dealer.example/g6.jpg",
+            "image_source_url": "https://dealer.example/g6", "image_verified_at": "2026-06-01T00:00:00Z",
+        }
+        official = {
+            "brand": "XPeng", "model": "G6", "url": "https://xpeng.com/se/g6",
+            "source_type": "manufacturer_model_page", "source_authority": "manufacturer", "source_name": "XPeng",
+            "source_validation": "reachable_official_model_source", "image_url": "https://xpeng.com/media/g6.jpg",
+            "image_source_url": "https://xpeng.com/se/g6", "image_verified_at": "2026-06-02T00:00:00Z",
+        }
+        merged = merge_sources([], [dealer, official])
+        models = apply_images([{"brand": "XPeng", "model": "G6", "normalized_brand": "xpeng", "normalized_model": "g6"}], merged)
+        self.assertEqual(models[0]["image_url"], official["image_url"])
+
+    def test_expansion_autopilot_dry_run_is_restartable_plan(self):
+        report = run_expansion_wave(dry_run=True, sync_supabase=False, build_frontend=False)
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["start_rank"], 31)
+        self.assertEqual(report["end_rank"], 60)
+        self.assertGreaterEqual(report["scope_models"], 20)
 
 
 class MvpSourceResearchQueueTests(unittest.TestCase):
@@ -964,6 +1181,7 @@ class ReviewVariantQueueTests(unittest.TestCase):
                     "model": "Ex30",
                     "variant_name": "EX30 Core",
                     "price_sek": 429000,
+                    "wltp_consumption_kwh_100km": 16.7,
                     "source_url": "https://www.volvocars.com/se/cars/ex30-electric/",
                     "source_hash": "abc",
                     "validation_status": "published",
@@ -981,6 +1199,7 @@ class ReviewVariantQueueTests(unittest.TestCase):
 
         self.assertEqual(exported[0]["source_url"], "https://www.volvocars.com/se/cars/ex30-electric/")
         self.assertEqual(exported[0]["source_hash"], "abc")
+        self.assertEqual(exported[0]["wltp_consumption_kwh_100km"], 16.7)
         self.assertTrue(exported[0]["market_seen"])
         self.assertFalse(exported[0]["available_confirmed"])
 
@@ -1011,7 +1230,7 @@ class SeoRouteTests(unittest.TestCase):
 
         generate_sitemap.main()
 
-        self.assertIn("<loc>https://swedish-ev-advisor.se/verifiering</loc>", (ROOT / "public/sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("<loc>https://seekev.se/verifiering</loc>", (ROOT / "public/sitemap.xml").read_text(encoding="utf-8"))
 
     def test_prerender_vehicle_routes_use_public_variant_data(self):
         routes = public_variant_routes(
@@ -1048,7 +1267,7 @@ class PublicImageContractTests(unittest.TestCase):
         report = build_public_image_report(ROOT)
 
         self.assertGreaterEqual(report["public_records"], 1)
-        self.assertEqual(report["missing_model_image_keys"], [])
+        self.assertEqual(report["unverified_database_images"], [])
         self.assertEqual(report["fallback_image_urls"], [])
         self.assertEqual(report["prohibited_image_references"], [])
         self.assertTrue(report["strict_null_fallback"])

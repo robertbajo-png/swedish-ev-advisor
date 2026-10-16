@@ -5,6 +5,7 @@ from pathlib import Path
 from xml.etree import ElementTree
 
 from generate_sitemap import PUBLIC_STATUSES, SEGMENTS, SITE_URL, load_public_variants, public_variant_urls
+from news_public import news_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -88,6 +89,8 @@ def check_route(path: str) -> list[str]:
         errors.append(f"vehicle_route_without_vehicle_json_ld:{path}")
     if path.startswith("/bilar/") and payload and "BreadcrumbList" not in types:
         errors.append(f"vehicle_route_without_breadcrumb_json_ld:{path}")
+    if path.startswith("/nyheter/") and "NewsArticle" not in types:
+        errors.append(f"news_route_without_news_article_json_ld:{path}")
     if path in STATIC_PATHS and path not in {"/", "/bilar", "/jamfor"} and payload and "ItemList" not in types:
         errors.append(f"segment_route_without_item_list_json_ld:{path}")
     if any(pattern in path for pattern in DUPLICATE_NAME_PATTERNS):
@@ -99,7 +102,7 @@ def main() -> None:
     variants = load_public_variants()
     non_public = [row for row in variants if row.get("validation_status") not in PUBLIC_STATUSES]
     expected_paths = []
-    for path in [*STATIC_PATHS, *public_variant_urls(variants)]:
+    for path in [*STATIC_PATHS, *public_variant_urls(variants), *news_paths()]:
         if path not in expected_paths:
             expected_paths.append(path)
 

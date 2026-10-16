@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-10-15T20:08:36.081607+00:00",
+  "backend": "sqlite",
+  "sources": [
+    {
+      "source": "electrive",
+      "status": "verified",
+      "verified_feed": "https://www.electrive.com/feed/",
+      "checked_at": "2026-10-15T19:55:27.865116+00:00",
+      "errors": []
+    },
+    {
+      "source": "InsideEVs",
+      "status": "verified",
+      "verified_feed": "https://insideevs.com/rss/news/all/",
+      "checked_at": "2026-10-15T19:55:29.611136+00:00",
+      "errors": []
+    },
+    {
+      "source": "CnEVPost",
+      "status": "verified",
+      "verified_feed": "https://cnevpost.com/feed/",
+      "checked_at": "2026-10-15T19:55:32.322754+00:00",
+      "errors": []
+    },
+    {
+      "source": "CarNewsChina",
+      "status": "verified",
+      "verified_feed": "https://carnewschina.com/feed/",
+      "checked_at": "2026-10-15T19:55:34.675524+00:00",
+      "errors": []
+    },
+    {
+      "source": "Electrek",
+      "status": "verified",
+      "verified_feed": "https://electrek.co/feed/",
+      "checked_at": "2026-10-15T19:55:37.898408+00:00",
+      "errors": []
+    },
+    {
+      "source": "Autocar",
+      "status": "no_verified_feed",
+      "verified_feed": null,
+      "checked_at": "2026-10-15T19:55:39.705070+00:00",
+      "errors": [
+        {
+          "feed": "https://www.autocar.co.uk/rss",
+          "reason": "ParseError:no element found: line 1, column 0"
+        }
+      ]
+    }
+  ],
+  "items": {
+    "quarantined": 6,
+    "collected": 84
+  },
+  "articles": {},
+  "verification_requests": {}
+}

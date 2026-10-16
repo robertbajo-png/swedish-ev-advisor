@@ -17,7 +17,7 @@ exception
 end $$;
 
 do $$ begin
-  create type source_type as enum ('manufacturer_page', 'importer_page', 'price_list_pdf', 'technical_pdf', 'configurator', 'mobility_sweden_export', 'model_page', 'specs_page', 'price_list', 'fleet_page', 'manufacturer_specs_page', 'manufacturer_model_page', 'manufacturer_configurator', 'manufacturer_price_list', 'manufacturer_rendered_model_page', 'manufacturer_indexed_model_page', 'manufacturer_official_override_source');
+  create type source_type as enum ('manufacturer_page', 'importer_page', 'price_list_pdf', 'technical_pdf', 'configurator', 'mobility_sweden_export', 'model_page', 'specs_page', 'price_list', 'fleet_page', 'manufacturer_specs_page', 'manufacturer_model_page', 'manufacturer_configurator', 'manufacturer_price_list', 'manufacturer_rendered_model_page', 'manufacturer_indexed_model_page', 'manufacturer_official_override_source', 'authorized_dealer_model_page', 'authorized_dealer_stock_page');
 exception
   when duplicate_object then null;
 end $$;
@@ -34,6 +34,8 @@ do $$ begin
   alter type source_type add value if not exists 'manufacturer_rendered_model_page';
   alter type source_type add value if not exists 'manufacturer_indexed_model_page';
   alter type source_type add value if not exists 'manufacturer_official_override_source';
+  alter type source_type add value if not exists 'authorized_dealer_model_page';
+  alter type source_type add value if not exists 'authorized_dealer_stock_page';
 exception
   when duplicate_object then null;
 end $$;
@@ -49,6 +51,9 @@ create table if not exists canonical_models (
   available_confirmed boolean not null default false,
   discontinued_candidate boolean not null default false,
   coming_or_low_volume boolean not null default false,
+  image_url text,
+  image_source_url text,
+  image_verified_at timestamptz,
   validation_status validation_status not null default 'draft',
   published_at timestamptz,
   created_at timestamptz not null default now(),
@@ -146,6 +151,9 @@ create table if not exists manufacturer_sources (
   http_status integer,
   final_url text,
   source_validation text not null default 'needs_discovery',
+  source_authority text not null default 'manufacturer',
+  authorization_evidence_url text,
+  source_name text,
   is_primary boolean not null default false,
   extracted_payload jsonb,
   validation_errors jsonb,
@@ -155,6 +163,9 @@ create table if not exists manufacturer_sources (
   updated_at timestamptz not null default now(),
   constraint source_confidence_range check (
     extraction_confidence is null or (extraction_confidence >= 0 and extraction_confidence <= 1)
+  ),
+  constraint manufacturer_sources_authority_check check (
+    source_authority in ('manufacturer', 'importer', 'authorized_dealer', 'public_authority')
   ),
   unique (url)
 );
@@ -171,7 +182,10 @@ create table if not exists extracted_variant_drafts (
   model text not null,
   variant_name text not null,
   price_sek integer,
+  price_type text,
+  price_valid_until date,
   wltp_range_km integer,
+  wltp_consumption_kwh_100km numeric(4,1),
   battery_kwh numeric(5,2),
   dc_charge_kw integer,
   ac_charge_kw integer,
@@ -189,9 +203,13 @@ create table if not exists extracted_variant_drafts (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint draft_confidence_range check (extraction_confidence >= 0 and extraction_confidence <= 1),
+  constraint extracted_variant_price_type_check check (
+    price_type is null or price_type in ('list_price', 'campaign_price', 'dealer_offer')
+  ),
   constraint extracted_variant_values_valid check (
     (price_sek is null or price_sek between 100000 and 3000000) and
     (wltp_range_km is null or wltp_range_km between 50 and 1200) and
+    (wltp_consumption_kwh_100km is null or wltp_consumption_kwh_100km between 5 and 50) and
     (dc_charge_kw is null or dc_charge_kw between 20 and 600) and
     (boot_liters is null or boot_liters between 50 and 3500) and
     (tow_kg is null or tow_kg between 0 and 4000) and
@@ -209,7 +227,10 @@ create table if not exists canonical_model_variants (
   canonical_model_id uuid not null references canonical_models(id) on delete cascade,
   variant_name text not null,
   price_sek integer,
+  price_type text,
+  price_valid_until date,
   wltp_range_km integer,
+  wltp_consumption_kwh_100km numeric(4,1),
   battery_kwh numeric(5,2),
   dc_charge_kw integer,
   ac_charge_kw integer,
@@ -232,10 +253,14 @@ create table if not exists canonical_model_variants (
   constraint canonical_variant_values_valid check (
     (price_sek is null or price_sek between 100000 and 3000000) and
     (wltp_range_km is null or wltp_range_km between 50 and 1200) and
+    (wltp_consumption_kwh_100km is null or wltp_consumption_kwh_100km between 5 and 50) and
     (dc_charge_kw is null or dc_charge_kw between 20 and 600) and
     (boot_liters is null or boot_liters between 50 and 3500) and
     (tow_kg is null or tow_kg between 0 and 4000) and
     (seats is null or seats between 1 and 9)
+  ),
+  constraint canonical_variant_price_type_check check (
+    price_type is null or price_type in ('list_price', 'campaign_price', 'dealer_offer')
   ),
   unique (canonical_model_id, variant_name)
 );
@@ -254,6 +279,9 @@ select
   cm.available_confirmed,
   cm.discontinued_candidate,
   cm.coming_or_low_volume,
+  cm.image_url,
+  cm.image_source_url,
+  cm.image_verified_at,
   cm.published_at
 from canonical_models cm
 where cm.validation_status <> 'rejected'
@@ -275,9 +303,14 @@ select
   cm.available_confirmed,
   cm.discontinued_candidate,
   cm.coming_or_low_volume,
+  cm.image_url,
+  cm.image_source_url,
   cv.variant_name,
   cv.price_sek,
+  cv.price_type,
+  cv.price_valid_until,
   cv.wltp_range_km,
+  cv.wltp_consumption_kwh_100km,
   cv.battery_kwh,
   cv.dc_charge_kw,
   cv.ac_charge_kw,
@@ -286,6 +319,7 @@ select
   cv.seats,
   cv.drivetrain,
   coalesce(cv.source_url, ms.url) as source_url,
+  coalesce(ms.source_name, ms.title, cm.brand) as source_name,
   coalesce(cv.source_hash, ms.content_hash) as source_hash,
   cv.source_quote,
   cv.extraction_confidence,

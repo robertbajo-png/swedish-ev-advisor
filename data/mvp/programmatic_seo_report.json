@@ -1,7 +1,7 @@
 {
-  "expected_routes": 74,
-  "vehicle_routes": 66,
-  "public_sitemap_urls": 75,
-  "dist_sitemap_urls": 75,
+  "expected_routes": 78,
+  "vehicle_routes": 69,
+  "public_sitemap_urls": 79,
+  "dist_sitemap_urls": 79,
   "errors": []
 }

@@ -1,5 +1,5 @@
 -- Swedish EV Advisor Supabase migration bundle
--- Generated at: 2026-06-06T18:38:05.178000+00:00
+-- Generated at: 2026-10-15T20:04:11.374285+00:00
 -- Apply in Supabase SQL Editor or via psql against the project database.
 -- Migrations are kept idempotent where possible.
 
@@ -274,7 +274,7 @@ grant select on public_ev_variants to anon, authenticated;
 
 
 -- BEGIN 002_public_canonical_views.sql
--- sha256: 649c937b906d09dec204acf44378115347e82f23479d336b5c76556691fd6d51
+-- sha256: 6dabe3580332cd3645f9bf1c1a81cfa804e8ba67fb6963ffdb2df475b8ed5292
 do $$ begin
   alter type validation_status add value if not exists 'published_reviewed';
   alter type validation_status add value if not exists 'needs_review';
@@ -312,6 +312,9 @@ drop index if exists canonical_model_variants_public_idx;
 create index if not exists canonical_model_variants_public_idx
   on canonical_model_variants(canonical_model_id, validation_status)
   where validation_status in ('published', 'published_reviewed');
+
+drop view if exists public_ev_variants;
+drop view if exists public_ev_models;
 
 create or replace view public_ev_models as
 select
@@ -394,3 +397,329 @@ exception
   when duplicate_object then null;
 end $$;
 -- END 004_source_type_contract.sql
+
+
+-- BEGIN 005_expansion_source_contract.sql
+-- sha256: 4792445119d425bfc6ce4821eb5e03360985b76e0b362c9b8bd1704d0eb495f3
+do $$ begin
+  alter type source_type add value if not exists 'authorized_dealer_model_page';
+  alter type source_type add value if not exists 'authorized_dealer_stock_page';
+exception
+  when duplicate_object then null;
+end $$;
+
+alter table manufacturer_sources
+  add column if not exists source_authority text not null default 'manufacturer',
+  add column if not exists authorization_evidence_url text,
+  add column if not exists source_name text;
+
+alter table manufacturer_sources
+  drop constraint if exists manufacturer_sources_authority_check;
+
+alter table manufacturer_sources
+  add constraint manufacturer_sources_authority_check
+  check (source_authority in ('manufacturer', 'importer', 'authorized_dealer', 'public_authority'));
+
+alter table canonical_models
+  add column if not exists image_url text,
+  add column if not exists image_source_url text,
+  add column if not exists image_verified_at timestamptz;
+
+alter table extracted_variant_drafts
+  add column if not exists price_type text,
+  add column if not exists price_valid_until date;
+
+alter table canonical_model_variants
+  add column if not exists price_type text,
+  add column if not exists price_valid_until date;
+
+alter table extracted_variant_drafts
+  drop constraint if exists extracted_variant_price_type_check;
+alter table extracted_variant_drafts
+  add constraint extracted_variant_price_type_check
+  check (price_type is null or price_type in ('list_price', 'campaign_price', 'dealer_offer'));
+
+alter table canonical_model_variants
+  drop constraint if exists canonical_variant_price_type_check;
+alter table canonical_model_variants
+  add constraint canonical_variant_price_type_check
+  check (price_type is null or price_type in ('list_price', 'campaign_price', 'dealer_offer'));
+
+drop view if exists public_ev_variants;
+drop view if exists public_ev_models;
+
+create or replace view public_ev_models as
+select
+  cm.id,
+  cm.brand,
+  cm.model,
+  cm.body_type,
+  cm.market_seen,
+  cm.available_confirmed,
+  cm.discontinued_candidate,
+  cm.coming_or_low_volume,
+  cm.image_url,
+  cm.image_source_url,
+  cm.image_verified_at,
+  cm.published_at
+from canonical_models cm
+where cm.validation_status <> 'rejected'
+  and exists (
+    select 1
+    from canonical_model_variants cv
+    where cv.canonical_model_id = cm.id
+      and cv.validation_status in ('published', 'published_reviewed')
+  );
+
+create or replace view public_ev_variants as
+select
+  cv.id,
+  cv.canonical_model_id,
+  cm.brand,
+  cm.model,
+  cm.body_type,
+  cm.market_seen,
+  cm.available_confirmed,
+  cm.discontinued_candidate,
+  cm.coming_or_low_volume,
+  cm.image_url,
+  cm.image_source_url,
+  cv.variant_name,
+  cv.price_sek,
+  cv.price_type,
+  cv.price_valid_until,
+  cv.wltp_range_km,
+  cv.battery_kwh,
+  cv.dc_charge_kw,
+  cv.ac_charge_kw,
+  cv.boot_liters,
+  cv.tow_kg,
+  cv.seats,
+  cv.drivetrain,
+  coalesce(cv.source_url, ms.url) as source_url,
+  coalesce(ms.source_name, ms.title, cm.brand) as source_name,
+  coalesce(cv.source_hash, ms.content_hash) as source_hash,
+  cv.source_quote,
+  cv.extraction_confidence,
+  cv.validation_status,
+  cv.review_approved_by,
+  cv.review_reason,
+  cv.review_promoted_at,
+  ms.verified_at
+from canonical_model_variants cv
+join canonical_models cm on cm.id = cv.canonical_model_id
+left join manufacturer_sources ms on ms.id = cv.source_id
+where cm.validation_status <> 'rejected'
+  and cv.validation_status in ('published', 'published_reviewed');
+
+grant select on public_ev_models to anon, authenticated;
+grant select on public_ev_variants to anon, authenticated;
+-- END 005_expansion_source_contract.sql
+
+
+-- BEGIN 006_wltp_consumption.sql
+-- sha256: f514ea5ec76e83b0d81517b59865341382e9e9c65526aad081c74c4edcf6bb24
+alter table extracted_variant_drafts
+  add column if not exists wltp_consumption_kwh_100km numeric(4,1);
+
+alter table canonical_model_variants
+  add column if not exists wltp_consumption_kwh_100km numeric(4,1);
+
+do $$ begin
+  alter table extracted_variant_drafts
+    add constraint extracted_variant_consumption_valid
+    check (wltp_consumption_kwh_100km is null or wltp_consumption_kwh_100km between 5 and 50);
+exception
+  when duplicate_object then null;
+end $$;
+
+do $$ begin
+  alter table canonical_model_variants
+    add constraint canonical_variant_consumption_valid
+    check (wltp_consumption_kwh_100km is null or wltp_consumption_kwh_100km between 5 and 50);
+exception
+  when duplicate_object then null;
+end $$;
+
+drop view if exists public_ev_variants;
+
+create or replace view public_ev_variants as
+select
+  cv.id,
+  cv.canonical_model_id,
+  cm.brand,
+  cm.model,
+  cm.body_type,
+  cm.market_seen,
+  cm.available_confirmed,
+  cm.discontinued_candidate,
+  cm.coming_or_low_volume,
+  cm.image_url,
+  cm.image_source_url,
+  cv.variant_name,
+  cv.price_sek,
+  cv.price_type,
+  cv.price_valid_until,
+  cv.wltp_range_km,
+  cv.wltp_consumption_kwh_100km,
+  cv.battery_kwh,
+  cv.dc_charge_kw,
+  cv.ac_charge_kw,
+  cv.boot_liters,
+  cv.tow_kg,
+  cv.seats,
+  cv.drivetrain,
+  coalesce(cv.source_url, ms.url) as source_url,
+  coalesce(ms.source_name, ms.title, cm.brand) as source_name,
+  coalesce(cv.source_hash, ms.content_hash) as source_hash,
+  cv.source_quote,
+  cv.extraction_confidence,
+  cv.validation_status,
+  cv.review_approved_by,
+  cv.review_reason,
+  cv.review_promoted_at,
+  ms.verified_at
+from canonical_model_variants cv
+join canonical_models cm on cm.id = cv.canonical_model_id
+left join manufacturer_sources ms on ms.id = cv.source_id
+where cm.validation_status <> 'rejected'
+  and cv.validation_status in ('published', 'published_reviewed');
+
+grant select on public_ev_variants to anon, authenticated;
+-- END 006_wltp_consumption.sql
+
+
+-- BEGIN 007_news_engine.sql
+-- sha256: b322a68679adfea5dd57eca360c865400dc685573669f296a82edc6cb0dca291
+-- News is a separate bounded context. Raw items/evidence are service-role only.
+create table if not exists news_sources (
+  id text primary key,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_ingestion_runs (
+  id text primary key,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_story_clusters (
+  id text primary key,
+  event_key text not null unique,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_items (
+  id text primary key,
+  source_id text not null references news_sources(id),
+  url text not null unique,
+  cluster_id text references news_story_clusters(id),
+  status text not null default 'collected' check (status in ('collected','ready','processed','quarantined','irrelevant')),
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_articles (
+  id text primary key,
+  cluster_id text not null unique references news_story_clusters(id),
+  slug text not null unique check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
+  status text not null default 'draft' check (status in ('draft','quarantined','published')),
+  artifact_hash text not null default '',
+  published_at timestamptz,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_article_sources (
+  id text primary key,
+  article_id text not null references news_articles(id),
+  item_id text not null references news_items(id),
+  payload jsonb not null,
+  updated_at timestamptz not null default now(),
+  unique(article_id,item_id)
+);
+create table if not exists news_vehicle_links (
+  id text primary key,
+  article_id text not null references news_articles(id),
+  canonical_model_id uuid references canonical_models(id),
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create table if not exists news_quality_checks (
+  id text primary key,
+  article_id text not null references news_articles(id),
+  kind text not null check (kind in ('evidence','editorial','originality')),
+  artifact_hash text not null,
+  passed boolean not null default false,
+  payload jsonb not null,
+  updated_at timestamptz not null default now(),
+  unique(article_id,kind,artifact_hash)
+);
+create table if not exists news_verification_requests (
+  id text primary key,
+  article_id text not null references news_articles(id),
+  status text not null default 'pending' check (status in ('pending','exported','completed','failed')),
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+create index if not exists news_items_pending on news_items(status,updated_at);
+create index if not exists news_items_cluster on news_items(cluster_id);
+create index if not exists news_articles_public on news_articles(published_at desc) where status='published';
+
+do $$ declare t text; begin
+  foreach t in array array['news_sources','news_ingestion_runs','news_items','news_story_clusters',
+    'news_articles','news_article_sources','news_vehicle_links','news_quality_checks','news_verification_requests'] loop
+    execute format('alter table %I enable row level security',t);
+    execute format('revoke all on %I from anon, authenticated',t);
+    execute format('grant all on %I to service_role',t);
+  end loop;
+end $$;
+
+create or replace function news_guard_publication() returns trigger
+language plpgsql set search_path = public, extensions as $$
+begin
+  new.artifact_hash := encode(digest(new.payload::text, 'sha256'),'hex');
+  if tg_op = 'UPDATE' and old.status = 'published' and new.payload is distinct from old.payload then
+    raise exception 'Published news payload is immutable; create a separately checked correction';
+  end if;
+  if new.status = 'published' then
+    if (select count(distinct kind) from news_quality_checks
+        where article_id=new.id and passed and artifact_hash=new.artifact_hash) <> 3 then
+      raise exception 'Missing or stale news quality gates';
+    end if;
+    if not exists(select 1 from news_article_sources s join news_items i on i.id=s.item_id
+      where s.article_id=new.id and i.status='processed' and i.payload->>'access_status'='accessible') then
+      raise exception 'News must have accessible attributed evidence';
+    end if;
+    new.published_at := coalesce(new.published_at, now());
+  end if;
+  new.updated_at := now();
+  return new;
+end $$;
+drop trigger if exists news_publication_guard on news_articles;
+create trigger news_publication_guard before insert or update on news_articles
+for each row execute function news_guard_publication();
+
+-- Serialize publication and the global daily limit across runners.
+create or replace function publish_news_article(article_key text, daily_limit integer default 5)
+returns void language plpgsql security definer set search_path=public as $$
+declare current_status text;
+begin
+  perform pg_advisory_xact_lock(72716491);
+  select status into current_status from news_articles where id=article_key for update;
+  if current_status='published' then return; end if;
+  if current_status is distinct from 'draft' then raise exception 'Article not in draft state'; end if;
+  if (select count(*) from news_articles where status='published'
+      and published_at >= date_trunc('day', now() at time zone 'UTC') at time zone 'UTC') >= least(greatest(daily_limit,0),5) then
+    raise exception 'News daily publication limit reached';
+  end if;
+  update news_articles set status='published' where id=article_key;
+end $$;
+revoke all on function publish_news_article(text,integer) from public, anon, authenticated;
+grant execute on function publish_news_article(text,integer) to service_role;
+
+create or replace view public_news_articles as
+select id,slug,published_at,
+  (payload - 'title_fact_ids' - 'intro_fact_ids' - 'input_fingerprint' - 'relevance_score') ||
+  jsonb_build_object('paragraphs', coalesce((select jsonb_agg(p - 'fact_ids')
+    from jsonb_array_elements(payload->'paragraphs') p),'[]'::jsonb)) as payload
+from news_articles where status='published';
+grant select on public_news_articles to anon,authenticated;
+-- END 007_news_engine.sql

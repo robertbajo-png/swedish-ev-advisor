@@ -9,6 +9,9 @@
     "strategy": "split_product_and_stock_architecture",
     "accepted_domains": ["bmw.se", "hitta.bmw.se"],
     "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page", "manufacturer_configurator"],
+    "explicit_patterns": {
+      "iX": "/sv/alla-modeller/i-series/ix/bmw-ix.html"
+    },
     "notes": "BMW product/spec pages live on bmw.se; stock/configuration style pages live on hitta.bmw.se."
   },
   "Cupra": {
@@ -45,12 +48,18 @@
     "strategy": "official_eu_sv_se_importer_pages",
     "accepted_domains": ["mgmotor.eu"],
     "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "explicit_patterns": {
+      "MG4 Electric": "/sv-SE/campaign/mg4-electric"
+    },
     "notes": "MG Sverige uses mgmotor.eu/sv-SE rather than mg.se."
   },
   "Polestar": {
     "strategy": "official_specs_page_pattern",
     "accepted_domains": ["polestar.com"],
     "preferred_source_types": ["manufacturer_specs_page", "manufacturer_model_page"],
+    "explicit_patterns": {
+      "3": "/se/polestar-3/"
+    },
     "notes": "Polestar has stable /se/polestar-{n}/specifications/ URLs."
   },
   "Renault": {
@@ -102,5 +111,53 @@
     "accepted_domains": ["zeekr.eu"],
     "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
     "notes": "Zeekr Sverige uses zeekr.eu/sv-se rather than a .se domain."
+  },
+  "Lexus": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["lexus.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Use Swedish Lexus model and specification pages."
+  },
+  "XPeng": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["xpeng.com"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Require Swedish locale content on xpeng.com."
+  },
+  "Subaru": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["subaru.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Use Subaru Sverige pages and linked price/specification documents."
+  },
+  "Porsche": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["porsche.com"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_configurator"],
+    "notes": "Require Swedish market path or locale."
+  },
+  "Mini": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["mini.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_configurator"],
+    "notes": "Use MINI Sverige model and configurator pages."
+  },
+  "Hyundai": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["hyundai.com"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Require Swedish locale content under the Hyundai global domain."
+  },
+  "Opel": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["opel.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_configurator"],
+    "notes": "Use Opel Sverige model and configurator pages."
+  },
+  "Nissan": {
+    "strategy": "official_sitemap_model_discovery",
+    "accepted_domains": ["nissan.se"],
+    "preferred_source_types": ["manufacturer_model_page", "manufacturer_specs_page"],
+    "notes": "Use Nissan Sverige model and specification pages."
   }
 }

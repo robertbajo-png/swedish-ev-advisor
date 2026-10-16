@@ -1,0 +1,35 @@
+name: Verify SeekEV
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SITE_URL: https://seekev.se
+      VITE_SITE_URL: https://seekev.se
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run verify:advisor
+      - run: bun run verify:advisor-data
+      - run: bun run verify:cloudflare
+      - run: bun run verify:tco
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p test_news.py -v
+      - run: npx --yes wrangler@latest pages functions build functions --outdir=/tmp/seekev-functions-build
+      - run: bun run seo:build
+      - run: bun run verify:seo

@@ -1,0 +1,29 @@
+[
+  {
+    "brand_raw": "RENAULT",
+    "model_raw": "SCENIC",
+    "normalized_brand": "renault",
+    "normalized_model": "scenic",
+    "market_rank": 34,
+    "reason": "needs_mapping",
+    "model_group": ""
+  },
+  {
+    "brand_raw": "MERCEDES",
+    "model_raw": "EQE",
+    "normalized_brand": "mercedes benz",
+    "normalized_model": "eqe",
+    "market_rank": 39,
+    "reason": "needs_mapping",
+    "model_group": ""
+  },
+  {
+    "brand_raw": "VOLVO",
+    "model_raw": "ÖVRIGA",
+    "normalized_brand": "volvo",
+    "normalized_model": "ovriga",
+    "market_rank": 48,
+    "reason": "needs_mapping",
+    "model_group": "VOLVO ÖVRIGA"
+  }
+]

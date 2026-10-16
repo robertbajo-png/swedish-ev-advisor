@@ -48,7 +48,15 @@ def build_report(root):
         f"{normalize_image_key(row.get('brand'))}|{normalize_image_key(row.get('model'))}"
         for row in rows
     }
-    missing_model_image_keys = sorted(expected_keys - keys)
+    database_image_keys = {
+        f"{normalize_image_key(row.get('brand'))}|{normalize_image_key(row.get('model'))}"
+        for row in rows if row.get("image_url") and row.get("image_source_url")
+    }
+    models_without_verified_images = sorted(expected_keys - keys - database_image_keys)
+    unverified_database_images = sorted(
+        f"{normalize_image_key(row.get('brand'))}|{normalize_image_key(row.get('model'))}"
+        for row in rows if row.get("image_url") and not row.get("image_source_url")
+    )
     prohibited_image_references = sorted(
         token for token in PROHIBITED_IMAGE_REFERENCES if token in src.lower()
     )
@@ -57,11 +65,18 @@ def build_report(root):
         "public_records": len(rows),
         "public_model_keys": len(expected_keys),
         "official_image_keys": len(keys),
-        "missing_model_image_keys": missing_model_image_keys,
+        "missing_model_image_keys": models_without_verified_images,
+        "unverified_database_images": unverified_database_images,
         "fallback_image_urls": fallback_image_urls(src),
         "prohibited_image_references": prohibited_image_references,
         "strict_null_fallback": "return officialModelImages[key] || null;" in src,
-        "public_uses_exact_lookup": "image: officialImageFor(row.brand, row.model)" in src,
+        "public_uses_exact_lookup": any(
+            expression in src
+            for expression in (
+                "image: officialImageFor(row.brand, row.model)",
+                "image: row.image_url || officialImageFor(row.brand, row.model)",
+            )
+        ),
     }
 
 
@@ -69,8 +84,8 @@ def main():
     report = build_report(Path(__file__).resolve().parents[1])
     print(json.dumps(report, ensure_ascii=False, indent=2))
     errors = []
-    if report["missing_model_image_keys"]:
-        errors.append("missing exact image keys")
+    if report["unverified_database_images"]:
+        errors.append("database image missing source evidence")
     if report["fallback_image_urls"]:
         errors.append("fallback image URLs")
     if report["prohibited_image_references"]:

@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink } from '../src/news-presentation.js';
+
+const article = { id: 'one', slug: 'en-testnyhet', title: 'Endast testdata', published_at: '2026-10-15T12:00:00Z', category: 'modeller', brands: ['Kia'], intro: 'Test av presentation.', related_models: [{ key: 'Kia|Ev6' }], paragraphs: [{ text: 'Första stycket.', kind: 'reporting' }, { text: 'Andra stycket.', kind: 'reporting' }, { text: 'Bedömningen.', kind: 'analysis' }, { text: 'Mer bedömning.', kind: 'analysis' }, { text: 'Avslutande fakta.', kind: 'reporting' }] };
+assert(isPublishedArticle(article));
+for (const patch of [{ status: 'draft' }, { status: 'quarantined' }, { published_at: null }, { published_at: 'invalid-date' }, { slug: '../private' }, { title: '' }]) assert.equal(isPublishedArticle({ ...article, ...patch }), false);
+const older = { ...article, id: 'older', slug: 'en-aldre-nyhet', published_at: '2026-10-14T12:00:00Z' };
+assert.deepEqual(publicArticles([older, { ...article, status: 'draft' }, article]).map((item) => item.id), ['one', 'older']);
+assert.equal(newsDate('bad-date'), 'Datum saknas');
+assert.equal(newsDate('2026-10-15T23:30:00Z'), '16 oktober 2026');
+assert.equal(newsReadingMinutes({ intro: Array(201).fill('ord').join(' '), paragraphs: [] }), 2);
+assert.equal(newsReadingMinutes({ paragraphs: [] }), 1);
+const blocks = articleBlocks(article);
+assert.deepEqual(blocks.map((block) => block.kind), ['reporting', 'analysis', 'reporting']);
+assert.deepEqual(blocks.flatMap((block) => block.paragraphs), article.paragraphs.map((paragraph) => paragraph.text), 'Paragraph order and original wording stay intact');
+assert.equal(safeNewsLink('javascript:alert(1)'), false);
+assert.equal(safeNewsLink('https://user:password@example.com'), false);
+assert.equal(safeNewsLink('https://example.com/news'), true);
+const image = { url: 'https://example.com/image.webp', alt: 'Bild för test', credit: 'Testfotograf', source_url: 'https://example.com/press', license_url: 'https://example.com/rights', rights_status: 'approved' };
+assert.deepEqual(approvedNewsImage({ image }), image);
+for (const patch of [{ rights_status: 'unknown' }, { license_url: null }, { alt: '' }, { credit: '' }, { source_url: '' }, { url: 'javascript:alert(1)' }]) assert.equal(approvedNewsImage({ image: { ...image, ...patch } }), null);
+assert.equal(approvedNewsImage({ image: image.url }), null, 'A naked URL is not a licensed image');
+const sameModel = { ...older, id: 'model', slug: 'samma-modell', category: 'tester' };
+const unrelated = { ...article, id: 'other', slug: 'annan-nyhet', brands: ['Annat'], related_models: [], category: 'laddning' };
+assert.deepEqual(relatedNews(article, [article, unrelated, sameModel]).map((item) => item.id), ['model', 'other']);
+assert.deepEqual(new Set(NEWS_TOPICS.flatMap((topic) => topic.categories)), new Set(Object.keys(NEWS_CATEGORIES)), 'All existing categories remain reachable');
+console.log(JSON.stringify({ news_presentation_ok: true, checks: ['published-only', 'dates', 'reading estimate', 'original paragraph order', 'source URL safety', 'image rights', 'related articles', 'category coverage'] }));

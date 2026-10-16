@@ -18,6 +18,10 @@ Permanent project rules for the Swedish EV Advisor codebase.
 - Mobility Sweden proves market presence and registration activity. It must not be treated as a price, specification, availability, or variant source.
 - Official Swedish manufacturer/importer pages are the primary sources for prices, trims, technical specs, PDFs, configurators, and current availability.
 - Do not scrape or use third-party comparison sites as price/spec sources.
+- Public pages from verified authorized Swedish dealers may be used as secondary sources when the exact model/variant is identified and the dealer authorization evidence URL is stored.
+- One authorized-dealer source may support a fact only when source URL, source hash, quote, confidence >= `0.92`, and every hard validation rule passes.
+- Manufacturer/importer facts always supersede dealer facts for the same canonical variant.
+- Dealer and campaign prices must remain distinguishable from ordinary list prices.
 
 ## Ingestion Model
 
@@ -58,8 +62,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
   - `discontinued_candidate`
   - `coming_or_low_volume`
 - The UI must show clear source and verification signals for specs and prices.
+- Never use a visually similar vehicle as an image fallback. Use an exact verified model image or the neutral missing-image state.
 
 ## Engineering Rules
+
+- News follows `docs/news-engine-plan.md`. It may use international reporting for
+  independent Swedish articles, with evidence-based automatic quality gates.
+- News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
+- News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
 
 - Keep data pipeline code deterministic where possible and AI-assisted only where it adds value.
 - Prefer idempotent import/upsert scripts over one-off local mutations.

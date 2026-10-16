@@ -5,6 +5,8 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from source_policy import source_policy_errors
+
 
 def check_url(url: str) -> tuple[int | None, str | None, str | None, str | None]:
     if "ev_advisor_discovery_query=" in url or "google.com/search" in url:
@@ -26,18 +28,36 @@ def main() -> None:
     rows = list(csv.DictReader(source_path.open(encoding="utf-8")))
     output = []
     for row in rows:
+        policy_errors = source_policy_errors(row)
+        if policy_errors:
+            row["http_status"] = ""
+            row["final_url"] = ""
+            row["content_hash"] = ""
+            row["fetched_at"] = ""
+            row["source_validation"] = "rejected_source_policy"
+            row["extraction_status"] = "blocked"
+            row["validation_errors"] = "|".join(policy_errors)
+            output.append(row)
+            continue
         status, final_url, content_hash, fetched_at = check_url(row["url"])
         row["http_status"] = "" if status is None else status
         row["final_url"] = final_url or ""
         row["content_hash"] = content_hash or ""
         row["fetched_at"] = fetched_at or ""
+        reachable_validation = (
+            "reachable_approved_source"
+            if row.get("source_authority") == "authorized_dealer"
+            else "reachable_official_model_source"
+        )
         row["source_validation"] = (
-            "reachable_official_model_source"
+            reachable_validation
             if status and 200 <= status < 400
             else "needs_discovery"
             if status is None
             else "unreachable_or_redirect_problem"
         )
+        row["extraction_status"] = "queued" if status and 200 <= status < 400 else "blocked"
+        row["validation_errors"] = ""
         output.append(row)
 
     with out_path.open("w", newline="", encoding="utf-8") as handle:

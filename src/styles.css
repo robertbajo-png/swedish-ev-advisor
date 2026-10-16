@@ -1295,26 +1295,6 @@ input[type="range"] {
   margin-bottom: 0;
 }
 
-.scoreInfo {
-  margin-top: 0.85rem;
-  padding: 0.65rem 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.7);
-  font-size: 0.92rem;
-}
-
-.scoreInfo summary {
-  cursor: pointer;
-  color: var(--pine);
-  font-weight: 820;
-}
-
-.scoreInfo p {
-  margin: 0.55rem 0 0;
-  color: var(--muted);
-}
-
 .filterFooter {
   display: flex;
   align-items: center;
@@ -1392,65 +1372,6 @@ input[type="range"] {
   color: #fafff5;
   border-color: transparent;
   background: var(--pine);
-}
-
-.pipelineStatusPanel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
-  gap: 1rem;
-  align-items: center;
-  margin: 0 0 1rem;
-  padding: 1.1rem;
-  border: 1px solid rgba(22, 75, 61, 0.12);
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(238, 243, 238, 0.84));
-  box-shadow: 0 14px 38px rgba(32, 48, 40, 0.07);
-}
-
-.pipelineStatusPanel h3 {
-  margin-bottom: 0.35rem;
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
-  line-height: 1.08;
-}
-
-.pipelineStatusPanel p {
-  margin-bottom: 0;
-  color: var(--muted);
-}
-
-.pipelineMetrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-}
-
-.statusMetric {
-  display: grid;
-  gap: 0.12rem;
-  min-width: 0;
-  padding: 0.7rem;
-  border: 1px solid rgba(30, 45, 38, 0.08);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.78);
-}
-
-.statusMetric strong {
-  color: var(--pine);
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.statusMetric span {
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 780;
-}
-
-.pipelineNext {
-  grid-column: 1 / -1;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(30, 45, 38, 0.09);
-  font-size: 0.9rem;
 }
 
 .segmentHeader,
@@ -1715,11 +1636,6 @@ footer a {
     grid-template-columns: 1fr;
   }
 
-  .pipelineStatusPanel,
-  .pipelineMetrics {
-    grid-template-columns: 1fr;
-  }
-
   .detailStats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1844,8 +1760,7 @@ body {
 .filterSidebar label,
 .carsToolbar,
 .reportCard,
-.comparisonTable,
-.pipelineStatusPanel {
+.comparisonTable {
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(18px);
 }
@@ -1918,8 +1833,7 @@ body {
 .needCard,
 .filterSidebar,
 .carCard,
-.qualityGrid article,
-.pipelineStatusPanel {
+.qualityGrid article {
   border-color: rgba(22, 75, 61, 0.09);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.82);
@@ -2602,8 +2516,7 @@ footer button {
 }
 
 .decisionReport .reportCard p,
-.decisionReport .reportStatus,
-.decisionReport .localReportNote {
+.decisionReport .reportStatus {
   color: var(--muted);
 }
 
@@ -2678,13 +2591,6 @@ footer button {
   color: #829087;
   font-size: 0.7rem;
   font-weight: 780;
-}
-
-.localReportNote {
-  display: inline-flex;
-  color: rgba(251, 255, 249, 0.7);
-  font-size: 0.78rem;
-  line-height: 1.35;
 }
 
 .reportBody .secondaryReportAction {
@@ -3060,5 +2966,426 @@ footer button {
 
   .heroRecommendation {
     margin-top: 0;
+  }
+}
+
+/* Ownership cost calculator */
+.tcoCalculator {
+  max-width: 1180px;
+  margin: 1.25rem auto;
+  padding: clamp(1rem, 2.4vw, 1.75rem);
+  border: 1px solid rgba(22, 75, 61, 0.12);
+  border-radius: 20px;
+  background: #fbfcfa;
+  box-shadow: 0 20px 54px rgba(32, 48, 40, 0.08);
+}
+
+.tcoHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+.tcoHeader .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tcoHeader h2 {
+  margin: 0.3rem 0 0.45rem;
+  color: var(--ink);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.02;
+}
+
+.tcoHeader p {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tcoReset {
+  display: grid;
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(22, 75, 61, 0.14);
+  border-radius: 50%;
+  color: var(--pine);
+  background: #fff;
+}
+
+.tcoReset:hover {
+  background: #edf3ee;
+}
+
+.tcoLayout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.62fr) minmax(0, 1.38fr);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  align-items: start;
+}
+
+.tcoControls {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(22, 75, 61, 0.09);
+  border-radius: 12px;
+  background: #f0f4ef;
+}
+
+.tcoRange {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tcoRange > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #58685f;
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+.tcoRange strong {
+  color: var(--ink);
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.tcoRange input[type='range'] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--pine);
+}
+
+.tcoAdvanced {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(22, 75, 61, 0.11);
+}
+
+.tcoAdvanced summary {
+  cursor: pointer;
+  color: var(--pine);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.tcoAdvanced > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.8rem;
+}
+
+.tcoNumberInput {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
+  color: #627168;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.tcoNumberInput > div {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid rgba(22, 75, 61, 0.12);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.tcoNumberInput input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 820;
+}
+
+.tcoNumberInput small {
+  color: #7a877f;
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+
+.tcoResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+
+.tcoResultCard {
+  display: flex;
+  min-width: 0;
+  min-height: 24rem;
+  padding: 1rem;
+  flex-direction: column;
+  border: 1px solid rgba(22, 75, 61, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(32, 48, 40, 0.06);
+}
+
+.tcoResultCard.isBest {
+  border-color: rgba(123, 157, 73, 0.55);
+  background: linear-gradient(180deg, rgba(232, 247, 183, 0.46), #fff 38%);
+  box-shadow: 0 16px 38px rgba(83, 110, 47, 0.12);
+}
+
+.tcoResultHeading {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tcoResultCard > span,
+.tcoResultHeading span {
+  color: #728077;
+  font-size: 0.7rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.tcoResultCard h3 {
+  margin: 0.14rem 0 0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.tcoBestBadge {
+  max-width: 7.5rem;
+  padding: 0.34rem 0.45rem;
+  border-radius: 6px;
+  color: #29452c;
+  background: #dff194;
+  font-size: 0.62rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.tcoPrimaryValue {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0.8rem 0 1rem;
+}
+
+.tcoPrimaryValue strong {
+  color: var(--pine);
+  font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+  line-height: 1;
+}
+
+.tcoPrimaryValue span,
+.tcoSecondaryValues span {
+  color: #79867e;
+  font-size: 0.7rem;
+}
+
+.tcoSecondaryValues {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.tcoSecondaryValues div {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+  padding: 0.52rem;
+  border: 1px solid rgba(22, 75, 61, 0.08);
+  border-radius: 6px;
+  background: #f8faf7;
+}
+
+.tcoSecondaryValues strong {
+  color: var(--ink);
+  font-size: 0.8rem;
+}
+
+.tcoStack {
+  display: flex;
+  width: 100%;
+  height: 0.58rem;
+  margin: 1rem 0 0.65rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e9eee9;
+}
+
+.tcoStack span {
+  min-width: 2px;
+}
+
+.tcoLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.55rem;
+}
+
+.tcoLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.24rem;
+  color: #738078;
+  font-size: 0.62rem;
+}
+
+.tcoLegend i {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+}
+
+.tcoConsumptionNote {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: auto 0 0;
+  padding-top: 1rem;
+  color: #53655b;
+  font-size: 0.72rem;
+  font-weight: 780;
+}
+
+.tcoConsumptionNote small {
+  margin-left: auto;
+  color: #89948e;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.tcoResultCard.isMissing {
+  color: #748078;
+  background: #f7f8f6;
+}
+
+.tcoMissingPrice {
+  display: grid;
+  gap: 0.4rem;
+  margin: auto 0;
+  justify-items: start;
+}
+
+.tcoMissingPrice strong {
+  color: var(--ink);
+}
+
+.tcoMissingPrice p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.tcoResultCard > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: auto;
+  color: var(--pine);
+  font-size: 0.74rem;
+  font-weight: 820;
+}
+
+.tcoEmpty {
+  display: grid;
+  min-height: 18rem;
+  padding: 1.5rem;
+  place-content: center;
+  justify-items: center;
+  border: 1px dashed rgba(22, 75, 61, 0.2);
+  border-radius: 8px;
+  color: #6f7d74;
+  text-align: center;
+}
+
+.tcoEmpty strong {
+  margin-top: 0.6rem;
+  color: var(--ink);
+}
+
+.tcoEmpty p {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+}
+
+.tcoDisclosure {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(22, 75, 61, 0.08);
+  color: #6e7b73;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.tcoDisclosure svg {
+  flex: 0 0 auto;
+  color: var(--pine);
+}
+
+@media (max-width: 900px) {
+  .tcoLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .tcoControls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tcoAdvanced {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .tcoCalculator {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .tcoHeader h2 {
+    font-size: 1.85rem;
+  }
+
+  .tcoControls {
+    grid-template-columns: 1fr;
+  }
+
+  .tcoAdvanced {
+    grid-column: auto;
+  }
+
+  .tcoAdvanced > div {
+    grid-template-columns: 1fr;
+  }
+
+  .tcoResults {
+    grid-template-columns: 1fr;
+  }
+
+  .tcoResultCard {
+    min-height: 21rem;
   }
 }

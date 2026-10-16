@@ -1,0 +1,245 @@
+{
+  "started_at": "2026-06-27T10:48:25.088846+00:00",
+  "start_rank": 31,
+  "end_rank": 60,
+  "batch_size": 5,
+  "scope_models": 23,
+  "quarantined_models": 3,
+  "dry_run": false,
+  "batches": [
+    {
+      "batch": 1,
+      "models": [
+        "Volkswagen|Id. Buzz",
+        "BMW|iX",
+        "MG|Mg4 Electric",
+        "Polestar|3",
+        "Lexus|Rz"
+      ],
+      "sources": 18,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Volkswagen|Id. Buzz",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX",
+          "url": "https://hitta.bmw.se/r/I20-iX",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "MG|Mg4 Electric",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Polestar|3",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Lexus|Rz",
+          "url": "https://www.lexus.se/new-cars/rz",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [
+        {
+          "script": "fetch_browser_rendered_sources.mjs",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Browser-render rows processed: 2\nRendered sources ready: 0\nRendered sources ready total: 1",
+          "stderr": ""
+        },
+        {
+          "script": "build_rendered_extraction_batch.py",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Rendered extraction batch: 1\n1. Volvo Ex90",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "models": [
+        "Toyota|C-Hr+",
+        "Xpeng|G6",
+        "Mercedes-Benz|Eqb",
+        "Subaru|Solterra",
+        "Porsche|Macan"
+      ],
+      "sources": 10,
+      "drafts": 2,
+      "errors": [
+        {
+          "model": "Xpeng|G6",
+          "url": "https://www.xpeng.com/model/g6",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Mercedes-Benz|Eqb",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Porsche|Macan",
+          "url": "https://www.porsche.com/sweden/models/macan/macan-electric-models/",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": []
+    },
+    {
+      "batch": 3,
+      "models": [
+        "Mini|Countryman",
+        "Renault|4",
+        "BMW|iX2",
+        "Xpeng|G9",
+        "Hyundai|Inster"
+      ],
+      "sources": 8,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Mini|Countryman",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Renault|4",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX2",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Xpeng|G9",
+          "url": "https://www.xpeng.com/model/g9",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Hyundai|Inster",
+          "url": "https://www.hyundai.com/canarias/es/modelos/inster/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [
+        {
+          "script": "fetch_browser_rendered_sources.mjs",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Browser-render rows processed: 1\nRendered sources ready: 0\nRendered sources ready total: 1",
+          "stderr": ""
+        },
+        {
+          "script": "build_rendered_extraction_batch.py",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Rendered extraction batch: 1\n1. Volvo Ex90",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "models": [
+        "Mercedes-Benz|Glb",
+        "Cupra|Tavascan",
+        "Ford|Capri",
+        "Mini|Aceman",
+        "Mini|Hatch"
+      ],
+      "sources": 9,
+      "drafts": 2,
+      "errors": [
+        {
+          "model": "Mercedes-Benz|Glb",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Mini|Aceman",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Mini|Hatch",
+          "error": "no_publishable_free_web_source"
+        }
+      ],
+      "render_actions": []
+    },
+    {
+      "batch": 5,
+      "models": [
+        "Hyundai|Ioniq 9",
+        "Opel|Corsa",
+        "Hyundai|Ioniq 5"
+      ],
+      "sources": 9,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Hyundai|Ioniq 9",
+          "url": "https://www.hyundai.com/canarias/es/modelos/ioniq6/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Opel|Corsa",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Hyundai|Ioniq 5",
+          "url": "https://www.hyundai.com/canarias/es/modelos/ioniq6/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": []
+    }
+  ],
+  "postprocess": [
+    {
+      "script": "apply_expansion_sources.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "{\n  \"dry_run\": false,\n  \"accepted_expansion_sources\": 22,\n  \"merged_sources\": 132,\n  \"verified_model_images\": 4\n}",
+      "stderr": ""
+    },
+    {
+      "script": "validate_extracted_variants.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "{\n  \"published\": 71,\n  \"needs_review\": 2\n}",
+      "stderr": ""
+    },
+    {
+      "script": "export_public_ev_data.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Exported public EV variants: 71\nC:\\Users\\rober\\OneDrive\\Dokumentet\\New project\\swedish-ev-advisor\\public\\data\\public_ev_variants.json",
+      "stderr": ""
+    },
+    {
+      "script": "seed_local_sqlite.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "{\n  \"db_path\": \"C:\\\\Users\\\\rober\\\\OneDrive\\\\Dokumentet\\\\New project\\\\swedish-ev-advisor\\\\data\\\\local\\\\ev_advisor.sqlite\",\n  \"market_models\": 124,\n  \"canonical_models\": 126,\n  \"manufacturer_sources\": 245,\n  \"extracted_variant_drafts\": 73,\n  \"canonical_model_variants\": 71,\n  \"public_ev_variants\": 71\n}",
+      "stderr": ""
+    },
+    {
+      "script": "export_public_from_sqlite.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "{\n  \"exported\": 71,\n  \"source\": \"local_sqlite_public_ev_variants\",\n  \"out\": \"C:\\\\Users\\\\rober\\\\OneDrive\\\\Dokumentet\\\\New project\\\\swedish-ev-advisor\\\\public\\\\data\\\\public_ev_variants.json\"\n}",
+      "stderr": ""
+    },
+    {
+      "script": "generate_sitemap.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Wrote 80 URLs to public/sitemap.xml",
+      "stderr": ""
+    }
+  ],
+  "supabase_sync": "skipped_missing_credentials_or_disabled",
+  "completed_at": "2026-06-27T10:53:58.875779+00:00",
+  "ok": true
+}

@@ -1,4 +1,5 @@
 import json
+from news_public import news_routes
 import os
 import re
 from html import escape
@@ -7,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-SITE_URL = os.environ.get("SITE_URL", "https://swedish-ev-advisor.se").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://seekev.se").rstrip("/")
 PUBLIC_STATUSES = {"published", "published_reviewed"}
 
 SEGMENTS = {
@@ -316,12 +317,13 @@ def main() -> None:
         for route_slug, metadata in SEGMENTS.items()
     )
     routes.extend(public_variant_routes(public_rows))
+    routes.extend(news_routes(SITE_URL))
 
     for route in routes:
-        write_route(
-            route["path"],
-            inject_head(base_html, route["title"], route["description"], route["path"], route["json_ld"]),
-        )
+        html = inject_head(base_html, route["title"], route["description"], route["path"], route["json_ld"])
+        if route.get("body_html"):
+            html = html.replace('<div id="root"></div>', '<div id="root">' + route["body_html"] + '</div>')
+        write_route(route["path"], html)
 
     print(f"Prerendered {len(routes) + 1} static route files in dist/")
 

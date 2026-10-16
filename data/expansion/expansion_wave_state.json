@@ -1,0 +1,320 @@
+{
+  "completed_models": [
+    "Cupra|Tavascan",
+    "Ford|Capri",
+    "Subaru|Solterra",
+    "Toyota|C-Hr+",
+    "Volvo|Ex90"
+  ],
+  "attempts": [
+    {
+      "batch": 1,
+      "models": [
+        "Volkswagen|Id. Buzz",
+        "Volvo|Ex90",
+        "BMW|iX",
+        "MG|Mg4 Electric",
+        "Polestar|3"
+      ],
+      "sources": 13,
+      "drafts": 1,
+      "errors": [
+        {
+          "model": "Volkswagen|Id. Buzz",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Volvo|Ex90",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "MG|Mg4 Electric",
+          "url": "https://mgmotor.eu/sv-SE?ev_advisor_discovery_query=MG+Mg4+Electric+elbil+pris+Sverige",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Polestar|3",
+          "error": "no_publishable_free_web_source"
+        }
+      ],
+      "at": "2026-06-27T10:27:37.095339+00:00"
+    },
+    {
+      "batch": 1,
+      "models": [
+        "Volkswagen|Id. Buzz",
+        "Volvo|Ex90",
+        "BMW|iX",
+        "MG|Mg4 Electric",
+        "Polestar|3"
+      ],
+      "sources": 15,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Volkswagen|Id. Buzz",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Volvo|Ex90",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX",
+          "url": "https://hitta.bmw.se/r/I20-iX",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "MG|Mg4 Electric",
+          "url": "https://www.mgmotor.eu/sv-SE/sitemaps-1-section-mg4-12-sitemap.xml",
+          "error": "Source text too short for reliable extraction"
+        },
+        {
+          "model": "Polestar|3",
+          "error": "no_publishable_free_web_source"
+        }
+      ],
+      "at": "2026-06-27T10:35:59.567388+00:00"
+    },
+    {
+      "batch": 1,
+      "models": [
+        "Volkswagen|Id. Buzz",
+        "Volvo|Ex90",
+        "BMW|iX",
+        "MG|Mg4 Electric",
+        "Polestar|3"
+      ],
+      "sources": 20,
+      "drafts": 1,
+      "errors": [
+        {
+          "model": "Volkswagen|Id. Buzz",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX",
+          "url": "https://hitta.bmw.se/r/I20-iX",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "MG|Mg4 Electric",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Polestar|3",
+          "error": "no_publishable_free_web_source"
+        }
+      ],
+      "render_actions": [
+        {
+          "script": "fetch_browser_rendered_sources.mjs",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Browser-render rows processed: 2\nRendered sources ready: 1\nRendered sources ready total: 1",
+          "stderr": ""
+        },
+        {
+          "script": "build_rendered_extraction_batch.py",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Rendered extraction batch: 1\n1. Volvo Ex90",
+          "stderr": ""
+        }
+      ],
+      "at": "2026-06-27T10:40:58.625008+00:00"
+    },
+    {
+      "batch": 1,
+      "models": [
+        "Volkswagen|Id. Buzz",
+        "BMW|iX",
+        "MG|Mg4 Electric",
+        "Polestar|3",
+        "Lexus|Rz"
+      ],
+      "sources": 18,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Volkswagen|Id. Buzz",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX",
+          "url": "https://hitta.bmw.se/r/I20-iX",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "MG|Mg4 Electric",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Polestar|3",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Lexus|Rz",
+          "url": "https://www.lexus.se/new-cars/rz",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [
+        {
+          "script": "fetch_browser_rendered_sources.mjs",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Browser-render rows processed: 2\nRendered sources ready: 0\nRendered sources ready total: 1",
+          "stderr": ""
+        },
+        {
+          "script": "build_rendered_extraction_batch.py",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Rendered extraction batch: 1\n1. Volvo Ex90",
+          "stderr": ""
+        }
+      ],
+      "at": "2026-06-27T10:49:09.590050+00:00"
+    },
+    {
+      "batch": 2,
+      "models": [
+        "Toyota|C-Hr+",
+        "Xpeng|G6",
+        "Mercedes-Benz|Eqb",
+        "Subaru|Solterra",
+        "Porsche|Macan"
+      ],
+      "sources": 10,
+      "drafts": 2,
+      "errors": [
+        {
+          "model": "Xpeng|G6",
+          "url": "https://www.xpeng.com/model/g6",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Mercedes-Benz|Eqb",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Porsche|Macan",
+          "url": "https://www.porsche.com/sweden/models/macan/macan-electric-models/",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [],
+      "at": "2026-06-27T10:49:48.911204+00:00"
+    },
+    {
+      "batch": 3,
+      "models": [
+        "Mini|Countryman",
+        "Renault|4",
+        "BMW|iX2",
+        "Xpeng|G9",
+        "Hyundai|Inster"
+      ],
+      "sources": 8,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Mini|Countryman",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Renault|4",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "BMW|iX2",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Xpeng|G9",
+          "url": "https://www.xpeng.com/model/g9",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Hyundai|Inster",
+          "url": "https://www.hyundai.com/canarias/es/modelos/inster/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [
+        {
+          "script": "fetch_browser_rendered_sources.mjs",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Browser-render rows processed: 1\nRendered sources ready: 0\nRendered sources ready total: 1",
+          "stderr": ""
+        },
+        {
+          "script": "build_rendered_extraction_batch.py",
+          "ok": true,
+          "returncode": 0,
+          "stdout": "Rendered extraction batch: 1\n1. Volvo Ex90",
+          "stderr": ""
+        }
+      ],
+      "at": "2026-06-27T10:51:54.608198+00:00"
+    },
+    {
+      "batch": 4,
+      "models": [
+        "Mercedes-Benz|Glb",
+        "Cupra|Tavascan",
+        "Ford|Capri",
+        "Mini|Aceman",
+        "Mini|Hatch"
+      ],
+      "sources": 9,
+      "drafts": 2,
+      "errors": [
+        {
+          "model": "Mercedes-Benz|Glb",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Mini|Aceman",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Mini|Hatch",
+          "error": "no_publishable_free_web_source"
+        }
+      ],
+      "render_actions": [],
+      "at": "2026-06-27T10:53:34.251706+00:00"
+    },
+    {
+      "batch": 5,
+      "models": [
+        "Hyundai|Ioniq 9",
+        "Opel|Corsa",
+        "Hyundai|Ioniq 5"
+      ],
+      "sources": 9,
+      "drafts": 0,
+      "errors": [
+        {
+          "model": "Hyundai|Ioniq 9",
+          "url": "https://www.hyundai.com/canarias/es/modelos/ioniq6/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        },
+        {
+          "model": "Opel|Corsa",
+          "error": "no_publishable_free_web_source"
+        },
+        {
+          "model": "Hyundai|Ioniq 5",
+          "url": "https://www.hyundai.com/canarias/es/modelos/ioniq6/seguridad",
+          "error": "OPENAI_API_KEY is required for extraction"
+        }
+      ],
+      "render_actions": [],
+      "at": "2026-06-27T10:53:57.738908+00:00"
+    }
+  ]
+}

@@ -37,7 +37,10 @@ def export_rows(variants, models):
                 "model": row.get("model"),
                 "variant_name": row.get("variant_name"),
                 "price_sek": row.get("price_sek"),
+                "price_type": row.get("price_type"),
+                "price_valid_until": row.get("price_valid_until"),
                 "wltp_range_km": row.get("wltp_range_km"),
+                "wltp_consumption_kwh_100km": row.get("wltp_consumption_kwh_100km"),
                 "battery_kwh": row.get("battery_kwh"),
                 "dc_charge_kw": row.get("dc_charge_kw"),
                 "ac_charge_kw": row.get("ac_charge_kw"),
@@ -46,6 +49,7 @@ def export_rows(variants, models):
                 "seats": row.get("seats"),
                 "drivetrain": row.get("drivetrain"),
                 "source_url": row.get("source_url"),
+                "source_name": row.get("source_name") or row.get("brand"),
                 "source_hash": row.get("source_hash"),
                 "source_quote": row.get("source_quote"),
                 "extraction_confidence": row.get("extraction_confidence"),
@@ -54,6 +58,8 @@ def export_rows(variants, models):
                 "available_confirmed": bool(flags.get("available_confirmed", True)),
                 "discontinued_candidate": bool(flags.get("discontinued_candidate", False)),
                 "coming_or_low_volume": bool(flags.get("coming_or_low_volume", False)),
+                "image_url": flags.get("image_url"),
+                "image_source_url": flags.get("image_source_url"),
                 "verified_at": row.get("review_promoted_at") or row.get("verified_at"),
             }
         )

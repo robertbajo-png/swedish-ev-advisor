@@ -1,0 +1,4 @@
+brand_raw,model_raw,normalized_brand,normalized_model,market_rank,reason,model_group
+RENAULT,SCENIC,renault,scenic,34,needs_mapping,
+MERCEDES,EQE,mercedes benz,eqe,39,needs_mapping,
+VOLVO,ÖVRIGA,volvo,ovriga,48,needs_mapping,VOLVO ÖVRIGA

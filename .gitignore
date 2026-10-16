@@ -10,3 +10,5 @@ __pycache__/
 data/mobility-sweden/raw/
 data/local/*.sqlite
 data/local/*.sqlite-*
+data/local/news-qa/
+data/local/design-qa/

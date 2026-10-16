@@ -1,0 +1,21 @@
+[
+  {"id":"electrive","name":"electrive","website":"https://www.electrive.com","feeds":["https://www.electrive.com/feed/"],"priority":true,"reliability":0.85,"kind":"publisher"},
+  {"id":"insideevs","name":"InsideEVs","website":"https://insideevs.com","feeds":["https://insideevs.com/rss/news/all/","https://insideevs.com/rss/google/news/"],"priority":true,"reliability":0.82,"kind":"publisher","publisher_group":"motorsport-network"},
+  {"id":"cnevpost","name":"CnEVPost","website":"https://cnevpost.com","feeds":["https://cnevpost.com/feed/"],"priority":true,"reliability":0.82,"kind":"publisher"},
+  {"id":"carnewschina","name":"CarNewsChina","website":"https://carnewschina.com","feeds":["https://carnewschina.com/feed/"],"priority":true,"reliability":0.8,"kind":"publisher"},
+  {"id":"electrek","name":"Electrek","website":"https://electrek.co","feeds":["https://electrek.co/feed/"],"priority":true,"reliability":0.8,"kind":"publisher"},
+  {"id":"autocar","name":"Autocar","website":"https://www.autocar.co.uk","feeds":["https://www.autocar.co.uk/rss"],"priority":true,"reliability":0.85,"kind":"publisher"},
+  {"id":"autoexpress","name":"Auto Express","website":"https://www.autoexpress.co.uk","feeds":["https://www.autoexpress.co.uk/feeds/all"],"enabled":false,"reliability":0.82,"kind":"publisher"},
+  {"id":"automobile-propre","name":"Automobile Propre","website":"https://www.automobile-propre.com","feeds":["https://www.automobile-propre.com/feed/"],"enabled":false,"reliability":0.8,"kind":"publisher"},
+  {"id":"cleantechnica","name":"CleanTechnica","website":"https://cleantechnica.com","feeds":["https://cleantechnica.com/feed/"],"enabled":false,"reliability":0.75,"kind":"publisher"},
+  {"id":"motor1","name":"Motor1","website":"https://www.motor1.com","feeds":["https://www.motor1.com/rss/news/all/"],"enabled":false,"reliability":0.82,"kind":"publisher","publisher_group":"motorsport-network"},
+  {"id":"naf","name":"NAF El Prix","website":"https://www.naf.no","feeds":[],"enabled":false,"reliability":0.95,"kind":"primary"},
+  {"id":"thedriven","name":"The Driven","website":"https://thedriven.io","feeds":["https://thedriven.io/feed/"],"enabled":false,"reliability":0.8,"kind":"publisher"},
+  {"id":"mobility-sweden","name":"Mobility Sweden","website":"https://mobilitysweden.se","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"acea","name":"ACEA","website":"https://www.acea.auto","feeds":["https://www.acea.auto/feed/"],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"iea","name":"IEA","website":"https://www.iea.org","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"icct","name":"ICCT","website":"https://theicct.org","feeds":["https://theicct.org/feed/"],"enabled":false,"reliability":0.95,"kind":"primary"},
+  {"id":"volvo-press","name":"Volvo Cars Media","website":"https://www.media.volvocars.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"vw-press","name":"Volkswagen Newsroom","website":"https://www.volkswagen-newsroom.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"bmw-press","name":"BMW Group PressClub","website":"https://www.press.bmwgroup.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"}
+]

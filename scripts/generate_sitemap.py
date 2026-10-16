@@ -4,10 +4,11 @@ import re
 from datetime import date
 from pathlib import Path
 from xml.sax.saxutils import escape
+from news_public import news_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_URL = os.environ.get("SITE_URL", "https://swedish-ev-advisor.se").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://seekev.se").rstrip("/")
 SEGMENTS = ["familj", "vinter", "dragkrok", "under-500000", "lang-rackvidd"]
 PUBLIC_STATUSES = {"published", "published_reviewed"}
 
@@ -102,7 +103,7 @@ def render_url(path: str, priority: str) -> str:
 
 
 def main() -> None:
-    paths = ["/", "/bilar", "/jamfor", "/verifiering", *[f"/{segment}" for segment in SEGMENTS], *car_urls()]
+    paths = ["/", "/bilar", "/jamfor", "/verifiering", *[f"/{segment}" for segment in SEGMENTS], *car_urls(), *news_paths()]
     seen = []
     for path in paths:
         if path not in seen:

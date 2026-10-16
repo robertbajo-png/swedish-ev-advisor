@@ -154,3 +154,32 @@ Deliverables:
 Exit criteria:
 - The database can stay current with minimal manual work.
 - Humans review exceptions, not normal data entry.
+
+## Expansion Wave - Market Ranks 31-60
+
+Goal: Reuse the validated MVP pipeline to expand public coverage with free web sources.
+
+Deliverables:
+- Absolute Mobility Sweden rank 31-60 scope with ambiguous names quarantined.
+- Manufacturer/importer sitemap discovery and verified authorized-dealer fallback.
+- Deterministic extraction before OpenAI fallback.
+- Restartable five-model batches with browser-render fallback and isolated errors.
+- Separate list, campaign, and dealer pricing plus exact-image evidence.
+
+Exit criteria:
+- At least 24 models have an accepted source candidate.
+- At least 20 additional models publish or every non-published model has an explicit blocker.
+- No comparison-site facts, search placeholders, sitemaps, or incorrect model images reach public views.
+
+## News Service Extension - October 2026
+
+The accepted product scope now also includes independent Swedish EV news. The
+news work follows `docs/news-engine-plan.md`, separate from vehicle phases 0-9.
+Implementation, deployment instructions and remaining live checks are recorded
+in `docs/news-engine-operations.md`.
+
+- News phase 1: RSS collection and private evidence store implemented; five feeds verified live.
+- News phase 2: grounded editorial pipeline and publication gates implemented; live LLM validation awaits runtime configuration.
+- News phase 3: public routes, vehicle links, homepage integration and SEO implemented and tested locally.
+- News phase 4: official-source verification queue implemented; statistical market analysis and wider primary coverage remain.
+- Production activation awaits a reachable Supabase project, migration 007 and configured AI/scheduler secrets.

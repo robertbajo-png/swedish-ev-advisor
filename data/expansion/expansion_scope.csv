@@ -1,0 +1,24 @@
+market_rank,wave,brand,model,normalized_brand,normalized_model,registrations_ytd,registrations_last_month,registrations_12m,last_seen_month,alias_rule
+35,rank_31_60,Volkswagen,Id. Buzz,volkswagen,id buzz,155,77,0,2026-03-01,mobility_sweden_exact_raw_name
+37,rank_31_60,BMW,iX,bmw,ix,128,58,0,2026-03-01,mobility_sweden_exact_raw_name
+38,rank_31_60,MG,Mg4 Electric,mg,mg4 electric,127,62,0,2026-03-01,mobility_sweden_exact_raw_name
+40,rank_31_60,Polestar,3,polestar,3,112,42,0,2026-03-01,mobility_sweden_exact_raw_name
+41,rank_31_60,Lexus,Rz,lexus,rz,108,45,0,2026-03-01,mobility_sweden_exact_raw_name
+42,rank_31_60,Toyota,C-Hr+,toyota,c hr,106,106,0,2026-03-01,mobility_sweden_exact_raw_name
+43,rank_31_60,Xpeng,G6,xpeng,g6,101,49,0,2026-03-01,mobility_sweden_exact_raw_name
+44,rank_31_60,Mercedes-Benz,Eqb,mercedes benz,eqb,99,26,0,2026-03-01,mobility_sweden_exact_raw_name
+45,rank_31_60,Subaru,Solterra,subaru,solterra,95,34,0,2026-03-01,mobility_sweden_exact_raw_name
+46,rank_31_60,Porsche,Macan,porsche,macan,94,32,0,2026-03-01,mobility_sweden_exact_raw_name
+47,rank_31_60,Mini,Countryman,mini,countryman,93,42,0,2026-03-01,mobility_sweden_exact_raw_name
+49,rank_31_60,Renault,4,renault,4,92,39,0,2026-03-01,mobility_sweden_exact_raw_name
+50,rank_31_60,BMW,iX2,bmw,ix2,91,31,0,2026-03-01,mobility_sweden_exact_raw_name
+51,rank_31_60,Xpeng,G9,xpeng,g9,84,38,0,2026-03-01,mobility_sweden_exact_raw_name
+52,rank_31_60,Hyundai,Inster,hyundai,inster,84,20,0,2026-03-01,mobility_sweden_exact_raw_name
+53,rank_31_60,Mercedes-Benz,Glb,mercedes benz,glb,77,77,0,2026-03-01,mobility_sweden_exact_raw_name
+54,rank_31_60,Cupra,Tavascan,cupra,tavascan,73,73,0,2026-03-01,mobility_sweden_exact_raw_name
+55,rank_31_60,Ford,Capri,ford,capri,73,34,0,2026-03-01,mobility_sweden_exact_raw_name
+56,rank_31_60,Mini,Aceman,mini,aceman,66,24,0,2026-03-01,mobility_sweden_exact_raw_name
+57,rank_31_60,Mini,Hatch,mini,hatch,64,21,0,2026-03-01,mobility_sweden_exact_raw_name
+58,rank_31_60,Hyundai,Ioniq 9,hyundai,ioniq 9,60,25,0,2026-03-01,mobility_sweden_exact_raw_name
+59,rank_31_60,Opel,Corsa,opel,corsa,59,17,0,2026-03-01,mobility_sweden_exact_raw_name
+60,rank_31_60,Hyundai,Ioniq 5,hyundai,ioniq 5,57,23,0,2026-03-01,mobility_sweden_exact_raw_name

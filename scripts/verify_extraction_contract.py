@@ -12,7 +12,10 @@ ALLOWED_DRAFT_STATUSES = {"extracted", "published", "published_reviewed"}
 REQUIRED_VARIANT_FIELDS = {
     "variant_name",
     "price_sek",
+    "price_type",
+    "price_valid_until",
     "wltp_range_km",
+    "wltp_consumption_kwh_100km",
     "battery_kwh",
     "dc_charge_kw",
     "ac_charge_kw",

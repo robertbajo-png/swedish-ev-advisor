@@ -1,0 +1,6 @@
+name = "seekev"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-08-24"
+
+[vars]
+OPENAI_MODEL = "gpt-5.4-mini"

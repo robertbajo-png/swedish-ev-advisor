@@ -74,6 +74,7 @@ def load_source_seed_rows() -> list[dict]:
         ROOT / "data/canonical/manufacturer_sources_mvp_validated.csv",
         ROOT / "data/canonical/mvp_extraction_queue.csv",
         ROOT / "data/extraction/rendered_extraction_batch.csv",
+        ROOT / "data/expansion/expansion_sources.csv",
     ]
     rows_by_url = {}
     for path in paths:
@@ -153,6 +154,9 @@ def build_canonical_model_rows() -> list[dict]:
                 "available_confirmed": bool_value(row["available_confirmed"]),
                 "discontinued_candidate": bool_value(row["discontinued_candidate"]),
                 "coming_or_low_volume": bool_value(row["coming_or_low_volume"]),
+                "image_url": row.get("image_url") or None,
+                "image_source_url": row.get("image_source_url") or None,
+                "image_verified_at": row.get("image_verified_at") or None,
                 "validation_status": row["validation_status"],
             }
         )
@@ -228,7 +232,11 @@ def build_source_rows(canonical_ids: dict[tuple[str, str], str] | None = None) -
                 "content_hash": first_value(row, "content_hash", "source_hash") or None,
                 "fetched_at": row.get("fetched_at") or None,
                 "source_validation": row.get("source_validation") or "needs_discovery",
-                "is_primary": row.get("source_validation") == "reachable_official_model_source",
+                "source_authority": first_value(row, "source_authority", default="manufacturer"),
+                "authorization_evidence_url": row.get("authorization_evidence_url") or None,
+                "source_name": first_value(row, "source_name") or source_title(row),
+                "is_primary": first_value(row, "source_authority", default="manufacturer") in {"manufacturer", "importer"}
+                and row.get("source_validation") in {"reachable_official_model_source", "reachable_eu_official_source", "reachable_approved_source"},
             }
         )
     return rows
@@ -250,7 +258,10 @@ def build_extracted_draft_rows(canonical_ids: dict[tuple[str, str], str] | None 
         "model",
         "variant_name",
         "price_sek",
+        "price_type",
+        "price_valid_until",
         "wltp_range_km",
+        "wltp_consumption_kwh_100km",
         "battery_kwh",
         "dc_charge_kw",
         "ac_charge_kw",
