@@ -28,7 +28,9 @@ förhandsvisning eller skärmbilder. En lokal adress fungerar bara på värddato
 - Fas 5 klar för denna iteration: samlad QA, kontrast och rubrikstruktur,
   tangentbordsnavigering, responsiva fel- och filterlägen samt korrekt sökmetadata.
 - Resultat och avgränsningar: `docs/ui-phase5-qa.md`.
-- Nästa: bekräfta GitHub-kontrollen, anslut Cloudflare, publicera en separat
+- GitHub-kontrollen för `5d11e64` är grön, inklusive alla UI-sviter:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/38911960798
+- Nästa: anslut Cloudflare, publicera en separat
   förhandsversion och testa driftens publika datavyer och serverbaserade AI-tjänst.
 - Read-only driftkontroll: Supabase svarar med 66 publicerade, källbundna varianter.
   Den lokala exporten har 69; inget har skrivits till produktionsdatabasen.

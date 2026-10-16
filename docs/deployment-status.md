@@ -4,8 +4,10 @@ Kontrollerad 2026-10-16. Ingen produktionsdatabas eller DNS har ändrats.
 
 ## Bekräftat
 
-- Föregående GitHub-snapshot `25f3aff` har en grön `Verify SeekEV`-körning:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/38864282339
+- GitHub-snapshot `5d11e64` har en helt grön `Verify SeekEV`-körning:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/38911960798
+  Den omfattar kontrakt, nyhetstester, Functions-kompilering, SEO och samtliga
+  UI-sviter. Den första QA-körningens timing-/transportproblem är rättat.
 - UI-fas 5 är testad enligt `docs/ui-phase5-qa.md`.
 - Cloudflare Pages Functions kompilerar med Wrangler.
 - Publika byggen försöker aldrig kontakta besökarens localhost vid API-fel.
@@ -32,14 +34,18 @@ aktualitet och publiceringskontrakt innan eventuell separat synk.
 
 - `https://seekev.se/` och `/health` svarar med samma HTML: `Parked at Loopia`.
   Domänen visar alltså inte Elbilsguiden ännu, trots HTTP 200.
-- Wrangler saknade inloggning vid första kontrollen. Kontoanslutning pågår med
-  användarens medverkan; ingen extern deployment är ännu bekräftad.
+- Cloudflare-fliken visar fortfarande inloggningssidan. Kontoanslutningen väntar
+  på användarens inloggning; ingen extern deployment är ännu bekräftad.
+- Wranglers Windows-modul för säker nyckellagring är installerad och laddar.
+  Detta är inte en slutförd inloggning; inga kontouppgifter har sparats i steget.
+- Den lokala miljön saknar `OPENAI_API_KEY`. Äldre nycklar från chatten används
+  inte som ersättning för en konfigurerad serverhemlighet.
 - Ingen AI-/Supabase-nyckel har lagts in i en extern hostingmiljö i detta steg.
 - Nyhetsautomatiken förblir pausad. Inga nyhetsartiklar publiceras av testerna.
 
 ## Nästa åtgärder
 
-1. Bekräfta push och GitHub Actions för denna snapshot.
+1. GitHub-push och Actions är bekräftade för `5d11e64`.
 2. Slutför Cloudflare-anslutningen och identifiera rätt konto/projekt.
 3. Publicera en separat preview och kör `verify:deployment -- URL --expect-preview`.
 4. Konfigurera endast publika läsnycklar respektive serverhemligheter i rätt miljö.
