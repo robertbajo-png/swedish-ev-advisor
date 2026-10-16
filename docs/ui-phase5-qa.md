@@ -23,6 +23,9 @@ Datum: 2026-10-16. Gäller QA-rättningar efter GitHub-snapshot `25f3aff`.
 Den nya kontrollen omfattar startsida, katalog, familjeurval, två bilsidor
 (inklusive saknad bild), jämförelse, informationssida, nyhetslista och artikel.
 Alla 18 desktop-/mobilvyer samt filterdialogen passerar den automatiska kontrollen.
+Den första CI-körningen avbröts i biltestets omedelbara kontroll efter borttagning
+av en jämförd bil. Testet väntar nu på Reacts uppdaterade vy och levererar samma
+testunderlag via både Supabase- och JSON-transport, utan krav på lokala nycklar.
 
 Övriga kontroller: `verify:home-ui`, `verify:vehicle-ui`, `verify:journal-ui`,
 `verify:news-ui`, `verify:news-presentation`, `verify:advisor`,

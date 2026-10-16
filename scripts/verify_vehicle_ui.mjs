@@ -14,7 +14,9 @@ const failures = [];
 try {
   const page = await browser.newPage({ acceptDownloads: true });
   page.on('pageerror', (error) => failures.push(error.message));
-  await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: records }));
+  let publicRecords = records;
+  await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: publicRecords }));
+  await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ json: { records: publicRecords } }));
   await page.route('**/rest/v1/public_news_articles?**', (route) => route.fulfill({ json: [] }));
   await page.route('**/data/news_articles.json', (route) => route.fulfill({ json: { records: [] } }));
   await page.route('**/api/compare', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
@@ -77,6 +79,7 @@ try {
       await page.getByRole('button', { name: 'Skapa rapport', exact: true }).click();
       await page.getByText('Högst i rapportens viktning').waitFor();
       await page.locator('.comparisonVehiclePhoto button').first().click();
+      await page.getByText('Högst i rapportens viktning').waitFor({ state: 'hidden' });
       assert.equal(await page.getByText('Högst i rapportens viktning').count(), 0, 'Changed selection clears stale report');
     }
     await page.goto(base + '/bilar/tesla-model-3-long-range-rwd');
@@ -98,8 +101,7 @@ try {
     assert.equal(await page.getByRole('link', { name: 'Öppna källa', exact: true }).getAttribute('target'), '_blank');
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
-  await page.unroute('**/rest/v1/public_ev_variants?**');
-  await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: [{ ...records[0], dc_charge_kw: null, tow_kg: 0, seats: null }] }));
+  publicRecords = [{ ...records[0], dc_charge_kw: null, tow_kg: 0, seats: null }];
   await page.goto(base + '/bilar');
   await page.locator('.carCard').first().waitFor();
   await page.locator('.carCard').getByRole('link', { name: 'Visa detaljer' }).click();
