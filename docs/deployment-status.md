@@ -55,3 +55,24 @@ aktualitet och publiceringskontrakt innan eventuell separat synk.
 
 Alla kontroller, utom det uttryckliga smoketestet, är skrivskyddade och gör inga
 AI-POST-anrop. `verify:deployment-contract` testar kontrollverktyget med fixturer.
+
+## Uppdatering 2026-10-17
+
+- GitHub-kontrollen för `13b9287` är också grön:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/38931769683
+- `Publish Pages preview` är implementerat som ett separat GitHub-flöde.
+  Exakt grön main-commit, rätt konto/projekt och en separat preview-gren krävs.
+  Automatisk körning är avstängd tills `PREVIEW_DEPLOY_ENABLED=true` sätts.
+- Lokal validering av preview-skydd, YAML, publiceringskontrakt, Functions,
+  canonical-underlag och produktionsbygge passerar. Inga verkliga provider-anrop
+  eller uppladdningar görs av fixturtesterna.
+- Ett första UI-preview använder samma validerade snapshot i frontend och API,
+  utan AI-/databasnycklar. Det är inte ett skarpt LLM-test.
+- Wrangler är fortfarande inte inloggat och ingen webbläsare är ansluten till
+  datorverktyget. Ingen ny tidsbegränsad inloggningskod har skapats i detta steg.
+- För extern publicering återstår kontobehörigheten: Pages-token som skyddad
+  GitHub-hemlighet samt account ID/projektnamn som variabler. Dessa läggs direkt
+  i GitHub, inte i chatten. Följ avsnitt 7 i hostingchecklistan.
+
+Implementationsplan: `docs/cloudflare-preview-plan.md`. Ingen DNS, canonical-data,
+nyhetspublicering eller produktdesign har ändrats i detta steg.

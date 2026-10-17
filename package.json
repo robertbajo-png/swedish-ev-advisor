@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "verify:pages-preview": "bun scripts/verify_pages_preview_workflow.mjs",
     "verify:deployment": "node scripts/verify_deployment.mjs",
     "verify:deployment-contract": "node scripts/verify_deployment_contract.mjs",
     "verify:site-qa": "node scripts/verify_site_qa.mjs",

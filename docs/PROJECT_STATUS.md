@@ -36,6 +36,15 @@ förhandsvisning eller skärmbilder. En lokal adress fungerar bara på värddato
   Den lokala exporten har 69; inget har skrivits till produktionsdatabasen.
 - Extern publicering är ännu inte bekräftad. Se `docs/deployment-status.md`.
 
+## Preview-automation 2026-10-17
+
+- Separat GitHub-flöde för preview är implementerat och lokalt kontraktstestat.
+- Kräver grön CI för exakt commit och stoppar publicering till produktionsgren.
+- Verifierar den externa preview-adressen med befintliga skrivskyddade kontroller.
+- Automatisk uppladdning är opt-in; ingen extern deployment är ännu bekräftad.
+- Engångskoppling till Cloudflare återstår. Instruktioner finns i avsnitt 7 av
+  `docs/cloudflare-deployment-checklist.md`. Inga produktfunktioner ändras av detta.
+
 ## Viktiga avgränsningar
 
 - Inga databas-, insamlings- eller publiceringsändringar i designfaserna.

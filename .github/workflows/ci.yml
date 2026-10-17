@@ -28,6 +28,7 @@ jobs:
       - run: bun run verify:tco
       - run: bun run verify:news-presentation
       - run: bun run verify:deployment-contract
+      - run: bun run verify:pages-preview
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
