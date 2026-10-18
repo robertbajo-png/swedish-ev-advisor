@@ -6,8 +6,8 @@ En GitHub-push betyder inte att webbplatsen eller databasen har driftsatts.
 ## Publicerad förhandsversion
 
 - Extern UI-preview: https://codex-ui-preview.seekev-preview.pages.dev/
-- Versionsbunden deployment: https://99fcf2c3.seekev-preview.pages.dev/
-- Publicerad kod: `0d65c1bdf42a60c0673410b8d13bec743426b0d0`, med grön CI.
+- Versionsbunden deployment: https://cfbe297b.seekev-preview.pages.dev/
+- Publicerad kod: `696b711936ac196455a5c54a7177c8ddfc3dc0fb`, med grön CI.
 - Åtta externa GET-kontroller passerar på båda adresserna. 69 validerade
   snapshot-varianter visas; preview är `noindex`.
 - Externt rådgivnings-/jämförelsesmoketest passerar i databasbaserat reservläge.
@@ -26,8 +26,8 @@ Full driftstatus och nästa kontokopplingar: `docs/deployment-status.md`.
 En extra UI-granskning jämnar ut rubrik-/kontrollskala, bildformat, kortpriser,
 mobilfilter och bilherons innehållshöjd. Nya måttester omfattar 24 sidlägen och
 ingår i CI. Se `docs/ui-proportion-refinement.md`. Ändringen påverkar inte
-canonical-data, AI-tjänster eller nyhetspublicering. Preview-adressen ovan avser
-senast bekräftade deployment; nya lokala ändringar blir inte publika via HMR.
+canonical-data, AI-tjänster eller nyhetspublicering. Designen är publicerad och
+de 24 måttesterna passerar även mot den externa deploymenten ovan.
 
 ## GitHub och delning
 

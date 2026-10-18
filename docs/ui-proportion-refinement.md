@@ -44,8 +44,21 @@ och en mobil verktygsrad som kunde brytas till tre rader.
 Skärmbilder och mätresultat finns lokalt i `data/local/ui-proportions/`,
 `data/local/design-qa/` och `data/local/news-qa/` och versionshanteras inte.
 
-## Nästa steg
+## Publicerat resultat
 
-Publicera samma kodversion som separat preview efter grön CI. Kontrollera de
-externa sidorna och API-kontrakten igen. Ingen DNS- eller databasändring ingår.
-Live-AI och produktionsdomän kräver fortfarande egna driftkontroller.
+- Kod: `696b711936ac196455a5c54a7177c8ddfc3dc0fb` på GitHub och Cloudflare.
+- Grön CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39161616233
+- Fast preview: https://codex-ui-preview.seekev-preview.pages.dev/
+- Exakt deployment: https://cfbe297b.seekev-preview.pages.dev/
+- Externa åtta GET-kontroller och samtliga 24 måttester passerar efter publicering.
+- Ingen DNS- eller databasändring ingår. Live-AI och produktionsdomän kräver
+  fortfarande egna driftkontroller.
+
+Berörda produktfiler: `src/design-system.css`, `src/home.css`, `src/vehicles.css`,
+`src/vehicle-ui.jsx`, `src/news.css`, `src/ui-navigation.js` och `src/main.jsx`.
+Tester/CI: `scripts/verify_ui_proportions.mjs`, `scripts/verify_home_ui.mjs`,
+`scripts/verify_site_qa.mjs`, `package.json`, `.github/workflows/ci.yml` och
+`.gitignore` för lokala QA-artefakter.
+
+Nästa rekommenderade steg är visuell återkoppling på preview innan skarpa
+serverhemligheter och produktionsdomän kopplas på. Nyhetsautomatiken är pausad.

@@ -9,11 +9,11 @@ Kontrollerad 2026-10-18. Ingen produktionsdatabas eller DNS har ändrats.
   Inloggningen lagras krypterat med Windows Credential Manager, inte i repot.
 - Separat Pages-projekt: `seekev-preview`, produktionsgren `main`.
   Endast preview-grenen `codex-ui-preview` har publicerats.
-- Publicerad kodversion: `0d65c1bdf42a60c0673410b8d13bec743426b0d0`.
+- Publicerad kodversion: `696b711936ac196455a5c54a7177c8ddfc3dc0fb`.
   Exakt commit har grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39063781903
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39161616233
 - Fast preview-länk: https://codex-ui-preview.seekev-preview.pages.dev/
-- Versionsbunden länk: https://99fcf2c3.seekev-preview.pages.dev/
+- Versionsbunden länk: https://cfbe297b.seekev-preview.pages.dev/
 - Båda adresserna passerar alla åtta GET-kontroller: app, katalog, jämförelse,
   nyheter, bil-deeplink, JSON-health, 69 publicerade källbundna varianter och
   webbplatskarta. Preview-sidorna har `noindex` och omdirigerar inte till localhost.
@@ -27,6 +27,10 @@ Kontrollerad 2026-10-18. Ingen produktionsdatabas eller DNS har ändrats.
   databasnycklar har lagts in. Nyhetsautomatiken förblir pausad.
 - GitHub-flödet är implementerat men ännu inte kontokopplat för automatiska
   uppladdningar. Den första uppladdningen gjordes med autentiserad Wrangler CLI.
+- Preview innehåller nu proportionsgranskningen: kompaktare rubriker/bilder,
+  större kontrolltexter och tryckytor samt skydd för fokus bakom jämförelsefältet.
+  Alla 24 måttester passerar mot den publicerade versionen. Se
+  `docs/ui-proportion-refinement.md`.
 
 Nästa driftsteg: konfigurera serverhemligheter säkert och verifiera live-AI med
 ett begränsat `SMOKE_REQUIRE_AI=1`-test. Hantera därefter separat databasens
