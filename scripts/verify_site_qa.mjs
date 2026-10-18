@@ -149,8 +149,18 @@ try {
     await go('/bilar');
     await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.getByRole('contentinfo').getByRole('button', { name: 'Till toppen' }).focus();
+    const waitForRevealedFocus = () => page.waitForFunction(() => {
+      const control = document.activeElement?.getBoundingClientRect();
+      const bar = document.querySelector('.vehicleCompareBar')?.getBoundingClientRect();
+      return control && bar && control.bottom <= bar.top;
+    }, null, { timeout: 2000 });
+    await waitForRevealedFocus().catch(() => {});
     const footerButton = await page.getByRole('contentinfo').getByRole('button', { name: 'Till toppen' }).boundingBox();
     const compareBar = await page.locator('.vehicleCompareBar').boundingBox();
+    if (footerButton.y + footerButton.height > compareBar.y) {
+      console.log(JSON.stringify({ footerButton, compareBar, layout: await page.locator('.appShell').evaluate((node) => ({ paddingBottom: getComputedStyle(node).paddingBottom, scrollY, maxScroll: document.documentElement.scrollHeight - innerHeight, focus: document.activeElement?.textContent })) }));
+      await page.screenshot({ path: fileURLToPath(new URL(`qa-covered-focus-${width}.png`, out)) });
+    }
     assert(footerButton.y + footerButton.height <= compareBar.y, width + ': fixed bar does not hide footer focus');
     // Also exercise focus on a visible control already covered by the overlay.
     const footerControl = page.getByRole('contentinfo').getByRole('button', { name: 'Till toppen' });
@@ -160,6 +170,7 @@ try {
       window.scrollBy({ top: node.getBoundingClientRect().y - overlay.y - 4, behavior: 'instant' });
       node.focus({ preventScroll: true });
     });
+    await waitForRevealedFocus();
     const revealedButton = await footerControl.boundingBox();
     const overlay = await page.locator('.vehicleCompareBar').boundingBox();
     assert(revealedButton.y + revealedButton.height <= overlay.y, width + ': covered focus is revealed');

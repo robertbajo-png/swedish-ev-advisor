@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
@@ -1110,6 +1110,9 @@ function Metric({ icon: Icon, label, value }) {
 }
 
 function CompareBar({ cars, onRemove, onClear }) {
+  useLayoutEffect(() => {
+    if (cars.length) revealFocusAboveCompareBar({ target: document.activeElement });
+  }, [cars.length]);
   if (!cars.length) return null;
   return <aside className="vehicleCompareBar" aria-label="Din jämförelse"><strong><GitCompareArrows size={18} /> {cars.length} av {MAX_COMPARE}</strong><div className="vehicleCompareChips">{cars.map((car) => <button key={car.id} type="button" onClick={() => onRemove(car.id)} aria-label={'Ta bort ' + car.brand + ' ' + car.model}><span>{car.brand} {car.model}</span><X size={14} /></button>)}</div><button className="vehicleCompareClear" type="button" onClick={onClear} aria-label="Rensa jämförelse" title="Rensa jämförelse"><RotateCcw size={16} /></button><button className="uiPrimary" type="button" onClick={() => navigate('/jamfor')}>Jämför <ArrowRight size={16} /></button></aside>;
 }
