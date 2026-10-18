@@ -28,8 +28,10 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
     <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
     <div className="homeVehicleBody">
-      <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
-      <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>
+      <div className="vehicleCardIdentity">
+        <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
+        <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>
+      </div>
       <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{car.priceType === 'campaign_price' && validDate(car.priceValidUntil) ? ` · gäller till ${car.priceValidUntil}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
       <dl className="homeVehicleSpecs">
         {[['WLTP', car.rangeVerified, 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}

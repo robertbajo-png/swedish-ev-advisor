@@ -48,6 +48,7 @@ jobs:
             sleep 1
           done
           bun run verify:site-qa
+          bun run verify:ui-proportions
           bun run verify:home-ui
           bun run verify:vehicle-ui
           bun run verify:journal-ui
@@ -59,4 +60,5 @@ jobs:
           name: ui-qa-fixtures
           path: |
             data/local/design-qa/
+            data/local/ui-proportions/
             data/local/news-qa/

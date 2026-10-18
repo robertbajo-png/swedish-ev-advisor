@@ -53,7 +53,7 @@ try {
     if (name === 'desktop') {
       const left = await page.locator('.homeHeroCopy').boundingBox();
       const right = await page.locator('.homeSpotlight').boundingBox();
-      assert(Math.abs((left.y + left.height / 2) - (right.y + right.height / 2)) < 2, 'Hero columns share a centreline');
+      assert(Math.abs(left.y - right.y) < 2, 'Hero columns share a top edge');
     }
   }
   await page.setViewportSize({ width: 1440, height: 1000 });

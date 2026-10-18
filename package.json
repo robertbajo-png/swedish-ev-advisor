@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "verify:ui-proportions": "node scripts/verify_ui_proportions.mjs",
     "verify:pages-preview": "bun scripts/verify_pages_preview_workflow.mjs",
     "verify:deployment": "node scripts/verify_deployment.mjs",
     "verify:deployment-contract": "node scripts/verify_deployment_contract.mjs",

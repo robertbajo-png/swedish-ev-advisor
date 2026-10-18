@@ -1,6 +1,41 @@
 # Publiceringsstatus
 
-Kontrollerad 2026-10-16. Ingen produktionsdatabas eller DNS har ändrats.
+Kontrollerad 2026-10-18. Ingen produktionsdatabas eller DNS har ändrats.
+
+## Aktuell extern förhandsversion
+
+- Cloudflare-inloggningen är godkänd via Wranglers vanliga OAuth-flöde.
+  Behörigheten gäller kontoläsning och Pages; ingen DNS-behörighet begärdes.
+  Inloggningen lagras krypterat med Windows Credential Manager, inte i repot.
+- Separat Pages-projekt: `seekev-preview`, produktionsgren `main`.
+  Endast preview-grenen `codex-ui-preview` har publicerats.
+- Publicerad kodversion: `0d65c1bdf42a60c0673410b8d13bec743426b0d0`.
+  Exakt commit har grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39063781903
+- Fast preview-länk: https://codex-ui-preview.seekev-preview.pages.dev/
+- Versionsbunden länk: https://99fcf2c3.seekev-preview.pages.dev/
+- Båda adresserna passerar alla åtta GET-kontroller: app, katalog, jämförelse,
+  nyheter, bil-deeplink, JSON-health, 69 publicerade källbundna varianter och
+  webbplatskarta. Preview-sidorna har `noindex` och omdirigerar inte till localhost.
+- Det externa smoketestets två POST-anrop passerar i `deterministic_fallback`
+  för rådgivning och jämförelse. Detta bekräftar inte en aktiv LLM-integration.
+- `verify:site-qa` passerar mot den externa adressen: 18 sidlägen utan
+  automatiskt upptäckta tillgänglighetsfel, tangentbord och 320/640px-reflow.
+  Testet använder märkta lokala transportfixturer för nyheter och fellägen;
+  inga testartiklar eller bildfixturer har publicerats.
+- Preview använder samma validerade snapshot i frontend och API. Inga AI- eller
+  databasnycklar har lagts in. Nyhetsautomatiken förblir pausad.
+- GitHub-flödet är implementerat men ännu inte kontokopplat för automatiska
+  uppladdningar. Den första uppladdningen gjordes med autentiserad Wrangler CLI.
+
+Nästa driftsteg: konfigurera serverhemligheter säkert och verifiera live-AI med
+ett begränsat `SMOKE_REQUIRE_AI=1`-test. Hantera därefter separat databasens
+66/69-skillnad, GitHub-miljöns Pages-token och slutligen domänkopplingen.
+
+## Historik före publiceringen
+
+Följande avsnitt beskriver tidigare kontroller; uppgifter om väntande inloggning
+eller saknad preview ersätts av den aktuella statusen ovan.
 
 ## Bekräftat
 

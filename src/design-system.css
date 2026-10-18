@@ -22,6 +22,9 @@
   --ui-accent: #245e5b;
   --ui-radius: 8px;
   --ui-width: 1320px;
+  --ui-label-size: 13px;
+  --ui-control-size: 14px;
+  --ui-heading-size: 40px;
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -66,8 +69,8 @@ button:disabled { cursor: not-allowed; opacity: .6; }
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 24px;
-  min-height: 88px;
-  padding: 16px max(32px, calc((100% - 1320px) / 2));
+  min-height: 80px;
+  padding: 12px max(32px, calc((100% - 1320px) / 2));
   background: #f7f7f4;
   color: var(--ink);
   backdrop-filter: none;
@@ -77,7 +80,7 @@ button:disabled { cursor: not-allowed; opacity: .6; }
 .premiumHeader .brandMark { width: 32px; height: 36px; background: transparent; color: var(--pine); box-shadow: none; }
 .premiumHeader .brandMark svg { width: 28px; height: 28px; }
 .siteHeader.premiumHeader nav { display: flex; gap: 28px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
-.siteHeader.premiumHeader nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; color: #505a5b; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.siteHeader.premiumHeader nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; color: #505a5b; font-size: var(--ui-control-size); font-weight: 600; white-space: nowrap; }
 .siteHeader.premiumHeader nav a:hover, .siteHeader.premiumHeader nav a[aria-current="page"] { color: var(--pine); }
 .premiumHeader > .uiPrimary { justify-self: end; min-height: 44px; }
 .siteHeader.premiumHeader.siteHeaderCinematic { position: absolute; inset: 0 0 auto; background: rgb(16 25 25 / 50%); color: white; border-color: rgb(255 255 255 / 16%); backdrop-filter: blur(12px); }
@@ -95,9 +98,9 @@ button:disabled { cursor: not-allowed; opacity: .6; }
 @media (max-width: 600px) {
   .siteHeader.premiumHeader { padding: 12px 20px 4px; }
   .premiumHeader .brandButton { font-size: 18px; gap: 4px; }
-  .premiumHeader > .uiPrimary { padding: 8px 12px; font-size: 12px; gap: 8px; }
+  .premiumHeader > .uiPrimary { padding: 8px 12px; font-size: var(--ui-label-size); gap: 8px; }
   .siteHeader.premiumHeader nav { gap: 0; justify-content: space-between; }
-  .siteHeader.premiumHeader nav a { font-size: 12px; }
+  .siteHeader.premiumHeader nav a { font-size: var(--ui-label-size); }
   .appShell > footer { padding: 24px 20px; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
