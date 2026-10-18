@@ -23,6 +23,8 @@ och en mobil verktygsrad som kunde brytas till tre rader.
 - Bilhero växer med innehållet i stället för att tvingas till 820px på mobil.
   Okända värden förblir text, inte noll; faktapanelen ryms också vid 320px.
 - Jämförelsens bilder och mobilkort är kompaktare; desktoppriser linjerar.
+- Fokuserade kontroller flyttas fram om det fasta jämförelsefältet täcker dem.
+  Ett separat regressionstest återskapar också redan synlig men täckt fokus.
 - Nyhetsrubriker och artikelradavstånd följer en lugnare, sammanhängande skala.
   Nyhetsinsamling och publicering är fortfarande pausade.
 

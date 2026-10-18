@@ -33,7 +33,7 @@ import './styles.css';
 import { DEFAULT_TCO_ASSUMPTIONS, calculateTco } from './tco.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
-import { preferredScrollBehavior } from './ui-navigation.js';
+import { preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
 import { advisorEndpoints } from './api-endpoints.js';
 import { HomePage } from './home.jsx';
 import './design-system.css';
@@ -785,7 +785,7 @@ function App() {
   const compareLimitReached = compare.length >= MAX_COMPARE;
 
   return (
-    <div className={`appShell page-${route.type} ${compare.length ? 'hasComparison' : ''}`}>
+    <div className={`appShell page-${route.type} ${compare.length ? 'hasComparison' : ''}`} onFocusCapture={revealFocusAboveCompareBar}>
       <a className="skipLink" href="#main-content" onClick={(event) => { event.preventDefault(); contentRef.current?.focus(); contentRef.current?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' }); }}>Hoppa till innehållet</a>
       <header className={`siteHeader premiumHeader ${route.type === 'car' && routeCar ? 'siteHeaderCinematic' : ''}`}>
         <button className="brand brandButton" type="button" onClick={() => navigate('/')}>

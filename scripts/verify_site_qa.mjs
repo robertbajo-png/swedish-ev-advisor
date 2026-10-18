@@ -48,6 +48,9 @@ try {
     await page.locator('h1').waitFor();
     if (path === '/') await page.locator('.homeVehicleCard').first().waitFor();
     if (path === '/bilar' || path === '/familj') await page.locator('.carCard').first().waitFor();
+    if (path.startsWith('/bilar/')) await page.locator('.vehicleHeroStats').waitFor();
+    if (path === '/nyheter') await page.locator('.newsStory').first().waitFor();
+    if (path.startsWith('/nyheter/')) await page.locator('.newsArticleBody p').first().waitFor();
     await page.evaluate(() => document.fonts.ready);
   };
   const scan = async (name) => {
@@ -133,7 +136,15 @@ try {
     await page.setViewportSize({ width, height: 900 });
     for (const [, path] of routes) {
       await go(path);
-      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), width + ': ' + path);
+      const overflow = await page.evaluate(() => ({
+        viewport: innerWidth, width: document.documentElement.scrollWidth,
+        nodes: [...document.querySelectorAll('main *, header *, footer *')].filter((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.right > innerWidth + 1 && getComputedStyle(node).position !== 'absolute';
+        }).slice(0, 8).map((node) => ({ className: node.className, width: node.getBoundingClientRect().width })),
+      }));
+      if (overflow.width > width + 1) await page.screenshot({ path: fileURLToPath(new URL(`qa-overflow-${width}.png`, out)), fullPage: true });
+      assert(overflow.width <= overflow.viewport + 1, width + ': ' + path + ' ' + JSON.stringify(overflow));
     }
     await go('/bilar');
     await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
@@ -141,6 +152,17 @@ try {
     const footerButton = await page.getByRole('contentinfo').getByRole('button', { name: 'Till toppen' }).boundingBox();
     const compareBar = await page.locator('.vehicleCompareBar').boundingBox();
     assert(footerButton.y + footerButton.height <= compareBar.y, width + ': fixed bar does not hide footer focus');
+    // Also exercise focus on a visible control already covered by the overlay.
+    const footerControl = page.getByRole('contentinfo').getByRole('button', { name: 'Till toppen' });
+    await footerControl.evaluate((node) => {
+      node.blur();
+      const overlay = document.querySelector('.vehicleCompareBar').getBoundingClientRect();
+      window.scrollBy({ top: node.getBoundingClientRect().y - overlay.y - 4, behavior: 'instant' });
+      node.focus({ preventScroll: true });
+    });
+    const revealedButton = await footerControl.boundingBox();
+    const overlay = await page.locator('.vehicleCompareBar').boundingBox();
+    assert(revealedButton.y + revealedButton.height <= overlay.y, width + ': covered focus is revealed');
     report.responsive.push(width + 'px reflow and fixed compare bar');
   }
   await page.setViewportSize({ width: 390, height: 844 });
