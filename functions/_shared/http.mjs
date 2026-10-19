@@ -10,8 +10,8 @@ const RESPONSE_HEADERS = {
 let cachedVariants = null;
 let cacheExpiresAt = 0;
 
-export function json(payload, status = 200) {
-  return new Response(JSON.stringify(payload), { status, headers: RESPONSE_HEADERS });
+export function json(payload, status = 200, headers = {}) {
+  return new Response(JSON.stringify(payload), { status, headers: { ...RESPONSE_HEADERS, ...headers } });
 }
 
 export async function readJsonRequest(request) {
@@ -20,7 +20,9 @@ export async function readJsonRequest(request) {
   const body = await request.text();
   if (!body) return {};
   if (body.length > 20000) throw new Error('Request body is too large.');
-  return JSON.parse(body);
+  const parsed = JSON.parse(body);
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') throw new SyntaxError('Expected a JSON object.');
+  return parsed;
 }
 
 async function loadFromSupabase(env) {
@@ -29,6 +31,8 @@ async function loadFromSupabase(env) {
   if (!baseUrl || !anonKey) return [];
   const response = await fetch(`${baseUrl.replace(/\/$/, '')}/rest/v1/public_ev_variants?select=*`, {
     headers: { apikey: anonKey, authorization: `Bearer ${anonKey}` },
+    signal: AbortSignal.timeout(8000),
+    redirect: 'error',
   });
   if (!response.ok) throw new Error(`Supabase public view returned ${response.status}.`);
   return normalizePublicVariants(await response.json());

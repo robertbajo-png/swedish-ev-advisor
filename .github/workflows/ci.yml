@@ -25,6 +25,7 @@ jobs:
       - run: bun run verify:advisor
       - run: bun run verify:advisor-data
       - run: bun run verify:cloudflare
+      - run: bun run verify:live-ai
       - run: bun run verify:tco
       - run: bun run verify:news-presentation
       - run: bun run verify:deployment-contract

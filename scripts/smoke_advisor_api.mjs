@@ -1,7 +1,7 @@
 const baseUrl = process.env.ADVISOR_API_BASE_URL || 'http://127.0.0.1:8787';
 
 async function requestJson(path, options = {}) {
-  const response = await fetch(`${baseUrl}${path}`, options);
+  const response = await fetch(`${baseUrl}${path}`, { ...options, signal: AbortSignal.timeout(35000), redirect: 'error' });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
     throw new Error(`${path} failed with ${response.status}: ${JSON.stringify(payload)}`);
@@ -48,6 +48,10 @@ function assertCanonicalCompare(payload) {
 
 const health = await requestJson('/health');
 if (health.ok !== true) throw new Error('Advisor health check did not return ok=true.');
+const exportPayload = await requestJson('/data/public_ev_variants.json');
+const canonical = new Map((Array.isArray(exportPayload) ? exportPayload : exportPayload.records)
+  .filter((row) => ['published', 'published_reviewed'].includes(row.validation_status) && row.source_hash)
+  .map((row) => [`${row.brand}|${row.model}|${row.variant_name}`, row]));
 
 const advisor = await requestJson('/api/advisor', {
   method: 'POST',
@@ -60,6 +64,10 @@ const advisor = await requestJson('/api/advisor', {
   }),
 });
 assertCanonicalShortlist(advisor);
+for (const item of advisor.shortlist) {
+  const row = canonical.get(`${item.brand}|${item.model}|${item.variant_name}`);
+  if (!row || row.source_url !== item.source_url) throw new Error('Advisor recommendation does not match the public snapshot.');
+}
 if (process.env.SMOKE_REQUIRE_AI === '1' && advisor.mode !== 'openai') {
   throw new Error('Advisor returned database fallback; a real AI response was required.');
 }
@@ -72,6 +80,13 @@ const compare = await requestJson('/api/compare', {
   }),
 });
 assertCanonicalCompare(compare);
+if (compare.compared.length !== advisor.shortlist.length) throw new Error('Compare report omitted a selected variant.');
+for (const item of compare.compared) {
+  const row = canonical.get(item.variant_key);
+  if (!row || row.source_url !== item.source_url || row.price_sek !== item.price_sek || row.wltp_range_km !== item.wltp_range_km) {
+    throw new Error('Compare facts do not match the public snapshot.');
+  }
+}
 if (process.env.SMOKE_REQUIRE_AI === '1' && compare.mode !== 'openai') {
   throw new Error('Compare returned database fallback; a real AI response was required.');
 }

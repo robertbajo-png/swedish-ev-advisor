@@ -53,6 +53,7 @@
     "verify:advisor": "node scripts/verify_advisor_contract.mjs",
     "verify:advisor-data": "node scripts/verify_advisor_data_contract.mjs",
     "verify:cloudflare": "node scripts/verify_cloudflare_functions.mjs",
+    "verify:live-ai": "node scripts/verify_live_ai_contract.mjs",
     "verify:tco": "node scripts/verify_tco.mjs",
     "backfill:consumption": "node scripts/run_python.mjs scripts/backfill_verified_consumption.py",
     "smoke:advisor": "node scripts/smoke_advisor_api.mjs",
