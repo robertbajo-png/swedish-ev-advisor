@@ -5,25 +5,37 @@ Kontrollerad 2026-10-19. Ingen produktionsdatabas eller DNS har ändrats.
 ## AI-förhandsversion: Live-AI Verifierad
 
 - Separat projekt `seekev-ai-preview`, endast preview-grenen `codex-ai-preview`.
-- Kodversion `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d` har grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39258477306
+- Kodversion `125d0e7e70b054c13ef66c3e237e5640332223da` har grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39265741684
 - Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
-- Versionsbunden adress: https://e36a3640.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://9b3fb8af.seekev-ai-preview.pages.dev/
 - Endast OpenAI-nyckeln är överförd till detta projekts preview-hemligheter,
   via CLI-stdin. Inga Supabase-hemligheter är överförda.
-- Alla åtta GET-kontroller passerar på båda adresserna med 69 publicerade
-  källbundna varianter och `noindex`. Externa skyddskontroller ger korrekt
-  403/415/400 utan provideranrop.
+- Alla åtta GET-kontroller passerar på båda aktuella adresserna med 69
+  publicerade källbundna varianter och `noindex`. Skydd för origin, innehållstyp
+  och ogiltig body ingår i gröna kontraktstester; externa 403/415/400-kontroller
+  gjordes även på den föregående versionen.
 - OpenAI accepterar den lokala nyckeln och modellen `gpt-5.4-mini` (HTTP 200).
   Min kontroll missade först UTF-8 BOM i miljöfilen; ingen ny nyckel behövdes.
 - Det tidigare HTTP 429-felet (`insufficient_quota`) är åtgärdat efter
   användarens påfyllning av API-krediter.
-- `SMOKE_REQUIRE_AI=1` passerar nu mot den fasta preview-adressen. Både
-  rådgivning och jämförelse returnerar `mode: openai`, inte reservrankning.
-- Testet verifierar tre rekommendationers identitet/källor och att jämförelsen
-  omfattar alla valda varianter med priser, räckvidder och källor från samma
-  publicerade snapshot. Det gör två riktiga Responses-anrop med `gpt-5.4-mini`.
-- Ingen ny kodpublicering eller ny nyckel krävdes efter påfyllningen.
+- Rådgivaren använder nu AI endast för kravtolkning med högst 512 output-tokens.
+  Filtrering, rangordning och bilförklaringar skapas deterministiskt från
+  canonical-poster. Sökning med enbart reglagen gör inget AI-anrop.
+- Fem jämförbara frågor kostar 0,0035865 USD mot tidigare 0,051945 USD:
+  93,1 procent lägre beräknad API-kostnad. Med antagna 10 SEK/USD blir det
+  cirka 0,72 öre per fråga, exklusive moms och hosting. Se
+  `docs/advisor-cost-reduction-results.md`.
+- `SMOKE_REQUIRE_AI=1` passerar på den nya fasta preview-adressen. Rådgivning
+  och jämförelse returnerar `mode: openai`; rådgivningens mode avser lyckad
+  kravtolkning, inte AI-genererade bilfakta.
+- Smoketestets hårda krav ger nu en säker rekommendation, Polestar 2 Long
+  range Single motor, och jämförelsen omfattar den valda varianten. Identitet,
+  källor, pris och WLTP matchar publicerad snapshot. Testet gör två riktiga
+  Responses-anrop; jämförelsens separata AI-rapport är inte kostnadsoptimerad.
+- Responsiv UI-testning omfattar tre träffar respektive tomt resultat på
+  desktop/mobil. CI omfattar även sidornas tillgänglighet och regressionstester.
+- Ingen ny nyckel behövdes för denna publicering.
 - UI-preview, datainsamling, databas, nyhetsautomation och DNS är oförändrade.
 
 Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.

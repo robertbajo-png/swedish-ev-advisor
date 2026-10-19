@@ -6,14 +6,15 @@ Live-AI ar verifierad i https://codex-ai-preview.seekev-ai-preview.pages.dev/.
 Efter anvandarens pafyllning av API-krediter passerar `SMOKE_REQUIRE_AI=1`:
 
 - API-health: `ok: true`.
-- Radgivning: `mode: openai`, tre rekommendationer med canonical-identitet
-  och kallor som matchar previewns publicerade snapshot.
-- Jamforelse: `mode: openai`, alla tre valda varianter finns med; kallor,
-  priser och WLTP-varden matchar samma snapshot.
-- Testet gor tva riktiga Responses-anrop. Inga nycklar, konfigurationsvarden,
-  bilposter eller nyhetsartiklar behovde andras for att aktivera AI-svaren.
+- Radgivning: `mode: openai` betyder AI-tolkade krav. Kod filtrerar, rangordnar
+  och skriver forklaringar fran canonical-poster; ingen bilkatalog skickas till AI.
+- Smoketestets harda krav ger en saker traff: Polestar 2 Long range Single motor.
+  Jamforelsen returnerar ocksa `mode: openai` och omfattar den valda varianten.
+  Identitet, kallor, pris och WLTP matchar samma publicerade snapshot.
+- Testet gor tva riktiga Responses-anrop. Ingen ny nyckel, bilpost eller
+  nyhetsartikel behovde andras vid denna kodpublicering.
 
-Verifierad runtime ar fortfarande `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d`
+Verifierad runtime ar `125d0e7e70b054c13ef66c3e237e5640332223da`
 med `gpt-5.4-mini`. Detta ar en avgransad beta, inte full produktionsberedskap.
 Delad rate limiting/global kostnadskontroll, databasens 66/69-skillnad och
 eventuell domankoppling aterstar som separata driftsteg.
@@ -66,7 +67,9 @@ skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
 - Endast en komplett jamforelse med en giltig vinnare godtas som AI-rapport.
 - Modellunderlaget skiljer okand tillganglighet, saknade varden, nollvarden,
   listpris, kampanjpris och aterforsaljarerbjudanden.
-- Responses-anrop har 25 sekunders timeout, 2 400 output-tokens och `store: false`.
+- Responses-anrop har 25 sekunders timeout och `store: false`. Radgivarens
+  kravtolkning har hogst 512 output-tokens; jamforelsens oforandrade rapport
+  har hogst 2 400. Tom fritext med enbart formularkrav gor inget AI-anrop.
 - Externa serverfetches anvander `redirect: manual` och avvisar 3xx utan att
   skicka nyckeln vidare. Cloudflare Workers stoder inte `redirect: error`.
 - Inkompletta svar, avvisanden, ogiltig JSON och providerfel ger reservrankning.
@@ -78,10 +81,10 @@ skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
 
 ## Publicerad beta 2026-10-19
 
-- Kod: `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d`.
-- Gron CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39258477306
+- Kod: `125d0e7e70b054c13ef66c3e237e5640332223da`.
+- Gron CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39265741684
 - Preview: https://codex-ai-preview.seekev-ai-preview.pages.dev/
-- Versionsbunden: https://e36a3640.seekev-ai-preview.pages.dev/
+- Versionsbunden: https://9b3fb8af.seekev-ai-preview.pages.dev/
 - Bada URL:er klarar alla atta externa GET-kontroller med 69 publicerade,
   kallbundna varianter, korrekt API-health och `noindex`.
 - Externa skyddskontroller ger 403 for frammande origin, 415 for fel
@@ -100,6 +103,16 @@ bun run smoke:advisor
 ```
 
 Ett HTTP 200 med `deterministic_fallback` ar inte ett godkant AI-test.
+
+## Kostnadsoptimering verifierad 2026-10-19
+
+Samma fem fragor, modell och publicerade snapshot gav 93,1 procent lagre
+beraknad API-kostnad efter bytet till enbart kravtolkning. Med antagna
+10 SEK/USD motsvarar det cirka 0,72 ore per sokning eller 7,17 SEK per
+1 000 liknande sokningar. Moms och hosting ingar inte. Det ar uppmatt
+tokenforbrukning, inte kontoavlasning eller ett garanterat framtida pris.
+Jamforelsens separata AI-rapport har inte optimerats i detta steg.
+Detaljer: `docs/advisor-cost-reduction-results.md`.
 
 ## Referenser
 

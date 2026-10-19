@@ -44,10 +44,12 @@ Ingen budgettjanst, DNS, databas, nyhetsmotor eller ny datainsamling ingar.
 Gemensam global kostnadskontroll/anropskvot ar ett separat steg. Kostnadsmatning
 ar inte saldoavlasning. SEK ar fortsatt ett rakneexempel, inte valutakursdata.
 
-## Lokal leveransstatus
+## Leveransstatus
 
 Implementerat: kravschema, gemensam matchningsmotor, Pages/lokal Node/offline,
 tomma resultat, reglageprioritet, fixturtester och ommatning av fem fragor.
 Slutlig uppmatt kostnadsminskning ar 93,1 procent. Se
-`docs/advisor-cost-reduction-results.md`. Publicering sker forst efter gron CI;
-externa kontroller och nytt driftstatusunderlag aterstar da.
+`docs/advisor-cost-reduction-results.md`. Runtime `125d0e7` har gron CI och ar
+publicerad pa https://codex-ai-preview.seekev-ai-preview.pages.dev/.
+Bada preview-adressernas atta GET-kontroller och verkligt AI-smoketest for
+radgivning/jamforelse passerar. UI-preview, DNS, databas och nyheter ar ororda.

@@ -72,3 +72,10 @@ tidigare baslinje och eventuella separata deployment-smoketest.
 
 Implementationsplan: `docs/advisor-cost-reduction-plan.md`. Global anropskvot,
 kostnadstak, databasens 66/69-skillnad och domankoppling aterstar separat.
+
+Runtime `125d0e7` har gron CI (Actions `39265741684`) och ar publicerad pa
+https://codex-ai-preview.seekev-ai-preview.pages.dev/ samt versionsbunden
+https://9b3fb8af.seekev-ai-preview.pages.dev/. Bada adressernas atta GET-test
+passerar. Ett separat externt smoketest gjorde tva riktiga AI-anrop och
+verifierade radgivning och jamforelse mot samma publicerade snapshot.
+Smoketestets kostnad ingar inte i tabellens jamforbara femfragorsmatning.
