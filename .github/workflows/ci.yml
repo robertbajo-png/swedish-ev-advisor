@@ -21,6 +21,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - run: bun install --frozen-lockfile
       - run: bun run verify:db-security
       - run: bun run verify:db-access
@@ -28,6 +31,7 @@ jobs:
       - run: bun run verify:advisor-data
       - run: bun run verify:cloudflare
       - run: bun run verify:live-ai
+      - run: bun run verify:ai-budget
       - run: bun run verify:advisor-matching
       - run: bun run verify:ai-cost
       - run: bun run verify:tco

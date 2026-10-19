@@ -1,5 +1,6 @@
 import { isPublicVariant, normalizeRequirements, ruleAdvice, matchAdvisorVariants } from '../../src/advisor-matching.js';
 import { REQUIREMENTS_SCHEMA, requirementsPrompt } from './advisor-requirements.mjs';
+import { AiBudgetError } from './ai-budget.mjs';
 
 const COMPARE_RESPONSE_SCHEMA = {
   type: 'object',
@@ -221,20 +222,22 @@ function parseOpenAiJson(payload) {
   return JSON.parse(outputText);
 }
 
-async function openAiJson({ input, schemaName, schema, apiKey, model, fetchImpl, maxOutputTokens = 2400 }) {
+async function openAiJson({ input, schemaName, schema, apiKey, model, fetchImpl, budget, maxOutputTokens = 2400 }) {
   if (!apiKey) return null;
+  const body = {
+    model: model || 'gpt-5.4-mini', store: false, service_tier: 'default',
+    max_output_tokens: maxOutputTokens, input,
+    text: { format: { type: 'json_schema', name: schemaName, strict: true, schema } },
+  };
+  if (!budget?.reserve) throw new AiBudgetError('budget_unavailable');
+  const permit = await budget.reserve({ kind: schemaName === 'ev_search_requirements' ? 'advisor' : 'compare', body });
+  if (!permit?.settle) throw new AiBudgetError('budget_unavailable');
   const response = await fetchImpl('https://api.openai.com/v1/responses', {
     method: 'POST',
     signal: AbortSignal.timeout(25000),
     redirect: 'manual',
     headers: { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
-    body: JSON.stringify({
-      model: model || 'gpt-5.4-mini',
-      store: false,
-      max_output_tokens: maxOutputTokens,
-      input,
-      text: { format: { type: 'json_schema', name: schemaName, strict: true, schema } },
-    }),
+    body: JSON.stringify(body),
   });
   if (!response.ok) {
     const error = new Error('OpenAI request failed.');
@@ -244,10 +247,13 @@ async function openAiJson({ input, schemaName, schema, apiKey, model, fetchImpl,
     error.providerCode = knownCodes.find((code) => code === payload.error?.code || code === payload.error?.type);
     throw error;
   }
-  return parseOpenAiJson(await response.json());
+  const payload = await response.json();
+  await permit.settle(payload);
+  return parseOpenAiJson(payload);
 }
 
 function failureCode(error) {
+  if (error instanceof AiBudgetError) return error.budgetCode;
   if (Number.isInteger(error?.providerStatus)) return `http_${error.providerStatus}${error.providerCode ? `_${error.providerCode}` : ''}`;
   return ['TimeoutError', 'AbortError', 'SyntaxError', 'TypeError'].includes(error?.name) ? error.name : 'invalid_response';
 }
@@ -265,8 +271,9 @@ function comparePrompt(selected) {
   ];
 }
 
-export async function createAdvisorResult({ request, variants, apiKey, model, fetchImpl = fetch }) {
+export async function createAdvisorResult({ request, variants, apiKey, model, budget, fetchImpl = fetch }) {
   variants = variants.filter(isPublicVariant);
+  let aiStatus;
   if (apiKey && variants.length && String(request.prompt || '').trim()) {
     try {
       const result = await openAiJson({
@@ -276,23 +283,26 @@ export async function createAdvisorResult({ request, variants, apiKey, model, fe
         apiKey,
         model,
         fetchImpl,
+        budget,
         maxOutputTokens: 512,
       });
       const requirements = normalizeRequirements(result, request);
       return matchAdvisorVariants(variants, requirements, { mode: 'openai', interpretation: 'openai' });
     } catch (error) {
+      aiStatus = error instanceof AiBudgetError ? error.budgetCode : 'provider_unavailable';
       console.error('OpenAI advisor unavailable; returning canonical fallback.', failureCode(error));
     }
   }
-  return deterministicAdvice(variants, request);
+  return { ...deterministicAdvice(variants, request), ...(aiStatus ? { ai_status: aiStatus } : {}) };
 }
 
-export async function createCompareResult({ variantKeys, variants, apiKey, model, fetchImpl = fetch }) {
+export async function createCompareResult({ variantKeys, variants, apiKey, model, budget, fetchImpl = fetch }) {
   variants = variants.filter(isPublicVariant);
   const requested = new Set(Array.isArray(variantKeys) ? variantKeys : []);
   const selected = variants.filter((row) => requested.has(row.variant_key)).slice(0, 3);
   if (!selected.length) return null;
   let result = null;
+  let aiStatus;
   if (apiKey) {
     try {
       result = await openAiJson({
@@ -302,10 +312,12 @@ export async function createCompareResult({ variantKeys, variants, apiKey, model
         apiKey,
         model,
         fetchImpl,
+        budget,
       });
     } catch (error) {
+      aiStatus = error instanceof AiBudgetError ? error.budgetCode : 'provider_unavailable';
       console.error('OpenAI comparison unavailable; returning canonical fallback.', failureCode(error));
     }
   }
-  return normalizeCompareReport(result, selected);
+  return { ...normalizeCompareReport(result, selected), ...(aiStatus ? { ai_status: aiStatus } : {}) };
 }

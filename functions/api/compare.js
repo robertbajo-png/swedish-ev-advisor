@@ -11,7 +11,7 @@ export async function onRequestPost(context) {
     const result = await createCompareResult({
       variantKeys: request.variant_keys,
       variants,
-      ...runtimeOptions(context.env),
+      ...runtimeOptions(context.env, context.request),
     });
     if (!result) return json({ error: 'Inga valda publicerade bilar kunde matchas.' }, 400);
     return json(result);

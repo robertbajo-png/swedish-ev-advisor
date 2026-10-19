@@ -66,7 +66,7 @@ const prompt = requirementsPrompt({ prompt: 'Family car', budget: 600000, range:
 assert.ok(!JSON.stringify(prompt).includes(raw.source_url));
 assert.equal(JSON.parse(prompt[1].content).public_variants, undefined);
 
-// Verify the actual local HTTP route also uses the shared cheap path, without paid requests.
+// Local Node routes have no D1 binding and must refuse paid calls, even with a key.
 const realFetch = globalThis.fetch;
 const savedKey = process.env.OPENAI_API_KEY;
 let calls = 0;
@@ -87,7 +87,8 @@ try {
   const response = await realFetch(base + '/api/advisor', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt: 'Familjebil', budget: 600000, range: 500 }) });
   assert.equal(response.status, 200);
   const result = await response.json();
-  assert.equal(result.mode, 'openai');
+  assert.equal(result.mode, 'deterministic_fallback');
+  assert.equal(result.ai_status, 'budget_unavailable');
   assert.equal(result.recommendation_method, 'database_rules');
   const data = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8')).records;
   for (const item of result.shortlist) {
@@ -96,7 +97,11 @@ try {
   }
   const noText = await realFetch(base + '/api/advisor', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt: '', budget: 600000, range: 500 }) });
   assert.equal((await noText.json()).interpretation_method, 'form');
-  assert.equal(calls, 1);
+  const comparison = await realFetch(base + '/api/compare', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ variant_keys: result.shortlist.map((item) => `${item.brand}|${item.model}|${item.variant_name}`) }) });
+  const report = await comparison.json();
+  assert.equal(report.mode, 'deterministic_fallback');
+  assert.equal(report.ai_status, 'budget_unavailable');
+  assert.equal(calls, 0);
 } finally {
   globalThis.fetch = realFetch;
   if (savedKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = savedKey;

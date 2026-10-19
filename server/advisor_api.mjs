@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createAdvisorResult, normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
+import { createAdvisorResult, createCompareResult, normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
 
 const ROOT = process.cwd();
 
@@ -393,48 +393,6 @@ function buildComparePrompt(selected) {
   ];
 }
 
-function parseOpenAiJson(payload) {
-  const outputText = payload.output_text || payload.output?.flatMap((item) => item.content || []).find((item) => item.type === 'output_text')?.text;
-  if (!outputText) throw new Error('OpenAI response did not include output_text.');
-  return JSON.parse(outputText);
-}
-
-async function openAiJson(input, schemaName, schema) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) return null;
-
-  const response = await fetch('https://api.openai.com/v1/responses', {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: OPENAI_MODEL,
-      input,
-      text: {
-        format: {
-          type: 'json_schema',
-          name: schemaName,
-          strict: true,
-          schema,
-        },
-      },
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`OpenAI request failed: ${response.status} ${errorText.slice(0, 300)}`);
-  }
-
-  return parseOpenAiJson(await response.json());
-}
-
-async function openAiCompareReport(selected) {
-  return openAiJson(buildComparePrompt(selected), 'ev_compare_report', COMPARE_RESPONSE_SCHEMA);
-}
-
 async function handleAdvisor(req, res) {
   try {
     const request = await readRequestJson(req);
@@ -462,8 +420,9 @@ async function handleCompare(req, res) {
       return jsonResponse(res, 400, { error: 'No selected published canonical variants matched.' });
     }
 
-    const openAiResult = await openAiCompareReport(selected);
-    return jsonResponse(res, 200, normalizeCompareReport(openAiResult, selected));
+    // No D1 binding in this local Node server: the shared core refuses paid calls.
+    const result = await createCompareResult({ variantKeys: [...requestedKeys], variants, apiKey: process.env.OPENAI_API_KEY, model: OPENAI_MODEL });
+    return jsonResponse(res, 200, result);
   } catch (error) {
     console.error(error);
     return jsonResponse(res, 500, { error: error.message });

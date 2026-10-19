@@ -79,3 +79,4 @@ Permanent project rules for the Swedish EV Advisor codebase.
 - Preserve the server ingestion role when hardening permissions. Run `verify:db-security` and the read-only `verify:db-access:remote` before declaring a database access issue resolved; never prove denials by mutating production records.
 - Add focused tests for ingestion, source validation, extraction validation, publishing rules, and public data filtering.
 - Do not commit secrets. Use `.env.example` for documented configuration.
+- Both paid website endpoints must reserve a shared, durable AI allowance before contacting a provider. Missing budget infrastructure must fail closed to deterministic canonical results, never uncapped paid calls. See `docs/ai-budget.md`; do not raise spending limits without owner approval.

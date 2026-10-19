@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
 import { createAdvisorResult, normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
+import { requestAllowance } from '../functions/_shared/ai-budget.mjs';
 
 export const PRICES = Object.freeze({
   model: 'gpt-5.4-mini', verified_on: '2026-10-19',
@@ -48,6 +49,13 @@ export async function runBenchmark({ variants, apiKey, fetchImpl = fetch, search
   assert.ok(variants.length > 0 && variants.length <= 200, 'Unexpected public snapshot size.');
   const results = [];
   let calls = 0;
+  let reserved = 0;
+  // Explicit standalone benchmark only: max five bounded calls, never a web runtime adapter.
+  const budget = { reserve: async ({ kind, body }) => {
+    reserved += requestAllowance(kind, body).reserve;
+    assert.ok(reserved <= 100000, 'Standalone benchmark allowance reached.');
+    return { settle: async () => {} };
+  } };
   for (const search of searches) {
     let observation;
     const start = performance.now();
@@ -68,7 +76,7 @@ export async function runBenchmark({ variants, apiKey, fetchImpl = fetch, search
       observation = { http_status: response.status, model: payload.model, service_tier: payload.service_tier, usage: payload.usage };
       return response;
     };
-    const advice = await createAdvisorResult({ request: search, variants, apiKey, model: PRICES.model, fetchImpl: measuredFetch });
+    const advice = await createAdvisorResult({ request: search, variants, apiKey, model: PRICES.model, budget, fetchImpl: measuredFetch });
     const record = {
       label: search.label, prompt: search.prompt, mode: advice.mode,
       elapsed_ms: Math.round(performance.now() - start),

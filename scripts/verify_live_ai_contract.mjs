@@ -5,6 +5,9 @@ import { readJsonRequest } from '../functions/_shared/http.mjs';
 import { onRequestPost as advisorPost } from '../functions/api/advisor.js';
 import { onRequestPost as comparePost } from '../functions/api/compare.js';
 import { ruleRequirements } from '../src/advisor-matching.js';
+import { budgetFixture } from './fixtures/ai-budget.mjs';
+
+const fixturePermit = { reserve: async () => ({ settle: async () => {} }) };
 
 // All provider responses are fixtures. This test never makes a network request.
 const raw = {
@@ -69,7 +72,7 @@ const provider = (fixture) => async (url, options) => {
   }
   return Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify(fixture) }] }] });
 };
-const options = { variants, apiKey: 'fixture-only-key' };
+const options = { variants, apiKey: 'fixture-only-key', budget: fixturePermit };
 const advice = await createAdvisorResult({ ...options, request, fetchImpl: provider(adviceFixture) });
 assert.equal(advice.mode, 'openai');
 assert.equal(advice.shortlist.length, 1);
@@ -160,7 +163,7 @@ for (const body of ['null', '[]', '"string"', '123', '{broken', ' '.repeat(20001
 }
 assert.deepEqual(await readJsonRequest(httpRequest()), {});
 
-const edgeEnv = { ...env, ASSETS: { fetch: async () => Response.json({ records: [raw, { ...raw, id: 'fixture-two', model: 'Two', price_sek: null, validation_status: 'published_reviewed' }] }) } };
+const edgeEnv = { ...budgetFixture().env, ...env, ASSETS: { fetch: async () => Response.json({ records: [raw, { ...raw, id: 'fixture-two', model: 'Two', price_sek: null, validation_status: 'published_reviewed' }] }) } };
 const originalFetch = globalThis.fetch;
 const edgeRequest = (path, body) => new Request(`https://preview.example${path}`, {
   method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://preview.example', 'cf-connecting-ip': '192.0.2.10' }, body: JSON.stringify(body),

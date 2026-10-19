@@ -8,7 +8,7 @@ export async function onRequestPost(context) {
   try {
     const request = await readJsonRequest(context.request);
     const variants = await loadPublicVariants(context);
-    const result = await createAdvisorResult({ request, variants, ...runtimeOptions(context.env) });
+    const result = await createAdvisorResult({ request, variants, ...runtimeOptions(context.env, context.request) });
     return json(result);
   } catch (error) {
     const status = error instanceof SyntaxError || /too large/i.test(error.message) ? 400 : 503;

@@ -1,4 +1,5 @@
 import { normalizePublicVariants } from './advisor-core.mjs';
+import { createAiBudget } from './ai-budget.mjs';
 
 const RESPONSE_HEADERS = {
   'content-type': 'application/json; charset=utf-8',
@@ -69,9 +70,10 @@ export async function loadPublicVariants(context) {
   return variants;
 }
 
-export function runtimeOptions(env) {
+export function runtimeOptions(env, request) {
   return {
     apiKey: env.OPENAI_API_KEY || '',
     model: env.OPENAI_MODEL || 'gpt-5.4-mini',
+    budget: createAiBudget(env, request),
   };
 }

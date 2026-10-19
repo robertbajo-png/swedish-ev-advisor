@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "verify:ai-budget": "node scripts/verify_ai_budget.mjs",
     "verify:db-security": "node scripts/verify_vehicle_access.mjs",
     "verify:db-access": "node scripts/verify_supabase_access.mjs",
     "verify:db-access:remote": "node scripts/verify_supabase_access.mjs --remote",
