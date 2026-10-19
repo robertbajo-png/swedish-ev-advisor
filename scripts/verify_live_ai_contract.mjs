@@ -4,6 +4,7 @@ import { createAiGuard } from '../functions/_shared/ai-guard.mjs';
 import { readJsonRequest } from '../functions/_shared/http.mjs';
 import { onRequestPost as advisorPost } from '../functions/api/advisor.js';
 import { onRequestPost as comparePost } from '../functions/api/compare.js';
+import { ruleRequirements } from '../src/advisor-matching.js';
 
 // All provider responses are fixtures. This test never makes a network request.
 const raw = {
@@ -27,15 +28,7 @@ assert.equal(variants[0].dc_charge_kw, null);
 assert.equal(variants[0].tow_kg, 0);
 assert.equal(variants[1].price_sek, null);
 const request = { prompt: 'Family car', budget: 600000, range: 500, need: 'familj' };
-const adviceFixture = {
-  mode: 'openai', interpreted_requirements: { budget_sek: 600000, min_wltp_range_km: 500, need: 'familj', notes: 'Test' },
-  summary: 'Fixture summary',
-  shortlist: [
-    { id: 'invented', brand: 'Invented', model: 'Fake', variant_name: 'Fake', match_score: 100, reasons: ['Fake'], tradeoffs: ['Fake'], source_url: 'https://wrong.example' },
-    { id: variants[0].id, brand: 'Wrong', model: 'Wrong', variant_name: 'Wrong', match_score: 150, reasons: ['Reason '.repeat(100)], tradeoffs: ['Tradeoff'], source_url: 'https://wrong.example' },
-    { id: variants[0].id, match_score: 50 },
-  ],
-};
+const adviceFixture = { ...ruleRequirements(request), budget_sek: null, min_wltp_range_km: null };
 const compareFixture = {
   mode: 'openai', summary: 'Fixture comparison', reasons: ['Reason'], tradeoffs: ['Tradeoff'],
   winner: { variant_key: variants[0].variant_key, name: 'Wrong', decision_score: 500, source_url: 'https://wrong.example' },
@@ -53,18 +46,27 @@ const provider = (fixture) => async (url, options) => {
   const body = JSON.parse(options.body);
   assert.equal(body.model, 'gpt-5.4-mini');
   assert.equal(body.store, false);
-  assert.equal(body.max_output_tokens, 2400);
   assert.equal(body.text.format.type, 'json_schema');
   assert.equal(body.text.format.strict, true);
   const context = JSON.parse(body.input[1].content);
-  const rows = context.public_variants || context.selected_public_variants;
-  assert.equal(rows.length, 2);
-  assert.equal(rows[0].available_confirmed, false);
-  assert.equal(rows[0].price_type, 'campaign_price');
-  assert.equal(rows[0].price_valid_until, '2026-12-31');
-  assert.equal(rows[0].dc_charge_kw, null);
-  assert.equal(rows[0].tow_kg, 0);
-  assert.ok(rows.every((row) => ['published', 'published_reviewed'].includes(row.validation_status)));
+  if (body.text.format.name === 'ev_search_requirements') {
+    assert.equal(body.max_output_tokens, 512);
+    assert.deepEqual(Object.keys(context).sort(), ['form', 'prompt']);
+    assert.ok(options.body.length < 6000);
+    assert.ok(!options.body.includes(raw.source_url) && !options.body.includes('public_variants'));
+    assert.equal(body.text.format.schema.properties.shortlist, undefined, 'AI must not select cars');
+  } else {
+    assert.equal(body.text.format.name, 'ev_compare_report');
+    assert.equal(body.max_output_tokens, 2400);
+    const rows = context.selected_public_variants;
+    assert.equal(rows.length, 2);
+    assert.equal(rows[0].available_confirmed, false);
+    assert.equal(rows[0].price_type, 'campaign_price');
+    assert.equal(rows[0].price_valid_until, '2026-12-31');
+    assert.equal(rows[0].dc_charge_kw, null);
+    assert.equal(rows[0].tow_kg, 0);
+    assert.ok(rows.every((row) => ['published', 'published_reviewed'].includes(row.validation_status)));
+  }
   return Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify(fixture) }] }] });
 };
 const options = { variants, apiKey: 'fixture-only-key' };
@@ -74,7 +76,9 @@ assert.equal(advice.shortlist.length, 1);
 assert.equal(advice.shortlist[0].brand, raw.brand);
 assert.equal(advice.shortlist[0].model, raw.model);
 assert.equal(advice.shortlist[0].source_url, raw.source_url);
-assert.equal(advice.shortlist[0].match_score, 100);
+assert.ok(advice.shortlist[0].match_score <= 100);
+assert.equal(advice.recommendation_method, 'database_rules');
+assert.equal(advice.interpreted_requirements.budget_sek, 600000);
 assert.ok(advice.shortlist[0].reasons[0].length <= 140);
 const variantKeys = variants.map((row) => row.variant_key);
 const compare = await createCompareResult({ ...options, variantKeys, fetchImpl: provider(compareFixture) });
@@ -90,9 +94,12 @@ const incompleteReport = await createCompareResult({ ...options, variantKeys, fe
 assert.equal(incompleteReport.mode, 'deterministic_fallback');
 const inventedWinner = await createCompareResult({ ...options, variantKeys, fetchImpl: provider({ ...compareFixture, winner: { variant_key: 'invented' } }) });
 assert.equal(inventedWinner.mode, 'deterministic_fallback');
-const inventedAdvice = await createAdvisorResult({ ...options, request, fetchImpl: provider({ ...adviceFixture, shortlist: [adviceFixture.shortlist[0]] }) });
+const inventedAdvice = await createAdvisorResult({ ...options, request, fetchImpl: provider({ ...adviceFixture, shortlist: [{ id: 'invented' }] }) });
 assert.equal(inventedAdvice.mode, 'deterministic_fallback');
-assert.equal((await createAdvisorResult({ ...options, request, fetchImpl: provider({ ...adviceFixture, shortlist: [null] }) })).mode, 'deterministic_fallback');
+assert.equal((await createAdvisorResult({ ...options, request, fetchImpl: provider({ ...adviceFixture, budget_sek: -1 }) })).mode, 'deterministic_fallback');
+const emptyMatches = await createAdvisorResult({ ...options, request, fetchImpl: provider({ ...adviceFixture, budget_sek: 100000 }) });
+assert.equal(emptyMatches.mode, 'openai');
+assert.equal(emptyMatches.shortlist.length, 0, 'No fabricated or over-budget substitute');
 assert.equal((await createCompareResult({ ...options, variantKeys, fetchImpl: provider({ ...compareFixture, compared: [null] }) })).mode, 'deterministic_fallback');
 
 const logged = [];
@@ -118,6 +125,7 @@ assert.ok(logged.some((line) => line.includes('http_429_insufficient_quota')));
 assert.ok(logged.every((line) => !line.includes('SENSITIVE') && !line.includes('fixture-only-key')));
 const noFetch = async () => { assert.fail('No provider request should be made'); };
 assert.equal((await createAdvisorResult({ ...options, apiKey: '', request, fetchImpl: noFetch })).mode, 'deterministic_fallback');
+assert.equal((await createAdvisorResult({ ...options, request: { ...request, prompt: '' }, fetchImpl: noFetch })).interpretation_method, 'form');
 assert.equal((await createAdvisorResult({ ...options, variants: [], request, fetchImpl: noFetch })).shortlist.length, 0);
 assert.equal((await createAdvisorResult({ ...options, variants: [{ ...variants[0], validation_status: 'draft' }], request, fetchImpl: noFetch })).shortlist.length, 0);
 assert.equal(await createCompareResult({ ...options, variantKeys: ['unknown'], fetchImpl: noFetch }), null);

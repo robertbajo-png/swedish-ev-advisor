@@ -35,6 +35,7 @@ import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './n
 import { publicArticles } from './news-presentation.js';
 import { preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
 import { advisorEndpoints } from './api-endpoints.js';
+import { ruleAdvice } from './advisor-matching.js';
 import { HomePage } from './home.jsx';
 import './design-system.css';
 import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity } from './vehicle-ui.jsx';
@@ -263,7 +264,8 @@ async function requestAdvisor(advisor) {
     prompt: advisor.prompt,
     budget: advisor.budget,
     range: advisor.range,
-    need: advisor.need
+    need: advisor.need,
+    explicit_controls: { budget: advisor.budgetExplicit === true, range: advisor.rangeExplicit === true },
   };
   const endpoints = advisorEndpoints('/api/advisor', {
     basePath: import.meta.env.BASE_URL,
@@ -314,28 +316,14 @@ async function requestCompareReport(cars) {
 }
 
 function localAdvisorResult(advisor, cars) {
-  const prompt = advisor.prompt.toLowerCase();
-  const shortlist = cars.slice(0, 3).map((car) => ({
-    ...car,
-    match_score: scoreCar(car, advisor),
-    reasons: reasonsFor(car, advisor),
-    tradeoffs: [
-      car.price ? null : 'Officiellt svenskt pris saknas.',
-      car.dcVerified === null ? 'DC-laddning saknar verifierat värde.' : null,
-      prompt.includes('drag') && car.towingVerified === null ? 'Dragvikt saknar verifierat värde.' : null,
-    ].filter(Boolean),
+  const variants = cars.map((car) => ({
+    id: car.id, variant_key: car.canonicalKey, brand: car.brand, model: car.canonicalModel, variant_name: car.variantName,
+    price_sek: car.price, price_type: car.priceType, price_valid_until: car.priceValidUntil,
+    wltp_range_km: car.rangeVerified, dc_charge_kw: car.dcVerified, tow_kg: car.towingVerified,
+    boot_liters: car.cargoVerified, seats: car.seatsVerified, drivetrain: car.drivetrain,
+    source_url: car.source, source_hash: car.sourceHash, validation_status: car.validationStatus, available_confirmed: car.availableConfirmed,
   }));
-  return {
-    mode: 'local',
-    summary: 'Shortlist baserad på verifierade biluppgifter.',
-    interpreted_requirements: {
-      budget_sek: advisor.budget,
-      min_range_km: advisor.range,
-      use_case: advisor.need,
-      notes: 'Om ett krav saknar verifierad data markeras det öppet i korten.',
-    },
-    shortlist,
-  };
+  return ruleAdvice(variants, { ...advisor, explicit_controls: { budget: advisor.budgetExplicit === true, range: advisor.rangeExplicit === true } }, { mode: 'local' });
 }
 
 function buildLocalCompareReport(cars) {
@@ -667,13 +655,13 @@ function App() {
   async function runAdvisor() {
     const query = { ...effectiveAdvisor };
     setSubmittedAdvisor(query);
-    setAdvisorStatus({ state: 'loading', message: 'AI-rådgivaren analyserar verifierade bilar...' });
+    setAdvisorStatus({ state: 'loading', message: 'Tolkar dina önskemål och söker passande bilar...' });
     try {
       const result = await requestAdvisor(query);
       setAdvisorResult(result);
       setAdvisorStatus({
         state: 'ready',
-        message: result.mode === 'openai' ? 'Personliga förslag från AI-rådgivaren.' : 'Databaserade förslag. AI-tolkning är inte tillgänglig just nu.'
+        message: result.mode === 'openai' ? 'Dina önskemål är tolkade. Förslagen bygger på verifierade biluppgifter.' : result.interpretation_method === 'form' ? 'Förslag utifrån din valda budget och räckvidd.' : 'Databaserade förslag. AI-tolkning är inte tillgänglig just nu.'
       });
     } catch (error) {
       const candidates = cars.map((car) => ({ ...car, score: scoreCar(car, query) })).sort((a, b) => b.score - a.score);

@@ -39,7 +39,7 @@ const advisorRequest = new Request('https://seekev.se/api/advisor', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({
-    prompt: 'Familjebil med lång räckvidd och dragkrok',
+    prompt: 'Familjebil med lång räckvidd',
     budget: 700000,
     range: 500,
     need: 'familj',

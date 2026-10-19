@@ -21,7 +21,7 @@ const categories = [
   { title: 'Dragkrok', text: 'Ta med lite mer', icon: Weight, path: '/dragkrok' },
   { title: 'Premium', text: 'Hitta dina prioriteringar', icon: Crown, prompt: { prompt: 'Jag söker en premiumelbil och vill jämföra räckvidd, laddning och praktiska kompromisser.', need: 'langresa' } },
 ];
-const needNames = { familj: 'Familj', vinter: 'Vinter & fyrhjulsdrift', pendling: 'Vardag & pendling', langresa: 'Långresor' };
+const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pendling', langresa: 'Långresor', budget: 'Budget', dragkrok: 'Dragkrok', allround: 'Vardag' };
 
 
 export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
@@ -48,8 +48,9 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
     `Budget: ${money(interpreted.budget_sek ?? submittedAdvisor.budget)}`,
     `Räckvidd: minst ${interpreted.min_wltp_range_km ?? interpreted.min_range_km ?? submittedAdvisor.range} km`,
     needNames[interpreted.need || interpreted.use_case || submittedAdvisor.need] || 'Dina behov',
-    /drag/i.test(submittedAdvisor.prompt) ? 'Dragkrok önskas' : null,
-    /fyrhjul|\bawd\b/i.test(submittedAdvisor.prompt) ? 'Fyrhjulsdrift önskas' : null,
+    Object.hasOwn(interpreted, 'min_tow_kg') ? interpreted.min_tow_kg > 0 ? interpreted.min_tow_kg > 1 ? `Dragvikt: minst ${interpreted.min_tow_kg} kg` : 'Dragkrok önskas' : null : /drag/i.test(submittedAdvisor.prompt) ? 'Dragkrok önskas' : null,
+    Object.hasOwn(interpreted, 'awd_required') ? interpreted.awd_required ? 'Fyrhjulsdrift önskas' : null : /fyrhjul|\bawd\b/i.test(submittedAdvisor.prompt) ? 'Fyrhjulsdrift önskas' : null,
+    interpreted.min_seats ? `Minst ${interpreted.min_seats} sittplatser` : null,
   ].filter(Boolean) : [];
   const dirty = submittedAdvisor && JSON.stringify(advisor) !== JSON.stringify(submittedAdvisor);
   const applySuggestion = (suggestion) => {
@@ -73,8 +74,8 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
             <button className="uiPrimary" type="submit" disabled={!cars.length || status.state === 'loading'}>{status.state === 'loading' ? 'Söker åt dig...' : 'Hitta min elbil'}{status.state === 'loading' ? <span className="homeSpinner" /> : <ArrowRight size={18} />}</button>
           </div>
           <div className="homeAdvisorSettings" id="home-advisor-settings" hidden={!advanced}>
-            <div><label htmlFor="home-budget">Budget</label><output htmlFor="home-budget">{money(advisor.budget)}</output><input id="home-budget" type="range" min="100000" max="1200000" step="10000" value={advisor.budget} onChange={(event) => setAdvisor({ ...advisor, budget: Number(event.target.value) })} /></div>
-            <div><label htmlFor="home-range">Minsta räckvidd</label><output htmlFor="home-range">{advisor.range} km</output><input id="home-range" type="range" min="50" max="1000" step="10" value={advisor.range} onChange={(event) => setAdvisor({ ...advisor, range: Number(event.target.value) })} /></div>
+            <div><label htmlFor="home-budget">Budget</label><output htmlFor="home-budget">{money(advisor.budget)}</output><input id="home-budget" type="range" min="100000" max="1200000" step="10000" value={advisor.budget} onChange={(event) => setAdvisor({ ...advisor, budget: Number(event.target.value), budgetExplicit: true })} /></div>
+            <div><label htmlFor="home-range">Minsta räckvidd</label><output htmlFor="home-range">{advisor.range} km</output><input id="home-range" type="range" min="50" max="1000" step="10" value={advisor.range} onChange={(event) => setAdvisor({ ...advisor, range: Number(event.target.value), rangeExplicit: true })} /></div>
           </div>
         </form>
         <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }) => <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div>
@@ -94,7 +95,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
       <div className="homeRequirements"><strong>Dina önskemål</strong><div>{requirements.map((requirement) => <span key={requirement}>{requirement}</span>)}</div></div>
       <p className="homeResultStatus" role="status">{status.message}</p>
       {dirty && <p className="homeRefinementNote">Du har ändrat din sökning. Välj ”Hitta min elbil” för att uppdatera förslagen.</p>}
-      {status.state !== 'loading' && <>{result?.summary && <p className="homeResultSummary">{result.summary}</p>}{recommendations.length ? <div className="homeVehicleGrid">{recommendations.map(({ car, recommendation }) => <HomeVehicleCard key={car.id} {...cardProps} car={car} recommendation={recommendation} selected={compare.includes(car.id)} />)}</div> : <div className="homeEmpty"><h3>Ingen säker rekommendation just nu.</h3><p>Prova att ändra budget eller räckvidd. Uppgifter kan saknas för vissa krav.</p><button className="homeTextLink" onClick={() => document.getElementById('home-advisor-query')?.focus()}>Ändra dina önskemål <ArrowRight size={16} /></button></div>}</>}
+      {status.state !== 'loading' && <>{result?.summary && <p className="homeResultSummary">{result.summary}</p>}{interpreted.notes && <p className="homeRefinementNote">{interpreted.notes}</p>}{recommendations.length ? <div className="homeVehicleGrid">{recommendations.map(({ car, recommendation }) => <HomeVehicleCard key={car.id} {...cardProps} car={car} recommendation={recommendation} selected={compare.includes(car.id)} />)}</div> : <div className="homeEmpty"><h3>Ingen säker rekommendation just nu.</h3><p>Prova att ändra budget eller räckvidd. Uppgifter kan saknas för vissa krav.</p><button className="homeTextLink" onClick={() => document.getElementById('home-advisor-query')?.focus()}>Ändra dina önskemål <ArrowRight size={16} /></button></div>}</>}
       {status.state === 'loading' && <div className="homeVehicleGrid homeSkeletonGrid" aria-hidden="true">{[1, 2, 3].map((id) => <div className="homeSkeleton" key={id} />)}</div>}
     </section>}
 

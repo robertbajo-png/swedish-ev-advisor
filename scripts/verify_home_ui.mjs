@@ -21,9 +21,10 @@ try {
   await page.route('**/rest/v1/public_news_articles?**', (route) => route.fulfill({ json: [] }));
   await page.route('**/data/news_articles.json', (route) => route.fulfill({ json: { records: [] } }));
   let request;
+  let advisorFixtureOverride;
   await page.route('**/api/advisor', async (route) => {
     request = route.request().postDataJSON();
-    await route.fulfill({ json: {
+    await route.fulfill({ json: advisorFixtureOverride || {
       mode: 'openai', summary: 'Testsvaret använder publicerade bilposter. Detta är enbart en transportfixtur.',
       interpreted_requirements: { budget_sek: 600000, min_wltp_range_km: 450, need: 'familj' },
       shortlist: [...cars.slice(0, 2).map((car) => ({ brand: car.brand, model: car.model, variant_name: car.variant_name, reasons: ['Verifierade uppgifter finns att jämföra.'], tradeoffs: ['Kontrollera saknade uppgifter innan bilval.'] })), { brand: 'Unknown', model: 'Invented', variant_name: 'Must not render' }],
@@ -103,6 +104,25 @@ try {
   await page.getByRole('link', { name: 'Alla elbilar', exact: true }).click();
   await page.locator('.carGrid').waitFor();
   assert((await page.locator('.carGrid .carCard').count()) > 0);
+  advisorFixtureOverride = {
+    mode: 'openai', recommendation_method: 'database_rules', summary: 'Ingen bil kan bekräftas uppfylla kraven.',
+    interpreted_requirements: { budget_sek: 400000, min_wltp_range_km: 500, need: 'allround', min_tow_kg: null, awd_required: false, notes: 'Vissa uppgifter saknas för dina krav.' }, shortlist: [],
+  };
+  await page.goto(base);
+  await page.locator('.homeVehicleCard').first().waitFor();
+  await page.getByLabel('Vad är viktigt för dig?').fill('Jag behöver inte AWD eller dragkrok.');
+  await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).click();
+  await page.getByRole('heading', { name: 'Ingen säker rekommendation just nu.' }).waitFor();
+  assert.equal(await page.locator('.homeAdvisorResults .homeVehicleCard').count(), 0);
+  assert.ok(!(await page.locator('.homeRequirements').innerText()).includes('Fyrhjulsdrift önskas'));
+  assert.ok(!(await page.locator('.homeRequirements').innerText()).includes('Dragkrok önskas'));
+  assert.equal(await page.getByText('Vissa uppgifter saknas för dina krav.').count(), 1);
+  await page.getByRole('button', { name: 'Justera sökningen', exact: true }).click();
+  await page.getByRole('slider', { name: /Budget/ }).fill('500000');
+  await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).click();
+  await page.getByRole('heading', { name: 'Ingen säker rekommendation just nu.' }).waitFor();
+  assert.equal(request.explicit_controls.budget, true);
+  assert.equal(request.budget, 500000);
   await page.unroute('**/api/advisor');
   await page.route('**/api/advisor', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
   await page.goto(base);

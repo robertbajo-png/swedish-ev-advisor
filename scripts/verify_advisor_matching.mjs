@@ -1,0 +1,105 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { once } from 'node:events';
+import { matchAdvisorVariants, normalizeRequirements, ruleRequirements, ruleAdvice, REQUIREMENT_FIELDS } from '../src/advisor-matching.js';
+import { REQUIREMENTS_SCHEMA, requirementsPrompt } from '../functions/_shared/advisor-requirements.mjs';
+import { normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
+import { server } from '../server/advisor_api.mjs';
+
+const raw = { id: 'good', brand: 'Fixture', model: 'One', variant_name: 'AWD', price_sek: 500000, price_type: 'list_price', wltp_range_km: 600, dc_charge_kw: 200, tow_kg: 1500, boot_liters: 500, seats: 5, drivetrain: 'AWD', source_url: 'https://manufacturer.example/se/one', source_hash: 'fixture-hash', validation_status: 'published', available_confirmed: true };
+const requirements = { ...ruleRequirements({ budget: 600000, range: 500, need: 'familj' }), min_tow_kg: 1500, awd_required: true };
+const make = (changes = {}) => normalizePublicVariants([{ ...raw, ...changes }])[0];
+const rows = [make(), make({ id: 'over', price_sek: 700000 }), make({ id: 'short', wltp_range_km: 499 }), make({ id: 'weak', tow_kg: 1400 }), make({ id: 'rwd', drivetrain: 'RWD' }), make({ id: 'unknown-price', price_sek: null }), make({ id: 'unknown-range', wltp_range_km: null }), make({ id: 'unknown-tow', tow_kg: null }), make({ id: 'unknown-drive', drivetrain: 'El' }), { ...make(), id: 'draft', validation_status: 'draft' }, { ...make(), id: 'no-hash', source_hash: '' }];
+const matched = matchAdvisorVariants(rows, requirements);
+assert.deepEqual(matched.shortlist.map((r) => r.id), ['good']);
+assert.equal(matched.excluded_unknown_count, 4);
+assert.equal(matched.shortlist[0].source_url, raw.source_url);
+assert.ok(matched.shortlist[0].reasons.some((line) => line.includes('1500 kg')));
+assert.ok(matched.shortlist[0].reasons.some((line) => line.includes('600 km')));
+assert.equal(matched.recommendation_method, 'database_rules');
+assert.deepEqual(matchAdvisorVariants(rows, { ...requirements, budget_sek: 100000 }).shortlist, []);
+assert.deepEqual(matchAdvisorVariants([make({ tow_kg: 0 })], { ...requirements, min_tow_kg: 1 }).shortlist, []);
+assert.equal(matchAdvisorVariants([make({ tow_kg: 0 })], { ...requirements, min_tow_kg: null }).shortlist.length, 1);
+assert.equal(matchAdvisorVariants([make({ seats: null })], { ...requirements, min_seats: 7 }).shortlist.length, 0);
+assert.equal(matchAdvisorVariants([make({ seats: 7 })], { ...requirements, min_seats: 7 }).shortlist.length, 1);
+assert.equal(matchAdvisorVariants([make({ dc_charge_kw: null })], { ...requirements, min_dc_charge_kw: 150 }).shortlist.length, 0);
+assert.equal(matchAdvisorVariants([make({ boot_liters: 499 })], { ...requirements, min_boot_liters: 500 }).shortlist.length, 0);
+assert.equal(matchAdvisorVariants([make()], { ...requirements, brand: 'Other' }).shortlist.length, 0);
+assert.equal(matchAdvisorVariants([make()], { ...requirements, model: 'Two' }).shortlist.length, 0);
+const campaign = make({ price_type: 'campaign_price', price_valid_until: '2026-10-18' });
+assert.equal(matchAdvisorVariants([campaign], requirements, { asOf: '2026-10-19' }).shortlist.length, 0);
+const validCampaign = matchAdvisorVariants([{ ...campaign, price_valid_until: '2026-12-31' }], requirements, { asOf: '2026-10-19' });
+assert.match(validCampaign.shortlist[0].reasons[0], /Kampanjpris/);
+assert.ok(!validCampaign.shortlist[0].reasons[0].includes('Listpris'));
+const unknownSoft = matchAdvisorVariants([make({ dc_charge_kw: null, boot_liters: null, available_confirmed: false })], { ...requirements, priority: 'charging' });
+assert.ok(unknownSoft.shortlist[0].tradeoffs.some((line) => line.includes('DC-laddning saknas')));
+assert.ok(unknownSoft.shortlist[0].reasons.every((line) => !line.includes('0 kW') && !line.includes('null')));
+const ties = [make({ id: 'b' }), make({ id: 'a' })].map((row) => ({ ...row, variant_key: row.id }));
+assert.deepEqual(matchAdvisorVariants(ties, requirements), matchAdvisorVariants([...ties].reverse(), requirements));
+const unsupported = matchAdvisorVariants([make()], { ...requirements, unsupported: ['equipment'] });
+assert.match(unsupported.interpreted_requirements.notes, /Kan inte kontrolleras/);
+assert.match(unsupported.interpreted_requirements.notes, /utrustning/);
+
+const parsed = ruleRequirements({ prompt: 'Familjebil under 600 000 kr med minst 550 km och dragkrok. Husvagnen vager 1,5 ton.', budget: 620000, range: 450 });
+assert.equal(parsed.budget_sek, 600000);
+assert.equal(parsed.min_wltp_range_km, 550);
+assert.equal(parsed.min_tow_kg, 1500);
+assert.equal(ruleRequirements({ prompt: 'Max 1,2 mkr' }).budget_sek, 1200000);
+assert.equal(ruleRequirements({ prompt: 'Max 450 tkr' }).budget_sek, 450000);
+for (const prompt of ['Jag behover inte fyrhjulsdrift', 'AWD ar inte ett krav', 'Utan AWD']) assert.equal(ruleRequirements({ prompt }).awd_required, false);
+assert.equal(ruleRequirements({ prompt: 'Fyrhjulsdrift och minst 7 sittplatser' }).awd_required, true);
+assert.equal(ruleRequirements({ prompt: 'Fyrhjulsdrift och minst 7 sittplatser' }).min_seats, 7);
+assert.equal(ruleRequirements({ prompt: 'Jag behover inte dragkrok' }).min_tow_kg, null);
+assert.equal(ruleRequirements({ prompt: 'Fjallresor' }).awd_required, false);
+assert.equal(ruleRequirements({ prompt: 'Dragkrok onskas' }).min_tow_kg, 1);
+assert.equal(ruleAdvice([make()], { prompt: 'Minst 1300 km', budget: 600000, range: 500 }).shortlist.length, 0);
+assert.equal(ruleAdvice([make()], { prompt: 'Minst 1300 km', budget: 600000, range: 500 }).interpretation_method, 'unresolved');
+assert.deepEqual(Object.keys(requirements).sort(), [...REQUIREMENT_FIELDS].sort());
+assert.deepEqual(REQUIREMENTS_SCHEMA.required.sort(), [...REQUIREMENT_FIELDS].sort());
+for (const invalid of [{ ...requirements, price_sek: 1 }, { ...requirements, budget_sek: -1 }, { ...requirements, min_tow_kg: 5000 }, { ...requirements, min_wltp_range_km: 1201 }, { ...requirements, min_seats: 5.5 }, { ...requirements, awd_required: 'false' }, { ...requirements, unsupported: Array(4).fill('test') }, { ...requirements, brand: { url: 'fake' } }]) assert.throws(() => normalizeRequirements(invalid));
+assert.equal(normalizeRequirements({ ...requirements, budget_sek: null, min_wltp_range_km: null }, { budget: 610000, range: 510 }).budget_sek, 610000);
+assert.equal(normalizeRequirements({ ...requirements, budget_sek: 400000 }, { budget: 610000 }).budget_sek, 400000);
+assert.equal(normalizeRequirements({ ...requirements, budget_sek: 600000 }, { budget: 500000, explicit_controls: { budget: true } }).budget_sek, 500000);
+assert.equal(normalizeRequirements({ ...requirements, min_wltp_range_km: 500 }, { range: 550, explicit_controls: { range: true } }).min_wltp_range_km, 550);
+assert.equal(ruleRequirements({ prompt: 'Max 600 000 kr', budget: 500000, explicit_controls: { budget: true } }).budget_sek, 500000);
+const prompt = requirementsPrompt({ prompt: 'Family car', budget: 600000, range: 500, need: 'familj', public_variants: rows });
+assert.ok(!JSON.stringify(prompt).includes(raw.source_url));
+assert.equal(JSON.parse(prompt[1].content).public_variants, undefined);
+
+// Verify the actual local HTTP route also uses the shared cheap path, without paid requests.
+const realFetch = globalThis.fetch;
+const savedKey = process.env.OPENAI_API_KEY;
+let calls = 0;
+try {
+  process.env.OPENAI_API_KEY = 'fixture-only';
+  globalThis.fetch = async (url, options) => {
+    if (String(url) !== 'https://api.openai.com/v1/responses') return realFetch(url, options);
+    calls++;
+    const body = JSON.parse(options.body);
+    assert.equal(body.max_output_tokens, 512);
+    assert.equal(body.text.format.name, 'ev_search_requirements');
+    assert.ok(!options.body.includes('public_variants'));
+    return Response.json({ status: 'completed', output_text: JSON.stringify({ ...requirements, min_tow_kg: null, awd_required: false }) });
+  };
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const response = await realFetch(base + '/api/advisor', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt: 'Familjebil', budget: 600000, range: 500 }) });
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  assert.equal(result.mode, 'openai');
+  assert.equal(result.recommendation_method, 'database_rules');
+  const data = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8')).records;
+  for (const item of result.shortlist) {
+    const row = data.find((r) => r.brand === item.brand && r.model === item.model && r.variant_name === item.variant_name);
+    assert.ok(row && row.price_sek !== null && row.price_sek <= 600000 && row.wltp_range_km >= 500);
+  }
+  const noText = await realFetch(base + '/api/advisor', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt: '', budget: 600000, range: 500 }) });
+  assert.equal((await noText.json()).interpretation_method, 'form');
+  assert.equal(calls, 1);
+} finally {
+  globalThis.fetch = realFetch;
+  if (savedKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = savedKey;
+  await new Promise((resolve) => server.close(resolve));
+}
+console.log(JSON.stringify({ advisor_matching_ok: true, canonical_only: true, strict_requirements: true, empty_results_allowed: true, local_http_shared_engine: true, real_provider_calls: 0 }));

@@ -54,6 +54,7 @@
     "verify:advisor-data": "node scripts/verify_advisor_data_contract.mjs",
     "verify:cloudflare": "node scripts/verify_cloudflare_functions.mjs",
     "verify:live-ai": "node scripts/verify_live_ai_contract.mjs",
+    "verify:advisor-matching": "node scripts/verify_advisor_matching.mjs",
     "verify:ai-cost": "node scripts/verify_advisor_cost_benchmark.mjs",
     "benchmark:advisor-cost": "node scripts/benchmark_advisor_cost.mjs",
     "verify:tco": "node scripts/verify_tco.mjs",

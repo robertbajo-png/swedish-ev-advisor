@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createAdvisorResult, normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
 
 const ROOT = process.cwd();
 
@@ -30,46 +31,6 @@ await loadLocalEnv();
 const PORT = Number(process.env.ADVISOR_API_PORT || 8787);
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-5.4-mini';
 const PUBLIC_STATUSES = new Set(['published', 'published_reviewed']);
-const ADVISOR_RESPONSE_SCHEMA = {
-  type: 'object',
-  additionalProperties: false,
-  required: ['mode', 'interpreted_requirements', 'summary', 'shortlist'],
-  properties: {
-    mode: { type: 'string', enum: ['openai'] },
-    interpreted_requirements: {
-      type: 'object',
-      additionalProperties: false,
-      required: ['budget_sek', 'min_wltp_range_km', 'need', 'notes'],
-      properties: {
-        budget_sek: { type: ['number', 'null'] },
-        min_wltp_range_km: { type: ['number', 'null'] },
-        need: { type: 'string', maxLength: 120 },
-        notes: { type: 'string', maxLength: 220 },
-      },
-    },
-    summary: { type: 'string', maxLength: 360 },
-    shortlist: {
-      type: 'array',
-      minItems: 1,
-      maxItems: 3,
-      items: {
-        type: 'object',
-        additionalProperties: false,
-        required: ['id', 'brand', 'model', 'variant_name', 'match_score', 'reasons', 'tradeoffs', 'source_url'],
-        properties: {
-          id: { type: 'string' },
-          brand: { type: 'string' },
-          model: { type: 'string' },
-          variant_name: { type: 'string' },
-          match_score: { type: 'number' },
-          reasons: { type: 'array', items: { type: 'string', maxLength: 140 }, minItems: 1, maxItems: 3 },
-          tradeoffs: { type: 'array', items: { type: 'string', maxLength: 140 }, minItems: 1, maxItems: 3 },
-          source_url: { type: 'string' },
-        },
-      },
-    },
-  },
-};
 const COMPARE_RESPONSE_SCHEMA = {
   type: 'object',
   additionalProperties: false,
@@ -138,31 +99,8 @@ function toNumber(value, fallback = 0) {
 async function loadPublicVariants() {
   const raw = await readFile(join(ROOT, 'public/data/public_ev_variants.json'), 'utf8');
   const payload = JSON.parse(raw);
-  return (payload.records || [])
-    .filter((row) => PUBLIC_STATUSES.has(row.validation_status))
-    .map((row) => {
-      const variantKey = `${row.brand}|${row.model}|${row.variant_name}`;
-      return {
-        id: createHash('sha1').update(variantKey).digest('hex').slice(0, 12),
-        variant_key: variantKey,
-        brand: row.brand,
-        model: row.model,
-        variant_name: row.variant_name,
-        price_sek: toNumber(row.price_sek, null),
-        wltp_range_km: toNumber(row.wltp_range_km, null),
-        dc_charge_kw: toNumber(row.dc_charge_kw, null),
-        boot_liters: toNumber(row.boot_liters, null),
-        tow_kg: toNumber(row.tow_kg, null),
-        seats: toNumber(row.seats, null),
-        drivetrain: row.drivetrain || '',
-        source_url: row.source_url,
-        source_hash: row.source_hash,
-        source_quote: row.source_quote,
-        validation_status: row.validation_status,
-        market_seen: Boolean(row.market_seen),
-        available_confirmed: Boolean(row.available_confirmed),
-      };
-    });
+  return normalizePublicVariants((payload.records || []).filter((row) => PUBLIC_STATUSES.has(row.validation_status)))
+    .map((row) => ({ ...row, id: createHash('sha1').update(row.variant_key).digest('hex').slice(0, 12) }));
 }
 
 function scoreVariant(row, request) {
@@ -430,37 +368,6 @@ export function deterministicCompareReport(selected) {
   };
 }
 
-function buildAdvisorPrompt(variants, request) {
-  const compactVariants = variants.map(compactVariant);
-
-  return [
-    {
-      role: 'system',
-      content:
-        'Du är Elbilsguidens svenska AI-rådgivare. Rekommendera endast bilar från medskickad publicerad canonical-data. Använd aldrig externa fakta. Svara kort och beslutsorienterat. Summary ska ha formatet: "Bäst för dig: ... Tänk på: ... Alternativ: ...". Reasons och tradeoffs ska vara konkreta, max en mening var.',
-    },
-    {
-      role: 'user',
-      content: JSON.stringify({
-        user_requirements: {
-          prompt: request.prompt || '',
-          budget_sek: request.budget,
-          min_wltp_range_km: request.range,
-          need: request.need,
-        },
-        public_variants: compactVariants,
-        response_language: 'sv-SE',
-        writing_rules: {
-          summary_format: 'Bäst för dig: <kort slutsats>. Tänk på: <viktig kompromiss>. Alternativ: <när annat val passar>.',
-          max_summary_characters: 360,
-          max_reason_characters: 140,
-          max_tradeoff_characters: 140,
-        },
-      }),
-    },
-  ];
-}
-
 function buildComparePrompt(selected) {
   return [
     {
@@ -524,10 +431,6 @@ async function openAiJson(input, schemaName, schema) {
   return parseOpenAiJson(await response.json());
 }
 
-async function openAiAdvice(variants, request) {
-  return openAiJson(buildAdvisorPrompt(variants, request), 'ev_advisor_response', ADVISOR_RESPONSE_SCHEMA);
-}
-
 async function openAiCompareReport(selected) {
   return openAiJson(buildComparePrompt(selected), 'ev_compare_report', COMPARE_RESPONSE_SCHEMA);
 }
@@ -540,8 +443,8 @@ async function handleAdvisor(req, res) {
       return jsonResponse(res, 503, { error: 'No published canonical variants available.' });
     }
 
-    const openAiResult = await openAiAdvice(variants, request);
-    return jsonResponse(res, 200, normalizeAdvisorResult(openAiResult, variants, request));
+    const result = await createAdvisorResult({ request, variants, apiKey: process.env.OPENAI_API_KEY, model: OPENAI_MODEL });
+    return jsonResponse(res, 200, result);
   } catch (error) {
     console.error(error);
     return jsonResponse(res, 500, { error: error.message });

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { tokenCost, runBenchmark, SEARCHES } from './benchmark_advisor_cost.mjs';
 import { normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
+import { ruleRequirements } from '../src/advisor-matching.js';
 
 const usage = { input_tokens: 10000, input_tokens_details: { cached_tokens: 0 }, output_tokens: 1000, output_tokens_details: { reasoning_tokens: 400 } };
 assert.equal(tokenCost(usage, 'gpt-5.4-mini', 'default'), 0.012);
@@ -10,12 +11,12 @@ for (const invalid of [null, {}, { ...usage, input_tokens: -1 }, { ...usage, out
 }
 assert.throws(() => tokenCost(usage, 'gpt-5.4', 'default'));
 assert.throws(() => tokenCost(usage, 'gpt-5.4-mini', 'priority'));
-const variants = normalizePublicVariants([{ id: 'fixture', brand: 'Fixture', model: 'One', variant_name: 'Base', source_url: 'https://manufacturer.example/se', source_hash: 'fixture-hash', validation_status: 'published', wltp_range_km: 500 }]);
+const variants = normalizePublicVariants([{ id: 'fixture', brand: 'Fixture', model: 'One', variant_name: 'Base', source_url: 'https://manufacturer.example/se', source_hash: 'fixture-hash', validation_status: 'published', price_sek: 300000, wltp_range_km: 600 }]);
 let calls = 0;
 const valid = async () => {
   calls++;
   return Response.json({ status: 'completed', model: 'gpt-5.4-mini', service_tier: 'default', usage, output_text: JSON.stringify({
-    interpreted_requirements: {}, summary: 'Fixture', shortlist: [{ id: 'fixture', match_score: 80, reasons: ['Test'], tradeoffs: ['Test'] }],
+    ...ruleRequirements(), budget_sek: null, min_wltp_range_km: null,
   }) });
 };
 const five = await runBenchmark({ variants, apiKey: 'fixture-only', fetchImpl: valid });

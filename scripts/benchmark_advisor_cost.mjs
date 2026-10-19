@@ -57,9 +57,12 @@ export async function runBenchmark({ variants, apiKey, fetchImpl = fetch, search
       const request = JSON.parse(options.body);
       assert.equal(request.model, PRICES.model);
       assert.equal(request.store, false);
-      assert.equal(request.max_output_tokens, 2400);
+      assert.equal(request.max_output_tokens, 512);
+      assert.equal(request.text.format.name, 'ev_search_requirements');
+      assert.equal(request.text.format.schema.properties.shortlist, undefined);
+      assert.ok(!JSON.stringify(request.input).includes('public_variants'));
       assert.equal(request.tools, undefined, 'Paid tools are not part of this benchmark.');
-      assert.ok(Buffer.byteLength(options.body) <= 100000, 'Unexpected prompt size.');
+      assert.ok(Buffer.byteLength(options.body) <= 10000, 'Unexpected requirement prompt size.');
       const response = await fetchImpl(url, options);
       const payload = await response.clone().json().catch(() => ({}));
       observation = { http_status: response.status, model: payload.model, service_tier: payload.service_tier, usage: payload.usage };
@@ -108,7 +111,7 @@ async function main() {
   const complete = observed.results.length === SEARCHES.length && observed.results.every((r) => r.mode === 'openai' && r.calculated_cost_usd !== null && r.canonical_identity_and_sources_ok);
   const knownCost = observed.results.reduce((sum, row) => sum + (row.calculated_cost_usd ?? 0), 0);
   const report = {
-    measured_at: new Date().toISOString(), method: 'Real provider requests through unchanged Pages advisor core; not browser/Pages HTTP requests.',
+    measured_at: new Date().toISOString(), method: 'Real requirements-only provider requests through Pages advisor core, followed by deterministic database matching; not browser/Pages HTTP requests.',
     snapshot_url: snapshotUrl, snapshot_sha256: createHash('sha256').update(snapshotText).digest('hex'), public_variants: variants.length,
     prices: PRICES, complete, ...observed,
     total_calculated_cost_usd: observed.results.every((r) => r.calculated_cost_usd !== null) ? knownCost : null,
