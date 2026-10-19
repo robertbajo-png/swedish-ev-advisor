@@ -47,7 +47,7 @@ const provider = (fixture) => async (url, options) => {
   providerCalls++;
   assert.equal(url, 'https://api.openai.com/v1/responses');
   assert.equal(options.method, 'POST');
-  assert.equal(options.redirect, 'error');
+  assert.equal(options.redirect, 'manual');
   assert.equal(options.headers.authorization, 'Bearer fixture-only-key');
   assert.ok(options.signal instanceof AbortSignal);
   const body = JSON.parse(options.body);
@@ -100,7 +100,9 @@ const originalError = console.error;
 console.error = (...values) => logged.push(values.join(' '));
 try {
   for (const fetchImpl of [
+    async () => new Response(null, { status: 302, headers: { location: 'https://wrong.example' } }),
     async () => Response.json({ error: { message: 'SENSITIVE_PROVIDER_BODY' } }, { status: 401 }),
+    async () => Response.json({ error: { type: 'insufficient_quota', message: 'SENSITIVE_PROVIDER_BODY' } }, { status: 429 }),
     async () => Response.json({ status: 'incomplete', output_text: JSON.stringify(adviceFixture) }),
     async () => Response.json({ status: 'completed', output: [{ content: [{ type: 'refusal', refusal: 'No' }] }] }),
     async () => Response.json({ output_text: 'not json' }),
@@ -112,6 +114,7 @@ try {
   }
 } finally { console.error = originalError; }
 assert.ok(logged.length >= 12);
+assert.ok(logged.some((line) => line.includes('http_429_insufficient_quota')));
 assert.ok(logged.every((line) => !line.includes('SENSITIVE') && !line.includes('fixture-only-key')));
 const noFetch = async () => { assert.fail('No provider request should be made'); };
 assert.equal((await createAdvisorResult({ ...options, apiKey: '', request, fetchImpl: noFetch })).mode, 'deterministic_fallback');

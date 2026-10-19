@@ -32,7 +32,7 @@ async function loadFromSupabase(env) {
   const response = await fetch(`${baseUrl.replace(/\/$/, '')}/rest/v1/public_ev_variants?select=*`, {
     headers: { apikey: anonKey, authorization: `Bearer ${anonKey}` },
     signal: AbortSignal.timeout(8000),
-    redirect: 'error',
+    redirect: 'manual',
   });
   if (!response.ok) throw new Error(`Supabase public view returned ${response.status}.`);
   return normalizePublicVariants(await response.json());

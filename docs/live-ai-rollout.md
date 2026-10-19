@@ -3,12 +3,24 @@
 ## Status och plan 2026-10-19
 
 - Responses API och strukturerade svar finns redan i Pages Functions.
-- Ingen OpenAI-nyckel ar konfigurerad i lokal servermiljo eller UI-preview.
+- OpenAI accepterar nyckeln i lokal `.env.local` (modellkontroll HTTP 200).
+  Filen har UTF-8 BOM; avlagsna BOM i minnet fore `node:util.parseEnv`, som
+  annars missar forsta variabelnamnet. Sjalva hemlighetsfilen andras inte.
+- Ingen AI-nyckel ar konfigurerad i det befintliga UI-preview-projektet.
+- Ett minimalt Responses-anrop ger HTTP 429, `insufficient_quota`. Kontots
+  API-krediter/kvot maste atgardas innan verklig AI kan verifieras. Inga
+  automatiska upprepningar eller modellbyten far dolja det felet.
+- Separata Pages-projektet `seekev-ai-preview` ar skapat med produktionbranch
+  `main`. Endast `OPENAI_API_KEY` har laddats till dess preview-secret-store
+  genom CLI-stdin; inga Supabase-hemligheter har overforts.
 - Behall `gpt-5.4-mini` och samma publicerade canonical-snapshot i frontend/API.
 - Forbered timeout, tokenbegransning, fail-safe validering och anropsskydd.
 - Testa utan riktiga provideranrop innan en nyckel konfigureras.
 - Anvand ett separat Pages-projekt, `seekev-ai-preview`, for live-AI. Det
   befintliga `seekev-preview` ska fortsatt vara utan AI-/databashemligheter.
+- Pages anvander projektets vanliga `wrangler.toml`; alternativa config-paths
+  stods inte. Valj det separata projektet uttryckligen med
+  `--project-name seekev-ai-preview` och preview-branchen `codex-ai-preview`.
 - Nyckeln ska finnas i ignorerad `.env.local` och overforas till Cloudflares
   preview-hemlighet via CLI-stdin. Den far inte skrivas till kod, byggfiler,
   CLI-argument, webblasare eller chatt.
@@ -37,13 +49,16 @@ skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
 - Modellunderlaget skiljer okand tillganglighet, saknade varden, nollvarden,
   listpris, kampanjpris och aterforsaljarerbjudanden.
 - Responses-anrop har 25 sekunders timeout, 2 400 output-tokens och `store: false`.
+- Externa serverfetches anvander `redirect: manual` och avvisar 3xx utan att
+  skicka nyckeln vidare. Cloudflare Workers stoder inte `redirect: error`.
 - Inkompletta svar, avvisanden, ogiltig JSON och providerfel ger reservrankning.
 - Betaskyddet tillater fem anrop/minut och klient-IP, tva samtidiga anrop per
-  isolat, samma origin och JSON. Serverloggar visar inte providerfelens innehall.
+  isolat, samma origin och JSON. Serverloggar visar endast fasta felkoder,
+  exempelvis HTTP-status eller timeout, inte providerfelens innehall.
 - `SMOKE_REQUIRE_AI=1 bun run smoke:advisor` kraver riktiga AI-svar fran bada
   routes och kontrollerar resultat mot previewns publicerade snapshot.
 
-Kvar innan live-AI kan markeras som aktiv: giltig nyckel, gron CI, separat
+Kvar innan live-AI kan markeras som aktiv: API-kvot, gron CI, separat
 preview-publicering samt godkant verkligt smoke-test. UI-previewn ar oforandrad.
 
 ## Referenser

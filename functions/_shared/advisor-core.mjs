@@ -365,7 +365,7 @@ async function openAiJson({ input, schemaName, schema, apiKey, model, fetchImpl 
   const response = await fetchImpl('https://api.openai.com/v1/responses', {
     method: 'POST',
     signal: AbortSignal.timeout(25000),
-    redirect: 'error',
+    redirect: 'manual',
     headers: { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       model: model || 'gpt-5.4-mini',
@@ -375,8 +375,20 @@ async function openAiJson({ input, schemaName, schema, apiKey, model, fetchImpl 
       text: { format: { type: 'json_schema', name: schemaName, strict: true, schema } },
     }),
   });
-  if (!response.ok) throw new Error(`OpenAI request failed with status ${response.status}.`);
+  if (!response.ok) {
+    const error = new Error('OpenAI request failed.');
+    error.providerStatus = response.status;
+    const payload = await response.json().catch(() => ({}));
+    const knownCodes = ['insufficient_quota', 'rate_limit_exceeded', 'invalid_api_key', 'model_not_found'];
+    error.providerCode = knownCodes.find((code) => code === payload.error?.code || code === payload.error?.type);
+    throw error;
+  }
   return parseOpenAiJson(await response.json());
+}
+
+function failureCode(error) {
+  if (Number.isInteger(error?.providerStatus)) return `http_${error.providerStatus}${error.providerCode ? `_${error.providerCode}` : ''}`;
+  return ['TimeoutError', 'AbortError', 'SyntaxError', 'TypeError'].includes(error?.name) ? error.name : 'invalid_response';
 }
 
 function advisorPrompt(variants, request) {
@@ -427,8 +439,8 @@ export async function createAdvisorResult({ request, variants, apiKey, model, fe
         model,
         fetchImpl,
       });
-    } catch {
-      console.error('OpenAI advisor unavailable; returning canonical fallback.');
+    } catch (error) {
+      console.error('OpenAI advisor unavailable; returning canonical fallback.', failureCode(error));
     }
   }
   return normalizeAdvisorResult(result, variants, request);
@@ -450,8 +462,8 @@ export async function createCompareResult({ variantKeys, variants, apiKey, model
         model,
         fetchImpl,
       });
-    } catch {
-      console.error('OpenAI comparison unavailable; returning canonical fallback.');
+    } catch (error) {
+      console.error('OpenAI comparison unavailable; returning canonical fallback.', failureCode(error));
     }
   }
   return normalizeCompareReport(result, selected);
