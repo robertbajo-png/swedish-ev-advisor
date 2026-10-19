@@ -55,7 +55,29 @@ try {
       const right = await page.locator('.homeSpotlight').boundingBox();
       assert(Math.abs(left.y - right.y) < 2, 'Hero columns share a top edge');
     }
+    const form = page.locator('.homeAdvisorForm');
+    const restingSize = await form.boundingBox();
+    const query = page.getByLabel('Vad är viktigt för dig?');
+    await query.focus();
+    assert(await query.evaluate((node) => node.matches(':focus-visible')), name + ': visible input focus');
+    const focusStyle = await form.evaluate((node) => ({ border: getComputedStyle(node).borderColor, shadow: getComputedStyle(node).boxShadow }));
+    assert.equal(focusStyle.border, 'rgb(36, 94, 91)');
+    assert.match(focusStyle.shadow, /0px 0px 0px 1px/);
+    assert.equal(await query.evaluate((node) => getComputedStyle(node).outlineStyle), 'none', name + ': no nested input frame');
+    const focusedSize = await form.boundingBox();
+    assert.equal(focusedSize.width, restingSize.width, name + ': focus does not resize form');
+    assert.equal(focusedSize.height, restingSize.height, name + ': focus does not resize form');
+    const label = await form.locator('label').first().boundingBox();
+    assert(label.y + label.height <= (await query.boundingBox()).y + 1, name + ': label stays clear of input');
+    await form.screenshot({ path: fileURLToPath(new URL(`advisor-focus-${name}.png`, out)) });
+    await page.keyboard.press('Tab');
+    assert(await page.locator('.homeAdjust').evaluate((node) => node === document.activeElement));
+    assert.equal(await page.locator('.homeAdjust').evaluate((node) => getComputedStyle(node).outlineStyle), 'solid', name + ': buttons retain keyboard focus');
   }
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.getByLabel('Vad är viktigt för dig?').focus();
+  assert.equal(await page.locator('.homeAdvisorForm').evaluate((node) => getComputedStyle(node).outlineWidth), '2px', 'system-color focus survives forced colors');
+  await page.emulateMedia({ forcedColors: 'none' });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByRole('button', { name: 'Bästa familjeelbilen', exact: true }).click();
   assert.match(await page.getByLabel('Vad är viktigt för dig?').inputValue(), /familjeelbil/);
@@ -106,5 +128,5 @@ try {
   assert.equal(await page.locator('.homeVehicleCard').count(), 0, 'Failed data load never uses mock cars');
   assert.equal(await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).isDisabled(), true);
   assert.deepEqual(errors, [], 'No client runtime errors');
-  console.log(JSON.stringify({ home_ui_ok: true, viewports: ['1440x1000', '820x1180', '390x844', '320x740'], flows: ['suggestions', 'refinement', 'verified-only shortlist', 'comparison', 'catalog', 'offline state', 'missing image'], screenshots: fileURLToPath(out) }));
+  console.log(JSON.stringify({ home_ui_ok: true, viewports: ['1440x1000', '820x1180', '390x844', '320x740'], flows: ['single focus frame', 'keyboard focus', 'forced colors', 'suggestions', 'refinement', 'verified-only shortlist', 'comparison', 'catalog', 'offline state', 'missing image'], screenshots: fileURLToPath(out) }));
 } finally { await browser.close(); }

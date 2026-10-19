@@ -10,6 +10,8 @@
 .homeAdvisorForm > label { display: flex; gap: 8px; align-items: center; color: var(--pine); font-size: var(--ui-label-size); font-weight: 700; }
 .homeAdvisorForm textarea { display: block; width: 100%; min-height: 88px; resize: vertical; padding: 12px 0; color: var(--ink); background: transparent; border: 0; border-radius: 2px; font-size: 16px; line-height: 1.6; }
 .homeAdvisorForm textarea::placeholder { color: #6a7475; opacity: 1; }
+.homeAdvisorForm:has(textarea:focus-visible) { border-color: var(--pine); box-shadow: 0 0 0 1px var(--pine); }
+.homeAdvisorForm:has(textarea:focus-visible) textarea:focus-visible { outline: none; box-shadow: none; }
 .homeAdvisorFormActions { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-top: 8px; }
 .homeAdjust { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 8px 0; border: 0; color: #576263; background: none; font-size: var(--ui-label-size); font-weight: 600; }
 .homeAdvisorSettings:not([hidden]) { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 20px; margin-top: 16px; border-top: 1px solid var(--line); }
@@ -91,6 +93,9 @@
 .consumerHome .newsSectionHeading h2 { font-size: 32px; }
 .homeNewsEmpty { padding-top: 64px; }
 .homeNewsEmpty p { color: var(--muted); font-size: 14px; }
+@media (forced-colors: active) {
+  .homeAdvisorForm:has(textarea:focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
+}
 @media (max-width: 1150px) {
   .homeHero { gap: 32px; }
   .homeHero h1 { font-size: 48px; }
