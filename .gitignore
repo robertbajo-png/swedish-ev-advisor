@@ -15,4 +15,5 @@ data/local/*.sqlite-*
 data/local/news-qa/
 data/local/design-qa/
 data/local/ui-proportions/
+data/local/ai-cost/
 data/local/ui-refinement-vite*.log
