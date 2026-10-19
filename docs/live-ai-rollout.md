@@ -1,5 +1,23 @@
 # Live-AI: avgransat betatest
 
+## Aktuell status 2026-10-19
+
+Live-AI ar verifierad i https://codex-ai-preview.seekev-ai-preview.pages.dev/.
+Efter anvandarens pafyllning av API-krediter passerar `SMOKE_REQUIRE_AI=1`:
+
+- API-health: `ok: true`.
+- Radgivning: `mode: openai`, tre rekommendationer med canonical-identitet
+  och kallor som matchar previewns publicerade snapshot.
+- Jamforelse: `mode: openai`, alla tre valda varianter finns med; kallor,
+  priser och WLTP-varden matchar samma snapshot.
+- Testet gor tva riktiga Responses-anrop. Inga nycklar, konfigurationsvarden,
+  bilposter eller nyhetsartiklar behovde andras for att aktivera AI-svaren.
+
+Verifierad runtime ar fortfarande `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d`
+med `gpt-5.4-mini`. Detta ar en avgransad beta, inte full produktionsberedskap.
+Delad rate limiting/global kostnadskontroll, databasens 66/69-skillnad och
+eventuell domankoppling aterstar som separata driftsteg.
+
 ## Status och plan 2026-10-19
 
 - Responses API och strukturerade svar finns redan i Pages Functions.
@@ -7,9 +25,9 @@
   Filen har UTF-8 BOM; avlagsna BOM i minnet fore `node:util.parseEnv`, som
   annars missar forsta variabelnamnet. Sjalva hemlighetsfilen andras inte.
 - Ingen AI-nyckel ar konfigurerad i det befintliga UI-preview-projektet.
-- Ett minimalt Responses-anrop ger HTTP 429, `insufficient_quota`. Kontots
-  API-krediter/kvot maste atgardas innan verklig AI kan verifieras. Inga
-  automatiska upprepningar eller modellbyten far dolja det felet.
+- Fore pafyllningen gav ett minimalt Responses-anrop HTTP 429,
+  `insufficient_quota`. Det hindret ar nu atgardat och bada verkliga AI-test
+  passerar. Inga automatiska upprepningar eller modellbyten dolde felet.
 - Separata Pages-projektet `seekev-ai-preview` ar skapat med produktionbranch
   `main`. Endast `OPENAI_API_KEY` har laddats till dess preview-secret-store
   genom CLI-stdin; inga Supabase-hemligheter har overforts.
@@ -68,12 +86,12 @@ skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
   kallbundna varianter, korrekt API-health och `noindex`.
 - Externa skyddskontroller ger 403 for frammande origin, 415 for fel
   innehallstyp och 400 for null-body. De gor inga provideranrop.
-- Det lokala verkliga AI-testet stoppas av `insufficient_quota` och ger
-  reservrankning. Inga ytterligare provideranrop gors tills kvoten atgardats.
+- Det tidigare lokala testet stoppades av `insufficient_quota`. Efter
+  pafyllningen passerar det externa verkliga AI-testet for bada routes.
 - Ingen DNS, databas, UI-preview-hemlighet eller nyhetsautomation har andrats.
 
-Kvar innan live-AI kan markeras som aktiv: API-kvot och ett godkant verkligt
-smoke-test av bada routes. Kor efter kvotatgard:
+Live-AI ar bekraftad i betan. Vid behov kan bada routes atertestas med foljande
+kommando; varje korning gor upp till tva betalda AI-anrop:
 
 ```powershell
 $env:ADVISOR_API_BASE_URL='https://codex-ai-preview.seekev-ai-preview.pages.dev'

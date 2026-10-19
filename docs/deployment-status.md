@@ -2,7 +2,7 @@
 
 Kontrollerad 2026-10-19. Ingen produktionsdatabas eller DNS har ändrats.
 
-## AI-förhandsversion: Kvot Återstår
+## AI-förhandsversion: Live-AI Verifierad
 
 - Separat projekt `seekev-ai-preview`, endast preview-grenen `codex-ai-preview`.
 - Kodversion `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d` har grön CI:
@@ -16,10 +16,14 @@ Kontrollerad 2026-10-19. Ingen produktionsdatabas eller DNS har ändrats.
   403/415/400 utan provideranrop.
 - OpenAI accepterar den lokala nyckeln och modellen `gpt-5.4-mini` (HTTP 200).
   Min kontroll missade först UTF-8 BOM i miljöfilen; ingen ny nyckel behövdes.
-- Verkliga modellkörningar stoppas däremot med HTTP 429, `insufficient_quota`.
-  API-krediter/kvot måste åtgärdas innan live-AI kan bekräftas.
-- `SMOKE_REQUIRE_AI=1` har alltså inte passerat. Både rådgivning och jämförelse
-  måste därefter verifieras med `mode: openai`, inte ett fungerande reservläge.
+- Det tidigare HTTP 429-felet (`insufficient_quota`) är åtgärdat efter
+  användarens påfyllning av API-krediter.
+- `SMOKE_REQUIRE_AI=1` passerar nu mot den fasta preview-adressen. Både
+  rådgivning och jämförelse returnerar `mode: openai`, inte reservrankning.
+- Testet verifierar tre rekommendationers identitet/källor och att jämförelsen
+  omfattar alla valda varianter med priser, räckvidder och källor från samma
+  publicerade snapshot. Det gör två riktiga Responses-anrop med `gpt-5.4-mini`.
+- Ingen ny kodpublicering eller ny nyckel krävdes efter påfyllningen.
 - UI-preview, datainsamling, databas, nyhetsautomation och DNS är oförändrade.
 
 Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.
@@ -54,9 +58,9 @@ Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.
   Alla 24 måttester passerar mot den publicerade versionen. Se
   `docs/ui-proportion-refinement.md`.
 
-Nästa driftsteg: åtgärda API-kvoten och verifiera live-AI i det separata projektet
-med ett begränsat `SMOKE_REQUIRE_AI=1`-test. Hantera därefter separat databasens
-66/69-skillnad, GitHub-miljöns Pages-token och slutligen domänkopplingen.
+Nästa driftsteg: gemensam anropskvot/kostnadskontroll inför produktion. Hantera
+separat databasens 66/69-skillnad, GitHub-miljöns Pages-token och slutligen
+domänkopplingen. Det enkla betaskyddet per isolat är inte ett globalt kostnadstak.
 
 ## Historik före publiceringen
 
