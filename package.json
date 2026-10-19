@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
+    "verify:db-security": "node scripts/verify_vehicle_access.mjs",
+    "verify:db-access": "node scripts/verify_supabase_access.mjs",
+    "verify:db-access:remote": "node scripts/verify_supabase_access.mjs --remote",
     "verify:ui-proportions": "node scripts/verify_ui_proportions.mjs",
     "verify:pages-preview": "bun scripts/verify_pages_preview_workflow.mjs",
     "verify:deployment": "node scripts/verify_deployment.mjs",
@@ -108,6 +111,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
+    "@electric-sql/pglite": "0.5.10",
     "playwright": "^1.59.1"
   }
 }

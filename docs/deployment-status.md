@@ -1,6 +1,14 @@
 # Publiceringsstatus
 
-Kontrollerad 2026-10-19. Ingen produktionsdatabas eller DNS har ändrats.
+Kontrollerad 2026-10-19. DNS och biluppgifter är oförändrade.
+
+Uppdatering efter releasegranskningen: migration 008 är nu applicerad i Supabase
+på användarens begäran. Endast databasbehörigheter/radskydd har ändrats, inga
+bildata eller DNS-poster. Sju interna tabeller nekar publik läsning; publika
+vyer har kvar samma 30 modeller/66 varianter och identiska innehållshashar.
+`anon` och `authenticated` är verifierade utan intern tabellåtkomst, medan
+serverrollen behåller insamlingens CRUD-behörigheter. Se
+`docs/vehicle-access-hardening.md`. AI-kostnadstak och övriga releasehinder kvarstår.
 
 ## AI-förhandsversion: Live-AI Verifierad
 

@@ -75,5 +75,7 @@ Permanent project rules for the Swedish EV Advisor codebase.
 - Prefer idempotent import/upsert scripts over one-off local mutations.
 - Use migrations for database schema changes.
 - Keep service-role Supabase operations in scripts/server contexts only. Frontend must use anon/public read access.
+- Internal vehicle tables must have RLS enabled and no table/column privileges for PUBLIC, anon or authenticated. Only filtered public views are readable by public roles, and they must remain read-only.
+- Preserve the server ingestion role when hardening permissions. Run `verify:db-security` and the read-only `verify:db-access:remote` before declaring a database access issue resolved; never prove denials by mutating production records.
 - Add focused tests for ingestion, source validation, extraction validation, publishing rules, and public data filtering.
 - Do not commit secrets. Use `.env.example` for documented configuration.

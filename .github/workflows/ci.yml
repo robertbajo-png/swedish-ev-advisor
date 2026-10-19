@@ -22,6 +22,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
+      - run: bun run verify:db-security
+      - run: bun run verify:db-access
       - run: bun run verify:advisor
       - run: bun run verify:advisor-data
       - run: bun run verify:cloudflare
