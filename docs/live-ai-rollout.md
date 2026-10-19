@@ -58,8 +58,30 @@ skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
 - `SMOKE_REQUIRE_AI=1 bun run smoke:advisor` kraver riktiga AI-svar fran bada
   routes och kontrollerar resultat mot previewns publicerade snapshot.
 
-Kvar innan live-AI kan markeras som aktiv: API-kvot, gron CI, separat
-preview-publicering samt godkant verkligt smoke-test. UI-previewn ar oforandrad.
+## Publicerad beta 2026-10-19
+
+- Kod: `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d`.
+- Gron CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39258477306
+- Preview: https://codex-ai-preview.seekev-ai-preview.pages.dev/
+- Versionsbunden: https://e36a3640.seekev-ai-preview.pages.dev/
+- Bada URL:er klarar alla atta externa GET-kontroller med 69 publicerade,
+  kallbundna varianter, korrekt API-health och `noindex`.
+- Externa skyddskontroller ger 403 for frammande origin, 415 for fel
+  innehallstyp och 400 for null-body. De gor inga provideranrop.
+- Det lokala verkliga AI-testet stoppas av `insufficient_quota` och ger
+  reservrankning. Inga ytterligare provideranrop gors tills kvoten atgardats.
+- Ingen DNS, databas, UI-preview-hemlighet eller nyhetsautomation har andrats.
+
+Kvar innan live-AI kan markeras som aktiv: API-kvot och ett godkant verkligt
+smoke-test av bada routes. Kor efter kvotatgard:
+
+```powershell
+$env:ADVISOR_API_BASE_URL='https://codex-ai-preview.seekev-ai-preview.pages.dev'
+$env:SMOKE_REQUIRE_AI='1'
+bun run smoke:advisor
+```
+
+Ett HTTP 200 med `deterministic_fallback` ar inte ett godkant AI-test.
 
 ## Referenser
 

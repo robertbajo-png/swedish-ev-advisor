@@ -1,19 +1,41 @@
 # Publiceringsstatus
 
-Kontrollerad 2026-10-18. Ingen produktionsdatabas eller DNS har ändrats.
+Kontrollerad 2026-10-19. Ingen produktionsdatabas eller DNS har ändrats.
 
-## Aktuell extern förhandsversion
+## AI-förhandsversion: Kvot Återstår
+
+- Separat projekt `seekev-ai-preview`, endast preview-grenen `codex-ai-preview`.
+- Kodversion `a6316adfdf0ed31a3d496fe7a3fec47d26584f0d` har grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39258477306
+- Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://e36a3640.seekev-ai-preview.pages.dev/
+- Endast OpenAI-nyckeln är överförd till detta projekts preview-hemligheter,
+  via CLI-stdin. Inga Supabase-hemligheter är överförda.
+- Alla åtta GET-kontroller passerar på båda adresserna med 69 publicerade
+  källbundna varianter och `noindex`. Externa skyddskontroller ger korrekt
+  403/415/400 utan provideranrop.
+- OpenAI accepterar den lokala nyckeln och modellen `gpt-5.4-mini` (HTTP 200).
+  Min kontroll missade först UTF-8 BOM i miljöfilen; ingen ny nyckel behövdes.
+- Verkliga modellkörningar stoppas däremot med HTTP 429, `insufficient_quota`.
+  API-krediter/kvot måste åtgärdas innan live-AI kan bekräftas.
+- `SMOKE_REQUIRE_AI=1` har alltså inte passerat. Både rådgivning och jämförelse
+  måste därefter verifieras med `mode: openai`, inte ett fungerande reservläge.
+- UI-preview, datainsamling, databas, nyhetsautomation och DNS är oförändrade.
+
+Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.
+
+## Separat UI-förhandsversion
 
 - Cloudflare-inloggningen är godkänd via Wranglers vanliga OAuth-flöde.
   Behörigheten gäller kontoläsning och Pages; ingen DNS-behörighet begärdes.
   Inloggningen lagras krypterat med Windows Credential Manager, inte i repot.
 - Separat Pages-projekt: `seekev-preview`, produktionsgren `main`.
   Endast preview-grenen `codex-ui-preview` har publicerats.
-- Publicerad kodversion: `696b711936ac196455a5c54a7177c8ddfc3dc0fb`.
+- Publicerad kodversion: `1cd2463c958feaa30b871efb24bc1262e263d4d1`.
   Exakt commit har grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39161616233
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39235918853
 - Fast preview-länk: https://codex-ui-preview.seekev-preview.pages.dev/
-- Versionsbunden länk: https://cfbe297b.seekev-preview.pages.dev/
+- Versionsbunden länk: https://5e237fc9.seekev-preview.pages.dev/
 - Båda adresserna passerar alla åtta GET-kontroller: app, katalog, jämförelse,
   nyheter, bil-deeplink, JSON-health, 69 publicerade källbundna varianter och
   webbplatskarta. Preview-sidorna har `noindex` och omdirigerar inte till localhost.
@@ -32,8 +54,8 @@ Kontrollerad 2026-10-18. Ingen produktionsdatabas eller DNS har ändrats.
   Alla 24 måttester passerar mot den publicerade versionen. Se
   `docs/ui-proportion-refinement.md`.
 
-Nästa driftsteg: konfigurera serverhemligheter säkert och verifiera live-AI med
-ett begränsat `SMOKE_REQUIRE_AI=1`-test. Hantera därefter separat databasens
+Nästa driftsteg: åtgärda API-kvoten och verifiera live-AI i det separata projektet
+med ett begränsat `SMOKE_REQUIRE_AI=1`-test. Hantera därefter separat databasens
 66/69-skillnad, GitHub-miljöns Pages-token och slutligen domänkopplingen.
 
 ## Historik före publiceringen
