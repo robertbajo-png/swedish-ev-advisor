@@ -78,8 +78,21 @@ filled from another motorization, model maxima, leasing or previous generation.
   after comparison proved all public fields and dates unchanged across 67 rows.
 - All 18 Toyota tests and PostgreSQL transaction tests pass again after migration.
 - Build and 77-URL SEO validation pass. No separate lint/typecheck is configured.
-- Remaining delivery check: exact-commit CI and AI-preview publication followed
-  by external parity and free budget-stop verification.
+- Runtime `48d699451e46f8fd4434c2ddf5fe6068ac7bb36e` passed full GitHub CI
+  ([run 39480590032](https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39480590032))
+  before upload to the AI-preview branch only.
+- Both `https://b9a25e47.seekev-ai-preview.pages.dev/` and the stable AI alias
+  passed eight external GET checks and full 29-field/hash parity against Supabase.
+  Browser inspection confirmed the new exact variant, source link, cash price,
+  unconfirmed availability and missing charging values rendered correctly.
+  The existing exact-model Toyota manufacturer image remains in use; no image
+  was invented or substituted from another model. Canonical image fields stay null.
+- All seven private tables still deny anonymous reads; service reads pass.
+- Free remote emergency-stop checks passed for advisor and comparison, then
+  restored the policy. Ledger unchanged: two settled requests / 2636 micro-USD.
+  This migration, publication and deployment made zero paid provider calls.
+- This delivery slice is complete. The later status-only documentation commit
+  does not replace the tested runtime SHA above.
 - Deferred: remaining Toyota configurations, generic source-group refresh,
   legacy-generation retirement, model expansion, production/DNS and paid AI.
 

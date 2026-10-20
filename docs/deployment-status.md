@@ -13,7 +13,13 @@ Exporten från den anonyma vyn matchar alla 29 fält, med hash
 `042806f32cc2cbcfe971d8c5f833f2f8a82701b66e9277bd9206dceaa2cbfb0e`.
 Saknade laddnings-, bagage- och bilddata förblir null. Ingen prisart har gissats.
 18 Toyota-tester, PostgreSQL-publiceringstester, bygge och 77-URL SEO passerar.
-GitHub CI och uppdaterad AI-preview återstår i detta leveranssteg.
+Runtime `48d699451e46f8fd4434c2ddf5fe6068ac7bb36e` har grön fullständig CI
+([39480590032](https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39480590032))
+och är publicerad på https://b9a25e47.seekev-ai-preview.pages.dev/ samt den fasta
+AI-previewadressen. Båda klarar åtta externa GET-kontroller och full katalogparitet.
+Webbläsarkontrollen visar exakt variant, korrekt pris och saknad DC-laddning.
+Sju interna tabeller nekar fortsatt anonym läsning. AI-nödstoppet klarar båda
+funktionerna och är återställt; två reglerade anrop / 2636 mikro-USD är oförändrat.
 Inga betalda AI-anrop eller DNS-ändringar har gjorts. Nyhetsautomatiken är pausad.
 Detaljer och kvarstående dataarbete: `docs/toyota-variant-publication.md`.
 
@@ -99,10 +105,10 @@ förhandsversionen. Övriga releasehinder kvarstår.
 
 ## Aktuell AI-version Med Kostnadstak
 
-- Runtime: `3ffb28262c2493736b512bdbb865aa9540bf0d13` med grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39467788570
+- Runtime: `48d699451e46f8fd4434c2ddf5fe6068ac7bb36e` med grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39480590032
 - Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
-- Versionsbunden adress: https://a5c4f6b7.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://b9a25e47.seekev-ai-preview.pages.dev/
 - Gemensam privat D1-policy: högst 1 USD/dygn och 10 USD/kalendermånad UTC.
   Både rådgivning och jämförelse reserverar kostnad innan ett betalt anrop.
 - Okänd förbrukning behåller säkerhetsreservationen. Budgetfel, nått tak och
