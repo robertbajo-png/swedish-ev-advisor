@@ -25,7 +25,7 @@ Missing pieces:
 - Completed: complete, anonymous public-view exports with content fingerprints.
 - Completed: current source checks and an explicit re-extraction queue.
 - Still required: exact-variant re-extraction and validation of current facts.
-- Still required: publish the tested snapshot to the AI preview after green CI.
+- Completed: publish the tested snapshot to the AI preview after green CI.
 - Defer: new models, paid extraction, DNS, branding and production activation.
 
 ## Execution Plan
@@ -89,7 +89,17 @@ Main changed files: `scripts/sync_public_catalog.mjs`,
 `scripts/audit_catalog_sources.py`, `database/migrations/009_public_catalog_contract.sql`,
 `public/data/public_ev_variants.json`, browser/API snapshot configuration and
 focused catalog/migration/source-audit tests. Build, SEO and responsive consumer
-workflow checks are required before preview publication.
+workflow checks passed before preview publication.
+
+Published runtime: `2a909c950232a1bdb667b4610a0a8ad3ee72cdcd`, green CI run
+`39405643007`, https://61462c44.seekev-ai-preview.pages.dev/.
+The stable alias https://codex-ai-preview.seekev-ai-preview.pages.dev/ points to
+the same release. Both passed all eight external GET checks. Deployed 29-field
+catalog parity against Supabase was rechecked; fingerprint
+`c3aa59cbd8ff0daad5cfc41134d121b786ee1d507e7195577e5aa60ac0632ba6`.
+The remote AI emergency-stop exercise passed for both routes and restored the
+preview policy; the ledger stayed unchanged at two settled requests / 2,636
+micro-USD. No paid provider requests were needed for this data slice.
 
 Checks passed locally: public catalog contract and live 29-field parity;
 idempotent migration against legacy and current PostgreSQL fixtures with unchanged

@@ -2,7 +2,7 @@
 
 Kontrollerad 2026-10-20. DNS och biluppgifter är oförändrade.
 
-## Katalogsynkning: Under Publicering
+## Katalogsynkning: Publicerad
 
 Migration 009 är applicerad efter ägarens uttryckliga godkännande. Den kompletterar
 sex saknade fält i den publika katalogvyn utan att ändra bilvärden eller
@@ -12,8 +12,10 @@ läsning av samtliga sju interna tabeller och fungerande serverläsning.
 Den nya lokala release-snapshoten kommer direkt från den anonyma Supabase-vyn
 och matchar alla 29 publika fält. Tre äldre, enbart lokala modellprofiler ligger
 kvar för granskning och visas inte publikt. Webb och API använder samma snapshot
-som standard. Den nedan publicerade AI-versionen innehåller ännu den äldre
-katalogen tills en ny exakt kodversion har passerat CI och publicerats.
+som standard. Runtime `2a909c950232a1bdb667b4610a0a8ad3ee72cdcd` är nu publicerad
+efter grön CI. Både den fasta adressen och versionsadressen klarar åtta externa
+GET-kontroller. Den publicerade katalogens alla 29 fält och innehållshash matchar
+den anonyma Supabase-vyn.
 
 Aktualitetskontrollen är inte en ny faktaverifiering: 18 av 33 officiella källor
 gick att läsa; övriga kräver åtkomst-/källåtgärder. Uppgifter från bland annat en
@@ -31,14 +33,17 @@ förhandsversionen. Övriga releasehinder kvarstår.
 
 ## Aktuell AI-version Med Kostnadstak
 
-- Runtime: `40173d026c388b95c22db431cf33d84a4ee15169` med grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39283393585
+- Runtime: `2a909c950232a1bdb667b4610a0a8ad3ee72cdcd` med grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39405643007
 - Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
-- Versionsbunden adress: https://817fd8cc.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://61462c44.seekev-ai-preview.pages.dev/
 - Gemensam privat D1-policy: högst 1 USD/dygn och 10 USD/kalendermånad UTC.
   Både rådgivning och jämförelse reserverar kostnad innan ett betalt anrop.
 - Okänd förbrukning behåller säkerhetsreservationen. Budgetfel, nått tak och
   nödstopp ger databaserade resultat utan betalda AI-anrop.
+- Katalogversionens nödstopp är också testat på distans för båda funktionerna
+  och återställt. D1-bokföringen är oförändrad: två reglerade anrop, 2 636
+  mikro-USD. Migration, källkontroll och publicering gjorde inga betalda AI-anrop.
 - Externt nödstopp är provat för båda funktionerna och återställt. Två riktiga
   AI-anrop den 20 oktober fungerade och gav två reglerade D1-poster, sammanlagt
   0,002636 USD efter avrundning. Det är bokförd tokenkostnad, inte kontoavläsning.
@@ -46,7 +51,7 @@ förhandsversionen. Övriga releasehinder kvarstår.
   Den aktuella versionen klarar samtliga åtta externa GET-kontroller.
 - Endast AI-preview har fått D1-bindning och en ny slumpmässig serverhemlighet
   för dagliga klienthashar. Ingen DNS-behörighet eller Supabase-hemlighet behövdes.
-- Separat UI-preview, biluppgifter, DNS och pausad nyhetsautomation är oförändrade.
+- Separat UI-preview, kanoniska bilvärden, DNS och pausad nyhetsautomation är oförändrade.
   Produktionens AI är avstängd som standard. Prisreglerna kräver ny kontroll
   före 19 november, annars stoppas betalda anrop automatiskt.
 
@@ -123,7 +128,9 @@ Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.
   Alla 24 måttester passerar mot den publicerade versionen. Se
   `docs/ui-proportion-refinement.md`.
 
-Nästa driftsteg: kontrollera datans aktualitet och databasens 66/69-skillnad.
+Nästa driftsteg: verifiera aktuella priser/specifikationer via den nya källkön.
+66/69-skillnaden är löst i den aktuella AI-previewen, inte genom att publicera
+de tre lokala modellprofilerna.
 Förbered därefter identitet/integritetsinformation, separat produktion och
 slutligen domänkopplingen. Det enkla skyddet per isolat kompletteras nu av D1
 för gemensam anropskvot och kostnadskontroll.
