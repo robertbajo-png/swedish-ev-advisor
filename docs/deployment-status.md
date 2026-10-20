@@ -2,6 +2,24 @@
 
 Kontrollerad 2026-10-20. DNS och biluppgifter är oförändrade.
 
+## Katalogsynkning: Under Publicering
+
+Migration 009 är applicerad efter ägarens uttryckliga godkännande. Den kompletterar
+sex saknade fält i den publika katalogvyn utan att ändra bilvärden eller
+åtkomstregler. Efterkontrollen visar 30 modeller/66 varianter, nekad anonym
+läsning av samtliga sju interna tabeller och fungerande serverläsning.
+
+Den nya lokala release-snapshoten kommer direkt från den anonyma Supabase-vyn
+och matchar alla 29 publika fält. Tre äldre, enbart lokala modellprofiler ligger
+kvar för granskning och visas inte publikt. Webb och API använder samma snapshot
+som standard. Den nedan publicerade AI-versionen innehåller ännu den äldre
+katalogen tills en ny exakt kodversion har passerat CI och publicerats.
+
+Aktualitetskontrollen är inte en ny faktaverifiering: 18 av 33 officiella källor
+gick att läsa; övriga kräver åtkomst-/källåtgärder. Uppgifter från bland annat en
+prislista från 2024 måste extraheras och valideras på nytt före release. Se
+`docs/release-data-refresh.md`. Inga betalda AI-anrop gjordes i denna kontroll.
+
 Uppdatering efter releasegranskningen: migration 008 är nu applicerad i Supabase
 på användarens begäran. Endast databasbehörigheter/radskydd har ändrats, inga
 bildata eller DNS-poster. Sju interna tabeller nekar publik läsning; publika

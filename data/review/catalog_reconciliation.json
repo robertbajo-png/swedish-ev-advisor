@@ -1,0 +1,512 @@
+{
+  "checked_at": "2026-10-20T09:57:17.270Z",
+  "ok": false,
+  "local_count": 66,
+  "remote_count": 66,
+  "local_only": [],
+  "remote_only": [],
+  "changed": [
+    {
+      "key": "audi|a6 e-tron|a6 sportback e-tron",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "audi|q4 e-tron|audi q4 suv e-tron",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "audi|q6 e-tron|q6 e-tron",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|i4|bmw i4 edrive40 gran coupé",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|i4|bmw i4 xdrive40",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|i5|bmw i5 edrive40 sedan",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|ix1|bmw ix1 edrive20",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|ix1|bmw ix1 xdrive30",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "bmw|ix3|bmw ix3 50 xdrive",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "cupra|born|born",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "ford|explorer|explorer business edition",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev3|ev3",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev4|ev4",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev5|ev5 awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev5|ev5 fwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev6|ev6 awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev6|ev6 gt",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev6|ev6 rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev9|ev9 awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev9|ev9 awd gt line 6-sits",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev9|ev9 awd gt line 7-sits",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "kia|ev9|ev9 rwd standard range",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "mazda|6e|mazda 6e takumi",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "mercedes-benz|cla|cla advanced edition",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "mercedes-benz|eqa|eqa 250+",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "mercedes-benz|eqa|eqa 300 4matic",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "polestar|2|long range dual motor",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "polestar|2|long range dual motor med performance-paketet",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "polestar|2|long range single motor",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "polestar|4|long range dual motor",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "polestar|4|long range single motor",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "renault|5|evolution",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "renault|5|evolution ev 40",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "renault|5|iconic five ev 52",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "renault|5|roland garros ev52",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "renault|5|techno ev52",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|elroq|60 selection",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85 selection",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85x selection",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|elroq|rs",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition 85",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition 85x",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition 85x sportline",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition rs",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model 3|long range awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model 3|long range rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model 3|performance",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model 3|standard range rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model y|long range awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model y|long range rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model y|performance",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "tesla|model y|standard rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "toyota|bz4x|active awd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "toyota|bz4x|active fwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volkswagen|id.3|id.3 neo",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volkswagen|id.4|id.4 pro sweden olympic edition",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|es90|es90 plus",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|es90|es90 ultra",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 black edition",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 core",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 cross country",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 plus",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 ultra",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "zeekr|7x|core rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "zeekr|7x|long range rwd",
+      "fields": [
+        "source_name"
+      ]
+    },
+    {
+      "key": "zeekr|7x|privilege awd",
+      "fields": [
+        "source_name"
+      ]
+    }
+  ],
+  "quarantine": [
+    {
+      "brand": "Cupra",
+      "model": "Tavascan",
+      "variant_name": "Tavascan",
+      "body_type": null,
+      "price_sek": null,
+      "price_type": null,
+      "price_valid_until": null,
+      "wltp_range_km": 550,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "source_url": "https://www.cupraofficial.se/bilar/tavascan",
+      "source_name": "Cupra",
+      "source_hash": "2277bd3378614ba92891cba7bb5ee86f3a23169ab915ea4cd5d1a4438d972d41",
+      "source_quote": "upplevelsen och ger dig friheten att köra längre utan utsläpp. Med helelektrisk räckvidd på upp till 550 km* samt möjlighet att ladda från 0–100 km på bara 7 minuter**. Läs mer om CUPRAs ",
+      "extraction_confidence": 0.93,
+      "validation_status": "needs_review",
+      "market_seen": true,
+      "available_confirmed": false,
+      "discontinued_candidate": false,
+      "coming_or_low_volume": false,
+      "image_url": null,
+      "image_source_url": null,
+      "verified_at": null,
+      "previous_validation_status": "published",
+      "reason": "not_in_canonical_public_view",
+      "next_action": "exact_variant_source_verification"
+    },
+    {
+      "brand": "Subaru",
+      "model": "Solterra",
+      "variant_name": "Solterra",
+      "body_type": null,
+      "price_sek": null,
+      "price_type": null,
+      "price_valid_until": null,
+      "wltp_range_km": 511,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "source_url": "https://www.subaru.se/modeller/solterra/",
+      "source_name": "Subaru",
+      "source_hash": "fdcdffbbc71e0c4c66ee4606908009904cfbc31f2b152cdbb7da7c5578473e12",
+      "source_quote": "ystem – är alltid standard. Inget tillval, inga kompromisser. Elektrisk frihet. Räckvidd upp till 511 km (WLTP) och snabbladdning på cirka 28 minuter. Ladda, kör och upptäck mer. Äkta ",
+      "extraction_confidence": 0.93,
+      "validation_status": "needs_review",
+      "market_seen": true,
+      "available_confirmed": false,
+      "discontinued_candidate": false,
+      "coming_or_low_volume": false,
+      "image_url": "https://www.subaru.se/media/5pxku4sk/subaru_solterra_250825_0428.jpg",
+      "image_source_url": "https://www.subaru.se/modeller/solterra/",
+      "verified_at": null,
+      "previous_validation_status": "published",
+      "reason": "not_in_canonical_public_view",
+      "next_action": "exact_variant_source_verification"
+    },
+    {
+      "brand": "Volvo",
+      "model": "Ex90",
+      "variant_name": "Ex90",
+      "body_type": null,
+      "price_sek": null,
+      "price_type": null,
+      "price_valid_until": null,
+      "wltp_range_km": 625,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "source_url": "https://www.volvocars.com/se/cars/ex90-electric/",
+      "source_name": "Volvo",
+      "source_hash": "95860d59423a97a3dc1174c54c2651e6cec1051250cbc4b94e8c06c9c6b2febf",
+      "source_quote": "cifikationer Funktioner Tillgängliga bilar Bygg din egen Care by Volvo Business från 13 385 kr/mån. Service och försäkring ingår Till erbjudandet EX90 Rek. pris från 899 000 kr Care by Volvo från 15 695 kr/mån Bli kontaktad Elektrisk /Motor SUV /Kategori 2027 /Modellår Care. By Volvo. Kör EX90 inklusive service och försäkring till en fast månadskostnad[1] Pris från 15 695 kr/mån Care. By Volvo. Business Kör EX90 som tjänstebil inklusive service och försäkring till en fast månadskostnad[2] Pris från 13 385 kr/mån EX90 Översikt Luta dig tillbaka och njut av ett smidigt resande. Denna lyxiga och 7-sitsiga familjebil är designad för ultimat komfort. Elektrisk räckvidd (blandad körning) Läs mer 625 km Batteriets laddningstid 10–80 % (DC 350 kW) Läs mer 22 min Max effekt (hk) Läs ",
+      "extraction_confidence": 0.93,
+      "validation_status": "needs_review",
+      "market_seen": true,
+      "available_confirmed": false,
+      "discontinued_candidate": false,
+      "coming_or_low_volume": false,
+      "image_url": null,
+      "image_source_url": null,
+      "verified_at": null,
+      "previous_validation_status": "published",
+      "reason": "not_in_canonical_public_view",
+      "next_action": "exact_variant_source_verification"
+    }
+  ],
+  "missing_view_columns": [],
+  "remote_writes": false
+}

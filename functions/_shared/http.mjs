@@ -53,7 +53,7 @@ export async function loadPublicVariants(context) {
   const errors = [];
   let variants = [];
   try {
-    variants = await loadFromSupabase(context.env);
+    if (context.env.VEHICLE_DATA_MODE === 'live') variants = await loadFromSupabase(context.env);
   } catch (error) {
     errors.push(error.message);
   }

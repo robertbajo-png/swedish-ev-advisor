@@ -17,6 +17,7 @@ data/local/design-qa/
 data/local/ui-proportions/
 data/local/ai-cost/
 data/local/ai-budget/
+data/local/release-data/
 data/local/budget-functions-build/
 data/local/security/
 data/local/ui-refinement-vite*.log

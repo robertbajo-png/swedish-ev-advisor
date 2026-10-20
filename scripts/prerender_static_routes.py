@@ -211,7 +211,8 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         wltp = row.get("wltp_range_km")
         description_parts = [name]
         if price:
-            description_parts.append(f"pris från {price}")
+            price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
+            description_parts.append(f"{price_label} {price}")
         if wltp:
             description_parts.append(f"WLTP-räckvidd {wltp} km")
         description = ", ".join(description_parts) + ". Verifierade svenska källor och tydliga nyckeltal."

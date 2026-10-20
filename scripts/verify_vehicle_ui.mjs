@@ -101,13 +101,26 @@ try {
     assert.equal(await page.getByRole('link', { name: 'Öppna källa', exact: true }).getAttribute('target'), '_blank');
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
-  publicRecords = [{ ...records[0], dc_charge_kw: null, tow_kg: 0, seats: null }];
+  publicRecords = [{ ...records[0], price_sek: 600000, price_type: null, dc_charge_kw: null, tow_kg: 0, seats: null }];
   await page.goto(base + '/bilar');
   await page.locator('.carCard').first().waitFor();
+  assert.equal(await page.locator('.homeVehiclePrice span').innerText(), 'Prisuppgift', 'Unknown price type is not a list price');
   await page.locator('.carCard').getByRole('link', { name: 'Visa detaljer' }).click();
   assert.match(await page.locator('.vehicleHeroStats').innerText(), /0 kg/);
   assert.match(await page.locator('.vehicleHeroStats').innerText(), /Uppgift saknas/);
+  assert.match(await page.locator('.vehicleHeroStats').innerText(), /Prisuppgift/);
+  assert.equal(await page.locator('#nyckeltal').getByText('Uppgift saknas', { exact: true }).count(), 3, 'Unknown list price and absent peer data do not produce value metrics');
   assert.equal(await page.locator('.vehicleHeroMedia img').count(), 0, 'No model fallback for missing Audi image');
+  for (const [type, label] of [['list_price', 'Listpris'], ['campaign_price', 'Kampanjpris'], ['dealer_offer', 'Återförsäljarerbjudande']]) {
+    publicRecords = [{ ...publicRecords[0], price_type: type }];
+    await page.goto(base + '/bilar');
+    await page.locator('.carCard').first().waitFor();
+    assert.equal(await page.locator('.homeVehiclePrice span').innerText(), label, 'Verified price type stays distinct');
+    if (type === 'list_price') {
+      await page.locator('.carCard').getByRole('link', { name: 'Visa detaljer' }).click();
+      assert.equal(await page.locator('#nyckeltal').getByText('Uppgift saknas', { exact: true }).count(), 1, 'Known list price enables only the two supported value metrics');
+    }
+  }
   await page.goto(base + '/compare');
   await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
   assert.deepEqual(failures, [], 'No client runtime errors');

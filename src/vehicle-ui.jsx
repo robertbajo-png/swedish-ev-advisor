@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGr
 
 export const vehicleMoney = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 export const vehicleMetric = (value, unit = '') => value == null ? 'Uppgift saknas' : `${value}${unit ? ` ${unit}` : ''}`;
+export const vehiclePriceLabel = (car) => ({ list_price: 'Listpris', campaign_price: 'Kampanjpris', dealer_offer: 'Återförsäljarerbjudande' })[car.priceType] || 'Prisuppgift';
 const validDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
 
 export function vehicleIdentity(car) {
@@ -23,7 +24,7 @@ export function VehicleLink({ car, navigate, children, className, appPath }) {
 export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, className = '', compareLimitReached = false, headingLevel = 3 }) {
   const identity = vehicleIdentity(car);
   const Heading = 'h' + headingLevel;
-  const priceType = car.priceType === 'campaign_price' ? 'Kampanjpris' : car.priceType === 'dealer_offer' ? 'Återförsäljarerbjudande' : 'Pris från';
+  const priceType = vehiclePriceLabel(car);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
     <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>

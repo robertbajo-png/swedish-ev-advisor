@@ -1,6 +1,12 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:sync": "node scripts/sync_public_catalog.mjs --write",
+    "catalog:check": "node scripts/sync_public_catalog.mjs",
+    "catalog:audit": "node scripts/run_python.mjs scripts/audit_catalog_sources.py",
+    "verify:catalog": "node scripts/verify_public_catalog.mjs",
+    "verify:catalog-migration": "node scripts/verify_catalog_migration.mjs",
+    "verify:catalog-audit": "node scripts/run_python.mjs -m unittest discover -s tests -p test_catalog_sources.py -v",
     "verify:ai-budget": "node scripts/verify_ai_budget.mjs",
     "verify:db-security": "node scripts/verify_vehicle_access.mjs",
     "verify:db-access": "node scripts/verify_supabase_access.mjs",

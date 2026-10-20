@@ -1,0 +1,464 @@
+{
+  "checked_at": "2026-10-20T09:58:47.901028+00:00",
+  "sources": [
+    {
+      "source_url": "https://ford.se/personbilar/elektriska-explorer",
+      "brands": [
+        "Ford"
+      ],
+      "checked_at": "2026-10-20T09:58:18.870112+00:00",
+      "batch": 1,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://ford.se/personbilar/elektriska-explorer"
+    },
+    {
+      "source_url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+      "brands": [
+        "Audi"
+      ],
+      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "batch": 1,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html"
+    },
+    {
+      "source_url": "https://www.audi.se/se/web/sv/models/q6-e-tron/q6-e-tron.html",
+      "brands": [
+        "Audi"
+      ],
+      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "batch": 1,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.audi.se/se/web/sv/models/q6-e-tron/q6-e-tron.html"
+    },
+    {
+      "source_url": "https://www.audi.se/sv/models/a6-e-tron/a6-sportback-e-tron/",
+      "brands": [
+        "Audi"
+      ],
+      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "batch": 1,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.audi.se/sv/models/a6-e-tron/a6-sportback-e-tron/"
+    },
+    {
+      "source_url": "https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html",
+      "brands": [
+        "BMW"
+      ],
+      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "batch": 1,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html"
+    },
+    {
+      "source_url": "https://www.bmw.se/sv/alla-modeller/i-series/i4/bmw-i4-gran-coupe.html",
+      "brands": [
+        "BMW"
+      ],
+      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "batch": 2,
+      "variants": 2,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.bmw.se/sv/alla-modeller/i-series/i4/bmw-i4-gran-coupe.html"
+    },
+    {
+      "source_url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+      "brands": [
+        "BMW"
+      ],
+      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "batch": 2,
+      "variants": 2,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html"
+    },
+    {
+      "source_url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+      "brands": [
+        "BMW"
+      ],
+      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "batch": 2,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html"
+    },
+    {
+      "source_url": "https://www.cupraofficial.se/bilar/born",
+      "brands": [
+        "Cupra"
+      ],
+      "checked_at": "2026-10-20T09:58:29.465779+00:00",
+      "batch": 2,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.cupraofficial.se/bilar/born",
+      "http_status": 200,
+      "content_hash": "50c36a06d7ce7faa73688b0797337636162660d4580fbcda55d833d95b2afacf",
+      "text_hash": "3a72607b5d008bba2b6c880a5380adbeabde1fe69e333ba5c58aaac1f47e2b4e",
+      "content_type": "text/html;charset=utf-8"
+    },
+    {
+      "source_url": "https://www.cupraofficial.se/bilar/tavascan",
+      "brands": [
+        "Cupra"
+      ],
+      "checked_at": "2026-10-20T09:58:29.623309+00:00",
+      "batch": 2,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.cupraofficial.se/bilar/tavascan",
+      "http_status": 200,
+      "content_hash": "94c1ba00ecbb4f6343b6d72b28a64d4959a4322a47a5138c147d1b3d6068f588",
+      "text_hash": "3cb142cfb39978c296e43c688c8e7c97d2d36b4dd43baeb4faf9caa09ea573e7",
+      "content_type": "text/html;charset=utf-8"
+    },
+    {
+      "source_url": "https://www.kia.com/se/kopa/prislista/",
+      "brands": [
+        "Kia"
+      ],
+      "checked_at": "2026-10-20T09:58:30.237607+00:00",
+      "batch": 3,
+      "variants": 3,
+      "status": "reachable",
+      "final_url": "https://www.kia.com/se/kopa/prislista/",
+      "http_status": 200,
+      "content_hash": "02781c67fdb8be580b2ecb539999083b5c907f39ba4d8ef36a19ca939b274ff1",
+      "text_hash": "9818e95927814c04da690ad0376817c9abbb1e7893795f599bf6e881df83dbec",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+      "brands": [
+        "Kia"
+      ],
+      "checked_at": "2026-10-20T09:58:30.455960+00:00",
+      "batch": 3,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+      "http_status": 200,
+      "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+      "text_hash": "4936a9a9ba7c8a4c719a3ba506ed3468787c8f128fae10ad141f90747d69e70e",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.kia.com/se/nya-bilar/ev4/upptack/",
+      "brands": [
+        "Kia"
+      ],
+      "checked_at": "2026-10-20T09:58:30.660558+00:00",
+      "batch": 3,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.kia.com/se/nya-bilar/ev4/upptack/",
+      "http_status": 200,
+      "content_hash": "79f542d571de5cdddf20de94bc6242bb4d7777a47ef4c5323f5633c57d22e21e",
+      "text_hash": "1f0b0c5a67c6dd392f0bb34ede49e58b494ce05a241bc50f04ac9759fd041c4f",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+      "brands": [
+        "Kia"
+      ],
+      "checked_at": "2026-10-20T09:58:30.790176+00:00",
+      "batch": 3,
+      "variants": 2,
+      "status": "reachable",
+      "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+      "http_status": 200,
+      "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+      "text_hash": "18962d5954c71d19573913404665b92e3a8c84d0e2dc17fbac51036d51b81f9d",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+      "brands": [
+        "Kia"
+      ],
+      "checked_at": "2026-10-20T09:58:30.992775+00:00",
+      "batch": 3,
+      "variants": 4,
+      "status": "reachable",
+      "final_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+      "http_status": 200,
+      "content_hash": "763482a0cfff9fc69ded6ccd22ff15916c88a1832352a431b4998eb32fcfee4a",
+      "text_hash": "4d075ff054cb6283972dc263f33c189c78c9f7e338428b458a714f75e185f161",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.mazda.se/modeller/mazda-6e/specifikationer-och-jamforelser/",
+      "brands": [
+        "Mazda"
+      ],
+      "checked_at": "2026-10-20T09:58:31.760178+00:00",
+      "batch": 4,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.mazda.se/modeller/mazda-6e/specifikationer-och-jamforelser/",
+      "http_status": 200,
+      "content_hash": "6c7bb49171252e8ec709eab6b88b39558b5a1cf3e2098f1e1f1073838f66220d",
+      "text_hash": "bbe5dda24c809155b724510b97a8bd4e9fab3da4bf18dbdf7cbc97d6d36ec2a5",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.mercedes-benz.se/passengercars/cars-guide/fleet-business/modeller/cla-eq.html",
+      "brands": [
+        "Mercedes-Benz"
+      ],
+      "checked_at": "2026-10-20T09:58:41.896613+00:00",
+      "batch": 4,
+      "variants": 1,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.mercedes-benz.se/passengercars/cars-guide/fleet-business/modeller/cla-eq.html"
+    },
+    {
+      "source_url": "https://www.mercedes-benz.se/passengercars/mercedes-benz-cars/models/eqa/explore.html?urlReference=937cb25de1b4467c85b1a4b7fcb32810",
+      "brands": [
+        "Mercedes-Benz"
+      ],
+      "checked_at": "2026-10-20T09:58:41.896613+00:00",
+      "batch": 4,
+      "variants": 2,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.mercedes-benz.se/passengercars/mercedes-benz-cars/models/eqa/explore.html?urlReference=937cb25de1b4467c85b1a4b7fcb32810"
+    },
+    {
+      "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+      "brands": [
+        "Polestar"
+      ],
+      "checked_at": "2026-10-20T09:58:42.297463+00:00",
+      "batch": 4,
+      "variants": 3,
+      "status": "reachable",
+      "final_url": "https://www.polestar.com/se/polestar-2/specifications/",
+      "http_status": 200,
+      "content_hash": "2a9004ed33f208cdb946970ac08596f6523a0a4c7ddcea9613ec55239a1b650d",
+      "text_hash": "8e75049aa380daece974de65cf2dbca0862235ba66f88f8b2005e501a3fcf495",
+      "content_type": "text/html"
+    },
+    {
+      "source_url": "https://www.polestar.com/se/polestar-4/specifications/",
+      "brands": [
+        "Polestar"
+      ],
+      "checked_at": "2026-10-20T09:58:42.576358+00:00",
+      "batch": 4,
+      "variants": 2,
+      "status": "reachable",
+      "final_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+      "http_status": 200,
+      "content_hash": "db3067e3590cf5e7d98ffe70abf7f305044952ea01d9313d4847e89be0056efe",
+      "text_hash": "ebf9c170195e5019441df2fea9ef9f65f16885f0964985bf0d34de834947c0c7",
+      "content_type": "text/html"
+    },
+    {
+      "source_url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner_och_priser",
+      "brands": [
+        "Renault"
+      ],
+      "checked_at": "2026-10-20T09:58:43.531612+00:00",
+      "batch": 5,
+      "variants": 5,
+      "status": "reachable",
+      "final_url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner-och-priser",
+      "http_status": 200,
+      "content_hash": "682aa5810d5cf0ba3112ec1536ff04ad09fcfd948cf3bf04f596adb0369d1c92",
+      "text_hash": "0e3af529e82f3aeca2993a4f288c07b242862e2c66d0591d5b862373e148d729",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+      "brands": [
+        "Skoda"
+      ],
+      "checked_at": "2026-10-20T09:58:44.418472+00:00",
+      "batch": 5,
+      "variants": 4,
+      "status": "reachable",
+      "final_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+      "http_status": 200,
+      "content_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
+      "text_hash": "19394955f3626a5c5f1b1fa483a914c891a8d6d21889986506d119415e8306ac",
+      "content_type": "application/pdf"
+    },
+    {
+      "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+      "brands": [
+        "Skoda"
+      ],
+      "checked_at": "2026-10-20T09:58:44.728941+00:00",
+      "batch": 5,
+      "variants": 4,
+      "status": "reachable",
+      "final_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+      "http_status": 200,
+      "content_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "text_hash": "86df71f956b6488c280cb0220eb47385e18e788336c1b7a8c7a41a3d619f1231",
+      "content_type": "application/pdf"
+    },
+    {
+      "source_url": "https://www.subaru.se/modeller/solterra/",
+      "brands": [
+        "Subaru"
+      ],
+      "checked_at": "2026-10-20T09:58:45.033815+00:00",
+      "batch": 5,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.subaru.se/modeller/solterra/",
+      "http_status": 200,
+      "content_hash": "a945cec6883af4bae25752bb403fd995e4d00a67622d82e62539f97b32ea8374",
+      "text_hash": "59d986c1562da6bba9dbfdb298fe40cc99186b57a5f146b7f699537a4e3b3867",
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "source_url": "https://www.tesla.com/sv_SE/model3",
+      "brands": [
+        "Tesla"
+      ],
+      "checked_at": "2026-10-20T09:58:45.097048+00:00",
+      "batch": 5,
+      "variants": 4,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.tesla.com/sv_SE/model3"
+    },
+    {
+      "source_url": "https://www.tesla.com/sv_SE/modely?redirect=no",
+      "brands": [
+        "Tesla"
+      ],
+      "checked_at": "2026-10-20T09:58:45.097048+00:00",
+      "batch": 6,
+      "variants": 4,
+      "status": "robots_denied_or_unavailable",
+      "final_url": "https://www.tesla.com/sv_SE/modely?redirect=no"
+    },
+    {
+      "source_url": "https://www.toyota.se/content/dam/toyota/nmsc/sweden/prislista/bZ4X%20Cirkaprislista%202024-08-01%20%28MY23%29.pdf",
+      "brands": [
+        "Toyota"
+      ],
+      "checked_at": "2026-10-20T09:58:45.486735+00:00",
+      "batch": 6,
+      "variants": 2,
+      "status": "reachable",
+      "final_url": "https://www.toyota.se/content/dam/toyota/nmsc/sweden/prislista/bZ4X%20Cirkaprislista%202024-08-01%20%28MY23%29.pdf",
+      "http_status": 200,
+      "content_hash": "cb8f90a11d369e07563c5bcde82ff56b98d9b90b59eeefa518fae8c10b2abc6c",
+      "text_hash": "00047a52abb74ba105901756dd231b37764b259fd74e5da9bb4d7b1b0ded6163",
+      "content_type": "application/pdf"
+    },
+    {
+      "source_url": "https://www.volkswagen.se/sv/elbilar/vara-elbilar/id3.html",
+      "brands": [
+        "Volkswagen"
+      ],
+      "checked_at": "2026-10-20T09:58:45.860959+00:00",
+      "batch": 6,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.volkswagen.se/sv/modeller/id3.html",
+      "http_status": 200,
+      "content_hash": "4f06325989d7e44dded43bae1dc3e5a4ccc06036dfcfce91fda4b75513ba7285",
+      "text_hash": "b8d6b79c98c1a06e402b8fe6fcf8635ffd6644b1e13822c42ebcc689298037a1",
+      "content_type": "text/html;charset=utf-8"
+    },
+    {
+      "source_url": "https://www.volkswagen.se/sv/elbilar/vara-elbilar/id4.html",
+      "brands": [
+        "Volkswagen"
+      ],
+      "checked_at": "2026-10-20T09:58:46.068140+00:00",
+      "batch": 6,
+      "variants": 1,
+      "status": "reachable",
+      "final_url": "https://www.volkswagen.se/sv/modeller/id4.html",
+      "http_status": 200,
+      "content_hash": "c1b7283897546431e08b72fffa5564dce8eda24b620d0aba7c6694c812c86982",
+      "text_hash": "c8d8c96210e558a21eb796238c8b926c1f79795416cc45ef417ed549bb4693a8",
+      "content_type": "text/html;charset=utf-8"
+    },
+    {
+      "source_url": "https://www.volvocars.com/se/cars/es90-electric/",
+      "brands": [
+        "Volvo"
+      ],
+      "checked_at": "2026-10-20T09:58:46.294717+00:00",
+      "batch": 6,
+      "variants": 2,
+      "status": "http_error",
+      "http_status": 403,
+      "final_url": "https://www.volvocars.com/se/cars/es90-electric/"
+    },
+    {
+      "source_url": "https://www.volvocars.com/se/cars/ex30-electric/",
+      "brands": [
+        "Volvo"
+      ],
+      "checked_at": "2026-10-20T09:58:46.368307+00:00",
+      "batch": 7,
+      "variants": 5,
+      "status": "http_error",
+      "http_status": 403,
+      "final_url": "https://www.volvocars.com/se/cars/ex30-electric/"
+    },
+    {
+      "source_url": "https://www.volvocars.com/se/cars/ex90-electric/",
+      "brands": [
+        "Volvo"
+      ],
+      "checked_at": "2026-10-20T09:58:46.429931+00:00",
+      "batch": 7,
+      "variants": 1,
+      "status": "http_error",
+      "http_status": 403,
+      "final_url": "https://www.volvocars.com/se/cars/ex90-electric/"
+    },
+    {
+      "source_url": "https://www.zeekr.eu/sv-se/models/7x",
+      "brands": [
+        "Zeekr"
+      ],
+      "checked_at": "2026-10-20T09:58:47.894965+00:00",
+      "batch": 7,
+      "variants": 3,
+      "status": "reachable",
+      "final_url": "https://www.zeekr.eu/sv-se/models/7x",
+      "http_status": 200,
+      "content_hash": "c959fca08e1d61652babe8dc172790a000a79eee95b12d1313df3e1fba06d704",
+      "text_hash": "240496eebceaac8652879fe7d44f111537f12843d0da2729dcd3843a4a662336",
+      "content_type": "text/html; charset=utf-8"
+    }
+  ],
+  "variants": 69,
+  "source_counts": {
+    "robots_denied_or_unavailable": 12,
+    "reachable": 18,
+    "http_error": 3
+  },
+  "evidence_counts": {
+    "robots_denied_or_unavailable": 21,
+    "exact_variant_mapping_required": 5,
+    "preliminary_figures_require_reverification": 9,
+    "rendered_content_required": 1,
+    "evidence_not_found": 12,
+    "variant_scope_not_found": 11,
+    "dated_price_document_requires_current_source": 2,
+    "http_error": 8
+  },
+  "facts_verified": 0,
+  "remote_writes": false,
+  "openai_calls": 0,
+  "public_catalog_source": "supabase_public_ev_variants",
+  "public_catalog_sha256": "c3aa59cbd8ff0daad5cfc41134d121b786ee1d507e7195577e5aa60ac0632ba6"
+}

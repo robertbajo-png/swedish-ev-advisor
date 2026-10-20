@@ -18,6 +18,7 @@ try {
   const page = await browser.newPage();
   page.on('pageerror', (error) => errors.push(error.message));
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: cars }));
+  await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ json: { records: cars } }));
   await page.route('**/rest/v1/public_news_articles?**', (route) => route.fulfill({ json: [] }));
   await page.route('**/data/news_articles.json', (route) => route.fulfill({ json: { records: [] } }));
   let request;
@@ -137,6 +138,7 @@ try {
   assert.equal(await page.locator('.homeSpotlightImage').getByText('Bild saknas').count(), 1);
   await page.unroute('**/rest/v1/public_ev_variants?**');
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: [...cars, { ...cars[0], brand: 'Private staging row', validation_status: 'draft' }] }));
+  await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ json: { records: [...cars, { ...cars[0], brand: 'Private staging row', validation_status: 'draft' }] } }));
   await page.goto(base);
   await page.locator('.homeVehicleCard').first().waitFor();
   assert.equal(await page.getByText(/Private staging row/).count(), 0);

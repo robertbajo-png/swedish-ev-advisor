@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
-import { VehicleLink, VehicleCard as HomeVehicleCard } from './vehicle-ui.jsx';
+import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
 
 const money = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
@@ -85,7 +85,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
           <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsguiden</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
-          <dl className="homeSpotlightMetrics"><div><dt>Pris från</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
+          <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
       </aside>
     </section>

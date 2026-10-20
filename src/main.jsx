@@ -38,7 +38,7 @@ import { advisorEndpoints } from './api-endpoints.js';
 import { ruleAdvice } from './advisor-matching.js';
 import { HomePage } from './home.jsx';
 import './design-system.css';
-import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity } from './vehicle-ui.jsx';
+import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehiclePriceLabel as priceLabel } from './vehicle-ui.jsx';
 import './vehicles.css';
 
 
@@ -47,12 +47,6 @@ const formatSEK = (value) =>
 
 const formatDecimal = (value) =>
   new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 1 }).format(value);
-
-function priceLabel(car) {
-  if (car.priceType === 'campaign_price') return 'Kampanjpris';
-  if (car.priceType === 'dealer_offer') return 'Återförsäljarpris';
-  return 'Pris från';
-}
 
 function detailValue(value, unit = '') {
   if (value === null || value === undefined || value === '') return 'Uppgift saknas';
@@ -227,6 +221,7 @@ function transformPublicVariant(row) {
 }
 
 async function loadSupabaseCars() {
+  if (import.meta.env.VITE_VEHICLE_DATA_MODE !== 'live') return null;
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !anonKey) return null;
@@ -357,7 +352,7 @@ function csvCell(value) {
 }
 
 function exportCompareCsv(cars) {
-  const headers = ['Bil', 'Pris från', 'WLTP km', 'DC kW', 'Dragvikt kg', 'Bagage liter', 'Källa'];
+  const headers = ['Bil', 'Prisuppgift', 'WLTP km', 'DC kW', 'Dragvikt kg', 'Bagage liter', 'Källa'];
   const rows = cars.map((car) => [
     `${car.brand} ${car.model}`,
     car.price,
@@ -382,7 +377,7 @@ function exportCompareCsv(cars) {
 function decisionMetricsFor(car, cars = []) {
   const comparable = cars.filter((item) => item.rangeVerified != null);
   const averageRange = comparable.length > 1 ? Math.round(comparable.reduce((sum, item) => sum + item.rangeVerified, 0) / comparable.length) : null;
-  const listPrice = car.price && (!car.priceType || car.priceType === 'list_price') ? car.price : null;
+  const listPrice = car.price && car.priceType === 'list_price' ? car.price : null;
   return [
     { label: 'Räckvidd per 100 000 kr', value: listPrice && car.rangeVerified ? (car.rangeVerified / (listPrice / 100000)).toFixed(1) + ' km' : 'Uppgift saknas', note: 'Beräknas endast med listpris och WLTP.' },
     { label: 'Pris per WLTP-km', value: listPrice && car.rangeVerified ? Math.round(listPrice / car.rangeVerified).toLocaleString('sv-SE') + ' kr/km' : 'Uppgift saknas', note: 'Listpris fördelat på angiven räckvidd. Inte körkostnad.' },
@@ -1409,7 +1404,7 @@ function ComparisonTable({ cars }) {
   if (!cars.length) return null;
   const valueMetric = (field) => (car) => car[field];
   const rows = [
-    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: new Set(cars.map((car) => car.priceType || 'list_price')).size === 1 },
+    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType) && new Set(cars.map((car) => car.priceType)).size === 1 },
     { label: 'WLTP-räckvidd', get: (car) => detailValue(car.rangeVerified, 'km'), value: valueMetric('rangeVerified'), best: 'max' },
     { label: 'Batteri', get: (car) => detailValue(car.batteryVerified, 'kWh') },
     { label: 'DC-laddning', get: (car) => detailValue(car.dcVerified, 'kW'), value: valueMetric('dcVerified'), best: 'max' },
@@ -1419,7 +1414,7 @@ function ComparisonTable({ cars }) {
     { label: 'Dragvikt', get: (car) => detailValue(car.towingVerified, 'kg'), value: valueMetric('towingVerified'), best: 'max' },
     { label: 'Säten', get: (car) => detailValue(car.seatsVerified) },
     { label: 'Drivning', get: (car) => car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain },
-    { label: 'Räckvidd per 100 000 kr', get: (car) => car.price && car.rangeVerified ? Math.round(car.rangeVerified / (car.price / 100000)) + ' km' : 'Uppgift saknas' }
+    { label: 'Räckvidd per 100 000 kr', get: (car) => car.price && car.priceType === 'list_price' && car.rangeVerified ? Math.round(car.rangeVerified / (car.price / 100000)) + ' km' : 'Uppgift saknas' }
   ];
   return <div className="comparisonTable" tabIndex={0} role="region" aria-label="Jämförelse av elbilar, rulla i sidled">
     <table style={{ minWidth: 190 + cars.length * 240 }}><caption>Valda varianter och deras uppgifter</caption>
