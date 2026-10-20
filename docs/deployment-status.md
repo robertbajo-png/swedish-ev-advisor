@@ -1,5 +1,16 @@
 # Publiceringsstatus
 
+## Toyota: Nästa Upptäcktsbatch
+
+En ny skrivskyddad upptäcktskö identifierar tre utrustningsnivåer med stabila
+tillverkar-ID:n och källbevis. Active finns redan publikt. Active Tech och
+Executive kräver fortfarande varsin exakt konfigurationskälla; inga uppgifter
+har kopierats mellan dem. Två äldre poster kräver fortsatt generationsmappning.
+Alla 26 Toyota-tester, bygge, SEO och katalogparitet passerar. Publika katalogen
+har oförändrat 67 varianter. Ingen migration, fjärrskrivning, betald AI eller
+ny preview-publicering har gjorts för denna backend-kö.
+Se `docs/toyota-grade-expansion.md` för ändrade filer och nästa källsteg.
+
 ## Toyota: Migration 011 Och Ny Variant Publicerad
 
 Efter uttryckligt godkännande är migration 011 installerad i Supabase.

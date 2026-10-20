@@ -51,6 +51,7 @@ jobs:
       - run: python -m pip install pypdf==6.10.0
       - run: bun run verify:toyota-intake
       - run: bun run verify:toyota-publication-worker
+      - run: bun run verify:toyota-grade-discovery
       - run: npx --yes wrangler@latest pages functions build functions --outdir=/tmp/seekev-functions-build
       - run: bun run seo:build
       - run: bun run verify:seo

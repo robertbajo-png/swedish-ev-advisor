@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-10-20T19:57:58.133033+00:00",
+  "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+  "source_hash": "bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab",
+  "scope": "grade_defaults_not_complete_variant_coverage",
+  "grades": [
+    {
+      "job_id": "a427b3bfd280cfca872fe901f1eebcca905b9069173abd4da66ffbb2efc2f0dd",
+      "grade": "Active",
+      "manufacturer_grade_id": "637a6342-1d06-4ec6-b922-537805657c3a",
+      "default_manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+      "manufacturer_model_id": "7fb7f6d1-dbbc-4886-98ea-d1856e3815db",
+      "manufacturer_config_version": "6.HD",
+      "status": "identity_already_public",
+      "discovered_from": "https://www.toyota.se/bilar/bz4x/specifications",
+      "discovery_source_hash": "bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab",
+      "discovered_at": "2026-10-20T19:57:58.133033+00:00",
+      "field_evidence": {
+        "id": {
+          "source_pointer": "/grades/items/0/id",
+          "raw_value": "637a6342-1d06-4ec6-b922-537805657c3a",
+          "quote": "\"637a6342-1d06-4ec6-b922-537805657c3a\""
+        },
+        "name": {
+          "source_pointer": "/grades/items/0/name",
+          "raw_value": "Active",
+          "quote": "\"Active\""
+        },
+        "defaultCarId": {
+          "source_pointer": "/grades/items/0/defaultCarId",
+          "raw_value": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "quote": "\"552b7e03-84d2-4b36-a5bb-87d84cb7d05c\""
+        }
+      },
+      "configuration_source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+      "selected_configuration_available": true,
+      "publication_allowed": false
+    },
+    {
+      "job_id": "e6713093901cb7a9147742e9d7b5ea3a7f7269383b7f2f5a3784a6cbaf28b6f1",
+      "grade": "Active Tech",
+      "manufacturer_grade_id": "8690e610-6125-4559-a03e-253278273df6",
+      "default_manufacturer_variant_id": "29af8abe-5270-4b40-987e-9b894380d072",
+      "manufacturer_model_id": "7fb7f6d1-dbbc-4886-98ea-d1856e3815db",
+      "manufacturer_config_version": "6.HD",
+      "status": "needs_configuration_source",
+      "discovered_from": "https://www.toyota.se/bilar/bz4x/specifications",
+      "discovery_source_hash": "bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab",
+      "discovered_at": "2026-10-20T19:57:58.133033+00:00",
+      "field_evidence": {
+        "id": {
+          "source_pointer": "/grades/items/1/id",
+          "raw_value": "8690e610-6125-4559-a03e-253278273df6",
+          "quote": "\"8690e610-6125-4559-a03e-253278273df6\""
+        },
+        "name": {
+          "source_pointer": "/grades/items/1/name",
+          "raw_value": "Active Tech",
+          "quote": "\"Active Tech\""
+        },
+        "defaultCarId": {
+          "source_pointer": "/grades/items/1/defaultCarId",
+          "raw_value": "29af8abe-5270-4b40-987e-9b894380d072",
+          "quote": "\"29af8abe-5270-4b40-987e-9b894380d072\""
+        }
+      },
+      "configuration_source_url": null,
+      "selected_configuration_available": false,
+      "publication_allowed": false
+    },
+    {
+      "job_id": "9cc38069e835403faafe4f3353da62f46f2e3d021ff006421f242eec089dd2ca",
+      "grade": "Executive",
+      "manufacturer_grade_id": "304bb352-b191-42d3-8a0d-77f4917fded4",
+      "default_manufacturer_variant_id": "11b4e1ae-9c17-4a8b-9df6-88e9e17a0e3e",
+      "manufacturer_model_id": "7fb7f6d1-dbbc-4886-98ea-d1856e3815db",
+      "manufacturer_config_version": "6.HD",
+      "status": "needs_configuration_source",
+      "discovered_from": "https://www.toyota.se/bilar/bz4x/specifications",
+      "discovery_source_hash": "bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab",
+      "discovered_at": "2026-10-20T19:57:58.133033+00:00",
+      "field_evidence": {
+        "id": {
+          "source_pointer": "/grades/items/2/id",
+          "raw_value": "304bb352-b191-42d3-8a0d-77f4917fded4",
+          "quote": "\"304bb352-b191-42d3-8a0d-77f4917fded4\""
+        },
+        "name": {
+          "source_pointer": "/grades/items/2/name",
+          "raw_value": "Executive",
+          "quote": "\"Executive\""
+        },
+        "defaultCarId": {
+          "source_pointer": "/grades/items/2/defaultCarId",
+          "raw_value": "11b4e1ae-9c17-4a8b-9df6-88e9e17a0e3e",
+          "quote": "\"11b4e1ae-9c17-4a8b-9df6-88e9e17a0e3e\""
+        }
+      },
+      "configuration_source_url": null,
+      "selected_configuration_available": false,
+      "publication_allowed": false
+    }
+  ],
+  "grade_count": 3,
+  "selected_variant_count": 1,
+  "unresolved_grade_count": 2,
+  "legacy_mapping": [
+    {
+      "canonical_variant_id": "838ce360-8c52-431f-9831-5a16758b2c6e",
+      "variant_name": "Active FWD",
+      "status": "needs_mapping",
+      "reason": "generation_identity_not_proven",
+      "auto_update_allowed": false
+    },
+    {
+      "canonical_variant_id": "e9b28047-bd69-4d2e-9657-fc13339fe7d1",
+      "variant_name": "Active AWD",
+      "status": "needs_mapping",
+      "reason": "generation_identity_not_proven",
+      "auto_update_allowed": false
+    }
+  ],
+  "remote_writes": false,
+  "canonical_writes": false,
+  "published": 0,
+  "openai_calls": 0
+}
