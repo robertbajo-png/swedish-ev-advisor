@@ -1,6 +1,23 @@
 # Live-AI: avgransat betatest
 
-## Aktuell status 2026-10-19
+## Aktuell status 2026-10-20: Delat kostnadstak
+
+Runtime `40173d026c388b95c22db431cf33d84a4ee15169` ar publicerad pa
+https://codex-ai-preview.seekev-ai-preview.pages.dev/ med gron CI.
+Versionsadress: https://817fd8cc.seekev-ai-preview.pages.dev/.
+
+Radgivning och jamforelse delar nu ett privat, atomiskt D1-tak pa USD 1/dygn
+och USD 10/kalendermanad UTC. Fel i budgetlagret eller uppnatt tak ger canonical
+fallback utan nya betalda anrop. Externt nodstopp och aterstallning ar provade.
+Tva riktiga AI-anrop den 20 oktober gav tva reglerade D1-poster, totalt USD
+0.002636 efter avrundning. De gamla obegransade AI-deploymenterna ar borttagna.
+Produktion ar fortfarande avstangd som standard. Inga bildata eller DNS andrades.
+
+Se `docs/ai-budget.md` for priser, sakerhetsmarginal, prisgranskningsdatum,
+privata driftkommandon och avgransning mot hosting/andra OpenAI-skript.
+Foljande avsnitt ar historik fran versionen fore kostnadstaket.
+
+## Foregaende status 2026-10-19
 
 Live-AI ar verifierad i https://codex-ai-preview.seekev-ai-preview.pages.dev/.
 Efter anvandarens pafyllning av API-krediter passerar `SMOKE_REQUIRE_AI=1`:
@@ -16,8 +33,8 @@ Efter anvandarens pafyllning av API-krediter passerar `SMOKE_REQUIRE_AI=1`:
 
 Verifierad runtime ar `125d0e7e70b054c13ef66c3e237e5640332223da`
 med `gpt-5.4-mini`. Detta ar en avgransad beta, inte full produktionsberedskap.
-Delad rate limiting/global kostnadskontroll, databasens 66/69-skillnad och
-eventuell domankoppling aterstar som separata driftsteg.
+Vid den versionen aterstod delad rate limiting/global kostnadskontroll.
+Det ar nu lost enligt ovan; databasens 66/69-skillnad och domankoppling aterstar.
 
 ## Status och plan 2026-10-19
 
@@ -52,10 +69,10 @@ Ingen DNS, databas, datainsamling eller nyhetsautomation andras. Snapshoten
 kommer fran validerade canonical-poster; detta steg ar inte en Supabase-synk.
 Aktiverad LLM och uppdaterad databaskoppling ar separata driftkontroller.
 
-Anropsskyddet ar ett enkelt betaskydd per Worker-isolat med kortlivade
+Det ursprungliga anropsskyddet ar ett enkelt betaskydd per Worker-isolat med kortlivade
 IP-raknare och samtidighetsgrans. Det ar inte en distribuerad kvot eller ett
-hart globalt kostnadstak. Produktion kraver dessutom delad rate limiting och
-kontots kostnadskontroller. Inga IP-adresser eller anvandarfragor loggas av
+hart globalt kostnadstak. Det kompletteras nu av D1 enligt ovan; produktion
+kraver aven egna verifierade kontroller. Inga raa IP-adresser eller anvandarfragor loggas av
 skyddet. Nyckeln kan inte ersattas med en tidigare nyckel fran chatthistoriken.
 
 ## Implementerat och verifierat lokalt

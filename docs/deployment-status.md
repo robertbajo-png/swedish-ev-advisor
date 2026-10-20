@@ -1,6 +1,6 @@
 # Publiceringsstatus
 
-Kontrollerad 2026-10-19. DNS och biluppgifter är oförändrade.
+Kontrollerad 2026-10-20. DNS och biluppgifter är oförändrade.
 
 Uppdatering efter releasegranskningen: migration 008 är nu applicerad i Supabase
 på användarens begäran. Endast databasbehörigheter/radskydd har ändrats, inga
@@ -8,9 +8,36 @@ bildata eller DNS-poster. Sju interna tabeller nekar publik läsning; publika
 vyer har kvar samma 30 modeller/66 varianter och identiska innehållshashar.
 `anon` och `authenticated` är verifierade utan intern tabellåtkomst, medan
 serverrollen behåller insamlingens CRUD-behörigheter. Se
-`docs/vehicle-access-hardening.md`. AI-kostnadstak och övriga releasehinder kvarstår.
+`docs/vehicle-access-hardening.md`. AI-kostnadstaket är nu också verifierat i
+förhandsversionen. Övriga releasehinder kvarstår.
 
-## AI-förhandsversion: Live-AI Verifierad
+## Aktuell AI-version Med Kostnadstak
+
+- Runtime: `40173d026c388b95c22db431cf33d84a4ee15169` med grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39283393585
+- Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://817fd8cc.seekev-ai-preview.pages.dev/
+- Gemensam privat D1-policy: högst 1 USD/dygn och 10 USD/kalendermånad UTC.
+  Både rådgivning och jämförelse reserverar kostnad innan ett betalt anrop.
+- Okänd förbrukning behåller säkerhetsreservationen. Budgetfel, nått tak och
+  nödstopp ger databaserade resultat utan betalda AI-anrop.
+- Externt nödstopp är provat för båda funktionerna och återställt. Två riktiga
+  AI-anrop den 20 oktober fungerade och gav två reglerade D1-poster, sammanlagt
+  0,002636 USD efter avrundning. Det är bokförd tokenkostnad, inte kontoavläsning.
+- De två gamla AI-versionerna utan tak är borttagna; deras API-adresser ger 404.
+  Den aktuella versionen klarar samtliga åtta externa GET-kontroller.
+- Endast AI-preview har fått D1-bindning och en ny slumpmässig serverhemlighet
+  för dagliga klienthashar. Ingen DNS-behörighet eller Supabase-hemlighet behövdes.
+- Separat UI-preview, biluppgifter, DNS och pausad nyhetsautomation är oförändrade.
+  Produktionens AI är avstängd som standard. Prisreglerna kräver ny kontroll
+  före 19 november, annars stoppas betalda anrop automatiskt.
+
+Driftrutin och avgränsningar: `docs/ai-budget.md`.
+
+## Föregående AI-version: Historik
+
+Nedanstående version är ersatt och dess versionsadress borttagen. Aktuell
+publicering och kostnadskontroll beskrivs ovan.
 
 - Separat projekt `seekev-ai-preview`, endast preview-grenen `codex-ai-preview`.
 - Kodversion `125d0e7e70b054c13ef66c3e237e5640332223da` har grön CI:
@@ -78,9 +105,10 @@ Plan, tester och säkert återtest: `docs/live-ai-rollout.md`.
   Alla 24 måttester passerar mot den publicerade versionen. Se
   `docs/ui-proportion-refinement.md`.
 
-Nästa driftsteg: gemensam anropskvot/kostnadskontroll inför produktion. Hantera
-separat databasens 66/69-skillnad, GitHub-miljöns Pages-token och slutligen
-domänkopplingen. Det enkla betaskyddet per isolat är inte ett globalt kostnadstak.
+Nästa driftsteg: kontrollera datans aktualitet och databasens 66/69-skillnad.
+Förbered därefter identitet/integritetsinformation, separat produktion och
+slutligen domänkopplingen. Det enkla skyddet per isolat kompletteras nu av D1
+för gemensam anropskvot och kostnadskontroll.
 
 ## Historik före publiceringen
 

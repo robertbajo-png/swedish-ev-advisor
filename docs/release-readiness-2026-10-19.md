@@ -5,8 +5,9 @@ The functional preview is useful for testing, but is not production readiness.
 No DNS, database permissions, credentials, published records or hosting bindings
 were changed by the initial audit. No paid AI requests were made.
 The owner subsequently authorized fixing item 1; migration 008 is now applied
-and its access checks pass. The remaining release blockers are unchanged.
-See `docs/vehicle-access-hardening.md`.
+and its access checks pass. On 2026-10-20 the shared spending-control item was also
+resolved in the AI preview. The other release blockers remain unchanged.
+See `docs/vehicle-access-hardening.md` and `docs/ai-budget.md`.
 
 ## Inspected Versions
 
@@ -51,7 +52,7 @@ Do not break the publication views when changing their underlying permissions.
 Reference: [Supabase Data API security](https://supabase.com/docs/guides/api/securing-your-api)
 and [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
 
-### P1: No Shared AI Spending Limit
+### Resolved In Preview: Shared AI Spending Limit
 
 `functions/_shared/ai-guard.mjs:4` uses an in-memory Map per Worker isolate,
 five requests per minute per client and two concurrent requests. It is not a
@@ -63,8 +64,19 @@ unchanged. Both endpoints need a shared, atomic quota and a fail-closed paid
 request gate. Provider failure or quota exhaustion should keep safe database
 functionality available without making more provider requests.
 
-Release gate: exercise concurrent requests, multiple isolates, quota reset,
-store failure and emergency AI disable. Record remaining production risks.
+Resolution: both routes now require an atomic D1 reservation before contacting
+OpenAI. The shared policy allows USD 1/day and USD 10/calendar month (UTC), with
+verified usage settlement, conservative reservations on failure, distributed
+visitor quotas and a durable emergency switch. Missing/disabled/unavailable
+budget infrastructure gives canonical fallback, not paid requests.
+
+Budget concurrency, UTC resets and failure tests passed. CI is green for runtime
+`40173d026c388b95c22db431cf33d84a4ee15169`. Remote disable/restore passed without
+new reservations; two live calls subsequently settled USD 0.002636 in total.
+Old uncapped preview deployments were removed and their API addresses return 404.
+Production is still disabled by default. Pricing review expires 2026-11-19; this
+website allowance does not cap hosting or other scripts using the OpenAI account.
+See `docs/ai-budget.md` for the policy, evidence and operator commands.
 
 ### P1: Data Freshness And Publication Parity Are Not Established
 
@@ -151,8 +163,9 @@ have useful coverage and no unverifiable prices may be presented as current.
 ## Recommended Order
 
 1. Completed: restrict private vehicle tables and test the public/private boundary.
-2. Add shared request quotas, spending protection and emergency AI disable
-   to advisor and comparison endpoints.
+2. Completed in AI preview: shared request quotas, spending protection and
+   emergency AI disable for advisor and comparison. Carry the same controls
+   into the separately verified production deployment.
 3. Refresh the launch dataset and reconcile Supabase/export/API consistency.
 4. Apply Elbilsagenten identity and domain metadata; add owner-supplied
    contact details and accurate privacy information.
