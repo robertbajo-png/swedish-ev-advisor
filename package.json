@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:toyota:dry-run": "node scripts/run_python.mjs scripts/toyota_price_intake.py",
+    "catalog:toyota:stage": "node scripts/run_python.mjs scripts/toyota_price_intake.py --stage",
+    "verify:toyota-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_intake.py -v",
     "catalog:refresh:dry-run": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --discover-toyota",
     "catalog:refresh:stage": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --stage",
     "catalog:refresh:publish": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --publish",

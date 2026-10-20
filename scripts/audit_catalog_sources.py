@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import re
+import time
 import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
@@ -90,9 +91,10 @@ class ReservationParser(HTMLParser):
 
 
 class SourceFetcher:
-    def __init__(self, timeout=10, document_parser=None):
+    def __init__(self, timeout=10, document_parser=None, url_policy=None):
         self.timeout = timeout
         self.document_parser = document_parser
+        self.url_policy = url_policy or allowed_url
         self.opener = build_opener(NoRedirect())
         self.robots = {}
 
@@ -120,10 +122,27 @@ class SourceFetcher:
         parser = self.robots[origin]
         return parser is not None and parser.can_fetch(USER_AGENT, url)
 
+    def read_body(self, response):
+        # read1 returns available chunks; a slow stream must not reset the deadline.
+        if not hasattr(response, 'read1'):
+            return response.read(MAX_BYTES + 1)
+        deadline = time.monotonic() + self.timeout
+        parts, size = [], 0
+        while True:
+            if time.monotonic() >= deadline:
+                raise TimeoutError('source_body_deadline')
+            chunk = response.read1(min(65536, MAX_BYTES + 1 - size))
+            if not chunk:
+                return b''.join(parts)
+            parts.append(chunk)
+            size += len(chunk)
+            if size > MAX_BYTES:
+                return b''.join(parts)
+
     def fetch(self, url, brands):
         current = url
         for _ in range(4):
-            if not allowed_url(current, brands):
+            if not self.url_policy(current, brands):
                 return {'status': 'rejected_domain_or_market', 'final_url': current}
             if not self.robots_allowed(current):
                 return {'status': 'robots_denied_or_unavailable', 'final_url': current}
@@ -131,7 +150,7 @@ class SourceFetcher:
                 with self.opener.open(Request(current, headers={'User-Agent': USER_AGENT, 'Accept-Language': 'sv-SE,sv;q=0.9'}), timeout=self.timeout) as response:
                     if response.headers.get('tdm-reservation') == '1':
                         return {'status': 'machine_reservation', 'final_url': current}
-                    body = response.read(MAX_BYTES + 1)
+                    body = self.read_body(response)
                     if len(body) > MAX_BYTES:
                         return {'status': 'source_too_large', 'final_url': current}
                     content_type = response.headers.get('content-type', '').lower()
@@ -140,12 +159,13 @@ class SourceFetcher:
                         reservation.feed(body.decode('utf-8', errors='replace'))
                         if reservation.reserved:
                             return {'status': 'machine_reservation', 'final_url': current}
+                    document = self.document_parser(body, content_type) if self.document_parser is not None else None
                     text = source_text(body, content_type)
                     result = {'status': 'reachable', 'final_url': current, 'http_status': response.status,
                             'content_hash': hashlib.sha256(body).hexdigest(), 'text_hash': hashlib.sha256(text.encode('utf-8')).hexdigest(),
                             'text': text, 'content_type': content_type}
                     if self.document_parser is not None:
-                        result['document'] = self.document_parser(body, content_type)
+                        result['document'] = document
                     return result
             except HTTPError as error:
                 if error.code in (301, 302, 303, 307, 308) and error.headers.get('Location'):

@@ -101,8 +101,12 @@ private source payload and ignored local journal.
 
 - Completed: canonical export, database access checks, build/CI, preview upload,
   external catalog parity and cost-cap regression. See `docs/deployment-status.md`.
-- Required: verify the external Toyota document host and map exact current
-  battery/trim versions before replacing the 2024 price records.
+- Follow-up completed: official Toyota specification-page intake now stages one
+  exact battery/power configuration with source pointers; see
+  `docs/toyota-current-prices.md`. The linked PDF body remains unavailable.
+  Neither legacy Toyota row is safe to overwrite based on trim name alone.
+- Required: transactional publication for new exact identities and remaining
+  grade coverage, separately from old-generation replacement/retirement.
 - Defer: paid extraction, new variants and broader manufacturer coverage.
 
 The legacy bulk seed is for bootstrap only, not ongoing refresh. Normal updates

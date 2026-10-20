@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-20T17:57:42.509980+00:00",
+  "catalog_sha256": "8d436119b4a289a3ed25117597cc9d31cdfc94c28f02720002ebf894c1b7c09d",
+  "status": "needs_mapping",
+  "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+  "content_hash": "6b03ca1e42f71bd39d0433835de99f5995f6f7f44bd55ba380ebf8ce743abac0",
+  "extracted": 1,
+  "candidates": [
+    "Active FWD 57.7 kWh 167 hk"
+  ],
+  "legacy_mapping": [
+    {
+      "variant_name": "Active AWD",
+      "status": "needs_mapping",
+      "reason": "legacy_battery_identity_missing",
+      "candidates": [],
+      "auto_update_allowed": false
+    },
+    {
+      "variant_name": "Active FWD",
+      "status": "needs_mapping",
+      "reason": "legacy_battery_identity_missing",
+      "candidates": [
+        "Active FWD 57.7 kWh 167 hk"
+      ],
+      "auto_update_allowed": false
+    }
+  ],
+  "staged": 1,
+  "published": 0,
+  "canonical_writes": false,
+  "remote_writes": true,
+  "openai_calls": 0,
+  "pdf": {
+    "status": "quarantined",
+    "reason": "price_document_fetch_or_parse_failed",
+    "published": 0
+  },
+  "last_successful_stage": {
+    "fetched_at": "2026-10-20T17:57:42.509980+00:00",
+    "content_hash": "6b03ca1e42f71bd39d0433835de99f5995f6f7f44bd55ba380ebf8ce743abac0",
+    "rows": 1
+  }
+}

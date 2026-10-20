@@ -3,6 +3,20 @@
 Kontrollerad 2026-10-20. DNS är oförändrad. Första verifieringsbatchen är genomförd;
 priser, tekniska värden och tillgänglighetsflaggor är oförändrade.
 
+## Toyota: Privat Variantinläsning
+
+Den aktuella specifikationssidans strukturerade data läses nu med exakt
+tillverkar-ID, batteri, effekt och drivning. En variant är sparad i privat
+Supabase-staging som `needs_review`. Upprepade körningar skapade ingen dubblett.
+Äldre Active FWD/AWD kräver generationsmappning och har inte skrivits över.
+PDF-servern ger dokumentrubriker men nedladdningen av innehållet misslyckas;
+det försöket ligger kvar i karantän. Långsamma strömmar har nu en tidsgräns.
+
+Den publika katalogen är oförändrad och matchar fortsatt Supabase i alla 29 fält.
+Ingen ny migration, UI-publicering, DNS-ändring eller betald AI gjordes i detta
+steg. Tolv nya tester, tidigare käll-/publiceringstester, bygge och SEO passerar.
+Se `docs/toyota-current-prices.md` för ändrade filer, tester och nästa steg.
+
 ## Första Aktualitetsbatchen: Publicerad
 
 Tre befintliga Polestar 2-varianter har extraherats på nytt från exakta kolumner
