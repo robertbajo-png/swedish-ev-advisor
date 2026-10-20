@@ -199,7 +199,7 @@ def extract_config(data, source):
                             raise RefreshError('ambiguous_selected_car_spec')
                         fact(config[0], f'/specs/techSpecs/{group_index}/data/{spec_index}/value', int(value))
         row.update(brand='Toyota', model='bZ4X', variant_name=name, source_url=source['url'],
-                   source_hash=source['content_hash'], source_quote=engine['name'] + ' | ' + grade + ' | ' + str(int(cash)) + ' SEK',
+                   source_hash=source['content_hash'], source_quote=engine['name'] + ' | ' + grade + ' | ' + str(int(cash)),
                    extraction_confidence=0.99, validation_status='needs_review',
                    extraction_payload={'adapter': 'toyota_embedded_config_v1', 'manufacturer_variant_id': identity,
                                        'manufacturer_model_id': data['car']['model'].get('id'),

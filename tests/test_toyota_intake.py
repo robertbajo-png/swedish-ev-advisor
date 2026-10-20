@@ -85,6 +85,7 @@ class ToyotaIntakeTests(unittest.TestCase):
         self.assertEqual(proof['raw_value'], 510000)
         self.assertTrue(proof['source_pointer'].endswith('/price/cash'))
         self.assertEqual(proof['source_hash'], 'a'*64)
+        self.assertEqual(row['source_quote'].split(' | ')[-1], '510000', 'Keep excerpts literal, without invented units')
 
     def test_intervals_preliminary_and_wrong_units_remain_null(self):
         for field, value in [('value', '440-460'), ('certification', 1), ('unit', 'miles')]:

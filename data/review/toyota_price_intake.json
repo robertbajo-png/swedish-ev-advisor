@@ -40,5 +40,10 @@
     "fetched_at": "2026-10-20T17:57:42.509980+00:00",
     "content_hash": "6b03ca1e42f71bd39d0433835de99f5995f6f7f44bd55ba380ebf8ce743abac0",
     "rows": 1
+  },
+  "last_attempt": {
+    "checked_at": "2026-10-20T18:01:07.654583+00:00",
+    "status": "quarantined",
+    "reason": "unique_manufacturer_configuration_required"
   }
 }
