@@ -1,6 +1,11 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:refresh:dry-run": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --discover-toyota",
+    "catalog:refresh:stage": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --stage",
+    "catalog:refresh:publish": "node scripts/run_python.mjs scripts/refresh_verified_variants.py --publish",
+    "verify:variant-refresh": "node scripts/verify_variant_refresh.mjs",
+    "verify:variant-refresh-extraction": "node scripts/run_python.mjs -m unittest discover -s tests -p test_variant_refresh.py -v",
     "catalog:sync": "node scripts/sync_public_catalog.mjs --write",
     "catalog:check": "node scripts/sync_public_catalog.mjs",
     "catalog:audit": "node scripts/run_python.mjs scripts/audit_catalog_sources.py",

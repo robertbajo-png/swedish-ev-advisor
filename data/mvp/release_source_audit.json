@@ -1,12 +1,12 @@
 {
-  "checked_at": "2026-10-20T09:58:47.901028+00:00",
+  "checked_at": "2026-10-20T17:34:43.883560+00:00",
   "sources": [
     {
       "source_url": "https://ford.se/personbilar/elektriska-explorer",
       "brands": [
         "Ford"
       ],
-      "checked_at": "2026-10-20T09:58:18.870112+00:00",
+      "checked_at": "2026-10-20T17:34:01.345613+00:00",
       "batch": 1,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -17,7 +17,7 @@
       "brands": [
         "Audi"
       ],
-      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "checked_at": "2026-10-20T17:34:01.561624+00:00",
       "batch": 1,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -28,7 +28,7 @@
       "brands": [
         "Audi"
       ],
-      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "checked_at": "2026-10-20T17:34:01.561624+00:00",
       "batch": 1,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -39,7 +39,7 @@
       "brands": [
         "Audi"
       ],
-      "checked_at": "2026-10-20T09:58:18.967965+00:00",
+      "checked_at": "2026-10-20T17:34:01.561624+00:00",
       "batch": 1,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -50,7 +50,7 @@
       "brands": [
         "BMW"
       ],
-      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "checked_at": "2026-10-20T17:34:11.732401+00:00",
       "batch": 1,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -61,7 +61,7 @@
       "brands": [
         "BMW"
       ],
-      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "checked_at": "2026-10-20T17:34:11.732401+00:00",
       "batch": 2,
       "variants": 2,
       "status": "robots_denied_or_unavailable",
@@ -72,7 +72,7 @@
       "brands": [
         "BMW"
       ],
-      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "checked_at": "2026-10-20T17:34:11.732401+00:00",
       "batch": 2,
       "variants": 2,
       "status": "robots_denied_or_unavailable",
@@ -83,7 +83,7 @@
       "brands": [
         "BMW"
       ],
-      "checked_at": "2026-10-20T09:58:29.069612+00:00",
+      "checked_at": "2026-10-20T17:34:11.732401+00:00",
       "batch": 2,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -94,7 +94,7 @@
       "brands": [
         "Cupra"
       ],
-      "checked_at": "2026-10-20T09:58:29.465779+00:00",
+      "checked_at": "2026-10-20T17:34:12.433684+00:00",
       "batch": 2,
       "variants": 1,
       "status": "reachable",
@@ -109,7 +109,7 @@
       "brands": [
         "Cupra"
       ],
-      "checked_at": "2026-10-20T09:58:29.623309+00:00",
+      "checked_at": "2026-10-20T17:34:12.614924+00:00",
       "batch": 2,
       "variants": 1,
       "status": "reachable",
@@ -124,7 +124,7 @@
       "brands": [
         "Kia"
       ],
-      "checked_at": "2026-10-20T09:58:30.237607+00:00",
+      "checked_at": "2026-10-20T17:34:13.843701+00:00",
       "batch": 3,
       "variants": 3,
       "status": "reachable",
@@ -139,7 +139,7 @@
       "brands": [
         "Kia"
       ],
-      "checked_at": "2026-10-20T09:58:30.455960+00:00",
+      "checked_at": "2026-10-20T17:34:13.996024+00:00",
       "batch": 3,
       "variants": 1,
       "status": "reachable",
@@ -154,7 +154,7 @@
       "brands": [
         "Kia"
       ],
-      "checked_at": "2026-10-20T09:58:30.660558+00:00",
+      "checked_at": "2026-10-20T17:34:14.162503+00:00",
       "batch": 3,
       "variants": 1,
       "status": "reachable",
@@ -169,7 +169,7 @@
       "brands": [
         "Kia"
       ],
-      "checked_at": "2026-10-20T09:58:30.790176+00:00",
+      "checked_at": "2026-10-20T17:34:14.318563+00:00",
       "batch": 3,
       "variants": 2,
       "status": "reachable",
@@ -184,7 +184,7 @@
       "brands": [
         "Kia"
       ],
-      "checked_at": "2026-10-20T09:58:30.992775+00:00",
+      "checked_at": "2026-10-20T17:34:14.580691+00:00",
       "batch": 3,
       "variants": 4,
       "status": "reachable",
@@ -199,13 +199,13 @@
       "brands": [
         "Mazda"
       ],
-      "checked_at": "2026-10-20T09:58:31.760178+00:00",
+      "checked_at": "2026-10-20T17:34:16.599423+00:00",
       "batch": 4,
       "variants": 1,
       "status": "reachable",
       "final_url": "https://www.mazda.se/modeller/mazda-6e/specifikationer-och-jamforelser/",
       "http_status": 200,
-      "content_hash": "6c7bb49171252e8ec709eab6b88b39558b5a1cf3e2098f1e1f1073838f66220d",
+      "content_hash": "10cdac1811f5805431d514fea72fdcd30c46111196a1cf33cba11fd348d78726",
       "text_hash": "bbe5dda24c809155b724510b97a8bd4e9fab3da4bf18dbdf7cbc97d6d36ec2a5",
       "content_type": "text/html; charset=utf-8"
     },
@@ -214,7 +214,7 @@
       "brands": [
         "Mercedes-Benz"
       ],
-      "checked_at": "2026-10-20T09:58:41.896613+00:00",
+      "checked_at": "2026-10-20T17:34:26.825449+00:00",
       "batch": 4,
       "variants": 1,
       "status": "robots_denied_or_unavailable",
@@ -225,7 +225,7 @@
       "brands": [
         "Mercedes-Benz"
       ],
-      "checked_at": "2026-10-20T09:58:41.896613+00:00",
+      "checked_at": "2026-10-20T17:34:26.826068+00:00",
       "batch": 4,
       "variants": 2,
       "status": "robots_denied_or_unavailable",
@@ -236,13 +236,13 @@
       "brands": [
         "Polestar"
       ],
-      "checked_at": "2026-10-20T09:58:42.297463+00:00",
+      "checked_at": "2026-10-20T17:34:27.268166+00:00",
       "batch": 4,
       "variants": 3,
       "status": "reachable",
       "final_url": "https://www.polestar.com/se/polestar-2/specifications/",
       "http_status": 200,
-      "content_hash": "2a9004ed33f208cdb946970ac08596f6523a0a4c7ddcea9613ec55239a1b650d",
+      "content_hash": "4aae22a0362eac00f8501bd1bc087eb8f6581587a940313683ee02537b82e016",
       "text_hash": "8e75049aa380daece974de65cf2dbca0862235ba66f88f8b2005e501a3fcf495",
       "content_type": "text/html"
     },
@@ -251,13 +251,13 @@
       "brands": [
         "Polestar"
       ],
-      "checked_at": "2026-10-20T09:58:42.576358+00:00",
+      "checked_at": "2026-10-20T17:34:27.526529+00:00",
       "batch": 4,
       "variants": 2,
       "status": "reachable",
       "final_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
       "http_status": 200,
-      "content_hash": "db3067e3590cf5e7d98ffe70abf7f305044952ea01d9313d4847e89be0056efe",
+      "content_hash": "40435368b307af176dec87bf8d481334523e4094d85ccf36bd6211bad73212c4",
       "text_hash": "ebf9c170195e5019441df2fea9ef9f65f16885f0964985bf0d34de834947c0c7",
       "content_type": "text/html"
     },
@@ -266,13 +266,13 @@
       "brands": [
         "Renault"
       ],
-      "checked_at": "2026-10-20T09:58:43.531612+00:00",
+      "checked_at": "2026-10-20T17:34:28.519827+00:00",
       "batch": 5,
       "variants": 5,
       "status": "reachable",
       "final_url": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/versioner-och-priser",
       "http_status": 200,
-      "content_hash": "682aa5810d5cf0ba3112ec1536ff04ad09fcfd948cf3bf04f596adb0369d1c92",
+      "content_hash": "69f94ae598ac70b328e57945cc3202765c18cc9682207ff0ef18e4453eb0bac6",
       "text_hash": "0e3af529e82f3aeca2993a4f288c07b242862e2c66d0591d5b862373e148d729",
       "content_type": "text/html; charset=utf-8"
     },
@@ -281,7 +281,7 @@
       "brands": [
         "Skoda"
       ],
-      "checked_at": "2026-10-20T09:58:44.418472+00:00",
+      "checked_at": "2026-10-20T17:34:29.306096+00:00",
       "batch": 5,
       "variants": 4,
       "status": "reachable",
@@ -296,7 +296,7 @@
       "brands": [
         "Skoda"
       ],
-      "checked_at": "2026-10-20T09:58:44.728941+00:00",
+      "checked_at": "2026-10-20T17:34:29.530090+00:00",
       "batch": 5,
       "variants": 4,
       "status": "reachable",
@@ -311,13 +311,13 @@
       "brands": [
         "Subaru"
       ],
-      "checked_at": "2026-10-20T09:58:45.033815+00:00",
+      "checked_at": "2026-10-20T17:34:29.853389+00:00",
       "batch": 5,
       "variants": 1,
       "status": "reachable",
       "final_url": "https://www.subaru.se/modeller/solterra/",
       "http_status": 200,
-      "content_hash": "a945cec6883af4bae25752bb403fd995e4d00a67622d82e62539f97b32ea8374",
+      "content_hash": "3717f20533545e2ba12d322650bf6ee2ce697cc520177fa349d2cd93cbf34a91",
       "text_hash": "59d986c1562da6bba9dbfdb298fe40cc99186b57a5f146b7f699537a4e3b3867",
       "content_type": "text/html; charset=utf-8"
     },
@@ -326,7 +326,7 @@
       "brands": [
         "Tesla"
       ],
-      "checked_at": "2026-10-20T09:58:45.097048+00:00",
+      "checked_at": "2026-10-20T17:34:29.923508+00:00",
       "batch": 5,
       "variants": 4,
       "status": "robots_denied_or_unavailable",
@@ -337,7 +337,7 @@
       "brands": [
         "Tesla"
       ],
-      "checked_at": "2026-10-20T09:58:45.097048+00:00",
+      "checked_at": "2026-10-20T17:34:29.923508+00:00",
       "batch": 6,
       "variants": 4,
       "status": "robots_denied_or_unavailable",
@@ -348,7 +348,7 @@
       "brands": [
         "Toyota"
       ],
-      "checked_at": "2026-10-20T09:58:45.486735+00:00",
+      "checked_at": "2026-10-20T17:34:30.189062+00:00",
       "batch": 6,
       "variants": 2,
       "status": "reachable",
@@ -363,7 +363,7 @@
       "brands": [
         "Volkswagen"
       ],
-      "checked_at": "2026-10-20T09:58:45.860959+00:00",
+      "checked_at": "2026-10-20T17:34:31.393503+00:00",
       "batch": 6,
       "variants": 1,
       "status": "reachable",
@@ -378,13 +378,13 @@
       "brands": [
         "Volkswagen"
       ],
-      "checked_at": "2026-10-20T09:58:46.068140+00:00",
+      "checked_at": "2026-10-20T17:34:32.039985+00:00",
       "batch": 6,
       "variants": 1,
       "status": "reachable",
       "final_url": "https://www.volkswagen.se/sv/modeller/id4.html",
       "http_status": 200,
-      "content_hash": "c1b7283897546431e08b72fffa5564dce8eda24b620d0aba7c6694c812c86982",
+      "content_hash": "5cd623c426306dcc61ffcdea4adcc31f2e12ce2074dea0450ed3987af5a81401",
       "text_hash": "c8d8c96210e558a21eb796238c8b926c1f79795416cc45ef417ed549bb4693a8",
       "content_type": "text/html;charset=utf-8"
     },
@@ -393,7 +393,7 @@
       "brands": [
         "Volvo"
       ],
-      "checked_at": "2026-10-20T09:58:46.294717+00:00",
+      "checked_at": "2026-10-20T17:34:32.310778+00:00",
       "batch": 6,
       "variants": 2,
       "status": "http_error",
@@ -405,7 +405,7 @@
       "brands": [
         "Volvo"
       ],
-      "checked_at": "2026-10-20T09:58:46.368307+00:00",
+      "checked_at": "2026-10-20T17:34:32.488911+00:00",
       "batch": 7,
       "variants": 5,
       "status": "http_error",
@@ -417,7 +417,7 @@
       "brands": [
         "Volvo"
       ],
-      "checked_at": "2026-10-20T09:58:46.429931+00:00",
+      "checked_at": "2026-10-20T17:34:32.551374+00:00",
       "batch": 7,
       "variants": 1,
       "status": "http_error",
@@ -429,36 +429,35 @@
       "brands": [
         "Zeekr"
       ],
-      "checked_at": "2026-10-20T09:58:47.894965+00:00",
+      "checked_at": "2026-10-20T17:34:43.883560+00:00",
       "batch": 7,
       "variants": 3,
-      "status": "reachable",
-      "final_url": "https://www.zeekr.eu/sv-se/models/7x",
-      "http_status": 200,
-      "content_hash": "c959fca08e1d61652babe8dc172790a000a79eee95b12d1313df3e1fba06d704",
-      "text_hash": "240496eebceaac8652879fe7d44f111537f12843d0da2729dcd3843a4a662336",
-      "content_type": "text/html; charset=utf-8"
+      "status": "fetch_or_parse_failed",
+      "final_url": "https://www.zeekr.eu/sv-se/models/7x"
     }
   ],
   "variants": 69,
   "source_counts": {
     "robots_denied_or_unavailable": 12,
-    "reachable": 18,
-    "http_error": 3
+    "reachable": 17,
+    "http_error": 3,
+    "fetch_or_parse_failed": 1
   },
   "evidence_counts": {
     "robots_denied_or_unavailable": 21,
     "exact_variant_mapping_required": 5,
     "preliminary_figures_require_reverification": 9,
     "rendered_content_required": 1,
-    "evidence_not_found": 12,
+    "hash_and_evidence_unchanged": 3,
+    "evidence_not_found": 6,
     "variant_scope_not_found": 11,
     "dated_price_document_requires_current_source": 2,
-    "http_error": 8
+    "http_error": 8,
+    "fetch_or_parse_failed": 3
   },
   "facts_verified": 0,
   "remote_writes": false,
   "openai_calls": 0,
   "public_catalog_source": "supabase_public_ev_variants",
-  "public_catalog_sha256": "c3aa59cbd8ff0daad5cfc41134d121b786ee1d507e7195577e5aa60ac0632ba6"
+  "public_catalog_sha256": "8d436119b4a289a3ed25117597cc9d31cdfc94c28f02720002ebf894c1b7c09d"
 }

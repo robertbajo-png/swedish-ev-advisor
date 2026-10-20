@@ -78,9 +78,21 @@ class NoRedirect(HTTPRedirectHandler):
         return None
 
 
+class ReservationParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reserved = False
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if tag == 'meta' and str(values.get('name', '')).casefold() == 'tdm-reservation' and str(values.get('content', '')).strip() == '1':
+            self.reserved = True
+
+
 class SourceFetcher:
-    def __init__(self, timeout=10):
+    def __init__(self, timeout=10, document_parser=None):
         self.timeout = timeout
+        self.document_parser = document_parser
         self.opener = build_opener(NoRedirect())
         self.robots = {}
 
@@ -123,12 +135,18 @@ class SourceFetcher:
                     if len(body) > MAX_BYTES:
                         return {'status': 'source_too_large', 'final_url': current}
                     content_type = response.headers.get('content-type', '').lower()
+                    if 'html' in content_type:
+                        reservation = ReservationParser()
+                        reservation.feed(body.decode('utf-8', errors='replace'))
+                        if reservation.reserved:
+                            return {'status': 'machine_reservation', 'final_url': current}
                     text = source_text(body, content_type)
-                    if re.search(r'<meta[^>]+name=["\']tdm-reservation["\'][^>]+content=["\']1["\']', body[:100000].decode('utf-8', errors='ignore'), re.I):
-                        return {'status': 'machine_reservation', 'final_url': current}
-                    return {'status': 'reachable', 'final_url': current, 'http_status': response.status,
+                    result = {'status': 'reachable', 'final_url': current, 'http_status': response.status,
                             'content_hash': hashlib.sha256(body).hexdigest(), 'text_hash': hashlib.sha256(text.encode('utf-8')).hexdigest(),
                             'text': text, 'content_type': content_type}
+                    if self.document_parser is not None:
+                        result['document'] = self.document_parser(body, content_type)
+                    return result
             except HTTPError as error:
                 if error.code in (301, 302, 303, 307, 308) and error.headers.get('Location'):
                     current = urljoin(current, error.headers['Location'])
@@ -167,8 +185,8 @@ def assess_record(row, fetched, now=None):
         return 'variant_scope_not_found'
     if re.search(r'prelimin[aä]r|certifiering v[aä]ntar', text):
         return 'preliminary_figures_require_reverification'
-    quote = normalized(row.get('source_quote'))
-    if not quote or quote not in text:
+    excerpts = str(row.get('source_quote') or '').split(' | ')
+    if not excerpts or any(not normalized(quote) or normalized(quote) not in text for quote in excerpts):
         return 'evidence_not_found'
     if row.get('source_hash') not in (fetched.get('content_hash'), fetched.get('text_hash')):
         return 'source_changed_evidence_present'

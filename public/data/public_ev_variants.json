@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-20T09:57:17.273Z",
+  "generated_at": "2026-10-20T17:31:53.947Z",
   "source": "supabase_public_ev_variants",
   "schema_version": 1,
   "missing_view_columns": [],
-  "catalog_sha256": "c3aa59cbd8ff0daad5cfc41134d121b786ee1d507e7195577e5aa60ac0632ba6",
+  "catalog_sha256": "8d436119b4a289a3ed25117597cc9d31cdfc94c28f02720002ebf894c1b7c09d",
   "records": [
     {
       "brand": "Audi",
@@ -829,10 +829,10 @@
       "seats": null,
       "drivetrain": "Fyrhjulsdrift",
       "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
-      "source_name": "Polestar",
-      "source_hash": "05085c56a7fa5539765cbb0550a384aa6bd13e24643047733beb7b12e5ec90a7",
-      "source_quote": "Pris från 639 000 kr, Räckvidd 596 km, Batterikapacitet 82 kWh, DC-laddning upp till 205 kW, AC laddning 11 kW, Bagageutrymme 407 liter, Dragvikt upp till 1 500 kg",
-      "extraction_confidence": 0.95,
+      "source_name": "Polestar Sverige",
+      "source_hash": "4aae22a0362eac00f8501bd1bc087eb8f6581587a940313683ee02537b82e016",
+      "source_quote": "Long range Dual motor | Pris från 639 000 kr | Räckvidd² 596 km | Dragvikt Upp till 1 500 kg | Drivlina Fyrhjulsdrift | Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler | DC-laddning Upp till 205 kW | Volym (uppfällda säten) 407 liter, inklusive under golvet | 11 kW AC laddningstid (3-fas 16A AC)¹",
+      "extraction_confidence": 0.99,
       "validation_status": "published",
       "market_seen": true,
       "available_confirmed": false,
@@ -840,7 +840,7 @@
       "coming_or_low_volume": false,
       "image_url": null,
       "image_source_url": null,
-      "verified_at": null
+      "verified_at": "2026-10-20T17:31:38.226134+00:00"
     },
     {
       "brand": "Polestar",
@@ -860,10 +860,10 @@
       "seats": null,
       "drivetrain": "Fyrhjulsdrift",
       "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
-      "source_name": "Polestar",
-      "source_hash": "05085c56a7fa5539765cbb0550a384aa6bd13e24643047733beb7b12e5ec90a7",
-      "source_quote": "Pris från 699 000 kr, Räckvidd upp till 568 km, Batterikapacitet 82 kWh, DC-laddning upp till 205 kW, AC laddning 11 kW, Bagageutrymme 407 liter, Dragvikt upp till 1 500 kg",
-      "extraction_confidence": 0.95,
+      "source_name": "Polestar Sverige",
+      "source_hash": "4aae22a0362eac00f8501bd1bc087eb8f6581587a940313683ee02537b82e016",
+      "source_quote": "Long range Dual motor med Performance-paketet | Pris från 699 000 kr | Räckvidd² Upp till 568 km | Dragvikt Upp till 1 500 kg | Drivlina Fyrhjulsdrift | Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler | DC-laddning Upp till 205 kW | Volym (uppfällda säten) 407 liter, inklusive under golvet | 11 kW AC laddningstid (3-fas 16A AC)¹",
+      "extraction_confidence": 0.99,
       "validation_status": "published",
       "market_seen": true,
       "available_confirmed": false,
@@ -871,7 +871,7 @@
       "coming_or_low_volume": false,
       "image_url": null,
       "image_source_url": null,
-      "verified_at": null
+      "verified_at": "2026-10-20T17:31:38.226134+00:00"
     },
     {
       "brand": "Polestar",
@@ -891,10 +891,10 @@
       "seats": null,
       "drivetrain": "Bakhjulsdrift",
       "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
-      "source_name": "Polestar",
-      "source_hash": "05085c56a7fa5539765cbb0550a384aa6bd13e24643047733beb7b12e5ec90a7",
-      "source_quote": "Pris från 599 000 kr, Räckvidd 659 km, Batterikapacitet 82 kWh, DC-laddning upp till 205 kW, AC laddning 11 kW, Bagageutrymme 407 liter, Dragvikt upp till 1 500 kg",
-      "extraction_confidence": 0.95,
+      "source_name": "Polestar Sverige",
+      "source_hash": "4aae22a0362eac00f8501bd1bc087eb8f6581587a940313683ee02537b82e016",
+      "source_quote": "Long range Single motor | Pris från 599 000 kr | Räckvidd² 659 km | Dragvikt Upp till 1 500 kg | Drivlina Bakhjulsdrift | Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler | DC-laddning Upp till 205 kW | Volym (uppfällda säten) 407 liter, inklusive under golvet | 11 kW AC laddningstid (3-fas 16A AC)¹",
+      "extraction_confidence": 0.99,
       "validation_status": "published",
       "market_seen": true,
       "available_confirmed": false,
@@ -902,7 +902,7 @@
       "coming_or_low_volume": false,
       "image_url": null,
       "image_source_url": null,
-      "verified_at": null
+      "verified_at": "2026-10-20T17:31:38.226134+00:00"
     },
     {
       "brand": "Polestar",

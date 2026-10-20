@@ -31,6 +31,7 @@ jobs:
       - run: bun run verify:advisor-data
       - run: bun run verify:catalog
       - run: bun run verify:catalog-migration
+      - run: bun run verify:variant-refresh
       - run: bun run verify:cloudflare
       - run: bun run verify:live-ai
       - run: bun run verify:ai-budget
@@ -45,6 +46,7 @@ jobs:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -p test_news.py -v
       - run: bun run verify:catalog-audit
+      - run: bun run verify:variant-refresh-extraction
       - run: npx --yes wrangler@latest pages functions build functions --outdir=/tmp/seekev-functions-build
       - run: bun run seo:build
       - run: bun run verify:seo

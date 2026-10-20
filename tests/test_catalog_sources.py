@@ -32,6 +32,8 @@ class CatalogSourceTests(unittest.TestCase):
         self.assertEqual(assess_record(self.row, {**self.fetched, 'content_hash': 'new'}), 'source_changed_evidence_present')
         self.assertEqual(assess_record(self.row, self.fetched), 'hash_and_evidence_unchanged')
         self.assertIsNone(self.row['verified_at'])
+        self.assertEqual(assess_record({**self.row, 'source_quote': 'Long Range | WLTP 605 km.'}, self.fetched), 'hash_and_evidence_unchanged')
+        self.assertEqual(assess_record({**self.row, 'source_quote': 'Long Range | Invented value'}, self.fetched), 'evidence_not_found')
 
     def test_variant_model_maxima_and_preliminary_values_are_not_promoted(self):
         self.assertEqual(assess_record({**self.row, 'variant_name': 'EV3'}, self.fetched), 'exact_variant_mapping_required')
@@ -51,6 +53,27 @@ class CatalogSourceTests(unittest.TestCase):
         fetcher.opener.open = lambda *_args, **_kwargs: self.fail('Do not fetch robots-denied content')
         self.assertEqual(fetcher.fetch(self.row['source_url'], {'Kia'})['status'], 'robots_denied_or_unavailable')
         self.assertEqual(fetcher.fetch('https://example.org', {'Kia'})['status'], 'rejected_domain_or_market')
+
+    def test_document_extraction_respects_reservations_before_parser(self):
+        class Response:
+            headers = {'content-type': 'text/html'}
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *_): pass
+            def read(self, _): return self.body
+        response = Response()
+        fetcher = SourceFetcher(document_parser=lambda *_: self.fail('Reserved document must not reach extraction'))
+        fetcher.robots_allowed = lambda _: True
+        fetcher.opener.open = lambda *_args, **_kwargs: response
+        for body in [b'<meta name="tdm-reservation" content="1">', b'<meta content="1" NAME="tdm-reservation">']:
+            response.body = body
+            self.assertEqual(fetcher.fetch(self.row['source_url'], {'Kia'})['status'], 'machine_reservation')
+        response.body = b'<p>Allowed fixture</p>'
+        calls = []
+        fetcher.document_parser = lambda body, kind: calls.append((body, kind)) or 'structured fixture'
+        result = fetcher.fetch(self.row['source_url'], {'Kia'})
+        self.assertEqual(result['document'], 'structured fixture')
+        self.assertEqual(len(calls), 1)
 
     def test_deduplication_idempotence_failure_isolation_and_no_writes(self):
         class FakeFetcher:

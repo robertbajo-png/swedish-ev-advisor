@@ -1,6 +1,30 @@
 # Publiceringsstatus
 
-Kontrollerad 2026-10-20. DNS och biluppgifter är oförändrade.
+Kontrollerad 2026-10-20. DNS är oförändrad. Första verifieringsbatchen är genomförd;
+priser, tekniska värden och tillgänglighetsflaggor är oförändrade.
+
+## Första Aktualitetsbatchen: Databasen Uppdaterad
+
+Tre befintliga Polestar 2-varianter har extraherats på nytt från exakta kolumner
+i den svenska specifikationstabellen, validerats i privat staging och publicerats
+atomiskt efter ägarens godkännande av migration 010. Pris och teknik stämde redan;
+källkoppling, källbevis, confidence och verifieringsdatum har uppdaterats. Antalet
+är fortsatt 66 varianter / 30 modeller, med oförändrade tillgänglighetsflaggor.
+Återspelning av samma batch ändrade inga värden eller datum. Anonyma och inloggade
+roller saknar exekveringsrätt; samtliga sju interna tabeller är fortsatt skyddade.
+
+Snapshoten är exporterad från den anonyma vyn, med hash
+`8d436119b4a289a3ed25117597cc9d31cdfc94c28f02720002ebf894c1b7c09d`.
+Tester/CI och uppladdning av denna snapshot till AI-preview återstår. Den nu
+publicerade versionen nedan har fortfarande den tidigare snapshoten.
+
+Två Polestar 4-uppdateringar kräver säker variantmappning; befintliga publika
+poster har inte ändrats eller tagits bort. Toyotas aktuella dokumentlänk
+är upptäckt men ännu inte godkänd/extraherad i den automatiska pipelinen.
+Se `docs/verified-variant-refresh.md` för exakta kommandon och återstående steg.
+Den nya läsande källkontrollen har 17 av 33 URL:er åtkomliga; övriga kräver
+åtkomst-/källåtgärder. Bara tre av 66 varianter är aktualitetsverifierade i denna
+batch. Inga betalda AI-anrop har gjorts.
 
 ## Katalogsynkning: Publicerad
 

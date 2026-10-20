@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-20T17:31:39.128860+00:00",
+  "catalog_sha256": "c3aa59cbd8ff0daad5cfc41134d121b786ee1d507e7195577e5aa60ac0632ba6",
+  "mode": "publish",
+  "groups": [
+    {
+      "brand": "Polestar",
+      "model": "2",
+      "variants": 3,
+      "published": 3,
+      "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+      "content_hash": "4aae22a0362eac00f8501bd1bc087eb8f6581587a940313683ee02537b82e016",
+      "validated": 3,
+      "status": "published",
+      "staged": 3,
+      "batch_id": "8160bf68f442de7b85a69f3b6cae2ac67b7785fae64c17ab8664c2f013f481ce",
+      "already_applied": false,
+      "source_verified": true
+    },
+    {
+      "brand": "Polestar",
+      "model": "4",
+      "variants": 2,
+      "published": 0,
+      "status": "quarantined",
+      "reason": "exact_variant_headers_not_found"
+    }
+  ],
+  "validated": 3,
+  "published": 3,
+  "openai_calls": 0,
+  "toyota": {
+    "discovery_url": "https://www.toyota.se/bilar/bz4x",
+    "status": "discovered_not_verified",
+    "content_hash": "18d56e0403678543e7b28e31d285b77efcf4cc3f02b6db6d577c3e11b5b6a0d2",
+    "candidates": [
+      {
+        "url": "https://pdf.toyotasverigebroschyr.com/price-list/toyota-bz4x",
+        "source_type": "price_list_pdf",
+        "source_validation": "needs_discovery",
+        "host_approved": false,
+        "discovered_from": "https://www.toyota.se/bilar/bz4x",
+        "discovery_source_hash": "18d56e0403678543e7b28e31d285b77efcf4cc3f02b6db6d577c3e11b5b6a0d2",
+        "link_label": "Broschyr"
+      }
+    ],
+    "published": 0
+  },
+  "quarantined_variants": 2
+}

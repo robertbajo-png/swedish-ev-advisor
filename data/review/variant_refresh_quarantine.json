@@ -1,0 +1,10 @@
+[
+  {
+    "brand": "Polestar",
+    "model": "4",
+    "variants": 2,
+    "published": 0,
+    "status": "quarantined",
+    "reason": "exact_variant_headers_not_found"
+  }
+]
