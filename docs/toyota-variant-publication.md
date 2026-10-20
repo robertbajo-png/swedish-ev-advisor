@@ -28,11 +28,22 @@ No paid AI, DNS, news or unrelated product changes.
 
 ## Current Status
 
-Implemented and tested locally. One fresh exact Toyota configuration has passed
-the independent worker checks and is `validated` in private staging. The public
-catalog still has 66 variants and is identical in all 29 fields. Migration 011
-is prepared in a separate Supabase SQL tab, not executed. Owner approval was
-requested before database execution. No new public Toyota row has been inserted.
+Migration 011 was installed in Supabase on 2026-10-20 after explicit owner
+approval. The SQL readback confirmed anon/authenticated EXECUTE=false,
+service_role EXECUTE=true and 66 unchanged public variants before publication.
+The fresh worker then inserted one exact Toyota identity transactionally:
+`Active FWD 57.7 kWh 167 hk`, manufacturer variant ID
+`552b7e03-84d2-4b36-a5bb-87d84cb7d05c`.
+
+The catalog now has 67 variants / 30 models. Its anonymous-view export matches
+all 29 public fields, with SHA-256
+`042806f32cc2cbcfe971d8c5f833f2f8a82701b66e9277bd9206dceaa2cbfb0e`.
+The fresh source was verified at `2026-10-20T19:03:51.097915+00:00`, hash
+`bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab`.
+Cash price is 479900 SEK, WLTP 444 km, battery 57.7 kWh, consumption
+13.9 kWh/100 km and towing 750 kg. Price classification, DC/AC charging,
+boot volume and model image remain null; availability is not confirmed.
+The existing 66 rows and three local-only quarantined profiles were preserved.
 
 The RPC checks the original JSON pointers and conversions again in PostgreSQL,
 not just the worker's confidence flag. It rejects partial source groups,
@@ -63,9 +74,12 @@ filled from another motorization, model maxima, leasing or previous generation.
 - Six publication-worker, twelve Toyota-intake, nine existing-refresh and eight
   source-audit tests pass. Existing migration/security/catalog/AI-budget tests pass.
 - Anonymous Supabase parity and all seven private-table denials pass after staging.
-- Build and 76-URL SEO validation pass. No separate lint/typecheck is configured.
-- Required: owner-approved database migration, fresh initial publication,
-  canonical export, build/CI and AI-preview publication with external checks.
+- The installed RPC replay returned inserted=0/already_applied=true; a before/
+  after comparison proved all public fields and dates unchanged across 67 rows.
+- All 18 Toyota tests and PostgreSQL transaction tests pass again after migration.
+- Build and 77-URL SEO validation pass. No separate lint/typecheck is configured.
+- Remaining delivery check: exact-commit CI and AI-preview publication followed
+  by external parity and free budget-stop verification.
 - Deferred: remaining Toyota configurations, generic source-group refresh,
   legacy-generation retirement, model expansion, production/DNS and paid AI.
 

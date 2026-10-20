@@ -1,14 +1,18 @@
 {
-  "checked_at": "2026-10-20T18:43:01.484927+00:00",
+  "checked_at": "2026-10-20T19:03:52.779319+00:00",
   "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
-  "source_hash": "6b03ca1e42f71bd39d0433835de99f5995f6f7f44bd55ba380ebf8ce743abac0",
-  "mode": "prepare",
-  "status": "prepared",
+  "source_hash": "bb43334b585c1691f5e62719a08bbd0f3a9e0e99b29c94486de7845290e57fab",
+  "mode": "publish",
+  "status": "published",
   "validated": 1,
-  "inserted": 0,
+  "inserted": 1,
   "candidate_names": [
     "Active FWD 57.7 kWh 167 hk"
   ],
-  "canonical_write_requested": false,
+  "already_applied": false,
+  "canonical_variant_ids": [
+    "63899c61-e131-4aa4-9694-e751a42d20cf"
+  ],
+  "canonical_write_requested": true,
   "openai_calls": 0
 }

@@ -1,42 +1,13 @@
 {
-  "checked_at": "2026-10-20T17:31:53.943Z",
+  "checked_at": "2026-10-20T19:04:08.296Z",
   "ok": false,
   "local_count": 66,
-  "remote_count": 66,
+  "remote_count": 67,
   "local_only": [],
-  "remote_only": [],
-  "changed": [
-    {
-      "key": "polestar|2|long range dual motor",
-      "fields": [
-        "source_name",
-        "source_hash",
-        "source_quote",
-        "extraction_confidence",
-        "verified_at"
-      ]
-    },
-    {
-      "key": "polestar|2|long range dual motor med performance-paketet",
-      "fields": [
-        "source_name",
-        "source_hash",
-        "source_quote",
-        "extraction_confidence",
-        "verified_at"
-      ]
-    },
-    {
-      "key": "polestar|2|long range single motor",
-      "fields": [
-        "source_name",
-        "source_hash",
-        "source_quote",
-        "extraction_confidence",
-        "verified_at"
-      ]
-    }
+  "remote_only": [
+    "toyota|bz4x|active fwd 57.7 kwh 167 hk"
   ],
+  "changed": [],
   "quarantine": [
     {
       "brand": "Cupra",

@@ -57,6 +57,12 @@ Implemented and run against the live official source:
 
 ## Commands And Remaining Work
 
+Update 2026-10-20: the next transactional slice is complete in Supabase after
+owner approval of migration 011. One fresh exact identity is now public, taking
+the catalog to 67 variants. Legacy rows, flags and missing values were preserved.
+See `toyota-variant-publication.md` for current evidence and deployment checks;
+the intake results and verification counts below describe the earlier stage.
+
 - `catalog:toyota:dry-run`: local extraction only.
 - `catalog:toyota:stage`: private source/draft upserts, never canonical writes.
 - `node scripts/run_python.mjs scripts/toyota_price_intake.py --stage --check-pdf`:

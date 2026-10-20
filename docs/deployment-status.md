@@ -1,5 +1,24 @@
 # Publiceringsstatus
 
+## Toyota: Migration 011 Och Ny Variant Publicerad
+
+Efter uttryckligt godkännande är migration 011 installerad i Supabase.
+Endast serverrollen kan köra den nya publiceringsfunktionen. En nyhämtad
+Toyota-källa passerade kontrollerna och gav en ny exakt variant:
+`Active FWD 57.7 kWh 167 hk`. Katalogen har nu 67 varianter / 30 modeller.
+De 66 tidigare posterna och modellernas tillgänglighetsflaggor är oförändrade.
+Återspelning gav ingen ny post eller ändrade verifieringsdatum.
+
+Exporten från den anonyma vyn matchar alla 29 fält, med hash
+`042806f32cc2cbcfe971d8c5f833f2f8a82701b66e9277bd9206dceaa2cbfb0e`.
+Saknade laddnings-, bagage- och bilddata förblir null. Ingen prisart har gissats.
+18 Toyota-tester, PostgreSQL-publiceringstester, bygge och 77-URL SEO passerar.
+GitHub CI och uppdaterad AI-preview återstår i detta leveranssteg.
+Inga betalda AI-anrop eller DNS-ändringar har gjorts. Nyhetsautomatiken är pausad.
+Detaljer och kvarstående dataarbete: `docs/toyota-variant-publication.md`.
+
+Följande avsnitt är tidigare leveranshistorik om inget annat anges.
+
 Kontrollerad 2026-10-20. DNS är oförändrad. Första verifieringsbatchen är genomförd;
 priser, tekniska värden och tillgänglighetsflaggor är oförändrade.
 
