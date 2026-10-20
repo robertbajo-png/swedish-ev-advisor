@@ -3,7 +3,7 @@
 Kontrollerad 2026-10-20. DNS är oförändrad. Första verifieringsbatchen är genomförd;
 priser, tekniska värden och tillgänglighetsflaggor är oförändrade.
 
-## Första Aktualitetsbatchen: Databasen Uppdaterad
+## Första Aktualitetsbatchen: Publicerad
 
 Tre befintliga Polestar 2-varianter har extraherats på nytt från exakta kolumner
 i den svenska specifikationstabellen, validerats i privat staging och publicerats
@@ -15,8 +15,11 @@ roller saknar exekveringsrätt; samtliga sju interna tabeller är fortsatt skydd
 
 Snapshoten är exporterad från den anonyma vyn, med hash
 `8d436119b4a289a3ed25117597cc9d31cdfc94c28f02720002ebf894c1b7c09d`.
-Tester/CI och uppladdning av denna snapshot till AI-preview återstår. Den nu
-publicerade versionen nedan har fortfarande den tidigare snapshoten.
+Runtime `3ffb28262c2493736b512bdbb865aa9540bf0d13` är publicerad efter grön CI
+(`39467788570`). Både den fasta AI-previewen och versionsadressen
+https://a5c4f6b7.seekev-ai-preview.pages.dev/ klarar åtta externa GET-kontroller.
+Alla 29 publika fält och innehållshashen matchar den anonyma Supabase-vyn.
+Polestar-sidan visar verifieringsdatum 2026-10-20 och oförändrat saknade värden.
 
 Två Polestar 4-uppdateringar kräver säker variantmappning; befintliga publika
 poster har inte ändrats eller tagits bort. Toyotas aktuella dokumentlänk
@@ -41,8 +44,8 @@ efter grön CI. Både den fasta adressen och versionsadressen klarar åtta exter
 GET-kontroller. Den publicerade katalogens alla 29 fält och innehållshash matchar
 den anonyma Supabase-vyn.
 
-Aktualitetskontrollen är inte en ny faktaverifiering: 18 av 33 officiella källor
-gick att läsa; övriga kräver åtkomst-/källåtgärder. Uppgifter från bland annat en
+Den första aktualitetskontrollen var inte en ny faktaverifiering: då gick 18 av
+33 officiella källor att läsa; övriga krävde åtkomst-/källåtgärder. Uppgifter från en
 prislista från 2024 måste extraheras och valideras på nytt före release. Se
 `docs/release-data-refresh.md`. Inga betalda AI-anrop gjordes i denna kontroll.
 
@@ -57,10 +60,10 @@ förhandsversionen. Övriga releasehinder kvarstår.
 
 ## Aktuell AI-version Med Kostnadstak
 
-- Runtime: `2a909c950232a1bdb667b4610a0a8ad3ee72cdcd` med grön CI:
-  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39405643007
+- Runtime: `3ffb28262c2493736b512bdbb865aa9540bf0d13` med grön CI:
+  https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/39467788570
 - Fast adress: https://codex-ai-preview.seekev-ai-preview.pages.dev/
-- Versionsbunden adress: https://61462c44.seekev-ai-preview.pages.dev/
+- Versionsbunden adress: https://a5c4f6b7.seekev-ai-preview.pages.dev/
 - Gemensam privat D1-policy: högst 1 USD/dygn och 10 USD/kalendermånad UTC.
   Både rådgivning och jämförelse reserverar kostnad innan ett betalt anrop.
 - Okänd förbrukning behåller säkerhetsreservationen. Budgetfel, nått tak och
@@ -75,7 +78,7 @@ förhandsversionen. Övriga releasehinder kvarstår.
   Den aktuella versionen klarar samtliga åtta externa GET-kontroller.
 - Endast AI-preview har fått D1-bindning och en ny slumpmässig serverhemlighet
   för dagliga klienthashar. Ingen DNS-behörighet eller Supabase-hemlighet behövdes.
-- Separat UI-preview, kanoniska bilvärden, DNS och pausad nyhetsautomation är oförändrade.
+- Separat UI-preview, numeriska bilvärden, DNS och pausad nyhetsautomation är oförändrade.
   Produktionens AI är avstängd som standard. Prisreglerna kräver ny kontroll
   före 19 november, annars stoppas betalda anrop automatiskt.
 

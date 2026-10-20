@@ -71,6 +71,15 @@ Mobility Sweden, model expansion, news, DNS and the AI spending policy are uncha
   new fact verification and never advances verification dates.
 - No paid OpenAI calls were made. Remaining 63 public variants were not refreshed
   in this batch; this does not complete catalog freshness or release readiness.
+- Build, SEO and full GitHub CI passed for runtime
+  `3ffb28262c2493736b512bdbb865aa9540bf0d13` (run `39467788570`), including all
+  responsive/accessibility flows. The AI preview is published at
+  https://a5c4f6b7.seekev-ai-preview.pages.dev/ and the stable preview alias.
+  Both passed eight external GET checks and exact 29-field Supabase parity.
+  The car page visibly shows the new verification date; missing values remain
+  unknown. The remote budget emergency-stop exercise passed for both endpoints
+  and restored the policy. Ledger unchanged: two settled requests / 2,636 micro-USD.
+  There is no separate configured lint/typecheck command in this JS project.
 
 ## Commands
 
@@ -90,9 +99,8 @@ private source payload and ignored local journal.
 
 ## Remaining Work
 
-- Required: finish build/CI and publish the updated AI preview. Canonical export
-  and production access checks are complete; deployment status is recorded in
-  `docs/deployment-status.md`.
+- Completed: canonical export, database access checks, build/CI, preview upload,
+  external catalog parity and cost-cap regression. See `docs/deployment-status.md`.
 - Required: verify the external Toyota document host and map exact current
   battery/trim versions before replacing the 2024 price records.
 - Defer: paid extraction, new variants and broader manufacturer coverage.

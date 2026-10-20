@@ -2,6 +2,13 @@
 
 ## Status And Scope
 
+Follow-up: migration 010 and the first exact-variant refresh batch are complete.
+Three Polestar 2 variants have fresh source evidence and verification dates;
+numeric facts and market/availability flags did not change. The remaining 63
+public variants were not refreshed. See `docs/verified-variant-refresh.md` for
+the atomic publisher, quarantine and current preview. This document records the
+earlier parity milestone; its runtime and audit figures below are historical.
+
 Inspected 2026-10-20: Supabase public view has 66 variants, while the deployed
 SQLite-derived snapshot has 69. The three local-only rows are model-level
 profiles for Cupra Tavascan, Subaru Solterra and Volvo EX90. They must not be
