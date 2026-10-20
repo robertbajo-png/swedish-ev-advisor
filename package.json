@@ -1,6 +1,11 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:toyota:publication:dry-run": "node scripts/run_python.mjs scripts/publish_toyota_variants.py",
+    "catalog:toyota:publication:prepare": "node scripts/run_python.mjs scripts/publish_toyota_variants.py --prepare",
+    "catalog:toyota:publish": "node scripts/run_python.mjs scripts/publish_toyota_variants.py --publish",
+    "verify:toyota-publication": "node scripts/verify_toyota_publication.mjs",
+    "verify:toyota-publication-worker": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_publication.py -v",
     "catalog:toyota:dry-run": "node scripts/run_python.mjs scripts/toyota_price_intake.py",
     "catalog:toyota:stage": "node scripts/run_python.mjs scripts/toyota_price_intake.py --stage",
     "verify:toyota-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_intake.py -v",

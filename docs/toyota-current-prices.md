@@ -29,6 +29,11 @@ separate, tested integration step, not an unrestricted service-role upsert.
 
 ## Status
 
+Follow-up: publication preparation has independently validated a fresh source
+configuration and the private candidate is now `validated`, not public. Migration
+011 is tested/prepared but awaiting approval. See `docs/toyota-variant-publication.md`.
+The results below describe the earlier intake stage.
+
 Implemented and run against the live official source:
 
 - One exact current configuration extracted and staged as `needs_review`:

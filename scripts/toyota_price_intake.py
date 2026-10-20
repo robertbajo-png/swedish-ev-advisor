@@ -92,7 +92,10 @@ def config_from_document(document):
             configs.append(data)
     if len(configs) != 1:
         raise RefreshError('unique_manufacturer_configuration_required')
-    data = configs[0]
+    return validate_configuration(configs[0])
+
+
+def validate_configuration(data):
     market = data.get('commonSettings', {})
     car = data.get('car', {})
     if ({key: market.get(key) for key in ('brand', 'country', 'language')}
@@ -118,6 +121,7 @@ def numeric(raw):
 
 
 def extract_config(data, source):
+    validate_configuration(data)
     grade = data['car'].get('grade', {}).get('name')
     if not isinstance(grade, str) or not re.fullmatch(r'[A-Za-z0-9 +\-]{1,50}', grade):
         raise RefreshError('unsupported_grade_identity')
@@ -272,14 +276,7 @@ def stage_private(client, source, rows):
     return len(staged)
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--stage', action='store_true')
-    parser.add_argument('--check-pdf', action='store_true')
-    args = parser.parse_args()
-    catalog = json.loads((ROOT / 'public/data/public_ev_variants.json').read_text(encoding='utf-8'))
-    if catalog.get('source') != 'supabase_public_ev_variants':
-        raise RefreshError('canonical_snapshot_required')
+def collect_configuration():
     # SSR occasionally omits initialized data. One bounded retry is allowed,
     # but access denials/reservations are never retried around or bypassed.
     for attempt in range(2):
@@ -295,17 +292,33 @@ def main():
     source = {'url': HTML_URL, 'brand': 'Toyota', 'model': 'bZ4X', 'source_authority': 'manufacturer',
               'source_type': 'manufacturer_specs_page', 'source_validation': 'reachable_official_model_source',
               'content_hash': fetched['content_hash'], 'fetched_at': datetime.now(timezone.utc).isoformat()}
-    rows = extract_config(data, source)
-    mapping = legacy_mapping([row for row in catalog['records'] if row['brand'] == 'Toyota'], rows)
-    # Keep only the source subset needed to replay every JSON pointer. Never
-    # archive unrelated embedded service configuration/tokens in review payloads.
-    save(LOCAL / 'source-inputs.json', {'source': source, 'configuration': {
+    return source, data
+
+
+def source_subset(data):
+    return {
         'commonSettings': {key: data['commonSettings'][key] for key in ('brand', 'country', 'language')},
         'car': {key: data['car'][key] for key in ('id', 'model', 'grade', 'motorization', 'price', 'initialized')},
         'carConfigMotorization': {'initialized': True, 'motorization': [
             {key: item[key] for key in ('carId', 'engine', 'wheeldrive', 'price', 'specs')}
             for item in data['carConfigMotorization']['motorization']]},
-        'specs': {'techSpecs': data.get('specs', {}).get('techSpecs', [])}}})
+        'specs': {'techSpecs': data.get('specs', {}).get('techSpecs', [])}}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--stage', action='store_true')
+    parser.add_argument('--check-pdf', action='store_true')
+    args = parser.parse_args()
+    catalog = json.loads((ROOT / 'public/data/public_ev_variants.json').read_text(encoding='utf-8'))
+    if catalog.get('source') != 'supabase_public_ev_variants':
+        raise RefreshError('canonical_snapshot_required')
+    source, data = collect_configuration()
+    rows = extract_config(data, source)
+    mapping = legacy_mapping([row for row in catalog['records'] if row['brand'] == 'Toyota'], rows)
+    # Keep only the source subset needed to replay every JSON pointer. Never
+    # archive unrelated embedded service configuration/tokens in review payloads.
+    save(LOCAL / 'source-inputs.json', {'source': source, 'configuration': source_subset(data)})
     save(LOCAL / 'drafts.json', rows)
     report = {'checked_at': source['fetched_at'], 'catalog_sha256': catalog['catalog_sha256'],
               'status': 'needs_mapping', 'source_url': HTML_URL, 'content_hash': source['content_hash'],
