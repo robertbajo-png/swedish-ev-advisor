@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-10-21T07:01:26.334258+00:00",
+  "source_url": "https://dxp-webcarconfig.toyota-europe.com/v1/api/data/se/sv",
+  "source_hash": "20cd1128786b281432012648e43ab60f62ac727bd5cb8e8721ca238ab13d2a87",
+  "request_method": "POST",
+  "discovered_from": "https://www.toyota.se/bilar/bz4x/specifications",
+  "discovery_source_hash": "6b03ca1e42f71bd39d0433835de99f5995f6f7f44bd55ba380ebf8ce743abac0",
+  "request_hash": "aa48653fd0ec2288fafd0bc2a2fdc3a3c11cebb19fe4ff42c96b2418f32f85dd",
+  "status": "needs_review",
+  "reason": "official_api_publication_contract_required",
+  "candidates": [
+    {
+      "variant_name": "Active Tech FWD 73.1 kWh 224 hk",
+      "price_sek": 529900,
+      "wltp_range_km": 569,
+      "battery_kwh": 73.1,
+      "drivetrain": "FWD"
+    },
+    {
+      "variant_name": "Active Tech AWD 73.1 kWh 343 hk",
+      "price_sek": 554900,
+      "wltp_range_km": 516,
+      "battery_kwh": 73.1,
+      "drivetrain": "AWD"
+    },
+    {
+      "variant_name": "Executive FWD 73.1 kWh 224 hk",
+      "price_sek": 564900,
+      "wltp_range_km": null,
+      "battery_kwh": 73.1,
+      "drivetrain": "FWD"
+    },
+    {
+      "variant_name": "Executive AWD 73.1 kWh 343 hk",
+      "price_sek": 589900,
+      "wltp_range_km": null,
+      "battery_kwh": 73.1,
+      "drivetrain": "AWD"
+    }
+  ],
+  "extracted": 4,
+  "staged": 4,
+  "published": 0,
+  "canonical_writes": false,
+  "remote_writes": true,
+  "openai_calls": 0
+}

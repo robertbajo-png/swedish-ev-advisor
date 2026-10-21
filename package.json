@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:toyota:configurator:dry-run": "node scripts/run_python.mjs scripts/toyota_configurator_intake.py",
+    "catalog:toyota:configurator:stage": "node scripts/run_python.mjs scripts/toyota_configurator_intake.py --stage",
+    "verify:toyota-configurator": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_configurator.py -v",
     "catalog:toyota:discover-grades": "node scripts/run_python.mjs scripts/discover_toyota_grades.py",
     "verify:toyota-grade-discovery": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_grade_discovery.py -v",
     "catalog:toyota:publication:dry-run": "node scripts/run_python.mjs scripts/publish_toyota_variants.py",

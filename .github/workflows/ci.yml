@@ -52,6 +52,7 @@ jobs:
       - run: bun run verify:toyota-intake
       - run: bun run verify:toyota-publication-worker
       - run: bun run verify:toyota-grade-discovery
+      - run: bun run verify:toyota-configurator
       - run: npx --yes wrangler@latest pages functions build functions --outdir=/tmp/seekev-functions-build
       - run: bun run seo:build
       - run: bun run verify:seo

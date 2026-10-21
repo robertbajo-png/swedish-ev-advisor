@@ -1,5 +1,19 @@
 # Publiceringsstatus
 
+## Toyota: Fyra Konfiguratorkandidater I Privat Staging
+
+Den 21 oktober hämtades Active Tech FWD/AWD och Executive FWD/AWD från Toyotas
+publika svenska konfigurator. Fyra exakt identifierade kandidater finns nu i
+privat Supabase-staging, samtliga `needs_review`. Källan är `needs_api_contract`
+utan verifieringsdatum. Executive-räckvidd anges som intervall och lämnas null;
+prisart, laddning och övriga saknade teknikuppgifter har inte gissats.
+Återkörning skapar inga dubbletter. Alla 39 Toyota-tester, bygge, SEO, katalogparitet
+och privata läsbehörighetskontroller passerar. Publika katalogen har oförändrat
+67 varianter / 30 modeller. Ingen migration eller ny preview har publicerats.
+Nästa steg är en separat transaktionell publicerare med stöd för anropsbundet
+källbevis och en fungerande konsumentlänk. Inga betalda AI-anrop har gjorts.
+Se `docs/toyota-configurator-intake.md` för ändrade filer och kvarstående arbete.
+
 ## Toyota: Nästa Upptäcktsbatch
 
 En ny skrivskyddad upptäcktskö identifierar tre utrustningsnivåer med stabila
