@@ -93,6 +93,22 @@ export async function planNewsSync(config, { fetchImpl = fetch } = {}) {
     provider_calls: 0, production_writes: 0, articles_published: 0 };
 }
 
+export function authorizeNewsDistribution(plan, env = {}) {
+  assert.equal(typeof plan.changed, 'boolean', 'Missing snapshot change decision');
+  assert.equal(newsHash(plan.records), plan.snapshot_hash, 'Invalid snapshot identity');
+  const requested = env.NEWS_REDISTRIBUTE_HASH || '';
+  if (requested) {
+    assert(env.GITHUB_EVENT_NAME === 'workflow_dispatch' && env.GITHUB_REF === 'refs/heads/main',
+      'Redistribution is only allowed by an explicit main-branch manual dispatch');
+    assert(/^[a-f0-9]{64}$/.test(requested), 'Redistribution requires an exact SHA-256');
+    assert(plan.records.length > 0, 'Cannot redistribute an empty news snapshot');
+    assert.equal(plan.snapshot_hash, requested, 'Requested articles differ from the public database');
+    assert.equal(plan.previous_preview_hash, requested, 'Requested articles differ from the existing preview');
+    assert.equal(plan.changed, false, 'Redistribution requires unchanged published content');
+  }
+  return { ...plan, redistribution_requested: Boolean(requested), upload_required: plan.changed || Boolean(requested) };
+}
+
 async function main() {
   assert(process.argv.slice(2).every((arg) => arg === '--write' || /^--expect-hash=[a-f0-9]{64}$/.test(arg)), 'Usage: node scripts/sync_news_snapshot.mjs [--write] [--expect-hash=SHA256]');
   const env = {};
@@ -101,13 +117,14 @@ async function main() {
     catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
   Object.assign(env, process.env);
-  const plan = await planNewsSync({ url: env.SUPABASE_URL || env.VITE_SUPABASE_URL, key: env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY });
+  const plan = authorizeNewsDistribution(await planNewsSync({ url: env.SUPABASE_URL || env.VITE_SUPABASE_URL,
+    key: env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY }), env);
   const expected = process.argv.find((arg) => arg.startsWith('--expect-hash='))?.split('=')[1];
   if (expected) assert.equal(plan.snapshot_hash, expected, 'Published news changed after the build; abort this deployment');
   const write = process.argv.includes('--write');
   if (write) {
     await atomicJson('public/data/news_articles.json', { generated_at: new Date().toISOString(), records: plan.records });
-    if (env.GITHUB_OUTPUT) await appendFile(env.GITHUB_OUTPUT, `changed=${plan.changed}\nsnapshot_hash=${plan.snapshot_hash}\n`);
+    if (env.GITHUB_OUTPUT) await appendFile(env.GITHUB_OUTPUT, `changed=${plan.changed}\nsnapshot_hash=${plan.snapshot_hash}\nupload_required=${plan.upload_required}\nredistribution_requested=${plan.redistribution_requested}\n`);
   }
   console.log(JSON.stringify({ ...plan, records: undefined, local_snapshot_written: write, deploy_performed: false }, null, 2));
 }

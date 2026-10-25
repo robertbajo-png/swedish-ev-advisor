@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { fetchPublishedNews, NEWS_PREVIEW, newsHash, normalizeNews, planNewsSync } from './sync_news_snapshot.mjs';
+import { authorizeNewsDistribution, fetchPublishedNews, NEWS_PREVIEW, newsHash, normalizeNews, planNewsSync } from './sync_news_snapshot.mjs';
 import { BRANCH, PROJECT, checkDistributionCi, checkDistributionTarget, distributionConfig,
   distributionStamp, resolveDistribution, verifyNewsDistribution } from './news_distribution.mjs';
 
@@ -65,6 +65,28 @@ function sourceAndPreview(remoteRows = rows, live = records) {
 }
 const unchanged = await planNewsSync(config, { fetchImpl: sourceAndPreview() });
 ok(!unchanged.changed && unchanged.published_count === records.length && unchanged.provider_calls === 0 && unchanged.production_writes === 0);
+ok(!authorizeNewsDistribution(unchanged).upload_required);
+const manualReplay = { NEWS_REDISTRIBUTE_HASH: newsHash(records), GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/main' };
+const replay = authorizeNewsDistribution(unchanged, manualReplay);
+ok(replay.upload_required && replay.redistribution_requested && !replay.changed);
+ok(replay.snapshot_hash === unchanged.snapshot_hash && newsHash(replay.records) === newsHash(records));
+for (const env of [
+  { ...manualReplay, GITHUB_EVENT_NAME: 'schedule' },
+  { ...manualReplay, GITHUB_EVENT_NAME: 'workflow_run' },
+  { ...manualReplay, GITHUB_EVENT_NAME: 'pull_request' },
+  { ...manualReplay, GITHUB_REF: 'refs/heads/feature' },
+  { ...manualReplay, NEWS_REDISTRIBUTE_HASH: 'true' },
+  { ...manualReplay, NEWS_REDISTRIBUTE_HASH: 'a'.repeat(64) },
+]) {
+  assert.throws(() => authorizeNewsDistribution(unchanged, env)); checks++;
+}
+assert.throws(() => authorizeNewsDistribution({ ...unchanged, previous_preview_hash: 'a'.repeat(64) }, manualReplay)); checks++;
+assert.throws(() => authorizeNewsDistribution({ ...unchanged, changed: true }, manualReplay)); checks++;
+assert.throws(() => authorizeNewsDistribution({ ...unchanged, records: [] }, manualReplay)); checks++;
+assert.throws(() => authorizeNewsDistribution({ ...unchanged, snapshot_hash: 'a'.repeat(64) })); checks++;
+const behind = await planNewsSync(config, { fetchImpl: sourceAndPreview(rows, records.slice(1)) });
+ok(authorizeNewsDistribution(behind, { GITHUB_EVENT_NAME: 'schedule' }).upload_required);
+ok(!authorizeNewsDistribution(behind).redistribution_requested);
 ok((await planNewsSync(config, { fetchImpl: sourceAndPreview(rows, records.slice(1)) })).changed);
 await rejects(() => planNewsSync(config, { fetchImpl: sourceAndPreview([], records) }), /erase/);
 let reads = 0;
