@@ -22,7 +22,7 @@ jobs:
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       NEWS_OPENAI_MODEL: ${{ vars.NEWS_OPENAI_MODEL || 'gpt-6-sol' }}
-      SITE_URL: https://seekev.se
+      SITE_URL: https://elbilsagenten.se
       NEWS_BACKEND: supabase
       NEWS_SOURCE_PROFILE: official
     steps:

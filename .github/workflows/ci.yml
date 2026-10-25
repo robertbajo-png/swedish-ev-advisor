@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      SITE_URL: https://seekev.se
-      VITE_SITE_URL: https://seekev.se
+      SITE_URL: https://elbilsagenten.se
+      VITE_SITE_URL: https://elbilsagenten.se
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -44,11 +44,15 @@ jobs:
       - run: bun run verify:news-package
       - run: bun run verify:news-distribution
       - run: bun run verify:news-distribution-workflow
+      - run: bun run verify:release-config
+      - run: bun run verify:release-runtime
+      - run: bun run verify:release-build
       - run: bun run verify:deployment-contract
       - run: bun run verify:pages-preview
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: bun run verify:site-info
       - run: python -m unittest discover -s tests -p test_news.py -v
       - run: bun run verify:news-smoke
       - run: bun run verify:news-pressrooms

@@ -1,14 +1,14 @@
 import json
 import os
 import re
-from datetime import date
 from pathlib import Path
 from xml.sax.saxutils import escape
 from news_public import news_paths
+from site_info import INFO_PATHS
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_URL = os.environ.get("SITE_URL", "https://seekev.se").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://elbilsagenten.se").rstrip("/")
 SEGMENTS = ["familj", "vinter", "dragkrok", "under-500000", "lang-rackvidd"]
 PUBLIC_STATUSES = {"published", "published_reviewed"}
 
@@ -91,11 +91,9 @@ def car_urls() -> list[str]:
 
 
 def render_url(path: str, priority: str) -> str:
-    today = date.today().isoformat()
     return (
         "  <url>\n"
         f"    <loc>{escape(SITE_URL + path)}</loc>\n"
-        f"    <lastmod>{today}</lastmod>\n"
         "    <changefreq>weekly</changefreq>\n"
         f"    <priority>{priority}</priority>\n"
         "  </url>"
@@ -103,7 +101,7 @@ def render_url(path: str, priority: str) -> str:
 
 
 def main() -> None:
-    paths = ["/", "/bilar", "/jamfor", "/verifiering", *[f"/{segment}" for segment in SEGMENTS], *car_urls(), *news_paths()]
+    paths = ["/", "/bilar", "/jamfor", "/verifiering", *INFO_PATHS, *[f"/{segment}" for segment in SEGMENTS], *car_urls(), *news_paths()]
     seen = []
     for path in paths:
         if path not in seen:

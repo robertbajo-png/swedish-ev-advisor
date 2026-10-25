@@ -42,8 +42,8 @@ export function newsJsonLd(article, siteUrl) {
     '@context': 'https://schema.org', '@type': 'NewsArticle',
     headline: article.title, description: article.intro, datePublished: article.published_at,
     inLanguage: 'sv-SE', url: siteUrl + '/nyheter/' + article.slug,
-    author: { '@type': 'Organization', name: 'Elbilsguiden' },
-    publisher: { '@type': 'Organization', name: 'Elbilsguiden' },
+    author: { '@type': 'Organization', name: 'Elbilsagenten' },
+    publisher: { '@type': 'Organization', name: 'Elbilsagenten' },
     citation: (article.sources || []).filter((source) => safeNewsLink(source.url)).map((source) => source.url),
     articleBody: [article.intro, ...(article.paragraphs || []).map((paragraph) => paragraph.text)].join('\n\n'),
     ...(image ? { image: image.url } : {})
@@ -90,7 +90,7 @@ function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, pri
       <NewsMeta article={article} />
       <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
       <p className="newsStoryIntro">{article.intro}</p>
-      <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsguiden'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
+      <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsagenten'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
       {variant === 'lead' && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
     </div>
   </article>;
@@ -116,7 +116,7 @@ export function NewsPreview({ articles, navigate, title = 'Det senaste i elbilsv
   const shown = publicArticles(articles).filter((article) => !relatedKey || (article.related_models || []).some((model) => model.key === relatedKey)).slice(0, 3);
   if (!shown.length && !showEmpty) return null;
   return <section className="newsPreview journalPreview" aria-label={title}>
-    <div className="newsSectionHeading"><div><span className="journalEyebrow">Elbilsguiden Journal</span><h2>{title}</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div>
+    <div className="newsSectionHeading"><div><span className="journalEyebrow">Elbilsagenten Journal</span><h2>{title}</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div>
     {shown.length ? <div className="journalPreviewGrid">{shown.map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} />)}</div> : <p className="newsPreviewEmpty" role="status">{loading ? 'Hämtar nyheter...' : error ? 'Nyheterna kunde inte hämtas just nu.' : 'Inga nyheter är publicerade ännu.'}</p>}
   </section>;
 }
@@ -133,7 +133,7 @@ export function NewsPage({ articles, loading, error, navigate }) {
 
   return <section className="newsPage journalPage" aria-labelledby="journal-title">
     <header className="journalMasthead">
-      <div><span className="journalEyebrow">Elbilsguiden Journal</span><h1 id="journal-title">Elbilsnyheter.</h1><p>Nya modeller, teknik och marknadsnyheter. Med svenska bilköpare i fokus.</p></div>
+      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1><p>Nya modeller, teknik och marknadsnyheter. Med svenska bilköpare i fokus.</p></div>
       {!!published.length && <div className="journalLastPublished"><span>Senast publicerat</span><time dateTime={published[0].published_at}>{newsDate(published[0].published_at)}</time></div>}
     </header>
     <div className="journalTopicNav" role="group" aria-label="Nyhetskategorier">{NEWS_TOPICS.map((item) => <button type="button" key={item.id} aria-pressed={topic === item.id} onClick={() => setTopic(item.id)} disabled={loading || !published.length}>{item.label}</button>)}</div>
@@ -188,8 +188,8 @@ export function NewsArticlePage({ article, articles = [], loading, error, naviga
   const blocks = articleBlocks(article);
   const more = relatedNews(article, articles);
   return <article className="newsArticlePage journalArticle">
-    <div className="journalArticleTop"><NewsLink className="newsBackLink" path="/nyheter" navigate={navigate}><ArrowLeft size={16} /> Alla nyheter</NewsLink><span className="journalEyebrow">Elbilsguiden Journal</span></div>
-    <header className="newsArticleHeader"><NewsMeta article={article} readingTime /><h1>{article.title}</h1><p>{article.intro}</p><div className="journalByline"><span>Elbilsguiden{article.editorial_method ? ' · ' + article.editorial_method : ''}</span><ArticleShare key={article.id || article.slug} /></div></header>
+    <div className="journalArticleTop"><NewsLink className="newsBackLink" path="/nyheter" navigate={navigate}><ArrowLeft size={16} /> Alla nyheter</NewsLink><span className="journalEyebrow">Elbilsagenten Journal</span></div>
+    <header className="newsArticleHeader"><NewsMeta article={article} readingTime /><h1>{article.title}</h1><p>{article.intro}</p><div className="journalByline"><span>Elbilsagenten{article.editorial_method ? ' · ' + article.editorial_method : ''}</span><ArticleShare key={article.id || article.slug} /></div></header>
     <NewsImage article={article} priority caption />
     <div className="journalReadingLayout">
       <div className="newsArticleBody">{blocks.map((block, index) => <section key={index} className={block.kind === 'analysis' ? 'journalBuyerPerspective' : 'journalReporting'} aria-label={block.kind === 'analysis' ? 'Köparperspektiv' : undefined}>{block.kind === 'analysis' && <><span className="journalEyebrow"><Sparkles size={14} /> Köparperspektiv</span><h2>Vad betyder detta för dig som bilköpare?</h2></>}{block.paragraphs.map((text, paragraphIndex) => <p key={paragraphIndex}>{text}</p>)}</section>)}</div>

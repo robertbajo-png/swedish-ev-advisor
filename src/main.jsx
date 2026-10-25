@@ -40,6 +40,7 @@ import { HomePage } from './home.jsx';
 import './design-system.css';
 import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehiclePriceLabel as priceLabel } from './vehicle-ui.jsx';
 import './vehicles.css';
+import { InfoPage } from './info-pages.jsx';
 
 
 const formatSEK = (value) =>
@@ -417,7 +418,7 @@ function reasonsFor(car, advisor) {
 
 const defaultFilters = { body: 'Alla', brand: 'Alla', query: '', maxPrice: 750000, minRange: 0, towRequired: false, priceKnown: false, sort: 'match' };
 const MAX_COMPARE = 3;
-const BASE_URL = (import.meta.env.VITE_SITE_URL || 'https://seekev.se').replace(/\/$/, '');
+const BASE_URL = (import.meta.env.VITE_SITE_URL || 'https://elbilsagenten.se').replace(/\/$/, '');
 const APP_BASE_PATH = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
 
 function appPath(path) {
@@ -472,6 +473,8 @@ function getRoute() {
   if (path === '/bilar') return { type: 'cars' };
   if (path === '/jamfor' || path === '/compare') return { type: 'compare' };
   if (path === '/verifiering') return { type: 'verification' };
+  if (path === '/kontakt') return { type: 'contact' };
+  if (path === '/integritet') return { type: 'privacy' };
   if (path === '/nyheter') return { type: 'news' };
   if (path.startsWith('/nyheter/')) return { type: 'newsArticle', slug: path.split('/').pop() };
   const segment = segments.find((item) => `/${item.slug}` === path);
@@ -697,14 +700,14 @@ function App() {
   useEffect(() => {
     if (route.type === 'newsArticle') {
       setSeo({
-        title: routeArticle ? `${routeArticle.title} | Elbilsguiden` : 'Nyheter | Elbilsguiden',
+        title: routeArticle ? `${routeArticle.title} | Elbilsagenten` : 'Nyheter | Elbilsagenten',
         description: routeArticle?.intro || 'Nyheter från elbilsvärlden med svenska ögon.',
         jsonLd: routeArticle ? newsJsonLd(routeArticle, BASE_URL) : null
       });
       return;
     }
     if (route.type === 'news') {
-      setSeo({ title: 'Elbilsnyheter – modeller, teknik och marknad | Elbilsguiden',
+      setSeo({ title: 'Elbilsnyheter – modeller, teknik och marknad | Elbilsagenten',
         description: 'Internationella elbilsnyheter med svenska perspektiv, tydliga källor och koppling till ditt nästa bilval.',
         jsonLd: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Elbilsnyheter', url: `${BASE_URL}/nyheter` }
       });
@@ -713,27 +716,29 @@ function App() {
     if (route.type === 'car') {
       if (routeCar) {
         setSeo({
-          title: `${routeCar.brand} ${routeCar.model} – pris, räckvidd och specs | Elbilsguiden`,
+          title: `${routeCar.brand} ${routeCar.model} – pris, räckvidd och specs | Elbilsagenten`,
           description: `${routeCar.brand} ${routeCar.model}: jämför pris, WLTP-räckvidd, laddning, dragvikt och bagage med verifierade svenska källor.`,
           jsonLd: carJsonLd(routeCar)
         });
         return;
       }
-      setSeo({ title: `${dataStatus === 'error' ? 'Biluppgifterna kunde inte hämtas' : dataStatus === 'loading' ? 'Biluppgifter' : 'Bilen hittades inte'} | Elbilsguiden`, description: 'Utforska elbilar, jämför detaljer och hitta en modell som passar dina behov.', jsonLd: null });
+      setSeo({ title: `${dataStatus === 'error' ? 'Biluppgifterna kunde inte hämtas' : dataStatus === 'loading' ? 'Biluppgifter' : 'Bilen hittades inte'} | Elbilsagenten`, description: 'Utforska elbilar, jämför detaljer och hitta en modell som passar dina behov.', jsonLd: null });
       return;
     }
     const routeMetadata = {
       cars: ['Alla elbilar', 'Filtrera elbilar på svenska marknaden efter pris, räckvidd och dina behov.'],
       compare: ['Jämför elbilar', 'Jämför valda elbilar sida vid sida: priser, räckvidd, laddning och uppskattad ägandekostnad.'],
-      verification: ['Om våra uppgifter', 'Så använder Elbilsguiden svenska källor och skiljer biluppgifter från antaganden.'],
+      verification: ['Om våra uppgifter', 'Så använder Elbilsagenten svenska källor och skiljer biluppgifter från antaganden.'],
+      contact: ['Kontakt', 'Kontakta ansvarig aktör för Elbilsagenten med frågor, synpunkter och källbelagda rättelser av biluppgifter.'],
+      privacy: ['Dina uppgifter', 'Läs hur sökningar hanteras av Elbilsagenten och vilka tjänster som används för bilrådgivning, lagring och drift.'],
     }[route.type];
     if (routeMetadata) {
-      setSeo({ title: `${routeMetadata[0]} | Elbilsguiden`, description: routeMetadata[1], jsonLd: null });
+      setSeo({ title: `${routeMetadata[0]} | Elbilsagenten`, description: routeMetadata[1], jsonLd: null });
       return;
     }
     if (route.type === 'segment') {
       setSeo({
-        title: `${route.segment.title} | Elbilsguiden`,
+        title: `${route.segment.title} | Elbilsagenten`,
         description: route.segment.description,
         jsonLd: {
           '@context': 'https://schema.org',
@@ -746,12 +751,12 @@ function App() {
       return;
     }
     setSeo({
-      title: 'Elbilsguiden Sverige – hitta rätt elbil med AI',
+      title: 'Elbilsagenten Sverige – hitta rätt elbil med AI',
       description: 'Beskriv budget, körning och behov och få en shortlist med verifierade elbilar, tydliga kompromisser och källor.',
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'WebApplication',
-        name: 'Elbilsguiden Sverige',
+        name: 'Elbilsagenten Sverige',
         applicationCategory: 'AutomotiveApplication',
         operatingSystem: 'Web'
       }
@@ -773,7 +778,7 @@ function App() {
       <header className={`siteHeader premiumHeader ${route.type === 'car' && routeCar ? 'siteHeaderCinematic' : ''}`}>
         <button className="brand brandButton" type="button" onClick={() => navigate('/')}>
           <span className="brandMark"><Zap size={18} /></span>
-          <span>Elbilsguiden</span>
+          <span>Elbilsagenten</span>
         </button>
         <nav aria-label="Huvudnavigation">
           {[[ '/', 'Hitta elbil', 'home' ], [ '/bilar', 'Alla elbilar', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
@@ -820,6 +825,7 @@ function App() {
       )}
 
       {route.type === 'verification' && <VerificationPage />}
+      {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}
         resetFilters={resetFilters} dataStatus={dataStatus} segment={route.segment}
@@ -844,10 +850,10 @@ function App() {
       )}
       </main>
 
-      {!['car', 'compare', 'news', 'newsArticle', 'verification'].includes(route.type) && <CompareBar cars={compareCars} onRemove={toggleCompare} onClear={() => setCompare([])} />}
+      {!['car', 'compare', 'news', 'newsArticle', 'verification', 'contact', 'privacy'].includes(route.type) && <CompareBar cars={compareCars} onRemove={toggleCompare} onClear={() => setCompare([])} />}
       <footer>
-        <span><Zap size={16} /> Elbilsguiden · Ditt nästa bilval.</span>
-        <div><button type="button" onClick={() => navigate('/verifiering')}>Om våra uppgifter</button><button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
+        <span><Zap size={16} /> Elbilsagenten · Ditt nästa bilval.</span>
+        <div>{[['/kontakt', 'Kontakt'], ['/integritet', 'Dina uppgifter'], ['/verifiering', 'Om våra uppgifter']].map(([path, label]) => <a key={path} href={appPath(path)} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}<button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
       </footer>
     </div>
   );
@@ -944,7 +950,7 @@ function VerificationPage() {
         <span className="eyebrow">Verifiering</span>
         <h1>Så kan du lita mer på uppgifterna.</h1>
         <p>
-          Elbilsguiden visar biluppgifter med svenska källor och markerar tydligt när något saknas.
+          Elbilsagenten visar biluppgifter med svenska källor och markerar tydligt när något saknas.
           Målet är att hjälpa dig jämföra utan att blanda ihop säkra uppgifter med antaganden.
         </p>
       </div>

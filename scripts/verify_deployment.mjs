@@ -35,7 +35,7 @@ export async function verifyDeployment(baseUrl, { fetchImpl = fetch, expectPrevi
   };
   for (const path of ['', 'bilar', 'jamfor', 'nyheter', 'bilar/tesla-model-3-long-range-rwd/']) {
     await check(path, (body, headers) => {
-      if (!/text\/html/i.test(headers.get('content-type') || '') || !/id=["']root["']/.test(body) || !body.includes('Elbilsguiden')) throw new Error('Expected the Elbilsguiden application, not a parking/error page.');
+      if (!/text\/html/i.test(headers.get('content-type') || '') || !/id=["']root["']/.test(body) || !body.includes('Elbilsagenten')) throw new Error('Expected the Elbilsagenten application, not a parking/error page.');
       if (expectPreview && !/noindex/i.test(headers.get('x-robots-tag') || '')) throw new Error('Preview is missing the noindex response header.');
       return {};
     });
