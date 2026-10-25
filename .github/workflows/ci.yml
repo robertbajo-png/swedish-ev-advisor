@@ -40,12 +40,61 @@ jobs:
       - run: bun run verify:ai-cost
       - run: bun run verify:tco
       - run: bun run verify:news-presentation
+      - run: bun run verify:news-release
+      - run: bun run verify:news-package
+      - run: bun run verify:news-distribution
+      - run: bun run verify:news-distribution-workflow
       - run: bun run verify:deployment-contract
       - run: bun run verify:pages-preview
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -p test_news.py -v
+      - run: bun run verify:news-smoke
+      - run: bun run verify:news-pressrooms
+      - run: bun run verify:news-source-check
+      - run: python -m unittest discover -s tests -p 'test_news_bmw*.py' -v
+      - run: python -m unittest discover -s tests -p 'test_news_short*.py' -v
+      - run: bun run verify:news-editorial-release
+      - run: bun run verify:news-preflight
+      - run: bun run verify:news-trial
+      - run: bun run verify:news-review-trial
+      - run: bun run verify:news-context
+      - run: bun run verify:news-writing
+      - run: bun run verify:news-claim-scope
+      - run: bun run verify:news-fact-plan
+      - run: bun run verify:news-comparisons
+      - run: bun run verify:news-fact-brief
+      - run: bun run verify:news-matrix
+      - run: bun run verify:news-statistics
+      - run: bun run verify:news-calibration
+      - run: bun run verify:news-length
+      - run: bun run verify:news-evidence-windows
+      - run: bun run verify:news-equipment
+      - run: bun run verify:news-launch-wording
+      - run: bun run verify:news-writing-trial-r24
+      - run: bun run verify:news-power-terminology
+      - run: bun run verify:news-breadth-r25
+      - run: bun run verify:news-ab-trial
+      - run: bun run verify:news-ab-budget
+      - run: bun run verify:news-luna-trial
+      - run: bun run verify:news-luna-budget
+      - run: bun run verify:news-notices
+      - run: bun run verify:news-notice-publication
+      - run: bun run verify:news-notice-sql
+      - run: bun run verify:news-notice-preflight
+      - run: bun run verify:news-hybrid-launch
+      - run: bun run verify:news-model
+      - run: bun run verify:news-sol-budget
+      - run: bun run verify:news-sol-test
+      - run: bun run verify:news-sol-trial
+      - run: bun run verify:news-audit-contract
+      - run: bun run verify:news-collection-safety
+      - run: bun run verify:news-verification-handoff
+      - run: bun run verify:news-owner-exception
+      - run: bun run verify:news-test-allowance
+      - run: bun run verify:news-originality
+      - run: bun run verify:env-loading
       - run: bun run verify:catalog-audit
       - run: bun run verify:variant-refresh-extraction
       - run: python -m pip install pypdf==6.10.0

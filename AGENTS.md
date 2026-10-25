@@ -66,10 +66,75 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
-- News follows `docs/news-engine-plan.md`. It may use international reporting for
+- News release operations follow `docs/news-release.md`; the older design is in
+  `docs/news-engine-plan.md`. It may use international reporting for
   independent Swedish articles, with evidence-based automatic quality gates.
 - News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
 - News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
+- Factual notices use short, deterministic source-bound templates, not free-form AI text.
+  Use official pressrooms/ACEA, typed source-bound facts and three templates (model, price, registrations).
+  Do not require 150 words or add buyer questions, comparisons or filler. A separate rule-based review
+  must bind the exact rendered notice to source facts; it must not be described as an AI audit.
+  Unsupported formats/conflicts go to quarantine. Legacy free-form articles retain their existing guards.
+  Notices remain private until a separate release approval; do not enable paid AI or publication to test them.
+  Notice publication must use its own transactional RPC with a fresh deterministic re-render,
+  exact article/source/check snapshots and a private transaction-bound receipt. Both the global
+  publication switch and notice-specific owner switch must be enabled; neither is worker-editable.
+  Default notice release commands must be read-only dry-runs. Never treat notice checks as AI article audits.
+
+- Hybrid launch articles are a separate, private/offline preparation track under
+  the private-preparation rules in `docs/news-release.md`: 200-350 body words from sufficient source-bound
+  model/Swedish-launch facts, with exact citations and a separate independent review.
+  Keep the factual notices and their policy unchanged. Thin evidence stays a notice;
+  uncertain markets/specs quarantine. Fixture review is never a real AI audit or
+  publication approval. No implicit paid calls, legacy-policy promotion, production
+  writes or publication without separate authorization and release support.
+
+- The owner-selected news AI default is `gpt-6-sol` (migration 018). Use its
+  verified standard/cache tariffs in the shared reservation/settlement contract.
+  Do not rewrite historical mini/Luna/A-B trial pins or reuse consumed permits.
+  A model change is not authorization for a paid trial, activation or publication.
+  The car advisor's independently configured model and allowance are unchanged.
+
+- The owner approved the unified short-article rollout on 2026-10-23:
+  source-bound facts -> original Swedish article (150-250 body words) -> separate
+  independent fact check. Analysis is optional, never padding. The new recipe
+  uses the existing editorial policy/three publication gates, not notice checks
+  or promotion of old failed hybrid drafts. Keep historical recipes unchanged.
+  On 2026-10-24 the owner replaced the three-AI-case release requirement with
+  `news-mixed-release-2026-10-v1`: real private model and battery AI articles
+  with four exact settled writer/reviewer receipts, plus a price notice that
+  passes independent deterministic source/re-render validation (no AI audit).
+  Use a new format-policy gate identity; do not rewrite historical trials or
+  promote the rejected AI price draft. Prices cannot use the AI article publisher;
+  notices retain their separate transactional publisher and owner switch.
+  Verifying the new format gate is not permission to spend, activate or publish.
+  After separate owner release approval, publish at most ONE article per UTC day,
+  including all formats.
+  Existing USD0.25/day and USD5/month limits still apply. Budget exhaustion means
+  defer, not another exception. No publication if a real test or gate fails.
+
+- BMW charging support in `news_bmw_charging.py` is private preparation only:
+  exact official source/variant, peak DC versus average power, range ADDED versus
+  total range, battery basis, charging interval and US demonstration/commercial
+  qualifications must remain source-bound. Unknown/conflicting layouts are held,
+  not AI-guessed. Its deterministic preview review is NOT an AI audit or a new
+  public notice recipe. Do not route it through either existing publisher, update
+  canonical specifications or activate paid work/publication without a separate
+  implementation and owner decision.
+  The AC-option companion must preserve optional/future equipment, German market,
+  preliminary technical data and AC input versus V2L output qualifications.
+  Parsing an old captured body for shape regression never refreshes its source
+  dates or permits an article. New charging formats are not MVP release blockers.
+
+- News distribution is separate from article generation/publication. It may only
+  read `public_news_articles` using an anon/publishable key, never a service key.
+  Keep `NEWS_DISTRIBUTION_ENABLED` off until the reviewed code/configuration is
+  installed. Require successful CI on the exact current main commit before any
+  credentialled upload; target only `seekev-ai-preview` / `codex-ai-preview`.
+  A distribution retry must never generate/buy/publish another article, change
+  DNS/budgets or enable news-AI/publication. Keep previews noindex and bind the
+  deployed snapshot to its exact workflow attempt, article HTML and sitemap.
 
 - Keep data pipeline code deterministic where possible and AI-assisted only where it adds value.
 - Prefer idempotent import/upsert scripts over one-off local mutations.

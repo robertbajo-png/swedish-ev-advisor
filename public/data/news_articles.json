@@ -1,4 +1,83 @@
 {
-  "generated_at": "2026-10-15T19:58:30.477834+00:00",
-  "records": []
+  "generated_at": "2026-10-24T20:02:34.197367+00:00",
+  "records": [
+    {
+      "image": null,
+      "intro": "Firefly presenterar ett batteri på 60 kWh för den kinesiska marknaden. För bilen anges en räckvidd på upp till 560 kilometer enligt den kinesiska körcykeln CLTC, inte den europeiska WLTP-cykeln.",
+      "title": "Firefly presenterar 60 kWh-batteri i Kina",
+      "brands": [
+        "Firefly"
+      ],
+      "sources": [
+        {
+          "url": "https://www.firefly.com.cn/news/20261023001",
+          "kind": "primary",
+          "title": "firefly萤火虫长续航60kWh电池正式发布，CLTC续航达560km",
+          "publisher": "Firefly China",
+          "published_at": "2026-10-23T03:00:00+00:00"
+        }
+      ],
+      "category": "batterier",
+      "paragraphs": [
+        {
+          "text": "I det kinesiska beskedet finns två batterialternativ för Firefly: 60 och 42 kWh. Räckviddssiffran på upp till 560 kilometer gäller alternativet på 60 kWh och är angiven enligt CLTC. Det är alltså den mätgrunden som hör till siffran när de två batteristorlekarna jämförs.",
+          "kind": "reporting"
+        },
+        {
+          "text": "För den som köper bilen med batteriet inkluderat börjar det kinesiska priset på 136 800 yuan. Det är ett frånpris för köp av bilen inklusive batteri, inte ett pris där batteriet betalas separat genom hyra.",
+          "kind": "reporting"
+        },
+        {
+          "text": "Det finns också ett upplägg med batterihyra, BaaS, i Kina. Då börjar bilens pris på 79 800 yuan utan köpt batteri, medan hyran för batteriet tillkommer med 599 yuan per månad. Beloppen beskriver därmed ett annat betalningsupplägg än frånpriset för bilen med batteriköp; 79 800 yuan är inte ett komplett köppris inklusive batteri.",
+          "kind": "reporting"
+        },
+        {
+          "text": "Enligt Firefly kan befintliga ägare i Kina uppgradera permanent till det större batteriet via Nios batteribytessystem, utan att byta bil. Möjligheten gäller alltså inte bara den som väljer batteristorlek vid köp, utan även den som redan äger en Firefly på den kinesiska marknaden.",
+          "kind": "reporting"
+        }
+      ],
+      "related_models": [],
+      "editorial_method": "AI-bearbetad, källkontrollerad nyhet",
+      "id": "25ebf083-cc36-5dab-a323-0e5606f1013a",
+      "slug": "nyhet-25ebf083-cc36-5dab-a323-0e5606f1013a",
+      "published_at": "2026-10-24T20:02:07.021135+00:00"
+    },
+    {
+      "image": null,
+      "intro": "Volkswagen har publicerat svenska cirkapriser för ID. Cross. För ID. Cross Trend med 37 kWh och 116 hk anges ett frånpris på 356 900 kronor.",
+      "title": "Volkswagen ID. Cross: svenska cirkapriser presenterade",
+      "brands": [
+        "Volkswagen"
+      ],
+      "sources": [
+        {
+          "url": "https://www.vwgroup.se/nyheter--media/pressmeddelanden/2026/10/nya-volkswagen-id.-cross-kan-nu-bestallas-med-ett-batteri-pa-37-kwh/",
+          "kind": "primary",
+          "title": "Nya Volkswagen ID. Cross kan nu beställas med ett batteri på 37 kWh",
+          "publisher": "Volkswagen Group Sverige",
+          "published_at": "2026-10-19T00:00:00+00:00"
+        }
+      ],
+      "category": "priser",
+      "paragraphs": [
+        {
+          "text": "För ID. Cross Life med 37 kWh och 135 hk är det angivna frånpriset 411 900 kronor.",
+          "kind": "reporting"
+        },
+        {
+          "text": "För ID. Cross Style med 37 kWh och 135 hk är det angivna frånpriset 436 900 kronor.",
+          "kind": "reporting"
+        },
+        {
+          "text": "Den svenska lanseringen anges till skiftet mellan november och december.",
+          "kind": "reporting"
+        }
+      ],
+      "related_models": [],
+      "editorial_method": "Automatisk faktanotis med källkontroll",
+      "id": "4cf366d6-ad31-5a55-a6d9-652dbaf41c8d",
+      "slug": "volkswagen-id-cross-svenska-cirkapriser-presenterade-4cf366d6",
+      "published_at": "2026-10-23T14:09:05.002644+00:00"
+    }
+  ]
 }

@@ -11,7 +11,7 @@ from urllib.robotparser import RobotFileParser
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from news_http import PageText, Collector, SafeRedirect, canonical_url, parse_feed, reserved
-from news_store import NewsStore, artifact_hash, stable_id
+from news_store import NewsStore, artifact_hash, stable_id, EDITORIAL_POLICY
 from news_editorial import event_key, relevance_score, validate_article, validate_fact_extraction
 from news_engine import attach_cluster, classify_metadata, collect, editorial, export_public, queue_verification
 
@@ -59,7 +59,24 @@ def audit(facts=None):
     return {"swedish_quality": True, "original_expression": True, "swedish_relevance": True, "event_consistent": True,
             "no_invented_quotes": True, "no_unsupported_claims": True, "reasons": [],
             "facts": [{"id": f["id"], "supported": True, "central": bool(f.get("central")), "reason": "Supported by evidence", "corroborating_fact_ids": [f["id"]]} for f in facts],
-            "blocks": [{"id": b, "supported": True, "reason": "Supported"} for b in ("title", "intro", "p0", "p1")]}
+            "blocks": [{"id": b, "supported": True, "reason": "Supported",
+                        "verdict": 'grounded_question' if b == 'p1' else 'evidence_supported',
+                        "unsupported_claims": []} for b in ("title", "intro", "p0", "p1")]}
+
+
+def keyed_audit(value):
+    return {**value, 'facts': {f['id']: {k: v for k, v in f.items() if k != 'id'} for f in value['facts']},
+            'blocks': {b['id']: {k: v for k, v in b.items() if k != 'id'} for b in value['blocks']}}
+
+
+def writer_result(value, context=None):
+    reporting = [p for p in value['paragraphs'] if p['kind'] == 'reporting']
+    question = next(p for p in value['paragraphs'] if p['kind'] == 'analysis')
+    context = context or {}
+    return {'title': value['title'], 'intro': value['intro'],
+            'paragraphs': [p['text'] for p in reporting],
+            'source_context': {key: block['text'] for key, block in context.items()},
+            'buyer_question': question['text']}
 
 
 class FeedTests(unittest.TestCase):
@@ -197,7 +214,7 @@ class PublicationTests(unittest.TestCase):
 
     def gates(self, article):
         for kind in ("evidence", "editorial", "originality"):
-            self.store.put("news_quality_checks", {"id": kind, "article_id": article["id"], "kind": kind, "artifact_hash": article["artifact_hash"], "passed": True, "payload": {}})
+            self.store.put("news_quality_checks", {"id": kind, "article_id": article["id"], "kind": kind, "artifact_hash": article["artifact_hash"], "passed": True, "payload": {'policy_version': EDITORIAL_POLICY}})
 
     def test_no_publication_without_all_gates_or_with_stale_checks(self):
         a = self.article()
@@ -244,8 +261,8 @@ class PublicationTests(unittest.TestCase):
                 d["title_fact_ids"] = ["item:f0", "item:f1"]
                 d["intro_fact_ids"] = [f["id"] for f in facts]
                 for p in d["paragraphs"]: p["fact_ids"] = [f["id"] for f in facts]
-                return d
-            return audit(facts)
+                return writer_result(d)
+            return keyed_audit(audit(facts))
         with patch("news_engine.models_for_news", return_value={}):
             reports = editorial(self.store, ai=fake_ai)
             self.assertEqual(reports[0]["status"], "published", reports)

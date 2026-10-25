@@ -1,0 +1,44 @@
+{
+  "fixture": true,
+  "fixture_description": "Synthetic offline source and article; not a captured press release, live AI output or publication proof.",
+  "published_at": "2026-10-23T10:00:00+00:00",
+  "content": "Volkswagen inleder nu förförsäljningen av nya ID. Cross med ett batteri på 39 kWh. Batteriet på 39 kWh (netto) ger en räckvidd på upp till 330 km (WLTP). DC-snabbladdning med 95 kW från 10 till 80 procent på cirka 25 minuter. Nya ID. Cross lanseras på den svenska marknaden vid månadsskiftet november/december. Följande versioner erbjuds nu på den svenska marknaden, med fastställda rekommenderade cirkapriser: ID. Cross Trend, 39 kWh-batteri, 116 hk (85 kW), 330 km räckvidd: från 359 000 kronor Samtliga versioner finns i konfiguratorn. Tekniska data för ID. Cross med 39 kWh-batteriet Drivsystem: Framhjulsdrift Batteristorlek (netto): 39 kWh AC-laddningskapacitet (max.): 11 kW Topphastighet: 160 km/h Max. släpvagnsvikt: 1000 kg (bromsat, både 8 % och 12 % lutning) Tjänstevikt: 1700 kg Bagageutrymmesvolym: 450 liter + 15 liter frunk (med baksätets ryggstöd nedfällt: 1300 liter) Räckvidden har fastställts enligt en standardiserad metod. De faktiska WLTP-värdena för räckvidd kan variera beroende på utrustning. Tiden tills batteriet är fulladdat beror på laddinfrastrukturens effekt vid AC- och DC-laddning samt på batteriets laddningsnivå och utomhustemperaturen.",
+  "article": {
+    "title": "Volkswagen öppnar förhandsbeställning av ID. Cross i Sverige",
+    "title_fact_ids": ["announcement", "market_launch"],
+    "intro": "Volkswagen har presenterat en batteriversion av ID. Cross för den svenska marknaden och öppnat förhandsbeställningen. För utrustningsnivån Trend, med 39 kWh och 116 hk, anger tillverkaren ett svenskt frånpris på 359 000 kronor. Prisuppgiften gäller inköp av den angivna versionen.",
+    "intro_fact_ids": ["announcement", "market_launch", "price:Trend:39"],
+    "paragraphs": [
+      {
+        "text": "Tillverkarens svenska besked placerar marknadsintroduktionen vid skiftet mellan november och december. Förhandsbeställningen och själva introduktionen är skilda delar av beskedet. Något leveransdatum för en enskild svensk beställning är inte verifierat i det granskade underlaget.",
+        "fact_ids": ["announcement", "market_launch"],
+        "kind": "reporting",
+        "section": "swedish_launch"
+      },
+      {
+        "text": "Räckviddsuppgiften för batteriversionen är högst 330 kilometer enligt WLTP, medan den användbara kapaciteten anges till 39 kWh. Tillverkaren lämnar ett uttryckligt förbehåll om att utrustningen kan påverka det faktiska WLTP-värdet för räckvidd.",
+        "fact_ids": ["battery_range", "qualification:range"],
+        "kind": "reporting",
+        "section": "technology"
+      },
+      {
+        "text": "För likströmsladdningen redovisas 95 kW tillsammans med en ungefärlig laddtid på 25 minuter mellan 10 och 80 procents batterinivå. Växelströmsladdningen har i stället ett angivet maximum på 11 kW. Laddtiden påverkas enligt källan av infrastrukturen, batterinivån och utomhustemperaturen.",
+        "fact_ids": ["charging", "technical:ac_power", "qualification:charging"],
+        "kind": "reporting",
+        "section": "technology"
+      },
+      {
+        "text": "Lastutrymmet bakom baksätet uppges vara 450 liter. Därutöver anges en frunk på 15 liter. Med baksätets ryggstöd nedfällt redovisas 1 300 liter. För bromsat släp är den högsta vikten 1 000 kg vid både 8 och 12 procents lutning.",
+        "fact_ids": ["technical:cargo", "technical:braked_tow"],
+        "kind": "reporting",
+        "section": "practicality"
+      },
+      {
+        "text": "För den som överväger bilen är det svenska frånpriset och tidpunkten för introduktionen två separata delar av beslutet. Räckviddsuppgiften behöver samtidigt läsas med sitt WLTP-förbehåll. Vinterräckvidd och exakt leveransdatum för en enskild beställning är inte verifierade i detta underlag.",
+        "fact_ids": ["price:Trend:39", "market_launch", "battery_range", "qualification:range"],
+        "kind": "analysis",
+        "section": "buyer_context"
+      }
+    ]
+  }
+}
