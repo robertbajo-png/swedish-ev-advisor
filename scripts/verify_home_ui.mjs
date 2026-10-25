@@ -1,15 +1,13 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 
 const base = process.env.HOME_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
 await mkdir(out, { recursive: true });
 const { records: cars } = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const errors = [];
 const luminance = (hex) => hex.match(/\w\w/g).map((v) => parseInt(v, 16) / 255).map((v) => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
 const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);

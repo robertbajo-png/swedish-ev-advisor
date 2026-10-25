@@ -46,6 +46,7 @@ jobs:
       - run: bun run verify:news-distribution-workflow
       - run: bun run verify:release-config
       - run: bun run verify:release-runtime
+      - run: bun run verify:qa-browser
       - run: bun run verify:release-build
       - run: bun run verify:deployment-contract
       - run: bun run verify:pages-preview
@@ -110,7 +111,13 @@ jobs:
       - run: bun run seo:build
       - run: bun run verify:seo
       - name: Install browser for UI checks
-        run: bunx playwright install --with-deps chromium
+        run: |
+          if command -v google-chrome >/dev/null 2>&1; then
+            google-chrome --version
+            echo "PLAYWRIGHT_CHANNEL=chrome" >> "$GITHUB_ENV"
+          else
+            bunx playwright install --with-deps chromium
+          fi
       - name: Verify accessibility and UI regressions
         run: |
           node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5174 --strictPort > /tmp/seekev-ui-preview.log 2>&1 &

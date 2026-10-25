@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 
 const base = process.env.NEWS_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/news-qa/', import.meta.url);
@@ -36,9 +36,7 @@ const records = titles.map((title, index) => ({
   image: null, editorial_method: 'Testfixtur, inte publicerad',
 }));
 const draft = { ...records[0], id: 'private-draft', slug: 'privat-utkast', title: 'Hemligt testutkast', status: 'quarantined' };
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const errors = [];
 try {
   const page = await browser.newPage();

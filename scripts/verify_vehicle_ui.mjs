@@ -1,15 +1,13 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 
 const base = process.env.VEHICLE_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
 await mkdir(out, { recursive: true });
 const { records } = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const failures = [];
 try {
   const page = await browser.newPage({ acceptDownloads: true });

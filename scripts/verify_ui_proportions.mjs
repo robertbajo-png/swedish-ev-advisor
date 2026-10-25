@@ -1,14 +1,12 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 
 const base = process.env.SITE_QA_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/ui-proportions/', import.meta.url);
 await mkdir(out, { recursive: true });
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const report = [];
 const pageErrors = [];
 const routes = [
