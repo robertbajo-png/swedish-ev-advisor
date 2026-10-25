@@ -12,10 +12,11 @@
   {"id":"naf","name":"NAF El Prix","website":"https://www.naf.no","feeds":[],"enabled":false,"reliability":0.95,"kind":"primary"},
   {"id":"thedriven","name":"The Driven","website":"https://thedriven.io","feeds":["https://thedriven.io/feed/"],"enabled":false,"reliability":0.8,"kind":"publisher"},
   {"id":"mobility-sweden","name":"Mobility Sweden","website":"https://mobilitysweden.se","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
-  {"id":"acea","name":"ACEA","website":"https://www.acea.auto","feeds":["https://www.acea.auto/feed/"],"enabled":false,"reliability":0.98,"kind":"primary"},
+  {"id":"acea","name":"ACEA","website":"https://www.acea.auto","feeds":["https://www.acea.auto/feed/"],"enabled":false,"reliability":0.98,"kind":"primary","collection_method":"pressroom_index","indexes":["https://www.acea.auto/"],"article_path_pattern":"/pc-registrations/[^/]+/","topic_pattern":"registrations"},
   {"id":"iea","name":"IEA","website":"https://www.iea.org","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
   {"id":"icct","name":"ICCT","website":"https://theicct.org","feeds":["https://theicct.org/feed/"],"enabled":false,"reliability":0.95,"kind":"primary"},
   {"id":"volvo-press","name":"Volvo Cars Media","website":"https://www.media.volvocars.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
-  {"id":"vw-press","name":"Volkswagen Newsroom","website":"https://www.volkswagen-newsroom.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"},
-  {"id":"bmw-press","name":"BMW Group PressClub","website":"https://www.press.bmwgroup.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary"}
+  {"id":"vw-press","name":"Volkswagen Newsroom","website":"https://www.volkswagen-newsroom.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary","collection_method":"pressroom_index","indexes":["https://www.volkswagen-newsroom.com/en/press-releases"],"article_path_pattern":"/en/press-releases/[^/]+-[0-9]+","topic_pattern":"electric|batter|charg|id-"},
+  {"id":"bmw-press","name":"BMW Group PressClub","website":"https://www.press.bmwgroup.com","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary","collection_method":"pressroom_index","indexes":["https://www.press.bmwgroup.com/global/"],"article_path_pattern":"/global/article/detail/T[0-9]+EN/[^/]+","topic_pattern":"electric|batter|charg|bmw-ix|bmw-i3|bmw-i7"},
+  {"id":"vw-sweden-press","name":"Volkswagen Group Sverige","website":"https://www.vwgroup.se","feeds":[],"enabled":false,"reliability":0.98,"kind":"primary","publisher_group":"volkswagen-group","collection_method":"pressroom_index","indexes":["https://www.vwgroup.se/nyheter--media/"],"article_path_pattern":"/nyheter--media/pressmeddelanden/[0-9]{4}/[0-9]{2}/[^/]+/","topic_pattern":"elbil|elektr|batter|ladd|id[.-]|e-tron|epiq|raval"}
 ]

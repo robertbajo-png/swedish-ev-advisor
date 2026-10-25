@@ -13,7 +13,7 @@ def load_local_env() -> None:
     for path in (ROOT / ".env.local", ROOT / ".env"):
         if not path.exists():
             continue
-        for line in path.read_text(encoding="utf-8").splitlines():
+        for line in path.read_text(encoding="utf-8-sig").splitlines():
             stripped = line.strip()
             if not stripped or stripped.startswith("#") or "=" not in stripped:
                 continue

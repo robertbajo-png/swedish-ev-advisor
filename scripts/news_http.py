@@ -3,6 +3,7 @@ import hashlib
 import ipaddress
 import re
 import socket
+import ssl
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -10,7 +11,7 @@ from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from urllib.error import HTTPError
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, HTTPSHandler, Request, build_opener
 from urllib.robotparser import RobotFileParser
 
 AGENT = "SeekEVNews/1.0 (+https://seekev.se/nyheter)"
@@ -117,13 +118,31 @@ class SafeRedirect(HTTPRedirectHandler):
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         safe_host(newurl, self.host)
+        if reserved(headers):
+            raise ValueError('tdm_reserved')
         if self.policy and not self.policy.can_fetch(AGENT, newurl):
             raise ValueError("redirect_robots_disallowed")
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
+class EditorialPolicy:
+    """Apply the same mining policy to initial, intermediate and final URLs."""
+    def __init__(self, robots):
+        self.robots = robots
+
+    def can_fetch(self, agent, url):
+        if not self.robots.can_fetch(agent, url):
+            return False
+        if any(not self.robots.can_fetch(bot, url) for bot in ('GPTBot', 'CCBot')):
+            raise ValueError('ai_mining_robots_reserved')
+        return True
+
+
 class Collector:
-    def __init__(self):
+    def __init__(self, tls_context=None):
+        if tls_context is not None and (not tls_context.check_hostname or tls_context.verify_mode != ssl.CERT_REQUIRED):
+            raise ValueError('verified_tls_required')
+        self.tls_context = tls_context
         self.policies = {}
         self.last_fetch = {}
 
@@ -134,7 +153,10 @@ class Collector:
         self.last_fetch[host] = time.monotonic()
         req = Request(url, headers={"User-Agent": AGENT, **(headers or {})})
         try:
-            with build_opener(SafeRedirect(host, policy)).open(req, timeout=20) as response:
+            handlers = [SafeRedirect(host, policy)]
+            if self.tls_context is not None:
+                handlers.append(HTTPSHandler(context=self.tls_context))
+            with build_opener(*handlers).open(req, timeout=20) as response:
                 raw = response.read(MAX_BYTES + 1)
                 if len(raw) > MAX_BYTES:
                     raise ValueError("response_too_large")
@@ -163,12 +185,11 @@ class Collector:
 
     def fetch(self, url, source, conditional=None, editorial=False):
         host = urlsplit(source["website"]).hostname
-        policy = self.policy(source["website"])
+        robots = self.policy(source["website"])
+        policy = EditorialPolicy(robots) if editorial else robots
         if not policy.can_fetch(AGENT, url):
             raise ValueError("robots_disallowed")
-        if editorial and any(not policy.can_fetch(bot, url) for bot in ("GPTBot", "CCBot")):
-            raise ValueError("ai_mining_robots_reserved")
-        delay = policy.crawl_delay(AGENT) or 1
+        delay = robots.crawl_delay(AGENT) or 1
         if delay > 30:
             raise ValueError("crawl_delay_exceeds_run_budget")
         time.sleep(max(0, delay - (time.monotonic() - self.last_fetch.get(host, 0))))
@@ -189,6 +210,18 @@ def iso_date(value):
         except (ValueError, TypeError, IndexError):
             return None
     return dt.replace(tzinfo=dt.tzinfo or timezone.utc).astimezone(timezone.utc).isoformat()
+
+
+def require_recent_publication(value, now=None):
+    published = iso_date(value)
+    if not published:
+        raise ValueError('missing_publication_date')
+    age = ((now or datetime.now(timezone.utc)) - datetime.fromisoformat(published)).total_seconds()
+    if age > 7 * 86400:
+        raise ValueError('stale_report')
+    if age < -3600:
+        raise ValueError('future_report')
+    return published
 
 
 def parse_feed(xml, source):

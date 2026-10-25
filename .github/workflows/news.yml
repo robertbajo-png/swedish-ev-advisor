@@ -21,33 +21,31 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      NEWS_OPENAI_MODEL: ${{ vars.NEWS_OPENAI_MODEL || 'gpt-5.4-mini' }}
+      NEWS_OPENAI_MODEL: ${{ vars.NEWS_OPENAI_MODEL || 'gpt-6-sol' }}
       SITE_URL: https://seekev.se
       NEWS_BACKEND: supabase
+      NEWS_SOURCE_PROFILE: official
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Verify news contracts
-        run: python -m unittest discover -s tests -p test_news.py -v
-      - name: Verify production configuration and migration
-        run: python scripts/news_preflight.py --remote
-      - name: Collect, verify and publish
-        run: python scripts/news_engine.py run --backend supabase --max-items 8 --max-stories 3
-      - name: Verify official car sources flagged by news
-        run: python scripts/news_verification_worker.py --backend supabase --limit 3
+        run: python -m unittest discover -s tests -p 'test_news*.py' -v
+      - name: Verify collection infrastructure
+        run: python scripts/news_preflight.py --remote --mode collect
+      - name: Collect even when the paid allowance is paused or exhausted
+        run: python scripts/news_engine.py collect --backend supabase
+      - name: Stage factual notices only (no paid AI or publishing)
+        run: python scripts/news_engine.py notices --backend supabase --max-items 8 --stage-only
+      - name: Run owner-activated short news (two audited AI formats, price notice proof, one-per-day setting)
+        if: ${{ vars.NEWS_SHORT_ARTICLES_ENABLED == 'true' }}
+        run: python scripts/run_short_news.py run
       - name: Preserve run diagnostics and validated export
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: news-public-export
           path: public/data/news_articles.json
-      - name: Trigger static SEO rebuild when configured
-        env:
-          NEWS_DEPLOY_HOOK: ${{ secrets.NEWS_DEPLOY_HOOK }}
-        if: success()
-        run: |
-          if [ -n "$NEWS_DEPLOY_HOOK" ]; then
-            curl --fail --silent --show-error -X POST "$NEWS_DEPLOY_HOOK"
-          fi
+      # Default remains private/free. The short worker cannot activate owner switches.
+      # Deployment of a changed export remains a separate existing hosting step.

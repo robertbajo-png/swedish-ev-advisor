@@ -1,0 +1,32 @@
+[
+  {
+    "id": "us-high-power-demonstration",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0461971EN/bmw-group-ionna-and-alpitronic-join-forces-to-demonstrate-high-power-charging:-up-to-460-kw-for-the-new-bmw-ix5-60-xdrive",
+    "expected_layout": "high_power_demonstration"
+  },
+  {
+    "id": "ix3-m60-provisional-specifications",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0461463EN/the-new-bmw-ix3-m60-xdrive",
+    "expected_layout": "provisional_vehicle_charging"
+  },
+  {
+    "id": "spring-updates-ac-option",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0455252EN/bmw-model-updates-spring-2026",
+    "expected_layout": "ac_option_update"
+  },
+  {
+    "id": "german-v2g-offer",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0452466EN/bmw-group-and-e-on-introduce-germany%E2%80%99s-first-customer-solution-enabling-electric-cars-to-actively-participate-in-the-energy-market",
+    "expected_layout": "v2g_offer"
+  },
+  {
+    "id": "china-long-wheelbase-cltc",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0455143EN/bmw-ix3-long-wheelbase-advances-toward-world-premiere",
+    "expected_layout": "china_cltc_vehicle_specs"
+  },
+  {
+    "id": "holiday-charging-network",
+    "url": "https://www.press.bmwgroup.com/global/article/detail/T0459456EN/holiday-travel-with-bmw-and-mini-electric-vehicles%3A-arrive-with-even-greater-peace-of-mind",
+    "expected_layout": "charging_network"
+  }
+]

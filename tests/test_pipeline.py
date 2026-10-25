@@ -69,8 +69,11 @@ from run_expansion_wave import run as run_expansion_wave
 
 class MobilitySwedenImportTests(unittest.TestCase):
     def test_march_2026_import_counts_and_ambiguous_names(self):
+        raw_export = ROOT / "data/mobility-sweden/raw/monthly-registrations-2026-03.xlsx"
+        if not raw_export.exists():
+            self.skipTest("Optional local Mobility Sweden raw export is not distributed with the source package")
         market_models, monthly_stats = parse_elbil_ranking(
-            ROOT / "data/mobility-sweden/raw/monthly-registrations-2026-03.xlsx",
+            raw_export,
             "https://mobilitysweden.se/example.xlsx",
         )
         self.assertEqual(len(market_models), 124)
@@ -1256,7 +1259,7 @@ class SeoRouteTests(unittest.TestCase):
 
         self.assertEqual(len(routes), 1)
         self.assertEqual(routes[0]["path"], "/bilar/volvo-ex30-plus")
-        self.assertIn("pris från 457 000 kr", routes[0]["description"])
+        self.assertIn("prisuppgift 457 000 kr", routes[0]["description"])
         vehicle_json_ld = routes[0]["json_ld"][0]
         self.assertEqual(vehicle_json_ld["@type"], "Vehicle")
         self.assertEqual(vehicle_json_ld["offers"]["price"], 457000)

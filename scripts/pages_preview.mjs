@@ -22,7 +22,7 @@ export function previewConfig(env) {
   return config;
 }
 
-async function readApi(url, token, provider, fetchImpl) {
+export async function readApi(url, token, provider, fetchImpl) {
   let response;
   try {
     response = await fetchImpl(url, {
@@ -35,7 +35,7 @@ async function readApi(url, token, provider, fetchImpl) {
   catch { throw new Error(`${provider} API did not return valid JSON.`); }
 }
 
-function cloudflareResult(payload) {
+export function cloudflareResult(payload) {
   if (payload.success !== true || !payload.result) throw new Error('Cloudflare API rejected the request.');
   return payload.result;
 }
