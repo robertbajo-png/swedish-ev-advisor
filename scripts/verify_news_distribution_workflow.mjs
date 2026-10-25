@@ -7,6 +7,7 @@ assert.deepEqual(workflow.permissions, { contents: 'read', actions: 'read' });
 assert.deepEqual(workflow.on.workflow_run.workflows, ['Automated EV news']);
 assert.deepEqual(workflow.on.workflow_run.branches, ['main']);
 assert(workflow.on.schedule.length > 0, 'Independent recovery must not require a new paid article');
+assert.deepEqual(workflow.on.schedule, [{ cron: '17 1-23/4 * * *' }], 'Distribution stays six times daily, away from the hour boundary');
 assert.equal(workflow.on.pull_request, undefined);
 assert.deepEqual(Object.keys(workflow.on.workflow_dispatch.inputs), ['redistribute_snapshot_sha256']);
 assert.deepEqual(workflow.on.workflow_dispatch.inputs.redistribute_snapshot_sha256, {

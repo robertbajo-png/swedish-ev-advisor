@@ -9,7 +9,7 @@ on:
         type: string
         default: ''
   schedule:
-    - cron: '43 */4 * * *'
+    - cron: '17 1-23/4 * * *'
   workflow_run:
     workflows: [Automated EV news]
     types: [completed]
@@ -56,8 +56,8 @@ jobs:
     environment: preview
     timeout-minutes: 20
     env:
-      SITE_URL: https://seekev.se
-      VITE_SITE_URL: https://seekev.se
+      SITE_URL: https://elbilsagenten.se
+      VITE_SITE_URL: https://elbilsagenten.se
       VITE_SUPABASE_URL: ''
       VITE_SUPABASE_ANON_KEY: ''
       NEWS_BUILD_SYNC: '0'

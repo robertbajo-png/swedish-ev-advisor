@@ -70,7 +70,7 @@ try {
   const routes = [
     ['home', '/'], ['catalog', '/bilar'], ['family', '/familj'],
     ['detail', '/bilar/tesla-model-3-long-range-rwd'], ['missing-photo', '/bilar/kia-ev6-rwd'],
-    ['compare', '/jamfor'], ['sources', '/verifiering'], ['journal', '/nyheter'],
+    ['compare', '/jamfor'], ['sources', '/verifiering'], ['contact', '/kontakt'], ['privacy', '/integritet'], ['journal', '/nyheter'],
     ['article', '/nyheter/' + articles[0].slug],
   ];
   for (const [viewportName, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }]]) {

@@ -6,12 +6,13 @@ from xml.etree import ElementTree
 
 from generate_sitemap import PUBLIC_STATUSES, SEGMENTS, SITE_URL, load_public_variants, public_variant_urls
 from news_public import news_paths
+from site_info import INFO_PATHS
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 OUT_JSON = ROOT / "data/mvp/programmatic_seo_report.json"
-STATIC_PATHS = ["/", "/bilar", "/jamfor", *[f"/{segment}" for segment in SEGMENTS]]
+STATIC_PATHS = ["/", "/bilar", "/jamfor", "/verifiering", *INFO_PATHS, *[f"/{segment}" for segment in SEGMENTS]]
 DUPLICATE_NAME_PATTERNS = (
     "ex30-ex30",
     "ev9-ev9",
@@ -91,7 +92,7 @@ def check_route(path: str) -> list[str]:
         errors.append(f"vehicle_route_without_breadcrumb_json_ld:{path}")
     if path.startswith("/nyheter/") and "NewsArticle" not in types:
         errors.append(f"news_route_without_news_article_json_ld:{path}")
-    if path in STATIC_PATHS and path not in {"/", "/bilar", "/jamfor"} and payload and "ItemList" not in types:
+    if path in {f'/{segment}' for segment in SEGMENTS} and payload and "ItemList" not in types:
         errors.append(f"segment_route_without_item_list_json_ld:{path}")
     if any(pattern in path for pattern in DUPLICATE_NAME_PATTERNS):
         errors.append(f"duplicate_name_slug:{path}")

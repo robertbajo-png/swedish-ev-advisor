@@ -68,7 +68,7 @@ export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters
   const closeDrawer = () => { dialog.current?.close(); setDrawerOpen(false); filterTrigger.current?.focus(); };
   const brands = [...new Set(cars.map((car) => car.brand))].sort();
   return <section className="vehicleCatalog vehicleContainer" id="cars" aria-labelledby="catalog-title">
-    <div className="vehiclePageIntro"><span className="vehicleEyebrow">Elbilsguiden / {segment ? 'Dina behov' : 'Alla elbilar'}</span><h1 id="catalog-title">{segment?.title || 'Hitta din nästa elbil.'}</h1><p>{segment?.description || 'Upptäck modellerna, jämför detaljerna och hitta det som passar din vardag.'}</p></div>
+    <div className="vehiclePageIntro"><span className="vehicleEyebrow">Elbilsagenten / {segment ? 'Dina behov' : 'Alla elbilar'}</span><h1 id="catalog-title">{segment?.title || 'Hitta din nästa elbil.'}</h1><p>{segment?.description || 'Upptäck modellerna, jämför detaljerna och hitta det som passar din vardag.'}</p></div>
     <div className="catalogLayout">
       <div className="catalogFiltersDesktop">{renderFilters('desktop', brands)}</div>
       <div className="catalogResults">

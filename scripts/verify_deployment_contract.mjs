@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { verifyDeployment } from './verify_deployment.mjs';
 
 const row = { brand: 'Test', model: 'EV', variant_name: 'QA fixture', validation_status: 'published', source_hash: 'fixture-hash', source_url: 'https://example.com/model' };
-const app = '<html><title>Elbilsguiden</title><div id="root"></div></html>';
+const app = '<html><title>Elbilsagenten</title><div id="root"></div></html>';
 let mode = 'valid';
 let requests = 0;
 const fetchImpl = async (url, options) => {

@@ -84,7 +84,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
       <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
-          <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsguiden</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
+          <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsagenten</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
       </aside>
@@ -108,7 +108,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
 
     {newsPreview}
 
-    <section className="homeHow homeContainer" aria-labelledby="home-how-title"><div className="homeSectionHeading"><div><span className="homeKicker">Varför Elbilsguiden?</span><h2 id="home-how-title">Ett enklare sätt att välja elbil.</h2></div></div><ol>{[
+    <section className="homeHow homeContainer" aria-labelledby="home-how-title"><div className="homeSectionHeading"><div><span className="homeKicker">Varför Elbilsagenten?</span><h2 id="home-how-title">Ett enklare sätt att välja elbil.</h2></div></div><ol>{[
       ['Beskriv dina behov.', 'Vardagsresor, semesterpackning eller en viss budget. Börja med det som spelar roll för dig.'],
       ['Få personliga förslag.', 'Se vilka elbilar som passar dina önskemål, med styrkor och kompromisser sida vid sida.'],
       ['Jämför och välj.', 'Titta närmare på detaljerna och jämför dina favoriter innan du tar nästa steg.'],

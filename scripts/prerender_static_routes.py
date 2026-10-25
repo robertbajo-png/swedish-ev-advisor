@@ -1,5 +1,6 @@
 import json
 from news_public import news_routes
+from site_info import info_routes
 import os
 import re
 from html import escape
@@ -8,28 +9,28 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-SITE_URL = os.environ.get("SITE_URL", "https://seekev.se").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://elbilsagenten.se").rstrip("/")
 PUBLIC_STATUSES = {"published", "published_reviewed"}
 
 SEGMENTS = {
     "familj": {
-        "title": "Bästa elbilarna för familj | Elbilsguiden",
+        "title": "Bästa elbilarna för familj | Elbilsagenten",
         "description": "Jämför verifierade elbilar för svenska familjer med fokus på lastutrymme, räckvidd, pris och vardagsbehov.",
     },
     "vinter": {
-        "title": "Elbilar för vinter och längre resor | Elbilsguiden",
+        "title": "Elbilar för vinter och längre resor | Elbilsagenten",
         "description": "Hitta elbilar som passar nordiskt väder, vinterkörning och längre resor med verifierade svenska källor.",
     },
     "dragkrok": {
-        "title": "Elbilar med dragkrok | Elbilsguiden",
+        "title": "Elbilar med dragkrok | Elbilsagenten",
         "description": "Jämför elbilar med dragvikt för släp, cykelhållare och fritidsbehov på den svenska marknaden.",
     },
     "under-500000": {
-        "title": "Elbilar under 500 000 kr | Elbilsguiden",
+        "title": "Elbilar under 500 000 kr | Elbilsagenten",
         "description": "Utforska verifierade elbilar i Sverige med prisnivå under 500 000 kr och tydliga kompromisser.",
     },
     "lang-rackvidd": {
-        "title": "Elbilar med lång räckvidd | Elbilsguiden",
+        "title": "Elbilar med lång räckvidd | Elbilsagenten",
         "description": "Jämför elbilar med hög WLTP-räckvidd för pendling, semester och längre körning i Sverige.",
     },
 }
@@ -155,7 +156,7 @@ def breadcrumb_json_ld(path: str, label: str) -> dict:
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Elbilsguiden", "item": SITE_URL},
+            {"@type": "ListItem", "position": 1, "name": "Elbilsagenten", "item": SITE_URL},
             {"@type": "ListItem", "position": 2, "name": label, "item": f"{SITE_URL}{path}"},
         ],
     }
@@ -248,7 +249,7 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         routes.append(
             {
                 "path": path,
-                "title": f"{name} – pris, räckvidd och specs | Elbilsguiden",
+                "title": f"{name} – pris, räckvidd och specs | Elbilsagenten",
                 "description": description,
                 "json_ld": [json_ld, breadcrumb_json_ld(path, name)],
             }
@@ -265,13 +266,13 @@ def main() -> None:
     base_html = source.read_text(encoding="utf-8")
     home = inject_head(
         base_html,
-        "Elbilsguiden Sverige – hitta rätt elbil med AI",
+        "Elbilsagenten Sverige – hitta rätt elbil med AI",
         "Beskriv budget, körning och behov och få en shortlist med verifierade elbilar, tydliga kompromisser och källor.",
         "/",
         {
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            "name": "Elbilsguiden Sverige",
+            "name": "Elbilsagenten Sverige",
             "applicationCategory": "AutomotiveApplication",
             "operatingSystem": "Web",
             "url": SITE_URL,
@@ -282,20 +283,20 @@ def main() -> None:
     routes = [
         {
             "path": "/bilar",
-            "title": "Jämför elbilar i Sverige | Elbilsguiden",
+            "title": "Jämför elbilar i Sverige | Elbilsagenten",
             "description": "Filtrera och jämför verifierade elbilar på den svenska marknaden med pris, räckvidd, laddning, dragvikt och källor.",
             "json_ld": {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Jämför elbilar i Sverige", "url": f"{SITE_URL}/bilar"},
         },
         {
             "path": "/jamfor",
-            "title": "Jämför elbilar sida vid sida | Elbilsguiden",
+            "title": "Jämför elbilar sida vid sida | Elbilsagenten",
             "description": "Skapa en beslutsrapport och jämför elbilar sida vid sida med AI-sammanfattning och verifierade nyckeltal.",
             "json_ld": {"@context": "https://schema.org", "@type": "WebPage", "name": "Jämför elbilar sida vid sida", "url": f"{SITE_URL}/jamfor"},
         },
         {
             "path": "/verifiering",
-            "title": "Verifiering och datakvalitet | Elbilsguiden",
-            "description": "Se hur Elbilsguiden använder Mobility Sweden, officiella svenska tillverkarkällor, AI-extraktion, validering och quarantine innan data visas publikt.",
+            "title": "Verifiering och datakvalitet | Elbilsagenten",
+            "description": "Se hur Elbilsagenten använder Mobility Sweden, officiella svenska tillverkarkällor, AI-extraktion, validering och quarantine innan data visas publikt.",
             "json_ld": {"@context": "https://schema.org", "@type": "WebPage", "name": "Verifiering och datakvalitet", "url": f"{SITE_URL}/verifiering"},
         },
     ]
@@ -309,17 +310,18 @@ def main() -> None:
                 {
                     "@context": "https://schema.org",
                     "@type": "CollectionPage",
-                    "name": metadata["title"].replace(" | Elbilsguiden", ""),
+                    "name": metadata["title"].replace(" | Elbilsagenten", ""),
                     "description": metadata["description"],
                     "url": f"{SITE_URL}/{route_slug}",
                 },
-                item_list_json_ld(f"/{route_slug}", metadata["title"].replace(" | Elbilsguiden", ""), segment_rows(route_slug, public_rows)),
+                item_list_json_ld(f"/{route_slug}", metadata["title"].replace(" | Elbilsagenten", ""), segment_rows(route_slug, public_rows)),
             ],
         }
         for route_slug, metadata in SEGMENTS.items()
     )
     routes.extend(public_variant_routes(public_rows))
     routes.extend(news_routes(SITE_URL))
+    routes.extend(info_routes(SITE_URL))
 
     for route in routes:
         html = inject_head(base_html, route["title"], route["description"], route["path"], route["json_ld"])

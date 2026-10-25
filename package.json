@@ -1,6 +1,12 @@
 {
   "type": "module",
   "scripts": {
+    "release:check": "node scripts/verify_release_config.mjs --production",
+    "release:build": "node scripts/build_release.mjs",
+    "verify:release-config": "node scripts/verify_release_config_contract.mjs",
+    "verify:release-runtime": "node scripts/verify_release_runtime.mjs",
+    "verify:release-build": "node scripts/verify_release_build.mjs",
+    "verify:site-info": "node scripts/run_python.mjs -m unittest discover -s tests -p test_site_info.py -v",
     "verify:news-package": "node scripts/verify_news_package.mjs --self-test",
     "news:distribution:check": "node scripts/sync_news_snapshot.mjs",
     "verify:news-distribution": "node scripts/verify_news_distribution.mjs",

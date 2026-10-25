@@ -47,8 +47,8 @@ jobs:
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
-      SITE_URL: https://seekev.se
-      VITE_SITE_URL: https://seekev.se
+      SITE_URL: https://elbilsagenten.se
+      VITE_SITE_URL: https://elbilsagenten.se
       VITE_SUPABASE_URL: ''
       VITE_SUPABASE_ANON_KEY: ''
     steps:
