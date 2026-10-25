@@ -63,6 +63,25 @@ publishing a stale build. Snapshot/run-attempt metadata identifies the exact upl
 Export, sitemap, article HTML and noindex are checked. Unchanged data skips setup,
 installation and build, but the existing pages are still checked.
 
+### Explicit Manual Redistribution
+
+An owner-requested upload test/recovery may use the manual-only
+`redistribute_snapshot_sha256` input. Its default is empty. A nonempty input must
+be the exact normalized SHA-256 of both the currently published database records
+and the already deployed preview. It is accepted only for `workflow_dispatch` on
+`refs/heads/main`, with nonempty unchanged published content. Scheduled runs and
+`workflow_run` events cannot use it. The real `changed` value remains false;
+`redistribution_requested` and `upload_required` separately identify the replay.
+
+This does not authorize an article, provider call, database write, alternate
+project or production deployment. All exact-main green-CI, source double-read,
+pre-upload hash, fixed preview target, workflow-attempt and noindex/HTML/sitemap
+checks still apply. Never fake a data change to exercise the upload branch.
+For an approved one-off test, enable only `NEWS_DISTRIBUTION_ENABLED`, dispatch
+once with the verified hash, and restore its previous state after eligibility.
+Keep all editorial flags and owner switches off. Inspect the actual upload step
+and exact deployment receipt; a green unchanged/no-upload job is insufficient.
+
 ## Configuration Before Activation
 
 Do not enable repository flags while an older news runner is installed on main.
