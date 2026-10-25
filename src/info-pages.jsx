@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import { PUBLIC_OPERATOR, SITE_NAME } from './site-info.js';
+import privacyContent from './privacy-content.json';
+import imageRights from './image-rights.json';
 import './info-pages.css';
 
 export function InfoPage({ type }) {
@@ -18,11 +20,9 @@ export function InfoPage({ type }) {
       <a className="infoContact" href={operator.emailHref}><Mail size={18} />{operator.email}</a>
     </section>}
     {privacy ? <>
-      <section><h2>När du söker efter en bil</h2><p>Din beskrivning, budget och andra val används för att föreslå bilar. När AI-rådgivning används skickas söktext och relevanta biluppgifter till OpenAI. Skriv inte personnummer, hälsouppgifter eller andra känsliga personuppgifter i sökrutan.</p><p>Du kan också filtrera och jämföra bilar utan att skriva en personlig beskrivning.</p></section>
-      <section><h2>Drift och skydd mot missbruk</h2><p>Cloudflare levererar webbplatsen och hanterar anslutningen. För kostnads- och anropsgränser används en dagsspecifik, kryptografiskt skyddad identifierare baserad på IP-adressen. Bil- och nyhetsuppgifter lagras i Supabase. Söktext ingår inte i bilkatalogen.</p></section>
-      <section><h2>Kakor och lokal lagring</h2><p>Appen lägger inte till annonseringskakor eller ett eget analysverktyg. Dina aktuella val hanteras i sidans minne. Infrastrukturens eventuella säkerhetskakor behöver bedömas separat före lansering.</p></section>
-      <section><h2>Frågor om dina uppgifter</h2><p>{operator.configured ? 'Kontakta ansvarig aktör via mejlen ovan om du har frågor om behandlingen av dina uppgifter.' : 'Kontaktväg och fullständig information om personuppgiftsbehandling ska vara klara före lansering.'}</p><p>Denna sida är inte en bekräftelse på färdig integritetsgranskning. Lagringstider, rättslig grund och leverantörsinställningar ska fastställas före en öppen release.</p></section>
-      <section className="infoReferences"><h2>Mer information</h2><a href="https://www.imy.se/privatperson/dataskydd/" target="_blank" rel="noreferrer">Integritetsskyddsmyndigheten <ArrowUpRight size={15} /></a><a href="https://www.pts.se/internet-och-telefoni/kakor-cookies/" target="_blank" rel="noreferrer">PTS om kakor <ArrowUpRight size={15} /></a></section>
-    </> : <section><h2>Hjälp oss rätta en uppgift</h2><p>Ange gärna vilken bilvariant eller artikel det gäller och länka till tillverkarens aktuella uppgifter. Vi kontrollerar rättelser mot källan innan biluppgifter ändras.</p></section>}
+      <p>Uppdaterad {privacyContent.updated}</p>
+      {privacyContent.sections.map(section => <section key={section.id}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</section>)}
+      <section className="infoReferences"><h2>Mer information</h2>{privacyContent.references.map(reference => <a key={reference.url} href={reference.url} target="_blank" rel="noreferrer">{reference.label}<ArrowUpRight size={15} /></a>)}</section>
+    </> : <><section><h2>Hjälp oss rätta en uppgift</h2><p>Ange gärna vilken bilvariant eller artikel det gäller och länka till tillverkarens aktuella uppgifter. Vi kontrollerar rättelser mot källan innan biluppgifter ändras.</p></section><section id="bildkallor"><h2>Bildkällor</h2>{imageRights.assets.map(asset => <div key={asset.asset_url}><p><a href={asset.source_url} target="_blank" rel="noreferrer">{asset.credit}</a> · <a href={asset.license_url} target="_blank" rel="noreferrer">{asset.license_id}</a></p><p>{asset.changes}</p></div>)}</section></>}
   </article>;
 }

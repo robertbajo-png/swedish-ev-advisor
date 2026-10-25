@@ -1,5 +1,7 @@
 import sys
 import unittest
+import json
+from html import escape
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
@@ -23,6 +25,17 @@ class SiteInfoTests(unittest.TestCase):
         for email in ['name@example.com', 'name@fixture.test', 'x\r\nBcc:a@b.se']:
             routes = info_routes('https://fixture.invalid', {'VITE_OPERATOR_NAME': 'Fixture', 'VITE_CONTACT_EMAIL': email})
             self.assertIn('Förhandsversion', routes[0]['body_html'])
+
+    def test_privacy_content_matches_the_client_document(self):
+        content = json.loads((Path(__file__).resolve().parents[1] / 'src/privacy-content.json').read_text(encoding='utf-8'))
+        body = info_routes('https://fixture.invalid', {})[1]['body_html']
+        for section in content['sections']:
+            self.assertIn(escape(section['title']), body)
+            for paragraph in section['paragraphs']:
+                self.assertIn(escape(paragraph), body)
+        self.assertIn('store=false', body)
+        self.assertIn('fortfarande förhandsversionens', body)
+        self.assertNotIn('@gmail.com', body)
 
 
 if __name__ == '__main__':

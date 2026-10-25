@@ -5,6 +5,10 @@ const LIMITS = {
   compare: { bytes: 24000, output: 2400, reserve: 50000 },
 };
 
+export const ANONYMIZE_CLIENTS_SQL = `UPDATE ai_budget_reservations
+  SET client_hash = 'expired'
+  WHERE created_at < unixepoch('now', 'start of day') AND client_hash <> 'expired'`;
+
 // One primary write decides and reserves. Never split the check from the insert.
 export const RESERVE_SQL = `
 INSERT INTO ai_budget_reservations (id, kind, client_hash, reserved_micro, charged_micro)
@@ -71,6 +75,7 @@ export function createAiBudget(env, request) {
       const id = crypto.randomUUID();
       let row;
       try {
+        await env.AI_BUDGET_DB.prepare(ANONYMIZE_CLIENTS_SQL).run();
         const hash = await clientHash(request, env.AI_BUDGET_SALT);
         row = await env.AI_BUDGET_DB.prepare(RESERVE_SQL).bind(id, kind, hash, allowance.reserve, PRICING_VERSION).first();
       } catch { throw new AiBudgetError('budget_unavailable'); }

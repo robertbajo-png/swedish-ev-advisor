@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "model_key": "mercedes benz|eqa",
+      "asset_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Mercedes-Benz_EQA_250_%28H243%29_front.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_EQA_250_(H243)_front.jpg",
+      "evidence_url": "https://commons.wikimedia.org/w/index.php?title=File:Mercedes-Benz_EQA_250_(H243)_front.jpg&oldid=1272131696",
+      "evidence_quote": "This file is licensed under the Creative Commons Attribution-Share Alike 4.0 International license.",
+      "license_id": "CC-BY-SA-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "author": "Tokumeigakarinoaoshima",
+      "credit": "Mercedes-Benz EQA 250 (H243), Tokumeigakarinoaoshima / Wikimedia Commons",
+      "changes": "Bilden kan beskäras för visning. Originalfotot är oförändrat.",
+      "reviewed_at": "2026-10-25",
+      "status": "documented"
+    }
+  ]
+}

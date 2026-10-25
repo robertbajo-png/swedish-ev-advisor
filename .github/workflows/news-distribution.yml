@@ -58,6 +58,8 @@ jobs:
     env:
       SITE_URL: https://elbilsagenten.se
       VITE_SITE_URL: https://elbilsagenten.se
+      VITE_OPERATOR_NAME: Boleo AI
+      VITE_CONTACT_EMAIL: kontakt@boleoai.se
       VITE_SUPABASE_URL: ''
       VITE_SUPABASE_ANON_KEY: ''
       NEWS_BUILD_SYNC: '0'
