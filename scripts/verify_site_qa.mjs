@@ -3,7 +3,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 import { AxeBuilder } from '@axe-core/playwright';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 
 const base = process.env.SITE_QA_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
@@ -26,9 +26,7 @@ const articles = [{
   related_models: [{ key: 'Kia|Ev6', brand: 'Kia', model: 'EV6', car_slug: 'kia-ev6-rwd' }],
 }];
 await mkdir(out, { recursive: true });
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const report = { pages: [], keyboard: [], responsive: [], bundles: {}, violations: [] };
 const errors = [];
 try {

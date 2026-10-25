@@ -50,6 +50,7 @@
     "verify:deployment": "node scripts/verify_deployment.mjs",
     "verify:deployment-contract": "node scripts/verify_deployment_contract.mjs",
     "verify:site-qa": "node scripts/verify_site_qa.mjs",
+    "verify:qa-browser": "node scripts/verify_qa_browser.mjs",
     "verify:journal-ui": "node scripts/verify_journal_ui.mjs",
     "verify:news-presentation": "node scripts/verify_news_presentation.mjs",
     "verify:vehicle-ui": "node scripts/verify_vehicle_ui.mjs",

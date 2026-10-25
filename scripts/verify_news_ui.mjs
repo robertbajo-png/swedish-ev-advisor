@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
-import { chromium } from 'playwright';
+import { launchQaBrowser } from './qa_browser.mjs';
 import { fileURLToPath } from 'node:url';
 
 // Test-only transport fixtures. These are never written to the public news export.
@@ -14,9 +14,7 @@ const records = [
     sources: [{ item_id: 'source', url: 'https://example.com/news', publisher: 'Testkälla', title: 'Test source article', published_at: '2026-10-15T10:00:00Z', kind: 'primary' }], editorial_method: 'Testfixtur', image: null },
   { id: 'test-two', slug: 'testartikel-om-laddning', title: 'Testartikel: laddning och nya möjligheter', intro: 'En andra testartikel för att verifiera att filtrering efter både bilmärke och kategori fungerar.', category: 'laddning', brands: ['Annat testmärke'], published_at: '2026-10-14T12:00:00Z', paragraphs: [], related_models: [], sources: [], editorial_method: 'Testfixtur', image: null }
 ];
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'msedge' }); }
+const browser = await launchQaBrowser();
 const errors = [];
 try {
   const page = await browser.newPage();
