@@ -16,6 +16,8 @@ jobs:
     env:
       SITE_URL: https://elbilsagenten.se
       VITE_SITE_URL: https://elbilsagenten.se
+      VITE_OPERATOR_NAME: Boleo AI
+      VITE_CONTACT_EMAIL: kontakt@boleoai.se
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -54,6 +56,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: bun run verify:site-info
+      - run: python -m unittest discover -s tests -p test_image_rights.py -v
+      - run: python -m unittest discover -s tests -p test_skoda_price_intake.py -v
       - run: python -m unittest discover -s tests -p test_news.py -v
       - run: bun run verify:news-smoke
       - run: bun run verify:news-pressrooms

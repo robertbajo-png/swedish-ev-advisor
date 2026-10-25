@@ -41,6 +41,7 @@ import './design-system.css';
 import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehiclePriceLabel as priceLabel } from './vehicle-ui.jsx';
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
+import imageRights from './image-rights.json';
 
 
 const formatSEK = (value) =>
@@ -1070,7 +1071,8 @@ function DetailInfoCard({ eyebrow, title, items, source, verifiedAt }) {
 }
 
 function SourceVerificationCard({ car }) {
-  return <section className="vehicleSources" id="bilkallor"><details><summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary><div><a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a><p>{car.verifiedAt ? 'Senast verifierad ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas i underlaget.'}</p><MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p></div></details></section>;
+  const imageCredit = imageRights.assets.find(asset => asset.asset_url === car.image);
+  return <section className="vehicleSources" id="bilkallor"><details><summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary><div><a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a><p>{car.verifiedAt ? 'Senast verifierad ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas i underlaget.'}</p><MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>{imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}</div></details></section>;
 }
 
 function CarImage({ car, priority = false }) {

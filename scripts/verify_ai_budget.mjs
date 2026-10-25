@@ -78,6 +78,26 @@ await rejected(reserve(settled, 'compare', '192.0.2.3'), 'budget_limited');
 settled.db.exec(readFileSync(new URL('../database/cloudflare/ai_budget.sql', import.meta.url), 'utf8'));
 assert.equal(settled.db.prepare('SELECT enabled FROM ai_budget_policy').get().enabled, 0, 'Reapplying schema never re-enables spending');
 
+const retention = budgetFixture();
+await reserve(retention);
+await (await reserve(retention, 'compare')).settle(usage());
+const previousDay = retention.rows();
+const previousCost = retention.total();
+retention.setNow('2026-10-20T00:00:00Z');
+await reserve(retention);
+const retained = retention.rows();
+for (const previous of previousDay) {
+  const current = retained.find(row => row.id === previous.id);
+  assert.deepEqual({ ...current }, { ...previous, client_hash: 'expired' }, 'Only the old visitor hash is anonymized');
+}
+assert.equal(retention.total(), previousCost + 20000, 'Anonymization never refunds unknown or settled costs');
+assert.match(retained.find(row => !previousDay.some(old => old.id === row.id)).client_hash, /^[a-f0-9]{64}$/);
+const afterRetention = retention.rows();
+await rejected(createAiBudget({ ...retention.env, AI_BUDGET_DB: {
+  prepare(sql) { if (sql.includes("SET client_hash = 'expired'")) throw new Error('SENSITIVE_RETENTION_FAILURE'); return retention.binding.prepare(sql); },
+} }, request()).reserve({kind: 'advisor', body: body()}), 'budget_unavailable');
+assert.deepEqual(retention.rows(), afterRetention, 'Failed privacy maintenance cannot reserve or call AI');
+
 const offline = { prepare() { throw new Error('SENSITIVE_DB_ERROR'); } };
 for (const [env, code] of [[{}, 'budget_disabled'], [{ AI_ENABLED: 'true' }, 'budget_unavailable'],
   [{ ...settled.env, AI_BUDGET_DB: offline }, 'budget_unavailable'], [{ ...settled.env, AI_BUDGET_SALT: '' }, 'budget_unavailable']]) {

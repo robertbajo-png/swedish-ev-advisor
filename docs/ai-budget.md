@@ -25,6 +25,9 @@
 - No refunds on unverified usage, public quota-management endpoints, client-provided costs or automatic limit increases.
 - A daily HMAC of the Cloudflare-supplied IP limits each visitor to 5 paid calls/minute
   and 50/day across isolates. Raw IPs, questions and responses are never stored in D1.
+- Before each paid reservation, prior UTC days' client hashes are replaced with
+  `expired`. Costs, settlement flags, request identifiers and timestamps are not
+  deleted or refunded. Failed anonymization fails closed before provider access.
 - Missing binding/salt, unknown model, disabled/expired policy or D1 failure means no paid call.
   Canonical database results remain available and are identified as non-AI results.
 - Local Node development has no D1 binding and therefore cannot make paid calls.
