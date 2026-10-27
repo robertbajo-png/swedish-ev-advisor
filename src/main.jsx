@@ -42,6 +42,8 @@ import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehi
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
 import imageRights from './image-rights.json';
+import licensedModelImages from './model-images.json';
+import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
 
 
@@ -66,36 +68,7 @@ function splitCarTitle(car) {
   };
 }
 
-const officialModelImages = {
-  'audi|q4 e tron': 'https://emea-dam.audi.com/adobe/assets/urn%3Aaaid%3Aaem%3A721970fe-5699-42d3-935f-ed2d1e23b967/as/Q4e_2026_8393-L.jpg?width=900',
-  'audi|q6 e tron': 'https://emea-dam.audi.com/adobe/assets/urn%3Aaaid%3Aaem%3A68a393f0-d411-4ed0-8311-3d267ee6f56e/as/Q6_2023_5202-cast_2-L.jpg?width=900',
-  'bmw|i4': 'https://www.bmw.se/sv/alla-modeller/i-series/i4/bmw-i4-gran-coupe/_jcr_content/root/maincontent/container/container_copy_copy_/image_copy_copy.coreimg.jpeg/1734511026809/g26-bev-mp-bmw-m-edrive-3to2-4.jpeg',
-  'bmw|i5': 'https://bmw.scene7.com/is/image/BMW/g60-bev-tech-data-stage-ext-3-4-front%3A2to1?fit=constrain%2C1&fmt=webp&wid=1600',
-  'bmw|ix1': 'https://bmw.scene7.com/is/image/BMW/iX1_2024_000216341_3000x2000%3A3to2?fit=constrain%2C1&fmt=webp&wid=1493',
-  'bmw|ix3': 'https://bmw.scene7.com/is/image/BMW/na5_teaser_electric-cars%3A3to2?fit=constrain%2C1&fmt=webp&wid=1600',
-  'cupra|born': 'https://www.cupraofficial.se/content/dam/public/cupra-website/cars/born-2026/cc-lite/mobile/N7N7_CB2.png',
-  'ford|explorer': 'https://ford.se/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdXhnIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--e43626d34439433cba020b9b9079ed1302a3d835/electric_explorer_1.jpg',
-  'kia|ev3': 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/new-car/ev3/ev3-lansering-1920x1437.jpg',
-  'kia|ev4': 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/new-car/ev4/ev4-design-2-1920x1080px.jpg',
-  'kia|ev5': 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/new-car/ev5/kia-ev5-kampanj-2-1920x1437px.jpg',
-  'kia|ev9': 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/new-car/ev9/kia-ev9-asllani-1920x1437.jpg',
-  'mazda|6e': 'https://mnd-assets.mynewsdesk.com/image/upload/c_fill%2Cdpr_auto%2Cf_auto%2Cg_auto%2Cq_auto%3Agood%2Cw_1200/nrci1rerwiprt5p9ogxc80',
-  'mercedes benz|cla': 'https://media.oneweb.mercedes-benz.com/images/dynamic/europe/SE/174311/807/iris.png?BKGND=9&IMGT=P27&POV=BE040%2CPZM&cp=U7lLKRUtPa6KAFr8s_ubHw&q=COSY-EU-100-1713d0VXq5WFng9jfZobxEnlqHI5QqqrQCPPnU2Geplxm7skt0uBMlHB2rTNrApncZO5uoXPaC3MJyIzNTORX7j6bAbKVSI54vqt3sQLRcNR1axXjTQH1JV8Y8wOdpXiZbfjT4FIEgYg9QlPgPDk2EbeWmg7QsdhP1gUf%25ew6GEysuG0lYRatB2rxwcApn1aG5uodikC3Mf9OzNTE0z7j6lBIKVS2vsvqtpLkLRcuZPaxX3FwH1JN9o8wOjGXiZbWzG4FId74g9Qfz7Psg8oTnnBKVS1sUvaKkMRLHvvdLaxXEuaH1Jl3J8wO2C%25iZbpzi4FIucHg9Q3XzPDkVoiZC7%25M4F8SFTg9itk6PD4%25mSeWgB3tsdRHTcUfGUNXGE0GSJ0lBHVOB2A8cbAp5dRI5gZ8lXhRjwQZgVBUnRuoQ3pE7EJxJeRB5PVsRiD4Nhc8An&uni=m',
-  'mercedes benz|eqa': 'https://upload.wikimedia.org/wikipedia/commons/9/97/Mercedes-Benz_EQA_250_%28H243%29_front.jpg',
-  'polestar|2': 'https://www.polestar.com/dato-assets/94392/1736775615-og-polestar-2-26-overview-seo.png',
-  'polestar|4': 'https://www.polestar.com/dato-assets/94392/1744019757-00-polestar-4-26-overview-seo.png',
-  'renault|5': 'https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/startpage/boka-din-r5/stage-row-techno-dsk.jpg?h=720&iar=0&w=960',
-  'skoda|elroq': 'https://cdn.skoda-auto.com/images/sites/svse-v2/b15b77bc-352f-4210-82b2-7a8068dc10f7/6475133cd3a262bb0fdf23ad583f473f',
-  'skoda|enyaq': 'https://cdn.skoda-auto.com/images/sites/svse-v2/dfcf2d21-dd61-475c-a2ff-91789e8877de/7be1ae172e870d406e324859c872c27d',
-  'tesla|model 3': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-3-Main-Hero-Desktop-LHD.png',
-  'tesla|model y': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-Y-Main-Hero-Desktop-Global.png',
-  'toyota|bz4x': 'https://scene7.toyota.eu/is/image/toyotaeurope/BZ0005a_25?fit=constrain&qlt=80&resMode=sharp2&wid=1600',
-  'volkswagen|id 3': 'https://assets.volkswagen.com/is/image/volkswagenag/IN0459_id3_neo_standing_in_front_of_mountain_panorama_stage?Zml0PWNyb3AlMkMxJndpZD0xMjgwJmhlaT03MjAmZm10PWpwZWcmcWx0PTc5JmJmYz1vZmYmMmI5ZQ==',
-  'volkswagen|id 4': 'https://assets.volkswagen.com/is/image/volkswagenag/ID4_16x9?Zml0PWNyb3AlMkMxJndpZD0xMjgwJmhlaT03MjAmZm10PWpwZWcmcWx0PTc5JmJmYz1vZmYmMmI5ZQ==',
-  'volvo|es90': 'https://www.volvocars.com/images/cs/v3/assets/blt0feaa88e629251fc/blte1768aaa9c09e2f9/69205cf7e85a38500b82b83c/_0005_vin0020_34Front_745_ES90.jpg?branch=prod_alias&format=auto&iar=0&quality=85&w=1600',
-  'volvo|ex30': 'https://www.volvocars.com/images/cs/v3/assets/blt0feaa88e629251fc/blt7b90b87d12b6a249/694150ece819e5e0f5b9ff71/my27ex30-hero-4-5.jpg?branch=prod_alias&format=auto&iar=0&quality=85&w=1600',
-  'zeekr|7x': 'https://www.datocms-assets.com/128969/1758024550-2025_08_zeekr7x_7623_v001_fa_srgb.jpg?auto=format%2Ccompress%2Cenhance&fit=crop&q=65&w=1400'
-};
+const officialModelImages = licensedModelImages;
 
 function normalizeImageKey(value) {
   return String(value || '')
@@ -999,6 +972,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       </div>
       <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
+    <div className="vehicleContainer"><ImageAttribution car={car} /></div>
     <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil">Överblick</a><a href="#specifikationer">Specifikationer</a><a href="#nyckeltal">Nyckeltal</a><a href="#bilkallor">Källor</a></nav>
     <div className="vehicleDetailBody vehicleContainer">
       <AiSummaryCard car={car} />
@@ -1095,7 +1069,7 @@ function SourceVerificationCard({ car }) {
 function CarImage({ car, priority = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
-    return <img src={car.image} alt={`${car.brand} ${car.model}`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
+    return <img src={car.image.startsWith('/') ? appPath(car.image) : car.image} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
   }
   return (
     <div className="missingCarImage" role="img" aria-label={`Verifierad bild saknas for ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>

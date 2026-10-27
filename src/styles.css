@@ -1707,7 +1707,7 @@ body {
   padding-top: clamp(2rem, 5vw, 5rem);
   background:
     linear-gradient(90deg, rgba(5, 17, 15, 0.92) 0%, rgba(8, 28, 23, 0.82) 42%, rgba(12, 34, 29, 0.2) 100%),
-    url("https://www.datocms-assets.com/128969/1758024550-2025_08_zeekr7x_7623_v001_fa_srgb.jpg?auto=format%2Ccompress%2Cenhance&fit=crop&q=65&w=1800");
+    url("/media/vehicles/zeekr-7x-32d124d8b23b.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -1954,7 +1954,7 @@ footer {
     padding-top: 2rem;
     background:
       linear-gradient(180deg, rgba(5, 17, 15, 0.86), rgba(5, 17, 15, 0.94)),
-      url("https://www.datocms-assets.com/128969/1758024550-2025_08_zeekr7x_7623_v001_fa_srgb.jpg?auto=format%2Ccompress%2Cenhance&fit=crop&q=60&w=900");
+      url("/media/vehicles/zeekr-7x-32d124d8b23b.jpg");
     background-position: center;
     background-size: cover;
   }

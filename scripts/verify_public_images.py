@@ -42,7 +42,8 @@ def build_report(root):
     root = Path(root)
     src = (root / "src/main.jsx").read_text(encoding="utf-8")
     rows = public_records(root / "public/data/public_ev_variants.json")
-    keys = official_image_keys(src)
+    structured = root / 'src/model-images.json'
+    keys = set(json.loads(structured.read_text(encoding='utf-8'))) if structured.is_file() else official_image_keys(src)
 
     expected_keys = {
         f"{normalize_image_key(row.get('brand'))}|{normalize_image_key(row.get('model'))}"
