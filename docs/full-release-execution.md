@@ -3,7 +3,7 @@
 ## Scope: 2026-10-27
 
 Continue from reviewed main 7ff59128d8e003c747683707cc9c6b4019f028d2.
-Retain every current model and variant. Existing price-only publication and
+Retain every current model. Existing price-only publication and
 technical evidence remain separate. News AI/publication stay off, budgets and
 passwords do not change, and no paid AI calls are planned.
 
@@ -11,6 +11,16 @@ The owner approved Boleo AI's purpose limitation, a documented legitimate-intere
 assessment for abuse prevention, and contact-email deletion within 90 days after
 case closure unless a legal retention obligation applies. Approval is a policy
 decision, not proof of supplier settings or completed legal compliance.
+
+## Updated Catalog Decision: 2026-10-27
+
+The owner explicitly approved replacing incorrect/obsolete variant records with
+source-verified current variants while keeping every model. Variant names and
+counts may change. Preserve old vehicle URLs as redirects, retain historical
+evidence privately, and do not carry specifications from a retired trim into a
+new trim without fresh exact-variant evidence. A current basic profile may have
+only an exact verified price or WLTP value; unknown fields remain null. This
+supersedes the earlier requirement to preserve all 67 public variants unchanged.
 
 ## Sequential Slices
 

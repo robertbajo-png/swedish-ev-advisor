@@ -111,22 +111,77 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/kia-ev3</loc>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-fwd</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/kia-ev4</loc>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-fwd-long-range</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/kia-ev5-awd</loc>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-gt-292hk-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-gt-line-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-gt-line-fwd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-plus-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev3-plus-fwd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev4-gt-292hk-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev4-gt-line-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev4-gt-line-fwd-long-range</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://elbilsagenten.se/bilar/kia-ev5-fwd</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev5-gt-306hk-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev5-gt-line-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev5-gt-line-panorama-awd-long-range</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev5-plus-awd-long-range</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -161,7 +216,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/kia-ev9-rwd-standard-range</loc>
+    <loc>https://elbilsagenten.se/bilar/kia-ev9-rwd-7-sits</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -201,37 +256,27 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/polestar-4-long-range-dual-motor</loc>
+    <loc>https://elbilsagenten.se/bilar/polestar-4-dual-motor</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/polestar-4-long-range-single-motor</loc>
+    <loc>https://elbilsagenten.se/bilar/polestar-4-rear-motor</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/renault-5-evolution</loc>
+    <loc>https://elbilsagenten.se/bilar/renault-5-evolution-40-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/renault-5-evolution-ev-40</loc>
+    <loc>https://elbilsagenten.se/bilar/renault-5-iconic-five-52-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/renault-5-iconic-five-ev-52</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/renault-5-roland-garros-ev52</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/renault-5-techno-ev52</loc>
+    <loc>https://elbilsagenten.se/bilar/renault-5-techno-52-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

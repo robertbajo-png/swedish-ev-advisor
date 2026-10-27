@@ -35,6 +35,7 @@ jobs:
       - run: bun run verify:catalog-migration
       - run: bun run verify:image-sync
       - run: bun run verify:kia-price-sync
+      - run: bun run verify:current-variants
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
       - run: bun run verify:price-evidence
@@ -64,6 +65,8 @@ jobs:
       - run: python -m unittest discover -s tests -p test_image_rights.py -v
       - run: bun run verify:licensed-images
       - run: bun run verify:kia-prices
+      - run: bun run verify:current-intake
+      - run: bun run verify:vehicle-redirects
       - run: bun run verify:images
       - run: python scripts/audit_image_rights.py --check
       - run: python -m unittest discover -s tests -p test_skoda_price_intake.py -v
@@ -145,6 +148,7 @@ jobs:
           bun run verify:ui-proportions
           bun run verify:home-ui
           bun run verify:vehicle-ui
+          bun run verify:vehicle-redirects-ui
           bun run verify:price-evidence-ui
           bun run verify:journal-ui
           bun run verify:news-ui

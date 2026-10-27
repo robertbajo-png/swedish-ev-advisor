@@ -1,6 +1,11 @@
 {
   "type": "module",
   "scripts": {
+    "catalog:current:collect": "node scripts/run_python.mjs scripts/current_variant_intake.py",
+    "verify:current-variants": "node scripts/verify_current_variants.mjs",
+    "verify:current-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_current_variants.py -v",
+    "verify:vehicle-redirects": "node scripts/run_python.mjs -m unittest discover -s tests -p test_vehicle_redirects.py -v",
+    "verify:vehicle-redirects-ui": "node scripts/verify_vehicle_redirects_ui.mjs",
     "release:check": "node scripts/verify_release_config.mjs --production",
     "release:build": "node scripts/build_release.mjs",
     "verify:release-config": "node scripts/verify_release_config_contract.mjs",
