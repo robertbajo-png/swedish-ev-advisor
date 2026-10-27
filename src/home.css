@@ -23,8 +23,8 @@
 .homeSuggestions button:hover { color: var(--pine); background: var(--sage); border-color: #c7d9d4; }
 .homeQuietNote { margin: 16px 0 0; color: var(--muted); font-size: 12px; }
 .homeSpotlight { align-self: start; min-width: 0; }
-.homeSpotlightImage { display: block; position: relative; aspect-ratio: 1.45; overflow: hidden; border-radius: 8px; background: #e9edeb; }
-.homeSpotlightImage img, .homeVehiclePhoto img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.homeSpotlightImage { display: block; position: relative; aspect-ratio: 1.6; overflow: hidden; border-radius: 8px; background: #e9edeb; }
+.homeSpotlightImage img, .homeVehiclePhoto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
 /* This portrait configurator asset places the vehicle above the image centre. */
 .consumerHome img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
 .homeSpotlightImage:hover img, .homeVehiclePhoto:hover img { transform: scale(1.025); }
@@ -43,7 +43,7 @@
 .homeExplore { padding-block: 40px 64px; border-top: 1px solid var(--line); }
 .homeVehicleGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .homeVehicleCard { display: flex; flex-direction: column; min-width: 0; background: white; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.homeVehiclePhoto { display: block; aspect-ratio: 1.65; overflow: hidden; background: #edf0ed; }
+.homeVehiclePhoto { position: relative; display: block; aspect-ratio: 1.65; overflow: hidden; background: #edf0ed; }
 .homeVehiclePhoto .missingCarImage, .homeSpotlight .missingCarImage { min-height: 0; height: 100%; border-radius: 0; background: #edf0ed; }
 .homeVehicleBody { padding: 24px; display: flex; flex-direction: column; flex: 1; }
 .homeVehicleBrand { color: var(--muted); font-size: 12px; font-weight: 600; }

@@ -95,7 +95,12 @@
 .vehicleDetailHero { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; min-height: min(760px, 88svh); padding-block: 120px 24px; background: #233131; color: white; isolation: isolate; }
 .vehicleHeroMedia, .vehicleHeroOverlay { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 .vehicleHeroMedia img { width: 100%; height: 100%; object-fit: cover; object-position: 65% center; }
-.vehicleHeroMedia img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
+.vehicleImageAttribution { margin: 0; padding: 8px 16px; color: #596462; font-size: 11px; line-height: 1.5; background: #f7f7f4; overflow-wrap: anywhere; }
+.vehicleImageAttribution a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.vehicleImageCreditLine { display: flex; align-items: baseline; gap: 4px; }
+.vehicleImageCreditLine > a:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.vehicleImageCreditLine > a:last-child { flex-shrink: 0; }
+.vehicleImageNotice { display: block; }
 .vehicleHeroMedia .missingCarImage { height: 100%; border: 0; border-radius: 0; color: #d3ddda; background: #253635; justify-content: flex-end; padding-bottom: 180px; }
 .vehicleHeroOverlay { z-index: -1; background: linear-gradient(90deg, rgb(10 20 22 / 87%), rgb(10 20 22 / 62%) 38%, rgb(10 20 22 / 12%) 80%), linear-gradient(0deg, rgb(10 20 22 / 80%), transparent 60%); }
 .vehicleHeroCopy { margin-bottom: 0; }
@@ -156,7 +161,7 @@
 .comparisonSelection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding-bottom: 48px; }
 .comparisonVehicle { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: white; }
 .comparisonVehiclePhoto { position: relative; flex-shrink: 0; aspect-ratio: 2.1; background: #e9eeeb; }
-.comparisonVehiclePhoto > img { width: 100%; height: 100%; object-fit: cover; }
+.comparisonVehiclePhoto > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .comparisonVehiclePhoto img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
 .comparisonVehiclePhoto .missingCarImage { min-height: 0; height: 100%; border-radius: 0; }
 .comparisonVehiclePhoto button { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: white; color: var(--ink); border: 1px solid var(--line); }
@@ -164,6 +169,10 @@
 .comparisonVehicle span { font-size: 12px; color: var(--muted); }
 .comparisonVehicle h2 { font-size: 18px; line-height: 1.4; margin: 8px 0 16px; }
 .comparisonVehicle p { font-size: 20px; font-weight: 700; margin: auto 0 0; }
+.comparisonVehiclePhoto .vehicleImageAttribution { position: absolute; inset: auto 0 0; margin: 0; padding: 4px 8px; background: rgb(255 255 255 / 94%); font-size: 11px; font-weight: 400; }
+.comparisonVehiclePhoto .vehicleImageCreditLine { font-size: inherit; color: inherit; }
+.comparisonVehiclePhoto .vehicleImageNotice { display: none; }
+.comparisonVehicle .vehicleImageNotice { font-size: inherit; color: inherit; }
 .comparisonVehicle small { color: var(--muted); font-size: 12px; }
 .comparisonAdd { display: flex; flex-direction: column; align-items: start; justify-content: center; gap: 16px; padding: 24px; border: 1px dashed #b6cac2; border-radius: 8px; min-height: 260px; color: var(--pine); }
 .comparisonAdd strong { font-size: 18px; color: var(--ink); }

@@ -2,6 +2,7 @@
 import argparse
 import ast
 import json
+import hashlib
 import re
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -50,13 +51,21 @@ def rights_errors(asset, evidence, today=None):
     return errors
 
 
-def inventory(root=ROOT):
+def image_lookup(root=ROOT):
     root = Path(root)
+    structured = root / 'src/model-images.json'
+    if structured.is_file():
+        return json.loads(structured.read_text(encoding='utf-8'))
     source = (root / 'src/main.jsx').read_text(encoding='utf-8')
     match = re.search(r'const officialModelImages = \{(.*?)\n\};', source, re.S)
     if not match:
         raise ValueError('image_inventory_layout_changed')
-    lookup = ast.literal_eval('{' + match.group(1) + '}')
+    return ast.literal_eval('{' + match.group(1) + '}')
+
+
+def inventory(root=ROOT):
+    root = Path(root)
+    lookup = image_lookup(root)
     assets = {}
     for row in public_records(root / 'public/data/public_ev_variants.json'):
         key = normalize_image_key(row['brand']) + '|' + normalize_image_key(row['model'])
@@ -64,12 +73,14 @@ def inventory(root=ROOT):
         if url:
             assets[(key, url)] = {'model_key': key, 'asset_url': url, 'surface': 'vehicle'}
     for css in sorted((root / 'src').glob('*.css')):
-        for url in re.findall(r'url\([\"\']?(https://[^\"\')]+)', css.read_text(encoding='utf-8')):
-            assets[(str(css.relative_to(root)), url)] = {'model_key': None, 'asset_url': url, 'surface': str(css.relative_to(root))}
+        for url in re.findall(r'url\([\"\']?((?:https://|/media/vehicles/)[^\"\')]+)', css.read_text(encoding='utf-8')):
+            matches = [key for key, value in lookup.items() if value == url]
+            model_key = matches[0] if len(matches) == 1 else None
+            assets[(str(css.relative_to(root)), url)] = {'model_key': model_key, 'asset_url': url, 'surface': str(css.relative_to(root))}
     return list(assets.values())
 
 
-def build_report(assets, registry, today=None):
+def build_report(assets, registry, today=None, root=ROOT):
     if registry.get('schema_version') != 1 or not isinstance(registry.get('assets'), list):
         raise ValueError('invalid_rights_registry')
     entries = {}
@@ -80,7 +91,16 @@ def build_report(assets, registry, today=None):
         entries[key] = entry
     checked = []
     for asset in assets:
-        errors = rights_errors(asset, entries.get((asset.get('model_key'), asset['asset_url'])), today)
+        evidence = entries.get((asset.get('model_key'), asset['asset_url']))
+        errors = rights_errors(asset, evidence, today)
+        if asset['asset_url'].startswith('/'):
+            url = asset['asset_url']
+            path = Path(root) / 'public' / url.lstrip('/')
+            valid_path = bool(re.fullmatch(r'/media/vehicles/[a-z0-9-]+-[a-f0-9]{12}\.jpg', url))
+            if not valid_path or path.is_symlink() or not path.is_file():
+                errors.append('local_image_missing_or_unsafe')
+            elif not evidence or hashlib.sha256(path.read_bytes()).hexdigest() != evidence.get('content_sha256'):
+                errors.append('local_image_hash_mismatch')
         checked.append({**asset, 'documented': not errors, 'errors': errors})
     return {'all_documented': bool(checked) and all(row['documented'] for row in checked),
             'assets': len(checked), 'documented': sum(row['documented'] for row in checked),

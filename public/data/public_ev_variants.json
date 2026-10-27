@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-27T09:31:13.538Z",
+  "generated_at": "2026-10-27T19:31:53.142Z",
   "source": "supabase_public_ev_variants",
   "schema_version": 1,
   "missing_view_columns": [],
-  "catalog_sha256": "f97ae7d75178764994bb4bd33942eaae0452c5dd4cf5a142c27403659dc4651b",
+  "catalog_sha256": "bc17c66aebfb7d4e62c1015f843d3897e872fc1db6fcf9b219d1b4ae3049a802",
   "records": [
     {
       "brand": "Audi",
@@ -32,8 +32,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/audi-a6-e-tron-8f0060e96039.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Audi_A6_e-tron_IMG_3090_(cropped).jpg",
       "verified_at": null
     },
     {
@@ -63,8 +63,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/audi-q4-e-tron-f32f57bc9d45.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Audi_Q4_e-tron_2021-2_front.jpg",
       "verified_at": null
     },
     {
@@ -94,8 +94,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/audi-q6-e-tron-996634d6ee7a.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Audi_Q6_e-tron_quattro_Premium_Plus_in_Plasma_Blue,_front_left.jpg",
       "verified_at": null
     },
     {
@@ -125,8 +125,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-i4-827db86e3d75.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:BMW_i4_eDrive40_M_Sport_(G26)_front.jpg",
       "verified_at": null
     },
     {
@@ -156,8 +156,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-i4-827db86e3d75.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:BMW_i4_eDrive40_M_Sport_(G26)_front.jpg",
       "verified_at": null
     },
     {
@@ -187,8 +187,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-i5-ccac4c1e0daa.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:BMW_i5_eDrive40_M_Sport_(G60)_front.jpg",
       "verified_at": null
     },
     {
@@ -218,8 +218,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-ix1-636f6be71a56.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2023-04_BMW_iX1_U11_front_view.jpg",
       "verified_at": null
     },
     {
@@ -249,8 +249,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-ix1-636f6be71a56.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2023-04_BMW_iX1_U11_front_view.jpg",
       "verified_at": null
     },
     {
@@ -280,8 +280,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/bmw-ix3-560ee3c2b622.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:BMW_iX3_NA5_IMG_5333.jpg",
       "verified_at": null
     },
     {
@@ -311,8 +311,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/cupra-born-a7f9a0e290ee.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2026_Cupra_Born_IMG_7697.jpg",
       "verified_at": null
     },
     {
@@ -342,8 +342,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/ford-explorer-fe5bb8df3715.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Ford_Explorer_EV_Leonberg_2024_IMG_0955.jpg",
       "verified_at": null
     },
     {
@@ -373,8 +373,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/kia-ev3-f4a5326be0bc.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Kia_EV3_GT-Line_Automesse_Ludwigsburg_2024_IMG_1674.jpg",
       "verified_at": null
     },
     {
@@ -404,8 +404,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/kia-ev4-0c80a9482373.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Kia_EV4_GT-Line_Automesse_Ludwigsburg_2025_DSC_2535.jpg",
       "verified_at": null
     },
     {
@@ -435,8 +435,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/kia-ev5-f7a1bd31244f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV5_EV_in_Sky_Blue,_front_right.jpg",
       "verified_at": null
     },
     {
@@ -444,8 +444,8 @@
       "model": "Ev5",
       "variant_name": "EV5 FWD",
       "body_type": null,
-      "price_sek": 553900,
-      "price_type": null,
+      "price_sek": 554900,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -466,17 +466,22 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev5-f7a1bd31244f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV5_EV_in_Sky_Blue,_front_right.jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV5 med fullständiga versionsnamn | EV5 FWD Long Range | Rek. cirkapris inkl. moms | 554 900 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
       "model": "Ev6",
       "variant_name": "EV6 AWD",
       "body_type": null,
-      "price_sek": 596400,
-      "price_type": null,
+      "price_sek": 631400,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -497,9 +502,14 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev6-def737594d59.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:IAA_Open_Space_2025,_Ludwigstrasse,_Munich_(20250909-P1050579).jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV6 med fullständiga versionsnamn | EV6 AWD Long Range | Rek. cirkapris inkl. moms | 631 400 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
@@ -507,7 +517,7 @@
       "variant_name": "EV6 GT",
       "body_type": null,
       "price_sek": 771400,
-      "price_type": null,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -528,9 +538,14 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev6-def737594d59.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:IAA_Open_Space_2025,_Ludwigstrasse,_Munich_(20250909-P1050579).jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV6 GT med fullständiga versionsnamn | EV6 GT (650hk) AWD Long Range | Rek. cirkapris inkl. moms | 771 400 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
@@ -538,7 +553,7 @@
       "variant_name": "EV6 RWD",
       "body_type": null,
       "price_sek": 596400,
-      "price_type": null,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -559,9 +574,14 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev6-def737594d59.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:IAA_Open_Space_2025,_Ludwigstrasse,_Munich_(20250909-P1050579).jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV6 med fullständiga versionsnamn | EV6 RWD Long Range | Rek. cirkapris inkl. moms | 596 400 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
@@ -569,7 +589,7 @@
       "variant_name": "EV9 AWD",
       "body_type": null,
       "price_sek": 819900,
-      "price_type": null,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": 512,
       "wltp_consumption_kwh_100km": null,
@@ -590,17 +610,22 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev9-17749a771d5d.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV9,_front_11.15.24.jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV9 med fullständiga versionsnamn | EV9 AWD 7-SITS Long Range | Rek. cirkapris inkl. moms | 819 900 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
       "model": "Ev9",
       "variant_name": "EV9 AWD GT Line 6-sits",
       "body_type": null,
-      "price_sek": 992900,
-      "price_type": null,
+      "price_sek": 909900,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": 505,
       "wltp_consumption_kwh_100km": null,
@@ -621,17 +646,22 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev9-17749a771d5d.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV9,_front_11.15.24.jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV9 med fullständiga versionsnamn | EV9 GT Line AWD 6-SITS Long Range | Rek. cirkapris inkl. moms | 909 900 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
       "model": "Ev9",
       "variant_name": "EV9 AWD GT Line 7-sits",
       "body_type": null,
-      "price_sek": 992900,
-      "price_type": null,
+      "price_sek": 889900,
+      "price_type": "list_price",
       "price_valid_until": null,
       "wltp_range_km": 505,
       "wltp_consumption_kwh_100km": null,
@@ -652,9 +682,14 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
-      "verified_at": null
+      "image_url": "/media/vehicles/kia-ev9-17749a771d5d.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV9,_front_11.15.24.jpg",
+      "verified_at": null,
+      "price_source_url": "https://www.kia.com/se/kopa/prislista/",
+      "price_source_hash": "aa368ae0f5ccc40d00f227f85237c45a45f82120885732da9a2ea644258b7a2b",
+      "price_source_quote": "Prislista för Kia EV9 med fullständiga versionsnamn | EV9 GT Line AWD 7-SITS Long Range | Rek. cirkapris inkl. moms | 889 900 kr",
+      "price_source_name": "Kia Sverige",
+      "price_verified_at": "2026-10-27T19:24:05.118148+00:00"
     },
     {
       "brand": "Kia",
@@ -683,8 +718,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/kia-ev9-17749a771d5d.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2024_Kia_EV9,_front_11.15.24.jpg",
       "verified_at": null
     },
     {
@@ -714,8 +749,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/mazda-6e-ed32d8f075be.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Mazda6e_DSC_0566.jpg",
       "verified_at": null
     },
     {
@@ -745,8 +780,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/mercedes-benz-cla-34a9050d5a36.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_CLA_250%2B_Coup%C3%A9_(C174,_2026)_(55211085747).jpg",
       "verified_at": null
     },
     {
@@ -776,8 +811,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/mercedes-benz-eqa-35c011b20405.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_EQA_250_(H243)_front.jpg",
       "verified_at": null
     },
     {
@@ -807,8 +842,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/mercedes-benz-eqa-35c011b20405.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_EQA_250_(H243)_front.jpg",
       "verified_at": null
     },
     {
@@ -838,8 +873,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/polestar-2-503eade18ba7.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Polestar_2_(Facelift)_IMG_9470.jpg",
       "verified_at": "2026-10-25T18:58:56.293069+00:00"
     },
     {
@@ -869,8 +904,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/polestar-2-503eade18ba7.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Polestar_2_(Facelift)_IMG_9470.jpg",
       "verified_at": "2026-10-25T18:58:56.293069+00:00"
     },
     {
@@ -900,8 +935,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/polestar-2-503eade18ba7.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Polestar_2_(Facelift)_IMG_9470.jpg",
       "verified_at": "2026-10-25T18:58:56.293069+00:00"
     },
     {
@@ -931,8 +966,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/polestar-4-afa0450df51a.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Polestar_4_DSC_8232_(cropped).jpg",
       "verified_at": null
     },
     {
@@ -962,8 +997,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/polestar-4-afa0450df51a.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Polestar_4_DSC_8232_(cropped).jpg",
       "verified_at": null
     },
     {
@@ -993,8 +1028,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Blue_Renault_5_E-Tech_Electric_(front).jpg",
       "verified_at": null
     },
     {
@@ -1024,8 +1059,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Blue_Renault_5_E-Tech_Electric_(front).jpg",
       "verified_at": null
     },
     {
@@ -1055,8 +1090,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Blue_Renault_5_E-Tech_Electric_(front).jpg",
       "verified_at": null
     },
     {
@@ -1086,8 +1121,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Blue_Renault_5_E-Tech_Electric_(front).jpg",
       "verified_at": null
     },
     {
@@ -1117,8 +1152,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Blue_Renault_5_E-Tech_Electric_(front).jpg",
       "verified_at": null
     },
     {
@@ -1148,8 +1183,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Skoda_Elroq_-_front_view.jpg",
       "verified_at": null
     },
     {
@@ -1179,8 +1214,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Skoda_Elroq_-_front_view.jpg",
       "verified_at": null
     },
     {
@@ -1210,8 +1245,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Skoda_Elroq_-_front_view.jpg",
       "verified_at": null
     },
     {
@@ -1241,8 +1276,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Skoda_Elroq_-_front_view.jpg",
       "verified_at": null
     },
     {
@@ -1272,8 +1307,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Skoda_Enyaq_sportline_(facelift)_-_front.jpg",
       "verified_at": null,
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
       "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
@@ -1308,8 +1343,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Skoda_Enyaq_sportline_(facelift)_-_front.jpg",
       "verified_at": null,
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
       "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
@@ -1344,8 +1379,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Skoda_Enyaq_sportline_(facelift)_-_front.jpg",
       "verified_at": null,
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
       "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
@@ -1380,8 +1415,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Skoda_Enyaq_sportline_(facelift)_-_front.jpg",
       "verified_at": null,
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
       "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
@@ -1416,8 +1451,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-3-2a81c85c6026.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(Highland,_facelift)_(front_three-quarter_view)_at_Tesla_Osaka_Ibaraki.jpg",
       "verified_at": null
     },
     {
@@ -1447,8 +1482,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-3-2a81c85c6026.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(Highland,_facelift)_(front_three-quarter_view)_at_Tesla_Osaka_Ibaraki.jpg",
       "verified_at": null
     },
     {
@@ -1478,8 +1513,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-3-2a81c85c6026.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(Highland,_facelift)_(front_three-quarter_view)_at_Tesla_Osaka_Ibaraki.jpg",
       "verified_at": null
     },
     {
@@ -1509,8 +1544,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-3-2a81c85c6026.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(Highland,_facelift)_(front_three-quarter_view)_at_Tesla_Osaka_Ibaraki.jpg",
       "verified_at": null
     },
     {
@@ -1540,8 +1575,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-y-79024d97a52b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_Y_2025_RWD_Quicksilver_-_front.jpg",
       "verified_at": null
     },
     {
@@ -1571,8 +1606,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-y-79024d97a52b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_Y_2025_RWD_Quicksilver_-_front.jpg",
       "verified_at": null
     },
     {
@@ -1602,8 +1637,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-y-79024d97a52b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_Y_2025_RWD_Quicksilver_-_front.jpg",
       "verified_at": null
     },
     {
@@ -1633,8 +1668,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/tesla-model-y-79024d97a52b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Tesla_Model_Y_2025_RWD_Quicksilver_-_front.jpg",
       "verified_at": null
     },
     {
@@ -1664,8 +1699,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/toyota-bz4x-9c7085be8139.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2023_Toyota_bZ4X_FWD_in_Heavy_Metal,_front_right.jpg",
       "verified_at": null
     },
     {
@@ -1695,8 +1730,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/toyota-bz4x-9c7085be8139.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2023_Toyota_bZ4X_FWD_in_Heavy_Metal,_front_right.jpg",
       "verified_at": null
     },
     {
@@ -1726,8 +1761,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/toyota-bz4x-9c7085be8139.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2023_Toyota_bZ4X_FWD_in_Heavy_Metal,_front_right.jpg",
       "verified_at": "2026-10-20T19:03:51.097915+00:00"
     },
     {
@@ -1757,8 +1792,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volkswagen-id-3-64b62658bb2a.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volkswagen_ID.3_Neo_IMG_8792_(cropped).jpg",
       "verified_at": null
     },
     {
@@ -1788,8 +1823,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volkswagen-id-4-cb5c3d94d423.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volkswagen_ID.4_20240224_(front).jpg",
       "verified_at": null
     },
     {
@@ -1819,8 +1854,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-es90-372dd4eabcc6.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_ES90_IAA_2025_DSC_1357.jpg",
       "verified_at": null
     },
     {
@@ -1850,8 +1885,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-es90-372dd4eabcc6.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_ES90_IAA_2025_DSC_1357.jpg",
       "verified_at": null
     },
     {
@@ -1881,8 +1916,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": null
     },
     {
@@ -1912,8 +1947,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": null
     },
     {
@@ -1943,8 +1978,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": null
     },
     {
@@ -1974,8 +2009,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": null
     },
     {
@@ -2005,8 +2040,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": null
     },
     {
@@ -2036,8 +2071,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/zeekr-7x-32d124d8b23b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Zeekr_7X_front.jpg",
       "verified_at": null
     },
     {
@@ -2067,8 +2102,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/zeekr-7x-32d124d8b23b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Zeekr_7X_front.jpg",
       "verified_at": null
     },
     {
@@ -2098,8 +2133,8 @@
       "available_confirmed": false,
       "discontinued_candidate": false,
       "coming_or_low_volume": false,
-      "image_url": null,
-      "image_source_url": null,
+      "image_url": "/media/vehicles/zeekr-7x-32d124d8b23b.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Zeekr_7X_front.jpg",
       "verified_at": null
     }
   ]

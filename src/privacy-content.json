@@ -1,11 +1,11 @@
 {
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "sections": [
     {
       "id": "search",
       "title": "Din sökning",
       "paragraphs": [
-        "Din beskrivning, budget och val används för att föreslå och jämföra elbilar. AI-rådgivning skickar söktext och relevanta biluppgifter till OpenAI. Vi skickar inte din IP-adress eller kontaktmejl som del av AI-underlaget.",
+        "Din beskrivning, budget och val används bara för att ge den rådgivning och jämförelse du begär. AI-rådgivning skickar söktext och relevanta biluppgifter till OpenAI. Vi skickar inte din IP-adress eller kontaktmejl som del av AI-underlaget.",
         "Skriv inte personnummer, hälsouppgifter eller andra känsliga personuppgifter i sökrutan. Du kan filtrera och jämföra biluppgifter utan en personlig beskrivning. Förslagen är beslutsstöd, inte beslut om dig."
       ]
     },
@@ -21,7 +21,7 @@
       "id": "security",
       "title": "Drift och skydd mot missbruk",
       "paragraphs": [
-        "Cloudflare levererar webbplatsen och behandlar anslutningsuppgifter, bland annat IP-adress. För att begränsa missbruk och AI-kostnader skapar appen en kryptografiskt skyddad identifierare som byts varje UTC-dygn.",
+        "Cloudflare levererar webbplatsen och behandlar anslutningsuppgifter, bland annat IP-adress. För att begränsa missbruk och AI-kostnader skapar appen en kryptografiskt skyddad identifierare som byts varje UTC-dygn. Detta skydd bygger på vårt berättigade intresse av att hålla tjänsten säker och tillgänglig. Vi har dokumenterat en intresseavvägning och använder inte identifieraren för annonsering eller spårning mellan dagar.",
         "Äldre dagars identifierare tas bort före nästa AI-förfrågan. Kostnadsbelopp, tidpunkt, anropstyp och tekniska kvitton behålls utan den gamla identifieraren. Om underhållet misslyckas görs inget betalt AI-anrop.",
         "Publicerade bil- och nyhetsuppgifter finns i Supabase. Appen skapar inget användarkonto för dig och skickar inte din söktext till bilkatalogen. Infrastrukturleverantörernas egen säkerhetsloggning är separat från appens kostnadsdatabas."
       ]
@@ -31,14 +31,15 @@
       "title": "Kakor och externa länkar",
       "paragraphs": [
         "Appen använder inte egna annonseringskakor, ett eget analysverktyg eller lokal lagring för att spara dina bilval. Driftleverantören kan använda nödvändiga säkerhetsfunktioner. När du öppnar en källa gäller den webbplatsens egna regler.",
-        "Externa bilbilder kan hämtas direkt från bildleverantören. Då får leverantören tekniska anslutningsuppgifter. Bildrättigheter och leverantörsinställningar granskas separat inför lansering."
+        "Bilbilder med lokal bildadress levereras av samma driftleverantör som webbplatsen. Om en extern bild visas hämtas den från bildleverantören, som då får tekniska anslutningsuppgifter. Fotograf och licens visas vid licensierade modellbilder och samlas på kontaktsidan."
       ]
     },
     {
       "id": "contact",
       "title": "När du kontaktar oss",
       "paragraphs": [
-        "Mejl till kontaktadressen vidarebefordras via Cloudflare till en Gmail-inkorg. Avsändaradress, meddelande och eventuella bilagor behandlas för att kunna svara på din fråga. Skicka inte känsliga uppgifter som inte behövs för ärendet."
+        "Mejl till kontaktadressen vidarebefordras via Cloudflare till en Gmail-inkorg. Avsändaradress, meddelande och eventuella bilagor behandlas för att kunna svara på din fråga. Skicka inte känsliga uppgifter som inte behövs för ärendet.",
+        "Kontaktmejl gallras senast 90 dagar efter att ärendet avslutats, om inget rättsligt krav kräver längre lagring. I sådana fall sparas bara det som behövs för det kravet."
       ]
     },
     {
@@ -46,7 +47,7 @@
       "title": "Frågor och dina rättigheter",
       "paragraphs": [
         "Kontakta ansvarig aktör via mejlen ovan för information om dina uppgifter eller en begäran om tillgång, rättelse, radering, begränsning eller invändning. Vilka rättigheter som gäller beror på behandlingen. Du kan också klaga till Integritetsskyddsmyndigheten.",
-        "Detta är fortfarande förhandsversionens information. Rättslig grund, intresseavvägning, mejlens lagringstid, personuppgiftsbiträdesavtal och eventuella överföringar utanför EU/EES behöver slutföras mot de faktiska leverantörsinställningarna före öppen lansering."
+        "Drift, AI och mejl använder leverantörer som kan behandla uppgifter utanför EU/EES. Vi lovar därför inte att all behandling sker inom EU. Leverantörernas dataskyddsvillkor, tillämpliga överföringsskydd och faktiska kontoinställningar behöver vara kontrollerade före öppen lansering. Förhandsversionen är inte ett besked om att denna granskning är slutförd."
       ]
     }
   ],

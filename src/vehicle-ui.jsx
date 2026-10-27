@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGrid, List, Package, PlugZap, Plus, Route, Search, SlidersHorizontal, Weight, X } from 'lucide-react';
+import { ImageAttribution } from './image-attribution.jsx';
 
 export const vehicleMoney = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 export const vehicleMetric = (value, unit = '') => value == null ? 'Uppgift saknas' : `${value}${unit ? ` ${unit}` : ''}`;
@@ -28,6 +29,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
     <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
+    <ImageAttribution car={car} />
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
@@ -89,7 +91,7 @@ export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters
 
 export function ComparisonSelection({ cars, allCars, onCompare, renderImage, navigate, appPath }) {
   return <div className="comparisonSelection" aria-label="Valda bilar">
-    {cars.map((car) => <article className="comparisonVehicle" key={car.id}><div className="comparisonVehiclePhoto">{renderImage(car)}<button type="button" aria-label={`Ta bort ${car.brand} ${car.model}`} onClick={() => onCompare(car.id)}><X size={17} /></button></div><div><span>{car.brand}</span><h2><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.model}</VehicleLink></h2><p>{car.price ? vehicleMoney(car.price) : 'Pris ej angivet'}</p>{car.priceType && car.priceType !== 'list_price' && <small>{car.priceType === 'campaign_price' ? 'Kampanjpris' : 'Återförsäljarerbjudande'}</small>}</div></article>)}
+    {cars.map((car) => <article className="comparisonVehicle" key={car.id}><div className="comparisonVehiclePhoto">{renderImage(car)}<ImageAttribution car={car} /><button type="button" aria-label={`Ta bort ${car.brand} ${car.model}`} onClick={() => onCompare(car.id)}><X size={17} /></button></div><div><span>{car.brand}</span><h2><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.model}</VehicleLink></h2><p>{car.price ? vehicleMoney(car.price) : 'Pris ej angivet'}</p>{car.priceType && car.priceType !== 'list_price' && <small>{car.priceType === 'campaign_price' ? 'Kampanjpris' : 'Återförsäljarerbjudande'}</small>}</div></article>)}
     {cars.length < 3 && <div className="comparisonAdd"><Plus size={26} /><strong>{cars.length ? 'Ett alternativ till?' : 'Vilka bilar väljer du mellan?'}</strong><label htmlFor="comparison-add-car">Lägg till en bil</label><select id="comparison-add-car" value="" onChange={(event) => event.target.value && onCompare(event.target.value)}><option value="">Välj modell och variant</option>{allCars.filter((car) => !cars.some((item) => item.id === car.id)).map((car) => <option key={car.id} value={car.id}>{car.brand} {car.model}</option>)}</select><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.ctrlKey && !event.metaKey) { event.preventDefault(); navigate('/bilar'); } }}>Utforska alla elbilar <ArrowRight size={16} /></a></div>}
   </div>;
 }

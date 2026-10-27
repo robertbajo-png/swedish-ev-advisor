@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, Mountai
 import './home.css';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
+import { ImageAttribution } from './image-attribution.jsx';
 
 const money = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 const metric = (value, unit) => value == null ? 'Uppgift saknas' : `${value} ${unit}`;
@@ -84,6 +85,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
       <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
+          <ImageAttribution car={spotlight} />
           <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsagenten</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
