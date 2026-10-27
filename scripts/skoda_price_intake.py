@@ -38,7 +38,8 @@ def extract_prices(text, source, expected, today=None):
             raise RefreshError('campaign_expired')
     except ValueError:
         raise RefreshError('invalid_campaign_expiry') from None
-    if 'erbjudandet är begränsat' not in normalized(text):
+    qualification = re.search(r'erbjudandet är begränsat', text, re.I)
+    if not qualification:
         raise RefreshError('campaign_qualification_missing')
     # The source labels its range as estimated. This adapter imports prices only.
     rows = []
@@ -59,11 +60,11 @@ def extract_prices(text, source, expected, today=None):
         row.update(brand='Skoda', model='Enyaq', variant_name=variant,
                    price_sek=price, price_type='campaign_price', price_valid_until=expiry,
                    source_url=URL, source_hash=source['content_hash'],
-                   source_quote=title + ' | ' + quote + ' | ' + expiry_quote,
+                   source_quote=title + ' | ' + quote + ' | ' + qualification.group(0) + ' | ' + expiry_quote,
                    extraction_confidence=0.99, validation_status='extracted',
                    extraction_payload={'adapter': 'skoda_enyaq_price_private_v1',
                                        'field_evidence': {'price_sek': proof,
-                                                          'price_type': {**proof, 'quote': 'Erbjudandet är begränsat'},
+                                                          'price_type': {**proof, 'quote': qualification.group(0)},
                                                           'price_valid_until': {**proof, 'quote': expiry_quote}},
                                        'unimported_fields': 'Estimated WLTP and all technical specifications'})
         rows.append(row)
