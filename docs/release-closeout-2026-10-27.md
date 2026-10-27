@@ -104,3 +104,8 @@ are excluded from this delivery.
 
 Record actual PR, CI and deployment results after they occur; this plan is not
 proof of a remote upload or public launch.
+
+Final code review additionally found a malformed/null RPC-response edge case.
+It now remains an unknown publication outcome, never a reported zero-row result.
+Regression covers null, array, string, numeric, incomplete and contradictory
+responses. No real publication was attempted to test this behavior.

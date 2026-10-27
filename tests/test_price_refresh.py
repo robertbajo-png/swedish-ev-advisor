@@ -82,6 +82,11 @@ RS 340 558 161 0 – – 651 000 kr'''
         self.assertEqual(client.writes, ['extracted_variant_drafts'])
         self.assertEqual(stage_or_publish(client, prepared, publish=True)['published'], 4)
         self.assertEqual(client.writes[-1], 'rpc/publish_skoda_price_refresh')
+        for response in [None, [], '', 4, {}, {'published': 4},
+                         {'published': 4, 'price_verified': True, 'specifications_reverified': True}]:
+            client._request = lambda *args, result=response: result
+            with self.subTest(response=response), self.assertRaisesRegex(PricePublicationUncertain, 'reconcile_saved_batch'):
+                stage_or_publish(client, prepared, publish=True)
         client._request = lambda *args: (_ for _ in ()).throw(TimeoutError('synthetic lost response'))
         with self.assertRaises(PricePublicationUncertain):
             stage_or_publish(client, prepared, publish=True)

@@ -112,7 +112,7 @@ def stage_or_publish(client, prepared, publish=False):
         result = client._request('POST', 'rpc/publish_skoda_price_refresh', {'p_batch': packet})
     except Exception:
         raise PricePublicationUncertain('publication_outcome_unknown_reconcile_saved_batch_before_retry') from None
-    if (result.get('published') != 4 or result.get('price_verified') is not True
+    if (not isinstance(result, dict) or result.get('published') != 4 or result.get('price_verified') is not True
             or result.get('specifications_reverified') is not False):
         raise PricePublicationUncertain('unexpected_publication_response_reconcile_saved_batch_before_retry')
     return {'staged': 4, **result}
