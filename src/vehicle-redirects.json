@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "redirects": [
+    {
+      "slug": "kia-ev3",
+      "brand": "Kia",
+      "model": "Ev3"
+    },
+    {
+      "slug": "kia-ev4",
+      "brand": "Kia",
+      "model": "Ev4"
+    },
+    {
+      "slug": "kia-ev5-awd",
+      "brand": "Kia",
+      "model": "Ev5"
+    },
+    {
+      "slug": "kia-ev9-rwd-standard-range",
+      "brand": "Kia",
+      "model": "Ev9"
+    },
+    {
+      "slug": "polestar-4-long-range-dual-motor",
+      "brand": "Polestar",
+      "model": "4"
+    },
+    {
+      "slug": "polestar-4-long-range-single-motor",
+      "brand": "Polestar",
+      "model": "4"
+    },
+    {
+      "slug": "renault-5-evolution",
+      "brand": "Renault",
+      "model": "5"
+    },
+    {
+      "slug": "renault-5-evolution-ev-40",
+      "brand": "Renault",
+      "model": "5"
+    },
+    {
+      "slug": "renault-5-iconic-five-ev-52",
+      "brand": "Renault",
+      "model": "5"
+    },
+    {
+      "slug": "renault-5-roland-garros-ev52",
+      "brand": "Renault",
+      "model": "5"
+    },
+    {
+      "slug": "renault-5-techno-ev52",
+      "brand": "Renault",
+      "model": "5"
+    }
+  ]
+}

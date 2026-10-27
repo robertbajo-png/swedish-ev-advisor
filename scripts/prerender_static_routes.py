@@ -332,7 +332,9 @@ def main() -> None:
             html = html.replace('<div id="root"></div>', '<div id="root">' + route["body_html"] + '</div>')
         write_route(route["path"], html)
 
-    print(f"Prerendered {len(routes) + 1} static route files in dist/")
+    from vehicle_redirects import write_vehicle_redirects
+    redirects = write_vehicle_redirects(DIST, public_rows)
+    print(f"Prerendered {len(routes) + 1} static route files and {redirects} retired-variant redirects in dist/")
 
 
 if __name__ == "__main__":

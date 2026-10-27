@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { GitCompareArrows, Plus, Weight, X } from 'lucide-react';
 import './styles.css';
+import { vehicleRedirect, catalogQuery } from './vehicle-redirects.js';
 import { DEFAULT_TCO_ASSUMPTIONS, calculateTco } from './tco.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
@@ -450,8 +451,15 @@ function getRoute() {
   if (APP_BASE_PATH && path.startsWith(APP_BASE_PATH)) {
     path = path.slice(APP_BASE_PATH.length).replace(/\/$/, '') || '/';
   }
-  if (path.startsWith('/bilar/')) return { type: 'car', slug: path.split('/').pop() };
-  if (path === '/bilar') return { type: 'cars' };
+  if (path.startsWith('/bilar/')) {
+    const target = vehicleRedirect(path.split('/').pop());
+    if (target) {
+      window.history.replaceState({}, '', `${APP_BASE_PATH}${target}`);
+      return { type: 'cars', catalogQuery: catalogQuery(target.split('?')[1]) };
+    }
+    return { type: 'car', slug: path.split('/').pop() };
+  }
+  if (path === '/bilar') return { type: 'cars', catalogQuery: catalogQuery(window.location.search) };
   if (path === '/jamfor' || path === '/compare') return { type: 'compare' };
   if (path === '/verifiering') return { type: 'verification' };
   if (path === '/kontakt') return { type: 'contact' };
@@ -573,7 +581,7 @@ function App() {
   const [advisorStatus, setAdvisorStatus] = useState({ state: 'idle', message: '' });
   const [compareReport, setCompareReport] = useState(null);
   const [compareReportStatus, setCompareReportStatus] = useState({ state: 'idle', message: '' });
-  const [filters, setFilters] = useState(defaultFilters);
+  const [filters, setFilters] = useState(() => ({ ...defaultFilters, ...route.catalogQuery }));
   const [compare, setCompare] = useState([]);
   const compareSelection = compare.join('|');
   const compareSelectionRef = useRef(compareSelection);
@@ -585,7 +593,11 @@ function App() {
   const resetFilters = () => setFilters(defaultFilters);
 
   useEffect(() => {
-    const onPopState = () => setRoute(getRoute());
+    const onPopState = () => {
+      const next = getRoute();
+      if (next.catalogQuery) setFilters({ ...defaultFilters, ...next.catalogQuery });
+      setRoute(next);
+    };
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, []);

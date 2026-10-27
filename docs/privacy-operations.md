@@ -76,3 +76,19 @@ Primary references (terms reviewed as reference material, no new agreement accep
 
 Keep `PUBLIC_PRIVACY_REVIEWED` unset/false until these remaining factual checks
 are completed. An owner's policy approval does not prove provider configuration.
+
+## Supplier Terms Reference Check: 2026-10-27
+
+The current primary contract pages were read again. Supabase's DPA (version 1,
+2026-08-01) states that it forms part of the applicable service agreement and is
+effective with that agreement. Cloudflare's DPA (version 6.4, 2026-04-03) forms
+part of its main agreement, including self-serve agreements. OpenAI's DPA,
+effective 2026-01-01, describes incorporation into the applicable services
+agreement. These are existing standard-contract references, not new agreements
+accepted on the owner's behalf or an account-specific audit.
+
+Do not invent an extra paid DPA purchase requirement. Equally, do not infer the
+actual contracting customer, local key's project-sharing settings, specific
+transfer configuration or Gmail business processing terms from those public
+pages. The browser control connection timed out during the account checks;
+there is no new evidence justifying a true privacy-release flag.
