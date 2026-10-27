@@ -228,6 +228,9 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
             metric_property("Säten", row.get("seats")),
             metric_property("Källa", row.get("source_url")),
         ]
+        if row.get('price_source_url') and row.get('price_verified_at'):
+            properties.extend([metric_property('Priskälla', row['price_source_url']),
+                               metric_property('Pris verifierat', row['price_verified_at'][:10])])
 
         json_ld = {
             "@context": "https://schema.org",

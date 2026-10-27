@@ -34,6 +34,9 @@ jobs:
       - run: bun run verify:catalog
       - run: bun run verify:catalog-migration
       - run: bun run verify:variant-refresh
+      - run: bun run verify:price-refresh
+      - run: bun run verify:price-evidence
+      - run: bun run verify:dev-file-boundary
       - run: bun run verify:toyota-publication
       - run: bun run verify:cloudflare
       - run: bun run verify:live-ai
@@ -58,6 +61,7 @@ jobs:
       - run: bun run verify:site-info
       - run: python -m unittest discover -s tests -p test_image_rights.py -v
       - run: python -m unittest discover -s tests -p test_skoda_price_intake.py -v
+      - run: bun run verify:price-refresh-worker
       - run: python -m unittest discover -s tests -p test_news.py -v
       - run: bun run verify:news-smoke
       - run: bun run verify:news-pressrooms
@@ -135,6 +139,7 @@ jobs:
           bun run verify:ui-proportions
           bun run verify:home-ui
           bun run verify:vehicle-ui
+          bun run verify:price-evidence-ui
           bun run verify:journal-ui
           bun run verify:news-ui
       - name: Preserve UI diagnostics

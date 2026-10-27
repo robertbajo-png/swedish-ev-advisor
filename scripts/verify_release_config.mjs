@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { loadEnv } from 'vite';
 import { operatorInfo, SITE_ORIGIN } from '../src/site-info.js';
+import { priceVerificationDate } from '../src/price-evidence.js';
 
 export function auditReleaseConfig(env, catalog, now = new Date()) {
   const operator = operatorInfo(env);
@@ -9,7 +10,7 @@ export function auditReleaseConfig(env, catalog, now = new Date()) {
   const today = now.toISOString().slice(0, 10);
   const stalePrices = rows.filter(row => {
     if (row.price_sek == null) return false;
-    const verified = Date.parse(row.verified_at || '');
+    const verified = Date.parse(priceVerificationDate(row) || '');
     return !Number.isFinite(verified) || verified > now.getTime() || now.getTime() - verified > 30 * 86400000
       || (row.price_valid_until && row.price_valid_until.slice(0, 10) < today);
   });

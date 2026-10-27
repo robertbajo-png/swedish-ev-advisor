@@ -4,13 +4,14 @@ import { readFile, writeFile, rename, mkdir, unlink } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
+import { PRICE_EVIDENCE_FIELDS, hasPriceEvidence, priceEvidence } from '../src/price-evidence.js';
 
 export const SOURCE = 'supabase_public_ev_variants';
 export const FIELDS = ['brand', 'model', 'variant_name', 'body_type', 'price_sek', 'price_type', 'price_valid_until',
   'wltp_range_km', 'wltp_consumption_kwh_100km', 'battery_kwh', 'dc_charge_kw', 'ac_charge_kw', 'boot_liters',
   'tow_kg', 'seats', 'drivetrain', 'source_url', 'source_name', 'source_hash', 'source_quote', 'extraction_confidence',
   'validation_status', 'market_seen', 'available_confirmed', 'discontinued_candidate', 'coming_or_low_volume',
-  'image_url', 'image_source_url', 'verified_at'];
+  'image_url', 'image_source_url', 'verified_at', ...PRICE_EVIDENCE_FIELDS];
 const NUMERIC = { price_sek: [100000, 3000000], wltp_range_km: [50, 1200], wltp_consumption_kwh_100km: [5, 50],
   battery_kwh: [5, 300], dc_charge_kw: [20, 600], ac_charge_kw: [1, 50], boot_liters: [50, 3500], tow_kg: [0, 4000], seats: [1, 9] };
 const FLAGS = ['market_seen', 'available_confirmed', 'discontinued_candidate', 'coming_or_low_volume'];
@@ -35,6 +36,8 @@ export function normalizeCatalog(rows) {
   const keys = new Set();
   return rows.map((input) => {
     const row = Object.fromEntries(FIELDS.map((field) => [field, input[field] ?? null]));
+    if (hasPriceEvidence(row)) assert(priceEvidence(row), 'Incomplete or invalid price-specific evidence');
+    else for (const field of PRICE_EVIDENCE_FIELDS) delete row[field];
     for (const field of ['brand', 'model', 'variant_name', 'source_url', 'source_hash', 'source_quote']) {
       assert(typeof row[field] === 'string' && row[field].trim(), `Missing published evidence/identity: ${field}`);
     }

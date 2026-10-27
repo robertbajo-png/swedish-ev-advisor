@@ -1,6 +1,7 @@
 import { isPublicVariant, normalizeRequirements, ruleAdvice, matchAdvisorVariants } from '../../src/advisor-matching.js';
 import { REQUIREMENTS_SCHEMA, requirementsPrompt } from './advisor-requirements.mjs';
 import { AiBudgetError } from './ai-budget.mjs';
+import { hasPriceEvidence, priceEvidence } from '../../src/price-evidence.js';
 
 const COMPARE_RESPONSE_SCHEMA = {
   type: 'object',
@@ -82,6 +83,7 @@ function displayName(row) {
 export function normalizePublicVariants(rows) {
   return (Array.isArray(rows) ? rows : [])
     .filter(isPublicVariant)
+    .filter(row => !hasPriceEvidence(row) || priceEvidence(row))
     .map((row) => {
       const variantKey = `${row.brand}|${row.model}|${row.variant_name}`;
       return {
@@ -101,6 +103,7 @@ export function normalizePublicVariants(rows) {
         source_hash: row.source_hash,
         price_type: ['list_price', 'campaign_price', 'dealer_offer'].includes(row.price_type) ? row.price_type : null,
         price_valid_until: row.price_valid_until || null,
+        ...priceEvidence(row),
         validation_status: row.validation_status,
         market_seen: row.market_seen === true,
         available_confirmed: row.available_confirmed === true,
@@ -172,6 +175,7 @@ function compactVariant(row) {
     validation_status: row.validation_status,
     price_type: row.price_type,
     price_valid_until: row.price_valid_until,
+    price_evidence: priceEvidence(row),
     market_seen: row.market_seen,
     available_confirmed: row.available_confirmed,
   };

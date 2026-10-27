@@ -42,6 +42,7 @@ import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehi
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
 import imageRights from './image-rights.json';
+import { priceEvidence } from './price-evidence.js';
 
 
 const formatSEK = (value) =>
@@ -176,6 +177,7 @@ function transformPublicVariant(row) {
   );
   const seats = Number(row.seats) || 5;
   const sourceQuote = row.source_quote || '';
+  const priceProof = priceEvidence(row);
   return {
     id: `${slug(brand)}-${slug(model)}`,
     canonicalKey: `${row.brand}|${row.model}|${row.variant_name}`,
@@ -191,6 +193,9 @@ function transformPublicVariant(row) {
     price,
     priceType: row.price_type || null,
     priceValidUntil: row.price_valid_until || null,
+    priceSource: priceProof?.price_source_url || null,
+    priceVerifiedAt: priceProof?.price_verified_at.slice(0, 10) || null,
+    priceSourceName: priceProof?.price_source_name || null,
     range: rangeVerified || 0,
     rangeVerified,
     consumption: consumptionVerified,
@@ -216,7 +221,9 @@ function transformPublicVariant(row) {
     discontinuedCandidate: row.discontinued_candidate,
     comingOrLowVolume: row.coming_or_low_volume,
     summary:
-      sourceQuote
+      priceProof
+        ? ([rangeVerified && `${rangeVerified} km räckvidd enligt WLTP.`, dcVerified && `Maximal DC-laddning ${dcVerified} kW.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
+        : sourceQuote
         ? `${sourceQuote.slice(0, 170)}${sourceQuote.length > 170 ? '...' : ''}`
         : 'Publicerad med verifierade svenska källor för pris och specifikationer.'
   };
@@ -996,7 +1003,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
     <div className="vehicleDetailBody vehicleContainer">
       <AiSummaryCard car={car} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
-        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
+        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
         <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], ['Förbrukning', car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas']]} />
         <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
@@ -1047,7 +1054,7 @@ function SummaryBlock({ title, items }) {
   );
 }
 
-function DetailInfoCard({ eyebrow, title, items, source, verifiedAt }) {
+function DetailInfoCard({ eyebrow, title, items, source, verifiedAt, priceSource, priceVerifiedAt }) {
   return (
     <article className="detailInfoCard">
       <span className="eyebrow">{eyebrow}</span>
@@ -1060,9 +1067,10 @@ function DetailInfoCard({ eyebrow, title, items, source, verifiedAt }) {
           </div>
         ))}
       </dl>
+      {priceSource && priceVerifiedAt && <p className="sectionSource">Pris verifierat {priceVerifiedAt}. <a href={priceSource} target="_blank" rel="noreferrer">Visa priskälla <ExternalLink size={13} /></a></p>}
       {(source || verifiedAt) && (
         <p className="sectionSource">
-          {verifiedAt ? `Senast verifierad ${verifiedAt}. ` : ''}
+          {verifiedAt ? `${priceSource ? 'Övriga uppgifter verifierade' : 'Senast verifierad'} ${verifiedAt}. ` : ''}
           {source && <a href={source} target="_blank" rel="noreferrer">Visa källa <ExternalLink size={13} /></a>}
         </p>
       )}
@@ -1072,7 +1080,16 @@ function DetailInfoCard({ eyebrow, title, items, source, verifiedAt }) {
 
 function SourceVerificationCard({ car }) {
   const imageCredit = imageRights.assets.find(asset => asset.asset_url === car.image);
-  return <section className="vehicleSources" id="bilkallor"><details><summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary><div><a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a><p>{car.verifiedAt ? 'Senast verifierad ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas i underlaget.'}</p><MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>{imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}</div></details></section>;
+  return <section className="vehicleSources" id="bilkallor"><details>
+    <summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary>
+    <div>
+      <a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a>
+      <p>{car.verifiedAt ? 'Biluppgifter verifierade ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas för bilens övriga uppgifter.'}</p>
+      {car.priceSource && <p><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla: {car.priceSourceName} <ExternalLink size={15} /></a>{' · Pris verifierat '}<time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time>.</p>}
+      <MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>
+      {imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}
+    </div>
+  </details></section>;
 }
 
 function CarImage({ car, priority = false }) {
