@@ -1,0 +1,23 @@
+name = "elbilsagenten"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-08-24"
+
+[vars]
+OPENAI_MODEL = "gpt-5.4-mini"
+AI_ENABLED = "false"
+VEHICLE_DATA_MODE = "snapshot"
+
+[[d1_databases]]
+binding = "AI_BUDGET_DB"
+database_name = "elbilsagenten-ai-budget-production"
+database_id = "206ce4df-f219-4d67-be24-e4b56f52a6be"
+
+[env.preview.vars]
+OPENAI_MODEL = "gpt-5.4-mini"
+AI_ENABLED = "false"
+VEHICLE_DATA_MODE = "snapshot"
+
+[[env.preview.d1_databases]]
+binding = "AI_BUDGET_DB"
+database_name = "elbilsagenten-ai-budget-production"
+database_id = "206ce4df-f219-4d67-be24-e4b56f52a6be"
