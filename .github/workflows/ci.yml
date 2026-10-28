@@ -36,6 +36,8 @@ jobs:
       - run: bun run verify:image-sync
       - run: bun run verify:kia-price-sync
       - run: bun run verify:current-variants
+      - run: bun run verify:remaining-variants
+      - run: bun run verify:source-alignment
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
       - run: bun run verify:price-evidence
@@ -119,7 +121,9 @@ jobs:
       - run: bun run verify:env-loading
       - run: bun run verify:catalog-audit
       - run: bun run verify:variant-refresh-extraction
-      - run: python -m pip install pypdf==6.10.0
+      - run: python -m pip install -r requirements-source-intake.txt
+      - run: bun run verify:remaining-intake
+      - run: bun run verify:stock-intake
       - run: bun run verify:toyota-intake
       - run: bun run verify:toyota-publication-worker
       - run: bun run verify:toyota-grade-discovery

@@ -46,6 +46,7 @@ import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
+import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug } from './vehicle-names.js';
 
 
 const formatSEK = (value) =>
@@ -82,53 +83,6 @@ function normalizeImageKey(value) {
 function officialImageFor(brand, model) {
   const key = `${normalizeImageKey(brand)}|${normalizeImageKey(model)}`;
   return officialModelImages[key] || null;
-}
-
-function normalizeNameToken(value) {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-}
-
-function normalizeVehicleNameKey(value, brand = '') {
-  const brandKey = normalizeNameToken(brand);
-  return String(value || '')
-    .toLowerCase()
-    .replace(/\b(suv|sportback|edition|advanced|business)\b/g, ' ')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .split(' ')
-    .filter((part) => part && normalizeNameToken(part) !== brandKey)
-    .join('');
-}
-
-function stripLeadingBrand(brand, value) {
-  const brandText = String(brand || '').trim();
-  const text = String(value || '').trim();
-  if (!brandText) return text;
-  const pattern = new RegExp(`^${brandText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s+`, 'i');
-  return text.replace(pattern, '').trim();
-}
-
-function displayModelName(brand, model, variantName) {
-  const modelText = String(model || '').trim();
-  const variantText = stripLeadingBrand(brand, variantName);
-  if (!variantText) return modelText;
-
-  const normalizedModel = normalizeNameToken(modelText);
-  const normalizedVariant = normalizeNameToken(variantText);
-  const vehicleModel = normalizeVehicleNameKey(modelText, brand);
-  const vehicleVariant = normalizeVehicleNameKey(variantText, brand);
-  if (
-    !normalizedModel ||
-    normalizedVariant === normalizedModel ||
-    normalizedVariant.startsWith(normalizedModel) ||
-    (vehicleModel && (vehicleVariant === vehicleModel || vehicleVariant.startsWith(vehicleModel)))
-  ) {
-    return variantText;
-  }
-  return `${modelText} ${variantText}`.trim();
-}
-
-function slug(value) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
 function verifiedNumber(value) {
@@ -626,7 +580,7 @@ function App() {
       .map((car) => ({ ...car, score: scoreCar(car, effectiveAdvisor), reasons: reasonsFor(car, effectiveAdvisor) }))
       .filter((car) => filters.body === 'Alla' || car.body === filters.body)
       .filter((car) => filters.brand === 'Alla' || car.brand === filters.brand)
-      .filter((car) => `${car.brand} ${car.model}`.toLocaleLowerCase('sv-SE').includes(filters.query.trim().toLocaleLowerCase('sv-SE')))
+      .filter((car) => `${car.brand} ${car.canonicalModel || ''} ${car.model}`.toLocaleLowerCase('sv-SE').includes(filters.query.trim().toLocaleLowerCase('sv-SE')))
       .filter((car) => !car.price || car.price <= filters.maxPrice)
       .filter((car) => car.range >= filters.minRange)
       .filter((car) => !filters.towRequired || car.towing > 0)

@@ -3,10 +3,10 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { parseArgs } from 'node:util';
 import { buildReplacementPlan, applyReplacementPlan, replacementPlanHash, recollectedFacts } from './current_variant_sync.mjs';
 import { validateVehicleRedirects } from '../src/vehicle-redirects.js';
 
-const folder = resolve('data/local/release-data/current-variants');
 const read = async path => JSON.parse(await readFile(path, 'utf8'));
 const save = async (path, value) => writeFile(path, JSON.stringify(value, null, 2) + '\n');
 const controlsSql = "select * from public.news_ai_config where id='production'";
@@ -14,10 +14,13 @@ const newsSql = 'select * from public.public_news_articles order by id';
 const plain = value => JSON.parse(JSON.stringify(value));
 
 async function main() {
-  const args = process.argv.slice(2);
-  assert(args.length >= 2 && args[0] === '--client-module', 'Supply a server-side TLS client module exporting openSourceSnapshot/closeSourceSnapshot');
-  assert(args.length === 2 || (args.length === 4 && args[2] === '--apply'), 'Dry-run is default; apply requires exact prepared hash');
-  const connector = await import(pathToFileURL(resolve(args[1])));
+  const {values}=parseArgs({options:{'client-module':{type:'string'},batch:{type:'string',default:'first'},apply:{type:'string'}}});
+  assert(values['client-module'],'Supply a server-side TLS client module exporting openSourceSnapshot/closeSourceSnapshot');
+  assert(['first','remaining'].includes(values.batch),'Unknown reviewed batch');
+  const folder=resolve('data/local/release-data/'+(values.batch==='first'?'current-variants':'remaining-variants'));
+  const rules=values.batch==='remaining'?(await import('./remaining_variant_policy.mjs')).remainingRules:undefined;
+  const script=values.batch==='remaining'?'scripts/remaining_variant_intake.py':'scripts/current_variant_intake.py';
+  const connector = await import(pathToFileURL(resolve(values['client-module'])));
   let client;
   await mkdir(folder, { recursive: true });
   try {
@@ -30,13 +33,18 @@ async function main() {
     assert.equal(String(controls[0].monthly_limit_micro_usd), '5000000');
     const articles = plain((await client.query(newsSql)).rows);
     assert.equal(articles.length, 2);
-    if (args.length === 2) {
+    if (!values.apply) {
       const intake = await read(resolve(folder, 'intake.json'));
+      if(!intake.groups.length) {
+        assert.equal(intake.held.length,0,'All remaining sources held for review');
+        console.log(JSON.stringify({dry_run:true,status:'no_pending_replacements',database_writes:0,paid_calls:0}));return;
+      }
       const variants = (await client.query(`select v.*,m.brand,m.model from public.canonical_model_variants v
         join public.canonical_models m on m.id=v.canonical_model_id order by v.id`)).rows;
-      const plan = buildReplacementPlan(variants, intake);
+      const plan = buildReplacementPlan(variants, intake, new Date(), rules);
       const hash = replacementPlanHash(plan);
       const receipt = { hash, plan, controls, articles };
+      await save(resolve(folder, 'prepared-'+hash+'.json'), receipt);
       await save(resolve(folder, 'prepared-plan.json'), receipt);
       console.log(JSON.stringify({ dry_run: true, plan_sha256: hash,
         groups: plan.groups.map(g => ({ brand: g.brand, model: g.model, retired: g.expected.length,
@@ -44,21 +52,28 @@ async function main() {
       return;
     }
     const prepared = await read(resolve(folder, 'prepared-plan.json'));
-    assert.equal(args[3], prepared.hash);
+    assert.equal(values.apply, prepared.hash);
     assert.equal(replacementPlanHash(prepared.plan), prepared.hash);
     assert.deepEqual(controls, prepared.controls, 'News controls changed');
     assert.deepEqual(articles, prepared.articles, 'Production articles changed');
     // Re-fetch and independently re-extract the current real documents before any write.
     const freshPath = resolve(folder, 'fresh-intake.json');
-    const fetch = spawnSync(process.execPath, ['scripts/run_python.mjs', 'scripts/current_variant_intake.py', '--output', freshPath],
+    const selection=values.batch==='remaining'?prepared.plan.groups.flatMap(group=>['--only',group.brand+'|'+group.model]):[];
+    const fetch = spawnSync(process.execPath, ['scripts/run_python.mjs', script, '--output', freshPath,...selection],
       { encoding: 'utf8', windowsHide: true, timeout: 180000 });
     assert.equal(fetch.status, 0, 'Fresh manufacturer-source revalidation failed');
     const fresh = await read(freshPath);
     const original = { groups: prepared.plan.groups.map(g => ({ brand: g.brand, model: g.model,
-      retire: g.expected.map(row => row.variant_name), profiles: g.profiles })) };
-    assert.deepEqual(recollectedFacts(fresh), recollectedFacts(original), 'Price-document bytes or exact-variant evidence changed; prepare again');
+      retire: g.expected.map(row => row.variant_name), profiles: g.profiles,...(g.retention_evidence?{retention_evidence:g.retention_evidence}:{}) })) };
+    const comparable=rules?.recollectedFacts||recollectedFacts;
+    assert.deepEqual(comparable(fresh), comparable(original), 'Material source context, PDF bytes or exact-variant evidence changed; prepare again');
+    const effectivePlan=rules?.freshProofs?buildReplacementPlan(prepared.plan.groups.flatMap(group=>[...group.expected,...(group.retained||[])]),fresh,new Date(),rules):prepared.plan;
+    const effectiveHash=replacementPlanHash(effectivePlan);
     await client.query('ROLLBACK');
-    const result = await applyReplacementPlan(client, prepared.plan, prepared.hash);
+    const result = await applyReplacementPlan(client, effectivePlan, effectiveHash,new Date(),rules);
+    result.prepared_plan_sha256=prepared.hash;
+    if(effectiveHash!==prepared.hash)await save(resolve(folder,'applied-plan-'+effectiveHash+'.json'),{prepared_hash:prepared.hash,plan:effectivePlan});
+    await save(resolve(folder, 'receipt-'+prepared.hash+'.json'), result);
     await save(resolve(folder, 'committed-receipt.json'), result);
     assert.deepEqual(plain((await client.query(controlsSql)).rows), controls);
     assert.deepEqual(plain((await client.query(newsSql)).rows), articles);

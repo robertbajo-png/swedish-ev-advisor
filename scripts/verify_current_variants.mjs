@@ -22,10 +22,12 @@ for (const patch of [{price_sek: 3990}, {price_sek: 600000}, {wltp_range_km: 605
 }
 assert.equal(retiredSlug('Kia', 'Ev3', 'EV3'), 'kia-ev3');
 assert.equal(retiredSlug('Polestar', '4', 'Long range Single motor'), 'polestar-4-long-range-single-motor');
+assert.equal(retiredSlug('Audi','A6 E-Tron','A6 Sportback e-tron'),'audi-a6-sportback-e-tron');
+assert.equal(retiredSlug('Volvo','Ex30','EX30 Core'),'volvo-ex30-core');
 const registry = { schema_version: 1, redirects: [{ slug: 'kia-ev3', brand: 'Kia', model: 'Ev3' }] };
 assert.equal(vehicleRedirect('kia-ev3', registry), '/bilar?brand=Kia&query=Ev3');
 assert.equal(vehicleRedirect('unknown', registry), null);
-assert.deepEqual(catalogQuery('?brand=Kia&query=Ev3'), {brand:'Kia',query:'Ev3'});
+assert.deepEqual(catalogQuery('?brand=Kia&query=Ev3'), {brand:'Kia',query:'Ev3',maxPrice:1200000});
 assert.equal(catalogQuery('?query=EV3'), null);
 for (const patch of [{slug:'//evil.invalid'}, {slug:'kia-ev3\n/evil'}, {brand:'<script>'}]) {
   assert.throws(() => validateVehicleRedirects({schema_version:1,redirects:[{...registry.redirects[0],...patch}]}));

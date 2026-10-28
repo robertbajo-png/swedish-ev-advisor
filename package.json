@@ -3,6 +3,11 @@
   "scripts": {
     "catalog:current:collect": "node scripts/run_python.mjs scripts/current_variant_intake.py",
     "verify:current-variants": "node scripts/verify_current_variants.mjs",
+    "catalog:remaining:collect": "node scripts/run_python.mjs scripts/remaining_variant_intake.py",
+    "verify:remaining-variants": "node scripts/verify_remaining_variants.mjs",
+    "verify:remaining-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_remaining_variants.py -v",
+    "verify:stock-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_stock_variants.py -v",
+    "verify:source-alignment": "node scripts/verify_source_type_alignment.mjs",
     "verify:current-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_current_variants.py -v",
     "verify:vehicle-redirects": "node scripts/run_python.mjs -m unittest discover -s tests -p test_vehicle_redirects.py -v",
     "verify:vehicle-redirects-ui": "node scripts/verify_vehicle_redirects_ui.mjs",
