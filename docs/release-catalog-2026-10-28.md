@@ -61,6 +61,11 @@ real Audi Sportback URL and its historical duplicate-name alias. Model-filtered
 entry links use the full supported price ceiling; canonical model names remain
 searchable even when the displayed variant contains additional body-style words.
 
+Comparison report names use the same model normalization. Price labels have a
+consistent footer slot, so list/campaign/dealer prices share a baseline. Mobile
+selection headings use two visual lines while keeping the full link text and
+detail-page identity. The unchanged 24-layout size/alignment checks passed.
+
 No model-photo fallback was introduced. Missing fields remain visibly unknown,
 not zero. Campaign/dealer labels and price-specific verification evidence remain
 separate from older technical facts.
@@ -77,6 +82,13 @@ SEO verification found 90 sitemap URLs and no errors. Automated UI QA audited
 22 desktop/mobile page states with no reported axe violations, plus keyboard,
 320/640px reflow, missing-data and provider-outage behaviour. This does not replace
 all manual accessibility checks. Browser tests block paid requests.
+
+Four-viewport home and vehicle workflow tests also passed, including filters,
+sorting, drawer focus, CSV, report error/reset, explicit zero versus null and
+missing-photo behaviour. News/journal UI fixtures passed without changing the
+published export. Edge recommendation tests now select actually qualifying
+verified records rather than depend on catalog order, and separately reject
+unknown WLTP against a minimum-range requirement.
 
 The real read-only Supabase probe returned 30 public models and 76 variants;
 all seven private vehicle tables denied anonymous reads. No production writes
