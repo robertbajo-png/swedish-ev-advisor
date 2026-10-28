@@ -229,6 +229,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@electric-sql/pglite": "0.5.10",
+    "parse5": "8.0.1",
     "playwright": "^1.59.1"
   }
 }
