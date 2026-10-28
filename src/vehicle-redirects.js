@@ -24,5 +24,5 @@ export function catalogQuery(search) {
   const brand = params.get('brand') || '';
   const query = params.get('query') || '';
   if (!brand || !query || brand.length > 60 || query.length > 80 || /[\u0000-\u001f<>|]/.test(brand + query)) return null;
-  return { brand, query };
+  return { brand, query, maxPrice: 1200000 };
 }

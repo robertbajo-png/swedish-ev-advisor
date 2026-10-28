@@ -30,7 +30,8 @@ try {
       await page.goto(base + '/bilar/' + entry.slug + '/');
       await page.waitForURL(url => url.pathname === '/bilar' && url.searchParams.get('brand') === entry.brand && url.searchParams.get('query') === entry.model);
       const card = page.locator('.carCard').first();
-      await card.waitFor();
+      await card.waitFor().catch(error => { throw new Error('Retired link has no current model cards: '+entry.slug, {cause:error}); });
+      assert.equal(await page.locator('#desktop-price').inputValue(),'1200000');
       assert.equal(await page.getByRole('searchbox',{name:'Sök bilmodell'}).inputValue(),entry.model);
       const titles = await page.locator('.carCard .vehicleCardTitle').allTextContents();
       assert(titles.length && titles.every(title => title.includes(entry.brand)), 'Retired link must remain within the same manufacturer');
@@ -47,6 +48,13 @@ try {
     assert(!/\b0 (?:km|kW|kg)\b/.test(hero), 'Unknown technical values are not zeros');
     assert.deepEqual((await new AxeBuilder({page}).analyze()).violations.map(v=>v.id),[]);
     await page.screenshot({path:fileURLToPath(new URL('current-basic-profile-'+name+'.png',output)),fullPage:true});
+    const longest=[...snapshot.records].sort((a,b)=>b.variant_name.length-a.variant_name.length)[0];
+    await page.goto(base+'/bilar/'+retiredSlug(longest.brand,longest.model,longest.variant_name));
+    await page.locator('.vehicleDetailHero h1').waitFor();
+    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Long exact stock identities must fit');
+    assert.deepEqual(await page.locator('.vehicleHeroCopy h1, .vehicleHeroCopy p').evaluateAll(nodes=>nodes.filter(node=>node.scrollWidth>node.clientWidth+1).map(node=>node.textContent)),[]);
+    assert.deepEqual((await new AxeBuilder({page}).analyze()).violations.map(v=>v.id),[]);
+    await page.screenshot({path:fileURLToPath(new URL('current-long-stock-profile-'+name+'.png',output)),fullPage:true});
     // Exercise the SPA resolver separately from the static HTML redirect fallback.
     const first = registry.redirects[0];
     await page.evaluate(slug => {history.pushState({},'', '/bilar/'+slug); dispatchEvent(new PopStateEvent('popstate'));}, first.slug);

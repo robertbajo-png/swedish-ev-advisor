@@ -2,6 +2,41 @@
   "schema_version": 1,
   "redirects": [
     {
+      "slug": "audi-a6-e-tron-a6-sportback-e-tron",
+      "brand": "Audi",
+      "model": "A6 E-Tron"
+    },
+    {
+      "slug": "audi-a6-sportback-e-tron",
+      "brand": "Audi",
+      "model": "A6 E-Tron"
+    },
+    {
+      "slug": "audi-q6-e-tron",
+      "brand": "Audi",
+      "model": "Q6 E-Tron"
+    },
+    {
+      "slug": "bmw-i4-edrive40-gran-coup",
+      "brand": "BMW",
+      "model": "i4"
+    },
+    {
+      "slug": "bmw-i4-xdrive40",
+      "brand": "BMW",
+      "model": "i4"
+    },
+    {
+      "slug": "cupra-born",
+      "brand": "Cupra",
+      "model": "Born"
+    },
+    {
+      "slug": "ford-explorer-business-edition",
+      "brand": "Ford",
+      "model": "Explorer"
+    },
+    {
       "slug": "kia-ev3",
       "brand": "Kia",
       "model": "Ev3"
@@ -20,6 +55,16 @@
       "slug": "kia-ev9-rwd-standard-range",
       "brand": "Kia",
       "model": "Ev9"
+    },
+    {
+      "slug": "mazda-6e-takumi",
+      "brand": "Mazda",
+      "model": "6E"
+    },
+    {
+      "slug": "mercedes-benz-cla-advanced-edition",
+      "brand": "Mercedes-Benz",
+      "model": "Cla"
     },
     {
       "slug": "polestar-4-long-range-dual-motor",
@@ -55,6 +100,96 @@
       "slug": "renault-5-techno-ev52",
       "brand": "Renault",
       "model": "5"
+    },
+    {
+      "slug": "skoda-elroq-60-selection",
+      "brand": "Skoda",
+      "model": "Elroq"
+    },
+    {
+      "slug": "skoda-elroq-85-selection",
+      "brand": "Skoda",
+      "model": "Elroq"
+    },
+    {
+      "slug": "skoda-elroq-85x-selection",
+      "brand": "Skoda",
+      "model": "Elroq"
+    },
+    {
+      "slug": "skoda-elroq-rs",
+      "brand": "Skoda",
+      "model": "Elroq"
+    },
+    {
+      "slug": "toyota-bz4x-active-awd",
+      "brand": "Toyota",
+      "model": "bZ4X"
+    },
+    {
+      "slug": "toyota-bz4x-active-fwd",
+      "brand": "Toyota",
+      "model": "bZ4X"
+    },
+    {
+      "slug": "volkswagen-id-3-neo",
+      "brand": "Volkswagen",
+      "model": "Id.3"
+    },
+    {
+      "slug": "volkswagen-id-4-pro-sweden-olympic-edition",
+      "brand": "Volkswagen",
+      "model": "Id.4"
+    },
+    {
+      "slug": "volvo-es90-plus",
+      "brand": "Volvo",
+      "model": "Es90"
+    },
+    {
+      "slug": "volvo-es90-ultra",
+      "brand": "Volvo",
+      "model": "Es90"
+    },
+    {
+      "slug": "volvo-ex30-black-edition",
+      "brand": "Volvo",
+      "model": "Ex30"
+    },
+    {
+      "slug": "volvo-ex30-core",
+      "brand": "Volvo",
+      "model": "Ex30"
+    },
+    {
+      "slug": "volvo-ex30-cross-country",
+      "brand": "Volvo",
+      "model": "Ex30"
+    },
+    {
+      "slug": "volvo-ex30-plus",
+      "brand": "Volvo",
+      "model": "Ex30"
+    },
+    {
+      "slug": "volvo-ex30-ultra",
+      "brand": "Volvo",
+      "model": "Ex30"
+    },
+    {
+      "slug": "zeekr-7x-core-rwd",
+      "brand": "Zeekr",
+      "model": "7X"
+    },
+    {
+      "slug": "zeekr-7x-long-range-rwd",
+      "brand": "Zeekr",
+      "model": "7X"
+    },
+    {
+      "slug": "zeekr-7x-privilege-awd",
+      "brand": "Zeekr",
+      "model": "7X"
     }
   ]
 }

@@ -100,7 +100,7 @@ try {
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());
-  publicRecords = [{ ...records[0], price_sek: 600000, price_type: null, dc_charge_kw: null, tow_kg: 0, seats: null,
+  publicRecords = [{ ...records[0], price_sek: 600000, price_type: null, wltp_range_km: 600, dc_charge_kw: null, tow_kg: 0, seats: null,
     image_url: '/media/vehicles/qa-missing.jpg' }];
   await page.goto(base + '/bilar');
   await page.locator('.carCard').first().waitFor();

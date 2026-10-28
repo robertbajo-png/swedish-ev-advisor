@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { vehicleSlug } from '../src/vehicle-names.js';
 
 export const POLICY = 'current_exact_variants_2026_10_v1';
 export const RETIRED = {
@@ -28,19 +29,14 @@ export function recollectedFacts(intake) {
     return copy;
   }) }));
 }
-const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-export function retiredSlug(brand, model, variant) {
-  const norm = text => String(text).toLowerCase().replace(/[^a-z0-9]/g, '');
-  const variantWithoutBrand = variant.replace(new RegExp(`^${brand}\\s+`, 'i'), '');
-  const display = norm(variantWithoutBrand).startsWith(norm(model)) ? variantWithoutBrand : `${model} ${variantWithoutBrand}`;
-  return slug(`${brand} ${display}`);
-}
+export const retiredSlug = vehicleSlug;
 
 export function validateProfile(row, now = new Date()) {
   assert(Object.hasOwn(RETIRED, key(row)), 'Unapproved model');
   assert.equal(row.source_url, SOURCES[row.brand], 'Exact accepted source required');
   assert.equal(row.source_authority, row.brand === 'Renault' ? 'importer' : 'manufacturer');
   assert.equal(row.source_name, row.brand + ' Sverige');
+  assert.equal(row.source_type, undefined, 'First-batch source classification is fixed by its reviewed adapter');
   assert.match(row.source_hash, /^[a-f0-9]{64}$/);
   const age = now.getTime() - Date.parse(row.fetched_at);
   assert(Number.isFinite(age) && age >= -60000 && age <= 900000, 'Fresh evidence required');
@@ -82,15 +78,19 @@ export function validateProfile(row, now = new Date()) {
   return row;
 }
 
-export function buildReplacementPlan(variants, intake, now = new Date()) {
-  assert.equal(intake.policy, POLICY);
-  assert.equal(intake.groups.length, Object.keys(RETIRED).length);
+const firstBatchRules = { policy: POLICY, retired: RETIRED, validateProfile, requiredGroupCount: Object.keys(RETIRED).length };
+
+// Policies are supplied by reviewed server modules, never deserialized from intake JSON.
+export function buildReplacementPlan(variants, intake, now = new Date(), rules = firstBatchRules) {
+  assert.equal(intake.policy, rules.policy);
+  assert(intake.groups.length > 0 && intake.groups.length <= Object.keys(rules.retired).length);
+  if (rules.requiredGroupCount) assert.equal(intake.groups.length, rules.requiredGroupCount);
   const seen = new Set();
   const groups = intake.groups.map(group => {
     const identity = key(group);
-    assert(Object.hasOwn(RETIRED, identity) && !seen.has(identity), 'Unexpected/duplicate model group');
+    assert(Object.hasOwn(rules.retired, identity) && !seen.has(identity), 'Unexpected/duplicate model group');
     seen.add(identity);
-    assert.deepEqual(group.retire, RETIRED[identity]);
+    assert.deepEqual(group.retire, rules.retired[identity]);
     const expected = group.retire.map(name => {
       const matches = variants.filter(v => key(v) === identity && v.variant_name === name
         && ['published', 'published_reviewed'].includes(v.validation_status));
@@ -99,26 +99,37 @@ export function buildReplacementPlan(variants, intake, now = new Date()) {
     });
     const modelId = expected[0].canonical_model_id;
     assert(expected.every(row => row.canonical_model_id === modelId));
-    assert(group.profiles.length >= 1 && group.profiles.length <= 20);
+    assert(group.profiles.length >= 0 && group.profiles.length <= 20);
+    let retention={};
+    if(!group.profiles.length) {
+      const names=rules.retained?.[identity];
+      assert(names?.length,'Retirement without a verified retained current variant is forbidden');
+      const retained=names.map(name=>{
+        const matches=variants.filter(v=>v.canonical_model_id===modelId&&v.variant_name===name&&['published','published_reviewed'].includes(v.validation_status));
+        assert.equal(matches.length,1,'Exact retained public variant required');return plain(matches[0]);
+      });
+      rules.validateRetention(group.retention_evidence,retained,now);
+      retention={retained,retention_evidence:plain(group.retention_evidence)};
+    }else assert.equal(group.retention_evidence,undefined);
     const names = new Set();
     for (const profile of group.profiles) {
-      validateProfile(profile, now);
+      rules.validateProfile(profile, now);
       assert.equal(key(profile), identity);
       assert(!names.has(profile.variant_name)); names.add(profile.variant_name);
       assert(!variants.some(v => v.canonical_model_id === modelId && v.variant_name === profile.variant_name), 'New identity already exists; reconcile before replay');
     }
     return { brand: group.brand, model: group.model, canonical_model_id: modelId,
-      expected, profiles: plain(group.profiles), redirects: expected.map(row => ({
+      expected, profiles: plain(group.profiles),...retention, redirects: expected.map(row => ({
         slug: retiredSlug(row.brand, row.model, row.variant_name), brand: row.brand, model: row.model })) };
   });
-  return { policy: POLICY, groups };
+  return { policy: rules.policy, groups };
 }
 
-export async function applyReplacementPlan(client, plan, expectedHash, now = new Date()) {
+export async function applyReplacementPlan(client, plan, expectedHash, now = new Date(), rules = firstBatchRules) {
   assert.equal(replacementPlanHash(plan), expectedHash, 'Plan changed');
-  assert.deepEqual(plan, buildReplacementPlan(plan.groups.flatMap(g => g.expected), {
+  assert.deepEqual(plan, buildReplacementPlan(plan.groups.flatMap(g => [...g.expected,...(g.retained||[])]), {
     policy: plan.policy, groups: plan.groups.map(g => ({ brand: g.brand, model: g.model,
-      retire: g.expected.map(v => v.variant_name), profiles: g.profiles })) }, now));
+      retire: g.expected.map(v => v.variant_name), profiles: g.profiles,...(g.retention_evidence?{retention_evidence:g.retention_evidence}:{}) })) }, now, rules));
   let committed = false;
   await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
   try {
@@ -130,6 +141,7 @@ export async function applyReplacementPlan(client, plan, expectedHash, now = new
     const publicModels = plain((await client.query('SELECT id FROM public.public_ev_models ORDER BY id')).rows);
     const byId = new Map(before.map(row => [row.id, row]));
     const affected = new Set();
+    const inserted = new Map();
     for (const group of plan.groups) {
       assert(models.some(m => m.id === group.canonical_model_id && m.brand === group.brand && m.model === group.model));
       for (const expected of group.expected) {
@@ -137,35 +149,45 @@ export async function applyReplacementPlan(client, plan, expectedHash, now = new
         assert.deepEqual(byId.get(expected.id), value, 'Concurrent variant change');
         affected.add(expected.id);
       }
+      for(const retained of group.retained||[]) {
+        const {brand,model,...value}=retained;
+        assert.deepEqual(byId.get(retained.id),value,'Retained current variant changed');
+      }
       for (const profile of group.profiles) {
-        validateProfile(profile, now);
+        rules.validateProfile(profile, now);
         const sources = (await client.query('SELECT id FROM public.manufacturer_sources WHERE url=$1', [profile.source_url])).rows;
         let sourceId = sources[0]?.id;
         if (!sourceId) {
           sourceId = (await client.query(`INSERT INTO public.manufacturer_sources
             (canonical_model_id,brand,model,source_type,url,title,country,language,fetched_at,content_hash,
-              extraction_status,extraction_confidence,http_status,final_url,source_validation,source_authority,source_name,verified_by,verified_at)
-            VALUES($1,$2,$3,$4,$5,$6,'SE','sv',$7,$8,'validated',0.99,200,$5,'reachable',$9,$6,$10,$7) RETURNING id`,
-          [group.canonical_model_id, group.brand, group.model, profile.source_url.endsWith('.pdf') ? 'price_list_pdf' : 'manufacturer_page',
-            profile.source_url, profile.source_name, profile.fetched_at, profile.source_hash, profile.source_authority, POLICY])).rows[0].id;
+              extraction_status,extraction_confidence,http_status,final_url,source_validation,source_authority,source_name,verified_by,verified_at,authorization_evidence_url)
+            VALUES($1,$2,$3,$4,$5,$6,'SE','sv',$7,$8,'validated',$12,200,$5,'reachable',$9,$6,$10,$7,$11) RETURNING id`,
+          [group.canonical_model_id, group.brand, group.model, profile.source_type || (profile.source_url.endsWith('.pdf') ? 'price_list_pdf' : 'manufacturer_page'),
+            profile.source_url, profile.source_name, profile.fetched_at, profile.source_hash, profile.source_authority, rules.policy,profile.authorization_evidence_url||null,profile.extraction_confidence])).rows[0].id;
         }
         // Shared documents may already support older technical records: never refresh their date/hash globally.
+        const technical = UNKNOWN.filter(field => field !== 'price_valid_until');
+        const technicalValues = technical.map(field => profile[field]);
         const draft = (await client.query(`INSERT INTO public.extracted_variant_drafts
           (canonical_model_id,source_id,brand,model,variant_name,price_sek,price_type,source_url,source_quote,
-            source_hash,extraction_confidence,extraction_payload,validation_status)
-          VALUES($1,$2,$3,$4,$5,$6,'list_price',$7,$8,$9,0.99,$10,'validated')
+            source_hash,extraction_confidence,extraction_payload,validation_status,${technical.join(',')})
+          VALUES($1,$2,$3,$4,$5,$6,$11,$7,$8,$9,$12,$10,'validated',${technical.map((_,i)=>'$'+(13+i)).join(',')})
           ON CONFLICT(source_url,variant_name) DO NOTHING RETURNING id`,
           [group.canonical_model_id, sourceId, group.brand, group.model, profile.variant_name, profile.price_sek,
-            profile.source_url, profile.source_quote, profile.source_hash, JSON.stringify(profile.extraction_payload)])).rows;
+            profile.source_url, profile.source_quote, profile.source_hash, JSON.stringify(profile.extraction_payload), profile.price_type, profile.extraction_confidence,...technicalValues])).rows;
+        if (draft.length && profile.price_valid_until) await client.query('UPDATE public.extracted_variant_drafts SET price_valid_until=$1 WHERE id=$2', [profile.price_valid_until,draft[0].id]);
         assert.equal(draft.length, 1, 'Staging identity exists; reconcile instead of overwriting history');
+        const hasPrice = profile.price_sek !== null;
+        const priceProof = hasPrice ? [profile.source_url,profile.source_hash,profile.source_quote,profile.source_name,profile.fetched_at,expectedHash] : Array(6).fill(null);
         const result = await client.query(`INSERT INTO public.canonical_model_variants
           (canonical_model_id,variant_name,price_sek,price_type,source_url,source_hash,source_quote,
             extraction_confidence,source_id,validation_status,published_at,price_source_url,price_source_hash,
-            price_source_quote,price_source_name,price_verified_at,price_refresh_batch_id)
-          VALUES($1,$2,$3,'list_price',$4,$5,$6,0.99,$7,'published',now(),$4,$5,$6,$8,$9,$10) RETURNING id`,
-          [group.canonical_model_id, profile.variant_name, profile.price_sek, profile.source_url, profile.source_hash,
-            profile.source_quote, sourceId, profile.source_name, profile.fetched_at, expectedHash]);
+            price_source_quote,price_source_name,price_verified_at,price_refresh_batch_id,price_valid_until,${technical.join(',')})
+          VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'published',now(),$10,$11,$12,$13,$14,$15,$16,${technical.map((_,i)=>'$'+(17+i)).join(',')}) RETURNING id`,
+          [group.canonical_model_id, profile.variant_name, profile.price_sek, profile.price_type, profile.source_url, profile.source_hash,
+            profile.source_quote, profile.extraction_confidence, sourceId,...priceProof,profile.price_valid_until,...technicalValues]);
         affected.add(result.rows[0].id);
+        inserted.set(result.rows[0].id,profile);
       }
       for (const old of group.expected) await client.query(`UPDATE public.canonical_model_variants
         SET validation_status='needs_review',updated_at=now() WHERE id=$1`, [old.id]);
@@ -178,7 +200,20 @@ export async function applyReplacementPlan(client, plan, expectedHash, now = new
         const retained = value => Object.fromEntries(Object.entries(value).filter(([name]) => !['validation_status', 'updated_at'].includes(name)));
         assert.equal(row.validation_status, 'needs_review');
         assert.deepEqual(retained(row), retained(byId.get(row.id)), 'Historical facts must remain intact');
-      } else for (const field of UNKNOWN) assert.equal(row[field], null, 'New profile inherited unsupported facts');
+      } else {
+        const profile = inserted.get(row.id);
+        assert(profile);
+        for (const field of UNKNOWN.filter(field => field !== 'price_valid_until')) {
+          const actual = row[field] === null ? null : (field === 'drivetrain' ? row[field] : Number(row[field]));
+          assert.equal(actual,profile[field],'New profile differs from its validated source-bound facts');
+        }
+        assert.equal(row.price_sek,profile.price_sek);
+        assert.equal(Number(row.extraction_confidence),profile.extraction_confidence);
+        assert.equal(row.price_source_hash,profile.price_sek === null ? null : profile.source_hash);
+        assert.equal(row.price_type, profile.price_type);
+        const expiry = (await client.query('SELECT price_valid_until::text AS expiry FROM public.canonical_model_variants WHERE id=$1', [row.id])).rows[0].expiry;
+        assert.equal(expiry, profile.price_valid_until);
+      }
     }
     const added = plan.groups.reduce((sum, group) => sum + group.profiles.length, 0);
     assert.equal(after.length, before.length + added);

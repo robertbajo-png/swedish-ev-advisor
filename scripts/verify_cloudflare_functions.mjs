@@ -3,11 +3,13 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { onRequestPost as advisorPost } from '../functions/api/advisor.js';
 import { onRequestPost as comparePost } from '../functions/api/compare.js';
+import { deterministicAdvice, deterministicCompareReport, normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
 
 const publicExport = await readFile(join(process.cwd(), 'public/data/public_ev_variants.json'), 'utf8');
 const exportPayload = JSON.parse(publicExport);
 const firstRows = exportPayload.records
   .filter((row) => ['published', 'published_reviewed'].includes(row.validation_status))
+  .filter((row) => row.wltp_range_km >= 500 && row.price_sek > 0 && row.price_sek <= 700000)
   .slice(0, 4);
 
 assert.ok(firstRows.length >= 2, 'The edge contract test needs at least two public variants.');
@@ -53,6 +55,17 @@ assert.equal(advice.mode, 'deterministic_fallback');
 assert.ok(advice.shortlist.length >= 1 && advice.shortlist.length <= 3);
 assert.ok(advice.shortlist.every((row) => row.brand !== 'Quarantined'));
 assert.ok(advice.shortlist.every((row) => row.source_url.startsWith('https://')));
+
+// Isolate missing-data matching from the edge's five-minute catalog cache.
+const unknownAdvice = deterministicAdvice(normalizePublicVariants(firstRows.map(row=>({...row,wltp_range_km:null}))),
+  {prompt:'Familjebil med lång räckvidd',budget:700000,range:500,need:'familj'});
+assert.deepEqual(unknownAdvice.shortlist,[], 'Unknown WLTP cannot satisfy a minimum range requirement');
+assert(unknownAdvice.excluded_unknown_count > 0);
+const audi = exportPayload.records.find(row=>row.brand==='Audi'&&row.model==='A6 E-Tron');
+assert(audi,'Current Audi profile required');
+const audiReport = deterministicCompareReport(normalizePublicVariants([audi]));
+assert.equal(audiReport.compared[0].name,`${audi.brand} ${audi.variant_name}`,
+  'Comparison names must not repeat the model before an exact Sportback variant');
 
 const variantKeys = advice.shortlist.map((row) => `${row.brand}|${row.model}|${row.variant_name}`);
 const compareRequest = new Request('https://seekev.se/api/compare', {

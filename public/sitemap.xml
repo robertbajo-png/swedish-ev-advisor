@@ -56,7 +56,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/audi-a6-sportback-e-tron</loc>
+    <loc>https://elbilsagenten.se/bilar/audi-a6-sportback-e-tron-performance-s-line-270-kw-my2027-lagerbil-rrr07b</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -66,17 +66,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/audi-q6-e-tron</loc>
+    <loc>https://elbilsagenten.se/bilar/audi-q6-e-tron-quattro-suv-315-kw-my2027-lagerbil-jce98y</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/bmw-i4-edrive40-gran-coup</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/bmw-i4-xdrive40</loc>
+    <loc>https://elbilsagenten.se/bilar/bmw-i4-edrive40-m-sport-business-edition-lagerbil-fw37556</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -101,12 +96,17 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/cupra-born</loc>
+    <loc>https://elbilsagenten.se/bilar/cupra-born-vz</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/ford-explorer-business-edition</loc>
+    <loc>https://elbilsagenten.se/bilar/ford-explorer-awd-79-kwh</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/ford-explorer-rwd-77-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -221,12 +221,32 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/mazda-6e-takumi</loc>
+    <loc>https://elbilsagenten.se/bilar/mazda-6e-homura-plus-my2027</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/mercedes-benz-cla-advanced-edition</loc>
+    <loc>https://elbilsagenten.se/bilar/mazda-6e-takumi-my2027</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/mazda-6e-takumi-plus-my2027</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/mercedes-benz-cla-200-advanced-edition-my2027-lagerbil</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/mercedes-benz-cla-250-advanced-edition-my2027-lagerbil</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/mercedes-benz-cla-350-4matic-advanced-edition-my2027-lagerbil</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -281,22 +301,37 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/skoda-elroq-60-selection</loc>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-60-selection-explore-edition</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85-selection</loc>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-60-sportline-explore-edition</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85x-selection</loc>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85-selection-explore-edition</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/skoda-elroq-rs</loc>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85-sportline-explore-edition</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85x-selection-explore-edition</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-85x-sportline-explore-edition</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/skoda-elroq-rs-explore-edition</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -361,77 +396,42 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/toyota-bz4x-active-awd</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/toyota-bz4x-active-fwd</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://elbilsagenten.se/bilar/toyota-bz4x-active-fwd-57-7-kwh-167-hk</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volkswagen-id-3-neo</loc>
+    <loc>https://elbilsagenten.se/bilar/volkswagen-id-3-neo-trend</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volkswagen-id-4-pro-sweden-olympic-edition</loc>
+    <loc>https://elbilsagenten.se/bilar/volkswagen-id-4-pro-4motion-77-kwh-my2027-lagerbil-bsj09l</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-es90-plus</loc>
+    <loc>https://elbilsagenten.se/bilar/volvo-es90-single-motor-extended-range-ultra-my2026-lagerbil-jwr04c</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-es90-ultra</loc>
+    <loc>https://elbilsagenten.se/bilar/volvo-ex30-p5-long-range-core-my2027-lagerbil</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-ex30-black-edition</loc>
+    <loc>https://elbilsagenten.se/bilar/zeekr-7x-core-rwd-75-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-ex30-core</loc>
+    <loc>https://elbilsagenten.se/bilar/zeekr-7x-long-range-rwd-100-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-ex30-cross-country</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-ex30-plus</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/volvo-ex30-ultra</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/zeekr-7x-core-rwd</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/zeekr-7x-long-range-rwd</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://elbilsagenten.se/bilar/zeekr-7x-privilege-awd</loc>
+    <loc>https://elbilsagenten.se/bilar/zeekr-7x-privilege-awd-100-kwh</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
