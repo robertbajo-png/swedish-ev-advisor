@@ -51,6 +51,14 @@ forwarding and the destination mailbox have their own service-level retention.
 
 ## Supplier Verification Still Required
 
+Update 2026-10-28: the live OpenAI dashboard review now binds the owner-approved
+local key to `Default project` in the viewed `Personal` organization. All three
+training-sharing controls are disabled; API logging is per-call and the app uses
+`store=false`. Residency is Global. Supabase's actual region is London, not EU.
+See `production-preparation-2026-10-28.md` for the account-specific evidence.
+These findings supersede the older missing key/project linkage below, but do not
+resolve the remaining supplier-role, contract and mailbox review by themselves.
+
 - OpenAI: the existing locally stored production-approved key authenticated
   against the free models endpoint on 2026-10-27. This proves key validity only,
   not the organisation/project match, sharing settings or a successful paid call.
