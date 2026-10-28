@@ -23,7 +23,7 @@ function productionMetadata(body, headers, canonical) {
 export async function verifyDeployment(baseUrl, { fetchImpl = fetch, expectPreview = false, expectProduction = false, expectedCatalogHash, expectedSitemap } = {}) {
   const base = new URL(baseUrl);
   if (!['http:', 'https:'].includes(base.protocol) || base.username || base.password || base.search || base.hash) throw new Error('Use an HTTP(S) site URL without credentials, query or fragment.');
-  if (base.origin === SITE_ORIGIN && !expectProduction) throw new Error('The public production origin requires --production verification.');
+  if (base.hostname === new URL(SITE_ORIGIN).hostname && !expectProduction) throw new Error('The public production origin requires --production verification.');
   if (expectProduction && (expectPreview || base.origin !== SITE_ORIGIN || base.pathname !== '/'
       || !/^[a-f0-9]{64}$/.test(expectedCatalogHash || '') || !expectedSitemap?.trim())) throw new Error('Production requires the exact HTTPS origin, root path and approved catalog/sitemap.');
   base.pathname = base.pathname.replace(/\/$/, '') + '/';

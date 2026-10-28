@@ -68,6 +68,7 @@ for(const target of ['http://elbilsagenten.se',SITE_ORIGIN+'/bilar','https://cod
 await assert.rejects(verifyDeployment(SITE_ORIGIN,{...productionOptions,expectPreview:true}));
 await assert.rejects(verifyDeployment(SITE_ORIGIN,{...productionOptions,expectedCatalogHash:undefined}));
 await assert.rejects(verifyDeployment(SITE_ORIGIN,{fetchImpl:productionFetch}));
+await assert.rejects(verifyDeployment('http://elbilsagenten.se',{fetchImpl:productionFetch}));
 assert.equal(requests,noRequests,'Invalid production targets/configuration are rejected before fetching');
 console.log(JSON.stringify({ deployment_contract_ok: true, rejected: ['parking', 'localhost redirect', 'HTML API', 'draft', 'missing provenance', 'duplicate', 'indexed preview', 'credential URL'], apiPostsMade: false }));
-console.log(JSON.stringify({production_contract_ok:true,negative_cases:20,exact_artifact_bound:true,paid_calls:0,publications:0}));
+console.log(JSON.stringify({production_contract_ok:true,negative_cases:21,exact_artifact_bound:true,paid_calls:0,publications:0}));
