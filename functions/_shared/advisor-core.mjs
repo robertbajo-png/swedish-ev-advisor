@@ -2,6 +2,7 @@ import { isPublicVariant, normalizeRequirements, ruleAdvice, matchAdvisorVariant
 import { REQUIREMENTS_SCHEMA, requirementsPrompt } from './advisor-requirements.mjs';
 import { AiBudgetError } from './ai-budget.mjs';
 import { hasPriceEvidence, priceEvidence } from '../../src/price-evidence.js';
+import { displayModelName } from '../../src/vehicle-names.js';
 
 const COMPARE_RESPONSE_SCHEMA = {
   type: 'object',
@@ -74,10 +75,7 @@ function formatSek(value) {
 }
 
 function displayName(row) {
-  const variant = row.variant_name && row.variant_name.toLowerCase() !== row.model.toLowerCase()
-    ? ` ${row.variant_name}`
-    : '';
-  return `${row.brand} ${row.model}${variant}`.trim();
+  return `${row.brand} ${displayModelName(row.brand, row.model, row.variant_name)}`.trim();
 }
 
 export function normalizePublicVariants(rows) {
