@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-29",
   "sections": [
     {
       "id": "search",
@@ -38,7 +38,7 @@
       "id": "contact",
       "title": "När du kontaktar oss",
       "paragraphs": [
-        "Mejl till kontaktadressen vidarebefordras via Cloudflare till en Gmail-inkorg. Avsändaradress, meddelande och eventuella bilagor behandlas för att kunna svara på din fråga. Skicka inte känsliga uppgifter som inte behövs för ärendet.",
+        "Mejl till kontaktadressen vidarebefordras via Cloudflare till en Proton Mail-inkorg. Avsändaradress, meddelande och eventuella bilagor behandlas för att kunna svara på din fråga. Skicka inte känsliga uppgifter som inte behövs för ärendet.",
         "Kontaktmejl gallras senast 90 dagar efter att ärendet avslutats, om inget rättsligt krav kräver längre lagring. I sådana fall sparas bara det som behövs för det kravet."
       ]
     },
@@ -47,13 +47,14 @@
       "title": "Frågor och dina rättigheter",
       "paragraphs": [
         "Kontakta ansvarig aktör via mejlen ovan för information om dina uppgifter eller en begäran om tillgång, rättelse, radering, begränsning eller invändning. Vilka rättigheter som gäller beror på behandlingen. Du kan också klaga till Integritetsskyddsmyndigheten.",
-        "Drift, AI och mejl använder leverantörer som kan behandla uppgifter utanför EU/EES. Vi lovar därför inte att all behandling sker inom EU. Leverantörernas dataskyddsvillkor, tillämpliga överföringsskydd och faktiska kontoinställningar behöver vara kontrollerade före öppen lansering. Förhandsversionen är inte ett besked om att denna granskning är slutförd."
+        "Drift, AI och mejl använder leverantörer som kan behandla uppgifter utanför EU/EES. Vi lovar därför inte att all behandling sker inom EU. Leverantörernas biträdesavtal beskriver behandlingen och tillämpliga överföringsskydd, bland annat standardavtalsklausuler där de behövs. Du kan kontakta oss för mer information om leverantörer och skydd för dina uppgifter."
       ]
     }
   ],
   "references": [
     { "label": "OpenAI om API-data", "url": "https://developers.openai.com/api/docs/guides/your-data" },
     { "label": "Cloudflares integritetspolicy", "url": "https://www.cloudflare.com/privacypolicy/" },
+    { "label": "Protons biträdesavtal", "url": "https://proton.me/legal/dpa" },
     { "label": "Dina rättigheter hos IMY", "url": "https://www.imy.se/privatperson/dataskydd/dina-rattigheter/ratt-till-information/" },
     { "label": "PTS om kakor", "url": "https://www.pts.se/internet-och-telefoni/kakor-cookies/" }
   ]

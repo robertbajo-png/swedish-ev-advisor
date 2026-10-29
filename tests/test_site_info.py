@@ -34,7 +34,9 @@ class SiteInfoTests(unittest.TestCase):
             for paragraph in section['paragraphs']:
                 self.assertIn(escape(paragraph), body)
         self.assertIn('store=false', body)
-        self.assertIn('Förhandsversionen är inte ett besked', body)
+        self.assertIn('Proton Mail-inkorg', body)
+        self.assertNotIn('Gmail-inkorg', body)
+        self.assertIn('https://proton.me/legal/dpa', body)
         self.assertIn('senast 90 dagar efter', body)
         self.assertIn('berättigade intresse', body)
         self.assertNotIn('@gmail.com', body)
