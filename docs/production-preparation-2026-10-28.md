@@ -56,3 +56,46 @@ Never change `boleoai.se` or the working contact-mail route.
   UTC rollover, both endpoints and fail-closed behavior, with zero provider calls.
 - Previous exact-main application CI passed all 115 steps. The new hosting slice
   must pass its own reviewed CI before it is treated as delivered release code.
+
+## Verified Candidate And Domain Handoff
+
+- PR #11 merged as `aaaac588303b24a40cc350efbaf5d727ecbb1017`.
+  PR run 40761522313 and exact-main run 40762278309 each passed all 116 steps.
+- Deployed only the `release-candidate` branch of `elbilsagenten`, with AI off:
+  `https://b0b88d27.elbilsagenten.pages.dev/` (alias:
+  `https://release-candidate.elbilsagenten.pages.dev/`). No main production
+  deployment or production custom domain is claimed.
+- The existing HTTP checker passes all eight candidate checks with noindex.
+  Additional real deployed checks verify exact catalog/news artifact bytes,
+  30 models / 76 variants, healthy AI-disabled readiness, and eight actual
+  desktop/mobile page states with no axe violations, overflow or page errors.
+  The eight-state visual check makes no API POSTs. A separate two-POST check
+  verifies real advisor and comparison endpoints return HTTP200 and
+  `deterministic_fallback`, without paid inference.
+- Build: 1,752 modules, 90 prerendered routes, 38 preserved redirects; SEO has
+  zero errors. Client-asset scanning found none of the actual local server secrets.
+- Private operational receipts/screenshots are under
+  `data/local/release-data/production-candidate-proof-2026-10-28/`.
+
+The owner explicitly confirmed that `elbilsagenten.se` has only parking and no
+other mail/services, and approved temporary DNSSEC deactivation for the migration.
+Loopia then confirmed `Dnssec-andring genomford` and shows Activate DNSSEC.
+This supersedes the earlier enabled-state observation. Nameservers remain Loopia.
+Cloudflare assigned `bingo.ns.cloudflare.com` and `yahir.ns.cloudflare.com`.
+
+Before deactivation, a direct authoritative DS query returned TTL3600. Direct
+non-recursive queries of ALL ten observed `.se` nameservers (a,b,c,f,g,i,m,x,y,z)
+returned no DS and authoritative SOA between 20:43:07 and 20:43:10 UTC on
+2026-10-28. Do not change nameservers before **21:43:11 UTC**, and re-check
+authority, recursive resolvers and all other release gates first. This is an
+earliest safe cache-expiry bound, not a promised activation or HTTPS completion.
+Restore DNSSEC with Cloudflare's correct new DS after migration; never reuse
+Loopia's old DS. No `boleoai.se` DNS or mail route has changed.
+
+The owner confirmed the destination is ordinary free Gmail, not Workspace, and
+approved preparing Proton Free instead. The free signup page is open in the
+in-app browser, explicitly `plan=free`; the owner must enter the new credentials
+and accept terms themselves. No Proton account, new destination verification or
+forwarding change is claimed yet. Keep the working Gmail route until a verified
+replacement and actual delivery proof exist. No provider subscription was bought.
+The privacy release flag remains false pending the completed mailbox/supplier review.

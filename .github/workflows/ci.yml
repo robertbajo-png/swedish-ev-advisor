@@ -46,6 +46,7 @@ jobs:
       - run: bun run verify:cloudflare
       - run: bun run verify:live-ai
       - run: bun run verify:ai-budget
+      - run: node scripts/verify_production_budget.mjs
       - run: bun run verify:advisor-matching
       - run: bun run verify:ai-cost
       - run: bun run verify:tco

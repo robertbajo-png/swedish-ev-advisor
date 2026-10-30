@@ -8,7 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
 class ProductionHostingTests(unittest.TestCase):
-    def test_separate_target_and_disabled_ai(self):
+    def test_separate_target_and_explicit_production_activation(self):
         config = tomllib.loads((ROOT / "wrangler.production.toml").read_text())
         preview = tomllib.loads((ROOT / "wrangler.toml").read_text())
         self.assertEqual(config["name"], "elbilsagenten")
@@ -22,6 +22,12 @@ class ProductionHostingTests(unittest.TestCase):
             self.assertNotEqual(binding["database_id"], old_id)
             self.assertNotIn("OPENAI_API_KEY", target["vars"])
             self.assertNotIn("AI_BUDGET_SALT", target["vars"])
+        production = config["env"]["production"]
+        self.assertEqual(production["vars"]["AI_ENABLED"], "true")
+        self.assertEqual(production["vars"]["OPENAI_MODEL"], "gpt-5.4-mini")
+        self.assertEqual(production["d1_databases"], config["d1_databases"])
+        self.assertNotIn("OPENAI_API_KEY", production["vars"])
+        self.assertNotIn("AI_BUDGET_SALT", production["vars"])
 
     def test_disabled_bootstrap_is_idempotent_and_preserves_costs(self):
         sql = (ROOT / "database/cloudflare/ai_budget_production.sql").read_text()
