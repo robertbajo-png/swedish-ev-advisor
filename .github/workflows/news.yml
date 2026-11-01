@@ -7,14 +7,33 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: seekev-news-production
   cancel-in-progress: false
 
 jobs:
+  eligible:
+    if: github.ref == 'refs/heads/main' && vars.NEWS_AUTOMATION_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require exact current-main CI before editorial credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_SHA: ${{ github.sha }}
+        run: node scripts/news_distribution.mjs ci
   news:
-    if: ${{ vars.NEWS_AUTOMATION_ENABLED == 'true' }}
+    if: github.ref == 'refs/heads/main' && vars.NEWS_AUTOMATION_ENABLED == 'true'
+    needs: eligible
+    environment: production-news
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -27,25 +46,27 @@ jobs:
       NEWS_SOURCE_PROFILE: official
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Verify news contracts
         run: python -m unittest discover -s tests -p 'test_news*.py' -v
-      - name: Verify collection infrastructure
-        run: python scripts/news_preflight.py --remote --mode collect
-      - name: Collect even when the paid allowance is paused or exhausted
-        run: python scripts/news_engine.py collect --backend supabase
-      - name: Stage factual notices only (no paid AI or publishing)
-        run: python scripts/news_engine.py notices --backend supabase --max-items 8 --stage-only
+      - name: Verify owner activation, pricing and settled accounting
+        run: python scripts/news_preflight.py --remote --mode publish
       - name: Run owner-activated short news (two audited AI formats, price notice proof, one-per-day setting)
         if: ${{ vars.NEWS_SHORT_ARTICLES_ENABLED == 'true' }}
-        run: python scripts/run_short_news.py run
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/run_short_news.py run | tee news-run-result.json
+          python -c 'import json; r=json.load(open("news-run-result.json")); print("News outcome:",r.get("status","published" if r.get("published")==1 else "unknown")); assert r.get("published")==1 or r.get("status") in ("daily_limit","daily_attempt_limit","no_eligible_new_source","deferred_budget_or_disabled"), "Editorial run held; inspect diagnostic, do not retry paid calls"'
       - name: Preserve run diagnostics and validated export
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: news-public-export
           path: public/data/news_articles.json
-      # Default remains private/free. The short worker cannot activate owner switches.
-      # Deployment of a changed export remains a separate existing hosting step.
+      # Owner switches and shared allowances remain enforced by the database.
+      # Production distribution is a separate public-read-only workflow.

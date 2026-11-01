@@ -20,9 +20,43 @@ gate requires real settled model/battery proofs plus a validated price notice;
 passing that gate is not owner authorization to activate or publish.
 
 The two articles already published after separate approval are public fixtures,
-not authorization to publish another article. Automatic news AI and both global
-and notice publication switches remain OFF. Installation of SQL migrations and
-changes to private owner configuration require separate approval.
+not by themselves authorization to publish another article. On 2026-11-01 the
+owner explicitly requested automatic news publication and approved storing the
+existing editorial credentials in a separate main-restricted GitHub environment.
+Activation requires the verified mixed-format proof and unchanged limits. The
+notice-specific switch remains OFF; this release only automates model/battery AI
+articles. No private/failed draft is promoted. New SQL migrations still require
+separate approval.
+
+## Approved Automatic Operation
+
+`news.yml` checks every four hours. An exact current-main CI check runs without
+credentials before the main-only `production-news` environment becomes available.
+It runs the existing short worker, not old private trials or the legacy free-form
+publisher. The initial supported sources are Volkswagen Group Sverige and Firefly
+China. Thin, inaccessible, stale or unsupported stories do not justify an article.
+Each paid candidate gets one writer/reviewer pair and the existing three gates.
+Rejected candidates stay quarantined. There is no daily article quota.
+
+`news-production-distribution.yml` independently exports only public validated
+news with the anon key, builds article HTML/sitemap and uploads only to the existing
+`elbilsagenten` project/main branch. It reuses the existing Pages/public-read
+credential environment, never the news server or OpenAI key. It preserves the
+canonical catalog, runtime functions and advisor budget binding. The older preview
+distributor retains its preview-only target. A delivery retry never buys another
+article. The schedule also catches a missed post-publication deployment.
+
+Owner controls: `NEWS_AUTOMATION_ENABLED`, `NEWS_SHORT_ARTICLES_ENABLED` and
+`NEWS_PRODUCTION_DISTRIBUTION_ENABLED` in GitHub, plus the existing private
+`news_ai_config.enabled/publication_enabled` switches. Disable both database
+switches to stop all paid work/publication; distribution can continue safely.
+The current pricing approval expires on 2026-11-21 UTC: the worker must stop paid
+work then unless pricing is checked and explicitly renewed. Never extend it
+silently, increase/reset budgets or remove the old unknown-cost reservation.
+
+Encrypted read-only backups accept either fully paused news or the exact approved
+Sol/one-per-day/USD0.25/USD5 active configuration. They record actual news state
+without calling AI or modifying that state. Notice publication remains disabled.
 
 ## Private Preparation
 

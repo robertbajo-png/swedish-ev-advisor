@@ -1,0 +1,119 @@
+name: Distribute news to production
+
+on:
+  schedule:
+    - cron: '47 */4 * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Automated EV news]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: elbilsagenten-news-distribution
+  cancel-in-progress: false
+
+env:
+  DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+jobs:
+  eligible:
+    if: >-
+      vars.NEWS_PRODUCTION_DISTRIBUTION_ENABLED == 'true' &&
+      ((github.event_name != 'workflow_run' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository))
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require exact current-main CI before deployment credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/news_distribution.mjs ci
+  distribute:
+    needs: eligible
+    # Reuse the existing Pages/public-read credentials; no AI or server key here.
+    environment: preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SITE_URL: https://elbilsagenten.se
+      VITE_SITE_URL: https://elbilsagenten.se
+      VITE_OPERATOR_NAME: Boleo AI
+      VITE_CONTACT_EMAIL: kontakt@boleoai.se
+      VITE_VEHICLE_DATA_MODE: snapshot
+      VITE_SUPABASE_URL: ''
+      VITE_SUPABASE_ANON_KEY: ''
+      PUBLIC_PRIVACY_REVIEWED: 'true'
+      PUBLIC_IMAGE_RIGHTS_REVIEWED: 'true'
+      NEWS_BUILD_SYNC: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Read only validated published articles
+        id: snapshot
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: node scripts/production_news_distribution.mjs snapshot
+      - uses: oven-sh/setup-bun@v2
+        if: steps.snapshot.outputs.upload_required == 'true'
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        if: steps.snapshot.outputs.upload_required == 'true'
+        with:
+          python-version: '3.12'
+      - run: bun install --frozen-lockfile
+        if: steps.snapshot.outputs.upload_required == 'true'
+      - name: Build guarded production HTML and sitemap
+        if: steps.snapshot.outputs.upload_required == 'true'
+        run: node scripts/build_release.mjs
+      - name: Package exact-main functions and unchanged canonical catalog
+        if: steps.snapshot.outputs.upload_required == 'true'
+        env:
+          NEWS_SNAPSHOT_HASH: ${{ steps.snapshot.outputs.snapshot_hash }}
+        run: node scripts/production_news_distribution.mjs package
+      - name: Confirm the same published source snapshot
+        if: steps.snapshot.outputs.upload_required == 'true'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEWS_SNAPSHOT_HASH: ${{ steps.snapshot.outputs.snapshot_hash }}
+        run: node scripts/production_news_distribution.mjs confirm
+      - name: Recheck CI, production target and existing advisor budget
+        if: steps.snapshot.outputs.upload_required == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node scripts/production_news_distribution.mjs check
+      - name: Upload only to the existing production project
+        if: steps.snapshot.outputs.upload_required == 'true'
+        working-directory: news-deploy
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          NEWS_SNAPSHOT_HASH: ${{ steps.snapshot.outputs.snapshot_hash }}
+        run: bunx wrangler@4.154.0 pages deploy dist --project-name=elbilsagenten --branch=main --commit-hash="$DEPLOY_SHA" --commit-dirty=false --commit-message="production-news:${NEWS_SNAPSHOT_HASH}:${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}"
+      - name: Verify public article HTML, snapshot and sitemap without AI calls
+        run: node scripts/production_news_distribution.mjs verify
+      - name: Verify site, HTTPS, catalog and advisor readiness using GET only
+        run: node scripts/verify_deployment.mjs https://elbilsagenten.se --production
