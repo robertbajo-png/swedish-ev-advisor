@@ -83,6 +83,9 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     const upload = worker.steps.find(s => s.name === 'Upload only to the existing production project');
     assert(upload.run.includes('--project-name=elbilsagenten --branch=main'));
     assert.equal(upload['working-directory'], 'news-deploy');
+    assert.equal(worker.steps.find(s => s.uses?.startsWith('oven-sh/setup-bun')).if, undefined);
+    assert.equal(worker.steps.find(s => s.run === 'bun install --frozen-lockfile').if, undefined,
+      'Unchanged snapshots still need parse5 for the GET-only deployment verifier');
     assert(source.includes('production_news_distribution.mjs confirm'));
     assert(source.includes('verify_deployment.mjs https://elbilsagenten.se --production'));
   }
