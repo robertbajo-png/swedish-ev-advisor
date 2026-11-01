@@ -298,7 +298,7 @@ class PublisherLifecycleTests(unittest.TestCase):
         ai = Ai()
         stack.enter_context(patch.object(worker, 'matrix_valid', return_value=True))
         stack.enter_context(patch.object(worker, 'bundle_errors', side_effect=lambda value: bundle_errors(value, NOW)))
-        stack.enter_context(patch.object(worker, 'precheck', side_effect=lambda bundle, packet: precheck(bundle, packet, NOW)))
+        stack.enter_context(patch.object(worker, 'precheck', side_effect=lambda bundle, packet, now=None: precheck(bundle, packet, now or NOW)))
         stack.enter_context(patch.object(worker, 'stage', side_effect=lambda st, bundle, packet, rev, ids, **kw:
                                               stage(st, bundle, packet, rev, ids, now=NOW, **kw)))
         stack.enter_context(patch.object(worker, 'now_iso', return_value=NOW.isoformat()))
@@ -313,6 +313,7 @@ class PublisherLifecycleTests(unittest.TestCase):
             record = worker.perform(remote, b, private=True, ai=ai)
             self.assertEqual(record['state'], 'passed', record)
             self.assertEqual(record['cost_micro_usd'], 2000)
+            self.assertIsNotNone(worker.proof_valid(remote, 'carnewschina'), 'Exact successful mock receipts must verify')
             self.assertEqual(remote.public_articles(), [])
             self.assertEqual(remote.rows('news_articles'), [], 'Private tests stay out of production article staging')
             again = worker.perform(remote, b, private=True, ai=ai)
