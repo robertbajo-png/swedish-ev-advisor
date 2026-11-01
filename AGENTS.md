@@ -136,6 +136,15 @@ Permanent project rules for the Swedish EV Advisor codebase.
   DNS/budgets or enable news-AI/publication. Keep previews noindex and bind the
   deployed snapshot to its exact workflow attempt, article HTML and sitemap.
 
+- Owner-approved automatic production news has a separate fixed-target workflow,
+  `news-production-distribution.yml`: public-view/anon reads only, exact current-main
+  CI before credentials, existing `elbilsagenten` Pages project/main branch, unchanged
+  catalog and advisor D1 binding. The older preview distributor remains preview-only.
+  Editorial credentials belong only to the main-restricted `production-news` environment;
+  never pass them to a build/deployment job. Publication still requires the existing
+  mixed-format release proof, independent review, source checks and shared USD0.25/day,
+  USD5/month and one-article/UTC-day limits. Missing/expired approvals fail closed.
+
 - Keep data pipeline code deterministic where possible and AI-assisted only where it adds value.
 - Prefer idempotent import/upsert scripts over one-off local mutations.
 - Use migrations for database schema changes.

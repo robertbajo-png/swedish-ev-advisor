@@ -22,7 +22,7 @@ class BackupTests(unittest.TestCase):
             sql = args[-1]
             # Supavisor ignores PGOPTIONS for this setting; explicit SQL is required.
             return json.dumps(dict(read_only='BEGIN READ ONLY;' in sql, tls=True,
-                                   version=17, news_off=True, notices_off=True)).encode()
+                                   version=17, news_safe=True, news_enabled=False, notices_off=True)).encode()
         if args[:2] == ['pg_dump', '--version']:
             return b'pg_dump (PostgreSQL) 17.11\n'
         if args[0] == 'pg_dump':
@@ -47,14 +47,28 @@ class BackupTests(unittest.TestCase):
     def test_failed_security_check_creates_no_archive(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / 'backup.age'
-            for change in [dict(tls=False), dict(news_off=False), dict(notices_off=False), dict(version=18)]:
-                state = dict(read_only=True, tls=True, version=17, news_off=True, notices_off=True)
+            for change in [dict(tls=False), dict(news_safe=False), dict(notices_off=False),
+                           dict(version=18), dict(news_enabled=None), dict(read_only=False)]:
+                state = dict(read_only=True, tls=True, version=17, news_safe=True,
+                             news_enabled=False, notices_off=True)
                 state.update(change)
                 with patch.object(backup, 'run', return_value=json.dumps(state).encode()) as mock:
                     with self.assertRaisesRegex(RuntimeError, 'preflight'):
                         backup.create_backup(VALID, 'age1' + 'q' * 58, output)
                     self.assertEqual(mock.call_count, 1)
                     self.assertFalse(output.exists())
+
+    def test_approved_active_news_does_not_stop_readonly_backup(self):
+        def active(args, env, **kwargs):
+            value = self.fixture_run(args, env, **kwargs)
+            if args[0] == 'psql':
+                state = json.loads(value)
+                state['news_enabled'] = True
+                return json.dumps(state).encode()
+            return value
+        with tempfile.TemporaryDirectory() as folder, patch.object(backup, 'run', active):
+            self.assertTrue(backup.create_backup(VALID, 'age1' + 'q' * 58,
+                                                Path(folder) / 'backup.age')['ok'])
 
     def test_exact_connection(self):
         url, password = backup.connection(VALID)
@@ -88,6 +102,9 @@ class BackupTests(unittest.TestCase):
         self.assertIn('TemporaryDirectory', source)
         self.assertIn("'age', '--encrypt'", source)
         self.assertIn('NOT enabled AND NOT publication_enabled', source)
+        for guard in ["model='gpt-6-sol'", 'daily_article_limit=1',
+                      'daily_limit_micro_usd=250000', 'monthly_limit_micro_usd=5000000']:
+            self.assertIn(guard, source)
 
 
 if __name__ == '__main__':

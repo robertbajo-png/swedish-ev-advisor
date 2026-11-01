@@ -3,8 +3,9 @@
 ## Scope
 
 Owner-approved on 2026-11-01: bounded live advisor/compare verification, recurring
-encrypted off-site database backup and operational alerts. News AI and automatic
-article/notice publication must stay off. These jobs contain no OpenAI key and
+encrypted off-site database backup and operational alerts. The later explicit
+news-activation decision is documented in `news-release.md`; notice publication
+remains off. These operations jobs contain no OpenAI key, never activate news and
 never call the advisor or comparison POST endpoints.
 
 ## Backup
@@ -24,7 +25,9 @@ environment. The public age recipient is an environment variable, not a secret.
 
 PostgreSQL 17 clients use the pinned Supabase CA with verify-full, a temporary
 0600 passfile and read-only transactions. Preflight verifies upstream TLS and
-that all news switches remain off. Dumps include schema, data, permissions and
+that news is either fully paused or uses the exact approved active Sol policy
+(one article/day, USD0.25/day, USD5/month); the notice switch stays off. The backup
+records the actual state but never changes it. Dumps include schema, data, permissions and
 password-free role definitions; archive listing is checked before encryption.
 Only the age-encrypted tar archive is uploaded. Plaintext stays in the runner's
 private temporary directory and is removed on exit. Failed encryption uploads

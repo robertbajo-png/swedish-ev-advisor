@@ -66,12 +66,16 @@ def create_backup(value, recipient, output, *, env=None):
                      "BEGIN READ ONLY; SELECT json_build_object('read_only',current_setting('transaction_read_only')='on',"
                      "'tls',(SELECT ssl FROM pg_stat_ssl WHERE pid=pg_backend_pid()),"
                      "'version',current_setting('server_version_num')::int/10000,"
-                     "'news_off',(SELECT count(*)=1 AND bool_and(NOT enabled AND NOT publication_enabled) FROM public.news_ai_config WHERE id='production'),"
+                     "'news_safe',(SELECT count(*)=1 AND bool_and((NOT enabled AND NOT publication_enabled) OR "
+                     "(enabled AND publication_enabled AND model='gpt-6-sol' AND daily_article_limit=1 "
+                     "AND daily_limit_micro_usd=250000 AND monthly_limit_micro_usd=5000000)) FROM public.news_ai_config WHERE id='production'),"
+                     "'news_enabled',(SELECT enabled FROM public.news_ai_config WHERE id='production'),"
                      "'notices_off',(SELECT count(*)=1 AND bool_and(NOT enabled) FROM public.news_notice_release_config WHERE id='production')); ROLLBACK;"], child_env)
         state = json.loads(check)
-        if state != dict(read_only=True, tls=True, version=17, news_off=True, notices_off=True):
-            safe = {k: state.get(k) for k in ('read_only', 'tls', 'version', 'news_off', 'notices_off')}
-            raise RuntimeError('Backup preflight or news-off boundary failed: ' + json.dumps(safe))
+        if (any(state.get(k) != v for k, v in dict(read_only=True, tls=True, version=17,
+                news_safe=True, notices_off=True).items()) or type(state.get('news_enabled')) is not bool):
+            safe = {k: state.get(k) for k in ('read_only', 'tls', 'version', 'news_safe', 'notices_off')}
+            raise RuntimeError('Backup preflight or approved news boundary failed: ' + json.dumps(safe))
         version = run(['pg_dump', '--version'], child_env).decode()
         if not re.search(r'PostgreSQL\) 17\.', version):
             raise RuntimeError('PostgreSQL 17 client required')
@@ -87,7 +91,7 @@ def create_backup(value, recipient, output, *, env=None):
             raise RuntimeError('Unexpected role credential in archive')
         manifest = dict(format='elbilsagenten-pg17-age-v1', project=PROJECT,
                         created_at=datetime.now(timezone.utc).isoformat(), source_writes=0,
-                        news_enabled=False, ai_calls=0, archive_list_verified=True,
+                        news_enabled=state['news_enabled'], ai_calls=0, archive_list_verified=True,
                         files={p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (dump, roles)},
                         excludes=['role passwords', 'external Storage files', 'hosting secrets',
                                   'Cloudflare D1', 'replication subscriptions/publications', 'PITR'],
