@@ -74,7 +74,6 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: node scripts/production_news_distribution.mjs snapshot
       - uses: oven-sh/setup-bun@v2
-        if: steps.snapshot.outputs.upload_required == 'true'
         with:
           bun-version: latest
       - uses: actions/setup-python@v5
@@ -82,7 +81,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: bun install --frozen-lockfile
-        if: steps.snapshot.outputs.upload_required == 'true'
       - name: Build guarded production HTML and sitemap
         if: steps.snapshot.outputs.upload_required == 'true'
         run: node scripts/build_release.mjs
