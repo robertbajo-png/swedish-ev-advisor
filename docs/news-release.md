@@ -38,6 +38,18 @@ China. Thin, inaccessible, stale or unsupported stories do not justify an articl
 Each paid candidate gets one writer/reviewer pair and the existing three gates.
 Rejected candidates stay quarantined. There is no daily article quota.
 
+The owner also requested broader sources on 2026-11-01. The separate `broad`
+collection profile checks 15 configured sources: electrive, InsideEVs, CnEVPost,
+CarNewsChina, Electrek, Autocar, Auto Express, Automobile Propre, CleanTechnica,
+The Driven, ICCT, ACEA, Volkswagen Newsroom, BMW PressClub and VW Sverige.
+It verifies actual feeds/indexes and stores bounded metadata without paid AI.
+Robots, TDM reservations, inaccessible feeds and paywalls remain hard stops;
+configuration is not proof that a source currently permits collection or AI use.
+Collection is NOT automatic editorial approval. The existing short publisher
+still accepts only its two reviewed source/format adapters. Other discoveries
+stay private until an independently tested evidence adapter supports them; the
+legacy publisher is deliberately not enabled as a shortcut.
+
 `news-production-distribution.yml` independently exports only public validated
 news with the anon key, builds article HTML/sitemap and uploads only to the existing
 `elbilsagenten` project/main branch. It reuses the existing Pages/public-read

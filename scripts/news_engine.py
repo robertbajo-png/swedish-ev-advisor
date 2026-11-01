@@ -27,13 +27,18 @@ from news_notice_pipeline import notice_sources, stage_notices
 from supabase_client import load_local_env
 
 ROOT = Path(__file__).resolve().parents[1]
+BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
+    'electrek', 'autocar', 'autoexpress', 'automobile-propre', 'cleantechnica',
+    'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press'))
 
 
 def registry(path=None):
     sources = json.loads(Path(path or ROOT / "data/news/sources.json").read_text(encoding="utf-8"))
     profile = os.environ.get('NEWS_SOURCE_PROFILE', 'all')
-    if profile not in ('all','official'):
+    if profile not in ('all','official','broad'):
         raise ValueError('unknown_news_source_profile')
+    if profile == 'broad':
+        return [{**s, 'enabled': s['id'] in BROAD_SOURCES} for s in sources]
     if profile == 'official':
         return [{**s, 'enabled': s['kind'] == 'primary' and s.get('collection_method') == 'pressroom_index'} for s in sources]
     return sources
@@ -482,7 +487,7 @@ def main():
         if args.command in {"collect", "run", "notices"}:
             notices = args.command == 'notices' or (args.command == 'run' and args.format == 'notice')
             sources = notice_sources(registry()) if notices else registry()
-            result = {"collection": collect(store, sources, max_items=20, force=args.force)}
+            result = {"collection": collect(store, sources, max_items=max(0, min(args.max_items, 20)), force=args.force)}
             if notices:
                 collector = Collector()
                 source_map = {s['id']:s for s in sources}

@@ -43,7 +43,7 @@ jobs:
       NEWS_OPENAI_MODEL: ${{ vars.NEWS_OPENAI_MODEL || 'gpt-6-sol' }}
       SITE_URL: https://elbilsagenten.se
       NEWS_BACKEND: supabase
-      NEWS_SOURCE_PROFILE: official
+      NEWS_SOURCE_PROFILE: broad
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,6 +53,8 @@ jobs:
           python-version: '3.12'
       - name: Verify news contracts
         run: python -m unittest discover -s tests -p 'test_news*.py' -v
+      - name: Collect broad international discovery without AI or publication
+        run: python scripts/news_engine.py collect --backend supabase --max-items 3
       - name: Verify owner activation, pricing and settled accounting
         run: python scripts/news_preflight.py --remote --mode publish
       - name: Run owner-activated short news (two audited AI formats, price notice proof, one-per-day setting)

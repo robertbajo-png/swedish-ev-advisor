@@ -1,0 +1,38 @@
+import os
+from pathlib import Path
+import sys
+import unittest
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from news_engine import BROAD_SOURCES, registry
+
+
+class BroadSourceTests(unittest.TestCase):
+    def test_broad_discovery_includes_international_and_official_sources(self):
+        with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
+            active = {s['id']: s for s in registry() if s.get('enabled')}
+        self.assertEqual(set(active), BROAD_SOURCES)
+        self.assertEqual(len(active), 15)
+        for key in ('electrive', 'insideevs', 'cnevpost', 'carnewschina', 'electrek', 'autocar'):
+            self.assertEqual(active[key]['kind'], 'publisher')
+            self.assertTrue(active[key]['feeds'])
+        for key in ('vw-press', 'vw-sweden-press', 'bmw-press', 'acea'):
+            self.assertEqual(active[key]['kind'], 'primary')
+            self.assertEqual(active[key]['collection_method'], 'pressroom_index')
+
+    def test_disabled_or_unimplemented_adapters_are_not_silently_enabled(self):
+        with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
+            inactive = {s['id'] for s in registry() if not s.get('enabled')}
+        self.assertTrue({'volvo-press', 'mobility-sweden', 'iea', 'naf', 'motor1'} <= inactive)
+
+    def test_editorial_short_recipe_and_access_controls_are_unchanged(self):
+        from news_short_articles import SOURCES
+        self.assertEqual(set(SOURCES), {'vw-sweden-press', 'firefly-china-press'})
+        from news_http import reserved
+        self.assertTrue(reserved({'Content-Signal': 'ai-input=no'}))
+        self.assertTrue(reserved({'TDM-Reservation': '1'}))
+
+
+if __name__ == '__main__':
+    unittest.main()

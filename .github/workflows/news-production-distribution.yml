@@ -99,7 +99,6 @@ jobs:
           NEWS_SNAPSHOT_HASH: ${{ steps.snapshot.outputs.snapshot_hash }}
         run: node scripts/production_news_distribution.mjs confirm
       - name: Recheck CI, production target and existing advisor budget
-        if: steps.snapshot.outputs.upload_required == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
