@@ -60,6 +60,11 @@ for (const filename of ['production-backup.yml', 'production-monitor.yml']) {
     const upload = wf.jobs.backup.steps.find(s => s.uses?.startsWith('actions/upload-artifact'));
     assert.equal(upload.with.path, 'backup-output/database.tar.gz.age');
     assert.equal(upload.with['retention-days'], 14);
+    const install = wf.jobs.backup.steps.find(s => s.name === 'Install trusted backup clients').run;
+    assert(install.includes('https://apt.postgresql.org/pub/repos/apt noble-pgdg main'));
+    assert(install.includes('grep -Fx B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'));
+    assert(install.includes('signed-by='));
+    assert(!install.includes('trusted=yes'));
     assert(!source.includes('AGE_SECRET_KEY'));
   } else assert(!source.includes('secrets.'));
 }
