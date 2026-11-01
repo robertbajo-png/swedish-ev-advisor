@@ -95,6 +95,8 @@ attempt limit and transactional one-article-per-day ceiling, and may first reuse
 fresh fully audited trial candidate without another paid call. Immediately before
 publication it fetches the sources again; any changed source is held for a new
 review. Distribution still uses only the public view and separate Pages credentials.
+Private qualification runs after proven publishers, so a still-pending source
+cannot repeatedly consume the daily attempt ahead of already qualified sources.
 
 The isolated 2026-11-01 collection check fetched eight working feeds/indexes and
 one official index with no recent eligible release, discovering 16 new private

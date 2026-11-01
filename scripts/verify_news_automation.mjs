@@ -85,6 +85,8 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     assert.equal(qualification.run, 'python scripts/run_publisher_news.py qualify');
     assert(!qualification.run.includes(' trial'));
     assert(!qualification.run.includes(' run'));
+    assert(worker.steps.indexOf(publisher) < worker.steps.indexOf(qualification),
+      'Private source onboarding must not consume the daily attempt before proven publishers');
   } else {
     const source = JSON.stringify(worker);
     assert(!source.includes('SUPABASE_SERVICE_ROLE_KEY'));
