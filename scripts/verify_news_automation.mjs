@@ -76,6 +76,8 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     assert.equal(worker.environment, 'production-news');
     assert(wf.concurrency.group === 'seekev-news-production');
     assert(!JSON.stringify(worker.steps).includes(' run_short_news.py matrix'));
+    const collection = worker.steps.find(s => s.name === 'Collect broad international discovery without AI or publication');
+    assert(collection.run.includes('--max-items 3 --publisher-lookback 20'));
     const publisher = worker.steps.find(s => s.name === 'Run independently proven CarNewsChina and The Driven adapters');
     assert(publisher.if.includes("NEWS_PUBLISHER_ARTICLES_ENABLED == 'true'"));
     assert(publisher.run.includes('run_publisher_news.py run'));

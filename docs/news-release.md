@@ -98,6 +98,27 @@ review. Distribution still uses only the public view and separate Pages credenti
 Private qualification runs after proven publishers, so a still-pending source
 cannot repeatedly consume the daily attempt ahead of already qualified sources.
 
+The publisher metadata window is explicitly 20 items per feed (at most two RSS
+pages, deduplicated by URL), while other broad sources retain three. Widening this window once requires a full permitted feed
+fetch rather than accepting a 304 for the old smaller window; normal polling and
+conditional requests resume afterwards. This never increases paid attempt limits.
+Both workers rank Swedish/European reports and substantive global vehicle
+technology before recency. Regional business/policy, foreign offers, rumours,
+stationary storage and unsupported subjects are held before writing. Ranking is
+not a verified Swedish availability flag or a substitute for the relevance audit.
+
+Evidence uses whole source passages selected across the captured document, with
+exact original offsets and unchanged byte caps. Conditions, dates and technical
+qualifications can come from later paragraphs; quotations cannot span omissions.
+Subject mismatch, old-background-only primary material and insufficient literal
+facts stop paid work. A blocked/unrelated direct source may only fall back to the
+same explicitly approved official discovery paths, never a scraper bypass.
+`run_publisher_news.py select` previews this queue and source readiness using
+read-only database access and permitted web requests: no AI, writes or publishing.
+The historical numeric, minimum-relevance, originality and separate review gates
+are unchanged. The three rejected November 1 trials remain quarantined and consume
+their original day/trial allowances; a code change is not permission to retry them.
+
 The isolated 2026-11-01 collection check fetched eight working feeds/indexes and
 one official index with no recent eligible release, discovering 16 new private
 items without AI or production writes. Six endpoints were held for inaccessible
