@@ -50,6 +50,13 @@ still accepts only its two reviewed source/format adapters. Other discoveries
 stay private until an independently tested evidence adapter supports them; the
 legacy publisher is deliberately not enabled as a shortcut.
 
+The isolated 2026-11-01 collection check fetched eight working feeds/indexes and
+one official index with no recent eligible release, discovering 16 new private
+items without AI or production writes. Six endpoints were held for inaccessible
+or invalid feeds, robots/mining restrictions, crawl delay or cross-domain redirect.
+No access restriction was bypassed. Working metadata feeds do not prove article
+full-text/AI reuse permission. The exact detailed response log stays local.
+
 `news-production-distribution.yml` independently exports only public validated
 news with the anon key, builds article HTML/sitemap and uploads only to the existing
 `elbilsagenten` project/main branch. It reuses the existing Pages/public-read
