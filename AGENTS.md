@@ -145,6 +145,28 @@ Permanent project rules for the Swedish EV Advisor codebase.
   mixed-format release proof, independent review, source checks and shared USD0.25/day,
   USD5/month and one-article/UTC-day limits. Missing/expired approvals fail closed.
 
+- CarNewsChina/The Driven publisher shorts use the separate
+  `news-publisher-short-2026-11-v1` recipe. Do not edit historical short recipes or
+  reuse their source proofs for these adapters. Every new source requires its own
+  real private writer/reviewer proof, exact current code hash and settled provider
+  outputs before that source can do normal paid work/publication through
+  `NEWS_PUBLISHER_ARTICLES_ENABLED`. The separately owner-armed
+  `NEWS_PUBLISHER_QUALIFICATION_ENABLED` permits private onboarding only: at most
+  one different fresh story per UTC day, sharing the global daily attempt marker
+  and budget. Never automatically retry any previously tested story URL. Qualification
+  cannot publish; each source is independently held until its own proof passes.
+  Select literal evidence IDs from deterministic source spans, retain the raw
+  provider output, and verify the ID-to-quote resolution without editing article
+  wording. Central claims need linked or explicitly discovered, approved primary
+  support and secondary-only details must remain visibly attributed. An old
+  original announcement is not new because a publisher discusses it today.
+  Combine fact selection and drafting in one call, then review independently;
+  preflight the full call-pair bound and reserve each call durably. No automatic
+  paid rewrite loops, budget exceptions or unvalidated source promotion. Reuse a
+  still-fresh audited candidate instead of paying for it again. Private trials
+  never publish. Normal operation shares the existing one-per-day transaction,
+  global daily attempt marker and original budget, and never changes car records.
+
 - Keep data pipeline code deterministic where possible and AI-assisted only where it adds value.
 - Prefer idempotent import/upsert scripts over one-off local mutations.
 - Use migrations for database schema changes.

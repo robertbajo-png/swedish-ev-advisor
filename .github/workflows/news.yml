@@ -64,6 +64,20 @@ jobs:
           set -euo pipefail
           python scripts/run_short_news.py run | tee news-run-result.json
           python -c 'import json; r=json.load(open("news-run-result.json")); print("News outcome:",r.get("status","published" if r.get("published")==1 else "unknown")); assert r.get("published")==1 or r.get("status") in ("daily_limit","daily_attempt_limit","no_eligible_new_source","deferred_budget_or_disabled"), "Editorial run held; inspect diagnostic, do not retry paid calls"'
+      - name: Qualify new publisher sources privately without retrying rejected stories
+        if: ${{ vars.NEWS_PUBLISHER_QUALIFICATION_ENABLED == 'true' }}
+        env:
+          NEWS_PUBLISHER_QUALIFICATION_ENABLED: 'true'
+        run: python scripts/run_publisher_news.py qualify
+      - name: Run independently proven CarNewsChina and The Driven adapters
+        if: ${{ vars.NEWS_PUBLISHER_ARTICLES_ENABLED == 'true' }}
+        env:
+          NEWS_PUBLISHER_ARTICLES_ENABLED: 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/run_publisher_news.py run | tee publisher-run-result.json
+          python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Publisher outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","deferred_budget_or_disabled","awaiting_source_qualification"), "Publisher editorial check held; no automatic paid retry"'
       - name: Preserve run diagnostics and validated export
         if: always()
         uses: actions/upload-artifact@v4
