@@ -62,15 +62,16 @@ def create_backup(value, recipient, output, *, env=None):
                          PGSSLROOTCERT=str(ca), PGCONNECT_TIMEOUT='20',
                          PGOPTIONS='-c default_transaction_read_only=on -c statement_timeout=300000 -c lock_timeout=10000',
                          PGAPPNAME='Elbilsagenten-scheduled-readonly-backup')
-        check = run(['psql', '-X', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-c',
-                     "SELECT json_build_object('read_only',current_setting('transaction_read_only')='on',"
+        check = run(['psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-c',
+                     "BEGIN READ ONLY; SELECT json_build_object('read_only',current_setting('transaction_read_only')='on',"
                      "'tls',(SELECT ssl FROM pg_stat_ssl WHERE pid=pg_backend_pid()),"
                      "'version',current_setting('server_version_num')::int/10000,"
                      "'news_off',(SELECT count(*)=1 AND bool_and(NOT enabled AND NOT publication_enabled) FROM public.news_ai_config WHERE id='production'),"
-                     "'notices_off',(SELECT count(*)=1 AND bool_and(NOT enabled) FROM public.news_notice_release_config WHERE id='production'))"], child_env)
+                     "'notices_off',(SELECT count(*)=1 AND bool_and(NOT enabled) FROM public.news_notice_release_config WHERE id='production')); ROLLBACK;"], child_env)
         state = json.loads(check)
         if state != dict(read_only=True, tls=True, version=17, news_off=True, notices_off=True):
-            raise RuntimeError('Backup preflight or news-off boundary failed')
+            safe = {k: state.get(k) for k in ('read_only', 'tls', 'version', 'news_off', 'notices_off')}
+            raise RuntimeError('Backup preflight or news-off boundary failed: ' + json.dumps(safe))
         version = run(['pg_dump', '--version'], child_env).decode()
         if not re.search(r'PostgreSQL\) 17\.', version):
             raise RuntimeError('PostgreSQL 17 client required')
