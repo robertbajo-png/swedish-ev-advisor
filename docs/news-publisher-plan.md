@@ -46,3 +46,21 @@ Record actual paid costs, source/receipt IDs, held reasons and deployment result
 privately. Public runbooks contain operational rules, not private article drafts,
 keys or trial authorizations. Distinguish a configured adapter, a passed live
 proof and a genuinely published article. Never claim one as another.
+
+## Selection And Evidence Follow-Up
+
+The first three real drafts were held before paid review: regional stories had
+insufficient Swedish relevance, source prefixes omitted qualifications, and prose
+introduced unsupported delivery/availability contrasts. Preserve those rejections.
+
+1. Rank eligible reports by explicit Swedish/European relevance or substantive
+   global vehicle technology before recency. Defer regional offers, dealer news,
+   factory openings, rumours and unrelated stationary storage before paid work.
+2. Select whole, exact source passages across the document, retaining their offsets,
+   topic identity, dates and technical qualifications within the existing byte caps.
+   Do not stitch quotations across omitted text or infer a new announcement date.
+3. Require enough subject-matched primary evidence before writing; skip thin or
+   unrelated corroboration and continue the free queue instead of buying a draft.
+4. Add selection/evidence regressions and a read-only selection preview. Keep all
+   existing numeric, relevance, originality, independent-review and source-proof
+   gates. No retry of the three rejected stories or increase to trial/budget caps.

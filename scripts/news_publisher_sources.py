@@ -8,6 +8,7 @@ from urllib.parse import urljoin, urlsplit
 
 from news_http import Collector, PageText, canonical_url, iso_date, require_recent_publication
 from news_store import artifact_hash, stable_id
+from news_publisher_selection import primary_identity_matches, subject_terms
 
 PUBLISHERS = {
     'carnewschina': {'id': 'carnewschina', 'name': 'CarNewsChina',
@@ -29,6 +30,8 @@ PRIMARY_SOURCES = {
     'www.gacgroup.com': ('gac-group', 'GAC Group', r'/th-th/news/article/[a-z0-9-]+'),
 }
 CORROBORATION_RULES = (
+    {'website': 'https://www.bmwgroup.com', 'triggers': (r'\bbmw\b', r'\bi3\b'),
+     'index': 'https://www.bmwgroup.com/en/news.html', 'path_match': r'/[^/]*i3[^/]*\.html'},
     {'website': 'https://www.bmwgroup.com', 'triggers': (r'\bbmw\b', r'\bi3\b'),
      'references': ['https://www.bmwgroup.com/en/news/general/2026/bmwi3.html']},
     {'website': 'https://www.gacgroup.com', 'triggers': (r'\bgac\b', r'\binpow\b'),
@@ -266,30 +269,43 @@ def bundle_errors(bundle, now=None):
 
 def collect_bundle(source_id, url, collector, *, feed_date=None, now=None):
     lead, links = fetch_publisher(source_id, url, collector, feed_date=feed_date, now=now)
-    candidates = [(u, {'from_url': lead['url'], 'to_url': u})
+    direct = [(u, {'from_url': lead['url'], 'to_url': u})
                   for u in list(dict.fromkeys(u for u in links if primary_source(u)))[:2]]
-    if not candidates:
-        candidates = corroboration_candidates(lead, collector)
     items, provenance, errors = [lead], [], []
-    for candidate, edge in candidates:
-        try:
-            item, child_links = fetch_primary(candidate, collector, now)
-            items.append(item)
-            provenance.append(edge)
-            # A linked official policy may point to the actual governing decision.
-            if source_id == 'carnewschina' and item['source_id'] == 'china-tax' and len(items) < 3:
-                child = next((u for u in child_links if u != candidate and primary_source(u)
-                              and urlsplit(u).hostname == urlsplit(candidate).hostname), None)
-                if child:
-                    try:
-                        item, _ = fetch_primary(child, collector, now)
-                        items.append(item)
-                        provenance.append({'from_url': candidate, 'to_url': child})
-                    except Exception as exc:
-                        errors.append(type(exc).__name__ + ':' + str(exc)[:100])
+    accepted, visited = [], set()
+    for group in (direct, None):
+        candidates = group if group is not None else corroboration_candidates(lead, collector)
+        for candidate, edge in candidates:
+            if candidate in visited:
+                continue
+            visited.add(candidate)
+            try:
+                item, child_links = fetch_primary(candidate, collector, now)
+                if not primary_identity_matches(lead, item):
+                    raise ValueError('publisher_primary_subject_mismatch')
+                accepted.append((item, edge, child_links))
+            except Exception as exc:
+                errors.append(type(exc).__name__ + ':' + str(exc)[:100])
+        if accepted:
             break
-        except Exception as exc:
-            errors.append(type(exc).__name__ + ':' + str(exc)[:100])
+    if accepted:
+        terms = subject_terms(lead['payload']['title'])
+        accepted.sort(key=lambda row: (row[0]['payload'].get('published_at') or '',
+            len(terms & subject_terms(row[0]['payload']['title']))), reverse=True)
+        item, edge, child_links = accepted[0]
+        items.append(item)
+        provenance.append(edge)
+        # A linked official policy may point to the actual governing decision.
+        if source_id == 'carnewschina' and item['source_id'] == 'china-tax':
+            child = next((u for u in child_links if u != item['url'] and primary_source(u)
+                          and urlsplit(u).hostname == urlsplit(item['url']).hostname), None)
+            if child:
+                try:
+                    child_item, _ = fetch_primary(child, collector, now)
+                    items.append(child_item)
+                    provenance.append({'from_url': item['url'], 'to_url': child})
+                except Exception as exc:
+                    errors.append(type(exc).__name__ + ':' + str(exc)[:100])
     if len(items) < 2:
         raise ValueError('publisher_no_accessible_primary_support:' + ','.join(errors)[:120])
     result = {'items': items, 'provenance': provenance, 'support_fetch_errors': errors}

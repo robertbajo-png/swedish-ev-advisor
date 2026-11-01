@@ -14,8 +14,9 @@ from news_editorial import normalize
 from news_http import Collector, require_recent_publication
 from news_publisher_sources import PUBLISHERS, collect_bundle, same_sources, bundle_errors, publisher_url
 from news_publisher_articles import (RECIPE, LIMITS, PACKET_BYTES, writer_call, reviewer_call,
-    pair_bound, precheck, check_review, stage, event_duplicate)
+    pair_bound, precheck, check_review, stage, event_duplicate, evidence_readiness)
 from news_publisher_articles import resolve_writer_output
+from news_publisher_selection import ranked_candidates
 from news_model_policy import reservation_micro_usd
 from news_store import NewsStore, artifact_hash, stable_id, now_iso
 from run_short_news import budget, matrix_valid, load_state, worker_lock, request_evidence
@@ -26,7 +27,7 @@ from trial_news_hybrid_launch import ledger
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py',
-              'news_editorial.py', 'news_http.py', 'news_store.py', 'news_launch_hybrid.py')
+              'news_publisher_selection.py', 'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_store.py', 'news_launch_hybrid.py')
 
 
 def code_hash():
@@ -97,6 +98,10 @@ def perform(remote, bundle, *, private, ai=None):
     old = remote.get('news_ingestion_runs', key)
     if old:
         return {**old['payload'], 'reused_attempt': True, 'published': 0}
+    material = evidence_readiness(bundle)
+    if not material['ready']:
+        return {'status': 'held_before_ai', 'source_id': source_id, 'errors': material['errors'],
+                'paid_calls': 0, 'published': 0}
     if not matrix_valid(remote, load_state(remote)):
         raise ValueError('publisher_existing_mixed_proof_required')
     ai = ai or NewsAi(remote.client, model='gpt-6-sol', cache_enabled=False, output_limits=LIMITS)
@@ -217,6 +222,30 @@ def release(remote, proof, collector):
             'export': export_public(remote)}
 
 
+def selection_queue(remote, sources, attempted=()):
+    previous = {r['payload'].get('url') for r in remote.rows('news_ingestion_runs')
+                if r['payload'].get('recipe') == RECIPE
+                and r['payload'].get('kind') in ('publisher_private_trial', 'short_daily')}
+    rows = [i for i in remote.rows('news_items') if publisher_url(i['source_id'], i['url'])]
+    return ranked_candidates(rows, sources, previous | set(attempted))
+
+
+def preview_selection(remote, collector):
+    queue, held = selection_queue(remote, PUBLISHERS)
+    candidates = []
+    for item, selection in queue:
+        entry = {'source_id': item['source_id'], 'url': item['url'], 'selection': selection}
+        try:
+            bundle = collect_bundle(item['source_id'], item['url'], collector,
+                                    feed_date=item['payload']['published_at'])
+            entry.update(evidence_readiness(bundle))
+        except Exception as exc:
+            entry.update(ready=False, errors=[type(exc).__name__ + ':' + str(exc)[:140]])
+        candidates.append(entry)
+    return {'status': 'selection_preview', 'candidates': candidates, 'held': held,
+            'paid_calls': 0, 'published': 0, 'writes': 0}
+
+
 def daily(remote, collector):
     if os.environ.get('NEWS_PUBLISHER_ARTICLES_ENABLED') != 'true':
         return {'status': 'publisher_worker_disabled', 'published': 0}
@@ -239,15 +268,16 @@ def daily(remote, collector):
     if any(r['payload'].get('kind') == 'short_daily'
            and str(r['payload'].get('started_at', '')).startswith(now_iso()[:10]) for r in remote.rows('news_ingestion_runs')):
         return {'status': 'daily_attempt_limit', 'published': 0}
-    queue = sorted((i for i in remote.rows('news_items') if i['source_id'] in approved
-                    and i['status'] == 'collected' and publisher_url(i['source_id'], i['url'])),
-                   key=lambda i: i['payload'].get('published_at', ''), reverse=True)[:8]
-    skipped = []
-    for item in queue:
+    queue, skipped = selection_queue(remote, approved)
+    for item, selection in queue:
         try:
             require_recent_publication(item['payload'].get('published_at'))
             bundle = collect_bundle(item['source_id'], item['url'], collector,
                                     feed_date=item['payload']['published_at'])
+            material = evidence_readiness(bundle)
+            if not material['ready']:
+                skipped.append({'url': item['url'], 'reason': material['errors']})
+                continue
         except Exception as exc:
             skipped.append({'source_id': item['source_id'], 'url': item['url'], 'reason': str(exc)[:130]})
             continue
@@ -284,16 +314,16 @@ def qualify(remote, collector):
     if sum(str(r.get('started_at', '')).startswith(today) for r in trials) >= 3:
         return {'status': 'private_trial_limit', 'published': 0}
     attempted = {r.get('url') for r in trials}
-    queue = sorted((i for i in remote.rows('news_items') if i['source_id'] in pending
-                    and i['status'] == 'collected' and i['url'] not in attempted
-                    and publisher_url(i['source_id'], i['url'])),
-                   key=lambda i: i['payload'].get('published_at', ''), reverse=True)[:8]
-    skipped = []
-    for item in queue:
+    queue, skipped = selection_queue(remote, pending, attempted)
+    for item, selection in queue:
         try:
             require_recent_publication(item['payload'].get('published_at'))
             bundle = collect_bundle(item['source_id'], item['url'], collector,
                                     feed_date=item['payload']['published_at'])
+            material = evidence_readiness(bundle)
+            if not material['ready']:
+                skipped.append({'url': item['url'], 'reason': material['errors']})
+                continue
         except Exception as exc:
             skipped.append({'url': item['url'], 'reason': str(exc)[:120]})
             continue
@@ -317,7 +347,7 @@ def qualify(remote, collector):
 def main():
     load_local_env()
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command', choices=('inspect', 'trial', 'status', 'run', 'qualify'))
+    p.add_argument('command', choices=('inspect', 'trial', 'status', 'run', 'qualify', 'select'))
     p.add_argument('--source', choices=tuple(PUBLISHERS))
     p.add_argument('--url')
     args = p.parse_args()
@@ -330,6 +360,7 @@ def main():
             if args.command == 'inspect':
                 ai = NewsAi(remote.client, model='gpt-6-sol', output_limits=LIMITS)
                 result = {'source': args.source, 'source_count': len(bundle['items']),
+                    'evidence': evidence_readiness(bundle),
                     'pair_bound_micro_usd': pair_bound(ai, bundle), 'budget': budget(remote), 'paid_calls': 0, 'published': 0}
             else:
                 record = perform(remote, bundle, private=True)
@@ -340,6 +371,8 @@ def main():
                       'sources': {s: bool(proof_valid(remote, s)) for s in PUBLISHERS}, 'paid_calls': 0, 'published': 0}
         elif args.command == 'qualify':
             result = qualify(remote, collector)
+        elif args.command == 'select':
+            result = preview_selection(remote, collector)
         else:
             result = daily(remote, collector)
         print(json.dumps(result, ensure_ascii=True, indent=2))

@@ -49,6 +49,7 @@ def fixture():
     body = ' '.join(QUOTES) + ' ' + ' '.join(['Synthetic laboratory background for isolated parser regression only.'] * 8)
     doc = {'title': 'Synthetic battery project', 'published_at': NOW.isoformat(), 'content': body}
     lead = item_from_document(REPORT_URL, source, doc, NOW)
+    lead['payload']['summary'] = body[:200]
     primary = item_from_document(PRIMARY_URL, primary_source(PRIMARY_URL), doc, NOW)
     bundle = {'items': [lead, primary], 'provenance': [{'from_url': REPORT_URL, 'to_url': PRIMARY_URL}],
               'support_fetch_errors': []}

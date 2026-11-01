@@ -14,6 +14,8 @@ from news_model_policy import reservation_micro_usd
 from news_publisher_sources import PUBLISHERS, PRIMARY_SOURCES, bundle_errors
 from news_store import EDITORIAL_POLICY, artifact_hash, stable_id, now_iso
 from news_short_articles import unsupported_absence_claim
+from news_publisher_selection import (candidate_assessment, passage_selection,
+                                      primary_identity_matches)
 
 RECIPE = 'news-publisher-short-2026-11-v1'
 LIMITS = {'swedish_ev_article': 2000, 'ev_news_independent_audit': 1300}
@@ -38,15 +40,11 @@ def source_views(bundle):
     result = []
     for index, item in enumerate(bundle['items']):
         p = item['payload']
-        content = p['content']
-        if index:
-            anchor = re.search(r'钠离子|35%|electrification target|sodium.ion|INPOW|The new BMW i3', content, re.I)
-            if anchor:
-                content = content[max(0, anchor.start() - 250):]
         limit = 1400 if index == 0 else 400 if index == 1 and len(bundle['items']) == 3 else 1600 if index == 1 else 1400
         result.append({'id': 's' + str(index), 'url': item['url'], 'publisher': p['publisher'],
             'kind': p['source_kind'], 'published_at': p['published_at'],
-            'CONTENT': content.encode()[:limit].decode('utf-8', errors='ignore')})
+            **passage_selection(p['content'], bundle['items'][0]['payload']['title'], p['title'], limit,
+                                primary=index > 0)})
     return result
 
 
@@ -54,22 +52,37 @@ def evidence_catalog(bundle):
     """Only exact source spans can be cited; the model never authors quotations."""
     result = {}
     for source in source_views(bundle):
-        text = source['CONTENT']
-        segments = re.split(r'(?<=[.!?;])\s+|(?<=[。！？；])', text)
-        candidates = []
-        for segment in segments:
-            value = segment.strip()
-            if not value:
-                continue
-            east_asian = bool(re.search(r'[\u4e00-\u9fff\u0e00-\u0e7f]', value))
-            if east_asian:
-                candidates.extend(value[i:i + 110] for i in range(0, len(value), 100)
-                                  if len(value[i:i + 110]) >= 20)
-            elif 8 <= len(value.split()) <= 45 and len(value) <= 350:
-                candidates.append(value)
+        original = bundle['items'][int(source['id'][1:])]['payload']['content']
+        candidates = [original[start:end] for start, end in source['passage_offsets']]
         for index, quote in enumerate(list(dict.fromkeys(candidates))[:12]):
             result[source['id'] + 'e' + str(index)] = {'source': source['id'], 'quote': quote}
     return result
+
+
+def evidence_readiness(bundle, now=None):
+    """Free pre-writing gate, not a model verdict or permission to publish."""
+    errors = bundle_errors(bundle, now)
+    if errors:
+        return {'ready': False, 'errors': errors, 'selection': None, 'primary_passages': 0, 'total_passages': 0}
+    lead = bundle['items'][0]
+    selection = candidate_assessment({**lead['payload'], 'summary': lead['payload']['content'][:1200]}, now)
+    if not selection['eligible']:
+        errors.append('publisher_selection:' + selection['reason'])
+    primaries = bundle['items'][1:]
+    if not any(primary_identity_matches(lead, item) for item in primaries):
+        errors.append('publisher_primary_subject_mismatch')
+    dates = [item['payload'].get('published_at') for item in primaries]
+    report_date = datetime.fromisoformat(lead['payload']['published_at'])
+    if all(dates) and all((report_date - datetime.fromisoformat(d)).days > 30 for d in dates):
+        errors.append('publisher_old_primary_background_only')
+    if any(d and (datetime.fromisoformat(d) - report_date).total_seconds() > 86400 for d in dates):
+        errors.append('publisher_primary_after_report')
+    catalog = evidence_catalog(bundle)
+    count = sum(ref['source'] != 's0' for ref in catalog.values())
+    if count < 3 or len(catalog) < 4:
+        errors.append('publisher_insufficient_literal_fact_material')
+    return {'ready': not errors, 'errors': sorted(set(errors)), 'selection': selection,
+            'primary_passages': count, 'total_passages': len(catalog)}
 
 
 def resolve_writer_output(bundle, output):
@@ -113,6 +126,9 @@ def writer_call(bundle):
         'Do not translate the source article paragraph by paragraph or retain its lead/order: build your own '
         'structure from the selected facts and official evidence. Every clause cites exact fact_ids in JSON. '
         'A fact cites one or two provided evidence_id values. Never create or reconstruct quotations. '
+        'Each fact must be fully supported by those exact spans, including model identifiers, dates and '
+        'market qualifications. If a model name contains digits, cite an identity span too or omit the '
+        'repeated model name in that fact. Do not borrow a year or specification from a different span. '
         'Every number and year in a fact statement must occur literally in the cited evidence; omit a precise number/date '
         'rather than attaching a nearby quotation that does not contain it. No unit/currency conversions. '
         'EVERY central fact, including the headline/lead change, needs an official primary quote, not just '
@@ -126,6 +142,9 @@ def writer_call(bundle):
         'article discusses it; retain its stated timing, never describe it as announced today. '
         'Do not claim Swedish prices, launch, savings, winter performance or missing data without literal evidence. '
         'No absence claims: these are selected excerpts, not an audit of the whole source. No quote marks, links, '
+        'Do not add gratuitous negations or contrasts such as inte starten för leveranser, '
+        'inte ett nytt beslut or uppgifterna anger inte. Simply state the supported production, '
+        'delivery or announcement event and its actual time/market, without introducing another event. '
         'internal fact labels or reporting-process commentary in visible prose. '
         'Score actual Swedish/European or significant global EV relevance on 0-1; local-only corporate, political '
         'or sales news is low relevance, not a reason to manufacture Swedish consequences. If evidence is thin '
@@ -136,7 +155,7 @@ def writer_call(bundle):
         'new date for older policy. Facts reference only the selected source excerpts. Return strict JSON.\n' +
         json.dumps({'report_subject': bundle['items'][0]['payload']['title'],
                     'report_date': bundle['items'][0]['payload']['published_at'][:10],
-                    'sources': [{k: v for k, v in s.items() if k != 'CONTENT'} for s in source_views(bundle)],
+                    'sources': [{k: v for k, v in s.items() if k not in ('CONTENT', 'passage_offsets')} for s in source_views(bundle)],
                     'literal_evidence': catalog}, ensure_ascii=False))
     return 'swedish_ev_article', schema, prompt
 
@@ -231,9 +250,10 @@ def precheck(bundle, packet, now=None):
                 errors.append('publisher_fact_source_invalid:' + fact['id'])
                 continue
             source = views[ref['source']]
+            original = bundle['items'][int(ref['source'][1:])]['payload']['content']
             quote = ref['quote']
             if (not isinstance(quote, str) or not 20 <= len(quote) <= 350
-                    or quote not in source['CONTENT']
+                    or quote not in source['CONTENT'] or quote not in original
                     or not (8 <= len(quote.split()) <= 45 or re.search(r'[\u4e00-\u9fff\u0e00-\u0e7f]', quote) and 20 <= len(quote) <= 160)):
                 errors.append('publisher_evidence_not_literal:' + fact['id'])
                 continue

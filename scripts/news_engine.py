@@ -5,7 +5,7 @@ import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from generate_sitemap import public_variant_slug
 from news_editorial import (
@@ -77,7 +77,7 @@ def models_for_news(store):
     return result
 
 
-def collect(store, sources, collector=None, max_items=20, force=False):
+def collect(store, sources, collector=None, max_items=20, force=False, publisher_lookback=None):
     collector = collector or Collector()
     report = {"sources": [], "new_items": 0}
     known = {r["url"]: r for r in store.rows("news_items")}
@@ -87,15 +87,19 @@ def collect(store, sources, collector=None, max_items=20, force=False):
         store.put("news_sources", {"id": config["id"], "payload": source})
         if not source.get("enabled", source.get("priority", False)):
             continue
+        expanded = publisher_lookback is not None and source['id'] in ('carnewschina', 'thedriven')
+        source_limit = min(20, max(0, publisher_lookback)) if expanded and max_items > 0 else max_items
+        wider_window = expanded and (source.get('collected_window', 0) < source_limit
+                                     or source.get('publisher_window_version') != 2)
         previous = iso_date(source.get("checked_at"))
-        if not force and previous and (datetime.now(timezone.utc) - datetime.fromisoformat(previous)).total_seconds() < source.get("poll_hours", 4) * 3600:
+        if not force and not wider_window and previous and (datetime.now(timezone.utc) - datetime.fromisoformat(previous)).total_seconds() < source.get("poll_hours", 4) * 3600:
             continue
         entry = {"source_id": source["id"], "feed": None, "status": "no_verified_feed", "errors": []}
         pressroom = source.get('collection_method') == 'pressroom_index'
         for feed in source.get("indexes", []) if pressroom else source.get("feeds", []):
             try:
                 conditional = {}
-                if source.get("verified_feed") == feed:
+                if source.get("verified_feed") == feed and not wider_window:
                     if source.get("etag"):
                         conditional["If-None-Match"] = source["etag"]
                     if source.get("last_modified"):
@@ -109,13 +113,26 @@ def collect(store, sources, collector=None, max_items=20, force=False):
                     entry['errors'].extend(discovery_errors)
                 else:
                     rows = parse_feed(xml, source)
+                    if expanded and len(rows) < source_limit and not urlsplit(final).query:
+                        page_url = urlunsplit(urlsplit(final)._replace(query='paged=2'))
+                        try:
+                            page_status, _, page_xml, page_final = collector.fetch(page_url, source)
+                            if page_status != 200 or page_final != page_url:
+                                raise ValueError('publisher_page_unavailable_or_redirected')
+                            seen_urls = {row['url'] for row in rows}
+                            for row in parse_feed(page_xml, source):
+                                if row['url'] not in seen_urls:
+                                    rows.append(row)
+                                    seen_urls.add(row['url'])
+                        except Exception as exc:
+                            entry['errors'].append({'feed': page_url, 'reason': type(exc).__name__ + ':' + str(exc)[:140]})
                 only_stale = pressroom and not rows and discovery_errors and all(
                     error['reason'] == 'ValueError:stale_report' for error in discovery_errors)
                 if not rows and not only_stale:
                     raise ValueError("empty_feed")
                 source.update(verified_feed=final, verified_at=now_iso(), etag=headers.get("ETag"), last_modified=headers.get("Last-Modified"))
                 entry.update(status="verified_no_recent_items" if only_stale else "verified", feed=final, entries=len(rows))
-                for row in rows[:max_items]:
+                for row in rows[:source_limit]:
                     if row["url"] in known:
                         continue
                     payload = {**row, "classification": classify_metadata(row["title"], row["summary"]),
@@ -124,6 +141,9 @@ def collect(store, sources, collector=None, max_items=20, force=False):
                     item = store.put("news_items", {"id": stable_id(row["url"]), "source_id": source["id"], "url": row["url"], "cluster_id": None, "status": "collected", "payload": payload})
                     known[row["url"]] = item
                     report["new_items"] += 1
+                if expanded:
+                    source['collected_window'] = source_limit
+                    source['publisher_window_version'] = 2
                 break
             except Exception as exc:
                 entry["errors"].append({"feed": feed, "reason": type(exc).__name__ + ":" + str(exc)[:180]})
@@ -477,6 +497,8 @@ def main():
     parser.add_argument("--backend", choices=["sqlite", "supabase"], default=os.environ.get("NEWS_BACKEND", "sqlite"))
     parser.add_argument("--db", type=Path)
     parser.add_argument("--max-items", type=int, default=6)
+    parser.add_argument('--publisher-lookback', type=int, choices=range(0, 21),
+                        help='Metadata window for CarNewsChina/The Driven only; no extra paid attempts')
     parser.add_argument("--max-stories", type=int, default=3)
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--retry", action="store_true")
@@ -487,7 +509,8 @@ def main():
         if args.command in {"collect", "run", "notices"}:
             notices = args.command == 'notices' or (args.command == 'run' and args.format == 'notice')
             sources = notice_sources(registry()) if notices else registry()
-            result = {"collection": collect(store, sources, max_items=max(0, min(args.max_items, 20)), force=args.force)}
+            result = {"collection": collect(store, sources, max_items=max(0, min(args.max_items, 20)),
+                                            force=args.force, publisher_lookback=args.publisher_lookback)}
             if notices:
                 collector = Collector()
                 source_map = {s['id']:s for s in sources}
