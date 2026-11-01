@@ -1,0 +1,43 @@
+name: Production health monitor
+
+on:
+  schedule:
+    - cron: '11,41 * * * *'
+  workflow_dispatch:
+    inputs:
+      alert_test:
+        description: Create one clearly marked alert delivery test
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: elbilsagenten-production-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    if: github.ref == 'refs/heads/main' && vars.PRODUCTION_MONITOR_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check website and off-site backup
+        if: inputs.alert_test != true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/production_monitor.mjs
+      - name: Exercise alert delivery without simulating a production outage
+        if: inputs.alert_test == true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/production_monitor.mjs --alert-test

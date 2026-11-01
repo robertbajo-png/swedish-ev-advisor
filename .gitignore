@@ -5,6 +5,7 @@ dist/
 !.env.example
 .dev.vars*
 .wrangler/
+backup-output/
 __pycache__/
 *.py[cod]
 .DS_Store

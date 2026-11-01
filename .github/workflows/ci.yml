@@ -47,6 +47,7 @@ jobs:
       - run: bun run verify:live-ai
       - run: bun run verify:ai-budget
       - run: node scripts/verify_production_budget.mjs
+      - run: bun scripts/verify_production_operations.mjs
       - run: bun run verify:advisor-matching
       - run: bun run verify:ai-cost
       - run: bun run verify:tco
@@ -66,6 +67,7 @@ jobs:
           python-version: '3.12'
       - run: bun run verify:site-info
       - run: python -m unittest discover -s tests -p test_production_hosting.py -v
+      - run: python -m unittest discover -s tests -p test_production_backup.py -v
       - run: python -m unittest discover -s tests -p test_image_rights.py -v
       - run: bun run verify:licensed-images
       - run: bun run verify:kia-prices
