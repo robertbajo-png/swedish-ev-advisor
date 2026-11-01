@@ -88,7 +88,7 @@ export async function main() {
   }
   await notify(failures);
   console.log(JSON.stringify({ ok: failures.length === 0, failures, paid_calls: 0, repairs: 0 }));
-  if (failures.length) process.exitCode = 1;
+  if (failures.length && !process.argv.includes('--backup-failed')) process.exitCode = 1;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

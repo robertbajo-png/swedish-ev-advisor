@@ -46,7 +46,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install trusted backup clients
-        run: sudo apt-get update -qq && sudo apt-get install -y age postgresql-client-17
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y age curl ca-certificates gpg
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error --output /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" {print $10; exit}' | grep -Fx B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+          echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main' | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client-17
       - name: Create encrypted read-only backup
         env:
           BACKUP_DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
