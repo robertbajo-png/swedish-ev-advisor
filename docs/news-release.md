@@ -50,6 +50,52 @@ still accepts only its two reviewed source/format adapters. Other discoveries
 stay private until an independently tested evidence adapter supports them; the
 legacy publisher is deliberately not enabled as a shortcut.
 
+### Publisher Article Adapters
+
+The owner subsequently requested publication support for CarNewsChina and The
+Driven. `run_publisher_news.py` is a separate short recipe; it does not change the
+historical VW/Firefly code hash or accept their receipts as publisher proofs.
+It parses each publisher's article-specific body, canonical URL and publication
+metadata. Exact reachable primary links must match the approved host/path registry;
+there is no AI-selected URL fetching or access-rule bypass.
+
+The combined structured writer selects evidence IDs from deterministic literal
+source spans and returns an atomic fact inventory and a new 150-250-word Swedish
+article. Resolve IDs without changing any article wording; retain both the raw
+provider output and resolved packet and compare them to actual provider receipts.
+A separate independent reviewer checks every fact,
+clause, attribution, originality and market qualification. Central claims require
+literal primary-source support, while secondary-only details remain attributed.
+Old policy dates remain old; CLTC, WLTP, charging units and foreign currency/market
+scope cannot be converted or presented as Swedish specifications. These reports
+never update canonical car facts; exact existing model matches may only enqueue
+manufacturer verification.
+
+Before the first call, the entire bounded writer/reviewer pair must fit the actual
+shared allowance. Each call still uses the durable reservation/settlement RPC.
+Invalid drafts do not buy a review or rewrite. An ambiguous provider outcome keeps
+its full reserved charge and blocks further paid work; it is never recorded as
+zero actual cost. A story gets at most one private test attempt per UTC day;
+at most three distinct private stories may be tried in total that day during this
+rollout. A rejected story is not rewritten or retried to obtain an approval. The
+same shared allowance applies to every trial and production request.
+
+`trial` uses fresh sources, an isolated SQLite article store and private remote
+receipts only; it cannot publish. A successful source-specific gate needs the exact
+writer/reviewer outputs, two completed settled receipts, code hash and source
+snapshots. The main-only `NEWS_PUBLISHER_ARTICLES_ENABLED` worker accepts only
+individually proven sources. A flag alone is not source approval. A separate,
+default-off `NEWS_PUBLISHER_QUALIFICATION_ENABLED` step can qualify a pending
+source privately: at most one fresh different story per UTC day, sharing the
+existing global daily attempt marker and budget. It skips every previously tested
+URL, including failed attempts from older code hashes/dates, and cannot publish.
+Three manual trials on a day also block scheduled qualification on that day.
+The normal `run` step follows the existing short worker, shares its global daily
+attempt limit and transactional one-article-per-day ceiling, and may first reuse a
+fresh fully audited trial candidate without another paid call. Immediately before
+publication it fetches the sources again; any changed source is held for a new
+review. Distribution still uses only the public view and separate Pages credentials.
+
 The isolated 2026-11-01 collection check fetched eight working feeds/indexes and
 one official index with no recent eligible release, discovering 16 new private
 items without AI or production writes. Six endpoints were held for inaccessible

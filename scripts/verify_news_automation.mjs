@@ -76,6 +76,15 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     assert.equal(worker.environment, 'production-news');
     assert(wf.concurrency.group === 'seekev-news-production');
     assert(!JSON.stringify(worker.steps).includes(' run_short_news.py matrix'));
+    const publisher = worker.steps.find(s => s.name === 'Run independently proven CarNewsChina and The Driven adapters');
+    assert(publisher.if.includes("NEWS_PUBLISHER_ARTICLES_ENABLED == 'true'"));
+    assert(publisher.run.includes('run_publisher_news.py run'));
+    assert(!publisher.run.includes(' trial'));
+    const qualification = worker.steps.find(s => s.name === 'Qualify new publisher sources privately without retrying rejected stories');
+    assert(qualification.if.includes("NEWS_PUBLISHER_QUALIFICATION_ENABLED == 'true'"));
+    assert.equal(qualification.run, 'python scripts/run_publisher_news.py qualify');
+    assert(!qualification.run.includes(' trial'));
+    assert(!qualification.run.includes(' run'));
   } else {
     const source = JSON.stringify(worker);
     assert(!source.includes('SUPABASE_SERVICE_ROLE_KEY'));
