@@ -18,6 +18,20 @@ STOP = set(('the a an and or for with from into over under first new next this t
             'electrique electriques batterie batteries nouveau nouvelle nouveaux nouvelles '
             'og den det en et til med for som av fra pa bil biler elbil elbiler nye ny').split())
 QUALIFICATION = re.compile(r'\b(?:preliminary|provisional|assum\w*|subject to|depending|conditions?|not final|wltp|cltc|epa|iso\d+|deliver\w*|production|orders?|available|from \d|autumn|spring|summer|winter)\b', re.I)
+BRAND_PATTERNS = {
+    'general-motors':r'\b(?:gm|general motors|chevrolet|cadillac|gmc|buick|ultium)\b',
+    'volkswagen':r'\b(?:volkswagen|vw)\b', 'bmw':r'\bbmw\b', 'renault':r'\brenault\b',
+    'tesla':r'\btesla\b', 'volvo':r'\bvolvo\b', 'polestar':r'\bpolestar\b',
+    'byd':r'\bbyd\b', 'xpeng':r'\bxpeng\b', 'nio':r'\bnio\b', 'gac':r'\bgac\b',
+    'kia':r'\bkia\b', 'hyundai':r'\bhyundai\b', 'toyota':r'\btoyota\b', 'lexus':r'\blexus\b',
+    'audi':r'\baudi\b', 'skoda':r'\bskoda\b', 'cupra':r'\bcupra\b',
+    'mercedes':r'\b(?:mercedes|mercedes benz)\b', 'ford':r'\bford\b', 'nissan':r'\bnissan\b',
+    'peugeot':r'\bpeugeot\b', 'citroen':r'\bcitroen\b', 'zeekr':r'\bzeekr\b',
+}
+
+
+def subject_brands(text):
+    return {brand for brand,pattern in BRAND_PATTERNS.items() if re.search(pattern,normalize(text))}
 
 
 def candidate_assessment(item, now=None):
@@ -131,9 +145,40 @@ def passage_selection(content, report_title, source_title, byte_limit, *, primar
 def primary_identity_matches(report, primary):
     title = report['payload']['title']
     target = primary['payload']
+    brands = subject_brands(title)
+    target_brands = subject_brands(target['title'])
+    if brands and target_brands and not brands & target_brands:
+        return False
+    if not brands and target_brands and not target_brands & subject_brands(report['payload'].get('content','')[:1200]):
+        return False
+    if brands and not brands & subject_brands(target['title']+' '+target['content']+' '+target.get('publisher','')):
+        return False
     ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(title)))
     primary_ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(target['title'])))
     if ids and primary_ids and not ids & primary_ids:
         return False
+    if ids and not ids & set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b',
+                                       normalize(target['title']+' '+target['content']))):
+        return False
+    statistics = r'\b(?:registrations?|immatriculations?|nybilregistrering\w*|bilsalg\w*|sales|ventes)\b'
+    if re.search(statistics, normalize(title + ' ' + report['payload'].get('content','')[:800])):
+        a = reference_periods(title) or reference_periods(report['payload'].get('content','')[:2000])
+        b = reference_periods(target['title']) or reference_periods(target['content'][:4000])
+        if a and b and not a & b:
+            return False
     terms = subject_terms(title)
     return len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
+
+
+def reference_periods(text):
+    """Only explicit month/year pairs; collection dates are not reporting periods."""
+    months = ('january janvier januar januari', 'february fevrier februar februari',
+              'march mars marz', 'april avril', 'may mai maj', 'june juin juni',
+              'july juillet juli', 'august aout augusti', 'september septembre',
+              'october octobre oktober', 'november novembre', 'december decembre desember')
+    found = {(int(y),int(m)) for y,m in re.findall(r'\b(20\d{2})[-/](0[1-9]|1[012])\b',text)}
+    text = normalize(text)
+    for month,names in enumerate(months,1):
+        for year in re.findall(r'\b(?:'+ '|'.join(names.split()) + r')\s+(20\d{2})\b',text):
+            found.add((int(year),month))
+    return found

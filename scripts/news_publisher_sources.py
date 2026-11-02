@@ -11,6 +11,8 @@ from news_store import artifact_hash, stable_id
 from news_publisher_selection import primary_identity_matches, subject_terms
 from news_publisher_registry import PUBLISHERS, LEAD_SOURCES
 from news_reporting_policy import independence, same_event, reported
+from news_primary_discovery import authorities, source_for, discover as discover_originals, valid_edge
+from news_pressrooms import document as primary_document, PressDocument
 
 # Approved identity/path pairs, not an arbitrary hyperlink or an AI-selected URL.
 PRIMARY_SOURCES = {
@@ -23,6 +25,13 @@ PRIMARY_SOURCES = {
     'www.bmwgroup.com': ('bmw-group', 'BMW Group', r'/en/news/general/20\d{2}/[a-z0-9-]+\.html'),
     'www.gacgroup.com': ('gac-group', 'GAC Group', r'/th-th/news/article/[a-z0-9-]+'),
 }
+PRIMARY_AUTHORITIES = authorities(PRIMARY_SOURCES)
+
+
+class OriginalSourceNotFound(ValueError):
+    def __init__(self, errors, trace):
+        self.discovery_trace = trace[:24]
+        super().__init__('publisher_no_primary_or_independent_pair:' + ','.join(errors)[:120])
 CORROBORATION_RULES = (
     {'website': 'https://www.bmwgroup.com', 'triggers': (r'\bbmw\b', r'\bi3\b'),
      'index': 'https://www.bmwgroup.com/en/news.html', 'path_match': r'/[^/]*i3[^/]*\.html'},
@@ -59,7 +68,8 @@ class PublisherDocument(HTMLParser):
                   or (self.article_mode and tag == 'article'))
         skip = tag in {'script', 'style', 'noscript', 'nav', 'footer', 'header', 'aside', 'figure'}
         skip = skip or (tag == 'article' and not active and any(p[1] for p in self.stack))
-        skip = skip or bool({'comments', 'related-posts', 'sharedaddy'} & set(a.get('class', '').split()))
+        skip = skip or bool({'comments', 'related-posts', 'sharedaddy', 'articlescroller', 'adunit', 'google-ad'}
+                            & set(a.get('class', '').split()))
         if tag == 'a' and a.get('href') and any(p[1] for p in self.stack) and not any(p[2] for p in self.stack):
             self.links.append(a['href'])
         if tag not in VOID:
@@ -94,15 +104,7 @@ def publisher_url(source_id, url):
 
 
 def primary_source(url):
-    try:
-        p = urlsplit(canonical_url(url))
-        entry = PRIMARY_SOURCES.get(p.hostname)
-        if not entry or p.query or not re.fullmatch(entry[2], p.path):
-            return None
-        return {'id': entry[0], 'name': entry[1], 'website': 'https://' + p.hostname,
-                'kind': 'primary', 'reliability': .98}
-    except (ValueError, TypeError):
-        return None
+    return source_for(url, PRIMARY_AUTHORITIES)
 
 
 def matching_rules(lead):
@@ -151,6 +153,8 @@ def parse_publisher(html, url, source_id, feed_date=None, now=None):
         raise ValueError('publisher_paywall')
     if {canonical_url(urljoin(url, v)) for v in parser.canonicals} != {url}:
         raise ValueError('publisher_canonical_changed_or_missing')
+    if any(v and not iso_date(v) for v in parser.meta.get('article:published_time', [])):
+        raise ValueError('publisher_publication_date_invalid')
     dates = {iso_date(v) for v in parser.meta.get('article:published_time', [])}
     if len(dates) != 1 or None in dates:
         raise ValueError('publisher_publication_date_missing_or_conflicting')
@@ -198,9 +202,13 @@ def fetch_primary(url, collector, now=None):
     source = primary_source(url)
     if not source:
         raise ValueError('unapproved_primary_url')
-    status, _, html, final = collector.fetch(url, source, editorial=True)
+    if urlsplit(url).path.lower().endswith('.pdf'):
+        raise ValueError('primary_pdf_extraction_required')
+    status, headers, html, final = collector.fetch(url, source, editorial=True)
     if status != 200 or final != url:
         raise ValueError('primary_inaccessible_or_redirected')
+    if 'pdf' in str(headers.get('Content-Type', headers.get('content-type', ''))).lower() or html.startswith('%PDF'):
+        raise ValueError('primary_pdf_extraction_required')
     parser = PublisherDocument()
     parser.feed(html)
     page = PageText()
@@ -212,15 +220,42 @@ def fetch_primary(url, collector, now=None):
         raise ValueError('primary_content_incomplete_or_oversized')
     if re.search(r'just a moment|verify you are human|access denied', content[:800], re.I):
         raise ValueError('primary_access_challenge')
+    if any(v and not iso_date(v) for v in parser.meta.get('article:published_time', [])):
+        raise ValueError('primary_publication_date_invalid')
     dates = {iso_date(v) for v in parser.meta.get('article:published_time', [])}
     dates.discard(None)
     if len(dates) > 1:
         raise ValueError('primary_conflicting_dates')
+    structured_parser = PressDocument(); structured_parser.feed(html)
+    def article_dates(node):
+        if isinstance(node, list):
+            for child in node: article_dates(child)
+        elif isinstance(node, dict):
+            kinds = node.get('@type', [])
+            kinds = [kinds] if isinstance(kinds,str) else kinds
+            declared = node.get('url') or node.get('mainEntityOfPage')
+            if isinstance(declared,dict): declared = declared.get('@id')
+            matching = not declared or canonical_url(urljoin(url,declared)) == url
+            if matching and any(k in ('NewsArticle','Article','PressRelease') for k in kinds):
+                if node.get('datePublished'):
+                    value = iso_date(node['datePublished'])
+                    if not value: raise ValueError('primary_publication_date_invalid')
+                    dates.add(value)
+            for child in node.values():
+                if isinstance(child,(list,dict)): article_dates(child)
+    for node in structured_parser.jsonld: article_dates(node)
+    if not dates and structured_parser.date_parts:
+        value = primary_document(html)['published_at']
+        if value: dates.add(value)
+    if len(dates) > 1:
+        raise ValueError('primary_conflicting_dates')
+    if source.get('primary_date_required') and not dates:
+        raise ValueError('primary_publication_date_missing')
     title = next(iter(parser.meta.get('og:title', [])), '') or ' '.join(parser.title_parts).strip()
     if not title:
         raise ValueError('primary_title_missing')
-    doc = {'title': title, 'published_at': next(iter(dates), None), 'content': content}
     links = [canonical_url(urljoin(url, u)) for u in page.links if urljoin(url, u).startswith('https://')]
+    doc = {'title': title, 'published_at': next(iter(dates), None), 'content': content, 'links':links}
     return item_from_document(url, source, doc, now), links
 
 
@@ -251,6 +286,8 @@ def bundle_errors(bundle, now=None):
             allowed = False
             if method == 'publisher_link':
                 allowed = set(edge) == {'from_url', 'to_url'} and edge['from_url'] in seen
+            elif method in ('official_discovery_index', 'official_catalog'):
+                allowed = valid_edge(edge, lead, PRIMARY_AUTHORITIES)
             for rule in matching_rules(lead):
                 if method == 'approved_model_reference':
                     allowed = (set(edge) == {'from_url', 'to_url', 'method'} and edge['from_url'] == rule['website']
@@ -288,15 +325,24 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
     lead, links = fetch_publisher(source_id, url, collector, feed_date=feed_date, now=now)
     direct = [(u, {'from_url': lead['url'], 'to_url': u})
                   for u in list(dict.fromkeys(u for u in links if primary_source(u)))[:2]]
-    items, provenance, errors = [lead], [], []
+    items, provenance, errors, trace = [lead], [], [], []
     accepted, visited = [], set()
-    for group in (direct, None):
+    for strategy in ('direct', 'catalog', 'legacy', 'indexes'):
+        if len(visited) >= 6:
+            trace.append({'stage':'official_discovery','status':'candidate_fetch_limit'})
+            break
         try:
-            candidates = group if group is not None else corroboration_candidates(lead, collector)
+            if strategy == 'direct': candidates = direct
+            elif strategy == 'legacy': candidates = corroboration_candidates(lead, collector)
+            else:
+                candidates = discover_originals(lead, collector, PRIMARY_AUTHORITIES,
+                    corroborating_items, trace, indexes=strategy == 'indexes')
         except Exception as exc:
             errors.append(type(exc).__name__ + ':' + str(exc)[:100])
+            trace.append({'stage':strategy,'status':'failed','reason':type(exc).__name__+':'+str(exc)[:100]})
             candidates = []
         for candidate, edge in candidates:
+            if len(visited) >= 6: break
             if candidate in visited:
                 continue
             visited.add(candidate)
@@ -304,9 +350,17 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
                 item, child_links = fetch_primary(candidate, collector, now)
                 if not primary_identity_matches(lead, item):
                     raise ValueError('publisher_primary_subject_mismatch')
+                date = item['payload'].get('published_at')
+                if date:
+                    gap = datetime.fromisoformat(lead['payload']['published_at']) - datetime.fromisoformat(date)
+                    if gap > timedelta(days=30): raise ValueError('publisher_old_primary_background_only')
+                    if gap < -timedelta(days=1): raise ValueError('publisher_primary_after_report')
                 accepted.append((item, edge, child_links))
+                trace.append({'stage':strategy,'url':candidate,'status':'source_matched'})
             except Exception as exc:
                 errors.append(type(exc).__name__ + ':' + str(exc)[:100])
+                trace.append({'stage':strategy,'url':candidate,'status':'held',
+                              'reason':type(exc).__name__+':'+str(exc)[:120]})
         if accepted:
             break
     if accepted:
@@ -346,8 +400,8 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
             except Exception as exc:
                 errors.append(type(exc).__name__ + ':' + str(exc)[:100])
         if len(items) < 2:
-            raise ValueError('publisher_no_primary_or_independent_pair:' + ','.join(errors)[:120])
-    result = {'items': items, 'provenance': provenance, 'support_fetch_errors': errors}
+            raise OriginalSourceNotFound(errors, trace)
+    result = {'items': items, 'provenance': provenance, 'support_fetch_errors': errors, 'discovery_trace':trace[:24]}
     result['evidence_basis'] = 'editorial_corroboration' if items[1]['payload']['source_kind'] == 'publisher' else 'primary'
     result['bundle_hash'] = artifact_hash(result)
     if bundle_errors(result, now):
@@ -365,12 +419,12 @@ def same_sources(left, right):
 
 
 def refresh_bundle(bundle, collector, now=None):
-    if not reported(bundle):
-        lead = bundle['items'][0]
-        return collect_bundle(lead['source_id'], lead['url'], collector, feed_date=lead['payload']['published_at'], now=now)
     fresh = []
     for old in bundle['items']:
-        item, _ = fetch_publisher(old['source_id'], old['url'], collector, feed_date=old['payload']['published_at'], now=now)
+        if old['payload']['source_kind'] == 'primary':
+            item, _ = fetch_primary(old['url'], collector, now)
+        else:
+            item, _ = fetch_publisher(old['source_id'], old['url'], collector, feed_date=old['payload']['published_at'], now=now)
         fresh.append(item)
     result = {**bundle, 'items': fresh}
     result['bundle_hash'] = artifact_hash({k: v for k, v in result.items() if k != 'bundle_hash'})

@@ -132,6 +132,12 @@ facts stop paid work. A blocked/unrelated direct source may only fall back to th
 same explicitly approved official discovery paths, never a scraper bypass.
 `run_publisher_news.py select` previews this queue and source readiness using
 read-only database access and permitted web requests: no AI, writes or publishing.
+The original-source expansion in `docs/news-original-source-discovery.md` reuses
+official metadata and declared pressroom indexes/feeds, with bounded cached
+lookups, hash-bound provenance and strict manufacturer/model/date matching.
+Discovery traces distinguish reservations, wrong subjects and unsupported PDFs.
+Publication refreshes the exact approved source documents, never a substituted
+search result. A discovered URL is not by itself evidence for a factual claim.
 The numeric, minimum-relevance, originality and separate review gates
 are unchanged. The three rejected November 1 trials remain quarantined and consume
 their original day/trial allowances; a code change is not permission to retry them.
