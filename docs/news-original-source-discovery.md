@@ -88,13 +88,17 @@ retain page/bounding-box references; headers, period, denominator, units and
 footnotes still need a source-layout-specific validation before any cell can
 become a fact. No PDF is sent to an AI writer or admitted into publication by
 this preparer. HTML originals retain a hash-bound table snapshot, but only
-their narrative text is eligible for existing literal-passage checks. Changes
-to narrative/table evidence invalidate an earlier source refresh. Raw HTML hashes
+their narrative text is eligible for existing literal-passage checks. Articles
+are held before writing whenever either source has unvalidated table context:
+table footnotes may qualify surrounding prose, so removing the grid is not a
+substitute for verifying its caveats. Readiness, writer construction and article
+precheck all enforce this hold; the private inspector remains available.
+Changes to narrative/table evidence invalidate an earlier source refresh. Raw HTML hashes
 remain traceable without treating unrelated dynamic page decoration as a change
 to the reviewed facts. Content-addressed originals are archived privately and
 never overwrite different bytes under an existing hash.
 
-Verification: 16 synthetic document regressions and the full 682-test news
+Verification: 17 synthetic document regressions and the full 683-test news
 suite passed, alongside SQL publication/budget guards and the production build.
 A real permitted AAA DATA HTML original was fetched and archived privately.
 The older AAA DATA PDF layout probe redirected and remained held, not a passed
