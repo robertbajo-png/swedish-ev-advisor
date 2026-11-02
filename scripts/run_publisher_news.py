@@ -12,7 +12,8 @@ from news_ai import NewsAi, NewsBudgetBlocked, response_json
 from news_engine import export_public, models_for_news, queue_verification
 from news_editorial import normalize
 from news_http import Collector, require_recent_publication
-from news_publisher_sources import LEAD_SOURCES, collect_bundle, refresh_bundle, same_sources, bundle_errors, publisher_url
+from news_publisher_sources import (LEAD_SOURCES, OFFICIAL_LEAD_SOURCES, collect_bundle, refresh_bundle, same_sources,
+                                   bundle_errors, article_lead_url, official_release)
 from news_publisher_articles import (RECIPE, LIMITS, PACKET_BYTES, writer_call, reviewer_call,
     pair_bound, precheck, check_review, stage, event_duplicate, evidence_readiness)
 from news_publisher_articles import resolve_writer_output
@@ -27,6 +28,7 @@ from trial_news_hybrid_launch import ledger
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
+ARTICLE_LEAD_SOURCES = LEAD_SOURCES | OFFICIAL_LEAD_SOURCES
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
@@ -43,7 +45,7 @@ def code_hash():
 def reviewed_record(remote, proof):
     """Validate this exact article, not a paid admission proof for its publisher."""
     try:
-        if (proof['source_id'] not in LEAD_SOURCES or proof['state'] != 'passed'
+        if (proof['source_id'] not in ARTICLE_LEAD_SOURCES or proof['state'] != 'passed'
                 or proof.get('kind') not in ('publisher_private_trial', 'short_daily')
                 or proof['recipe'] != RECIPE or proof['code_hash'] != code_hash()
                 or proof['bundle']['items'][0]['source_id'] != proof['source_id']):
@@ -81,7 +83,7 @@ def perform(remote, bundle, *, private, ai=None):
     if bundle_errors(bundle):
         raise ValueError('publisher_fresh_bundle_required')
     source_id = bundle['items'][0]['source_id']
-    if source_id not in LEAD_SOURCES:
+    if source_id not in ARTICLE_LEAD_SOURCES:
         raise ValueError('publisher_lead_template_required')
     today = now_iso()[:10]
     if private:
@@ -220,6 +222,8 @@ def release(remote, proof, collector):
     cluster = remote.get('news_story_clusters', row['cluster_id'])
     queue_verification(remote, row, cluster, related)
     return {'status': 'published', 'published': 1, 'article_id': row['id'], 'slug': row['slug'],
+            'word_count': precheck(b, packet)['word_count'],
+            'cost_micro_usd': sum(r['charged_micro_usd'] for r in receipts), 'review_performed': True,
             'export': export_public(remote)}
 
 
@@ -227,12 +231,17 @@ def selection_queue(remote, sources, attempted=()):
     previous = {r['payload'].get('url') for r in remote.rows('news_ingestion_runs')
                 if r['payload'].get('recipe') in HISTORICAL_RECIPES
                 and r['payload'].get('kind') in ('publisher_private_trial', 'short_daily')}
-    rows = [i for i in remote.rows('news_items') if publisher_url(i['source_id'], i['url'])]
-    return ranked_candidates(rows, sources, previous | set(attempted), datetime.fromisoformat(now_iso()))
+    rows = [i for i in remote.rows('news_items') if article_lead_url(i['source_id'], i['url'])]
+    now = datetime.fromisoformat(now_iso())
+    originals, held_official = ranked_candidates(rows, set(sources) & OFFICIAL_LEAD_SOURCES,
+        previous | set(attempted), now, hydrate_sources=OFFICIAL_LEAD_SOURCES)
+    reports, held_reports = ranked_candidates(rows, set(sources) & LEAD_SOURCES, previous | set(attempted), now)
+    queue = originals[:4] + reports[:4] + originals[4:] + reports[4:]
+    return queue[:8], (held_official + held_reports)[:24]
 
 
-def preview_selection(remote, collector):
-    queue, held = selection_queue(remote, LEAD_SOURCES)
+def preview_selection(remote, collector, sources=None):
+    queue, held = selection_queue(remote, sources or ARTICLE_LEAD_SOURCES)
     candidates = []
     for item, selection in queue:
         entry = {'source_id': item['source_id'], 'url': item['url'], 'selection': selection}
@@ -243,7 +252,7 @@ def preview_selection(remote, collector):
             entry['discovery_trace'] = bundle.get('discovery_trace',[])
             entry['matched_sources'] = [{k:p[k] for k in ('url','source_id')} | {
                 'content_hash':p['payload']['content_hash'],'published_at':p['payload'].get('published_at')}
-                for p in bundle['items'][1:]]
+                for p in (bundle['items'] if official_release(bundle) else bundle['items'][1:])]
         except Exception as exc:
             entry.update(ready=False, errors=[type(exc).__name__ + ':' + str(exc)[:140]])
             if hasattr(exc,'discovery_trace'): entry['discovery_trace'] = exc.discovery_trace
@@ -275,7 +284,7 @@ def daily(remote, collector):
     if any(r['payload'].get('kind') == 'short_daily'
            and str(r['payload'].get('started_at', '')).startswith(now_iso()[:10]) for r in remote.rows('news_ingestion_runs')):
         return {'status': 'daily_attempt_limit', 'published': 0}
-    queue, skipped = selection_queue(remote, LEAD_SOURCES)
+    queue, skipped = selection_queue(remote, ARTICLE_LEAD_SOURCES)
     for item, selection in queue:
         try:
             require_recent_publication(item['payload'].get('published_at'))
@@ -308,7 +317,7 @@ def main():
     load_local_env()
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('command', choices=('inspect', 'trial', 'status', 'run', 'qualify', 'select'))
-    p.add_argument('--source', choices=tuple(LEAD_SOURCES))
+    p.add_argument('--source', choices=tuple(ARTICLE_LEAD_SOURCES))
     p.add_argument('--url')
     args = p.parse_args()
     with worker_lock(), closing(NewsStore(backend='supabase')) as remote:
@@ -329,11 +338,12 @@ def main():
         elif args.command == 'status':
             result = {'code_hash': code_hash(), 'budget': budget(remote),
                       'policy': RECIPE, 'source_templates': sorted(LEAD_SOURCES),
+                      'official_lead_sources': sorted(OFFICIAL_LEAD_SOURCES),
                       'publication_mode': 'per_article_review', 'paid_calls': 0, 'published': 0}
         elif args.command == 'qualify':
             result = qualify(remote, collector)
         elif args.command == 'select':
-            result = preview_selection(remote, collector)
+            result = preview_selection(remote, collector, {args.source} if args.source else None)
         else:
             result = daily(remote, collector)
         print(json.dumps(result, ensure_ascii=True, indent=2))

@@ -3,6 +3,7 @@ import copy
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -130,6 +131,17 @@ class NewsDocumentTests(unittest.TestCase):
             (Mock(returncode=0, stdout=json.dumps({'raw_sha256': 'changed'}).encode()), 'hash_mismatch')]:
             with patch('news_document_evidence.subprocess.run', return_value=result):
                 with self.assertRaisesRegex(ValueError, reason): inspect_pdf(raw)
+
+    def test_parser_preserves_windows_system_root_without_inheriting_api_credentials(self):
+        raw = pdf_bytes()
+        output = json.dumps(parse_pdf_bytes(raw)).encode()
+        with patch.dict(os.environ, {'SystemRoot': 'C:/Windows', 'OPENAI_API_KEY': 'synthetic-fixture-not-a-key'}, clear=True), \
+                patch('news_document_evidence.subprocess.run', return_value=Mock(returncode=0, stdout=output)) as run:
+            inspect_pdf(raw)
+        passed = {key.upper(): value for key, value in run.call_args.kwargs['env'].items()}
+        self.assertEqual(passed['SYSTEMROOT'], 'C:/Windows')
+        self.assertNotIn('OPENAI_API_KEY', passed)
+        self.assertEqual(run.call_args.kwargs['timeout'], 12)
 
     def test_binary_fetch_enforces_editorial_robots_headers_and_same_domain_policy(self):
         collector = Collector()

@@ -27,6 +27,9 @@ PRIMARY_SOURCES = {
     'www.gacgroup.com': ('gac-group', 'GAC Group', r'/th-th/news/article/[a-z0-9-]+'),
 }
 PRIMARY_AUTHORITIES = authorities(PRIMARY_SOURCES)
+OFFICIAL_LEAD_SOURCES = frozenset(s['id'] for s in PRIMARY_AUTHORITIES.values()
+    if s.get('official_article_lead') is True and s.get('collection_method') == 'pressroom_index'
+    and s.get('primary_date_required') is True)
 
 
 class OriginalSourceNotFound(ValueError):
@@ -109,6 +112,35 @@ def publisher_url(source_id, url):
 
 def primary_source(url):
     return source_for(url, PRIMARY_AUTHORITIES)
+
+
+def official_lead_url(source_id, url):
+    source = primary_source(url)
+    return bool(source and source['id'] == source_id and source_id in OFFICIAL_LEAD_SOURCES
+                and canonical_url(url) == url)
+
+
+def article_lead_url(source_id, url):
+    return publisher_url(source_id, url) or official_lead_url(source_id, url)
+
+
+def official_release(bundle):
+    return bundle.get('evidence_basis') == 'official_release'
+
+
+def collect_official_release(source_id, url, collector, *, feed_date=None, now=None):
+    if not official_lead_url(source_id, url):
+        raise ValueError('unapproved_official_article_lead')
+    item, _ = fetch_primary(url, collector, now)
+    published = require_recent_publication(item['payload'].get('published_at'), now)
+    if feed_date is not None and iso_date(feed_date) != published:
+        raise ValueError('official_feed_date_conflict')
+    bundle = {'items': [item], 'provenance': [], 'support_fetch_errors': [],
+              'evidence_basis': 'official_release', 'discovery_trace': [
+                  {'stage': 'official_release', 'url': url, 'status': 'source_matched'}]}
+    bundle['bundle_hash'] = artifact_hash(bundle)
+    if bundle_errors(bundle, now): raise ValueError('official_bundle_validation_failed')
+    return bundle
 
 
 def matching_rules(lead):
@@ -223,6 +255,9 @@ def fetch_primary(url, collector, now=None):
     if parser.paywall or page.paywall or re.search(r'"isAccessibleForFree"\s*:\s*false', html, re.I):
         raise ValueError('primary_paywall')
     content, document_evidence = html_document(html)
+    if source['id'] in OFFICIAL_LEAD_SOURCES:
+        scoped = primary_document(html, exclude_tables=True)
+        content = scoped['body'] or content
     if len(content) < 300 or len(content.encode()) > 90000 or '\ufffd' in content:
         raise ValueError('primary_content_incomplete_or_oversized')
     if re.search(r'just a moment|verify you are human|access denied', content[:800], re.I):
@@ -271,10 +306,12 @@ def bundle_errors(bundle, now=None):
     now = now or datetime.now(timezone.utc)
     try:
         items = bundle['items']
-        if not 2 <= len(items) <= 3 or len({i['url'] for i in items}) != len(items):
+        official = official_release(bundle)
+        if (not (len(items) == 1 if official else 2 <= len(items) <= 3)
+                or len({i['url'] for i in items}) != len(items)):
             return ['publisher_distinct_report_and_primary_required']
         lead = items[0]
-        if not publisher_url(lead['source_id'], lead['url']):
+        if not (official_lead_url(lead['source_id'], lead['url']) if official else publisher_url(lead['source_id'], lead['url'])):
             return ['publisher_lead_invalid']
         require_recent_publication(lead['payload']['published_at'], now)
         edges = bundle['provenance']
@@ -312,7 +349,7 @@ def bundle_errors(bundle, now=None):
             seen.add(item['url'])
         for index, item in enumerate(items):
             p = item['payload']
-            source = PUBLISHERS.get(item['source_id']) if index == 0 or editorial else primary_source(item['url'])
+            source = PUBLISHERS.get(item['source_id']) if (index == 0 and not official) or editorial else primary_source(item['url'])
             if editorial:
                 require_recent_publication(p['published_at'], now)
             if (not source or item['id'] != stable_id(item['url']) or source['id'] != item['source_id']
@@ -332,6 +369,8 @@ def bundle_errors(bundle, now=None):
 
 
 def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corroborating_items=()):
+    if official_lead_url(source_id, url):
+        return collect_official_release(source_id, url, collector, feed_date=feed_date, now=now)
     lead, links = fetch_publisher(source_id, url, collector, feed_date=feed_date, now=now)
     direct = [(u, {'from_url': lead['url'], 'to_url': u})
                   for u in list(dict.fromkeys(u for u in links if primary_source(u)))[:2]]

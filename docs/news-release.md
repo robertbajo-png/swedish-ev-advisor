@@ -59,6 +59,17 @@ access results and source ownership/layout boundaries.
 
 ### Shared Article Review (Owner Approved 2026-11-02)
 
+Explicitly configured official pressrooms may now start this same shared
+article pipeline directly (`official_release`). Their real release is the
+single primary source, not a fabricated publisher pair. Only named, date-required
+pressroom authorities with `official_article_lead` may use this route. Feed
+summaries are not evidence. Exact refresh, company attribution, literal fact
+support, independent review, all three publication gates and the shared limits
+still apply. Swedish EV metadata and bounded official candidate slots prevent
+valid originals from being hidden behind an unproductive publisher queue.
+The Actions job summary records the actual editorial outcome separately from
+collection/distribution success, without exposing private source/provider bodies.
+
 The owner approved `news-article-review-2026-11-v2`, replacing the extra per-source
 admission round with review of each exact article. `run_publisher_news.py` does not change the
 historical VW/Firefly code hash or accept their receipts as publisher proofs.

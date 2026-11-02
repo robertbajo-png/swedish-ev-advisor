@@ -3,8 +3,8 @@ import re
 from news_editorial import normalize
 from news_http import require_recent_publication
 
-EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|eu|germany|german|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
-VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil(?:ar|er|ene|en)?|(?:voitures?|vehicules?) electriques?|biler? elektrisk\w*)\b'
+EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europeisk\w*|eu|germany|german|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
+VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?) electriques?|biler? elektrisk\w*)\b'
 TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt)\b'
 LOCAL_BUSINESS = r'\b(?:dealers?|dealerships?|service network|local subsid\w*|rebates?|tax exemptions?|consumption tax|exempt\w*.*?tax|tax.*?exempt\w*|earnings|profits?|sales milestone|crosses.*?sales|factory|facilit\w*|plant|production line|off grid.*?station|charging station)\b'
 SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions)\b'
@@ -48,13 +48,13 @@ def candidate_assessment(item, now=None):
     vehicle = bool(re.search(VEHICLE, text))
     if re.search(SPECULATION, text):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
-    if re.search(r'\b(?:hydrogen\w*|hydrogene|fuel cell|plug in hybrid|hybride rechargeable|ladbar hybrid|em p)\b', title):
+    if re.search(r'\b(?:hydrogen\w*|hydrogene|fuel cell|plug in hybrid|hybride rechargeable|ladbar hybrid|fullhybrid\w*|em p)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'not_battery_ev_focus'}
     if re.search(STORAGE, text) and not re.search(r'\b(?:traction|passenger vehicle|electric car|electric vehicle)\w*\b', text):
         return {'eligible': False, 'priority': 0, 'reason': 'not_vehicle_energy_storage'}
     if not europe and (re.search(LOCAL_BUSINESS, title) or re.search(POLITICS, title)):
         return {'eligible': False, 'priority': 0, 'reason': 'regional_business_or_policy'}
-    if re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|rabatt\w*|\d+k)\b', title):
+    if re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason':
                 'price_notice_recipe_required' if re.search(EUROPE, title) else 'foreign_price_story'}
     if not vehicle:
@@ -69,7 +69,7 @@ def candidate_assessment(item, now=None):
     return {'eligible': True, 'priority': 40, 'reason': 'vehicle_update_needs_primary_relevance'}
 
 
-def ranked_candidates(items, source_ids, attempted=(), now=None):
+def ranked_candidates(items, source_ids, attempted=(), now=None, *, hydrate_sources=()):
     """Look beyond the newest eight without increasing the number of paid calls."""
     excluded = set(attempted)
     accepted, held = [], []
@@ -77,6 +77,8 @@ def ranked_candidates(items, source_ids, attempted=(), now=None):
         if item.get('source_id') not in source_ids or item.get('status') != 'collected' or item['url'] in excluded:
             continue
         result = candidate_assessment(item, now)
+        if item['source_id'] in hydrate_sources and result['reason'] == 'vehicle_connection_not_established':
+            result = {'eligible': True, 'priority': 20, 'reason': 'official_content_triage_required'}
         if result['eligible']:
             accepted.append((item, result))
         else:
@@ -94,6 +96,8 @@ def literal_spans(text):
     boundary = re.compile(r'(?<=[.!?;])\s+|(?<=[。！？；])|\n+')
     start = 0
     for match in list(boundary.finditer(text)) + [None]:
+        if match and re.search(r'\b(?:ID|Dr|Mr|Mrs|Prof)\.$', text[:match.start()], re.I):
+            continue
         end = match.start() if match else len(text)
         value = text[start:end]
         left, right = len(value) - len(value.lstrip()), len(value.rstrip())

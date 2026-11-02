@@ -75,11 +75,16 @@ jobs:
           set -euo pipefail
           python scripts/run_publisher_news.py run | tee publisher-run-result.json
           python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Publisher outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","deferred_budget_or_disabled","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","duplicate_event_held","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
+      - name: Summarize actual editorial outcome without private source bodies
+        if: always()
+        run: python scripts/news_run_summary.py
       - name: Preserve run diagnostics and validated export
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: news-public-export
-          path: public/data/news_articles.json
+          path: |
+            public/data/news_articles.json
+            news-operation-summary.json
       # Owner switches and shared allowances remain enforced by the database.
       # Production distribution is a separate public-read-only workflow.
