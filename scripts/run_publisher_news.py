@@ -28,8 +28,8 @@ from trial_news_hybrid_launch import ledger
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py',
-              'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py',
-              'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_store.py', 'news_launch_hybrid.py')
+              'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
+              'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py')
 
 
 def code_hash():
@@ -239,8 +239,13 @@ def preview_selection(remote, collector):
             bundle = collect_bundle(item['source_id'], item['url'], collector,
                                     feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'))
             entry.update(evidence_readiness(bundle))
+            entry['discovery_trace'] = bundle.get('discovery_trace',[])
+            entry['matched_sources'] = [{k:p[k] for k in ('url','source_id')} | {
+                'content_hash':p['payload']['content_hash'],'published_at':p['payload'].get('published_at')}
+                for p in bundle['items'][1:]]
         except Exception as exc:
             entry.update(ready=False, errors=[type(exc).__name__ + ':' + str(exc)[:140]])
+            if hasattr(exc,'discovery_trace'): entry['discovery_trace'] = exc.discovery_trace
         candidates.append(entry)
     return {'status': 'selection_preview', 'candidates': candidates, 'held': held,
             'paid_calls': 0, 'published': 0, 'writes': 0}
@@ -277,10 +282,12 @@ def daily(remote, collector):
                                     feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'))
             material = evidence_readiness(bundle)
             if not material['ready']:
-                skipped.append({'url': item['url'], 'reason': material['errors']})
+                skipped.append({'url': item['url'], 'reason': material['errors'],
+                                'discovery_trace':bundle.get('discovery_trace',[])})
                 continue
         except Exception as exc:
-            skipped.append({'source_id': item['source_id'], 'url': item['url'], 'reason': str(exc)[:130]})
+            skipped.append({'source_id': item['source_id'], 'url': item['url'], 'reason': str(exc)[:130],
+                            'discovery_trace':getattr(exc,'discovery_trace',[])})
             continue
         record = perform(remote, bundle, private=False)
         if record['status'] != 'passed':
