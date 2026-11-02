@@ -94,7 +94,7 @@ remain traceable without treating unrelated dynamic page decoration as a change
 to the reviewed facts. Content-addressed originals are archived privately and
 never overwrite different bytes under an existing hash.
 
-Verification: 15 synthetic document regressions and the full 681-test news
+Verification: 16 synthetic document regressions and the full 682-test news
 suite passed, alongside SQL publication/budget guards and the production build.
 A real permitted AAA DATA HTML original was fetched and archived privately.
 The older AAA DATA PDF layout probe redirected and remained held, not a passed

@@ -184,7 +184,8 @@ def parse_pdf_bytes(raw):
                 action = annotation.get('/A')
                 if hasattr(action, 'get_object'): action = action.get_object()
                 if (annotation.get('/AA') or annotation.get('/Subtype') != '/Link'
-                        or (action and (action.get('/S') != '/URI' or action.get('/Next')))):
+                        or (action and (action.get('/S') != '/URI' or action.get('/Next')
+                            or urlsplit(str(action.get('/URI', ''))).scheme not in ('https', 'http', 'mailto')))):
                     raise ValueError('document_annotated_pdf_requires_review')
             text = page.extract_text(extraction_mode='layout') or ''
             used += len(text)

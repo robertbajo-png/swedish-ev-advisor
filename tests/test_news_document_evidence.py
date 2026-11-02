@@ -28,9 +28,9 @@ TABLE = ('<table><caption>Synthetic new passenger car registrations</caption>'
          '<tfoot><tr><td>Scope note</td><td>New registrations only</td></tr></tfoot></table>')
 
 
-def pdf_bytes(*, pages=1, grid=False, encrypted=False, active=False, scanned=False, reserved=False):
+def pdf_bytes(*, pages=1, grid=False, encrypted=False, active=False, scanned=False, reserved=False, link=None):
     from pypdf import PdfWriter
-    from pypdf.generic import NameObject, DictionaryObject, DecodedStreamObject
+    from pypdf.generic import NameObject, DictionaryObject, DecodedStreamObject, ArrayObject, TextStringObject
     writer = PdfWriter()
     font = DictionaryObject({NameObject('/Type'): NameObject('/Font'), NameObject('/Subtype'): NameObject('/Type1'),
                              NameObject('/BaseFont'): NameObject('/Helvetica')})
@@ -45,6 +45,10 @@ def pdf_bytes(*, pages=1, grid=False, encrypted=False, active=False, scanned=Fal
                       '40 600 m 40 700 l S 200 600 m 200 700 l S 400 600 m 400 700 l S']
         stream = DecodedStreamObject(); stream.set_data(('\n'.join(parts) if not scanned else '').encode())
         page[NameObject('/Contents')] = writer._add_object(stream)
+        if link:
+            annotation = DictionaryObject({NameObject('/Type'): NameObject('/Annot'), NameObject('/Subtype'): NameObject('/Link'),
+                NameObject('/A'): DictionaryObject({NameObject('/S'): NameObject('/URI'), NameObject('/URI'): TextStringObject(link)})})
+            page[NameObject('/Annots')] = ArrayObject([writer._add_object(annotation)])
     writer.add_metadata({'/Title': 'Synthetic registrations', '/CreationDate': 'D:20261102000000Z',
                          '/Keywords': 'notdm' if reserved else 'synthetic fixture'})
     if encrypted: writer.encrypt('synthetic-fixture-only')
@@ -111,6 +115,11 @@ class NewsDocumentTests(unittest.TestCase):
     def test_isolated_parser_keeps_the_raw_document_identity(self):
         raw = pdf_bytes(grid=True)
         self.assertEqual(inspect_pdf(raw), parse_pdf_bytes(raw))
+
+    def test_pdf_hyperlinks_are_never_followed_and_active_uri_schemes_are_held(self):
+        self.assertEqual(parse_pdf_bytes(pdf_bytes(link='https://www.aaa-data.fr/'))['status'], 'prepared_not_verified')
+        with self.assertRaisesRegex(ValueError, 'annotated_pdf_requires_review'):
+            parse_pdf_bytes(pdf_bytes(link='javascript:syntheticFixture()'))
 
     def test_parser_timeout_crash_and_changed_snapshot_fail_closed(self):
         raw = pdf_bytes()
