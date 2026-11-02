@@ -29,6 +29,7 @@ from trial_news_hybrid_launch import ledger
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 ARTICLE_LEAD_SOURCES = LEAD_SOURCES | OFFICIAL_LEAD_SOURCES
+DAILY_CANDIDATE_LIMIT = 2
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
@@ -96,10 +97,18 @@ def perform(remote, bundle, *, private, ai=None):
             return {**same['payload'], 'reused_attempt': True, 'published': 0}
         if len(previous) >= 3:
             return {'status': 'private_trial_limit', 'source_id': source_id, 'published': 0}
-    key = stable_id(RECIPE + (':private:' + source_id + ':' + bundle['items'][0]['url'] if private else ':daily') + ':' + today)
+    key = stable_id(RECIPE + (':private:' + source_id + ':' + bundle['items'][0]['url'] + ':' + today if private
+                             else ':daily:' + today + ':' + bundle['items'][0]['url']))
     old = remote.get('news_ingestion_runs', key)
     if old:
         return {**old['payload'], 'reused_attempt': True, 'published': 0}
+    if not private:
+        today_runs = [r for r in remote.rows('news_ingestion_runs') if r['payload'].get('kind') == 'short_daily'
+                      and str(r['payload'].get('started_at', '')).startswith(today)]
+        same = next((r for r in today_runs if r['payload'].get('url') == bundle['items'][0]['url']), None)
+        if same: return {**same['payload'], 'reused_attempt': True, 'published': 0}
+        if len(today_runs) >= DAILY_CANDIDATE_LIMIT:
+            return {'status': 'daily_attempt_limit', 'published': 0}
     material = evidence_readiness(bundle)
     if not material['ready']:
         return {'status': 'held_before_ai', 'source_id': source_id, 'errors': material['errors'],
@@ -281,10 +290,11 @@ def daily(remote, collector):
             result = release(remote, proof, collector)
             if result.get('published') or result['status'] not in ('already_reported', 'candidate_stale_or_invalid'):
                 return result
-    if any(r['payload'].get('kind') == 'short_daily'
-           and str(r['payload'].get('started_at', '')).startswith(now_iso()[:10]) for r in remote.rows('news_ingestion_runs')):
+    if sum(r['payload'].get('kind') == 'short_daily'
+           and str(r['payload'].get('started_at', '')).startswith(now_iso()[:10]) for r in remote.rows('news_ingestion_runs')) >= DAILY_CANDIDATE_LIMIT:
         return {'status': 'daily_attempt_limit', 'published': 0}
     queue, skipped = selection_queue(remote, ARTICLE_LEAD_SOURCES)
+    last_rejection = None
     for item, selection in queue:
         try:
             require_recent_publication(item['payload'].get('published_at'))
@@ -301,11 +311,15 @@ def daily(remote, collector):
             continue
         record = perform(remote, bundle, private=False)
         if record['status'] != 'passed':
-            return {k: v for k, v in record.items() if k in ('status', 'errors', 'error', 'cost_micro_usd', 'published')}
+            result = {k: v for k, v in record.items() if k in ('status', 'errors', 'error', 'cost_micro_usd', 'published')}
+            if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
+                return result
+            last_rejection = result
+            continue
         if event_duplicate(remote, bundle, record['packet']):
             return {'status': 'duplicate_event_held', 'published': 0}
         return release(remote, record, collector)
-    return {'status': 'no_eligible_new_source', 'published': 0, 'skipped': skipped}
+    return last_rejection or {'status': 'no_eligible_new_source', 'published': 0, 'skipped': skipped}
 
 
 def qualify(remote, collector):

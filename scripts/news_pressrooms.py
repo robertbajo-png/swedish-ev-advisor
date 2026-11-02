@@ -31,8 +31,8 @@ class PressDocument(HTMLParser):
         if tag not in {'meta', 'link', 'br', 'hr', 'img', 'input', 'source', 'wbr', 'area', 'base', 'embed', 'param', 'track'}:
             classes = set(a.get('class', '').split())
             body = (a.get('id') == 'article-text' or {'article-page', 'pressrelease'} <= classes
-                    or {'cntnt', 'block-container'} <= classes)
-            dated = 'date' in classes or 'pressrelease-date' in classes
+                    or {'cntnt', 'block-container'} <= classes or 'article_text' in classes)
+            dated = bool({'date', 'pressrelease-date', 'article_date'} & classes)
             self.stack.append((tag, body, dated))
 
     def handle_endtag(self, tag):
@@ -91,6 +91,15 @@ def document(html, *, exclude_tables=False):
             if swedish:
                 day, month, year = swedish.groups()
                 months = 'jan feb mar apr maj jun jul aug sep okt nov dec'.split()
+                try:
+                    published = datetime(int(year), months.index(month)+1, int(day), tzinfo=timezone.utc).isoformat()
+                    break
+                except ValueError:
+                    continue
+            full_swedish = re.fullmatch(r'(\d{1,2}) (januari|februari|mars|april|maj|juni|juli|augusti|september|oktober|november|december) (\d{4})', value.strip())
+            if full_swedish:
+                day, month, year = full_swedish.groups()
+                months = 'januari februari mars april maj juni juli augusti september oktober november december'.split()
                 try:
                     published = datetime(int(year), months.index(month)+1, int(day), tzinfo=timezone.utc).isoformat()
                     break

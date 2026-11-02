@@ -163,6 +163,11 @@ Permanent project rules for the Swedish EV Advisor codebase.
   pipeline directly as `official_release`, with one actual primary source, not
   a fake publisher pair. Literal evidence, source attribution, separate review,
   exact refresh, table-context holds and all publication/budget gates still apply.
+  At most two distinct production candidates may be attempted per UTC day within
+  the same unchanged budget, including earlier short_daily attempts. A settled
+  quality rejection may fall through to a different fresh candidate, never a
+  rewrite/retry of the rejected URL. Unknown usage/provider/accounting failures
+  stop paid work. The database still permits only one published article per day.
 
 - Historical CarNewsChina/The Driven publisher shorts used the separate
   `news-publisher-short-2026-11-v1` recipe and per-publisher admission proofs.
