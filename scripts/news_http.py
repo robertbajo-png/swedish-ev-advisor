@@ -146,7 +146,7 @@ class Collector:
         self.policies = {}
         self.last_fetch = {}
 
-    def request(self, url, host, headers=None, policy=None):
+    def request(self, url, host, headers=None, policy=None, *, binary=False):
         url = safe_host(url, host)
         wait = max(0, 1 - (time.monotonic() - self.last_fetch.get(host, 0)))
         time.sleep(wait)
@@ -160,7 +160,8 @@ class Collector:
                 raw = response.read(MAX_BYTES + 1)
                 if len(raw) > MAX_BYTES:
                     raise ValueError("response_too_large")
-                return response.status, dict(response.headers), raw.decode("utf-8", errors="replace"), response.url
+                body = raw if binary else raw.decode("utf-8", errors="replace")
+                return response.status, dict(response.headers), body, response.url
         except HTTPError as exc:
             if exc.code == 304:
                 return 304, dict(exc.headers), "", url
@@ -198,6 +199,24 @@ class Collector:
             raise ValueError("redirect_robots_disallowed")
         if reserved(result[1], result[2]):
             raise ValueError("tdm_reserved")
+        return result
+
+    def fetch_bytes(self, url, source):
+        """Private document inspection retains the editorial access policy and raw bytes."""
+        host = urlsplit(source['website']).hostname
+        robots = self.policy(source['website'])
+        policy = EditorialPolicy(robots)
+        if not policy.can_fetch(AGENT, url):
+            raise ValueError('robots_disallowed')
+        delay = robots.crawl_delay(AGENT) or 1
+        if delay > 30:
+            raise ValueError('crawl_delay_exceeds_run_budget')
+        time.sleep(max(0, delay - (time.monotonic() - self.last_fetch.get(host, 0))))
+        result = self.request(url, host, policy=policy, binary=True)
+        if not policy.can_fetch(AGENT, result[3]):
+            raise ValueError('redirect_robots_disallowed')
+        if reserved(result[1]):
+            raise ValueError('tdm_reserved')
         return result
 
 

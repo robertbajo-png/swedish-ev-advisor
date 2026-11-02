@@ -64,3 +64,40 @@ remains unavailable and PFA declares an AI-mining reservation; both remain held.
 Some queued stories still have no reachable matching original. PDF links can be
 identified, but PDF/table extraction is not part of this HTML-first news slice.
 Unsupported redirect/canonical changes remain held, never silently accepted.
+
+## Document Preparation Follow-Up
+
+The next bounded slice prepares permitted PDF originals and structured HTML
+tables without promoting their cells into article facts. Preserve raw-document
+hashes, PDF page numbers/layout and explicit HTML cell/header/span metadata.
+Remove flattened tables from the publisher evidence passages: adjacent numbers
+are not a licensed relationship between a market, reporting period and unit.
+
+Use `inspect_news_documents.py --selection <private-selection.json> --output
+data/local/release-data/<inspection.json>` for at most three discovered PDFs, or
+`--url` for one declared official document and its declared same-authority PDF
+links, within the same total three-document bound. This is a read-only, no-AI preparation command,
+not an article-writing or publication command. The existing authority, robots,
+TDM, TLS, redirect and response-size guards apply. Pinned PDF libraries parse
+in a separate time-limited process; Linux also limits memory and CPU. Encrypted,
+active, scanned/unreadable, oversized and ambiguous documents remain held.
+Creation/modification timestamps never become publication dates.
+
+The output is private and explicitly `prepared_not_verified`. PDF table grids
+retain page/bounding-box references; headers, period, denominator, units and
+footnotes still need a source-layout-specific validation before any cell can
+become a fact. No PDF is sent to an AI writer or admitted into publication by
+this preparer. HTML originals retain a hash-bound table snapshot, but only
+their narrative text is eligible for existing literal-passage checks. Changes
+to narrative/table evidence invalidate an earlier source refresh. Raw HTML hashes
+remain traceable without treating unrelated dynamic page decoration as a change
+to the reviewed facts. Content-addressed originals are archived privately and
+never overwrite different bytes under an existing hash.
+
+Verification: 15 synthetic document regressions and the full 681-test news
+suite passed, alongside SQL publication/budget guards and the production build.
+A real permitted AAA DATA HTML original was fetched and archived privately.
+The older AAA DATA PDF layout probe redirected and remained held, not a passed
+live PDF test or an article approval. No paid AI, database writes or publication
+were performed for this slice. Specific statistical adapters and a successful
+permitted real-PDF extraction remain follow-up work.

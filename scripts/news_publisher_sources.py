@@ -13,6 +13,7 @@ from news_publisher_registry import PUBLISHERS, LEAD_SOURCES
 from news_reporting_policy import independence, same_event, reported
 from news_primary_discovery import authorities, source_for, discover as discover_originals, valid_edge
 from news_pressrooms import document as primary_document, PressDocument
+from news_document_evidence import html_document, valid_html_snapshot
 
 # Approved identity/path pairs, not an arbitrary hyperlink or an AI-selected URL.
 PRIMARY_SOURCES = {
@@ -66,7 +67,7 @@ class PublisherDocument(HTMLParser):
         active = ((self.body_class and self.body_class in a.get('class', '').split())
                   or (self.body_attribute and self.body_attribute in a)
                   or (self.article_mode and tag == 'article'))
-        skip = tag in {'script', 'style', 'noscript', 'nav', 'footer', 'header', 'aside', 'figure'}
+        skip = tag in {'script', 'style', 'noscript', 'nav', 'footer', 'header', 'aside', 'figure', 'table'}
         skip = skip or (tag == 'article' and not active and any(p[1] for p in self.stack))
         skip = skip or bool({'comments', 'related-posts', 'sharedaddy', 'articlescroller', 'adunit', 'google-ad'}
                             & set(a.get('class', '').split()))
@@ -184,7 +185,8 @@ def item_from_document(url, source, doc, now=None):
                 'publisher': source['name'], 'publisher_group': source.get('publisher_group', source['id']), 'source_kind': source['kind'],
                 'editorial_links': doc.get('links', []), 'byline': doc.get('byline', ''),
                 'access_status': 'accessible', 'final_url': url, 'fetched_at': (now or datetime.now(timezone.utc)).isoformat(),
-                'content': doc['content'], 'content_hash': hashlib.sha256(doc['content'].encode()).hexdigest()}}
+                'content': doc['content'], 'content_hash': hashlib.sha256(doc['content'].encode()).hexdigest(),
+                **({'document_evidence': doc['document_evidence']} if 'document_evidence' in doc else {})}}
 
 
 def fetch_publisher(source_id, url, collector=None, *, feed_date=None, now=None):
@@ -215,7 +217,7 @@ def fetch_primary(url, collector, now=None):
     page.feed(html)
     if parser.paywall or page.paywall or re.search(r'"isAccessibleForFree"\s*:\s*false', html, re.I):
         raise ValueError('primary_paywall')
-    content = page.plain()
+    content, document_evidence = html_document(html)
     if len(content) < 300 or len(content.encode()) > 90000 or '\ufffd' in content:
         raise ValueError('primary_content_incomplete_or_oversized')
     if re.search(r'just a moment|verify you are human|access denied', content[:800], re.I):
@@ -255,7 +257,8 @@ def fetch_primary(url, collector, now=None):
     if not title:
         raise ValueError('primary_title_missing')
     links = [canonical_url(urljoin(url, u)) for u in page.links if urljoin(url, u).startswith('https://')]
-    doc = {'title': title, 'published_at': next(iter(dates), None), 'content': content, 'links':links}
+    doc = {'title': title, 'published_at': next(iter(dates), None), 'content': content, 'links':links,
+           'document_evidence': document_evidence}
     return item_from_document(url, source, doc, now), links
 
 
@@ -313,6 +316,8 @@ def bundle_errors(bundle, now=None):
                     or p['content_hash'] != hashlib.sha256(p['content'].encode()).hexdigest()
                     or not -timedelta(minutes=5) <= now - datetime.fromisoformat(p['fetched_at']) <= timedelta(days=1)):
                 return ['publisher_source_snapshot_invalid']
+            if 'document_evidence' in p and not valid_html_snapshot(p['document_evidence']):
+                return ['publisher_document_snapshot_invalid']
         expected = {k: v for k, v in bundle.items() if k != 'bundle_hash'}
         if artifact_hash(expected) != bundle['bundle_hash']:
             return ['publisher_bundle_changed']
@@ -413,7 +418,9 @@ def same_sources(left, right):
     def identity(bundle):
         return [{k: i[k] for k in ('id', 'source_id', 'url')} | {'payload': {
             k: i['payload'].get(k) for k in ('title', 'published_at', 'content_hash', 'final_url',
-                                           'publisher_group', 'editorial_links', 'byline')}} for i in bundle['items']]
+                                           'publisher_group', 'editorial_links', 'byline')} | {
+            'document_tables': i['payload'].get('document_evidence', {}).get('tables', [])}}
+            for i in bundle['items']]
     return (identity(left) == identity(right) and left['provenance'] == right['provenance']
             and left.get('evidence_basis', 'primary') == right.get('evidence_basis', 'primary'))
 
