@@ -2,11 +2,11 @@
 
 ## Current Status
 
-Collection and distribution run, but collected fresh official releases cannot
-enter the shared article worker. Its lead predicate accepts only publisher
-templates, while the historical VW/Firefly worker supports narrow launch/battery
-layouts. Fresh Swedish EV announcements therefore remain unused even when the
-official article itself is accessible. This is a routing gap, not AI rejection.
+Collection and distribution run. PR #28 fixed the routing gap where fresh official
+releases could not enter the shared article worker. Its first real production
+draft was rejected for length/originality, not published. The next slice adds
+bounded alternative-candidate handling and accessible Swedish registration news;
+it does not relabel a green collection job as successful editorial publication.
 
 ## Execution Plan
 
@@ -26,6 +26,27 @@ official article itself is accessible. This is a routing gap, not AI rejection.
    production distribution, not merely a green collection job.
 
 ## Boundaries
+
+Production permits at most two distinct candidate attempts per UTC day, counting
+old `short_daily` records too. An early settled quality rejection may continue
+to another fresh URL only if the full writer/reviewer bound fits the unchanged
+allowance. Never rewrite a rejected draft, retry its URL or overwrite old attempt
+keys. Provider/accounting ambiguity stops the run. The published-article limit
+remains exactly one. Mobility Sweden's own monthly press index is an additional
+official news lead with its actual Swedish publication date and scoped prose.
+It supports registration news only, never car prices/specifications or sales
+claims. ICCT remains discovery-only when its AI-mining reservation blocks use.
+
+## First Operational Attempt
+
+2026-11-02: PR #28 and its exact main commit passed 126 Linux CI steps. The
+serialized production workflow completed, but its ID. Polo award draft failed
+originality and minimum length (138 body words). No review was purchased and
+nothing published. Its settled cost was USD0.015498, request
+`9efbff9a-9fdd-434f-acc1-4174eb68efe0`; attempt
+`0820a96d-aba9-5e6c-81ed-f0e45b03af0a` remains quarantined and is never retried.
+The bounded fallback fixes day-wide starvation, not that failed draft. The next
+new writer targets 180-205 words while the hard 150-250 gate remains unchanged.
 
 No canonical vehicle writes, new credentials, budget increases, new SQL migration
 or resurrection of old rejected/private attempts. Official company reporting is

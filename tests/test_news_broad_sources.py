@@ -13,18 +13,18 @@ class BroadSourceTests(unittest.TestCase):
         with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
             active = {s['id']: s for s in registry() if s.get('enabled')}
         self.assertEqual(set(active), BROAD_SOURCES)
-        self.assertEqual(len(active), 16)
+        self.assertEqual(len(active), 17)
         for key in ('electrive', 'insideevs', 'cnevpost', 'carnewschina', 'electrek', 'autocar'):
             self.assertEqual(active[key]['kind'], 'publisher')
             self.assertTrue(active[key]['feeds'])
-        for key in ('vw-press', 'vw-sweden-press', 'bmw-press', 'acea'):
+        for key in ('vw-press', 'vw-sweden-press', 'bmw-press', 'acea', 'mobility-sweden'):
             self.assertEqual(active[key]['kind'], 'primary')
             self.assertEqual(active[key]['collection_method'], 'pressroom_index')
 
     def test_disabled_or_unimplemented_adapters_are_not_silently_enabled(self):
         with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
             inactive = {s['id'] for s in registry() if not s.get('enabled')}
-        self.assertTrue({'volvo-press', 'mobility-sweden', 'iea', 'naf', 'motor1', 'automobile-propre'} <= inactive)
+        self.assertTrue({'volvo-press', 'iea', 'naf', 'motor1', 'automobile-propre'} <= inactive)
 
     def test_new_free_feeds_preserve_identity_and_superseded_history(self):
         with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
