@@ -39,8 +39,8 @@ Each paid candidate gets one writer/reviewer pair and the existing three gates.
 Rejected candidates stay quarantined. There is no daily article quota.
 
 The owner also requested broader sources on 2026-11-01. The separate `broad`
-collection profile checks 15 configured sources: electrive, InsideEVs, CnEVPost,
-CarNewsChina, Electrek, Autocar, Auto Express, Automobile Propre, CleanTechnica,
+collection profile checks 16 configured sources: electrive, InsideEVs, CnEVPost,
+CarNewsChina, Electrek, Autocar, Auto Express, Bevolt, Motor, CleanTechnica,
 The Driven, ICCT, ACEA, Volkswagen Newsroom, BMW PressClub and VW Sverige.
 It verifies actual feeds/indexes and stores bounded metadata without paid AI.
 Robots, TDM reservations, inaccessible feeds and paywalls remain hard stops;
@@ -49,6 +49,13 @@ Collection is NOT automatic editorial approval. The original short publisher
 retains its reviewed source/format adapters. The owner-approved shared-template
 publisher below handles additional articles; the legacy free-form publisher is
 not enabled as a shortcut.
+
+The 2026-11-02 European expansion adds Bevolt (formerly Automobile Propre) and
+NAF-owned Motor to the shared article templates. The old Automobile Propre
+identity remains disabled, with its successor recorded; cross-domain redirects
+are not silently followed. Editorially reserved electrive/Electrek/CnEVPost stay
+discovery-only, not AI evidence. See `docs/news-european-sources.md` for real
+access results and source ownership/layout boundaries.
 
 ### Shared Article Review (Owner Approved 2026-11-02)
 

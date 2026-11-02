@@ -5,6 +5,8 @@ import re
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
+REGISTERED_PUBLISHERS = {s['id']: s for s in json.loads(
+    (ROOT / 'data/news/sources.json').read_text(encoding='utf-8')) if s['kind'] == 'publisher'}
 
 
 def publisher_templates(sources=None, templates=None):
@@ -12,7 +14,7 @@ def publisher_templates(sources=None, templates=None):
     templates = templates if templates is not None else json.loads((ROOT / 'data/news/publisher_templates.json').read_text(encoding='utf-8'))
     registered = {s['id']: s for s in sources if s['kind'] == 'publisher'}
     result = {}
-    allowed = {'id', 'publisher_group', 'ownership_evidence_url', 'can_lead', 'body_class', 'article_path_pattern'}
+    allowed = {'id', 'publisher_group', 'ownership_evidence_url', 'can_lead', 'body_class', 'body_attribute', 'article_path_pattern'}
     for supplied in templates:
         if set(supplied) - allowed:
             raise ValueError('publisher_template_cannot_override_registered_identity')
@@ -21,6 +23,8 @@ def publisher_templates(sources=None, templates=None):
         source = registered.get(row.get('id'))
         if not source or row['id'] in result:
             raise ValueError('publisher_template_identity_unknown_or_duplicate')
+        if source.get('editorial_use') == 'discovery_only' or source.get('superseded_by'):
+            raise ValueError('publisher_template_editorial_use_not_approved')
         website, proof = urlsplit(source['website']), urlsplit(row.get('ownership_evidence_url', ''))
         if (website.scheme != 'https' or proof.scheme != 'https' or proof.hostname != website.hostname
                 or proof.username or proof.password or proof.port not in (None, 443)
@@ -30,6 +34,8 @@ def publisher_templates(sources=None, templates=None):
             raise ValueError('publisher_template_ownership_or_layout_invalid')
         if source.get('publisher_group') and source['publisher_group'] != row['publisher_group']:
             raise ValueError('publisher_template_known_parent_group_conflict')
+        if row.get('body_attribute') is not None and not re.fullmatch(r'data-[a-z][a-z0-9-]*', row['body_attribute']):
+            raise ValueError('publisher_template_body_attribute_invalid')
         re.compile(row['article_path_pattern'])
         result[row['id']] = {**source, **row}
     return result
