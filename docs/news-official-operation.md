@@ -48,6 +48,26 @@ nothing published. Its settled cost was USD0.015498, request
 The bounded fallback fixes day-wide starvation, not that failed draft. The next
 new writer targets 180-205 words while the hard 150-250 gate remains unchanged.
 
+The second production candidate, Mobility Sweden's fresh October report, was
+collected automatically and produced 187 words. It failed source-overlap checks,
+so no independent review was bought and no article published. The settled cost
+was USD0.016108, request `bdafcbfc-0273-4ad8-a321-cf4f6b0a5a9e`; attempt
+`5c02cdfb-1236-542f-a9df-44a8ee149695` remains quarantined. Total paid cost on
+2026-11-02 is USD0.031606; no more paid attempts that day. Public articles remain
+two, and all 76 car variants retain the same catalog hash.
+
+## Future Wording Selection
+
+For new, never-attempted URLs only, request two complete wording alternatives in
+one bounded writer response, sharing the same literal-source fact set. Select the
+first alternative that meets the existing originality/length rules and avoids
+empty statistical explanation; otherwise retain rejection. The selected artifact
+must then pass all factual and independent-review gates. Writer/reviewer token
+caps, full-pair reservation, daily attempts and spending caps are unchanged.
+Historical single-article receipts remain readable, not new publication approvals.
+Offline tests are not a real successful article or authorization to republish the
+two failed sources. The next normal Actions window handles only new candidates.
+
 No canonical vehicle writes, new credentials, budget increases, new SQL migration
 or resurrection of old rejected/private attempts. Official company reporting is
 attributed company reporting, not an independent test or a confirmed Swedish
