@@ -53,6 +53,7 @@ class PublisherDocument(HTMLParser):
         self.stack, self.parts, self.links, self.regions = [], [], [], []
         self.meta, self.canonicals, self.title_parts = {}, [], []
         self.paywall = False
+        self.article_tables = 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -67,6 +68,8 @@ class PublisherDocument(HTMLParser):
         active = ((self.body_class and self.body_class in a.get('class', '').split())
                   or (self.body_attribute and self.body_attribute in a)
                   or (self.article_mode and tag == 'article'))
+        if tag == 'table' and any(p[1] for p in self.stack) and not any(p[2] for p in self.stack):
+            self.article_tables += 1
         skip = tag in {'script', 'style', 'noscript', 'nav', 'footer', 'header', 'aside', 'figure', 'table'}
         skip = skip or (tag == 'article' and not active and any(p[1] for p in self.stack))
         skip = skip or bool({'comments', 'related-posts', 'sharedaddy', 'articlescroller', 'adunit', 'google-ad'}
@@ -174,6 +177,7 @@ def parse_publisher(html, url, source_id, feed_date=None, now=None):
     if re.search(r'just a moment|verify you are human|access denied', content[:800], re.I):
         raise ValueError('publisher_access_challenge')
     return {'title': next(iter(titles)).strip(), 'published_at': published, 'content': content,
+            'unvalidated_table_context': bool(parser.article_tables),
             'byline': '; '.join(sorted(set(parser.meta.get('author', []) + parser.meta.get('article:author', [])))),
             'links': list(dict.fromkeys(canonical_url(urljoin(url, u)) for u in parser.links
                        if urljoin(url, u).startswith('https://')))}
@@ -186,6 +190,7 @@ def item_from_document(url, source, doc, now=None):
                 'editorial_links': doc.get('links', []), 'byline': doc.get('byline', ''),
                 'access_status': 'accessible', 'final_url': url, 'fetched_at': (now or datetime.now(timezone.utc)).isoformat(),
                 'content': doc['content'], 'content_hash': hashlib.sha256(doc['content'].encode()).hexdigest(),
+                **({'unvalidated_table_context': True} if doc.get('unvalidated_table_context') else {}),
                 **({'document_evidence': doc['document_evidence']} if 'document_evidence' in doc else {})}}
 
 
@@ -418,7 +423,7 @@ def same_sources(left, right):
     def identity(bundle):
         return [{k: i[k] for k in ('id', 'source_id', 'url')} | {'payload': {
             k: i['payload'].get(k) for k in ('title', 'published_at', 'content_hash', 'final_url',
-                                           'publisher_group', 'editorial_links', 'byline')} | {
+                                           'publisher_group', 'editorial_links', 'byline', 'unvalidated_table_context')} | {
             'document_tables': i['payload'].get('document_evidence', {}).get('tables', [])}}
             for i in bundle['items']]
     return (identity(left) == identity(right) and left['provenance'] == right['provenance']

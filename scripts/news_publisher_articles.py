@@ -59,9 +59,23 @@ def evidence_catalog(bundle):
     return result
 
 
+def table_context_errors(bundle):
+    # A removed table can still qualify the surrounding narrative; do not hide its caveats.
+    if not isinstance(bundle, dict) or not isinstance(bundle.get('items'), list):
+        return ['publisher_table_context_requires_validation']
+    for item in bundle.get('items', []):
+        if not isinstance(item, dict) or not isinstance(item.get('payload'), dict):
+            return ['publisher_table_context_requires_validation']
+        payload = item.get('payload', {})
+        document = payload.get('document_evidence') or {}
+        if not isinstance(document, dict) or payload.get('unvalidated_table_context') or document.get('tables'):
+            return ['publisher_table_context_requires_validation']
+    return []
+
+
 def evidence_readiness(bundle, now=None):
     """Free pre-writing gate, not a model verdict or permission to publish."""
-    errors = bundle_errors(bundle, now)
+    errors = bundle_errors(bundle, now) + table_context_errors(bundle)
     if errors:
         return {'ready': False, 'errors': errors, 'selection': None, 'primary_passages': 0, 'total_passages': 0}
     lead = bundle['items'][0]
@@ -101,6 +115,8 @@ def resolve_writer_output(bundle, output):
 
 
 def writer_call(bundle):
+    if table_context_errors(bundle):
+        raise ValueError('publisher_table_context_requires_validation')
     catalog = evidence_catalog(bundle)
     if not catalog or not any(v['source'] != 's0' for v in catalog.values()):
         raise ValueError('publisher_no_literal_primary_evidence')
@@ -229,7 +245,7 @@ def pair_bound(ai, bundle):
 
 
 def precheck(bundle, packet, now=None):
-    errors = bundle_errors(bundle, now)
+    errors = bundle_errors(bundle, now) + table_context_errors(bundle)
     if not isinstance(packet, dict) or set(packet) != {'extraction', 'article'}:
         return {'passed': False, 'errors': errors + ['publisher_packet_shape'], 'word_count': 0}
     if len(json.dumps(packet, ensure_ascii=False).encode()) > PACKET_BYTES:

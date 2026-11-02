@@ -19,6 +19,7 @@ from news_publisher_sources import fetch_primary, parse_publisher, collect_bundl
 from news_store import artifact_hash
 from inspect_news_documents import inspect, selection_urls, archive_document
 from news_publisher_sources import bundle_errors
+from news_publisher_articles import evidence_readiness, writer_call, precheck
 import test_news_original_discovery as fixtures
 
 PDF_URL = 'https://www.aaa-data.fr/wp-content/uploads/2026/11/synthetic.pdf'
@@ -191,6 +192,22 @@ class NewsDocumentTests(unittest.TestCase):
         publisher = parse_publisher(fixtures.page(fixtures.REPORT, body=fixtures.BODY + TABLE),
                                     fixtures.REPORT, 'carnewschina', now=fixtures.NOW)
         self.assertNotIn('12 345', publisher['content'])
+        self.assertTrue(publisher['unvalidated_table_context'])
+
+    def test_unvalidated_table_caveats_hold_the_whole_article_before_any_paid_writer(self):
+        for table_in_primary in (True, False):
+            with self.subTest(primary=table_in_primary):
+                c = fixtures.FakeCollector({
+                    fixtures.REPORT: fixtures.page(fixtures.REPORT, body=fixtures.BODY + ('' if table_in_primary else TABLE)),
+                    fixtures.ORIGINAL: fixtures.page(fixtures.ORIGINAL, body=fixtures.BODY + (TABLE if table_in_primary else ''))})
+                bundle = collect_bundle('carnewschina', fixtures.REPORT, c, now=fixtures.NOW,
+                                        corroborating_items=[fixtures.catalog()])
+                self.assertEqual(bundle_errors(bundle, fixtures.NOW), [])
+                readiness = evidence_readiness(bundle, fixtures.NOW)
+                self.assertFalse(readiness['ready'])
+                self.assertIn('publisher_table_context_requires_validation', readiness['errors'])
+                with self.assertRaisesRegex(ValueError, 'table_context_requires_validation'): writer_call(bundle)
+                self.assertIn('publisher_table_context_requires_validation', precheck(bundle, {}, fixtures.NOW)['errors'])
 
     def test_changed_table_invalidates_refresh_even_when_narrative_is_unchanged(self):
         c = fixtures.FakeCollector({fixtures.REPORT: fixtures.page(fixtures.REPORT),
