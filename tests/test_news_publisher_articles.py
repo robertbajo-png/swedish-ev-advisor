@@ -19,7 +19,7 @@ from news_publisher_sources import (PUBLISHERS, parse_publisher, item_from_docum
                                     bundle_errors, same_sources, publisher_url, collect_bundle)
 from news_publisher_articles import (precheck, brief, check_review, stage, pair_bound, LIMITS,
                                      writer_call, reviewer_call, event_duplicate, evidence_catalog,
-                                     resolve_writer_output)
+                                     resolve_writer_output, evidence_readiness)
 from news_store import NewsStore, artifact_hash
 import run_publisher_news as worker
 
@@ -145,7 +145,7 @@ class PublisherSourceTests(unittest.TestCase):
         class Collector:
             def fetch(_, url, source, **kwargs):
                 return 200, {}, self.html().replace(PRIMARY_URL, 'https://unapproved.example/news'), url
-        with self.assertRaisesRegex(ValueError, 'no_accessible_primary_support'):
+        with self.assertRaisesRegex(ValueError, 'no_primary_or_independent_pair'):
             collect_bundle('carnewschina', REPORT_URL, Collector(), now=NOW)
 
     def test_changed_source_hash_and_freshness_are_detected(self):
@@ -243,19 +243,19 @@ class PublisherArticleTests(unittest.TestCase):
             self.assertEqual(row['status'], 'quarantined')
             with self.assertRaises(ValueError): store.publish(row['id'])
 
-    def test_source_gate_requires_exact_code_and_actual_provider_outputs(self):
+    def test_article_review_requires_exact_code_and_actual_provider_outputs(self):
         b, p = fixture()
-        proof = {'source_id': 'carnewschina', 'state': 'passed', 'recipe': worker.RECIPE, 'kind': 'publisher_source_proof',
+        proof = {'source_id': 'carnewschina', 'state': 'passed', 'recipe': worker.RECIPE, 'kind': 'short_daily',
                  'code_hash': worker.code_hash(), 'bundle': b, 'packet': p,
                  'review': accepted_review(b, p), 'checked_at': NOW.isoformat(), 'request_ids': ['fake-a', 'fake-b']}
         class Remote:
             def get(self, *args): return {'payload': proof}
         with patch.object(worker, 'request_evidence', return_value=None):
-            self.assertIsNone(worker.proof_valid(Remote(), 'carnewschina'))
+            self.assertIsNone(worker.reviewed_record(Remote(), proof))
         with patch.object(worker, 'request_evidence', return_value=[
                 {'response_payload': {'status': 'completed', 'output': []}},
                 {'response_payload': {'status': 'completed', 'output': []}}]):
-            self.assertIsNone(worker.proof_valid(Remote(), 'carnewschina'))
+            self.assertIsNone(worker.reviewed_record(Remote(), proof))
 
 
 class PublisherLifecycleTests(unittest.TestCase):
@@ -299,10 +299,12 @@ class PublisherLifecycleTests(unittest.TestCase):
         ai = Ai()
         stack.enter_context(patch.object(worker, 'matrix_valid', return_value=True))
         stack.enter_context(patch.object(worker, 'bundle_errors', side_effect=lambda value: bundle_errors(value, NOW)))
+        stack.enter_context(patch.object(worker, 'evidence_readiness', side_effect=lambda value: evidence_readiness(value, NOW)))
         stack.enter_context(patch.object(worker, 'precheck', side_effect=lambda bundle, packet, now=None: precheck(bundle, packet, now or NOW)))
         stack.enter_context(patch.object(worker, 'stage', side_effect=lambda st, bundle, packet, rev, ids, **kw:
                                               stage(st, bundle, packet, rev, ids, now=NOW, **kw)))
         stack.enter_context(patch.object(worker, 'now_iso', return_value=NOW.isoformat()))
+        stack.enter_context(patch('news_store.now_iso', return_value=NOW.isoformat()))
         stack.enter_context(patch.object(worker, 'DIRECTORY', Path(folder) / 'private-fixtures'))
         stack.enter_context(patch.object(worker, 'budget', side_effect=lambda st, required=0: {
             'allowed': required <= allowance, 'remaining_micro_usd': allowance, 'publication_enabled': True}))
@@ -314,7 +316,7 @@ class PublisherLifecycleTests(unittest.TestCase):
             record = worker.perform(remote, b, private=True, ai=ai)
             self.assertEqual(record['state'], 'passed', record)
             self.assertEqual(record['cost_micro_usd'], 2000)
-            self.assertIsNotNone(worker.proof_valid(remote, 'carnewschina'), 'Exact successful mock receipts must verify')
+            self.assertIsNotNone(worker.reviewed_record(remote, record), 'Exact successful mock receipts must verify')
             self.assertEqual(remote.public_articles(), [])
             self.assertEqual(remote.rows('news_articles'), [], 'Private tests stay out of production article staging')
             again = worker.perform(remote, b, private=True, ai=ai)
@@ -336,7 +338,7 @@ class PublisherLifecycleTests(unittest.TestCase):
             self.assertEqual(record['status'], 'quarantined')
             self.assertEqual(record['cost_micro_usd'], 1000)
             self.assertEqual(ai.calls, ['swedish_ev_article'])
-            self.assertIsNone(remote.get('news_ingestion_runs', worker.gate_id('carnewschina')))
+            self.assertFalse(any(r['payload'].get('kind') == 'publisher_source_proof' for r in remote.rows('news_ingestion_runs')))
 
     def test_approved_source_and_publication_day_are_checked_before_paid_work(self):
         class Remote:
@@ -348,15 +350,16 @@ class PublisherLifecycleTests(unittest.TestCase):
              patch.object(worker, 'perform', side_effect=AssertionError('No paid call allowed')):
             self.assertEqual(worker.daily(Remote(), None)['status'], 'daily_limit')
 
-    def test_missing_source_proof_cannot_activate_just_because_flag_is_on(self):
-        class Remote:
-            def public_articles(self): return []
-        with patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}), \
-             patch.object(worker, 'matrix_valid', return_value=True), patch.object(worker, 'load_state', return_value={}), \
-             patch.object(worker, 'budget', return_value={'allowed': True, 'publication_enabled': True}), \
-             patch.object(worker, 'proof_valid', return_value=None), \
-             patch.object(worker, 'perform', side_effect=AssertionError('No paid call allowed')):
-            self.assertEqual(worker.daily(Remote(), None)['status'], 'awaiting_source_qualification')
+    def test_an_unreviewed_candidate_cannot_publish_without_article_gates(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, b, _, _ = self.setup_environment(stack, folder)
+            remote.put('news_items', {**b['items'][0], 'status': 'collected'})
+            stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}))
+            stack.enter_context(patch.object(worker, 'collect_bundle', return_value=b))
+            stack.enter_context(patch.object(worker, 'perform', return_value={'status': 'quarantined', 'published': 0}))
+            stack.enter_context(patch.object(worker, 'release', side_effect=AssertionError('A failed draft cannot publish')))
+            self.assertEqual(worker.daily(remote, None)['status'], 'quarantined')
+            self.assertEqual(remote.public_articles(), [])
 
     def test_unknown_usage_keeps_the_maximum_instead_of_reporting_zero(self):
         with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
@@ -368,86 +371,76 @@ class PublisherLifecycleTests(unittest.TestCase):
             self.assertEqual(len(ai.calls), 1)
             self.assertEqual(remote.public_articles(), [])
 
-    def test_qualification_has_a_separate_default_off_switch(self):
-        with patch.dict('os.environ', {'NEWS_PUBLISHER_QUALIFICATION_ENABLED': 'false'}), \
+    def test_retired_source_admission_cannot_spend_even_when_old_flag_is_on(self):
+        with patch.dict('os.environ', {'NEWS_PUBLISHER_QUALIFICATION_ENABLED': 'true'}), \
              patch.object(worker, 'perform', side_effect=AssertionError('No paid call allowed')):
-            self.assertEqual(worker.qualify(None, None)['status'], 'qualification_disabled')
+            self.assertEqual(worker.qualify(None, None)['status'], 'retired_source_qualification')
 
-    def test_qualification_skips_rejected_urls_and_never_publishes(self):
+    def test_new_policy_keeps_historical_rejected_urls_out_of_the_queue(self):
         with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
             remote, b, _, ai = self.setup_environment(stack, folder)
             old = copy.deepcopy(b['items'][0])
             old['status'] = 'collected'
             old['url'] = REPORT_URL.replace('synthetic-battery-project', 'rejected-old-story')
+            old['id'] = worker.stable_id(old['url'])
             remote.put('news_items', old)
             remote.put('news_items', {**b['items'][0], 'status': 'collected'})
             remote.put('news_ingestion_runs', {'id': 'previous-code-rejection', 'payload': {
-                'kind': 'publisher_private_trial', 'recipe': worker.RECIPE, 'code_hash': 'older',
+                'kind': 'publisher_private_trial', 'recipe': 'news-publisher-short-2026-11-v1', 'code_hash': 'older',
                 'url': old['url'], 'started_at': '2026-10-31T12:00:00+00:00', 'state': 'quarantined'}})
-            stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_QUALIFICATION_ENABLED': 'true'}))
-            stack.enter_context(patch.object(worker, 'proof_valid', return_value=None))
-            stack.enter_context(patch.object(worker, 'NewsAi', return_value=ai))
-            stack.enter_context(patch.object(worker, 'require_recent_publication'))
-            collect = stack.enter_context(patch.object(worker, 'collect_bundle', return_value=b))
-            stack.enter_context(patch.object(worker, 'release', side_effect=AssertionError('Private onboarding cannot publish')))
-            result = worker.qualify(remote, None)
-            self.assertEqual(result['status'], 'source_qualified', result)
-            self.assertEqual(collect.call_args.args[1], REPORT_URL)
-            self.assertEqual(remote.rows('news_articles'), [])
-            self.assertEqual(len(ai.calls), 2)
-            again = worker.qualify(remote, None)
-            self.assertEqual(again['status'], 'daily_attempt_limit')
-            self.assertEqual(len(ai.calls), 2)
-
-    def test_qualification_does_not_buy_a_rewrite_after_a_rejection(self):
-        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
-            remote, b, _, ai = self.setup_environment(stack, folder, corrupt=True)
-            remote.put('news_items', {**b['items'][0], 'status': 'collected'})
-            stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_QUALIFICATION_ENABLED': 'true'}))
-            stack.enter_context(patch.object(worker, 'proof_valid', return_value=None))
-            stack.enter_context(patch.object(worker, 'NewsAi', return_value=ai))
-            stack.enter_context(patch.object(worker, 'require_recent_publication'))
-            stack.enter_context(patch.object(worker, 'collect_bundle', return_value=b))
-            result = worker.qualify(remote, None)
-            self.assertEqual(result['status'], 'qualification_held')
-            self.assertEqual(worker.qualify(remote, None)['status'], 'daily_attempt_limit')
-            self.assertEqual(ai.calls, ['swedish_ev_article'])
-            self.assertEqual(remote.rows('news_articles'), [])
-
-    def test_manual_trial_cap_also_blocks_scheduled_qualification(self):
-        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
-            remote, _, _, ai = self.setup_environment(stack, folder)
-            for i in range(3):
-                remote.put('news_ingestion_runs', {'id': str(i), 'payload': {
-                    'kind': 'publisher_private_trial', 'recipe': worker.RECIPE,
-                    'started_at': NOW.isoformat(), 'url': 'synthetic-' + str(i)}})
-            stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_QUALIFICATION_ENABLED': 'true'}))
-            stack.enter_context(patch.object(worker, 'proof_valid', return_value=None))
-            self.assertEqual(worker.qualify(remote, None)['status'], 'private_trial_limit')
+            queue, _ = worker.selection_queue(remote, worker.LEAD_SOURCES)
+            self.assertEqual([item['url'] for item, _ in queue], [REPORT_URL])
             self.assertEqual(ai.calls, [])
 
-    def test_daily_queue_only_uses_individually_proven_publishers(self):
+    def test_source_admission_is_not_needed_for_a_valid_reviewed_production_article(self):
         with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
             remote, b, _, ai = self.setup_environment(stack, folder)
             remote.put('news_items', {**b['items'][0], 'status': 'collected'})
             stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}))
-            stack.enter_context(patch.object(worker, 'proof_valid', side_effect=lambda st, source:
-                {'bundle': b, 'packet': {}} if source == 'thedriven' else None))
-            stack.enter_context(patch.object(worker, 'bundle_errors', return_value=['synthetic_old_proof']))
-            stack.enter_context(patch.object(worker, 'perform', side_effect=AssertionError('Unproven source cannot spend')))
-            self.assertEqual(worker.daily(remote, None)['status'], 'no_eligible_new_source')
+            stack.enter_context(patch.object(worker, 'NewsAi', return_value=ai))
+            stack.enter_context(patch.object(worker, 'require_recent_publication'))
+            stack.enter_context(patch.object(worker, 'collect_bundle', return_value=b))
+            stack.enter_context(patch.object(worker, 'refresh_bundle', return_value=copy.deepcopy(b)))
+            stack.enter_context(patch.object(worker, 'models_for_news', return_value={}))
+            stack.enter_context(patch.object(worker, 'queue_verification'))
+            stack.enter_context(patch.object(worker, 'export_public', return_value={'synthetic': True}))
+            result = worker.daily(remote, None)
+            self.assertEqual(result['status'], 'published', result)
+            self.assertEqual(ai.calls, ['swedish_ev_article', 'ev_news_independent_audit'])
+            self.assertEqual(worker.daily(remote, None)['status'], 'daily_limit')
+
+    def test_manual_trial_cap_is_preserved_for_explicit_private_tests(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, b, _, ai = self.setup_environment(stack, folder)
+            for i in range(3):
+                remote.put('news_ingestion_runs', {'id': str(i), 'payload': {
+                    'kind': 'publisher_private_trial', 'recipe': worker.RECIPE,
+                    'started_at': NOW.isoformat(), 'url': 'synthetic-' + str(i)}})
+            self.assertEqual(worker.perform(remote, b, private=True, ai=ai)['status'], 'private_trial_limit')
             self.assertEqual(ai.calls, [])
+
+    def test_private_success_is_not_automatically_promoted_to_publication(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, b, _, ai = self.setup_environment(stack, folder)
+            remote.put('news_items', {**b['items'][0], 'status': 'collected'})
+            stack.enter_context(patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}))
+            private = worker.perform(remote, b, private=True, ai=ai)
+            self.assertEqual(private['status'], 'passed')
+            stack.enter_context(patch.object(worker, 'release', side_effect=AssertionError('Private test cannot auto-publish')))
+            self.assertEqual(worker.daily(remote, None)['status'], 'no_eligible_new_source')
+            self.assertEqual(len(ai.calls), 2)
+            self.assertEqual(remote.public_articles(), [])
 
     def test_changed_primary_source_blocks_release_without_another_ai_call(self):
         b, p = fixture()
         changed = copy.deepcopy(b)
         changed['items'][1]['payload']['content_hash'] = 'b' * 64
-        proof = {'source_id': 'carnewschina', 'bundle': b, 'packet': p,
+        proof = {'source_id': 'carnewschina', 'kind': 'short_daily', 'bundle': b, 'packet': p,
                  'review': accepted_review(b, p), 'request_ids': ['synthetic-a', 'synthetic-b']}
-        with patch.object(worker, 'proof_valid', return_value=proof), \
+        with patch.object(worker, 'reviewed_record', return_value=proof), \
              patch.object(worker, 'precheck', return_value={'passed': True}), \
              patch.object(worker, 'event_duplicate', return_value=False), \
-             patch.object(worker, 'collect_bundle', return_value=changed), \
+             patch.object(worker, 'refresh_bundle', return_value=changed), \
              patch.object(worker, 'stage', side_effect=AssertionError('Do not stage changed evidence')):
             result = worker.release(object(), proof, None)
             self.assertEqual(result['status'], 'source_changed_requires_new_review')

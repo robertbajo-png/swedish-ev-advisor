@@ -45,18 +45,22 @@ The Driven, ICCT, ACEA, Volkswagen Newsroom, BMW PressClub and VW Sverige.
 It verifies actual feeds/indexes and stores bounded metadata without paid AI.
 Robots, TDM reservations, inaccessible feeds and paywalls remain hard stops;
 configuration is not proof that a source currently permits collection or AI use.
-Collection is NOT automatic editorial approval. The existing short publisher
-still accepts only its two reviewed source/format adapters. Other discoveries
-stay private until an independently tested evidence adapter supports them; the
-legacy publisher is deliberately not enabled as a shortcut.
+Collection is NOT automatic editorial approval. The original short publisher
+retains its reviewed source/format adapters. The owner-approved shared-template
+publisher below handles additional articles; the legacy free-form publisher is
+not enabled as a shortcut.
 
-### Publisher Article Adapters
+### Shared Article Review (Owner Approved 2026-11-02)
 
-The owner subsequently requested publication support for CarNewsChina and The
-Driven. `run_publisher_news.py` is a separate short recipe; it does not change the
+The owner approved `news-article-review-2026-11-v2`, replacing the extra per-source
+admission round with review of each exact article. `run_publisher_news.py` does not change the
 historical VW/Firefly code hash or accept their receipts as publisher proofs.
-It parses each publisher's article-specific body, canonical URL and publication
-metadata. Exact reachable primary links must match the approved host/path registry;
+Source identity, ownership evidence and optional layout/path overrides live in
+`data/news/publisher_templates.json`, backed by the existing source registry.
+The common parser supports the configured body or a single semantic article;
+it requires canonical URL, publication metadata and complete accessible text.
+Unknown templates, ownership, layouts and access rights are held, never guessed.
+Exact reachable primary links must match the approved host/path registry;
 there is no AI-selected URL fetching or access-rule bypass.
 
 The combined structured writer selects evidence IDs from deterministic literal
@@ -64,8 +68,15 @@ source spans and returns an atomic fact inventory and a new 150-250-word Swedish
 article. Resolve IDs without changing any article wording; retain both the raw
 provider output and resolved packet and compare them to actual provider receipts.
 A separate independent reviewer checks every fact,
-clause, attribution, originality and market qualification. Central claims require
-literal primary-source support, while secondary-only details remain attributed.
+clause, attribution, originality and market qualification. Official evidence is
+preferred. Otherwise every fact requires complete matching support from two
+different verified editorial groups. Reject same-owner sites, borrowed/circular
+attribution, shared wire/upstream stories and copied/syndicated text. The review
+must separately confirm editorial independence and reported-not-verified status.
+Shared official announcements are company claims, not independent measurements.
+Reported articles use a `Rapporterat:` headline, name both sources in the intro
+and retain attribution in every paragraph. They cannot claim our service has
+verified Swedish availability or specifications. News never changes car data.
 Old policy dates remain old; CLTC, WLTP, charging units and foreign currency/market
 scope cannot be converted or presented as Swedish specifications. These reports
 never update canonical car facts; exact existing model matches may only enqueue
@@ -81,24 +92,23 @@ rollout. A rejected story is not rewritten or retried to obtain an approval. The
 same shared allowance applies to every trial and production request.
 
 `trial` uses fresh sources, an isolated SQLite article store and private remote
-receipts only; it cannot publish. A successful source-specific gate needs the exact
-writer/reviewer outputs, two completed settled receipts, code hash and source
-snapshots. The main-only `NEWS_PUBLISHER_ARTICLES_ENABLED` worker accepts only
-individually proven sources. A flag alone is not source approval. A separate,
-default-off `NEWS_PUBLISHER_QUALIFICATION_ENABLED` step can qualify a pending
-source privately: at most one fresh different story per UTC day, sharing the
-existing global daily attempt marker and budget. It skips every previously tested
-URL, including failed attempts from older code hashes/dates, and cannot publish.
-Three manual trials on a day also block scheduled qualification on that day.
+receipts only; it cannot publish and successful private tests are not automatically
+promoted. The main-only `NEWS_PUBLISHER_ARTICLES_ENABLED` worker requires exact
+writer/reviewer outputs, completed settled receipts, current code/config hashes
+and fresh source snapshots for EACH article. There is no separate paid publisher
+admission test. The old qualification command is inert; its workflow step is
+removed and its repository flag retired. Historical failed URLs remain excluded
+across recipe changes. Unknown cost still blocks all subsequent paid work.
 The normal `run` step follows the existing short worker, shares its global daily
 attempt limit and transactional one-article-per-day ceiling, and may first reuse a
-fresh fully audited trial candidate without another paid call. Immediately before
+fresh fully audited production candidate without another paid call. Immediately before
 publication it fetches the sources again; any changed source is held for a new
 review. Distribution still uses only the public view and separate Pages credentials.
-Private qualification runs after proven publishers, so a still-pending source
-cannot repeatedly consume the daily attempt ahead of already qualified sources.
+Routine rejected drafts are quarantined normal outcomes, not failing jobs or
+owner approval requests. Accounting, source-integrity or provider failures still
+stop the worker. Never automatically buy a rewrite of a rejected draft.
 
-The publisher metadata window is explicitly 20 items per feed (at most two RSS
+The templated publisher metadata window is explicitly 20 items per feed (at most two RSS
 pages, deduplicated by URL), while other broad sources retain three. Widening this window once requires a full permitted feed
 fetch rather than accepting a 304 for the old smaller window; normal polling and
 conditional requests resume afterwards. This never increases paid attempt limits.
@@ -115,7 +125,7 @@ facts stop paid work. A blocked/unrelated direct source may only fall back to th
 same explicitly approved official discovery paths, never a scraper bypass.
 `run_publisher_news.py select` previews this queue and source readiness using
 read-only database access and permitted web requests: no AI, writes or publishing.
-The historical numeric, minimum-relevance, originality and separate review gates
+The numeric, minimum-relevance, originality and separate review gates
 are unchanged. The three rejected November 1 trials remain quarantined and consume
 their original day/trial allowances; a code change is not permission to retry them.
 
