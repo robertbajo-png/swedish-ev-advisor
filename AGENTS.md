@@ -159,6 +159,10 @@ Permanent project rules for the Swedish EV Advisor codebase.
   transaction limits and existing budgets. Never update canonical car data from
   editorial corroboration. Normal rejections are private outcomes, not owner
   approval requests. Do not retry historical failed URLs or rewrite old proofs.
+  Explicitly enabled, date-required official pressrooms may start the same v2
+  pipeline directly as `official_release`, with one actual primary source, not
+  a fake publisher pair. Literal evidence, source attribution, separate review,
+  exact refresh, table-context holds and all publication/budget gates still apply.
 
 - Historical CarNewsChina/The Driven publisher shorts used the separate
   `news-publisher-short-2026-11-v1` recipe and per-publisher admission proofs.

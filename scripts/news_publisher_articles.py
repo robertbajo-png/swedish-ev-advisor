@@ -11,7 +11,7 @@ from news_editorial import (BOOL, STRING, RATING, obj, blocks, normalize, valid_
     writing_style_errors, source_overlaps)
 from news_launch_hybrid import REVIEW_FLAGS, review_errors
 from news_model_policy import reservation_micro_usd
-from news_publisher_sources import PUBLISHERS, bundle_errors
+from news_publisher_sources import PUBLISHERS, bundle_errors, official_release
 from news_store import EDITORIAL_POLICY, artifact_hash, stable_id, now_iso
 from news_short_articles import unsupported_absence_claim
 from news_publisher_selection import (candidate_assessment, passage_selection,
@@ -40,11 +40,11 @@ def source_views(bundle):
     result = []
     for index, item in enumerate(bundle['items']):
         p = item['payload']
-        limit = 1400 if index == 0 else 400 if index == 1 and len(bundle['items']) == 3 else 1600 if index == 1 else 1400
+        limit = 2400 if official_release(bundle) else 1400 if index == 0 else 400 if index == 1 and len(bundle['items']) == 3 else 1600 if index == 1 else 1400
         result.append({'id': 's' + str(index), 'url': item['url'], 'publisher': p['publisher'],
             'kind': p['source_kind'], 'published_at': p['published_at'], 'publisher_group': p.get('publisher_group'),
             **passage_selection(p['content'], bundle['items'][0]['payload']['title'], p['title'], limit,
-                                primary=index > 0)})
+                                primary=index > 0 or official_release(bundle))})
     return result
 
 
@@ -79,11 +79,11 @@ def evidence_readiness(bundle, now=None):
     if errors:
         return {'ready': False, 'errors': errors, 'selection': None, 'primary_passages': 0, 'total_passages': 0}
     lead = bundle['items'][0]
-    selection = candidate_assessment({**lead['payload'], 'summary': lead['payload']['content'][:1200]}, now)
+    selection = candidate_assessment({**lead['payload'], 'summary': lead['payload']['content'][:4000 if official_release(bundle) else 1200]}, now)
     if not selection['eligible']:
         errors.append('publisher_selection:' + selection['reason'])
-    primaries = [item for item in bundle['items'][1:] if item['payload']['source_kind'] == 'primary']
-    if not reported(bundle) and not any(primary_identity_matches(lead, item) for item in primaries):
+    primaries = [item for item in bundle['items'] if item['payload']['source_kind'] == 'primary']
+    if not reported(bundle) and not official_release(bundle) and not any(primary_identity_matches(lead, item) for item in primaries):
         errors.append('publisher_primary_subject_mismatch')
     dates = [item['payload'].get('published_at') for item in primaries]
     report_date = datetime.fromisoformat(lead['payload']['published_at'])
@@ -92,7 +92,7 @@ def evidence_readiness(bundle, now=None):
     if any(d and (datetime.fromisoformat(d) - report_date).total_seconds() > 86400 for d in dates):
         errors.append('publisher_primary_after_report')
     catalog = evidence_catalog(bundle)
-    count = sum(ref['source'] != 's0' for ref in catalog.values())
+    count = sum(ref['source'] != 's0' or official_release(bundle) for ref in catalog.values())
     if count < 3 or len(catalog) < 4:
         errors.append('publisher_insufficient_literal_fact_material')
     return {'ready': not errors, 'errors': sorted(set(errors)), 'selection': selection,
@@ -118,7 +118,7 @@ def writer_call(bundle):
     if table_context_errors(bundle):
         raise ValueError('publisher_table_context_requires_validation')
     catalog = evidence_catalog(bundle)
-    if not catalog or not any(v['source'] != 's0' for v in catalog.values()):
+    if not catalog or (not official_release(bundle) and not any(v['source'] != 's0' for v in catalog.values())):
         raise ValueError('publisher_no_literal_primary_evidence')
     fact_ids = ['f' + str(i) for i in range(1, 7)]
     ids = {'type': 'array', 'items': {'type': 'string', 'enum': fact_ids}, 'minItems': 1, 'maxItems': 6}
@@ -147,6 +147,10 @@ def writer_call(bundle):
         'repeated model name in that fact. Do not borrow a year or specification from a different span. '
         'Every number and year in a fact statement must occur literally in the cited evidence; omit a precise number/date '
         'rather than attaching a nearby quotation that does not contain it. No unit/currency conversions. ' +
+        ('The sole source is the ORIGINAL official release, not a media report. Attribute it in the intro '
+         'by naming the exact source publisher. Company claims and planned tests are not independent measurements. '
+         'Build a genuinely new structure from the atomic facts, not a close rewrite of its Swedish prose. '
+         if official_release(bundle) else '') +
         ('This is REPORTED editorial corroboration, NOT independently verified manufacturer data. '
          'EVERY fact needs two evidence IDs: one literal span from EACH publisher, supporting the SAME '
          'entire statement, including every number/unit/market/time. Name BOTH publishers in each fact statement '
@@ -347,6 +351,8 @@ def precheck(bundle, packet, now=None):
             errors.append('publisher_reported_headline_label_missing')
         if any(i['payload']['publisher'].lower() not in article['intro'].lower() for i in bundle['items']):
             errors.append('publisher_reported_intro_attribution_missing')
+    if official_release(bundle) and normalize(lead['payload']['publisher']) not in normalize(article['intro']):
+        errors.append('official_intro_attribution_missing')
     for b in bs:
         cited = [by_id[i] for i in b['fact_ids'] if isinstance(i, str) and i in by_id]
         if len(cited) != len(b['fact_ids']):
@@ -434,6 +440,7 @@ def event_duplicate(store, bundle, packet):
 
 
 def stage(store, bundle, packet, review, request_ids, *, now=None, related_models=None, writer_output=None):
+    from news_engine import classify_metadata
     checked = precheck(bundle, packet, now)
     errors = checked['errors'] + check_review(bundle, packet, review)
     e, article = packet['extraction'], packet['article']
@@ -454,8 +461,9 @@ def stage(store, bundle, packet, review, request_ids, *, now=None, related_model
         store.put('news_sources', {'id': item['source_id'], 'payload': {**(existing or {}).get('payload', {}), **source}})
         store.put('news_items', {**item, 'status': 'processed', 'cluster_id': cluster_id})
     store.put('news_story_clusters', {'id': cluster_id, 'event_key': key, 'payload': {'recipe': RECIPE, 'event': e['event']}})
+    factual_brands = classify_metadata(' '.join(f['statement'] for f in e['facts']), '')['brands']
     payload = {**article, 'editorial_recipe': RECIPE, 'editorial_policy': EDITORIAL_POLICY,
-        'category': e['category'], 'brands': sorted({m['brand'] for m in (related_models or [])}),
+        'category': e['category'], 'brands': sorted(set(factual_brands) | {m['brand'] for m in (related_models or [])}),
         'related_models': list(related_models or []), 'image': None,
         'editorial_method': ('Rapporterade uppgifter från två oberoende redaktioner; separat faktagranskning'
                              if reported(bundle) else 'AI-bearbetad nyhet med separat faktagranskning'), 'sources': refs,

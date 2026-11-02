@@ -10,8 +10,9 @@ from news_http import PageText, canonical_url, iso_date, require_recent_publicat
 
 
 class PressDocument(HTMLParser):
-    def __init__(self):
+    def __init__(self, exclude_tables=False):
         super().__init__()
+        self.exclude_tables = exclude_tables
         self.meta = {}
         self.date_parts = []
         self.body_parts = []
@@ -51,14 +52,16 @@ class PressDocument(HTMLParser):
             self.json_parts.append(text)
         if any(tag in {'script', 'style', 'nav', 'footer', 'header'} for tag, _, _ in self.stack):
             return
+        if self.exclude_tables and any(tag == 'table' for tag, _, _ in self.stack):
+            return
         if any(body for _, body, _ in self.stack):
             self.body_parts.append(text)
         if any(date for _, _, date in self.stack):
             self.date_parts.append(text)
 
 
-def document(html):
-    parser = PressDocument()
+def document(html, *, exclude_tables=False):
+    parser = PressDocument(exclude_tables=exclude_tables)
     parser.feed(html)
     dates = [parser.meta.get('article:published_time'), parser.meta.get('datePublished')]
     def walk(node):

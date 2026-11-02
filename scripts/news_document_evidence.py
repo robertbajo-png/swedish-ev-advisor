@@ -217,7 +217,7 @@ def parse_pdf_bytes(raw):
 def inspect_pdf(raw):
     if not isinstance(raw, bytes) or not raw.startswith(b'%PDF-') or len(raw) > MAX_BYTES:
         raise ValueError('document_invalid_or_oversized_pdf')
-    env = {k: v for k, v in os.environ.items() if k in ('SystemRoot', 'WINDIR', 'PATH', 'TEMP', 'TMP')}
+    env = {k: v for k, v in os.environ.items() if k.upper() in ('SYSTEMROOT', 'WINDIR', 'PATH', 'TEMP', 'TMP')}
     try:
         result = subprocess.run([sys.executable, '-I', str(Path(__file__).resolve()), '--parse-pdf'],
             input=raw, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, timeout=PARSER_TIMEOUT)
