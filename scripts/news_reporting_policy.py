@@ -4,7 +4,7 @@ import re
 from urllib.parse import urlsplit
 
 from news_editorial import normalize
-from news_publisher_registry import PUBLISHERS
+from news_publisher_registry import PUBLISHERS, REGISTERED_PUBLISHERS
 from news_publisher_selection import subject_terms
 
 RECIPE = 'news-article-review-2026-11-v2'
@@ -50,7 +50,8 @@ def independence(left, right):
         errors.append('editorial_common_owner_or_same_article')
     if not same_event(left, right):
         errors.append('editorial_different_event')
-    news_hosts = {urlsplit(s['website']).hostname.removeprefix('www.') for s in PUBLISHERS.values()} | set(WIRE)
+    news_hosts = {urlsplit(s['website']).hostname.removeprefix('www.')
+                  for s in [*PUBLISHERS.values(), *REGISTERED_PUBLISHERS.values()]} | set(WIRE)
     upstream = []
     bylines = []
     grams = []

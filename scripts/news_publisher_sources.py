@@ -35,10 +35,11 @@ VOID = {'meta', 'link', 'br', 'hr', 'img', 'input', 'source', 'wbr', 'area', 'ba
 
 
 class PublisherDocument(HTMLParser):
-    def __init__(self, body_class=None, article_mode=False):
+    def __init__(self, body_class=None, article_mode=False, body_attribute=None):
         super().__init__(convert_charrefs=True)
         self.body_class = body_class
         self.article_mode = article_mode
+        self.body_attribute = body_attribute
         self.stack, self.parts, self.links, self.regions = [], [], [], []
         self.meta, self.canonicals, self.title_parts = {}, [], []
         self.paywall = False
@@ -53,8 +54,11 @@ class PublisherDocument(HTMLParser):
                 self.paywall = True
         if tag == 'link' and 'canonical' in a.get('rel', '').split():
             self.canonicals.append(a.get('href', ''))
-        active = (self.body_class and self.body_class in a.get('class', '').split()) or (self.article_mode and tag == 'article')
+        active = ((self.body_class and self.body_class in a.get('class', '').split())
+                  or (self.body_attribute and self.body_attribute in a)
+                  or (self.article_mode and tag == 'article'))
         skip = tag in {'script', 'style', 'noscript', 'nav', 'footer', 'header', 'aside', 'figure'}
+        skip = skip or (tag == 'article' and not active and any(p[1] for p in self.stack))
         skip = skip or bool({'comments', 'related-posts', 'sharedaddy'} & set(a.get('class', '').split()))
         if tag == 'a' and a.get('href') and any(p[1] for p in self.stack) and not any(p[2] for p in self.stack):
             self.links.append(a['href'])
@@ -135,7 +139,8 @@ def corroboration_candidates(lead, collector):
 def parse_publisher(html, url, source_id, feed_date=None, now=None):
     if not publisher_url(source_id, url):
         raise ValueError('publisher_url_outside_adapter')
-    parser = PublisherDocument(PUBLISHERS[source_id]['body_class'])
+    parser = PublisherDocument(PUBLISHERS[source_id]['body_class'],
+                               body_attribute=PUBLISHERS[source_id].get('body_attribute'))
     parser.feed(html)
     if not parser.regions:
         generic = PublisherDocument(article_mode=True)

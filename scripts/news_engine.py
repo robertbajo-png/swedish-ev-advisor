@@ -29,7 +29,7 @@ from news_publisher_registry import PUBLISHERS as PUBLISHER_TEMPLATES
 
 ROOT = Path(__file__).resolve().parents[1]
 BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
-    'electrek', 'autocar', 'autoexpress', 'automobile-propre', 'cleantechnica',
+    'electrek', 'autocar', 'autoexpress', 'bevolt', 'motor-no', 'cleantechnica',
     'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press'))
 
 

@@ -43,8 +43,11 @@ historical rejection preservation. The automation contract and transactional SQL
 checks passed. The production build generated 90 routes, including the unchanged
 76 vehicle routes. These are offline tests, not real paid article approvals.
 
-Initial templates cover CarNewsChina and The Driven as lead sources; CnEVPost
-can corroborate a matching report. More registered publishers can use the same
+The first templates covered CarNewsChina and The Driven as lead sources, with
+CnEVPost as a corroborator. Subsequent fresh access checks found CnEVPost's
+editorial robot reservation: it is now discovery-only. Bevolt and NAF-owned Motor
+are the first European additions; see `docs/news-european-sources.md`.
+More registered publishers can use the same
 template after identity, access rules and article layout have been checked.
 An unreachable source or missing independent support is skipped, not presented
 to the owner as another routine approval task.
