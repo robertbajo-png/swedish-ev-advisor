@@ -78,17 +78,13 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     assert(!JSON.stringify(worker.steps).includes(' run_short_news.py matrix'));
     const collection = worker.steps.find(s => s.name === 'Collect broad international discovery without AI or publication');
     assert(collection.run.includes('--max-items 3 --publisher-lookback 20'));
-    const publisher = worker.steps.find(s => s.name === 'Run independently proven CarNewsChina and The Driven adapters');
+    const publisher = worker.steps.find(s => s.name === 'Review and publish eligible articles from shared source templates');
     assert(publisher.if.includes("NEWS_PUBLISHER_ARTICLES_ENABLED == 'true'"));
     assert(publisher.run.includes('run_publisher_news.py run'));
     assert(!publisher.run.includes(' trial'));
-    const qualification = worker.steps.find(s => s.name === 'Qualify new publisher sources privately without retrying rejected stories');
-    assert(qualification.if.includes("NEWS_PUBLISHER_QUALIFICATION_ENABLED == 'true'"));
-    assert.equal(qualification.run, 'python scripts/run_publisher_news.py qualify');
-    assert(!qualification.run.includes(' trial'));
-    assert(!qualification.run.includes(' run'));
-    assert(worker.steps.indexOf(publisher) < worker.steps.indexOf(qualification),
-      'Private source onboarding must not consume the daily attempt before proven publishers');
+    assert(!JSON.stringify(worker.steps).includes('run_publisher_news.py qualify'),
+      'A new source must not require an extra paid admission round');
+    assert(publisher.run.includes('"quarantined"'), 'Routine rejected drafts must not create owner-facing workflow failures');
   } else {
     const source = JSON.stringify(worker);
     assert(!source.includes('SUPABASE_SERVICE_ROLE_KEY'));

@@ -145,27 +145,30 @@ Permanent project rules for the Swedish EV Advisor codebase.
   mixed-format release proof, independent review, source checks and shared USD0.25/day,
   USD5/month and one-article/UTC-day limits. Missing/expired approvals fail closed.
 
-- CarNewsChina/The Driven publisher shorts use the separate
-  `news-publisher-short-2026-11-v1` recipe. Do not edit historical short recipes or
-  reuse their source proofs for these adapters. Every new source requires its own
-  real private writer/reviewer proof, exact current code hash and settled provider
-  outputs before that source can do normal paid work/publication through
-  `NEWS_PUBLISHER_ARTICLES_ENABLED`. The separately owner-armed
-  `NEWS_PUBLISHER_QUALIFICATION_ENABLED` permits private onboarding only: at most
-  one different fresh story per UTC day, sharing the global daily attempt marker
-  and budget. Never automatically retry any previously tested story URL. Qualification
-  cannot publish; each source is independently held until its own proof passes.
-  Select literal evidence IDs from deterministic source spans, retain the raw
-  provider output, and verify the ID-to-quote resolution without editing article
-  wording. Central claims need linked or explicitly discovered, approved primary
-  support and secondary-only details must remain visibly attributed. An old
-  original announcement is not new because a publisher discusses it today.
-  Combine fact selection and drafting in one call, then review independently;
-  preflight the full call-pair bound and reserve each call durably. No automatic
-  paid rewrite loops, budget exceptions or unvalidated source promotion. Reuse a
-  still-fresh audited candidate instead of paying for it again. Private trials
-  never publish. Normal operation shares the existing one-per-day transaction,
-  global daily attempt marker and original budget, and never changes car records.
+- On 2026-11-02 the owner approved the simplified news-source policy. The new
+  `news-article-review-2026-11-v2` recipe uses a shared declarative publisher
+  template and article-level writer/reviewer checks, not a paid admission test
+  for each publisher. Official evidence remains preferred. When unavailable,
+  every reported fact needs literal support from two independently owned,
+  attributable editorial sources, with visible attribution and a reported-not-
+  verified presentation. Different domains alone do not prove independence:
+  reject common ownership, circular citations, shared wire/upstream reporting,
+  copied/syndicated text, conflicting facts or mismatched events. Shared official
+  announcements are not independent measurements and must remain reported claims.
+  Keep access/TDM rules, actual provider receipts, article quality gates,
+  transaction limits and existing budgets. Never update canonical car data from
+  editorial corroboration. Normal rejections are private outcomes, not owner
+  approval requests. Do not retry historical failed URLs or rewrite old proofs.
+
+- Historical CarNewsChina/The Driven publisher shorts used the separate
+  `news-publisher-short-2026-11-v1` recipe and per-publisher admission proofs.
+  That admission process is retired, including its qualification worker/flag.
+  Preserve all old receipts, quarantine and conservative charges; they are not v2
+  approvals. Private tests never auto-publish. Resume only exact, still-fresh
+  independently reviewed production attempts, never failed or private drafts.
+  Literal evidence IDs, unchanged source hashes, full pair budget preflight and
+  durable per-call reservation/settlement remain mandatory for v2. An old source
+  announcement is never new just because another publisher discusses it today.
 
 - Keep data pipeline code deterministic where possible and AI-assisted only where it adds value.
 - Prefer idempotent import/upsert scripts over one-off local mutations.

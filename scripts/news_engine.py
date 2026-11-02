@@ -25,6 +25,7 @@ from news_ai import NewsAi, NewsBudgetBlocked
 from news_fact_brief import neutral_facts, source_technical_facts
 from news_notice_pipeline import notice_sources, stage_notices
 from supabase_client import load_local_env
+from news_publisher_registry import PUBLISHERS as PUBLISHER_TEMPLATES
 
 ROOT = Path(__file__).resolve().parents[1]
 BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
@@ -87,7 +88,7 @@ def collect(store, sources, collector=None, max_items=20, force=False, publisher
         store.put("news_sources", {"id": config["id"], "payload": source})
         if not source.get("enabled", source.get("priority", False)):
             continue
-        expanded = publisher_lookback is not None and source['id'] in ('carnewschina', 'thedriven')
+        expanded = publisher_lookback is not None and source['id'] in PUBLISHER_TEMPLATES
         source_limit = min(20, max(0, publisher_lookback)) if expanded and max_items > 0 else max_items
         wider_window = expanded and (source.get('collected_window', 0) < source_limit
                                      or source.get('publisher_window_version') != 2)
