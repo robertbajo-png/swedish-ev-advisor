@@ -30,6 +30,8 @@ class WordingSelectionTests(unittest.TestCase):
         self.assertEqual(LIMITS, {'swedish_ev_article': 2000, 'ev_news_independent_audit': 1300})
         self.assertEqual(PACKET_BYTES, 6500)
         self.assertIn('SAME facts', prompt)
+        self.assertIn('an inventory, not finished article prose', prompt)
+        self.assertIn('Do not solve overlap by adding unsupported explanation', prompt)
         ai = NewsAi.__new__(NewsAi); ai.model, ai.output_limits = 'gpt-6-sol', LIMITS
         self.assertLess(pair_bound(ai, b), 250000)
 

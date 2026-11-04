@@ -48,6 +48,8 @@ def candidate_assessment(item, now=None):
     vehicle = bool(re.search(VEHICLE, text))
     if re.search(SPECULATION, text):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
+    if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?)\b', title):
+        return {'eligible': False, 'priority': 0, 'reason': 'minor_publicity_or_corporate_calendar'}
     if re.search(r'\b(?:hydrogen\w*|hydrogene|fuel cell|plug in hybrid|hybride rechargeable|ladbar hybrid|fullhybrid\w*|em p)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'not_battery_ev_focus'}
     if re.search(STORAGE, text) and not re.search(r'\b(?:traction|passenger vehicle|electric car|electric vehicle)\w*\b', text):
@@ -64,8 +66,11 @@ def candidate_assessment(item, now=None):
         return {'eligible': True, 'priority': 100 if sweden else 80, 'reason': 'swedish_scope' if sweden else 'european_scope'}
     if re.search(TECHNOLOGY, text):
         return {'eligible': True, 'priority': 65, 'reason': 'global_vehicle_technology'}
-    if re.search(r'\b(?:china|chinese|australia|australian|thailand|thai|uae|dubai)\b', text):
-        return {'eligible': False, 'priority': 0, 'reason': 'regional_scope_without_european_change'}
+    international = bool(re.search(r'\b(?:china|chinese|australia|australian|thailand|thai|uae|dubai|usa|united states|american|japan|japanese|korea|korean|india|indian)\b', text))
+    if international:
+        if re.search(r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|update\w*|recall\w*)\b', title):
+            return {'eligible': True, 'priority': 60, 'reason': 'international_vehicle_development'}
+        return {'eligible': False, 'priority': 0, 'reason': 'regional_scope_without_substantive_development'}
     return {'eligible': True, 'priority': 40, 'reason': 'vehicle_update_needs_primary_relevance'}
 
 

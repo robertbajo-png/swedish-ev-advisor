@@ -66,6 +66,16 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- The 2026-11-04 content-month plan prioritizes broad international EV news before
+  promotion, with minimal owner involvement. Substantive foreign vehicle launches
+  and global vehicle technology may qualify on significance without a fabricated
+  Swedish connection. Keep honest Swedish relevance scores, explicit foreign
+  market/cycle/price qualifications and independent scope review. This does not
+  relax factual, originality, access, spending or publication gates. Minor
+  publicity and local offers are not quota filler. RSS/share briefs use only
+  public articles; operational reports are read-only and exclude private prose.
+  See `docs/news-content-month.md` for delivery status and remaining work.
+
 - On 2026-11-04 the owner approved news ceilings of USD0.50/UTC day and
   USD10/UTC month, with the one-article and two-distinct-candidate limits unchanged.
   Migration 022 requires separate installation approval. Do not reset charges,
