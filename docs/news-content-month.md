@@ -58,6 +58,21 @@ release links. These three sources are NOT enabled as proven article sources.
 Do not present these checks as successful editorial/live publication tests.
 Private captures/reports stay under ignored `data/local/`.
 
+## Verification Of This Slice
+
+The production SEO build generated 90 routes, 38 retired-variant redirects and
+the two-item RSS feed. Offline publisher regressions (49), wording regressions
+(7), international coverage (5), RSS (6), reporting (5) and share briefs (2)
+passed in targeted runs. Existing SQL publication, distribution and presentation
+contracts passed. An isolated browser checked 1440px/390px news layouts, the RSS
+link and endpoint with external requests blocked and no horizontal overflow.
+No paid provider request or article publication was made by these checks.
+
+The initial broad Windows suite ran 729 tests with two isolated PDF-parser
+timeouts; a separate PDF rerun still hit the bounded child-process timeout.
+The parser guard was not relaxed. Require Linux CI on the exact PR/main commit
+before release, and do not describe the full local suite as clean.
+
 ## Remaining Rollout
 
 1. Pass offline regressions/build, review the isolated branch and require exact

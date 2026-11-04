@@ -2,6 +2,7 @@
 import argparse
 from datetime import datetime, timedelta, timezone
 import json
+from html import unescape
 from pathlib import Path
 from news_rss import ROOT, publication_time, render_feed
 import xml.etree.ElementTree as ET
@@ -19,7 +20,7 @@ def share_briefs(rows, *, now=None, days=7):
         link = item.findtext('link')
         date = dates.get(link.rstrip('/').rsplit('/', 1)[-1])
         if date and minimum <= date <= now:
-            briefs.append({'title': item.findtext('title'), 'intro': item.findtext('description'),
+            briefs.append({'title': item.findtext('title'), 'intro': unescape(item.findtext('description')),
                            'published_at': date.isoformat(), 'url': link})
         if len(briefs) == 3:
             break
