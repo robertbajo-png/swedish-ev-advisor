@@ -103,7 +103,8 @@ class BackupTests(unittest.TestCase):
         self.assertIn("'age', '--encrypt'", source)
         self.assertIn('NOT enabled AND NOT publication_enabled', source)
         for guard in ["model='gpt-6-sol'", 'daily_article_limit=1',
-                      'daily_limit_micro_usd=250000', 'monthly_limit_micro_usd=5000000']:
+                      'daily_limit_micro_usd=250000', 'monthly_limit_micro_usd=5000000',
+                      'daily_limit_micro_usd=500000', 'monthly_limit_micro_usd=10000000']:
             self.assertIn(guard, source)
 
 

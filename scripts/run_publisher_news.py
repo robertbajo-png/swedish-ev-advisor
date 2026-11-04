@@ -21,7 +21,8 @@ from news_publisher_selection import ranked_candidates
 from news_reporting_policy import HISTORICAL_RECIPES
 from news_model_policy import reservation_micro_usd
 from news_store import NewsStore, artifact_hash, stable_id, now_iso
-from run_short_news import budget, matrix_valid, load_state, worker_lock, request_evidence
+from run_short_news import matrix_valid, load_state, worker_lock, request_evidence
+from news_budget_policy import budget
 from smoke_news_engine import verified_context
 from supabase_client import load_local_env
 from trial_news_hybrid_launch import ledger
@@ -30,7 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 ARTICLE_LEAD_SOURCES = LEAD_SOURCES | OFFICIAL_LEAD_SOURCES
 DAILY_CANDIDATE_LIMIT = 2
-HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py',
+HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
               'news_document_evidence.py')
