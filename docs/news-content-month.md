@@ -31,6 +31,9 @@ production candidates per UTC day, original writing and independent review.
   validated public snapshot, with stable links/dates and at most 50 items.
   It contains introductions only, no private drafts/provider evidence. The
   news page and HTML head expose the feed. Distribution uses the existing build.
+  The fixed-target distributor detects a missing/legacy/stale feed even when the
+  article snapshot is unchanged, then verifies RSS after upload. A failed GET
+  does not buy or publish another article; transient server errors stop delivery.
 - `news_content_report.py --remote --days 7` performs GETs only, summarizes the
   real funnel and retained charges and redacts raw exception/source/provider
   text. The existing news Actions job stores it and shows it in its summary.

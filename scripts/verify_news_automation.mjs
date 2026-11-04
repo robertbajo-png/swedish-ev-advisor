@@ -37,8 +37,13 @@ const article = { id: 'synthetic-1', slug: 'syntetisk-testartikel', published_at
   editorial_method: 'independent_ai', paragraphs: [{ kind: 'reporting', text: 'Syntetiskt faktastycke.' }],
   brands: [], related_models: [], sources: [{ publisher: 'Synthetic source', url: 'https://press.example.org/test' }] };
 const publicKey = 'sb_publishable_synthetic-fixture';
-const snapshotFetch = (rows, live = [article]) => async (url, options) => {
+const rss = rows => new Response('<?xml version="1.0"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>' +
+  '<atom:link href="' + ORIGIN + '/nyheter/rss.xml" />' + rows.map(row =>
+  '<item><guid>' + ORIGIN + '/nyheter/' + row.slug + '/</guid></item>').join('') + '</channel></rss>',
+  { headers: { 'content-type': 'application/rss+xml; charset=utf-8' } });
+const snapshotFetch = (rows, live = [article], feed = () => rss(rows)) => async (url, options) => {
   assert.equal(options.method, 'GET');
+  if (String(url).endsWith('/nyheter/rss.xml')) return feed();
   if (String(url).startsWith(ORIGIN)) return json({ records: live });
   assert.equal(options.headers.apikey, publicKey);
   return new Response(JSON.stringify(rows), { headers: { 'content-type': 'application/json',
@@ -47,11 +52,18 @@ const snapshotFetch = (rows, live = [article]) => async (url, options) => {
 const publicConfig = { url: 'https://eutcryxbitudllcnpnex.supabase.co', key: publicKey };
 assert.equal((await snapshot(publicConfig, { fetchImpl: snapshotFetch([article]) })).upload_required, false);
 assert.equal((await snapshot(publicConfig, { fetchImpl: snapshotFetch([article], []) })).upload_required, true);
+for (const feed of [() => new Response('<html>Legacy SPA fallback</html>', { headers: { 'content-type': 'text/html' } }),
+                    () => new Response('', { status: 404 }), () => rss([])]) {
+  const result = await snapshot(publicConfig, { fetchImpl: snapshotFetch([article], [article], feed) });
+  assert(result.upload_required && result.rss_update_required, 'RSS must deploy even with unchanged articles');
+}
+await assert.rejects(snapshot(publicConfig, { fetchImpl: snapshotFetch([article], [article], () => new Response('', { status: 503 })) }));
 await assert.rejects(snapshot(publicConfig, { fetchImpl: snapshotFetch([]) }));
 await assert.rejects(snapshot({ ...publicConfig, key: 'not-a-public-key' }, { fetchImpl: snapshotFetch([article]) }));
 await assert.rejects(snapshot(publicConfig, { fetchImpl: snapshotFetch([{ ...article, status: 'draft' }]) }));
 const htmlFetch = ({ missing = false, noindex = false } = {}) => async (url, options) => {
   assert.equal(options.method, 'GET');
+  if (url.endsWith('/nyheter/rss.xml')) return missing ? rss([]) : rss([article]);
   if (url.endsWith('/data/news_articles.json')) return json({ records: [article] });
   return new Response(url.endsWith('/sitemap.xml') ? `<urlset><loc>/nyheter/${article.slug}</loc></urlset>`
     : missing ? '<html>Unavailable</html>' : '<html>Syntetiskt test &amp; kontroll NewsArticle</html>',
