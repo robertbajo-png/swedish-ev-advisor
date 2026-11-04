@@ -3,6 +3,8 @@ import json
 import os
 from pathlib import Path
 import re
+from collections import Counter
+from news_content_report import safe_reason
 
 
 def summarize(result):
@@ -14,6 +16,12 @@ def summarize(result):
     for field in ('cost_micro_usd', 'word_count'):
         value = result.get(field)
         if type(value) is int and value >= 0: output[field] = value
+    reasons = Counter()
+    for candidate in result.get('skipped', []):
+        values = candidate.get('reason', candidate.get('errors', []))
+        for value in values if isinstance(values, list) else [values]:
+            reasons[safe_reason(value)] += 1
+    output['held_reasons'] = dict(reasons)
     return output
 
 

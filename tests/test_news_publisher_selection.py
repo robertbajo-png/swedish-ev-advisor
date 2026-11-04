@@ -64,13 +64,14 @@ class PublisherSelectionTests(unittest.TestCase):
         for title in ['BMW EV spotted testing in Germany', 'CATL sodium-ion BESS for balcony solar',
                       'Toyota hydrogen car at Australian festival',
                       'China exempts sodium-ion batteries from consumption tax',
-                      'Ambitious electrification targets require electric vehicles',
-                      'BYD electric SUV launched only in China']:
+                      'Ambitious electrification targets require electric vehicles']:
             self.assertFalse(candidate_assessment(report(title), NOW)['eligible'], title)
 
     def test_wltp_does_not_prove_european_availability(self):
         item = report('BYD electric sedan launches in China', summary='Up to 700 km WLTP range.')
-        self.assertFalse(candidate_assessment(item, NOW)['eligible'])
+        result = candidate_assessment(item, NOW)
+        self.assertTrue(result['eligible'])
+        self.assertEqual(result['reason'], 'international_vehicle_development')
         self.assertFalse(candidate_assessment(report('Chery Tiggo receives a safety rating in Europe'), NOW)['eligible'],
                          'A manufacturer name alone does not identify a battery-electric vehicle')
 

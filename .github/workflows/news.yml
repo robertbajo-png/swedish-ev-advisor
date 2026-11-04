@@ -78,6 +78,12 @@ jobs:
       - name: Summarize actual editorial outcome without private source bodies
         if: always()
         run: python scripts/news_run_summary.py
+      - name: Read-only rolling content and cost report
+        if: always()
+        run: python scripts/news_content_report.py --remote --days 7 --output news-content-report.json
+      - name: Prepare recent public link briefs without posting
+        if: always()
+        run: python scripts/news_share_briefs.py --output news-share-briefs.json
       - name: Preserve run diagnostics and validated export
         if: always()
         uses: actions/upload-artifact@v4
@@ -86,5 +92,7 @@ jobs:
           path: |
             public/data/news_articles.json
             news-operation-summary.json
+            news-content-report.json
+            news-share-briefs.json
       # Owner switches and shared allowances remain enforced by the database.
       # Production distribution is a separate public-read-only workflow.

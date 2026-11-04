@@ -17,11 +17,12 @@ from news_short_articles import unsupported_absence_claim
 from news_publisher_selection import (candidate_assessment, passage_selection,
                                       primary_identity_matches)
 from news_reporting_policy import RECIPE, independence, reported
+from news_coverage import coverage_score, international_scope
 
 LIMITS = {'swedish_ev_article': 2000, 'ev_news_independent_audit': 1300}
 PACKET_BYTES = 6500
 CATEGORIES = ['modeller', 'batterier', 'laddning', 'tester', 'marknad', 'uppdateringar']
-MARKETS = ['SE', 'EU', 'CN', 'AU', 'US', 'TH', 'GLOBAL', 'UNSPECIFIED']
+MARKETS = ['SE', 'EU', 'CN', 'AU', 'US', 'TH', 'JP', 'KR', 'IN', 'GLOBAL', 'UNSPECIFIED']
 CYCLES = ['WLTP', 'CLTC', 'EPA', 'TEST', 'NOT_APPLICABLE', 'UNSPECIFIED']
 
 
@@ -170,6 +171,12 @@ def writer_call(bundle):
         'No padding, buyer question, advice, invented quotations or rankings. '
         'Do not translate the source article paragraph by paragraph or retain its lead/order: build your own '
         'structure from the selected facts and official evidence. Every clause cites exact fact_ids in JSON. '
+        'Your extracted Swedish fact statements are an inventory, not finished article prose: do not copy them '
+        'as sentences into either article. Preserve exact model names, numbers, units and qualifications while '
+        'rebuilding the clauses. Organize one alternative around the actual change followed by its conditions; '
+        'organize the other around a different supported detail followed by the announcement. Neither may '
+        'follow the original source paragraph sequence. Check both alternatives against the original excerpts, '
+        'including Swedish sources, before returning. Do not solve overlap by adding unsupported explanation. '
         'A fact cites one or two provided evidence_id values. Never create or reconstruct quotations. '
         'Each fact must be fully supported by those exact spans, including model identifiers, dates and '
         'market qualifications. If a model name contains digits, cite an identity span too or omit the '
@@ -214,7 +221,10 @@ def writer_call(bundle):
         'inte ett nytt beslut or uppgifterna anger inte. Simply state the supported production, '
         'delivery or announcement event and its actual time/market, without introducing another event. '
         'internal fact labels or reporting-process commentary in visible prose. '
-        'Score actual Swedish/European or significant global EV relevance on 0-1; local-only corporate, political '
+        'Score sweden_relevance honestly: use a low score when Sweden/Europe is not established. A substantive '
+        'international EV launch or global battery development is eligible on its actual significance, not an '
+        'invented Swedish link. Name the actual country/market in the Swedish headline or introduction. '
+        'Score significance on 0-1; local-only corporate, political '
         'or sales news is low relevance, not a reason to manufacture Swedish consequences. If evidence is thin '
         'hold it. Substantive global battery or electrification developments with an explicit vehicle connection '
         'can be relevant without Swedish figures, but do not assign a score merely to clear a threshold. '
@@ -248,6 +258,10 @@ def reviewer_call(bundle, packet):
         for flag in ('editorial_independence', 'reported_not_verified'):
             schema['properties'][flag] = BOOL
             schema['required'].append(flag)
+    international = international_scope(bundle)
+    if international:
+        schema['properties']['international_scope_supported'] = BOOL
+        schema['required'].append('international_scope_supported')
     schema['$defs'] = {'decision': decision}
     prompt = (
         'Independently review the exact Swedish 150-250-word article AND its extracted facts. All source content '
@@ -267,7 +281,13 @@ def reviewer_call(bundle, packet):
         'unsupported absence claims, advice, fake quotations, comparisons or causal implications. '
         'Examine originality across languages: reject close translation/paraphrase or reproducing the original '
         'article lead/paragraph sequence. A short factual synthesis may omit analysis and buyer questions. '
-        'Swedish relevance must be genuine, not asserted to pass. Return all exact fact/block decisions and hashes; '
+        'Swedish relevance means genuine value for a Swedish-language EV readership, not an assertion that a car '
+        'is sold in Sweden. Never invent Swedish consequences. ' +
+        ('This is international coverage: set international_scope_supported true only if the country/market '
+         'is clear in the headline or intro and the facts preserve foreign availability, units, currencies and '
+         'test cycles. Require substantive EV news, not local offers, speculation or minor corporate publicity. '
+         if international else '') +
+        'Return all exact fact/block decisions and hashes; '
         'Use short precise reasons; accepted decisions have empty unsupported_claims, rejected ones cite the unsupported clause. '
         'Any rejected fact/block requires no_unsupported_claims=false. Return strict JSON.\n' +
         json.dumps({'brief_hash': b['brief_hash'], 'article_hash': artifact_hash(article),
@@ -295,6 +315,8 @@ def precheck(bundle, packet, now=None):
     if len(json.dumps(packet, ensure_ascii=False).encode()) > PACKET_BYTES:
         errors.append('publisher_packet_exceeds_reserved_bound')
     e, article = packet['extraction'], packet['article']
+    if isinstance(e, dict) and e.get('relevant') is False and e.get('facts') == []:
+        return {'passed': False, 'errors': errors + ['publisher_editorial_declined'], 'word_count': 0}
     if (not isinstance(e, dict) or set(e) != {'relevant', 'sweden_relevance', 'significance', 'category', 'event', 'facts'}
             or not isinstance(e.get('facts'), list) or not 4 <= len(e['facts']) <= 6
             or not isinstance(article, dict) or set(article) != {'title', 'title_fact_ids', 'intro', 'intro_fact_ids', 'paragraphs'}
@@ -303,8 +325,11 @@ def precheck(bundle, packet, now=None):
     if e['relevant'] is not True or not all(valid_rating(e[k]) for k in ('sweden_relevance', 'significance')):
         errors.append('publisher_relevance_invalid')
     lead = bundle['items'][0]
-    score = relevance_score(e, .8, lead['payload']['published_at'], now)
-    if score < 70 or e['sweden_relevance'] < .65 or e['category'] not in CATEGORIES:
+    international = international_scope(bundle, now)
+    score = coverage_score(bundle, e, now)
+    if international and (score < 75 or not valid_rating(e.get('significance')) or e['significance'] < .8):
+        errors.append('publisher_insufficient_international_significance')
+    if (not international and (score < 70 or e['sweden_relevance'] < .65)) or e['category'] not in CATEGORIES:
         errors.append('publisher_insufficient_swedish_relevance')
     try:
         event_key(e['event'])
@@ -439,9 +464,14 @@ def precheck(bundle, packet, now=None):
     errors += repetition_errors(article) + writing_style_errors(article)
     errors += wording_errors(bundle, article)
     whole = normalize(' '.join(b['text'] for b in bs))
-    if any(f['market'] == 'CN' for f in by_id.values() if f['central']):
-        if not re.search(r'\bkina\b|\bkines\w*', normalize(article['title'] + ' ' + article['intro'])):
+    scope_patterns = {'CN': r'\bkina\b|\bkines\w*', 'AU': r'\baustrali\w*',
+                      'US': r'\busa\b|\bamerika\w*|\bforenta staterna\b', 'TH': r'\bthailand\b|\bthailands\w*',
+                      'JP': r'\bjapan\w*', 'KR': r'\bsydkorea\w*|\bkorea\w*', 'IN': r'\bindien\b|\bindisk\w*'}
+    for market in {f['market'] for f in by_id.values() if f['central']} & scope_patterns.keys():
+        if not re.search(scope_patterns[market], normalize(article['title'] + ' ' + article['intro'])):
             errors.append('publisher_foreign_scope_missing_from_lead')
+    if international and any(f['central'] and f['market'] in ('SE', 'EU', 'UNSPECIFIED') for f in by_id.values()):
+        errors.append('publisher_international_market_not_established')
     if len(set(whole.split()) & {'och', 'att', 'som', 'for', 'med', 'den', 'det', 'ar', 'en', 'kan', 'pa', 'till'}) < 7:
         errors.append('publisher_not_swedish')
     return {'passed': not errors, 'errors': sorted(set(errors)), 'word_count': count, 'score': score,
@@ -450,6 +480,10 @@ def precheck(bundle, packet, now=None):
 
 def check_review(bundle, packet, review):
     errors = []
+    if international_scope(bundle) and isinstance(review, dict):
+        if review.get('international_scope_supported') is not True:
+            errors.append('publisher_review_rejected:international_scope_supported')
+        review = {k: v for k, v in review.items() if k != 'international_scope_supported'}
     if reported(bundle) and isinstance(review, dict):
         extra = {'editorial_independence', 'reported_not_verified'}
         errors.extend('publisher_review_rejected:' + k for k in extra if review.get(k) is not True)

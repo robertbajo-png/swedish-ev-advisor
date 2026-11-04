@@ -29,6 +29,21 @@ async function get(base, pathname, fetchImpl) {
   return { response, body: await response.text() };
 }
 
+async function currentRss(rows, fetchImpl) {
+  const response = await fetchImpl(ORIGIN + '/nyheter/rss.xml', {
+    method: 'GET', redirect: 'error', signal: AbortSignal.timeout(20000) });
+  if (response.status === 404) return false;
+  assert(response.ok, `Production RSS GET failed: ${response.status}`);
+  if (!/application\/rss\+xml/i.test(response.headers.get('content-type') || '')) return false;
+  const body = await response.text();
+  // The build's XML is tested with ElementTree; this detects legacy SPA/cache replies
+  // and missing current links, not a substitute for source or editorial validation.
+  return body.startsWith('<?xml ') && body.includes('<rss ') && body.includes('<channel>') &&
+    body.includes(ORIGIN + '/nyheter/rss.xml') && [...rows]
+      .sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at)).slice(0, 50)
+      .every(row => body.includes(ORIGIN + '/nyheter/' + row.slug + '/'));
+}
+
 export async function snapshot(config, { fetchImpl = fetch } = {}) {
   const records = await fetchPublishedNews({ ...config, fetchImpl });
   const confirmation = await fetchPublishedNews({ ...config, fetchImpl });
@@ -36,7 +51,9 @@ export async function snapshot(config, { fetchImpl = fetch } = {}) {
   assert.equal(hash, newsHash(confirmation), 'Published news changed during export');
   const current = JSON.parse((await get(ORIGIN, '/data/news_articles.json', fetchImpl)).body);
   assert(records.length > 0 || current.records.length === 0, 'Refusing to erase production news');
-  return { records, snapshot_hash: hash, upload_required: hash !== newsHash(current.records) };
+  const rss_update_required = !await currentRss(records, fetchImpl);
+  return { records, snapshot_hash: hash, rss_update_required,
+    upload_required: hash !== newsHash(current.records) || rss_update_required };
 }
 
 export async function checkTarget(config, { fetchImpl = fetch } = {}) {
@@ -65,6 +82,7 @@ export async function verify(expected, { fetchImpl = fetch } = {}) {
     assert(!/noindex/i.test(page.response.headers.get('x-robots-tag') || ''), 'Production article is noindex');
     assert(page.body.includes(escape(row.title)) && page.body.includes('NewsArticle'), 'Article HTML missing');
   }
+  assert(await currentRss(rows, fetchImpl), 'Production RSS missing or stale');
   return { production_news_verified: true, articles: rows.length, paid_calls: 0, publications: 0 };
 }
 

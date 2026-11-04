@@ -31,7 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 ARTICLE_LEAD_SOURCES = LEAD_SOURCES | OFFICIAL_LEAD_SOURCES
 DAILY_CANDIDATE_LIMIT = 2
-HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py',
+HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py', 'news_coverage.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
               'news_document_evidence.py')
@@ -320,7 +320,7 @@ def daily(remote, collector):
         if event_duplicate(remote, bundle, record['packet']):
             return {'status': 'duplicate_event_held', 'published': 0}
         return release(remote, record, collector)
-    return last_rejection or {'status': 'no_eligible_new_source', 'published': 0, 'skipped': skipped}
+    return {**(last_rejection or {'status': 'no_eligible_new_source', 'published': 0}), 'skipped': skipped}
 
 
 def qualify(remote, collector):

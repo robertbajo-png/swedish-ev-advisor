@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Rss, Sparkles, X } from 'lucide-react';
 import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink } from './news-presentation.js';
 import './news.css';
 
@@ -133,13 +133,14 @@ export function NewsPage({ articles, loading, error, navigate }) {
 
   return <section className="newsPage journalPage" aria-labelledby="journal-title">
     <header className="journalMasthead">
-      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1><p>Nya modeller, teknik och marknadsnyheter. Med svenska bilköpare i fokus.</p></div>
+      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1><p>Från Sverige till resten av världen. Nya elbilar, batterier och tekniken bakom nästa bilval.</p></div>
       {!!published.length && <div className="journalLastPublished"><span>Senast publicerat</span><time dateTime={published[0].published_at}>{newsDate(published[0].published_at)}</time></div>}
     </header>
     <div className="journalTopicNav" role="group" aria-label="Nyhetskategorier">{NEWS_TOPICS.map((item) => <button type="button" key={item.id} aria-pressed={topic === item.id} onClick={() => setTopic(item.id)} disabled={loading || !published.length}>{item.label}</button>)}</div>
     <div className="journalFilterRow">
       <label htmlFor="journal-brand">Märke<select id="journal-brand" aria-label="Märke" value={brand} onChange={(event) => setBrand(event.target.value)} disabled={loading || !published.length}><option>Alla</option>{brands.map((name) => <option key={name}>{name}</option>)}</select></label>
       <span role="status">{loading ? 'Hämtar nyheter' : filtered.length + (filtered.length === 1 ? ' nyhet' : ' nyheter')}</span>
+      <a className="newsReadLink" href={(import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '') + '/nyheter/rss.xml'} title="Följ Elbilsagentens nyheter via RSS"><Rss size={16} aria-hidden="true" /> RSS</a>
       {activeFilters && <button type="button" className="journalReset" onClick={reset}><X size={14} /> Rensa filter</button>}
     </div>
     {loading ? <NewsLoading /> : !filtered.length ? <NewsEmpty error={error} filtered={!!published.length} onReset={reset} navigate={navigate} /> : <>

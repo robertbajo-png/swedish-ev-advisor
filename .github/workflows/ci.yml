@@ -72,6 +72,10 @@ jobs:
       - run: python -m unittest discover -s tests -p test_news_official_operation.py -v
       - run: python -m unittest discover -s tests -p test_news_wording_selection.py -v
       - run: python -m unittest discover -s tests -p test_news_budget_policy.py -v
+      - run: python -m unittest discover -s tests -p test_news_coverage.py -v
+      - run: python -m unittest discover -s tests -p test_news_rss.py -v
+      - run: python -m unittest discover -s tests -p test_news_content_report.py -v
+      - run: python -m unittest discover -s tests -p test_news_share_briefs.py -v
       - run: node scripts/verify_news_budget_increase.mjs
       - run: bun run verify:site-info
       - run: python -m unittest discover -s tests -p test_production_hosting.py -v

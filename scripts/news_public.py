@@ -11,7 +11,8 @@ def load_news(path=None):
     if not path.exists():
         return []
     rows = json.loads(path.read_text(encoding="utf-8")).get("records", [])
-    return [r for r in rows if re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", r.get("slug", "")) and r.get("published_at")]
+    return [r for r in rows if isinstance(r, dict) and r.get('status', 'published') == 'published'
+            and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", r.get("slug", "")) and r.get("published_at")]
 
 
 def news_paths():
