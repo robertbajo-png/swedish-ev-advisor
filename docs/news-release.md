@@ -7,8 +7,11 @@ deterministic price notices. Sources, factual claims, independent review and exa
 publication artifacts remain traceable. Uncertain or unsupported stories stay
 private; news never overwrites canonical vehicle data.
 
-The news model is configured as `gpt-6-sol`. Existing shared limits remain
-USD0.25/day and USD5/month, with at most one article per UTC day across formats.
+The news model is configured as `gpt-6-sol`. The owner approved new shared limits
+of USD0.50/day and USD10/month on 2026-11-04, with at most one article per UTC day
+across formats. Install migration 022 only after separate approval and green CI;
+until installation the original USD0.25/day and USD5/month remain in force.
+See `docs/news-budget-policy.md` for deployment and historical-worker boundaries.
 Limits are ceilings, not quotas. Provider calls require prior durable reservation
 and actual usage reconciliation. An unresolved request blocks further paid work.
 Never reset old charges, reuse closed permits or activate a worker to test it.
@@ -23,7 +26,7 @@ The two articles already published after separate approval are public fixtures,
 not by themselves authorization to publish another article. On 2026-11-01 the
 owner explicitly requested automatic news publication and approved storing the
 existing editorial credentials in a separate main-restricted GitHub environment.
-Activation requires the verified mixed-format proof and unchanged limits. The
+Activation requires the verified mixed-format proof and an exact approved budget pair. The
 notice-specific switch remains OFF; this release only automates model/battery AI
 articles. No private/failed draft is promoted. New SQL migrations still require
 separate approval.
@@ -176,8 +179,8 @@ The current pricing approval expires on 2026-11-21 UTC: the worker must stop pai
 work then unless pricing is checked and explicitly renewed. Never extend it
 silently, increase/reset budgets or remove the old unknown-cost reservation.
 
-Encrypted read-only backups accept either fully paused news or the exact approved
-Sol/one-per-day/USD0.25/USD5 active configuration. They record actual news state
+Encrypted read-only backups accept either fully paused news or an exact approved
+Sol/one-per-day budget pair (USD0.25/USD5 or USD0.50/USD10). They record actual news state
 without calling AI or modifying that state. Notice publication remains disabled.
 
 ## Private Preparation

@@ -127,6 +127,15 @@ class NewsPreflightTests(unittest.TestCase):
             self.assertEqual(source['kind'], 'primary')
             self.assertEqual(source['collection_method'], 'pressroom_index')
 
+    def test_new_owner_approved_pair_is_read_only_and_mixed_pairs_still_fail(self):
+        self.cfg.update(enabled=True, publication_enabled=True,
+                        daily_limit_micro_usd=500000, monthly_limit_micro_usd=10000000)
+        self.assertTrue(run(remote=True)['ready'])
+        self.cfg['daily_limit_micro_usd'] = 250000
+        self.assertIn('news_budget_outside_owner_approval', run(remote=True)['errors'])
+        self.client.upsert.assert_not_called()
+        self.client._request.assert_not_called()
+
     def test_invalid_source_profile_fails_closed(self):
         with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'typo'}):
             with self.assertRaises(ValueError): registry()

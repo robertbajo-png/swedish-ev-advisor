@@ -66,6 +66,17 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- On 2026-11-04 the owner approved news ceilings of USD0.50/UTC day and
+  USD10/UTC month, with the one-article and two-distinct-candidate limits unchanged.
+  Migration 022 requires separate installation approval. Do not reset charges,
+  renew pricing, activate switches or buy a test as part of this change.
+  The current shared publisher uses `news_budget_policy.py`; deployment accepts
+  the old and new exact pairs, never mixed or larger caps. Historical locked
+  trial/short-worker budget code and mixed-content proof hashes stay unchanged.
+  The old worker may conservatively defer under the new pair; do not rewrite
+  its proof or spoof a config to expand its original spending authorization.
+  Older monetary limits below describe the original rollout, not the new ceiling.
+
 - News release operations follow `docs/news-release.md`; the older design is in
   `docs/news-engine-plan.md`. It may use international reporting for
   independent Swedish articles, with evidence-based automatic quality gates.

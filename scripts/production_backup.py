@@ -36,6 +36,18 @@ def run(args, env, *, input=None):
     return result.stdout
 
 
+def preflight_sql():
+    return ("BEGIN READ ONLY; SELECT json_build_object('read_only',current_setting('transaction_read_only')='on',"
+            "'tls',(SELECT ssl FROM pg_stat_ssl WHERE pid=pg_backend_pid()),"
+            "'version',current_setting('server_version_num')::int/10000,"
+            "'news_safe',(SELECT count(*)=1 AND bool_and((NOT enabled AND NOT publication_enabled) OR "
+            "(enabled AND publication_enabled AND model='gpt-6-sol' AND daily_article_limit=1 "
+            "AND ((daily_limit_micro_usd=250000 AND monthly_limit_micro_usd=5000000) OR "
+            "(daily_limit_micro_usd=500000 AND monthly_limit_micro_usd=10000000)))) FROM public.news_ai_config WHERE id='production'),"
+            "'news_enabled',(SELECT enabled FROM public.news_ai_config WHERE id='production'),"
+            "'notices_off',(SELECT count(*)=1 AND bool_and(NOT enabled) FROM public.news_notice_release_config WHERE id='production')); ROLLBACK;")
+
+
 def create_backup(value, recipient, output, *, env=None):
     url, password = connection(value)
     if not re.fullmatch(r'age1[0-9a-z]{58}', recipient or ''):
@@ -62,15 +74,7 @@ def create_backup(value, recipient, output, *, env=None):
                          PGSSLROOTCERT=str(ca), PGCONNECT_TIMEOUT='20',
                          PGOPTIONS='-c default_transaction_read_only=on -c statement_timeout=300000 -c lock_timeout=10000',
                          PGAPPNAME='Elbilsagenten-scheduled-readonly-backup')
-        check = run(['psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-c',
-                     "BEGIN READ ONLY; SELECT json_build_object('read_only',current_setting('transaction_read_only')='on',"
-                     "'tls',(SELECT ssl FROM pg_stat_ssl WHERE pid=pg_backend_pid()),"
-                     "'version',current_setting('server_version_num')::int/10000,"
-                     "'news_safe',(SELECT count(*)=1 AND bool_and((NOT enabled AND NOT publication_enabled) OR "
-                     "(enabled AND publication_enabled AND model='gpt-6-sol' AND daily_article_limit=1 "
-                     "AND daily_limit_micro_usd=250000 AND monthly_limit_micro_usd=5000000)) FROM public.news_ai_config WHERE id='production'),"
-                     "'news_enabled',(SELECT enabled FROM public.news_ai_config WHERE id='production'),"
-                     "'notices_off',(SELECT count(*)=1 AND bool_and(NOT enabled) FROM public.news_notice_release_config WHERE id='production')); ROLLBACK;"], child_env)
+        check = run(['psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-c', preflight_sql()], child_env)
         state = json.loads(check)
         if (any(state.get(k) != v for k, v in dict(read_only=True, tls=True, version=17,
                 news_safe=True, notices_off=True).items()) or type(state.get('news_enabled')) is not bool):

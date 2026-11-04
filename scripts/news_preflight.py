@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 
 from supabase_client import SupabaseRestClient, load_local_env
 from news_model_policy import SUPPORTED_MODELS, selected_model
+from news_budget_policy import approved_limits
 
 
 def run(remote=False, mode='publish'):
@@ -58,7 +59,7 @@ def run(remote=False, mode='publish'):
                     if cfg['model'] not in SUPPORTED_MODELS: report['errors'].append('news_model_unpriced')
                     elif cfg['model'] != selected_model(): report['errors'].append('news_model_configuration_mismatch')
                     if cfg['pricing_valid_until'] <= datetime.now(timezone.utc).date().isoformat(): report['errors'].append('news_pricing_expired')
-                    if not 0 < cfg['daily_limit_micro_usd'] <= 250000 or not 0 < cfg['monthly_limit_micro_usd'] <= 5000000:
+                    if not approved_limits(cfg):
                         report['errors'].append('news_budget_outside_owner_approval')
                 if mode == 'publish' and not cfg['publication_enabled']: report['errors'].append('news_publication_disabled')
         except Exception as exc:
