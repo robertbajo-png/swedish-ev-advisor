@@ -156,7 +156,7 @@ jobs:
       - run: bun run seo:build
       - run: bun run verify:seo
       - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_search_console_report.py -v
-      - run: node scripts/run_python.mjs -c "import sys,unittest;sys.path.insert(0,'tests');r=unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromName('test_pipeline.SeoRouteTests'));raise SystemExit(not r.wasSuccessful())"
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_seo_routes.py -v
       - run: bun run verify:static-content
       - name: Install browser for UI checks
         run: |

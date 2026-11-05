@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 
 const base = process.env.NEWS_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/news-qa/', import.meta.url);
@@ -40,6 +41,7 @@ const browser = await launchQaBrowser();
 const errors = [];
 try {
   const page = await browser.newPage();
+  await isolatePublicDataFixture(page);
   page.on('pageerror', (error) => errors.push(error.message));
   const cars = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: cars.records }));

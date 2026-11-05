@@ -19,6 +19,11 @@ Guards: `bun run verify:static-content`, `bun run verify:public-content-ui`
 (against an isolated local preview), plus the existing SEO and UI contracts.
 Keep metadata, displayed specifications, campaign qualifications and nullable
 values consistent. All 38 retired-variant links retain their existing redirects.
+The transport-fixture UI suites remove only their intercepted document's public
+bootstrap and root contents, so synthetic fetch responses cannot race a real
+pre-rendered catalog. This also preserves explicit loading/error tests. The
+separate public-content suite uses untouched built pages, tests both no-JS and
+hydrated reading, and fails on hydration errors. Fixture rewrites never ship.
 
 Model-photo derivatives are exact size/format copies of the reviewed originals,
 not replacement models. `src/image-variants.json` binds each derivative to its

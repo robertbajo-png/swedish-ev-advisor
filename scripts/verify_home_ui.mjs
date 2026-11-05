@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 
 const base = process.env.HOME_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
@@ -14,6 +15,7 @@ const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.
 for (const [foreground, background] of [['171b1c', 'f7f7f4'], ['697374', 'f7f7f4'], ['ffffff', '245e5b'], ['245e5b', 'dceae6']]) assert(contrast(foreground, background) >= 4.5, `Contrast ${foreground}/${background}`);
 try {
   const page = await browser.newPage();
+  await isolatePublicDataFixture(page);
   page.on('pageerror', (error) => errors.push(error.message));
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: cars }));
   await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ json: { records: cars } }));
