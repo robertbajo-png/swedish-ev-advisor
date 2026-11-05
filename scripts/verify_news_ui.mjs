@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 import { fileURLToPath } from 'node:url';
 
 // Test-only transport fixtures. These are never written to the public news export.
@@ -18,6 +19,7 @@ const browser = await launchQaBrowser();
 const errors = [];
 try {
   const page = await browser.newPage();
+  await isolatePublicDataFixture(page);
   page.on('pageerror', (error) => errors.push(error.message));
   const cars = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: cars.records }));

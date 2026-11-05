@@ -155,6 +155,9 @@ jobs:
       - run: npx --yes wrangler@latest pages functions build functions --outdir=/tmp/seekev-functions-build
       - run: bun run seo:build
       - run: bun run verify:seo
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_search_console_report.py -v
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_seo_routes.py -v
+      - run: bun run verify:static-content
       - name: Install browser for UI checks
         run: |
           if command -v google-chrome >/dev/null 2>&1; then
@@ -180,6 +183,7 @@ jobs:
           bun run verify:price-evidence-ui
           bun run verify:journal-ui
           bun run verify:news-ui
+          bun run verify:public-content-ui
       - name: Preserve UI diagnostics
         if: always()
         uses: actions/upload-artifact@v4

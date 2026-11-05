@@ -96,6 +96,7 @@ def metric_property(name: str, value, unit: str = "") -> dict | None:
 
 def inject_head(html: str, title: str, description: str, path: str, json_ld: dict | list[dict]) -> str:
     canonical = f"{SITE_URL}{path}"
+    og_type = 'article' if any(item.get('@type') == 'NewsArticle' for item in (json_ld if isinstance(json_ld, list) else [json_ld])) else 'website'
     html = re.sub(r"<title>.*?</title>", f"<title>{escape(title)}</title>", html, count=1, flags=re.S)
     html = re.sub(
         r'<meta name="description" content=".*?"\s*/>',
@@ -111,11 +112,16 @@ def inject_head(html: str, title: str, description: str, path: str, json_ld: dic
     payload = json.dumps(json_ld, ensure_ascii=False, separators=(",", ":")).replace("</script", "<\\/script")
     tags = (
         f'\n    <link rel="canonical" href="{escape(canonical)}" />'
-        f'\n    <meta property="og:type" content="website" />'
+        f'\n    <meta property="og:type" content="{og_type}" />'
         f'\n    <meta property="og:title" content="{escape(title)}" />'
         f'\n    <meta property="og:description" content="{escape(description)}" />'
         f'\n    <meta property="og:url" content="{escape(canonical)}" />'
-        f'\n    <meta name="twitter:card" content="summary" />'
+        f'\n    <meta property="og:image" content="{escape(SITE_URL)}/media/elbilsguiden-share.png" />'
+        f'\n    <meta property="og:image:width" content="1200" />'
+        f'\n    <meta property="og:image:height" content="630" />'
+        f'\n    <meta property="og:image:alt" content="Elbilsagenten – hitta elbilen som passar dig" />'
+        f'\n    <meta name="twitter:card" content="summary_large_image" />'
+        f'\n    <meta name="twitter:image" content="{escape(SITE_URL)}/media/elbilsguiden-share.png" />'
         f'\n    <meta name="twitter:title" content="{escape(title)}" />'
         f'\n    <meta name="twitter:description" content="{escape(description)}" />'
         f'\n    <script type="application/ld+json" data-prerender="page">{payload}</script>'
@@ -184,9 +190,9 @@ def item_list_json_ld(path: str, name: str, rows: list[dict]) -> dict:
 def segment_rows(route_slug: str, rows: list[dict]) -> list[dict]:
     public_rows = [row for row in rows if row.get("validation_status") in PUBLIC_STATUSES]
     if route_slug == "familj":
-        return sorted(public_rows, key=lambda row: (int(row.get("boot_liters") or 0), int(row.get("seats") or 0), int(row.get("wltp_range_km") or 0)), reverse=True)
+        return sorted([row for row in public_rows if int(row.get('boot_liters') or 0) >= 450 and int(row.get('seats') or 0) >= 5], key=lambda row: int(row.get('boot_liters') or 0), reverse=True)
     if route_slug == "vinter":
-        return sorted(public_rows, key=lambda row: ("fyr" in str(row.get("drivetrain") or "").lower(), int(row.get("wltp_range_km") or 0), int(row.get("dc_charge_kw") or 0)), reverse=True)
+        return sorted([row for row in public_rows if 'fyr' in str(row.get('drivetrain') or '').lower()], key=lambda row: int(row.get('wltp_range_km') or 0), reverse=True)
     if route_slug == "dragkrok":
         return sorted([row for row in public_rows if int(row.get("tow_kg") or 0) >= 1000], key=lambda row: int(row.get("tow_kg") or 0), reverse=True)
     if route_slug == "under-500000":

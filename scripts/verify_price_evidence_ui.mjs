@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {preview} from 'vite';
 import AxeBuilder from '@axe-core/playwright';
 import {launchQaBrowser} from './qa_browser.mjs';
+import {isolatePublicDataFixture} from './qa_public_data_fixture.mjs';
 
 const out=new URL('../data/local/design-qa/',import.meta.url);
 await mkdir(out,{recursive:true});
@@ -25,6 +26,7 @@ try {
   for(const [name,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]) {
     const context=await browser.newContext({viewport});
     const page=await context.newPage();
+    await isolatePublicDataFixture(page);
     page.on('pageerror',error=>errors.push(error.message));
     await page.route('**/*',route=>{
       const request=route.request(),url=new URL(request.url());
@@ -32,7 +34,7 @@ try {
       if(url.pathname.includes('/rest/v1/public_ev_variants'))return route.fulfill({json:[fixture]});
       if(url.pathname.includes('/api/'))return route.fulfill({status:503,json:{error:'Offline UI fixture: providers disabled'}});
       if(request.resourceType()==='image')return route.abort();
-      return route.continue();
+      return route.fallback();
     });
     await page.goto(base+'/bilar');
     const card=page.locator('.carCard').first();

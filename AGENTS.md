@@ -66,6 +66,16 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- Public sitemap routes must ship visible content, headings and real links in
+  the initial HTML, rendered from the same React views and validated public
+  snapshots as the browser. Preserve hydration, deep-link filters and no-JS
+  reading; never serve a crawler-only version or fabricate recommendations.
+  Run `verify:static-content` and `verify:public-content-ui` after render changes.
+  Responsive model-photo copies must remain hash-bound to the exact licensed
+  original, with attribution/license links and an explicit format/size notice.
+  Search Console discovery is not indexing; local lab timing is not field data.
+  Owner exports and real search metrics stay under ignored `data/local/`.
+
 - The 2026-11-04 content-month plan prioritizes broad international EV news before
   promotion, with minimal owner involvement. Substantive foreign vehicle launches
   and global vehicle technology may qualify on significance without a fabricated

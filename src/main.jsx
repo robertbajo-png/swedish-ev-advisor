@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import {
   ArrowRight,
   BadgeCheck,
@@ -46,6 +46,8 @@ import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
+import needGuides from './need-guides.json';
+import imageVariants from './image-variants.json';
 import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug } from './vehicle-names.js';
 
 
@@ -367,7 +369,7 @@ const segments = [
     slug: 'familj',
     title: 'Bästa elbilarna för familj',
     description: 'Elbilar med bra lastutrymme, räckvidd och vardagsekonomi för svenska familjer.',
-    predicate: (car) => car.familyScore >= 78 || car.cargo >= 450,
+    predicate: (car) => car.seatsVerified >= 5 && car.cargoVerified >= 450,
     advisorPatch: { need: 'familj', prompt: 'Vi söker en elbil för familj, barnstolar, packning och längre resor.' }
   },
   {
@@ -398,22 +400,22 @@ const segments = [
     predicate: (car) => car.range >= 580,
     advisorPatch: { range: 580, prompt: 'Jag prioriterar lång räckvidd och smidig laddning på långresa.' }
   }
-];
+].map((segment) => ({ ...segment, guide: needGuides[segment.slug] }));
 
-function getRoute() {
-  let path = window.location.pathname.replace(/\/$/, '') || '/';
+function getRoute(pathname = window.location.pathname, search = window.location.search) {
+  let path = pathname.replace(/\/$/, '') || '/';
   if (APP_BASE_PATH && path.startsWith(APP_BASE_PATH)) {
     path = path.slice(APP_BASE_PATH.length).replace(/\/$/, '') || '/';
   }
   if (path.startsWith('/bilar/')) {
     const target = vehicleRedirect(path.split('/').pop());
     if (target) {
-      window.history.replaceState({}, '', `${APP_BASE_PATH}${target}`);
+      if (typeof window !== 'undefined') window.history.replaceState({}, '', `${APP_BASE_PATH}${target}`);
       return { type: 'cars', catalogQuery: catalogQuery(target.split('?')[1]) };
     }
     return { type: 'car', slug: path.split('/').pop() };
   }
-  if (path === '/bilar') return { type: 'cars', catalogQuery: catalogQuery(window.location.search) };
+  if (path === '/bilar') return { type: 'cars', catalogQuery: catalogQuery(search) };
   if (path === '/jamfor' || path === '/compare') return { type: 'compare' };
   if (path === '/verifiering') return { type: 'verification' };
   if (path === '/kontakt') return { type: 'contact' };
@@ -470,6 +472,10 @@ function setSeo({ title, description, jsonLd }) {
   upsertMeta('meta[property="og:title"]', { identity: { property: 'og:title' }, content: title });
   upsertMeta('meta[property="og:description"]', { identity: { property: 'og:description' }, content: description });
   upsertMeta('meta[property="og:url"]', { identity: { property: 'og:url' }, content: canonicalUrl });
+  upsertMeta('meta[property="og:image"]', { identity: { property: 'og:image' }, content: `${BASE_URL}/media/elbilsguiden-share.png` });
+  upsertMeta('meta[property="og:image:alt"]', { identity: { property: 'og:image:alt' }, content: 'Elbilsagenten – hitta elbilen som passar dig' });
+  upsertMeta('meta[name="twitter:card"]', { identity: { name: 'twitter:card' }, content: 'summary_large_image' });
+  upsertMeta('meta[name="twitter:image"]', { identity: { name: 'twitter:image' }, content: `${BASE_URL}/media/elbilsguiden-share.png` });
   upsertMeta('meta[name="twitter:title"]', { identity: { name: 'twitter:title' }, content: title });
   upsertMeta('meta[name="twitter:description"]', { identity: { name: 'twitter:description' }, content: description });
 
@@ -513,11 +519,11 @@ function carJsonLd(car) {
   };
 }
 
-function App() {
-  const [cars, setCars] = useState([]);
-  const [dataStatus, setDataStatus] = useState('loading');
-  const news = useNews(APP_BASE_PATH);
-  const [route, setRoute] = useState(getRoute);
+export function App({ initialData } = {}) {
+  const [cars, setCars] = useState(() => (initialData?.records || []).filter((row) => ['published', 'published_reviewed'].includes(row.validation_status)).map(transformPublicVariant));
+  const [dataStatus, setDataStatus] = useState(initialData ? 'ready' : 'loading');
+  const news = useNews(APP_BASE_PATH, initialData?.articles);
+  const [route, setRoute] = useState(() => initialData ? getRoute(initialData.path, '') : getRoute());
   const contentRef = useRef(null);
   const previousRoute = useRef(route);
   useEffect(() => {
@@ -553,6 +559,8 @@ function App() {
       setRoute(next);
     };
     window.addEventListener('popstate', onPopState);
+    // Static HTML represents the canonical path; apply bookmarked filters after hydration.
+    if (initialData && window.location.search) onPopState();
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
@@ -596,6 +604,7 @@ function App() {
   const compareCars = compare.map((id) => cars.find((car) => car.id === id)).filter(Boolean);
   const routeCar = route.type === 'car' ? findCarBySlug(cars, route.slug) : null;
   const routeArticle = route.type === 'newsArticle' ? publicArticles(news.articles).find((article) => article.slug === route.slug) : null;
+  const segmentSeoRows = route.type === 'segment' ? ranked : null;
 
   async function runAdvisor() {
     const query = { ...effectiveAdvisor };
@@ -687,13 +696,17 @@ function App() {
       setSeo({
         title: `${route.segment.title} | Elbilsagenten`,
         description: route.segment.description,
-        jsonLd: {
+        jsonLd: [{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: route.segment.title,
           description: route.segment.description,
           url: `${BASE_URL}/${route.segment.slug}`
-        }
+        }, {
+          '@context': 'https://schema.org', '@type': 'ItemList', name: route.segment.title,
+          numberOfItems: segmentSeoRows.length,
+          itemListElement: segmentSeoRows.slice(0, 12).map((car, index) => ({ '@type': 'ListItem', position: index + 1, name: `${car.brand} ${car.model}`, url: `${BASE_URL}/bilar/${car.id}` }))
+        }]
       });
       return;
     }
@@ -708,7 +721,7 @@ function App() {
         operatingSystem: 'Web'
       }
     });
-  }, [route, routeCar, routeArticle, dataStatus]);
+  }, [route, routeCar, routeArticle, dataStatus, segmentSeoRows]);
 
   function toggleCompare(id) {
     setCompare((current) => {
@@ -1035,7 +1048,9 @@ function SourceVerificationCard({ car }) {
 function CarImage({ car, priority = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
-    return <img src={car.image.startsWith('/') ? appPath(car.image) : car.image} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
+    const responsive = imageVariants[car.image];
+    const fallback = responsive?.variants.find((item) => item.width >= 800)?.url || car.image;
+    return <img src={fallback.startsWith('/') ? appPath(fallback) : fallback} srcSet={responsive?.variants.map((item) => `${appPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
   }
   return (
     <div className="missingCarImage" role="img" aria-label={`Verifierad bild saknas for ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>
@@ -1418,4 +1433,14 @@ function QualityStep({ icon: Icon = HeartHandshake, title, text }) {
   );
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+if (!import.meta.env.SSR) {
+  const root = document.getElementById('root');
+  const bootstrap = document.getElementById('public-page-data');
+  let initialData;
+  try { if (bootstrap) initialData = JSON.parse(bootstrap.textContent); } catch { /* Recover through the normal public-data loaders. */ }
+  if (initialData && Array.isArray(initialData.records) && Array.isArray(initialData.articles)) {
+    const actual = window.location.pathname.replace(/\/$/, '') || '/';
+    if (actual === initialData.path.replace(/\/$/, '') || actual === '/' && initialData.path === '/') hydrateRoot(root, <App initialData={initialData} />);
+    else createRoot(root).render(<App initialData={{ ...initialData, path: window.location.pathname }} />);
+  } else createRoot(root).render(<App />);
+}

@@ -5,8 +5,8 @@ import './news.css';
 
 export { NEWS_CATEGORIES } from './news-presentation.js';
 
-export function useNews(basePath = '') {
-  const [state, setState] = useState({ articles: [], loading: true, error: false });
+export function useNews(basePath = '', initialArticles) {
+  const [state, setState] = useState(() => ({ articles: publicArticles(initialArticles || []), loading: !Array.isArray(initialArticles), error: false }));
   useEffect(() => {
     const controller = new AbortController();
     async function load() {

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 import { AxeBuilder } from '@axe-core/playwright';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 
 const base = process.env.SITE_QA_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
@@ -32,6 +33,7 @@ const errors = [];
 try {
   const context = await browser.newContext();
   const page = await context.newPage();
+  await isolatePublicDataFixture(page);
   page.on('pageerror', (error) => errors.push(error.message));
   let dataUnavailable = false;
   const carPayload = (route, local = false) => dataUnavailable ? route.fulfill({ status: 503, body: 'QA outage' }) : route.fulfill({ json: local ? { records: cars } : cars });
