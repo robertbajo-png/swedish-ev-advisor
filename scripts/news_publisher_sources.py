@@ -256,7 +256,7 @@ def fetch_primary(url, collector, now=None):
         raise ValueError('primary_paywall')
     content, document_evidence = html_document(html)
     if source['id'] in OFFICIAL_LEAD_SOURCES:
-        scoped = primary_document(html, exclude_tables=True)
+        scoped = primary_document(html, exclude_tables=True, url=url, body_region=source.get('body_region'))
         content = scoped['body'] or content
     if len(content) < 300 or len(content.encode()) > 90000 or '\ufffd' in content:
         raise ValueError('primary_content_incomplete_or_oversized')
@@ -275,9 +275,11 @@ def fetch_primary(url, collector, now=None):
         elif isinstance(node, dict):
             kinds = node.get('@type', [])
             kinds = [kinds] if isinstance(kinds,str) else kinds
-            declared = node.get('url') or node.get('mainEntityOfPage')
-            if isinstance(declared,dict): declared = declared.get('@id')
-            matching = not declared or canonical_url(urljoin(url,declared)) == url
+            declared = node.get('url') or node.get('mainEntityOfPage') or (
+                node.get('@id') if source.get('body_region') else None)
+            if isinstance(declared,dict): declared = declared.get('@id') or declared.get('url')
+            matching = ((not declared and not source.get('body_region')) or
+                        (isinstance(declared, str) and canonical_url(urljoin(url,declared)) == url))
             if matching and any(k in ('NewsArticle','Article','PressRelease') for k in kinds):
                 if node.get('datePublished'):
                     value = iso_date(node['datePublished'])

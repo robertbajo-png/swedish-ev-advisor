@@ -90,6 +90,13 @@ Permanent project rules for the Swedish EV Advisor codebase.
 - News release operations follow `docs/news-release.md`; the older design is in
   `docs/news-engine-plan.md`. It may use international reporting for
   independent Swedish articles, with evidence-based automatic quality gates.
+- Explicit official body regions require one matching region, exact canonical
+  identity and matching article-specific publication metadata. Never use related
+  article dates, dateModified or fetch time as publication. Only a declared
+  source-specific trailing-slash link rule may normalize index links; host,
+  query, TLS, reservation and evidence guards remain unchanged. Known other-car
+  manufacturers must not consume original-source lookup slots for an unrelated
+  branded story. Healthy but stale sources are quiet, not publication quotas.
 - News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
 - News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
 - Factual notices use short, deterministic source-bound templates, not free-form AI text.
