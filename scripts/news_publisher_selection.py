@@ -3,11 +3,11 @@ import re
 from news_editorial import normalize
 from news_http import require_recent_publication
 
-EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europeisk\w*|eu|germany|german|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
-VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?) electriques?|biler? elektrisk\w*)\b'
-TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt)\b'
+EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europaisch\w*|europeisk\w*|eu|germany|german|deutschland|deutsch\w*|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
+VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?) electriques?|biler? elektrisk\w*|elektroautos?|elektrofahrzeug\w*|elektromodell\w*|(?:voll|rein)?elektrisch\w* (?:autos?|fahrzeug\w*|modelle?|suv\w*))\b'
+TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt|festkorperbatter\w*|natrium ionen batter\w*|energiedichte)\b'
 LOCAL_BUSINESS = r'\b(?:dealers?|dealerships?|service network|local subsid\w*|rebates?|tax exemptions?|consumption tax|exempt\w*.*?tax|tax.*?exempt\w*|earnings|profits?|sales milestone|crosses.*?sales|factory|facilit\w*|plant|production line|off grid.*?station|charging station)\b'
-SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions)\b'
+SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions|geruchte|erlkonig|konnte (?:kommen|starten|erhalten))\b'
 STORAGE = r'\b(?:bess|stationary storage|home batter\w*|balcony solar|grid storage)\b'
 POLITICS = r'\b(?:coalition|election|electrification targets?|35 by 35|vows to scrap)\b'
 STOP = set(('the a an and or for with from into over under first new next this that its as at of to in '
@@ -44,19 +44,22 @@ def candidate_assessment(item, now=None):
     except (ValueError, TypeError):
         return {'eligible': False, 'priority': 0, 'reason': 'stale_or_missing_report_date'}
     europe = bool(re.search(EUROPE, title) or re.search(
-        r'\b(?:for|in|across|to|into) (?:the )?(?:europe\w*|eu|sweden|sverige|germany|france|norway|finland|denmark|uk)\b', text))
+        r'\b(?:for|in|across|to|into|fur) (?:the )?(?:europe\w*|europa|eu|sweden|sverige|germany|deutschland|france|norway|finland|denmark|uk)\b', text)
+        or re.search(r'\bauf (?:dem|den) (?:deutschen|europaischen) markt\b', text))
     vehicle = bool(re.search(VEHICLE, text))
     if re.search(SPECULATION, text):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
     if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'minor_publicity_or_corporate_calendar'}
-    if re.search(r'\b(?:hydrogen\w*|hydrogene|fuel cell|plug in hybrid|hybride rechargeable|ladbar hybrid|fullhybrid\w*|em p)\b', title):
+    if re.search(r'\b(?:kundenangebot\w*|aktionsangebot\w*|leasingangebot\w*|gewinnspiel\w*|roadshow\w*|handlerkonferenz\w*|filmproduktion\w*)\b', text):
+        return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}
+    if re.search(r'\b(?:hydrogen\w*|hydrogene|fuel cell|plug in hybrid|super hybrid|hybride rechargeable|ladbar hybrid|fullhybrid\w*|vollhybrid\w*|em p)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'not_battery_ev_focus'}
     if re.search(STORAGE, text) and not re.search(r'\b(?:traction|passenger vehicle|electric car|electric vehicle)\w*\b', text):
         return {'eligible': False, 'priority': 0, 'reason': 'not_vehicle_energy_storage'}
     if not europe and (re.search(LOCAL_BUSINESS, title) or re.search(POLITICS, title)):
         return {'eligible': False, 'priority': 0, 'reason': 'regional_business_or_policy'}
-    if re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title):
+    if re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason':
                 'price_notice_recipe_required' if re.search(EUROPE, title) else 'foreign_price_story'}
     if not vehicle:
@@ -68,7 +71,7 @@ def candidate_assessment(item, now=None):
         return {'eligible': True, 'priority': 65, 'reason': 'global_vehicle_technology'}
     international = bool(re.search(r'\b(?:china|chinese|australia|australian|thailand|thai|uae|dubai|usa|united states|american|japan|japanese|korea|korean|india|indian)\b', text))
     if international:
-        if re.search(r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|update\w*|recall\w*)\b', title):
+        if re.search(r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|update\w*|recall\w*|prasentiert|weltpremiere|markteinfuhrung|ruckruf|modellpflege)\b', title):
             return {'eligible': True, 'priority': 60, 'reason': 'international_vehicle_development'}
         return {'eligible': False, 'priority': 0, 'reason': 'regional_scope_without_substantive_development'}
     return {'eligible': True, 'priority': 40, 'reason': 'vehicle_update_needs_primary_relevance'}

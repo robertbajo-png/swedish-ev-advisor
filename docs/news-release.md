@@ -65,7 +65,11 @@ The 2026-11-05 source follow-up adds official Polestar news on
 source-specific canonical slash and single-main/JSON-LD identity/date checks
 do not relax freshness or the independent article audit. The live isolated
 check found only old releases and made no paid requests or publications.
-Volvo and BYD remain held; see `docs/news-content-month.md` for actual findings.
+Volvo remains held. The later BYD Germany adapter uses the verified public list
+query and canonical article/header/narrative checks, not generic whole-page text.
+German customer offers, hybrid/price stories and speculation are held before
+paid writing; canonical cars and existing publication/budget gates are unchanged.
+See `docs/news-content-month.md` for the free live results and deferred Google work.
 
 ### Shared Article Review (Owner Approved 2026-11-02)
 

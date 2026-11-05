@@ -97,6 +97,12 @@ Permanent project rules for the Swedish EV Advisor codebase.
   query, TLS, reservation and evidence guards remain unchanged. Known other-car
   manufacturers must not consume original-source lookup slots for an unrelated
   branded story. Healthy but stale sources are quiet, not publication quotas.
+- BYD Germany uses only its explicitly declared public news-list search (one
+  fixed, uncredentialed, bounded POST; no redirects or pagination) and exact
+  `/de/presse/` articles. The list is discovery only. Parse the one article
+  header/date and declared narrative blocks; exclude corporate boilerplate and
+  related material. Require canonical identity and matching list/article dates.
+  German offers, hybrids, prices and rumours do not bypass editorial triage.
 - News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
 - News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
 - Factual notices use short, deterministic source-bound templates, not free-form AI text.

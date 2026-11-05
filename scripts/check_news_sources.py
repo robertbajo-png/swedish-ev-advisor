@@ -71,8 +71,18 @@ def main():
     args = parser.parse_args()
     store = NewsStore(DATABASE)
     try:
-        sources = [s for s in registry() if not args.source or s['id'] in args.source]
-        report = check_sources(store, sources, Collector(tls_context=verified_context()), args.max_items)
+        sources = [s for s in registry() if (not args.source or s['id'] in args.source)
+                   and s['kind'] == 'primary' and s.get('collection_method') == 'pressroom_index']
+        collector = Collector(tls_context=verified_context())
+        batches = [check_sources(store, sources[i:i+6], collector, args.max_items)
+                   for i in range(0, max(1, len(sources)), 6)]
+        report = {**batches[0], 'finished_at': batches[-1]['finished_at'],
+            'collection_ok': all(row['collection_ok'] for row in batches),
+            'collection': {'new_items': sum(row['collection']['new_items'] for row in batches),
+                          'sources': [s for row in batches for s in row['collection']['sources']]},
+            'assessments': [s for row in batches for s in row['assessments']],
+            'excluded_cached_items': [s for row in batches for s in row['excluded_cached_items']],
+            'accessible_sources': sum(row['accessible_sources'] for row in batches)}
         save(REPORT, report)
         print(json.dumps({**report, 'private_report': str(REPORT)}, ensure_ascii=True, indent=2))
         return report['collection_ok'] and not any(row['status'] == 'blocked' for row in report['assessments'])

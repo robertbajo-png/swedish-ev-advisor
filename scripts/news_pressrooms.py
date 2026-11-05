@@ -68,7 +68,11 @@ class PressDocument(HTMLParser):
             self.date_parts.append(text)
 
 
-def document(html, *, exclude_tables=False, url=None, body_region=None):
+def document(html, *, exclude_tables=False, url=None, body_region=None, adapter=None):
+    if adapter is not None:
+        if adapter != 'byd_de': raise ValueError('unsupported_pressroom_article_adapter')
+        from news_byd import document as byd_document
+        return byd_document(html, url)
     if body_region is not None and body_region not in {'main', 'article'}:
         raise ValueError('unsupported_pressroom_body_region')
     parser = PressDocument(exclude_tables=exclude_tables, body_region=body_region)
@@ -156,6 +160,10 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
     limit = min(max_items, 20)
     if not limit:
         return [], []
+    if source.get('index_adapter') is not None:
+        if source['index_adapter'] != 'byd_de': raise ValueError('unsupported_pressroom_index_adapter')
+        from news_byd import discover as byd_discover
+        return byd_discover(index_html, index_url, source, collector, limit, now)
     parser = PageText()
     parser.feed(index_html)
     urls = []
