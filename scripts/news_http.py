@@ -117,6 +117,8 @@ class SafeRedirect(HTTPRedirectHandler):
         self.policy = policy
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if req.data is not None:
+            raise ValueError('post_query_redirect_disallowed')
         safe_host(newurl, self.host)
         if reserved(headers):
             raise ValueError('tdm_reserved')
@@ -146,12 +148,12 @@ class Collector:
         self.policies = {}
         self.last_fetch = {}
 
-    def request(self, url, host, headers=None, policy=None, *, binary=False):
+    def request(self, url, host, headers=None, policy=None, *, binary=False, data=None):
         url = safe_host(url, host)
         wait = max(0, 1 - (time.monotonic() - self.last_fetch.get(host, 0)))
         time.sleep(wait)
         self.last_fetch[host] = time.monotonic()
-        req = Request(url, headers={"User-Agent": AGENT, **(headers or {})})
+        req = Request(url, data=data, headers={"User-Agent": AGENT, **(headers or {})})
         try:
             handlers = [SafeRedirect(host, policy)]
             if self.tls_context is not None:

@@ -74,6 +74,7 @@ jobs:
       - run: python -m unittest discover -s tests -p test_news_budget_policy.py -v
       - run: python -m unittest discover -s tests -p test_news_coverage.py -v
       - run: python -m unittest discover -s tests -p test_news_pressroom_regions.py -v
+      - run: python -m unittest discover -s tests -p test_news_byd.py -v
       - run: python -m unittest discover -s tests -p test_news_rss.py -v
       - run: python -m unittest discover -s tests -p test_news_content_report.py -v
       - run: python -m unittest discover -s tests -p test_news_share_briefs.py -v

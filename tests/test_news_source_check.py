@@ -28,6 +28,28 @@ def collector_for(source, blocked=False, date=None):
 
 
 class SourceCheckTests(unittest.TestCase):
+    def test_cli_checks_more_registered_sources_in_bounded_batches_without_ai(self):
+        from check_news_sources import main
+        sources = [{**SOURCE, 'id': str(i)} for i in range(7)]
+        calls = []
+        def checked(store, batch, collector, limit):
+            self.assertLessEqual(len(batch), 6)
+            calls.append([s['id'] for s in batch])
+            return {'started_at':'2026-11-05', 'finished_at':'2026-11-05', 'collection_ok':True,
+                'collection':{'new_items':0,'sources':[{'source_id':s['id']} for s in batch]},
+                'assessments':[], 'excluded_cached_items':[], 'accessible_sources':0,
+                'ai_calls':0, 'public_writes':False, 'publication_approved':False}
+        with patch('check_news_sources.registry', return_value=sources), patch('sys.argv',['check_news_sources.py']), \
+                patch('check_news_sources.NewsStore') as store, patch('check_news_sources.Collector') as collector, \
+                patch('check_news_sources.verified_context'), patch('check_news_sources.check_sources',side_effect=checked), \
+                patch('check_news_sources.save') as save, patch('builtins.print'), patch('news_ai.NewsAi.request') as provider:
+            self.assertTrue(main())
+            self.assertEqual(calls,[['0','1','2','3','4','5'],['6']])
+            self.assertEqual(len(save.call_args.args[1]['collection']['sources']),7)
+            self.assertFalse(save.call_args.args[1]['public_writes'])
+            store.return_value.close.assert_called_once()
+            collector.assert_called_once();provider.assert_not_called()
+
     def test_private_check_is_idempotent_and_never_runs_ai_or_writes_supabase(self):
         with tempfile.TemporaryDirectory() as directory, closing(NewsStore(Path(directory) / 'news.sqlite')) as store, \
              patch('news_engine.editorial') as editorial, patch('news_engine.process_items') as extract, \

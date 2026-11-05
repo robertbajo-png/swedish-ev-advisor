@@ -76,7 +76,7 @@ timeouts; a separate PDF rerun still hit the bounded child-process timeout.
 The parser guard was not relaxed. Require Linux CI on the exact PR/main commit
 before release, and do not describe the full local suite as clean.
 
-## Remaining Rollout
+## Delivery Status
 
 ### Source Follow-Up: 2026-11-05
 
@@ -119,17 +119,53 @@ tests (two explicit child-process timeouts and one dependent document result).
 No timeout or publication guard was relaxed. The exact final PR and main Linux
 CI must pass before normal credentialed production execution.
 
+PR #33 subsequently passed all 134 steps on the exact PR and main commits.
+The normal production job and both distributors succeeded. Polestar was recorded
+as healthy but quiet in production; the run made no paid requests or new
+publications. The canonical catalog retained all 76 variants and its prior hash.
+
+### BYD Completion: 2026-11-05
+
+The bounded German adapter now reads the actual index component configuration,
+makes one uncredentialed public search query (page 1, at most 20 metadata rows),
+and fetches at most `min(20, 3 * max_items)` candidate articles. It honors both
+hosts' access policies, verified TLS, byte/delay bounds and no POST redirects.
+It does not follow arbitrary endpoints from HTML or paginate through archives.
+
+Article evidence comes only from exact canonical `/de/presse/` pages: one
+`news-article` title/date header and explicit `news-text-block` narrative regions.
+German publication dates must agree with the listing day. Corporate descriptions,
+related stories and modification dates are not article evidence. Table-context
+holds, literal evidence and independent writer/reviewer gates remain unchanged.
+The adapter is included in the current publisher code identity, not any old proof.
+
+A free isolated fresh check found one accessible release dated November 2 with
+381 narrative words, and eight stale rows. It made no provider calls or public
+writes. The available story is a German customer offer, not a new vehicle launch;
+it is held before paid work. German vehicle/market/technology triage is supported,
+with explicit exclusions for offers, hybrids, price recipes and rumours. A working
+source parser is not an approved article. Checks for seven registered official
+sources use batches of at most six; the existing per-batch safeguards remain.
+
+Targeted BYD regressions (15), source-check regressions (7) and publisher tests
+(49) passed offline. The SEO build still generates 90 routes, 38 redirects and
+the existing RSS; no fake article or catalog change is used for release tests.
+
+Google/Search Console is explicitly deferred by the owner on November 5. Do not
+request another Google login, alter verification records or claim indexing.
+
+### Continuing Operations
+
 1. Pass offline regressions/build, review the isolated branch and require exact
    main CI before any credentialled distribution. No automatic merge or paid
    private admission tests are needed for individual publishers.
 2. Verify the next normal production outcome and public delivery; do not retry
    historical rejected URLs. A month of real production/reading results cannot
    be replaced with fixtures or declared complete on implementation day.
-3. Investigate structured/sitemap delivery for the three held pressrooms using
-   permitted public endpoints. Keep them disabled until body/date/identity and
-   source evidence actually validate. Do not bypass 403, logins or TDM policy.
-4. Verify Search Console ownership and sitemap processing when owner access is
-   available. Then measure indexing/impressions/clicks, not guessed visitors.
+3. Volvo remains held on HTTP 403, not a blocker to the working source set.
+   Do not bypass access rules or present blocked sources as enabled evidence.
+4. Search Console remains deferred until a new owner decision. Cloudflare traffic
+   and real operational reports remain separate; infer no Google visitor figures.
 5. Use the weekly reports and genuinely published articles to evaluate the
    month before buying traffic. No external posts or new paid services here.
 
