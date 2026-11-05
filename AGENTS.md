@@ -103,6 +103,18 @@ Permanent project rules for the Swedish EV Advisor codebase.
   header/date and declared narrative blocks; exclude corporate boilerplate and
   related material. Require canonical identity and matching list/article dates.
   German offers, hybrids, prices and rumours do not bypass editorial triage.
+- Thin publisher metadata may allow free content triage only on a declared,
+  exact-host vehicle route with a recognized brand. Preserve the eight-item
+  reading queue and all freshness/history/price/hybrid/speculation exclusions.
+  Reject non-EV bodies before original-source lookup; a route/brand is not EV
+  evidence or permission for a paid call. Summaries expose only safe reason and
+  known-brand counts, never private prose or credential-bearing URLs.
+- NIO article state must be public, published, not deleted, exact canonical/
+  query/locale identity and match the rendered main body and heading. Only
+  original/display publication timestamps count. Official RSS and scoped
+  narrative classes require actual article dates and unambiguous identity;
+  unrelated time elements, modified dates and old feed rows are not new evidence.
+  A recall needs recall evidence, not an unrelated launch of the same model.
 - News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
 - News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
 - Factual notices use short, deterministic source-bound templates, not free-form AI text.

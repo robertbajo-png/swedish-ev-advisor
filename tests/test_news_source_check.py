@@ -28,6 +28,23 @@ def collector_for(source, blocked=False, date=None):
 
 
 class SourceCheckTests(unittest.TestCase):
+    def test_current_official_source_readability_does_not_approve_a_thin_article_or_use_legacy_word_floor(self):
+        from test_news_primary_formats import nio_page, nio_state, NIO_URL
+        from news_publisher_sources import primary_source
+        source=primary_source(NIO_URL);state=nio_state();date=datetime.now(timezone.utc).isoformat()
+        body='Synthetic electric vehicle source statement for the isolated readiness check. '*8
+        state['props']['pageProps']['news'].update(publishedAt=date,displayPublishedAt=date,content='<p>'+body+'</p>')
+        collector=Mock()
+        collector.fetch.side_effect=lambda url,*a,**k:(200,{},f'<a href="{NIO_URL}">Source</a>' if url.endswith('/news') else nio_page(state,visible=body),url)
+        with tempfile.TemporaryDirectory() as folder, closing(NewsStore(Path(folder)/'private.sqlite')) as store, \
+                patch('check_news_sources.hydrate_item') as legacy,patch('news_ai.NewsAi.request') as provider:
+            result=check_sources(store,[source],collector,1)
+            self.assertTrue(result['collection_ok']);self.assertEqual(result['accessible_sources'],1)
+            self.assertFalse(result['assessments'][0]['article_material_ready'])
+            self.assertFalse(result['assessments'][0]['facts_verified']);self.assertFalse(result['publication_approved'])
+            self.assertLess(result['assessments'][0]['body_words'],120)
+            legacy.assert_not_called();provider.assert_not_called();self.assertEqual(store.rows('news_articles'),[])
+
     def test_cli_checks_more_registered_sources_in_bounded_batches_without_ai(self):
         from check_news_sources import main
         sources = [{**SOURCE, 'id': str(i)} for i in range(7)]

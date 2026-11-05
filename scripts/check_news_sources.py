@@ -45,12 +45,22 @@ def check_sources(store, sources, collector, max_items=3):
             assessments.append({'source_id': source['id'], 'status': 'no_recent_candidates' if healthy else 'source_unavailable'})
         for item in queue[:max_items]:
             try:
-                hydrated, _ = hydrate_item(store, item, source_map, collector)
+                material = None
+                if source.get('official_article_lead') is True:
+                    from news_publisher_sources import collect_bundle
+                    from news_publisher_articles import evidence_readiness
+                    bundle = collect_bundle(source['id'], item['url'], collector, feed_date=item['payload']['published_at'])
+                    hydrated = bundle['items'][0]
+                    material = evidence_readiness(bundle)
+                else:
+                    hydrated, _ = hydrate_item(store, item, source_map, collector)
                 payload = hydrated['payload']
                 assessments.append({'source_id': source['id'], 'item_id': hydrated['id'],
                     'status': 'accessible', 'url': hydrated['url'], 'title': payload['title'],
                     'published_at': payload['published_at'], 'content_hash': payload['content_hash'],
-                    'body_words': len(payload['content'].split()), 'facts_verified': False})
+                    'body_words': len(payload['content'].split()), 'facts_verified': False,
+                    **({'article_material_ready': material['ready'], 'article_material_errors': material['errors']}
+                       if material is not None else {})})
             except Exception as exc:
                 assessments.append({'source_id': source['id'], 'item_id': item['id'], 'status': 'blocked',
                                     'reason': type(exc).__name__ + ':' + str(exc)[:180]})

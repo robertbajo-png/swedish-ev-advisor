@@ -17,7 +17,8 @@ from news_publisher_sources import (LEAD_SOURCES, OFFICIAL_LEAD_SOURCES, collect
 from news_publisher_articles import (RECIPE, LIMITS, PACKET_BYTES, writer_call, reviewer_call,
     pair_bound, precheck, check_review, stage, event_duplicate, evidence_readiness)
 from news_publisher_articles import resolve_writer_output
-from news_publisher_selection import ranked_candidates
+from news_publisher_selection import ranked_candidates, subject_brands, bounded_reading_queue
+from news_publisher_registry import PUBLISHERS
 from news_reporting_policy import HISTORICAL_RECIPES
 from news_model_policy import reservation_micro_usd
 from news_store import NewsStore, artifact_hash, stable_id, now_iso
@@ -34,7 +35,7 @@ DAILY_CANDIDATE_LIMIT = 2
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py', 'news_coverage.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
-              'news_document_evidence.py', 'news_byd.py')
+              'news_document_evidence.py', 'news_byd.py', 'news_nio.py')
 
 
 def code_hash():
@@ -245,19 +246,22 @@ def selection_queue(remote, sources, attempted=()):
     now = datetime.fromisoformat(now_iso())
     originals, held_official = ranked_candidates(rows, set(sources) & OFFICIAL_LEAD_SOURCES,
         previous | set(attempted), now, hydrate_sources=OFFICIAL_LEAD_SOURCES)
-    reports, held_reports = ranked_candidates(rows, set(sources) & LEAD_SOURCES, previous | set(attempted), now)
+    reports, held_reports = ranked_candidates(rows, set(sources) & LEAD_SOURCES, previous | set(attempted), now,
+                                             hydrate_publishers=PUBLISHERS)
     queue = originals[:4] + reports[:4] + originals[4:] + reports[4:]
-    return queue[:8], (held_official + held_reports)[:24]
+    return bounded_reading_queue(queue, reports, PUBLISHERS), (held_official + held_reports)[:24]
 
 
 def preview_selection(remote, collector, sources=None):
     queue, held = selection_queue(remote, sources or ARTICLE_LEAD_SOURCES)
     candidates = []
     for item, selection in queue:
-        entry = {'source_id': item['source_id'], 'url': item['url'], 'selection': selection}
+        entry = {'source_id': item['source_id'], 'url': item['url'], 'selection': selection,
+                 'subjects': sorted(subject_brands(item['payload']['title']))}
         try:
             bundle = collect_bundle(item['source_id'], item['url'], collector,
-                                    feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'))
+                                    feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'),
+                                    content_triage=selection.get('reason') == 'publisher_content_triage_required')
             entry.update(evidence_readiness(bundle))
             entry['discovery_trace'] = bundle.get('discovery_trace',[])
             entry['matched_sources'] = [{k:p[k] for k in ('url','source_id')} | {
@@ -297,17 +301,20 @@ def daily(remote, collector):
     queue, skipped = selection_queue(remote, ARTICLE_LEAD_SOURCES)
     last_rejection = None
     for item, selection in queue:
+        context = {'source_id': item['source_id'], 'url': item['url'],
+                   'subjects': sorted(subject_brands(item['payload']['title']))}
         try:
             require_recent_publication(item['payload'].get('published_at'))
             bundle = collect_bundle(item['source_id'], item['url'], collector,
-                                    feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'))
+                                    feed_date=item['payload']['published_at'], corroborating_items=remote.rows('news_items'),
+                                    content_triage=selection.get('reason') == 'publisher_content_triage_required')
             material = evidence_readiness(bundle)
             if not material['ready']:
-                skipped.append({'url': item['url'], 'reason': material['errors'],
+                skipped.append({**context, 'reason': material['errors'],
                                 'discovery_trace':bundle.get('discovery_trace',[])})
                 continue
         except Exception as exc:
-            skipped.append({'source_id': item['source_id'], 'url': item['url'], 'reason': str(exc)[:130],
+            skipped.append({**context, 'reason': str(exc)[:130],
                             'discovery_trace':getattr(exc,'discovery_trace',[])})
             continue
         record = perform(remote, bundle, private=False)

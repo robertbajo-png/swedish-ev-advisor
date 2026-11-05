@@ -30,7 +30,7 @@ from news_publisher_registry import PUBLISHERS as PUBLISHER_TEMPLATES
 ROOT = Path(__file__).resolve().parents[1]
 BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
     'electrek', 'autocar', 'autoexpress', 'bevolt', 'motor-no', 'cleantechnica',
-    'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press', 'mobility-sweden', 'polestar-news', 'byd-de-press'))
+    'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press', 'mobility-sweden', 'polestar-news', 'byd-de-press', 'nio-press', 'toyota-uk-press'))
 
 
 def registry(path=None):
@@ -165,7 +165,8 @@ def hydrate_item(store, item, sources, collector):
         raise ValueError("paywall")
     content = parser.plain()
     if source.get('collection_method') == 'pressroom_index':
-        doc = press_document(html, url=final, body_region=source.get('body_region'), adapter=source.get('article_adapter'))
+        doc = press_document(html, url=final, body_region=source.get('body_region'), adapter=source.get('article_adapter'),
+                             narrative_class=source.get('narrative_class'))
         if not doc['published_at'] or doc['published_at'] != item['payload'].get('published_at'):
             raise ValueError('pressroom_publication_date_changed')
         content = doc['body'] or content

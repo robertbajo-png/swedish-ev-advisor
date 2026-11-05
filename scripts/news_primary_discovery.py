@@ -154,7 +154,7 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
                     raise ValueError('official_index_inaccessible_or_redirected')
                 digest = hashlib.sha256(body.encode()).hexdigest()
                 before = len(ranked)
-                if kind == 'feed':
+                if kind == 'feed' or source.get('index_format') == 'rss':
                     rows = [(r['url'],r['title'],r['summary']) for r in parse_feed(body,source)[:50]]
                 else:
                     parser = IndexLinks();parser.feed(body)
