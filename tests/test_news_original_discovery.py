@@ -45,6 +45,27 @@ class FakeCollector:
         return 200,{},value,url
 
 class OriginalDiscoveryTests(unittest.TestCase):
+    def test_known_other_manufacturer_does_not_consume_official_lookup_slots(self):
+        item = lead()
+        item['payload'].update(title='Toyota launches a synthetic electric car in China',
+                               content='A Toyota electric passenger car. Volkswagen is mentioned only as background.')
+        c=Mock()
+        self.assertEqual(discover(item,c,PRIMARY_AUTHORITIES,[catalog()],trace=[]),[])
+        c.fetch.assert_not_called()
+
+    def test_declared_group_brands_joint_stories_and_neutral_authorities_remain_searchable(self):
+        from news_primary_discovery import source_subject_matches
+        group = primary_source('https://www.vwgroup.se/nyheter--media/pressmeddelanden/2026/11/synthetic/')
+        item = lead()
+        for brand in ('Volkswagen', 'Skoda', 'Cupra', 'Audi'):
+            item['payload']['title'] = brand + ' launches an electric car in Sweden'
+            self.assertTrue(source_subject_matches(item, group))
+        item['payload']['title'] = 'Toyota launches an electric car in Sweden'
+        self.assertFalse(source_subject_matches(item, group))
+        self.assertTrue(source_subject_matches(item, {'name': 'ACEA'}))
+        item['payload']['title'] = 'Toyota and Volkswagen announce a joint electric car project'
+        self.assertTrue(source_subject_matches(item, group))
+
     def test_approved_official_registry_expands_without_a_model_specific_python_rule(self):
         for url,identity in [(ORIGINAL,'vw-press'),
             ('https://www.vwgroup.se/nyheter--media/pressmeddelanden/2026/11/synthetic/','vw-sweden-press'),

@@ -60,6 +60,13 @@ are not silently followed. Editorially reserved electrive/Electrek/CnEVPost stay
 discovery-only, not AI evidence. See `docs/news-european-sources.md` for real
 access results and source ownership/layout boundaries.
 
+The 2026-11-05 source follow-up adds official Polestar news on
+`https://www.polestar.com/global/news/` to the broad collection profile. Its
+source-specific canonical slash and single-main/JSON-LD identity/date checks
+do not relax freshness or the independent article audit. The live isolated
+check found only old releases and made no paid requests or publications.
+Volvo and BYD remain held; see `docs/news-content-month.md` for actual findings.
+
 ### Shared Article Review (Owner Approved 2026-11-02)
 
 Explicitly configured official pressrooms may now start this same shared

@@ -10,6 +10,7 @@ from news_http import canonical_url, parse_feed, iso_date
 from datetime import datetime, timedelta
 from news_publisher_selection import subject_terms, primary_identity_matches, subject_brands
 from news_store import artifact_hash, stable_id
+from news_pressrooms import index_link
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_INDEXES = 2
@@ -31,6 +32,11 @@ def authorities(legacy):
         if old and old['id'] != row['id']:
             raise ValueError('official_source_identity_conflict')
         re.compile(row['article_path_pattern'])
+        if 'covered_brands' in row:
+            brands = row['covered_brands']
+            if not isinstance(brands, list) or not brands or any(
+                    not isinstance(brand, str) or len(subject_brands(brand)) != 1 for brand in brands):
+                raise ValueError('invalid_official_source_brands')
         for expression in row.get('discovery_triggers', []): re.compile(expression)
         for index in row.get('indexes', []) + row.get('feeds', []):
             if urlsplit(canonical_url(index)).hostname != parsed.hostname:
@@ -84,6 +90,12 @@ def candidate_related(lead, title, summary='', url=''):
     return len(a & b)>=2
 
 
+def source_subject_matches(lead, source):
+    target = subject_brands(lead['payload']['title'])
+    authority = subject_brands(source.get('name', '') + ' ' + ' '.join(source.get('covered_brands', [])))
+    return not target or not authority or bool(target & authority)
+
+
 def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True):
     """Metadata reuse first, then at most two actual official indexes/feeds."""
     trace = trace if trace is not None else []
@@ -94,7 +106,7 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
     terms = subject_terms(lead['payload']['title'])
     def add(url, title, summary, edge, priority):
         source = source_for(url, registry)
-        if not source or url in seen or not candidate_related(lead,title,summary,url):
+        if not source or not source_subject_matches(lead, source) or url in seen or not candidate_related(lead,title,summary,url):
             return
         seen.add(url)
         score = len(terms & subject_terms(title + ' ' + summary))
@@ -125,7 +137,7 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
     if ranked:
         trace.append({'stage':'official_catalog','status':'candidates','count':len(ranked)})
     text = lead['payload']['title'] + ' ' + lead['payload']['content'][:14000]
-    sources = [s for s in registry.values() if s.get('discovery_triggers')
+    sources = [s for s in registry.values() if source_subject_matches(lead, s) and s.get('discovery_triggers')
                and all(re.search(p,text,re.I) for p in s['discovery_triggers'])]
     index_count = 0 if indexes else MAX_INDEXES
     for source in sources:
@@ -149,7 +161,7 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
                     rows = [(urljoin(final,u),title,'') for u,title in parser.links[:1000]]
                 for raw,title,summary in rows:
                     try:
-                        url = canonical_url(raw)
+                        url = index_link(final, raw, source)
                         if urlsplit(url).hostname != urlsplit(source['website']).hostname: continue
                         if urlsplit(url).path.lower().endswith('.pdf'):
                             if source_for(url,registry) and candidate_related(lead,title,summary,url):

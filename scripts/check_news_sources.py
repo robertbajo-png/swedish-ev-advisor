@@ -66,10 +66,13 @@ def check_sources(store, sources, collector, max_items=3):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--max-items', type=int, default=3, help='At most 1-5 candidates per official source')
+    parser.add_argument('--source', action='append', choices=tuple(s['id'] for s in registry()),
+                        help='Limit a free isolated check to explicitly named registered sources')
     args = parser.parse_args()
     store = NewsStore(DATABASE)
     try:
-        report = check_sources(store, registry(), Collector(tls_context=verified_context()), args.max_items)
+        sources = [s for s in registry() if not args.source or s['id'] in args.source]
+        report = check_sources(store, sources, Collector(tls_context=verified_context()), args.max_items)
         save(REPORT, report)
         print(json.dumps({**report, 'private_report': str(REPORT)}, ensure_ascii=True, indent=2))
         return report['collection_ok'] and not any(row['status'] == 'blocked' for row in report['assessments'])

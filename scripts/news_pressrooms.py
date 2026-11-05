@@ -4,15 +4,18 @@ import json
 import re
 from datetime import datetime, timezone, timedelta
 from html.parser import HTMLParser
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from news_http import PageText, canonical_url, iso_date, require_recent_publication
 
 
 class PressDocument(HTMLParser):
-    def __init__(self, exclude_tables=False):
+    def __init__(self, exclude_tables=False, body_region=None):
         super().__init__()
         self.exclude_tables = exclude_tables
+        self.body_region = body_region
+        self.region_count = 0
+        self.canonicals = []
         self.meta = {}
         self.date_parts = []
         self.body_parts = []
@@ -22,6 +25,8 @@ class PressDocument(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == 'link' and 'canonical' in a.get('rel', '').split():
+            self.canonicals.append(a.get('href', ''))
         if tag == 'meta':
             self.meta[a.get('property') or a.get('name')] = a.get('content', '')
         if tag == 'time' and a.get('datetime'):
@@ -30,8 +35,11 @@ class PressDocument(HTMLParser):
             self.json_parts = []
         if tag not in {'meta', 'link', 'br', 'hr', 'img', 'input', 'source', 'wbr', 'area', 'base', 'embed', 'param', 'track'}:
             classes = set(a.get('class', '').split())
-            body = (a.get('id') == 'article-text' or {'article-page', 'pressrelease'} <= classes
-                    or {'cntnt', 'block-container'} <= classes or 'article_text' in classes)
+            body = (tag == self.body_region) if self.body_region else (
+                a.get('id') == 'article-text' or {'article-page', 'pressrelease'} <= classes
+                or {'cntnt', 'block-container'} <= classes or 'article_text' in classes)
+            if body:
+                self.region_count += 1
             dated = bool({'date', 'pressrelease-date', 'article_date'} & classes)
             self.stack.append((tag, body, dated))
 
@@ -50,7 +58,7 @@ class PressDocument(HTMLParser):
     def handle_data(self, text):
         if self.json_parts is not None:
             self.json_parts.append(text)
-        if any(tag in {'script', 'style', 'nav', 'footer', 'header'} for tag, _, _ in self.stack):
+        if any(tag in {'script', 'style', 'nav', 'footer', 'header', 'aside', 'noscript'} for tag, _, _ in self.stack):
             return
         if self.exclude_tables and any(tag == 'table' for tag, _, _ in self.stack):
             return
@@ -60,16 +68,31 @@ class PressDocument(HTMLParser):
             self.date_parts.append(text)
 
 
-def document(html, *, exclude_tables=False):
-    parser = PressDocument(exclude_tables=exclude_tables)
+def document(html, *, exclude_tables=False, url=None, body_region=None):
+    if body_region is not None and body_region not in {'main', 'article'}:
+        raise ValueError('unsupported_pressroom_body_region')
+    parser = PressDocument(exclude_tables=exclude_tables, body_region=body_region)
     parser.feed(html)
+    if body_region:
+        if not url or parser.region_count != 1:
+            raise ValueError('pressroom_body_missing_or_ambiguous')
+        if {canonical_url(urljoin(url, value)) for value in parser.canonicals} != {canonical_url(url)}:
+            raise ValueError('pressroom_canonical_changed_or_missing')
     dates = [parser.meta.get('article:published_time'), parser.meta.get('datePublished')]
+    matched_articles = []
     def walk(node):
         if isinstance(node, dict):
             kind = node.get('@type', [])
             kinds = [kind] if isinstance(kind, str) else kind
-            if any(k in {'NewsArticle', 'Article', 'PressRelease'} for k in kinds):
+            declared = node.get('url') or node.get('mainEntityOfPage') or node.get('@id')
+            if isinstance(declared, dict):
+                declared = declared.get('@id') or declared.get('url')
+            matches = not body_region or bool(isinstance(declared, str)
+                and canonical_url(urljoin(url, declared)) == canonical_url(url))
+            if matches and any(k in {'NewsArticle', 'Article', 'PressRelease'} for k in kinds):
                 dates.append(node.get('datePublished'))
+                if node.get('datePublished'):
+                    matched_articles.append(node)
             for value in node.values():
                 walk(value)
         elif isinstance(node, list):
@@ -77,6 +100,11 @@ def document(html, *, exclude_tables=False):
                 walk(value)
     for node in parser.jsonld:
         walk(node)
+    if body_region:
+        if not matched_articles or any(value and not iso_date(value) for value in dates):
+            raise ValueError('pressroom_article_date_missing_or_invalid')
+        if len({iso_date(value) for value in dates if value}) != 1:
+            raise ValueError('pressroom_article_dates_conflict')
     published = next((iso_date(value) for value in dates if value and iso_date(value)), None)
     if not published:
         # BMW exposes a release-specific date span, not JSON-LD. Never use the fetch date.
@@ -110,6 +138,16 @@ def document(html, *, exclude_tables=False):
             'body': re.sub(r'\s+', ' ', ' '.join(parser.body_parts)).strip()}
 
 
+def index_link(index_url, href, source):
+    url = canonical_url(urljoin(index_url, href))
+    parsed = urlsplit(url)
+    if parsed.hostname != urlsplit(source['website']).hostname or parsed.query:
+        raise ValueError('pressroom_index_link_outside_authority')
+    if source.get('canonical_trailing_slash') is True and not parsed.path.endswith('/'):
+        url = urlunsplit(parsed._replace(path=parsed.path + '/'))
+    return url
+
+
 def discover(index_html, index_url, source, collector, max_items, now=None):
     if source['kind'] != 'primary' or source.get('collection_method') != 'pressroom_index':
         raise ValueError('official_pressroom_required')
@@ -123,7 +161,7 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
     urls = []
     for href in parser.links:
         try:
-            url = canonical_url(urljoin(index_url, href))
+            url = index_link(index_url, href, source)
             parsed = urlsplit(url)
             if parsed.hostname != urlsplit(index_url).hostname or parsed.query:
                 continue
@@ -140,7 +178,7 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
     for url in urls[:min(20, limit * 3)]:
         try:
             _, _, html, final = collector.fetch(url, source, editorial=True)
-            doc = document(html)
+            doc = document(html, url=final, body_region=source.get('body_region'))
             if not doc['title'] or not doc['published_at']:
                 raise ValueError('missing_release_title_or_date')
             require_recent_publication(doc['published_at'], now)

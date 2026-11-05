@@ -78,6 +78,47 @@ before release, and do not describe the full local suite as clean.
 
 ## Remaining Rollout
 
+### Source Follow-Up: 2026-11-05
+
+The scheduled production and distribution jobs completed successfully overnight,
+but no new eligible article or paid request was recorded. The rolling report
+showed 262 discovered items; the same three historical production drafts remain
+quarantined. This is a content-supply finding, not a successful new article.
+
+Added the accessible official `www.polestar.com/global/news/` collection route,
+not the client-only media host. Its explicitly configured single `main` region
+requires exact canonical identity and article-specific JSON-LD publication dates;
+related articles and modification timestamps cannot make a release new. The
+observed canonical trailing slash is a declared source-specific link rule, not
+permission for cross-host/query redirects. A fresh isolated source check passed
+as `verified_no_recent_items`: all nine checked releases were older than seven
+days. Body/date parsing is working, but no fresh article or AI review is claimed.
+
+Discovery now excludes known other-manufacturer authorities before consuming
+bounded lookup slots, while retaining joint announcements and neutral authorities.
+Unrelated VW documents must not crowd out the original for a Toyota report.
+
+Volvo still returns 403. BYD's own news component exposes a public read-only
+search operation. The UK component returned no records; the German component's
+actual declared parameters returned 53 listings, including a November release.
+This is metadata discovery only: a bounded article-body/date adapter is not yet
+verified or enabled. Neither source is enabled as proven article evidence. No workaround,
+new service, paid model call, budget mutation or canonical-car write was used.
+`check_news_sources.py --source polestar-news --max-items 3` repeats the free,
+isolated readiness check without touching production news or provider accounting.
+
+The explicit Volkswagen Group Sverige coverage retains Skoda, Cupra and Audi
+lookups as well as Volkswagen. Joint-brand and neutral-authority lookups remain
+possible; unrelated makers do not consume the bounded original-source slots.
+
+The new region/identity tests (7), official discovery tests (17), broad-profile
+tests (4) and publisher regressions (49) passed in targeted runs. The SEO build
+again produced 90 routes, 38 redirects and the existing two-item feed. The broad
+Windows run executed 743 tests and had three errors in the unchanged PDF-parser
+tests (two explicit child-process timeouts and one dependent document result).
+No timeout or publication guard was relaxed. The exact final PR and main Linux
+CI must pass before normal credentialed production execution.
+
 1. Pass offline regressions/build, review the isolated branch and require exact
    main CI before any credentialled distribution. No automatic merge or paid
    private admission tests are needed for individual publishers.
