@@ -17,6 +17,16 @@ def summarize(result):
     for field in ('cost_micro_usd', 'word_count'):
         value = result.get(field)
         if type(value) is int and value >= 0: output[field] = value
+    if status == 'failed':
+        error = result.get('error')
+        if error == 'ValueError:news_incomplete_ai_response':
+            output['failure_kind'] = 'incomplete_provider_response'
+        elif isinstance(error, str) and error.startswith('NewsBudgetBlocked:'):
+            output['failure_kind'] = 'budget_or_accounting_failure'
+        elif isinstance(error, str) and error.startswith('NewsProviderError:'):
+            output['failure_kind'] = 'provider_failure'
+        else:
+            output['failure_kind'] = 'worker_failure'
     reasons, gaps = Counter(), {}
     for candidate in result.get('skipped', []):
         values = candidate.get('reason', candidate.get('errors', []))

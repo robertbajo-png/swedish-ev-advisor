@@ -249,6 +249,42 @@ write, Google operation, spending increase or historical-proof change is include
 Run free source checks, offline regressions/build and exact PR/main CI before
 normal owner-enabled production and fixed-target public distribution.
 
+### Output-Size Follow-Up: 2026-11-05
+
+PR #36 merged as `5f22a29` after 138 PR/main CI steps. Production verified the
+XPENG importer and both quiet Lexus feeds. Its normal run then stopped on a new
+Bevolt/XPENG candidate: the writer returned `incomplete/max_output_tokens` at the
+existing 2000-token ceiling (311 reasoning tokens). The charge, USD0.025572, is
+fully settled; total UTC-day news cost became USD0.038102. No review, article or
+distribution occurred. The failed URL/receipt remain unchanged and are not retried.
+
+The follow-up returns one complete article from the same source-bound fact set,
+not two alternative full articles squeezed into that ceiling. Existing 2000/1300
+writer/reviewer limits, 150-250 words, independent review and all quality gates
+remain. Historical two-form outputs remain readable without changing their raw
+receipts. This is a smaller response contract, not a new model or higher allowance.
+An irrelevant/thin story may explicitly return `relevant=false`, `facts=[]` and
+`article=null`, instead of a schema forcing it to fill an unsupported article.
+The existing precheck still rejects that packet; relevant null articles cannot
+pass. No reviewer is bought for a decline.
+
+Failure summaries expose a fixed safe category and retain skipped-source gaps,
+without raw exception messages, private prose or keys. Incomplete responses still
+fail the run and cannot trigger a reviewer, continuation, repair or new candidate.
+Both today's candidate slots are consumed; any verification run must defer before
+paid work. No more paid attempts are authorized by this follow-up. Offline tests
+do not prove that the next fresh production response will complete.
+
+Offline verification passes 170 targeted regressions, including single-current
+output and historical-alternative compatibility, literal evidence, incomplete
+settlement/no-retry, the shared attempt limit and sanitized diagnostics. The SEO
+build passes with 90 routes and 38 redirects. Exact PR/main CI is still required.
+
+The observed limit behavior agrees with the
+[official Responses reasoning documentation](https://developers.openai.com/api/docs/guides/reasoning):
+the output ceiling includes reasoning, and reaching it may return an incomplete
+response. We reduce requested output rather than increasing the existing ceiling.
+
 ### Continuing Operations
 
 1. Pass offline regressions/build, review the isolated branch and require exact
