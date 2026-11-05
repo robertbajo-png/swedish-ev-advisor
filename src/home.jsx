@@ -106,7 +106,13 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
       {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 
-    <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><span className="homeKicker">Olika liv. Olika elbilar.</span><h2>Vad behöver din nästa bil klara?</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => <button key={category.title} type="button" onClick={() => category.path ? navigate(category.path) : applySuggestion(category.prompt)}><Icon size={24} strokeWidth={1.5} /><strong>{category.title}</strong><span>{category.text}</span><ArrowUpRight size={17} className="homeNeedArrow" /></button>)}</div></div></section>
+    <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><span className="homeKicker">Olika liv. Olika elbilar.</span><h2>Vad behöver din nästa bil klara?</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {
+      const Tag = category.path ? 'a' : 'button';
+      return <Tag key={category.title} href={category.path ? appPath(category.path) : undefined} type={category.path ? undefined : 'button'} onClick={(event) => {
+        if (category.path) { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(category.path); } }
+        else applySuggestion(category.prompt);
+      }}><Icon size={24} strokeWidth={1.5} /><strong>{category.title}</strong><span>{category.text}</span><ArrowUpRight size={17} className="homeNeedArrow" /></Tag>;
+    })}</div></div></section>
 
     {newsPreview}
 

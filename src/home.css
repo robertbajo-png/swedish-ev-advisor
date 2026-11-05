@@ -60,12 +60,12 @@
 .homeVehicleActions button:hover, .homeVehicleActions button[aria-pressed=true] { background: var(--sage); }
 .homeNeedsBand { padding-block: 48px; background: #edf1ee; border-block: 1px solid var(--line); }
 .homeNeedsGrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
-.homeNeedsGrid button { position: relative; display: flex; flex-direction: column; align-items: start; gap: 12px; min-width: 0; text-align: left; border: 0; border-left: 1px solid #d5dfda; background: none; padding: 8px 20px; color: var(--pine); }
-.homeNeedsGrid button:first-child { padding-left: 0; border-left: 0; }
+.homeNeedsGrid :is(a, button) { position: relative; display: flex; flex-direction: column; align-items: start; gap: 12px; min-width: 0; text-align: left; text-decoration: none; border: 0; border-left: 1px solid #d5dfda; background: none; padding: 8px 20px; color: var(--pine); }
+.homeNeedsGrid :is(a, button):first-child { padding-left: 0; border-left: 0; }
 .homeNeedsGrid strong { font-size: 15px; color: var(--ink); }
 .homeNeedsGrid span { font-size: 12px; line-height: 1.6; color: #5c6967; }
 .homeNeedArrow { position: absolute; top: 12px; right: 20px; opacity: 0; transition: opacity .18s ease; }
-.homeNeedsGrid button:hover .homeNeedArrow, .homeNeedsGrid button:focus-visible .homeNeedArrow { opacity: 1; }
+.homeNeedsGrid :is(a, button):hover .homeNeedArrow, .homeNeedsGrid :is(a, button):focus-visible .homeNeedArrow { opacity: 1; }
 .homeHow { padding-block: 56px 64px; }
 .homeHow ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
 .homeStepNumber { display: inline-block; color: var(--pine); border-top: 2px solid #a4bdb6; padding-top: 16px; width: 100%; font-size: 12px; }
@@ -104,7 +104,7 @@
   .homeVehicleSpecs > div { display: flex; justify-content: space-between; gap: 8px; }
   .homeVehicleSpecs dd { margin: 0; }
   .homeNeedsGrid { grid-template-columns: repeat(3, 1fr); row-gap: 32px; }
-  .homeNeedsGrid button:nth-child(4) { border-left: 0; padding-left: 0; }
+  .homeNeedsGrid :is(a, button):nth-child(4) { border-left: 0; padding-left: 0; }
 }
 @media (max-width: 800px) {
   .homeContainer { width: calc(100% - 48px); }
@@ -151,9 +151,9 @@
   .homeExplore { padding-block: 40px 48px; }
   .homeNeedsBand { padding-block: 40px; }
   .homeNeedsGrid { grid-template-columns: 1fr 1fr; gap: 24px 0; }
-  .homeNeedsGrid button { padding: 8px 16px; }
-  .homeNeedsGrid button:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .homeNeedsGrid button:nth-child(4) { border-left: 1px solid #d5dfda; padding-left: 16px; }
+  .homeNeedsGrid :is(a, button) { padding: 8px 16px; }
+  .homeNeedsGrid :is(a, button):nth-child(odd) { padding-left: 0; border-left: 0; }
+  .homeNeedsGrid :is(a, button):nth-child(4) { border-left: 1px solid #d5dfda; padding-left: 16px; }
   .homeHow { padding-block: 48px; }
   .homeHow ol { grid-template-columns: 1fr; gap: 32px; }
   .homeHow h3 { font-size: 19px; margin-top: 12px; }

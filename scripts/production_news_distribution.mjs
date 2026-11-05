@@ -7,6 +7,7 @@ import { checkDistributionCi } from './news_distribution.mjs';
 import { cloudflareResult, commitConfig, readApi } from './pages_preview.mjs';
 import { fetchPublishedNews, newsHash, normalizeNews } from './sync_news_snapshot.mjs';
 import { atomicJson } from './sync_public_catalog.mjs';
+import { PUBLIC_CONTENT_VERSION } from '../src/public-content-version.js';
 
 export const PROJECT = 'elbilsagenten';
 export const ORIGIN = 'https://elbilsagenten.se';
@@ -52,8 +53,10 @@ export async function snapshot(config, { fetchImpl = fetch } = {}) {
   const current = JSON.parse((await get(ORIGIN, '/data/news_articles.json', fetchImpl)).body);
   assert(records.length > 0 || current.records.length === 0, 'Refusing to erase production news');
   const rss_update_required = !await currentRss(records, fetchImpl);
-  return { records, snapshot_hash: hash, rss_update_required,
-    upload_required: hash !== newsHash(current.records) || rss_update_required };
+  const home = (await get(ORIGIN, '/', fetchImpl)).body;
+  const public_content_update_required = !home.includes(`<meta name="public-content-version" content="${PUBLIC_CONTENT_VERSION}"`);
+  return { records, snapshot_hash: hash, rss_update_required, public_content_update_required,
+    upload_required: hash !== newsHash(current.records) || rss_update_required || public_content_update_required };
 }
 
 export async function checkTarget(config, { fetchImpl = fetch } = {}) {
@@ -72,6 +75,9 @@ export async function checkTarget(config, { fetchImpl = fetch } = {}) {
 
 export async function verify(expected, { fetchImpl = fetch } = {}) {
   const rows = normalizeNews(expected);
+  const home = (await get(ORIGIN, '/', fetchImpl)).body;
+  assert(home.includes(`<meta name="public-content-version" content="${PUBLIC_CONTENT_VERSION}"`) && home.includes('id="public-page-data"') && home.includes('<h1'),
+    'Reviewed public HTML content was not deployed');
   const exported = JSON.parse((await get(ORIGIN, '/data/news_articles.json', fetchImpl)).body);
   assert.equal(newsHash(exported.records), newsHash(rows), 'Production news snapshot mismatch');
   const sitemap = await get(ORIGIN, '/sitemap.xml', fetchImpl);

@@ -1,0 +1,52 @@
+{
+  "familj": {
+    "heading": "En familjebil ska fungera i vardagen",
+    "intro": "Barnstolar, barnvagn och semesterpackning ställer olika krav. Urvalet börjar med minst fem verifierade sittplatser och 450 liter bagageutrymme. Literantalet säger inte allt om formen på bagaget eller hur lätt det är att lasta.",
+    "criteria": "Minst 5 sittplatser och 450 liter bagage i källunderlaget.",
+    "questions": [
+      ["Hur mycket plats behöver vi?", "Prova era egna barnstolar och den packning ni brukar ha med. Bagagevolym ersätter inte ett lastprov, och plats för tre barnstolar kan inte avgöras av antalet sittplatser."],
+      ["Vilken räckvidd ska vi välja?", "Utgå från vardagskörningen och era återkommande långresor. WLTP är ett jämförelsevärde, inte en garanti för räckvidd med full last, kyla eller motorvägsfart."]
+    ],
+    "related": ["under-500000", "dragkrok", "lang-rackvidd"]
+  },
+  "vinter": {
+    "heading": "Vinterresan handlar om mer än fyrhjulsdrift",
+    "intro": "Urvalet visar bilar med verifierad fyrhjulsdrift. Det är inte ett vintertest eller en rangordning av vinteregenskaper. Kontrollera också däck, laddmöjligheter och vilken utrustning den aktuella versionen har.",
+    "criteria": "Verifierad fyrhjulsdrift. WLTP visas utan påhittad vinteromräkning.",
+    "questions": [
+      ["Visar ni räckvidden på vintern?", "Nej. Räckvidden i biluppgifterna är WLTP om inget annat uttryckligen anges. Vi räknar inte om den till en uppskattad vinterräckvidd och presenterar den som ett uppmätt resultat."],
+      ["Ingår värmepump och batteriförvärmning?", "Det kan skilja mellan versioner och årsmodeller. Om utrustningen inte är verifierad för den exakta varianten behöver den bekräftas hos tillverkaren eller återförsäljaren."]
+    ],
+    "related": ["lang-rackvidd", "familj", "dragkrok"]
+  },
+  "dragkrok": {
+    "heading": "Utgå från släpet du faktiskt ska dra",
+    "intro": "Här finns varianter med minst 1 000 kg verifierad dragvikt. En angiven dragvikt betyder inte att dragkrok ingår i bilens pris. Kontrollera den exakta bilen, krokens utrustning och uppgifterna för ditt släp innan köp.",
+    "criteria": "Minst 1 000 kg verifierad dragvikt; saknade uppgifter räknas inte som godkända.",
+    "questions": [
+      ["Ingår dragkroken?", "Inte nödvändigtvis. Dragvikt är en teknisk uppgift. Montering, tillval och pris behöver kontrolleras separat om de inte uttryckligen framgår av bilens källa."],
+      ["Är WLTP-räckvidden samma med släp?", "WLTP-värdet här är inte ett släptest. Last, släpets utformning, hastighet och väder påverkar förbrukningen. Vi anger ingen räckvidd med släp utan ett relevant underlag."]
+    ],
+    "related": ["familj", "lang-rackvidd", "under-500000"]
+  },
+  "under-500000": {
+    "heading": "Jämför vad som faktiskt ingår i priset",
+    "intro": "Urvalet kräver ett angivet pris på högst 500 000 kr. Listpris, kampanjpris och återförsäljarerbjudanden visas som olika pristyper. Bilar utan pris tas inte med här, även om de kan vara intressanta alternativ i det större utbudet.",
+    "criteria": "Angivet pris högst 500 000 kr. Pristyp och priskälla hör till den exakta varianten.",
+    "questions": [
+      ["Är lägsta inköpspris alltid billigast?", "Inte över hela ägandet. Jämför även dina antaganden om körsträcka, laddning, försäkring, finansiering och värdeminskning. Beräknad ägandekostnad är en uppskattning, inte ett garanterat utfall."],
+      ["Hur ska jag tolka ett kampanjpris?", "Kontrollera villkor och slutdatum i priskällan. Ett tillfälligt erbjudande är inte samma sak som ordinarie listpris, och extra utrustning kan tillkomma."]
+    ],
+    "related": ["familj", "lang-rackvidd", "dragkrok"]
+  },
+  "lang-rackvidd": {
+    "heading": "Lång räckvidd och bra laddstopp hör ihop",
+    "intro": "Här börjar urvalet vid 580 km verifierad WLTP-räckvidd. För långresor är det också värt att jämföra laddning och praktiska behov. Ett högt maximalt DC-värde säger inte ensamt hur snabbt bilen laddar under ett helt stopp.",
+    "criteria": "Minst 580 km verifierad WLTP-räckvidd, inte utlovad verklig körsträcka.",
+    "questions": [
+      ["Kan jag köra hela WLTP-sträckan på motorväg?", "Det kan inte lovas utifrån WLTP-värdet. Hastighet, temperatur, last och hjulval påverkar utfallet. Jämför samma mätcykel och den variant du faktiskt överväger."],
+      ["Är högst DC-effekt alltid bäst på långresa?", "Maximal DC-effekt är en toppuppgift, inte medeleffekten under hela laddningen. Jämför även verifierade laddintervall och laddtider när de finns. Saknas de uppgifterna ska vi inte räkna fram en laddtid som ett faktum."]
+    ],
+    "related": ["vinter", "familj", "under-500000"]
+  }
+}

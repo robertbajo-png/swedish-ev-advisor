@@ -7,6 +7,15 @@
 .vehiclePageIntro { padding-block: 32px; }
 .vehiclePageIntro h1 { margin: 12px 0 16px; font-size: var(--ui-heading-size); line-height: 1.15; font-weight: 700; }
 .vehiclePageIntro p { margin: 0; max-width: 720px; font-size: 16px; line-height: 1.8; color: var(--muted); }
+.needGuide { margin-block: 48px 24px; padding-top: 32px; border-top: 1px solid var(--border, #e4e7e4); display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; }
+.needGuide h2 { font-size: 24px; line-height: 1.25; margin: 12px 0 16px; }
+.needGuide p { max-width: 70ch; color: var(--muted); line-height: 1.75; font-size: 15px; }
+.needGuide .needGuideCriteria { color: var(--pine); font-size: 14px; }
+.needGuide details { padding-block: 16px; border-bottom: 1px solid var(--border, #e4e7e4); }
+.needGuide summary { cursor: pointer; font-weight: 600; line-height: 1.5; }
+.needGuide nav { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 16px 24px; }
+.needGuide nav a { display: inline-flex; align-items: center; gap: 8px; color: var(--pine); font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 800px) { .needGuide { grid-template-columns: 1fr; gap: 16px; } }
 .vehicleSectionHeading { margin-bottom: 32px; }
 .vehicleSectionHeading h2 { margin: 12px 0 0; font-size: 30px; line-height: 1.2; font-weight: 700; }
 .vehicleContainer.notFoundPage { min-height: 400px; padding: 48px 0 64px; }

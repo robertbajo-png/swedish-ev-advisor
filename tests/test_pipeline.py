@@ -1230,10 +1230,11 @@ class SeoRouteTests(unittest.TestCase):
 
     def test_sitemap_includes_verification_page(self):
         import generate_sitemap
-
-        generate_sitemap.main()
-
-        self.assertIn("<loc>https://seekev.se/verifiering</loc>", (ROOT / "public/sitemap.xml").read_text(encoding="utf-8"))
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as folder, patch.object(generate_sitemap, 'ROOT', Path(folder)):
+            generate_sitemap.main()
+            self.assertIn(f"<loc>{generate_sitemap.SITE_URL}/verifiering</loc>",
+                          (Path(folder) / 'public/sitemap.xml').read_text(encoding='utf-8'))
 
     def test_prerender_vehicle_routes_use_public_variant_data(self):
         routes = public_variant_routes(

@@ -1,0 +1,662 @@
+{
+  "/media/vehicles/audi-a6-e-tron-8f0060e96039.jpg": {
+    "width": 1280,
+    "height": 630,
+    "source_sha256": "8f0060e960390587908869f39ac7b20afb38917c03685ccf80c5d708a0e307bb",
+    "variants": [
+      {
+        "url": "/media/responsive/audi-a6-e-tron-8f0060e96039-480.webp",
+        "width": 480,
+        "sha256": "8e7c1ec6afff11899766ee0d404a9508f8a1ccf281e9b90738a263b25d2b89f4"
+      },
+      {
+        "url": "/media/responsive/audi-a6-e-tron-8f0060e96039-800.webp",
+        "width": 800,
+        "sha256": "f1880d9f21fcd8b3766cd5ef9b134b63ab10db848d6141646387d7d87edb6290"
+      },
+      {
+        "url": "/media/responsive/audi-a6-e-tron-8f0060e96039-1280.webp",
+        "width": 1280,
+        "sha256": "f3f523f77bc7118025a35dc81d863cf184d46ed68acf60c109c62ecc661fc372"
+      }
+    ]
+  },
+  "/media/vehicles/audi-q4-e-tron-f32f57bc9d45.jpg": {
+    "width": 1280,
+    "height": 853,
+    "source_sha256": "f32f57bc9d456ba696ce651d5e25b01f94c86c2403a12d0c7da8c6b43b612072",
+    "variants": [
+      {
+        "url": "/media/responsive/audi-q4-e-tron-f32f57bc9d45-480.webp",
+        "width": 480,
+        "sha256": "ec035bc4b5b789e39b402f8d1d3bae618bd5802db3c09cb931a5c40bc0c7bf47"
+      },
+      {
+        "url": "/media/responsive/audi-q4-e-tron-f32f57bc9d45-800.webp",
+        "width": 800,
+        "sha256": "3814c5e1051b67f81e63bc39b52b681621a9823da9fff044b9cd14a875a73566"
+      },
+      {
+        "url": "/media/responsive/audi-q4-e-tron-f32f57bc9d45-1280.webp",
+        "width": 1280,
+        "sha256": "9b53c747d75966ce50f200ef175ee06ed7c1cde26693afbcc65004aeedd34cb3"
+      }
+    ]
+  },
+  "/media/vehicles/audi-q6-e-tron-996634d6ee7a.jpg": {
+    "width": 1280,
+    "height": 816,
+    "source_sha256": "996634d6ee7a5e06f0f87317a4b724c93d4ad9879b2abfb35f9abda00c1108cb",
+    "variants": [
+      {
+        "url": "/media/responsive/audi-q6-e-tron-996634d6ee7a-480.webp",
+        "width": 480,
+        "sha256": "03068e71fa098824cd727e9afb8ab1d0447a825433a06d0caed59720b3ff05ff"
+      },
+      {
+        "url": "/media/responsive/audi-q6-e-tron-996634d6ee7a-800.webp",
+        "width": 800,
+        "sha256": "72456c161d33cdda11fb38c2e8ca97330deb3014c5188043ca2abd25b5b000ed"
+      },
+      {
+        "url": "/media/responsive/audi-q6-e-tron-996634d6ee7a-1280.webp",
+        "width": 1280,
+        "sha256": "aab788c86b683fe481760922084802d8f895f504e9da10154c5e103524f54af4"
+      }
+    ]
+  },
+  "/media/vehicles/bmw-i4-827db86e3d75.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "827db86e3d75e5adab8e6e88fd31f23521cfbeaff827d053e504a3cbd3bd4ca0",
+    "variants": [
+      {
+        "url": "/media/responsive/bmw-i4-827db86e3d75-480.webp",
+        "width": 480,
+        "sha256": "e2128222417f72e3f587ca135e8e9645677a8e4543dfbc4fa9c2bcdb38d26d9b"
+      },
+      {
+        "url": "/media/responsive/bmw-i4-827db86e3d75-800.webp",
+        "width": 800,
+        "sha256": "7cd6b03414b2f70a19cb20a98694326a5b4964d8a1325e2d8b4d3b3a2e5e11d3"
+      },
+      {
+        "url": "/media/responsive/bmw-i4-827db86e3d75-1280.webp",
+        "width": 1280,
+        "sha256": "cc2aff791de0c0241c69c10a6deeb54986a0f093f874e3e58702d437045f8a09"
+      }
+    ]
+  },
+  "/media/vehicles/bmw-i5-ccac4c1e0daa.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "ccac4c1e0daa32ecdaf6f1c99933de3874baea7ad6422ced8abb9961468db8c3",
+    "variants": [
+      {
+        "url": "/media/responsive/bmw-i5-ccac4c1e0daa-480.webp",
+        "width": 480,
+        "sha256": "3f5c56beadf31823260df0dbecae147d73d1649eb3245547ff3d39351c5e4800"
+      },
+      {
+        "url": "/media/responsive/bmw-i5-ccac4c1e0daa-800.webp",
+        "width": 800,
+        "sha256": "5c88ffaf5574ff5f2df889f1b28695ca5dfef4db18b0a3f366e74fb4387b21ba"
+      },
+      {
+        "url": "/media/responsive/bmw-i5-ccac4c1e0daa-1280.webp",
+        "width": 1280,
+        "sha256": "76ef96bfe75c1aeb28496f4b97b1de98bb62edb64d70c1dd7b907e4babe82061"
+      }
+    ]
+  },
+  "/media/vehicles/bmw-ix1-636f6be71a56.jpg": {
+    "width": 1280,
+    "height": 853,
+    "source_sha256": "636f6be71a561c4482b9e0dfa8943a6648bda60cd7d2bb2500cf0777e7a757d1",
+    "variants": [
+      {
+        "url": "/media/responsive/bmw-ix1-636f6be71a56-480.webp",
+        "width": 480,
+        "sha256": "f8cb7aa26e41ccbab366604e339aad8563ab463a4792628cd726f958e2ee4244"
+      },
+      {
+        "url": "/media/responsive/bmw-ix1-636f6be71a56-800.webp",
+        "width": 800,
+        "sha256": "eb250eacff7a187a9668d42916b6498a6a9b593b843d2f220ee3dff7e65c481c"
+      },
+      {
+        "url": "/media/responsive/bmw-ix1-636f6be71a56-1280.webp",
+        "width": 1280,
+        "sha256": "18e65f74b2d817006c188494c0728f594f55872750b67f199f63da200be8d09f"
+      }
+    ]
+  },
+  "/media/vehicles/bmw-ix3-560ee3c2b622.jpg": {
+    "width": 1280,
+    "height": 852,
+    "source_sha256": "560ee3c2b622f253a1a79792989b0fa950a896997ce372f9b7cf0be00ce1182a",
+    "variants": [
+      {
+        "url": "/media/responsive/bmw-ix3-560ee3c2b622-480.webp",
+        "width": 480,
+        "sha256": "957bf59abe04d5f986dbfbb22dbbd657aa4e66a336748141351d7620aeeb12d8"
+      },
+      {
+        "url": "/media/responsive/bmw-ix3-560ee3c2b622-800.webp",
+        "width": 800,
+        "sha256": "18e38bb9a1703f45357faa742059f4c1d5d9077958ec711813dac4f918f7b5c4"
+      },
+      {
+        "url": "/media/responsive/bmw-ix3-560ee3c2b622-1280.webp",
+        "width": 1280,
+        "sha256": "d23f95f8d1f4302a9af9b12f47a8f0829ab497d8d7b9b75c8ddea8af7936f6de"
+      }
+    ]
+  },
+  "/media/vehicles/cupra-born-a7f9a0e290ee.jpg": {
+    "width": 1280,
+    "height": 700,
+    "source_sha256": "a7f9a0e290ee996adc2abd43272749603d24740367b68c60f17a0cfa3b608015",
+    "variants": [
+      {
+        "url": "/media/responsive/cupra-born-a7f9a0e290ee-480.webp",
+        "width": 480,
+        "sha256": "2bf98101d662e2669369b01d0c97ce3ba402a4c8600b3504142b36f8331ef683"
+      },
+      {
+        "url": "/media/responsive/cupra-born-a7f9a0e290ee-800.webp",
+        "width": 800,
+        "sha256": "8a0f5dad78036867367105ee608a6fdc7cd238ec81130dfcb3a549178153148b"
+      },
+      {
+        "url": "/media/responsive/cupra-born-a7f9a0e290ee-1280.webp",
+        "width": 1280,
+        "sha256": "3c69e3b86f72c8a781a2e7c3ca3f139edc944d89570ea3c577f8ae267830e935"
+      }
+    ]
+  },
+  "/media/vehicles/ford-explorer-fe5bb8df3715.jpg": {
+    "width": 1280,
+    "height": 765,
+    "source_sha256": "fe5bb8df37154fbdfd96c56503cb45ac0979789f960309ebd6384311ac8d0463",
+    "variants": [
+      {
+        "url": "/media/responsive/ford-explorer-fe5bb8df3715-480.webp",
+        "width": 480,
+        "sha256": "c01285be53985b4f37d91a400cc271fe464e8e762f6b55bf752eff03fe4b355e"
+      },
+      {
+        "url": "/media/responsive/ford-explorer-fe5bb8df3715-800.webp",
+        "width": 800,
+        "sha256": "af15855cff6f6ee7ad72c772c44d7344bbcae4b8dbea6b89d7ee935d0b44618c"
+      },
+      {
+        "url": "/media/responsive/ford-explorer-fe5bb8df3715-1280.webp",
+        "width": 1280,
+        "sha256": "225d1a58863ea437666f83b4e648e691eb80752f735915393f4e8c4a314d34eb"
+      }
+    ]
+  },
+  "/media/vehicles/kia-ev3-f4a5326be0bc.jpg": {
+    "width": 1280,
+    "height": 852,
+    "source_sha256": "f4a5326be0bc494cf52e96eec41aa7302933022f13ff725a692391fd1171d815",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev3-f4a5326be0bc-480.webp",
+        "width": 480,
+        "sha256": "1789810b26865bf81ea267c6382b7554b5667111bcce04fbcfa2e04e18e3d428"
+      },
+      {
+        "url": "/media/responsive/kia-ev3-f4a5326be0bc-800.webp",
+        "width": 800,
+        "sha256": "c4aa734e7d686b7d438b35f5a13b6ee61c9496579c34d0233bc075dcd7f3df36"
+      },
+      {
+        "url": "/media/responsive/kia-ev3-f4a5326be0bc-1280.webp",
+        "width": 1280,
+        "sha256": "e23dfa5afaba54e49c3fe5b6cba6202da2c3f4b606203c88cde72ea36fcd7f55"
+      }
+    ]
+  },
+  "/media/vehicles/kia-ev4-0c80a9482373.jpg": {
+    "width": 1280,
+    "height": 750,
+    "source_sha256": "0c80a9482373e18b4902536b10735f07ceca229dfded4c384a4ad48eec2a7e06",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev4-0c80a9482373-480.webp",
+        "width": 480,
+        "sha256": "7f91f956c0c253a62c44e9a2e6d20ccd731b95b9aa903d64e9b7ce8fc3c4a794"
+      },
+      {
+        "url": "/media/responsive/kia-ev4-0c80a9482373-800.webp",
+        "width": 800,
+        "sha256": "734f30ce91bab5cd888bfce5a7baaf77ae5bf99854f550ab65f3c52c5db7ea3b"
+      },
+      {
+        "url": "/media/responsive/kia-ev4-0c80a9482373-1280.webp",
+        "width": 1280,
+        "sha256": "2d6ddd39a85b074b4c4610c516cd1af9269d760b18f078ce84c206bae6a0adb8"
+      }
+    ]
+  },
+  "/media/vehicles/kia-ev5-f7a1bd31244f.jpg": {
+    "width": 1280,
+    "height": 823,
+    "source_sha256": "f7a1bd31244f197519e199343489c7bc5d01d08f064c62551ddf4d3888a59c3f",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev5-f7a1bd31244f-480.webp",
+        "width": 480,
+        "sha256": "b32ecc49a5ad956037ae038b3e9c8ac84b47b77cf170edef92d88b7f4845a3ea"
+      },
+      {
+        "url": "/media/responsive/kia-ev5-f7a1bd31244f-800.webp",
+        "width": 800,
+        "sha256": "a30769f0576f245aa3f07578e8330676b4aac3af54e8ef6221eb734177285a5f"
+      },
+      {
+        "url": "/media/responsive/kia-ev5-f7a1bd31244f-1280.webp",
+        "width": 1280,
+        "sha256": "817e32350af8cebe9c84153e1271c44fdf5b159773a793b8dd3e9bffb079e14c"
+      }
+    ]
+  },
+  "/media/vehicles/kia-ev6-def737594d59.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "def737594d598a9de13de5a77b535ba453ed7c4dce37a22f5b1954b66d79ef13",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev6-def737594d59-480.webp",
+        "width": 480,
+        "sha256": "9a1a8e84f7a83e617a1fb568209fef08d459301fbf2ec20a946a0f32ac80ee4f"
+      },
+      {
+        "url": "/media/responsive/kia-ev6-def737594d59-800.webp",
+        "width": 800,
+        "sha256": "44a4e68f2e93ee43236f836a5476683aca266cb87724d6fb1897642af11d768c"
+      },
+      {
+        "url": "/media/responsive/kia-ev6-def737594d59-1280.webp",
+        "width": 1280,
+        "sha256": "9ea386ee754b5ed0553a8db7afe6ae65753c9238e4945a293f341cd0d27e096b"
+      }
+    ]
+  },
+  "/media/vehicles/kia-ev9-17749a771d5d.jpg": {
+    "width": 1280,
+    "height": 732,
+    "source_sha256": "17749a771d5dc0c24914704d9495a1a33a5579e4585ab855f8e9df006647b7fb",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev9-17749a771d5d-480.webp",
+        "width": 480,
+        "sha256": "2000302635f6bde9d8d6c7f22f1f0f63e35e1884b2e87538f1877ff9f1605329"
+      },
+      {
+        "url": "/media/responsive/kia-ev9-17749a771d5d-800.webp",
+        "width": 800,
+        "sha256": "12fff87dfcd533408c011e6b44b9e77fd8e87c87754dc9e2c8312962f3b8304a"
+      },
+      {
+        "url": "/media/responsive/kia-ev9-17749a771d5d-1280.webp",
+        "width": 1280,
+        "sha256": "2d6dda33704d6250a302dfea72fbcbbeb855eb502be2ab8a9a0d8d2bb40cb692"
+      }
+    ]
+  },
+  "/media/vehicles/mazda-6e-ed32d8f075be.jpg": {
+    "width": 1280,
+    "height": 689,
+    "source_sha256": "ed32d8f075be82648131d215a5c8bcdd7840a5bf5e502e7fd04c54dcfa82dc5e",
+    "variants": [
+      {
+        "url": "/media/responsive/mazda-6e-ed32d8f075be-480.webp",
+        "width": 480,
+        "sha256": "b6e3a9258739441d57e148c069ed4166c8b65002aa9df64aaa347aa8ef37a8be"
+      },
+      {
+        "url": "/media/responsive/mazda-6e-ed32d8f075be-800.webp",
+        "width": 800,
+        "sha256": "78fb8645bc56dcaec1d77c9158f79f5e9e4a598993657a6b850126514aa3e7a4"
+      },
+      {
+        "url": "/media/responsive/mazda-6e-ed32d8f075be-1280.webp",
+        "width": 1280,
+        "sha256": "6b83a3945d4430d926958fcd70501dd7cbc5853ae508c790b3a89fdf60fe29f8"
+      }
+    ]
+  },
+  "/media/vehicles/mercedes-benz-cla-34a9050d5a36.jpg": {
+    "width": 1280,
+    "height": 853,
+    "source_sha256": "34a9050d5a3697e0b8ce319e6ceb859f19218059368819e18091162077d06058",
+    "variants": [
+      {
+        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-480.webp",
+        "width": 480,
+        "sha256": "d8121db9142f91ec31e19d9cd8e052a5a9e8f8393754cd547fe9de3ed5cc8503"
+      },
+      {
+        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-800.webp",
+        "width": 800,
+        "sha256": "fdcadc071b71abc6def7ed7a9a3e444630c8e93fc52047151cf6cef27df515b9"
+      },
+      {
+        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-1280.webp",
+        "width": 1280,
+        "sha256": "584fa50d2b5102b8dec8a8575f71df898b4aa7e80723522a12e9a3adbd69c089"
+      }
+    ]
+  },
+  "/media/vehicles/mercedes-benz-eqa-35c011b20405.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "35c011b204051ef2f870a151bd37c041a44e9cc8cc7e163840cc0ea665d5e917",
+    "variants": [
+      {
+        "url": "/media/responsive/mercedes-benz-eqa-35c011b20405-480.webp",
+        "width": 480,
+        "sha256": "b9d37a1edcb6305a1cf7b688be855e7cb5bacb5df7a7c06098b91faa9d6a64e6"
+      },
+      {
+        "url": "/media/responsive/mercedes-benz-eqa-35c011b20405-800.webp",
+        "width": 800,
+        "sha256": "b7df19335a2af933c9d7c45853c4496ddf93782ee151374e93f3df62c41031d1"
+      },
+      {
+        "url": "/media/responsive/mercedes-benz-eqa-35c011b20405-1280.webp",
+        "width": 1280,
+        "sha256": "7ee542416c96ea38b0ce2f8250acb5706d0e971d910f22c7c944bc0254cf5d56"
+      }
+    ]
+  },
+  "/media/vehicles/polestar-2-503eade18ba7.jpg": {
+    "width": 1280,
+    "height": 714,
+    "source_sha256": "503eade18ba7b8b12932682e376169615dfb115cf21400764b832980c4427143",
+    "variants": [
+      {
+        "url": "/media/responsive/polestar-2-503eade18ba7-480.webp",
+        "width": 480,
+        "sha256": "a73f3f2ae9010448899a741b2ff8027ae7550e17d56c0161eca806466ae9e403"
+      },
+      {
+        "url": "/media/responsive/polestar-2-503eade18ba7-800.webp",
+        "width": 800,
+        "sha256": "32a88bde478036f08878a9794f963b15117bf7074a43d85e984670c3f9601484"
+      },
+      {
+        "url": "/media/responsive/polestar-2-503eade18ba7-1280.webp",
+        "width": 1280,
+        "sha256": "73632d4116fbf8bddd2dc5823c6b13ed73eb46525560127d067a7028be9c86b5"
+      }
+    ]
+  },
+  "/media/vehicles/polestar-4-afa0450df51a.jpg": {
+    "width": 1280,
+    "height": 839,
+    "source_sha256": "afa0450df51ad275f26c97f678ed7ef646c2470aedc1f6fa92effc116694c82f",
+    "variants": [
+      {
+        "url": "/media/responsive/polestar-4-afa0450df51a-480.webp",
+        "width": 480,
+        "sha256": "441aa23f436a94b8035f9c19357c73c78ac8645460629271a008961a7b4e3e05"
+      },
+      {
+        "url": "/media/responsive/polestar-4-afa0450df51a-800.webp",
+        "width": 800,
+        "sha256": "41cbf5068edfebdd099e13ff0c1763d7691163cfc369a4ef33d2911dc8c095ed"
+      },
+      {
+        "url": "/media/responsive/polestar-4-afa0450df51a-1280.webp",
+        "width": 1280,
+        "sha256": "53b2ca7f6dcd5459b0c4ba5a4c3d28d779be1a32b60ad894f3dc71f0cc8ac126"
+      }
+    ]
+  },
+  "/media/vehicles/renault-5-ea922ac6e56f.jpg": {
+    "width": 1280,
+    "height": 1705,
+    "source_sha256": "ea922ac6e56f54cb8654f8a319e83508d3afe93e32adab90efa588d9598c1b03",
+    "variants": [
+      {
+        "url": "/media/responsive/renault-5-ea922ac6e56f-480.webp",
+        "width": 480,
+        "sha256": "2bd049c9b53b786b694f34b81e247e42b16a658de1e25e71febab7839dea023c"
+      },
+      {
+        "url": "/media/responsive/renault-5-ea922ac6e56f-800.webp",
+        "width": 800,
+        "sha256": "65667274f916154933efe10247dda05bf3c8a647d89099501e83cd59927370a8"
+      },
+      {
+        "url": "/media/responsive/renault-5-ea922ac6e56f-1280.webp",
+        "width": 1280,
+        "sha256": "a00a8339f904eaaac7a7ca191d462a5af8af1aad1eb20398457e18f0ac6a4950"
+      }
+    ]
+  },
+  "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "5a1bc85ee272d9eb78d9a0a92b026298372ebf8350e9c8d2178feca68f95038b",
+    "variants": [
+      {
+        "url": "/media/responsive/skoda-elroq-5a1bc85ee272-480.webp",
+        "width": 480,
+        "sha256": "09ab05a3ca0c35b80500e4d9ed14b9460b24b469a557c22cc5bf7fc5d1115095"
+      },
+      {
+        "url": "/media/responsive/skoda-elroq-5a1bc85ee272-800.webp",
+        "width": 800,
+        "sha256": "de17f166d0dbea106e0208b13515b383d9ff8f2a02fec3adb079f71f61f20985"
+      },
+      {
+        "url": "/media/responsive/skoda-elroq-5a1bc85ee272-1280.webp",
+        "width": 1280,
+        "sha256": "8062677ab256a8abe770f7a1cd31505258a1999ceee870c551a1f65393b8e9f9"
+      }
+    ]
+  },
+  "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg": {
+    "width": 1280,
+    "height": 960,
+    "source_sha256": "b11cc3b8db9eb0d877a3dde6bc5bba7494524c23e3bcfa1ec4c0ea1e6ad33fa9",
+    "variants": [
+      {
+        "url": "/media/responsive/skoda-enyaq-b11cc3b8db9e-480.webp",
+        "width": 480,
+        "sha256": "139a5bc753b0217ff30a47184d91675a76b0fda7f9cf2595fa57e8ad8e26913f"
+      },
+      {
+        "url": "/media/responsive/skoda-enyaq-b11cc3b8db9e-800.webp",
+        "width": 800,
+        "sha256": "54ca99f77f3efdc4378fedebe51b53bdf22e414ce92f0d65874f6404e30917b6"
+      },
+      {
+        "url": "/media/responsive/skoda-enyaq-b11cc3b8db9e-1280.webp",
+        "width": 1280,
+        "sha256": "bbf154c01a879c329864edbffc4f0cf5ffaeeeb9133972840de260ba718c9a04"
+      }
+    ]
+  },
+  "/media/vehicles/tesla-model-3-2a81c85c6026.jpg": {
+    "width": 1280,
+    "height": 708,
+    "source_sha256": "2a81c85c6026fd743b6e01e496617384e3bcff1b1997ca2c0288419ab689efd1",
+    "variants": [
+      {
+        "url": "/media/responsive/tesla-model-3-2a81c85c6026-480.webp",
+        "width": 480,
+        "sha256": "216a6159c539958d031788ee2cd305b8ec3f8d4d6e9090e6f3a9e98f13165602"
+      },
+      {
+        "url": "/media/responsive/tesla-model-3-2a81c85c6026-800.webp",
+        "width": 800,
+        "sha256": "95b299f432989f9b3638c002c772cc93eb872ed7aac433c9e1dc47e99bba37db"
+      },
+      {
+        "url": "/media/responsive/tesla-model-3-2a81c85c6026-1280.webp",
+        "width": 1280,
+        "sha256": "9b6f43d66c764f79b324717cf91b76fa6a6d3e5b5c64b13fe990f608494687ba"
+      }
+    ]
+  },
+  "/media/vehicles/tesla-model-y-79024d97a52b.jpg": {
+    "width": 1280,
+    "height": 853,
+    "source_sha256": "79024d97a52be4ae224a03a30aefa18b2e144f3c5f00be2cd95871a499532ecb",
+    "variants": [
+      {
+        "url": "/media/responsive/tesla-model-y-79024d97a52b-480.webp",
+        "width": 480,
+        "sha256": "eec96a6c77a181c800b3fb29ee9afe470655f0a746ddc64a36c4e89cce572ace"
+      },
+      {
+        "url": "/media/responsive/tesla-model-y-79024d97a52b-800.webp",
+        "width": 800,
+        "sha256": "72eabdd0b761f86ed2b75789e9bd43c4b449127dac353aa310306c35fb2345e6"
+      },
+      {
+        "url": "/media/responsive/tesla-model-y-79024d97a52b-1280.webp",
+        "width": 1280,
+        "sha256": "7f4849a889542f9c7ea11181ae64fddc6e0a5c917008be1271328f4a4d0f98a3"
+      }
+    ]
+  },
+  "/media/vehicles/toyota-bz4x-9c7085be8139.jpg": {
+    "width": 1280,
+    "height": 823,
+    "source_sha256": "9c7085be81393cda3847b846de130e4316db4a80b8c13585bc222c15de2ffaeb",
+    "variants": [
+      {
+        "url": "/media/responsive/toyota-bz4x-9c7085be8139-480.webp",
+        "width": 480,
+        "sha256": "664f980a4c233a17388ba6e40a056332ad0ebd19301619d6d711d04183d10b3f"
+      },
+      {
+        "url": "/media/responsive/toyota-bz4x-9c7085be8139-800.webp",
+        "width": 800,
+        "sha256": "a6f47701e79eb30ca5c19da17b7379fccb9a21fb3e33c74d9a8167ee865ad6e6"
+      },
+      {
+        "url": "/media/responsive/toyota-bz4x-9c7085be8139-1280.webp",
+        "width": 1280,
+        "sha256": "52aebed5223440a027a4c73bf17a440e2438a937b6eabd963d5e5cc0147bde2e"
+      }
+    ]
+  },
+  "/media/vehicles/volkswagen-id-3-64b62658bb2a.jpg": {
+    "width": 1280,
+    "height": 772,
+    "source_sha256": "64b62658bb2abe40adeb109957f4731647909664dca17790a1280059bc318566",
+    "variants": [
+      {
+        "url": "/media/responsive/volkswagen-id-3-64b62658bb2a-480.webp",
+        "width": 480,
+        "sha256": "c317710b7fec2c2217cf5ff9aff8ffe40f40c8af02b53f489120c5c49911b6b5"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-3-64b62658bb2a-800.webp",
+        "width": 800,
+        "sha256": "1cbb649ed3067e9cb76dbf3d44fb445958382700c206b8a1527840b17dc8ec57"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-3-64b62658bb2a-1280.webp",
+        "width": 1280,
+        "sha256": "daaac0fc888dd519fd694defb1ba2d670fa4539b306f856e8c7d0b3963c9143e"
+      }
+    ]
+  },
+  "/media/vehicles/volkswagen-id-4-cb5c3d94d423.jpg": {
+    "width": 1280,
+    "height": 853,
+    "source_sha256": "cb5c3d94d4236cce2fe30bc315f0a2efeaf718998c05dbbd6fb7bc00dcfad9c3",
+    "variants": [
+      {
+        "url": "/media/responsive/volkswagen-id-4-cb5c3d94d423-480.webp",
+        "width": 480,
+        "sha256": "00df01b7d7891cfc600fb6875ec9bcd96d68d8927be6060fdf04bf85761ecdcd"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-4-cb5c3d94d423-800.webp",
+        "width": 800,
+        "sha256": "925ea35d1b9d54cd84ef0340df720d3c68032b8e6131525c16285edef5059e9c"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-4-cb5c3d94d423-1280.webp",
+        "width": 1280,
+        "sha256": "b059d7aa14ce70bdbaea5b43e939ab1ece903f7d0da5b106b25df65dd42c25dc"
+      }
+    ]
+  },
+  "/media/vehicles/volvo-es90-372dd4eabcc6.jpg": {
+    "width": 1280,
+    "height": 714,
+    "source_sha256": "372dd4eabcc6facb7ac5dc6259b14acdbd406870fb1edbda41afeaba29d8b9eb",
+    "variants": [
+      {
+        "url": "/media/responsive/volvo-es90-372dd4eabcc6-480.webp",
+        "width": 480,
+        "sha256": "04845abc44f35bb3538606898bd20b68136a9405f16eb72d0cb48cbada78e4ff"
+      },
+      {
+        "url": "/media/responsive/volvo-es90-372dd4eabcc6-800.webp",
+        "width": 800,
+        "sha256": "88e237210f8919c5001a412b6abb0b84ddc683d51ae2c840a658e8905dd8e4ef"
+      },
+      {
+        "url": "/media/responsive/volvo-es90-372dd4eabcc6-1280.webp",
+        "width": 1280,
+        "sha256": "e64f1ace42bd0621d20fda2429008091917621e2ccbb3b02e071ac6069bfc234"
+      }
+    ]
+  },
+  "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg": {
+    "width": 1280,
+    "height": 996,
+    "source_sha256": "0c5e3a1d5fd85224381fc359579162743c25e438a70548585a63a630bc58f436",
+    "variants": [
+      {
+        "url": "/media/responsive/volvo-ex30-0c5e3a1d5fd8-480.webp",
+        "width": 480,
+        "sha256": "607a478d7921acd3757fa3a603d7e75b1c7ab69fd4f7e1c2224953af96088a87"
+      },
+      {
+        "url": "/media/responsive/volvo-ex30-0c5e3a1d5fd8-800.webp",
+        "width": 800,
+        "sha256": "01ec3575d394af278f8e3e7ae8417bd9333687c9ff4c6b9b61ea1bbe5b251dd8"
+      },
+      {
+        "url": "/media/responsive/volvo-ex30-0c5e3a1d5fd8-1280.webp",
+        "width": 1280,
+        "sha256": "4c855efd6e0befcd2d8eae8f6f2c7d8e3b8c45d6de5600072efb6459df0c4cbc"
+      }
+    ]
+  },
+  "/media/vehicles/zeekr-7x-32d124d8b23b.jpg": {
+    "width": 1280,
+    "height": 578,
+    "source_sha256": "32d124d8b23b8a5998cc8a297f1395a3554e354f5a4aaad6a056386ac4cabd60",
+    "variants": [
+      {
+        "url": "/media/responsive/zeekr-7x-32d124d8b23b-480.webp",
+        "width": 480,
+        "sha256": "4d1098e3c008f69f67f1cb196822e927a3d43dd0ad29d5079e6980642a340bad"
+      },
+      {
+        "url": "/media/responsive/zeekr-7x-32d124d8b23b-800.webp",
+        "width": 800,
+        "sha256": "4a2d4430dffe499c8e39af6196cf9a0d02f4bc93a05efe010e442330ba00e0b2"
+      },
+      {
+        "url": "/media/responsive/zeekr-7x-32d124d8b23b-1280.webp",
+        "width": 1280,
+        "sha256": "9627f65bf3438cd08cf646e67fad848553bc41cd42bd4d963e3f5033108fb2c6"
+      }
+    ]
+  }
+}

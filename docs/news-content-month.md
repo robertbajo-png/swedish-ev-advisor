@@ -151,8 +151,10 @@ Targeted BYD regressions (15), source-check regressions (7) and publisher tests
 (49) passed offline. The SEO build still generates 90 routes, 38 redirects and
 the existing RSS; no fake article or catalog change is used for release tests.
 
-Google/Search Console is explicitly deferred by the owner on November 5. Do not
-request another Google login, alter verification records or claim indexing.
+Google/Search Console was initially deferred by the owner on November 5. The
+owner later resumed setup and explicitly approved the single TXT verification
+and sitemap submission. See the Search Console Setup section below; verification
+and discovery must never be described as completed indexing.
 
 ### Continued Engineering: 2026-11-05
 
@@ -293,6 +295,51 @@ The observed limit behavior agrees with the
 the output ceiling includes reasoning, and reaching it may return an incomplete
 response. We reduce requested output rather than increasing the existing ceiling.
 
+### Search Console Setup: 2026-11-05
+
+The owner resumed Google setup at the computer and separately approved adding
+only Google's TXT verification record to `elbilsagenten.se`, verifying their
+existing Google account and submitting the existing production sitemap. Manual
+TXT verification avoids granting Google access to the Cloudflare account.
+The five existing DNS records were preserved; the new TXT was the sixth record.
+No nameserver, DNSSEC, mail, application, analytics tag, budget or news switch
+was changed. Keep the verification TXT in DNS to retain ownership verification.
+
+Google confirmed domain ownership. Both Cloudflare and Google public DNS
+resolvers returned the exact verification record. The domain property is
+`sc-domain:elbilsagenten.se`, including its protocol/subdomain variants.
+
+Google accepted `https://elbilsagenten.se/sitemap.xml`; its detail report then
+showed "Webbplatskartan har bearbetats", last read November 5 and 90 discovered
+pages. These agree with the 90 unique same-origin HTTPS URLs in the approved
+production sitemap. A transient initial fetch-failed status cleared before any
+resubmission, security change or workaround. The production GET/TLS, canonical,
+catalog, sitemap and robots checks passed. No paid provider calls were made.
+
+The first homepage URL inspection reported that it was not yet indexed/known to
+Google. Discovery is not indexing, and neither implies rankings or visitor
+numbers. A separate manual homepage indexing request initially failed because
+Google could not reach its reCAPTCHA service. Do not claim an accepted request
+without Google's explicit success receipt, repeatedly submit it, disable browser
+protections or change site security to work around a Google-side verification
+failure. The sitemap submission remains valid independently of that extra step.
+One bounded retry after a normal page reload returned the same reCAPTCHA
+connection error; no manual indexing request was accepted. The final sitemap
+overview still confirmed "Lyckades" and 90 discovered pages. No further retries
+or browser/security changes were made.
+
+Owner dashboard:
+https://search.google.com/search-console?resource_id=sc-domain%3Aelbilsagenten.se
+
+Sitemap report:
+https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Aelbilsagenten.se
+
+Review the Pages and Performance reports when Google has processed enough data.
+Keep Cloudflare Web Analytics as the separate visitor dashboard; no Google
+Analytics/Tag Manager script or new tracking integration was installed. Private
+ownership/sitemap screenshots are under ignored
+`data/local/release-data/search-console-2026-11-05/`.
+
 ### Continuing Operations
 
 1. Pass offline regressions/build, review the isolated branch and require exact
@@ -303,8 +350,10 @@ response. We reduce requested output rather than increasing the existing ceiling
    be replaced with fixtures or declared complete on implementation day.
 3. Volvo remains held on HTTP 403, not a blocker to the working source set.
    Do not bypass access rules or present blocked sources as enabled evidence.
-4. Search Console remains deferred until a new owner decision. Cloudflare traffic
-   and real operational reports remain separate; infer no Google visitor figures.
+4. Search Console ownership and sitemap submission are now verified. Review its
+   Pages/Performance reports as data becomes available; do not equate 90 discovered
+   URLs with 90 indexed pages. Cloudflare traffic and operational reports remain
+   separate; infer no Google visitor figures.
 5. Use the weekly reports and genuinely published articles to evaluate the
    month before buying traffic. No external posts or new paid services here.
 

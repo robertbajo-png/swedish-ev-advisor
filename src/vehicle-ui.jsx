@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGrid, List, Package, PlugZap, Plus, Route, Search, SlidersHorizontal, Weight, X } from 'lucide-react';
 import { ImageAttribution } from './image-attribution.jsx';
+import { NeedGuide } from './need-guide.jsx';
 
 export const vehicleMoney = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 export const vehicleMetric = (value, unit = '') => value == null ? 'Uppgift saknas' : `${value}${unit ? ` ${unit}` : ''}`;
@@ -86,6 +87,7 @@ export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters
       </div>
     </div>
     {drawerOpen && <dialog ref={dialog} className="catalogFilterDialog" aria-labelledby="mobile-filter-title" onCancel={(event) => { event.preventDefault(); closeDrawer(); }} onClose={() => { setDrawerOpen(false); filterTrigger.current?.focus(); }}><div className="catalogDialogHeading"><h2 id="mobile-filter-title">Anpassa urvalet</h2><button type="button" aria-label="Stäng filter" onClick={closeDrawer}><X size={22} /></button></div>{renderFilters('mobile', brands)}<button className="uiPrimary" type="button" onClick={closeDrawer}>Visa {ranked.length} varianter <ArrowRight size={17} /></button></dialog>}
+    {segment && <NeedGuide slug={segment.slug} appPath={appPath} navigate={navigate} />}
   </section>;
 }
 

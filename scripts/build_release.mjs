@@ -16,6 +16,7 @@ async function main() {
     ['scripts/run_python.mjs', 'scripts/generate_sitemap.py'],
     ['node_modules/vite/bin/vite.js', 'build', '--configLoader', 'runner'],
     ['scripts/run_python.mjs', 'scripts/prerender_static_routes.py'],
+    ['scripts/render_public_pages.mjs'],
     ['scripts/run_python.mjs', 'scripts/verify_programmatic_seo.py'],
   ]) {
     const result = spawnSync(process.execPath, args, { env, stdio: 'inherit', windowsHide: true });
