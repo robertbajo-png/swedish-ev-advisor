@@ -22,14 +22,15 @@ class WordingSelectionTests(unittest.TestCase):
         bad['paragraphs'][0]['text'] = fixtures.QUOTES[0] + ' ' + bad['paragraphs'][0]['text']
         return bundle, packet, {'extraction': raw['extraction'], 'articles': [bad, raw['article']]}
 
-    def test_one_bounded_writer_returns_two_forms_not_extra_calls_or_a_looser_gate(self):
+    def test_one_bounded_writer_returns_one_article_without_extra_calls_or_a_looser_gate(self):
         b, _, _ = self.alternatives()
         _, schema, prompt = writer_call(b)
-        self.assertEqual(schema['properties']['articles']['minItems'], 2)
-        self.assertEqual(schema['properties']['articles']['maxItems'], 2)
+        self.assertIn('article', schema['properties'])
+        self.assertNotIn('articles', schema['properties'])
         self.assertEqual(LIMITS, {'swedish_ev_article': 2000, 'ev_news_independent_audit': 1300})
         self.assertEqual(PACKET_BYTES, 6500)
-        self.assertIn('SAME facts', prompt)
+        self.assertIn('ONE complete', prompt)
+        self.assertIn('no alternatives or second version', prompt)
         self.assertIn('an inventory, not finished article prose', prompt)
         self.assertIn('Do not solve overlap by adding unsupported explanation', prompt)
         ai = NewsAi.__new__(NewsAi); ai.model, ai.output_limits = 'gpt-6-sol', LIMITS

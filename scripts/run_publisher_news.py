@@ -321,7 +321,7 @@ def daily(remote, collector):
         if record['status'] != 'passed':
             result = {k: v for k, v in record.items() if k in ('status', 'errors', 'error', 'cost_micro_usd', 'published')}
             if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
-                return result
+                return {**result, 'skipped': skipped}
             last_rejection = result
             continue
         if event_duplicate(remote, bundle, record['packet']):

@@ -222,11 +222,13 @@ Permanent project rules for the Swedish EV Advisor codebase.
   quality rejection may fall through to a different fresh candidate, never a
   rewrite/retry of the rejected URL. Unknown usage/provider/accounting failures
   stop paid work. The database still permits only one published article per day.
-  New v2 writer calls may return exactly two wording alternatives from one fact
-  set within the unchanged token/reservation caps. Select wording deterministically,
-  then apply every existing check and independently review only the exact selected
-  article. This is one provider call, not a paid rewrite or permission to retry
-  old quarantined URLs. Old raw receipts/proofs must never be edited or promoted.
+  The current v2 writer returns one complete 150-250-word article from its fact
+  set within the unchanged 2000-token writer/1300-token reviewer caps. Earlier
+  recorded two-alternative outputs remain readable without editing raw receipts,
+  but new calls must not duplicate the article inside the same small output cap.
+  Every fact/originality/length check and separate independent audit still applies.
+  Incomplete responses stop paid work and remain charged; no continuation, rewrite
+  or retry of old failed/private URLs. Old receipts/proofs are never promoted.
 
 - Historical CarNewsChina/The Driven publisher shorts used the separate
   `news-publisher-short-2026-11-v1` recipe and per-publisher admission proofs.

@@ -205,6 +205,13 @@ def primary_identity_matches(report, primary):
     target_recall = re.search(recall, normalize(target_text)) or '\u53ec\u56de' in target_text
     if report_recall and not target_recall:
         return False
+    statistics = r'\b(?:registrations?|immatriculations?|nybilregistrering\w*|bilsalg\w*|sales|ventes|deliveries|delivered|livr\w*|ausliefer\w*|zulassung\w*)\b'
+    if re.search(statistics, normalize(title)):
+        if not re.search(statistics, normalize(target['title']+' '+target['content'][:1200])):
+            return False
+        counts = statistical_quantities(title)
+        if counts and not counts <= statistical_quantities(target['title']+' '+target['content']):
+            return False
     ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(title)))
     primary_ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(target['title'])))
     if ids and primary_ids and not ids & primary_ids:
@@ -212,7 +219,6 @@ def primary_identity_matches(report, primary):
     if ids and not ids & set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b',
                                        normalize(target['title']+' '+target['content']))):
         return False
-    statistics = r'\b(?:registrations?|immatriculations?|nybilregistrering\w*|bilsalg\w*|sales|ventes)\b'
     if re.search(statistics, normalize(title + ' ' + report['payload'].get('content','')[:800])):
         a = reference_periods(title) or reference_periods(report['payload'].get('content','')[:2000])
         b = reference_periods(target['title']) or reference_periods(target['content'][:4000])
@@ -220,6 +226,13 @@ def primary_identity_matches(report, primary):
             return False
     terms = subject_terms(title)
     return len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
+
+
+def statistical_quantities(text):
+    """Conservative matching of large headline counts, never published fact conversion."""
+    tokens = re.findall(r'\b\d{1,3}(?:[ ,.\u00a0\u202f]\d{3})+\b|\b\d+\b', text)
+    values = {int(re.sub(r'\D', '', token)) for token in tokens}
+    return {value for value in values if value >= 100 and not 1900 <= value <= 2100}
 
 
 def reference_periods(text):
