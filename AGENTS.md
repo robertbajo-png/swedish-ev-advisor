@@ -115,6 +115,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
   narrative classes require actual article dates and unambiguous identity;
   unrelated time elements, modified dates and old feed rows are not new evidence.
   A recall needs recall evidence, not an unrelated launch of the same model.
+- XPENG Swiss importer articles use only the exact declared pr.co host and
+  six-digit article routes, with manufacturer appointment/legal-imprint evidence.
+  Require exact canonical, one main/article, matching NewsArticle/visible title
+  and original publication date. Collect explicit paragraph blocks, not company
+  boilerplate, related stories, hidden text or image assets. The global XPENG
+  homepage canonical is not an article identity and remains unapproved. Lexus
+  Europe/UK use declared single narrative scopes and existing date guards.
+  Regional sources never confirm Swedish availability or update canonical cars.
 - News sources never overwrite canonical vehicle prices/specs. Enqueue official-source verification instead.
 - News publication requires attribution, evidence, originality, duplicate checks and an independent audit; confidence alone is insufficient.
 - Factual notices use short, deterministic source-bound templates, not free-form AI text.

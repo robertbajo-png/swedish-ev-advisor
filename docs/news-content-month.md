@@ -208,6 +208,47 @@ with 90 static routes and 38 existing redirects. These are offline/free source
 checks, not six provider receipts or a published article. Full Linux CI remains
 required on the exact release commit.
 
+### XPENG And Lexus Original Sources: 2026-11-05
+
+PR #35 is merged as `595bef2`, with all 137 PR/main CI steps and both distributors
+passing. Production collected the new NIO source, but its delivery bulletin was
+declined by the writer and remained quarantined. One settled call cost USD0.01253;
+no independent review or publication occurred. Toyota UK was healthy but quiet.
+The exact 76-variant catalog and existing limits were unchanged.
+
+The next slice targets actual source-gap reports: XPENG and Lexus. XPENG's global
+site is accessible but declares its homepage as article canonical and is not
+approved by weakening identity rules. Instead, the Swiss importer's exact
+`xpengswitzerland.pr.co` newsroom is declared with evidence of Hedin's appointment
+by XPENG and its legal imprint on `xpeng-cars.ch`. No arbitrary pr.co newsroom is
+trusted. Its public, declared Atom feed is discovery only; source dates, canonical,
+one visible article/title and matching NewsArticle metadata remain mandatory.
+Only explicit paragraph blocks are evidence, excluding company profile/contact,
+copy/share tools, hidden elements, tables and related material. No images are used.
+
+Lexus Europe and Lexus UK's public feed reuse scoped parsing: respectively one
+`text_companyprofile` and one `entry-content` inside one main. Original Article
+publication metadata must match the exact URL. Neither a UK/Swiss model launch
+nor a foreign price confirms a Swedish variant, availability or price. Hybrid,
+stale, price-only and thin/conflicting stories remain held by existing triage.
+The broad registry now contains 24 configured sources, not 24 article approvals.
+
+Free live collection: XPENG returns three accessible current variants of its
+Swiss G9L launch (661-800 words), all held as foreign-price stories before AI.
+Fresh English G9L/L05 fetch-and-refetch checks retain exact source hashes, with
+751/456 scoped words respectively. Lexus Europe has only stale EV releases;
+Lexus UK's valid RSS currently contains unrelated non-EV items. Report the latter
+as healthy/quiet only when a real nonempty parsed feed has no matching routes;
+malformed, cross-host and truly empty feeds remain failures. Structured-title
+HTML entities are decoded once for comparison, preserving exact model identity.
+The source checks made zero provider calls or public writes. All 157 targeted
+regressions and the Vite production build pass; full Linux CI remains required.
+
+No source-specific paid admission trial, key, permission, migration, canonical car
+write, Google operation, spending increase or historical-proof change is included.
+Run free source checks, offline regressions/build and exact PR/main CI before
+normal owner-enabled production and fixed-target public distribution.
+
 ### Continuing Operations
 
 1. Pass offline regressions/build, review the isolated branch and require exact

@@ -62,7 +62,8 @@ def candidate_assessment(item, now=None):
         return {'eligible': False, 'priority': 0, 'reason': 'not_vehicle_energy_storage'}
     if not europe and (re.search(LOCAL_BUSINESS, title) or re.search(POLITICS, title)):
         return {'eligible': False, 'priority': 0, 'reason': 'regional_business_or_policy'}
-    if re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title):
+    if (re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title)
+            or re.search(r'\b(?:chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|sek)\s+\d', title)):
         return {'eligible': False, 'priority': 0, 'reason':
                 'price_notice_recipe_required' if re.search(EUROPE, title) else 'foreign_price_story'}
     if not vehicle:
