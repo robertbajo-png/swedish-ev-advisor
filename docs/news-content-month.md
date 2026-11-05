@@ -275,7 +275,15 @@ Both today's candidate slots are consumed; any verification run must defer befor
 paid work. No more paid attempts are authorized by this follow-up. Offline tests
 do not prove that the next fresh production response will complete.
 
-Offline verification passes 170 targeted regressions, including single-current
+The same captured failure also exposed an unrelated primary match: a French
+10,000-delivery story had selected a Swiss G9L launch. No article was published.
+Before paid work, statistical headlines now require a statistical focus in the
+primary title/lead and support for their larger headline quantities. Grouped
+counts match across punctuation; calendar years/model digits are not proof.
+The existing period, source, literal-fact and independent-review gates remain.
+This conservative filter is not a new fact converter or publication approval.
+
+Offline verification passes 173 targeted regressions, including single-current
 output and historical-alternative compatibility, literal evidence, incomplete
 settlement/no-retry, the shared attempt limit and sanitized diagnostics. The SEO
 build passes with 90 routes and 38 redirects. Exact PR/main CI is still required.

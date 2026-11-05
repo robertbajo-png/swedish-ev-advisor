@@ -13,9 +13,33 @@ import test_news_publisher_articles as fixtures
 import run_publisher_news as worker
 from news_run_summary import summarize
 from news_publisher_articles import writer_call, resolve_writer_output, precheck
+from news_publisher_selection import primary_identity_matches, statistical_quantities
 
 
 class ProviderOutcomeTests(unittest.TestCase):
+    def test_delivery_statistics_cannot_use_an_unrelated_model_launch(self):
+        report={'payload':{'title':'XPeng : 10 000 voitures livr\u00e9es en France en deux ans',
+                           'content':'Synthetic French delivery statistics.'}}
+        primary={'payload':{'title':'XPENG G9L lancement en Suisse',
+                            'content':'XPENG propose un nouveau SUV familial. Deux ans de tests en Europe.'}}
+        self.assertFalse(primary_identity_matches(report,primary))
+        primary['payload'].update(title='XPENG delivery update in France',
+            content='XPENG reports 30,000 deliveries in France over two years.')
+        self.assertFalse(primary_identity_matches(report,primary))
+        primary['payload']['content']='XPENG reports 10,000 deliveries in France over two years.'
+        self.assertTrue(primary_identity_matches(report,primary))
+
+    def test_grouped_counts_match_without_using_years_or_vehicle_model_digits(self):
+        for text in ('10 000', '10,000', '10.000', '10\u00a0000', '10\u202f000', '10000'):
+            self.assertEqual(statistical_quantities(text),{10000})
+        self.assertEqual(statistical_quantities('2026 7 seats G9L 2027 10-80'),set())
+
+    def test_statistical_period_mismatch_still_fails_when_counts_match(self):
+        report={'payload':{'title':'XPENG deliveries reach 10,000 in October 2026','content':'Synthetic statistics.'}}
+        primary={'payload':{'title':'XPENG delivery statistics September 2026',
+                            'content':'XPENG reports 10,000 deliveries in September 2026.'}}
+        self.assertFalse(primary_identity_matches(report,primary))
+
     def test_null_decline_is_explicit_but_can_never_bypass_article_requirements(self):
         bundle,packet=fixtures.fixture()
         schema=writer_call(bundle)[1]
