@@ -71,6 +71,14 @@ German customer offers, hybrid/price stories and speculation are held before
 paid writing; canonical cars and existing publication/budget gates are unchanged.
 See `docs/news-content-month.md` for the free live results and deferred Google work.
 
+The continued source slice supports NIO's public rendered article state and
+Toyota UK's verified RSS plus scoped Article body. Strict identity/publication
+and rendered-text checks are mandatory; old captures/feed metadata are not new
+articles. Thin registered vehicle-route metadata may permit bounded free reading,
+not paid writing or publication. The actual body, original evidence and existing
+independent review still decide eligibility. Operational gap reports contain
+only known subject/reason counts. Google remains explicitly deferred.
+
 ### Shared Article Review (Owner Approved 2026-11-02)
 
 Explicitly configured official pressrooms may now start this same shared

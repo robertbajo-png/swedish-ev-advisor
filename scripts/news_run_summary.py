@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 from collections import Counter
 from news_content_report import safe_reason
+from news_publisher_selection import BRAND_PATTERNS
 
 
 def summarize(result):
@@ -16,12 +17,24 @@ def summarize(result):
     for field in ('cost_micro_usd', 'word_count'):
         value = result.get(field)
         if type(value) is int and value >= 0: output[field] = value
-    reasons = Counter()
+    reasons, gaps = Counter(), {}
     for candidate in result.get('skipped', []):
         values = candidate.get('reason', candidate.get('errors', []))
         for value in values if isinstance(values, list) else [values]:
             reasons[safe_reason(value)] += 1
+        trace = candidate.get('discovery_trace', [])
+        if not isinstance(trace, list): trace = []
+        missing = any(isinstance(step, dict) and step.get('status') == 'no_matching_declared_authority' for step in trace)
+        original_missing = any(safe_reason(value) == 'publisher_no_primary_or_independent_pair'
+                              for value in (values if isinstance(values, list) else [values]))
+        if missing or original_missing:
+            kind = 'missing_authority' if missing else 'original_not_found'
+            subjects = candidate.get('subjects', [])
+            subjects = {s for s in subjects if isinstance(s,str) and s in BRAND_PATTERNS} if isinstance(subjects,list) else set()
+            counts = gaps.setdefault(kind, Counter())
+            for subject in subjects or {'unidentified_subject'}: counts[subject] += 1
     output['held_reasons'] = dict(reasons)
+    output['source_gaps'] = {kind: dict(counts) for kind, counts in gaps.items()}
     return output
 
 

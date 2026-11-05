@@ -6,14 +6,16 @@ from datetime import datetime, timezone, timedelta
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
-from news_http import PageText, canonical_url, iso_date, require_recent_publication
+from news_http import PageText, canonical_url, iso_date, require_recent_publication, parse_feed
 
 
 class PressDocument(HTMLParser):
-    def __init__(self, exclude_tables=False, body_region=None):
+    def __init__(self, exclude_tables=False, body_region=None, narrative_class=None):
         super().__init__()
         self.exclude_tables = exclude_tables
         self.body_region = body_region
+        self.narrative_class = narrative_class
+        self.narrative_count = 0
         self.region_count = 0
         self.canonicals = []
         self.meta = {}
@@ -29,7 +31,7 @@ class PressDocument(HTMLParser):
             self.canonicals.append(a.get('href', ''))
         if tag == 'meta':
             self.meta[a.get('property') or a.get('name')] = a.get('content', '')
-        if tag == 'time' and a.get('datetime'):
+        if tag == 'time' and a.get('datetime') and not self.body_region:
             self.meta.setdefault('article:published_time', a['datetime'])
         if tag == 'script' and a.get('type') == 'application/ld+json':
             self.json_parts = []
@@ -40,6 +42,9 @@ class PressDocument(HTMLParser):
                 or {'cntnt', 'block-container'} <= classes or 'article_text' in classes)
             if body:
                 self.region_count += 1
+            if self.narrative_class:
+                body = self.narrative_class in classes and any(t == self.body_region for t, _, _ in self.stack)
+                if body:self.narrative_count += 1
             dated = bool({'date', 'pressrelease-date', 'article_date'} & classes)
             self.stack.append((tag, body, dated))
 
@@ -68,18 +73,25 @@ class PressDocument(HTMLParser):
             self.date_parts.append(text)
 
 
-def document(html, *, exclude_tables=False, url=None, body_region=None, adapter=None):
+def document(html, *, exclude_tables=False, url=None, body_region=None, adapter=None, narrative_class=None):
     if adapter is not None:
-        if adapter != 'byd_de': raise ValueError('unsupported_pressroom_article_adapter')
-        from news_byd import document as byd_document
-        return byd_document(html, url)
+        if adapter == 'byd_de':
+            from news_byd import document as adapted_document
+        elif adapter == 'nio':
+            from news_nio import document as adapted_document
+        else:raise ValueError('unsupported_pressroom_article_adapter')
+        return adapted_document(html, url)
     if body_region is not None and body_region not in {'main', 'article'}:
         raise ValueError('unsupported_pressroom_body_region')
-    parser = PressDocument(exclude_tables=exclude_tables, body_region=body_region)
+    if narrative_class is not None and (not body_region or not re.fullmatch(r'[a-z][a-z0-9_-]{1,79}', narrative_class)):
+        raise ValueError('unsupported_pressroom_narrative_class')
+    parser = PressDocument(exclude_tables=exclude_tables, body_region=body_region, narrative_class=narrative_class)
     parser.feed(html)
     if body_region:
         if not url or parser.region_count != 1:
             raise ValueError('pressroom_body_missing_or_ambiguous')
+        if narrative_class and parser.narrative_count != 1:
+            raise ValueError('pressroom_narrative_missing_or_ambiguous')
         if {canonical_url(urljoin(url, value)) for value in parser.canonicals} != {canonical_url(url)}:
             raise ValueError('pressroom_canonical_changed_or_missing')
     dates = [parser.meta.get('article:published_time'), parser.meta.get('datePublished')]
@@ -164,10 +176,20 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
         if source['index_adapter'] != 'byd_de': raise ValueError('unsupported_pressroom_index_adapter')
         from news_byd import discover as byd_discover
         return byd_discover(index_html, index_url, source, collector, limit, now)
-    parser = PageText()
-    parser.feed(index_html)
+    expected_dates = {}
+    if source.get('index_format') == 'rss':
+        feed_rows = parse_feed(index_html, source)[:50]
+        links = [row['url'] for row in feed_rows]
+        for row in feed_rows:
+            if row['published_at']:
+                old = expected_dates.setdefault(row['url'], row['published_at'])
+                if old != row['published_at']:raise ValueError('official_feed_dates_conflict')
+    elif source.get('index_format') is not None:
+        raise ValueError('unsupported_pressroom_index_format')
+    else:
+        parser = PageText();parser.feed(index_html);links = parser.links
     urls = []
-    for href in parser.links:
+    for href in links:
         try:
             url = index_link(index_url, href, source)
             parsed = urlsplit(url)
@@ -185,11 +207,17 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
     # Rejected pages do not consume the result quota; network work stays bounded.
     for url in urls[:min(20, limit * 3)]:
         try:
-            _, _, html, final = collector.fetch(url, source, editorial=True)
-            doc = document(html, url=final, body_region=source.get('body_region'))
+            if url in expected_dates:require_recent_publication(expected_dates[url], now)
+            status, _, html, final = collector.fetch(url, source, editorial=True)
+            strict_identity = source.get('body_region') or source.get('article_adapter') or source.get('index_format')
+            if status != 200 or (strict_identity and final != url):raise ValueError('pressroom_article_inaccessible_or_redirected')
+            doc = document(html, url=final, body_region=source.get('body_region'), adapter=source.get('article_adapter'),
+                           narrative_class=source.get('narrative_class'))
             if not doc['title'] or not doc['published_at']:
                 raise ValueError('missing_release_title_or_date')
             require_recent_publication(doc['published_at'], now)
+            if url in expected_dates and expected_dates[url] != doc['published_at']:
+                raise ValueError('official_feed_article_date_conflict')
             if final in seen:
                 continue
             seen.add(final)

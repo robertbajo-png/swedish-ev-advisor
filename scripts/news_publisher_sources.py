@@ -8,7 +8,7 @@ from urllib.parse import urljoin, urlsplit
 
 from news_http import Collector, PageText, canonical_url, iso_date, require_recent_publication
 from news_store import artifact_hash, stable_id
-from news_publisher_selection import primary_identity_matches, subject_terms
+from news_publisher_selection import primary_identity_matches, subject_terms, candidate_assessment
 from news_publisher_registry import PUBLISHERS, LEAD_SOURCES
 from news_reporting_policy import independence, same_event, reported
 from news_primary_discovery import authorities, source_for, discover as discover_originals, valid_edge
@@ -36,6 +36,12 @@ class OriginalSourceNotFound(ValueError):
     def __init__(self, errors, trace):
         self.discovery_trace = trace[:24]
         super().__init__('publisher_no_primary_or_independent_pair:' + ','.join(errors)[:120])
+
+
+class PublisherContentHeld(ValueError):
+    def __init__(self, reason):
+        self.discovery_trace = [{'stage': 'publisher_content_triage', 'status': 'held', 'reason': reason}]
+        super().__init__('publisher_content_triage:' + reason)
 CORROBORATION_RULES = (
     {'website': 'https://www.bmwgroup.com', 'triggers': (r'\bbmw\b', r'\bi3\b'),
      'index': 'https://www.bmwgroup.com/en/news.html', 'path_match': r'/[^/]*i3[^/]*\.html'},
@@ -256,8 +262,12 @@ def fetch_primary(url, collector, now=None):
         raise ValueError('primary_paywall')
     content, document_evidence = html_document(html)
     if source['id'] in OFFICIAL_LEAD_SOURCES:
-        scoped = primary_document(html, exclude_tables=True, url=url, body_region=source.get('body_region'), adapter=source.get('article_adapter'))
-        content = scoped['body'] or content
+        scoped = primary_document(html, exclude_tables=True, url=url, body_region=source.get('body_region'),
+                                  adapter=source.get('article_adapter'), narrative_class=source.get('narrative_class'))
+        if source.get('body_region') or source.get('article_adapter'):
+            content = scoped['body']
+        else:
+            content = scoped['body'] or content
     if len(content) < 300 or len(content.encode()) > 90000 or '\ufffd' in content:
         raise ValueError('primary_content_incomplete_or_oversized')
     if re.search(r'just a moment|verify you are human|access denied', content[:800], re.I):
@@ -373,10 +383,14 @@ def bundle_errors(bundle, now=None):
         return ['publisher_bundle_invalid_or_stale']
 
 
-def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corroborating_items=()):
+def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corroborating_items=(), content_triage=False):
     if official_lead_url(source_id, url):
         return collect_official_release(source_id, url, collector, feed_date=feed_date, now=now)
     lead, links = fetch_publisher(source_id, url, collector, feed_date=feed_date, now=now)
+    if content_triage:
+        assessment = candidate_assessment({**lead['payload'], 'summary': lead['payload']['content'][:1200]}, now)
+        if not assessment['eligible']:
+            raise PublisherContentHeld(assessment['reason'])
     direct = [(u, {'from_url': lead['url'], 'to_url': u})
                   for u in list(dict.fromkeys(u for u in links if primary_source(u)))[:2]]
     items, provenance, errors, trace = [lead], [], [], []

@@ -1,10 +1,11 @@
 """Free editorial triage and exact, bounded evidence passages; never approval."""
 import re
+from urllib.parse import urlsplit
 from news_editorial import normalize
-from news_http import require_recent_publication
+from news_http import require_recent_publication, canonical_url
 
 EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europaisch\w*|europeisk\w*|eu|germany|german|deutschland|deutsch\w*|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
-VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?) electriques?|biler? elektrisk\w*|elektroautos?|elektrofahrzeug\w*|elektromodell\w*|(?:voll|rein)?elektrisch\w* (?:autos?|fahrzeug\w*|modelle?|suv\w*))\b'
+VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?|suvs?|berlines?|crossovers?|monospaces?|citadines?) electriques?|biler? elektrisk\w*|elektroautos?|elektrofahrzeug\w*|elektromodell\w*|(?:voll|rein)?elektrisch\w* (?:autos?|fahrzeug\w*|modelle?|suv\w*))\b'
 TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt|festkorperbatter\w*|natrium ionen batter\w*|energiedichte)\b'
 LOCAL_BUSINESS = r'\b(?:dealers?|dealerships?|service network|local subsid\w*|rebates?|tax exemptions?|consumption tax|exempt\w*.*?tax|tax.*?exempt\w*|earnings|profits?|sales milestone|crosses.*?sales|factory|facilit\w*|plant|production line|off grid.*?station|charging station)\b'
 SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions|geruchte|erlkonig|konnte (?:kommen|starten|erhalten))\b'
@@ -49,7 +50,9 @@ def candidate_assessment(item, now=None):
     vehicle = bool(re.search(VEHICLE, text))
     if re.search(SPECULATION, text):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
-    if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?)\b', title):
+    if re.search(r'\b(?:drones?|military|militaire\w*)\b', title):
+        return {'eligible': False, 'priority': 0, 'reason': 'outside_passenger_ev_scope'}
+    if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?|till final|finalister|nominerad\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'minor_publicity_or_corporate_calendar'}
     if re.search(r'\b(?:kundenangebot\w*|aktionsangebot\w*|leasingangebot\w*|gewinnspiel\w*|roadshow\w*|handlerkonferenz\w*|filmproduktion\w*)\b', text):
         return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}
@@ -77,7 +80,34 @@ def candidate_assessment(item, now=None):
     return {'eligible': True, 'priority': 40, 'reason': 'vehicle_update_needs_primary_relevance'}
 
 
-def ranked_candidates(items, source_ids, attempted=(), now=None, *, hydrate_sources=()):
+def publisher_content_candidate(item, templates):
+    """A recognized brand/approved vehicle route allows free reading, never EV proof."""
+    source = templates.get(item.get('source_id'))
+    if not source or not source.get('can_lead') or not source.get('metadata_triage_path_pattern'):
+        return False
+    try:
+        url = canonical_url(item['url'])
+        p = urlsplit(url)
+        return bool(url == item['url'] and not p.query and p.hostname == urlsplit(source['website']).hostname
+            and re.fullmatch(source['article_path_pattern'], p.path)
+            and re.fullmatch(source['metadata_triage_path_pattern'], p.path)
+            and subject_brands(item['payload']['title']))
+    except (ValueError, TypeError, KeyError):
+        return False
+
+
+def bounded_reading_queue(queue, candidates, templates):
+    """Reserve one existing reading slot for thin vehicle metadata, not a paid attempt."""
+    selected = queue[:8]
+    recovery = next((pair for pair in candidates if pair[1].get('reason') == 'publisher_content_triage_required'), None)
+    if recovery and not any(pair[0]['url'] == recovery[0]['url'] for pair in selected):
+        replace = next((i for i in range(len(selected)-1, -1, -1)
+                        if selected[i][0]['source_id'] in templates), None)
+        if replace is not None:selected[replace] = recovery
+    return selected
+
+
+def ranked_candidates(items, source_ids, attempted=(), now=None, *, hydrate_sources=(), hydrate_publishers=None):
     """Look beyond the newest eight without increasing the number of paid calls."""
     excluded = set(attempted)
     accepted, held = [], []
@@ -87,12 +117,15 @@ def ranked_candidates(items, source_ids, attempted=(), now=None, *, hydrate_sour
         result = candidate_assessment(item, now)
         if item['source_id'] in hydrate_sources and result['reason'] == 'vehicle_connection_not_established':
             result = {'eligible': True, 'priority': 20, 'reason': 'official_content_triage_required'}
+        elif result['reason'] == 'vehicle_connection_not_established' and publisher_content_candidate(item, hydrate_publishers or {}):
+            result = {'eligible': True, 'priority': 10, 'reason': 'publisher_content_triage_required'}
         if result['eligible']:
             accepted.append((item, result))
         else:
-            held.append({'source_id': item['source_id'], 'url': item['url'], 'reason': result['reason']})
+            held.append({'source_id': item['source_id'], 'url': item['url'], 'reason': result['reason'],
+                         'subjects': sorted(subject_brands(item['payload']['title']))})
     accepted.sort(key=lambda pair: (pair[1]['priority'], pair[0]['payload']['published_at'], pair[0]['url']), reverse=True)
-    return accepted[:8], held[:24]
+    return bounded_reading_queue(accepted, accepted, hydrate_publishers or {}), held[:24]
 
 
 def subject_terms(text):
@@ -164,6 +197,12 @@ def primary_identity_matches(report, primary):
     if not brands and target_brands and not target_brands & subject_brands(report['payload'].get('content','')[:1200]):
         return False
     if brands and not brands & subject_brands(target['title']+' '+target['content']+' '+target.get('publisher','')):
+        return False
+    recall = r'\b(?:recall\w*|aterkall\w*|rappel\w*|ruckruf\w*)\b'
+    target_text = target['title']+' '+target['content']
+    report_recall = re.search(recall, normalize(title)) or '\u53ec\u56de' in title
+    target_recall = re.search(recall, normalize(target_text)) or '\u53ec\u56de' in target_text
+    if report_recall and not target_recall:
         return False
     ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(title)))
     primary_ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(target['title'])))

@@ -13,11 +13,11 @@ class BroadSourceTests(unittest.TestCase):
         with patch.dict(os.environ, {'NEWS_SOURCE_PROFILE': 'broad'}):
             active = {s['id']: s for s in registry() if s.get('enabled')}
         self.assertEqual(set(active), BROAD_SOURCES)
-        self.assertEqual(len(active), 19)
+        self.assertEqual(len(active), 21)
         for key in ('electrive', 'insideevs', 'cnevpost', 'carnewschina', 'electrek', 'autocar'):
             self.assertEqual(active[key]['kind'], 'publisher')
             self.assertTrue(active[key]['feeds'])
-        for key in ('vw-press', 'vw-sweden-press', 'bmw-press', 'acea', 'mobility-sweden', 'polestar-news', 'byd-de-press'):
+        for key in ('vw-press', 'vw-sweden-press', 'bmw-press', 'acea', 'mobility-sweden', 'polestar-news', 'byd-de-press', 'nio-press', 'toyota-uk-press'):
             self.assertEqual(active[key]['kind'], 'primary')
             self.assertEqual(active[key]['collection_method'], 'pressroom_index')
         self.assertEqual(active['polestar-news']['body_region'], 'main')

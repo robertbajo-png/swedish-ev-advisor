@@ -154,6 +154,60 @@ the existing RSS; no fake article or catalog change is used for release tests.
 Google/Search Console is explicitly deferred by the owner on November 5. Do not
 request another Google login, alter verification records or claim indexing.
 
+### Continued Engineering: 2026-11-05
+
+PR #34 completed BYD collection and German triage, with all 135 PR/main CI steps
+and the production/distribution jobs passing. The actual November 2 BYD story
+was held as a customer offer before paid work; no new article or charge resulted.
+
+The next source/selection slice addresses observed gaps instead of lowering
+quality rules. French SUV/body-style wording is recognized, Swedish nominations
+are held, and fresh branded Motor articles on explicitly configured vehicle
+routes may enter the existing eight-item free-reading queue despite thin RSS
+descriptions. One existing publisher slot is reserved for recovery when needed,
+without displacing official sources or increasing the queue. Clearly unrelated
+drone/military stories are held. The actual body still needs EV evidence before original-source
+lookup and every paid/writing/review/publication check. Dates, historical failed
+URLs, prices, hybrids and speculation cannot use this metadata recovery path.
+
+Operational summaries now aggregate known-brand original-source gaps as
+`missing_authority` or `original_not_found`, without raw source prose/URLs.
+They describe work remaining, not automatic approval or weakened verification.
+
+Added the permitted NIO global pressroom: exact canonical, route/query/locale,
+published/non-deleted state, rendered heading and main-body match are mandatory.
+The original/display publication timestamps must agree within a day, with the
+earlier timestamp used conservatively; modified,
+created and URL dates are never substitutes. The current release has 99 words
+and passes the actual v2 source/material precheck, not an AI audit. The free
+source checker now tests official leads through that existing v2 collector,
+while retaining the legacy word floor in the unchanged older extraction path.
+Readability/material readiness is separate from verified facts/publication.
+
+Added Toyota UK's verified RSS endpoint and exact Article metadata plus one
+`entry-content` region in one `main`. RSS dates must match the fetched article;
+stale metadata is held before a fetch, duplicates/conflicts and XML entities
+fail closed. Related-gallery time elements cannot override Article publication.
+The current qualifying EV item is old: a fresh capture of the October 27 page
+produced 322 scoped words but remains stale, not a new live article. The feed is
+healthy/quiet; NIO is accessible. An old NIO financial-release date conflict is
+retained as a diagnostic, never corrected by using the fetch date.
+
+These checks made zero provider calls/public writes. Toyota UK is not a Swedish
+availability/price source; news never updates canonical cars. Recall reporting
+cannot use a launch of the same model as recall evidence. Source access/identity,
+literal facts, originality, exact refresh, independent review and both monetary/
+publication limits remain in place. Require exact PR/main CI before operation.
+
+Local verification: 18 new metadata/primary-format regression tests pass, as do
+the existing publisher (49), pressroom (29), original-discovery (17), official
+operation (19), broad-source (4) and readiness (8) suites. Strict empty article
+bodies cannot fall back to page furniture; recall identity also checks Chinese
+wording without ASCII normalization erasing it. The SEO production build passes
+with 90 static routes and 38 existing redirects. These are offline/free source
+checks, not six provider receipts or a published article. Full Linux CI remains
+required on the exact release commit.
+
 ### Continuing Operations
 
 1. Pass offline regressions/build, review the isolated branch and require exact
