@@ -30,7 +30,8 @@ from news_publisher_registry import PUBLISHERS as PUBLISHER_TEMPLATES
 ROOT = Path(__file__).resolve().parents[1]
 BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
     'electrek', 'autocar', 'autoexpress', 'bevolt', 'motor-no', 'cleantechnica',
-    'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press', 'mobility-sweden', 'polestar-news', 'byd-de-press', 'nio-press', 'toyota-uk-press'))
+    'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press', 'mobility-sweden', 'polestar-news', 'byd-de-press',
+    'nio-press', 'toyota-uk-press', 'lexus-eu-press', 'lexus-uk-press', 'xpeng-ch-press'))
 
 
 def registry(path=None):
@@ -127,12 +128,13 @@ def collect(store, sources, collector=None, max_items=20, force=False, publisher
                                     seen_urls.add(row['url'])
                         except Exception as exc:
                             entry['errors'].append({'feed': page_url, 'reason': type(exc).__name__ + ':' + str(exc)[:140]})
-                only_stale = pressroom and not rows and discovery_errors and all(
-                    error['reason'] == 'ValueError:stale_report' for error in discovery_errors)
-                if not rows and not only_stale:
+                quiet_index = pressroom and not rows and discovery_errors and all(
+                    error['reason'] in {'ValueError:stale_report', 'ValueError:no_matching_article_routes'}
+                    for error in discovery_errors)
+                if not rows and not quiet_index:
                     raise ValueError("empty_feed")
                 source.update(verified_feed=final, verified_at=now_iso(), etag=headers.get("ETag"), last_modified=headers.get("Last-Modified"))
-                entry.update(status="verified_no_recent_items" if only_stale else "verified", feed=final, entries=len(rows))
+                entry.update(status="verified_no_recent_items" if quiet_index else "verified", feed=final, entries=len(rows))
                 for row in rows[:source_limit]:
                     if row["url"] in known:
                         continue
