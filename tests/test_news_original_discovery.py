@@ -157,6 +157,19 @@ class OriginalDiscoveryTests(unittest.TestCase):
         self.assertEqual(reference_periods('2026 1 000 registrations'),set())
         self.assertEqual(reference_periods('2026-10 and 2026/11'),{(2026,10),(2026,11)})
 
+    def test_broad_discovery_fallback_cannot_spend_slots_on_known_sibling_models(self):
+        from news_primary_discovery import candidate_related
+        for wanted, wrong in (('smart #2', 'smart #5'), ('Volkswagen ID.7', 'Volkswagen ID.4'),
+                              ('BMW i3', 'BMW iX3'), ('IM LS8', 'IM LS6')):
+            report = {'payload': {'title': wanted + ' electric SUV launches in Europe',
+                                  'content': 'This synthetic electric SUV launches with new technology.'}}
+            title = wrong + ' electric SUV launches in Europe'
+            self.assertFalse(candidate_related(report, title, report['payload']['content']))
+            self.assertTrue(candidate_related(report, wanted + ' electric SUV launch in Europe',
+                                              report['payload']['content']))
+        report['payload']['title'] = 'smart #2 and smart #5 electric SUV update'
+        self.assertTrue(candidate_related(report, 'smart #2 electric SUV update', report['payload']['content']))
+
     def test_generic_ev_platform_words_never_match_gm_reporting_to_vw_releases(self):
         report={'payload':{'title':'GM has another go at EVs with a new generation platform and LMR battery'}}
         primary={'payload':{'title':'Volkswagen premieres a new electric model',
