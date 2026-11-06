@@ -4,8 +4,8 @@ from urllib.parse import urlsplit
 from news_editorial import normalize
 from news_http import require_recent_publication, canonical_url
 
-EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europaisch\w*|europeisk\w*|eu|germany|german|deutschland|deutsch\w*|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk)\b'
-VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|suvs?|sedans?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?|suvs?|berlines?|crossovers?|monospaces?|citadines?) electriques?|biler? elektrisk\w*|elektroautos?|elektrofahrzeug\w*|elektromodell\w*|(?:voll|rein)?elektrisch\w* (?:autos?|fahrzeug\w*|modelle?|suv\w*))\b'
+EUROPE = r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*|europe\w*|europa|europaisch\w*|europeisk\w*|eu|germany|german|deutschland|deutsch\w*|france|french|norway|norwegian|norge|norsk\w*|francais\w*|allemagne|suede|finland|finnish|denmark|danish|britain|british|united kingdom|uk|switzerland|swiss|schweiz\w*|suisse|austria|austrian|osterreich\w*)\b'
+VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|models?|suvs?|sedans?|crossovers?|mpvs?|saloons?|hatch\w*)|battery electric|elbil\w*|(?:hel)?elektrisk\w* (?:bil\w*|personbil\w*|modell\w*|suv\w*)|eldriv\w* (?:bil\w*|personbil\w*)|(?:voitures?|vehicules?|suvs?|berlines?|crossovers?|monospaces?|citadines?) electriques?|biler? elektrisk\w*|elektroautos?|elektrofahrzeug\w*|elektromodell\w*|(?:voll|rein)?elektrisch\w* (?:autos?|fahrzeug\w*|modelle?|suv\w*))\b'
 TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt|festkorperbatter\w*|natrium ionen batter\w*|energiedichte)\b'
 LOCAL_BUSINESS = r'\b(?:dealers?|dealerships?|service network|local subsid\w*|rebates?|tax exemptions?|consumption tax|exempt\w*.*?tax|tax.*?exempt\w*|earnings|profits?|sales milestone|crosses.*?sales|factory|facilit\w*|plant|production line|off grid.*?station|charging station)\b'
 SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions|geruchte|erlkonig|konnte (?:kommen|starten|erhalten))\b'
@@ -28,6 +28,7 @@ BRAND_PATTERNS = {
     'audi':r'\baudi\b', 'skoda':r'\bskoda\b', 'cupra':r'\bcupra\b',
     'mercedes':r'\b(?:mercedes|mercedes benz)\b', 'ford':r'\bford\b', 'nissan':r'\bnissan\b',
     'peugeot':r'\bpeugeot\b', 'citroen':r'\bcitroen\b', 'zeekr':r'\bzeekr\b',
+    'smart':r'\bsmart\s*(?:#\s*)?[1-9]\b|\bsmart (?:europe|automobile|mobility)\b',
 }
 
 
@@ -35,11 +36,29 @@ def subject_brands(text):
     return {brand for brand,pattern in BRAND_PATTERNS.items() if re.search(pattern,normalize(text))}
 
 
+def assessment_text(payload):
+    body = payload.get('content')
+    material = body[:4000] if isinstance(body, str) and body else str(payload.get('summary') or '')[:1200]
+    return normalize(payload.get('title', '')) + ' ' + normalize(material)
+
+
+def substantive_development(payload):
+    """A concrete vehicle change, not geography or a brand name alone."""
+    title = normalize(payload.get('title', ''))
+    text = assessment_text(payload)
+    if not re.search(VEHICLE, text):
+        return False
+    return bool(re.search(TECHNOLOGY, text) or re.search(
+        r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|update\w*|recall\w*|'
+        r'arrivera|debarque\w*|lancement\w*|presente\w*|prasentiert|weltpremiere|markteinfuhrung|'
+        r'marktstart|ruckruf\w*|modellpflege|lanser\w*|presenterar|uppdater\w*|aterkall\w*)\b', title))
+
+
 def candidate_assessment(item, now=None):
     """Ranking is not a Swedish-market fact or a replacement for the AI audit."""
     p = item.get('payload', item)
     title = normalize(p.get('title', ''))
-    text = title + ' ' + normalize(p.get('summary', ''))[:1200]
+    text = assessment_text(p)
     try:
         require_recent_publication(p.get('published_at'), now)
     except (ValueError, TypeError):
@@ -52,6 +71,10 @@ def candidate_assessment(item, now=None):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
     if re.search(r'\b(?:drones?|military|militaire\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'outside_passenger_ev_scope'}
+    if re.search(r'\b(?:podcasts?|reader questions?|readers questions|lasarfrag\w*|vol|stolen|theft|stold\w*)\b', title):
+        return {'eligible': False, 'priority': 0, 'reason': 'commentary_or_incident_not_vehicle_development'}
+    if re.search(r'\b(?:opening|opens?|eroffnung)\b.*\b(?:store|venue|atelier|showroom)\b', title):
+        return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}
     if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?|till final|finalister|nominerad\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'minor_publicity_or_corporate_calendar'}
     if re.search(r'\b(?:kundenangebot\w*|aktionsangebot\w*|leasingangebot\w*|gewinnspiel\w*|roadshow\w*|handlerkonferenz\w*|filmproduktion\w*)\b', text):
@@ -69,7 +92,8 @@ def candidate_assessment(item, now=None):
     if not vehicle:
         return {'eligible': False, 'priority': 0, 'reason': 'vehicle_connection_not_established'}
     if europe:
-        sweden = bool(re.search(r'\b(?:sweden|swedish|sverige|svensk\w*|nordic|scandinavia\w*)\b', text))
+        sweden = bool(re.search(r'\b(?:sweden|swedish|sverige|svensk\w*)\b', text) or re.search(
+            r'\b(?:in|for|across|to|i|till) (?:the )?(?:nordic (?:market\w*|region\w*|countr\w*|buyer\w*)|scandinavia\w*)\b', text))
         return {'eligible': True, 'priority': 100 if sweden else 80, 'reason': 'swedish_scope' if sweden else 'european_scope'}
     if re.search(TECHNOLOGY, text):
         return {'eligible': True, 'priority': 65, 'reason': 'global_vehicle_technology'}
@@ -212,12 +236,11 @@ def primary_identity_matches(report, primary):
         counts = statistical_quantities(title)
         if counts and not counts <= statistical_quantities(target['title']+' '+target['content']):
             return False
-    ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(title)))
-    primary_ids = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(target['title'])))
+    ids = model_identifiers(title)
+    primary_ids = model_identifiers(target['title'])
     if ids and primary_ids and not ids & primary_ids:
         return False
-    if ids and not ids & set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b',
-                                       normalize(target['title']+' '+target['content']))):
+    if ids and not ids & model_identifiers(target['title']+' '+target['content']):
         return False
     if re.search(statistics, normalize(title + ' ' + report['payload'].get('content','')[:800])):
         a = reference_periods(title) or reference_periods(report['payload'].get('content','')[:2000])
@@ -226,6 +249,13 @@ def primary_identity_matches(report, primary):
             return False
     terms = subject_terms(title)
     return len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
+
+
+def model_identifiers(text):
+    result = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(text)))
+    result.update('smart'+number for number in re.findall(r'\bsmart\s*(?:#\s*)?([1-9])\b', text, re.I))
+    result.update('id'+number for number in re.findall(r'\bid[\s.]*([1-9]\d?)\b', text, re.I))
+    return result
 
 
 def statistical_quantities(text):

@@ -2,20 +2,29 @@
 from datetime import datetime, timezone
 from news_editorial import relevance_score, valid_rating
 from news_http import iso_date
-from news_publisher_selection import candidate_assessment
+from news_publisher_selection import candidate_assessment, substantive_development
 
 INTERNATIONAL = {'international_vehicle_development', 'global_vehicle_technology'}
 
 
-def international_scope(bundle, now=None):
+def coverage_scope(bundle, now=None):
     lead = bundle['items'][0]['payload']
-    return candidate_assessment({**lead, 'summary': lead.get('content', '')[:4000]}, now)['reason'] in INTERNATIONAL
+    selected = candidate_assessment(lead, now)
+    if selected['reason'] in INTERNATIONAL:
+        return 'international'
+    if selected['eligible'] and selected['reason'] == 'european_scope' and substantive_development(lead):
+        return 'european_development'
+    return 'regional'
+
+
+def international_scope(bundle, now=None):
+    return coverage_scope(bundle, now) != 'regional'
 
 
 def coverage_score(bundle, extraction, now=None):
     now = now or datetime.now(timezone.utc)
     lead = bundle['items'][0]['payload']
-    if not international_scope(bundle, now):
+    if coverage_scope(bundle, now) == 'regional':
         return relevance_score(extraction, .8, lead['published_at'], now)
     significance = extraction.get('significance')
     date = iso_date(lead.get('published_at'))

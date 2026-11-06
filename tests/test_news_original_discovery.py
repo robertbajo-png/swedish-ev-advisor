@@ -45,6 +45,34 @@ class FakeCollector:
         return 200,{},value,url
 
 class OriginalDiscoveryTests(unittest.TestCase):
+    def test_wrong_manufacturer_direct_links_do_not_crowd_out_actual_primary(self):
+        from news_publisher_sources import PRIMARY_AUTHORITIES
+        title='Toyota launches a synthetic electric car in Europe'
+        original='https://media.toyota.co.uk/synthetic-electric-car-launch/'
+        body=('Toyota describes a synthetic electric passenger car launch in Europe. '*25)
+        wrong=[ORIGINAL,ORIGINAL.replace('99999','99998')]
+        report_page=page(REPORT,title=title,body=body+''.join(f'<a href="{u}">Related release</a>' for u in wrong+[original]))
+        c=FakeCollector({REPORT:report_page,original:page(original,title=title,body=body)})
+        with patch('news_publisher_sources.fetch_primary') as fetch:
+            from news_publisher_sources import item_from_document
+            item=item_from_document(original,primary_source(original),{'title':title,'published_at':NOW.isoformat(),'content':body.strip()},NOW)
+            fetch.return_value=(item,[])
+            result=collect_bundle('carnewschina',REPORT,c,now=NOW)
+        self.assertEqual([args[0][0] for args in fetch.call_args_list],[original])
+        self.assertEqual(result['items'][1]['url'],original)
+        self.assertEqual(bundle_errors(result,NOW),[])
+
+    def test_direct_links_prioritize_exact_subject_before_bounded_fetches(self):
+        matched=ORIGINAL.replace('synthetic-battery-project','volkswagen-id7-charging-update')
+        irrelevant=ORIGINAL.replace('synthetic-battery-project','corporate-calendar')
+        title='Volkswagen ID7 charging update for electric cars in Europe'
+        body=('Volkswagen describes the ID7 charging update for electric passenger cars in Europe. '*20)
+        html=page(REPORT,title=title,body=body+f'<a href="{irrelevant}">Unrelated</a><a href="{matched}">Original release</a>')
+        c=FakeCollector({REPORT:html,matched:page(matched,title=title,body=body),irrelevant:ValueError('unrelated_source')})
+        result=collect_bundle('carnewschina',REPORT,c,now=NOW)
+        self.assertEqual(c.calls[1][0],matched)
+        self.assertEqual(result['items'][1]['url'],matched)
+
     def test_known_other_manufacturer_does_not_consume_official_lookup_slots(self):
         item = lead()
         item['payload'].update(title='Toyota launches a synthetic electric car in China',
