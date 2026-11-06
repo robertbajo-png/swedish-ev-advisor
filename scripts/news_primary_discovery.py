@@ -8,7 +8,7 @@ from urllib.parse import urljoin, urlsplit
 
 from news_http import canonical_url, parse_feed, iso_date
 from datetime import datetime, timedelta
-from news_publisher_selection import subject_terms, primary_identity_matches, subject_brands
+from news_publisher_selection import subject_terms, primary_identity_matches, subject_brands, model_identifiers
 from news_store import artifact_hash, stable_id
 from news_pressrooms import index_link
 
@@ -79,6 +79,9 @@ def candidate_related(lead, title, summary='', url=''):
     """Broader discovery only; fetched documents must pass the strict match too."""
     a_brands,b_brands=subject_brands(lead['payload']['title']),subject_brands(title)
     if a_brands and b_brands and not a_brands & b_brands: return False
+    report_models, candidate_models = model_identifiers(lead['payload']['title']), model_identifiers(title)
+    if report_models and candidate_models and not report_models & candidate_models:
+        return False
     if related(lead,title,summary): return True
     def terms(text):
         result=subject_terms(text)
