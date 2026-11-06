@@ -60,7 +60,8 @@ ordinary caps, cache tariffs, unknown usage and production-state preservation.
 
 `node scripts/run_python.mjs -m unittest discover -s tests -p test_news_terra_probe.py -v`
 uses explicitly synthetic official-source/transport fixtures. No provider or
-production writes occur. The existing publisher and coverage suites remain
+production writes occur. Payload construction does not need database credentials;
+the suite rejects any implicit database-client initialization. The existing publisher and coverage suites remain
 required. Private source bodies, manifests, databases and provider outputs
 must never be included in the source package or public news export.
 

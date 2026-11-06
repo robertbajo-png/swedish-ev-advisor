@@ -24,7 +24,8 @@ PACKET_LIMIT = 4000
 
 
 def payload(call):
-    value = NewsAi(model=MODEL, output_limits=LIMITS).payload(*call)
+    # Payload construction is local and must not initialize a database client.
+    value = NewsAi(client=object(), model=MODEL, output_limits=LIMITS).payload(*call)
     value['prompt_cache_options'] = {'mode': 'explicit', 'ttl': '30m'}
     return value
 

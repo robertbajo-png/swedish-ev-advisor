@@ -12,11 +12,15 @@ import trial_news_terra as trial
 import test_news_publisher_articles as fixtures
 from test_news_official_operation import fixture as official_fixture
 from news_ai import NewsBudgetBlocked
+from news_model_policy import SUPPORTED_MODELS
 from news_store import artifact_hash
 
 
 class TerraProbeTests(unittest.TestCase):
     def setUp(self):
+        implicit_client = patch('news_ai.SupabaseRestClient', side_effect=AssertionError('offline_probe_created_database_client'))
+        implicit_client.start()
+        self.addCleanup(implicit_client.stop)
         self.bundle, self.packet = official_fixture()
         now = datetime.now(timezone.utc).isoformat()
         for item in self.bundle['items']:
@@ -59,7 +63,7 @@ class TerraProbeTests(unittest.TestCase):
         self.assertEqual(body['prompt_cache_options'], {'mode': 'explicit', 'ttl': '30m'})
         bound = trial.request_contract(body)
         self.assertEqual(bound['maximum_micro_usd'], (bound['input_bound'] * 5 + 20000 + 1) // 2)
-        self.assertNotIn(trial.MODEL, trial.NewsAi().model)
+        self.assertNotIn(trial.MODEL, SUPPORTED_MODELS)
         for patch_value in ({'model': 'gpt-6-sol'}, {'service_tier': 'fast'}, {'store': True}, {'max_output_tokens': 2001}):
             with self.assertRaises(NewsBudgetBlocked):
                 trial.request_contract({**body, **patch_value})
