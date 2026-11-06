@@ -159,7 +159,7 @@ class OfficialOperationTests(unittest.TestCase):
 
     def test_thin_official_metadata_can_be_fetched_but_cannot_skip_content_triage(self):
         b, _ = fixture()
-        b['items'][0]['payload'].update(title='Synthetic product announcement', summary='')
+        b['items'][0]['payload'].update(title='Synthetic product announcement', summary='', content='')
         with tempfile.TemporaryDirectory() as folder, closing(NewsStore(Path(folder) / 'fixture.sqlite')) as store:
             store.put('news_items', {**b['items'][0], 'status': 'collected'})
             with patch.object(worker, 'now_iso', return_value=NOW.isoformat()):
