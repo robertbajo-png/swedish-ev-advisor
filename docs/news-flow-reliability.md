@@ -21,9 +21,10 @@ quarantines and all factual/originality/publication gates unchanged.
    caps, literal evidence and independent reviewer. No rewriting/retry loop.
 4. Verified implementation via PR #40 and exact current-main CI: 143 steps,
    including the unchanged PDF isolation tests, production build and browser QA.
-   A normal fresh production run is in progress. Verify its actual outcome and
-   fresh production attempt and public delivery only through existing approved
-   workflows and allowances. No old failed/private draft can be promoted.
+   The normal production run completed with `no_eligible_new_source`, 32 held
+   candidates, no paid model calls and no publication. Production GET/TLS checks
+   passed. Future actual article/public delivery still requires fresh evidence
+   and the existing approved workflows/allowances. No old draft is promoted.
 
 Each result must distinguish offline fixtures, free source retrieval, actual
 writer/reviewer receipts, publication and delivery. A green workflow is not proof
@@ -54,10 +55,12 @@ bounded fetches on #5 index entries after strict matching had rejected them.
 Apply the same disjoint-model check before that fallback, without increasing the
 fetch/paid limits or promoting any of those held candidates. A follow-up regression
 covers smart, VW, BMW and IM models, plus valid joint-model announcements.
+Normalize explicit apostrophe-s before brand matching too: Unicode possessives
+such as BYD's must not become an unidentified manufacturer after ASCII folding.
 
 PR #40: https://github.com/robertbajo-png/swedish-ev-advisor/pull/40
 
 Exact main CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/42224481905
 
-Normal production run (outcome not yet established):
+Normal production run (completed without an eligible new source or paid calls):
 https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/42225294667

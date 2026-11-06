@@ -12,7 +12,7 @@ from news_http import canonical_url
 from news_primary_discovery import discover, valid_edge, MAX_INDEXES
 from news_publisher_sources import (collect_bundle, primary_source, PRIMARY_AUTHORITIES, fetch_primary,
     parse_publisher, bundle_errors, refresh_bundle, same_sources, OriginalSourceNotFound)
-from news_publisher_selection import primary_identity_matches, reference_periods
+from news_publisher_selection import primary_identity_matches, reference_periods, subject_brands
 from news_store import stable_id, artifact_hash
 import test_news_publisher_articles as fixture
 
@@ -169,6 +169,12 @@ class OriginalDiscoveryTests(unittest.TestCase):
                                               report['payload']['content']))
         report['payload']['title'] = 'smart #2 and smart #5 electric SUV update'
         self.assertTrue(candidate_related(report, 'smart #2 electric SUV update', report['payload']['content']))
+
+    def test_possessive_publisher_headlines_keep_the_manufacturer_identity(self):
+        for headline in ("BYD's new electric model", 'BYD\u2019s new electric model'):
+            self.assertEqual(subject_brands(headline), {'byd'})
+        self.assertEqual(subject_brands('Toyota\u2019s Lexus electric car'), {'toyota', 'lexus'})
+        self.assertEqual(subject_brands('BMW\u2019s smart charging update'), {'bmw'})
 
     def test_generic_ev_platform_words_never_match_gm_reporting_to_vw_releases(self):
         report={'payload':{'title':'GM has another go at EVs with a new generation platform and LMR battery'}}

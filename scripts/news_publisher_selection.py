@@ -33,6 +33,7 @@ BRAND_PATTERNS = {
 
 
 def subject_brands(text):
+    text = re.sub(r"(?<=\w)['\u2019]s\b", '', str(text), flags=re.I)
     return {brand for brand,pattern in BRAND_PATTERNS.items() if re.search(pattern,normalize(text))}
 
 
