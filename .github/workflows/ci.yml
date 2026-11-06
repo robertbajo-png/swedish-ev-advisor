@@ -135,6 +135,8 @@ jobs:
       - run: bun run verify:news-model
       - run: bun run verify:news-sol-budget
       - run: bun run verify:news-sol-test
+      - run: bun run verify:news-terra-budget
+      - run: bun run verify:news-terra-probe
       - run: bun run verify:news-sol-trial
       - run: bun run verify:news-audit-contract
       - run: bun run verify:news-collection-safety

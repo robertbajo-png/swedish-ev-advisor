@@ -66,6 +66,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- The private Terra probe is preparation only until separate owner installation
+  approval and an exact, two-hour manifest permit. Keep its USD0.10/two-call cap
+  inside the ordinary shared allowance; use fresh source-bound evidence and the
+  existing independent review. Never add Terra to production selection, promote
+  a private result or reuse old trial permits as part of the test. See
+  `docs/private-terra-probe.md`. Access checks and fixtures are not live quality
+  results; unknown usage keeps its conservative hold.
+
 - Public sitemap routes must ship visible content, headings and real links in
   the initial HTML, rendered from the same React views and validated public
   snapshots as the browser. Preserve hydration, deep-link filters and no-JS
