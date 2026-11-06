@@ -81,6 +81,8 @@ def document(html, *, exclude_tables=False, url=None, body_region=None, adapter=
             from news_nio import document as adapted_document
         elif adapter == 'xpeng_ch':
             from news_xpeng import document as adapted_document
+        elif adapter == 'smart_eu':
+            from news_smart import document as adapted_document
         else:raise ValueError('unsupported_pressroom_article_adapter')
         return adapted_document(html, url)
     if body_region is not None and body_region not in {'main', 'article'}:

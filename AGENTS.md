@@ -86,6 +86,20 @@ Permanent project rules for the Swedish EV Advisor codebase.
   public articles; operational reports are read-only and exclude private prose.
   See `docs/news-content-month.md` for delivery status and remaining work.
 
+- The 2026-11-06 selection refinement distinguishes substantive European vehicle
+  developments from Swedish-market news. The European route needs significance
+  >= 0.65 and weighted coverage >= 70, a concrete EV launch/update/recall or
+  technology change, visible actual market and separate scope audit. Global
+  international coverage retains significance >= 0.8 and coverage >= 75.
+  Neither route establishes Swedish availability. Corporate brand names such as
+  Nordic are not Swedish-market evidence. Fact, originality and spending gates
+  remain unchanged; never retry old rejected/private URLs after a policy edit.
+- smart Europe uses only declared `media.smart.com/en-CEU/` numeric article
+  routes, one matching canonical/NewsArticle/main identity and original date.
+  Preserve homologation and preliminary qualifications; exclude related links,
+  hidden blocks and corporate boilerplate. Venue openings are not model launches.
+  Model identifiers must distinguish smart #2/#5 and Volkswagen ID.7/ID.4.
+
 - On 2026-11-04 the owner approved news ceilings of USD0.50/UTC day and
   USD10/UTC month, with the one-article and two-distinct-candidate limits unchanged.
   Migration 022 requires separate installation approval. Do not reset charges,

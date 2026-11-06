@@ -1,5 +1,6 @@
 """Offline alternative selection never supplies an AI/publication approval."""
 import copy
+import json
 from contextlib import ExitStack
 from pathlib import Path
 import sys
@@ -44,6 +45,20 @@ class WordingSelectionTests(unittest.TestCase):
         self.assertTrue(precheck(b, selected, fixtures.NOW)['passed'])
         self.assertEqual(raw, before)
         self.assertTrue(any('source_overlap' in e for e in wording_errors(b, raw['articles'][0])))
+
+    def test_concise_writer_keeps_evidence_and_qualifications_without_extra_calls(self):
+        b, _, _ = self.alternatives()
+        _, _, prompt = writer_call(b)
+        instructions, _, encoded = prompt.partition('\n')
+        self.assertLess(len(instructions), 6000)
+        context = json.loads(encoded)
+        self.assertTrue(context['lead_evidence_options'])
+        self.assertTrue(set(context['lead_evidence_options']) <= set(context['literal_evidence']))
+        for guard in ('150-250', 'ENTIRE statement', 'eight consecutive source words',
+                      'preliminary/homologation/optional-equipment', 'upp till',
+                      'Peak DC, AC input, V2L output', 'registrations, not orders or sales',
+                      'Do not repeat the intro', 'If irrelevant or too thin'):
+            self.assertIn(guard, instructions)
 
     def test_both_bad_forms_stay_rejected_and_no_facts_are_reconstructed(self):
         b, _, raw = self.alternatives()

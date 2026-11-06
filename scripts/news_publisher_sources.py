@@ -11,7 +11,8 @@ from news_store import artifact_hash, stable_id
 from news_publisher_selection import primary_identity_matches, subject_terms, candidate_assessment
 from news_publisher_registry import PUBLISHERS, LEAD_SOURCES
 from news_reporting_policy import independence, same_event, reported
-from news_primary_discovery import authorities, source_for, discover as discover_originals, valid_edge
+from news_primary_discovery import (authorities, source_for, discover as discover_originals,
+                                    valid_edge, source_subject_matches)
 from news_pressrooms import document as primary_document, PressDocument
 from news_document_evidence import html_document, valid_html_snapshot
 
@@ -391,8 +392,11 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
         assessment = candidate_assessment({**lead['payload'], 'summary': lead['payload']['content'][:1200]}, now)
         if not assessment['eligible']:
             raise PublisherContentHeld(assessment['reason'])
-    direct = [(u, {'from_url': lead['url'], 'to_url': u})
-                  for u in list(dict.fromkeys(u for u in links if primary_source(u)))[:2]]
+    terms = subject_terms(lead['payload']['title'])
+    direct_urls = [u for u in dict.fromkeys(links)
+                   if (source := primary_source(u)) and source_subject_matches(lead, source)]
+    direct_urls.sort(key=lambda u: len(terms & subject_terms(urlsplit(u).path.replace('-', ' '))), reverse=True)
+    direct = [(u, {'from_url': lead['url'], 'to_url': u}) for u in direct_urls[:2]]
     items, provenance, errors, trace = [lead], [], [], []
     accepted, visited = [], set()
     for strategy in ('direct', 'catalog', 'legacy', 'indexes'):

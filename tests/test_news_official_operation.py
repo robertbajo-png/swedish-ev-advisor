@@ -127,7 +127,7 @@ class OfficialOperationTests(unittest.TestCase):
 
     def test_eight_publisher_candidates_cannot_starve_a_fresh_official_release(self):
         b, _ = fixture()
-        b['items'][0]['payload'].update(title='Synthetic product announcement', summary='')
+        b['items'][0]['payload'].update(title='Synthetic product announcement', summary='', content='')
         report, _ = fixtures.fixture()
         with tempfile.TemporaryDirectory() as folder, closing(NewsStore(Path(folder) / 'fixture.sqlite')) as store:
             store.put('news_items', {**b['items'][0], 'status': 'collected'})
