@@ -67,9 +67,30 @@ must never be included in the source package or public news export.
 
 ## Current Preparation
 
-Offline SQL and eight probe regressions pass. The fresh approved official queue
-had no eligible item; the bounded eight-item broader queue also produced no
-ready, corroborated bundle. No Terra generation call or Supabase migration has
-been made. Access and fixture results do not establish Terra's actual writing
-quality. A genuine live result remains pending owner approval and valid source
-material; do not manufacture one to complete a checklist.
+Offline SQL and eight probe regressions pass. PR #39's corrected commit
+`c9f54f87fb9cf71b365d1e3205a7395330136904` passed all 144 CI steps, including
+the production build. The local SSR build timed out; it was not a successful
+local build. No application page changed in this probe branch.
+
+The owner approved continuing the private test on 2026-11-06 and conditionally
+selecting Terra only if acceptable. Migration 023 was installed through the
+existing verified TLS owner connection at 11:19 UTC. Read-only before/after
+checks confirmed unchanged production model (`gpt-6-sol`), switches, budgets,
+notice switch, canonical catalog and article snapshots. Migration 022 remains
+uninstalled; USD0.25/day and USD5/month remain the actual shared limits.
+
+No permit or paid Terra generation was issued. The bounded official and broader
+queues had no new ready bundle. A newly found official Opel charging release
+returned HTTP403 to the collector; it was not bypassed and no Opel adapter was
+added. The fresh 2 November Mobility Sweden release passes the existing source
+and literal-evidence gates, but its URL already has a quarantined Sol attempt
+for `publisher_source_overlap:p1/p2`. Separate permission to reuse that exact
+fresh underlay for a private model comparison was requested, not assumed.
+Its conservative full-pair byte reservation also exceeds the private USD0.10
+limit; no allowance or quality threshold was raised to force a trial.
+
+Access, fixture, installation and CI results do not establish Terra's actual
+writing quality. Sol remains selected. Do not describe this preparation as a
+completed quality test, issue a permit without a valid frozen pair, or promote
+any historical draft/proof into a new result. Local receipts are under ignored
+`data/local/release-data/terra-*-2026-11-06.json`.
