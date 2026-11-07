@@ -26,6 +26,7 @@ STOP = set(('the a an and or for with from into over under first new next this t
             'electrique electriques batterie batteries nouveau nouvelle nouveaux nouvelles '
             'og den det en et til med for som av fra pa bil biler elbil elbiler nye ny').split())
 QUALIFICATION = re.compile(r'\b(?:preliminary|provisional|assum\w*|subject to|depending|conditions?|not final|wltp|cltc|epa|iso\d+|deliver\w*|production|orders?|available|from \d|autumn|spring|summer|winter)\b', re.I)
+MANDATORY_QUALIFICATION = re.compile(r'\b(?:required|requires?|subject to|only available|selected markets|separate (?:customer )?charging contract)\b', re.I)
 BRAND_PATTERNS = {
     'general-motors':r'\b(?:gm|general motors|chevrolet|cadillac|gmc|buick|ultium)\b',
     'volkswagen':r'\b(?:volkswagen|vw)\b', 'bmw':r'\bbmw\b', 'renault':r'\brenault\b',
@@ -338,6 +339,8 @@ def passage_selection(content, report_title, source_title, byte_limit, *, primar
         quote = content[start:end]
         overlap = len(terms & subject_terms(quote))
         score = overlap * 8 + (2 if re.search(r'\d', quote) else 0)
+        if primary and MANDATORY_QUALIFICATION.search(quote):
+            score += 100
         if overlap:
             score += 5 if primary and QUALIFICATION.search(quote) else 0
         ranked.append((score, i, start, end))

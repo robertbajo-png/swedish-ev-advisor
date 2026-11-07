@@ -15,7 +15,7 @@ from news_publisher_sources import PUBLISHERS, bundle_errors, official_release
 from news_store import EDITORIAL_POLICY, artifact_hash, stable_id, now_iso
 from news_short_articles import unsupported_absence_claim
 from news_publisher_selection import (candidate_assessment, passage_selection,
-                                      primary_identity_matches)
+                                      primary_identity_matches, MANDATORY_QUALIFICATION)
 from news_reporting_policy import RECIPE, independence, reported
 from news_coverage import coverage_score, international_scope, coverage_scope
 
@@ -55,7 +55,11 @@ def evidence_catalog(bundle):
     for source in source_views(bundle):
         original = bundle['items'][int(source['id'][1:])]['payload']['content']
         candidates = [original[start:end] for start, end in source['passage_offsets']]
-        for index, quote in enumerate(list(dict.fromkeys(candidates))[:12]):
+        unique = list(dict.fromkeys(candidates))
+        # Do not select a headline statistic while dropping the contract/availability caveat.
+        required = [q for q in unique if MANDATORY_QUALIFICATION.search(q)]
+        bounded = list(dict.fromkeys(required + unique))[:12]
+        for index, quote in enumerate(bounded):
             result[source['id'] + 'e' + str(index)] = {'source': source['id'], 'quote': quote}
     return result
 

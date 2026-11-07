@@ -88,7 +88,8 @@ def document(html, url):
         value = flat(block)
         if value in {'Electra Contacts:', 'Mercedes-Benz Contacts:', 'About Electra', 'About Mercedes-Benz'}: break
         if value: parts.append(value)
-    body = ' '.join(parts)
+    # Preserve paragraph boundaries: a footnote must not merge into a quoted speaker's byline.
+    body = '\n'.join(parts)
     dateline = re.search(r'\bParis, ([1-9][0-9]? [A-Z][a-z]+ 20[0-9]{2})\b', body)
     if not dateline or datetime.strptime(dateline[1], '%d %B %Y').date() != day.date():
         raise ValueError('electra_visible_date_conflict')

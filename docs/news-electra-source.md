@@ -28,14 +28,17 @@ The 3 November 2026 original release at
 https://www.go-electra.com/en/newsroom/electra-and-mercedes-benz/
 was fetched with the normal verified-TLS/access collector, not search snippets.
 The complete pre-writing inspection passed with 12 exact primary passages and
-European scope. Conservative writer/reviewer reservation bound: USD0.191200,
+European scope. Mandatory customer-contract evidence is present in the literal
+catalog. Conservative writer/reviewer reservation bound: USD0.191575,
 within the remaining USD0.25 daily budget. This is source readiness, not a real
 AI audit, actual cost or article approval. No paid call or publication at this stage.
 
 ## Execution
 
-1. Source adapter, declarative registry, four synthetic identity/date/hidden-text
-   and full-bundle regressions, unchanged-source/budget protections.
+1. Source adapter, declarative registry, five synthetic identity/date/hidden-text,
+   full-bundle and contract-footnote regressions. Preserve literal paragraph
+   boundaries and prioritize mandatory qualifications within the unchanged
+   excerpt/evidence caps; unchanged-source/budget protections remain in place.
 2. Full offline news suite and production build; exact PR/main CI before the
    credentialled production workflow.
 3. One normal run with a fresh source fetch, writer and independent review only

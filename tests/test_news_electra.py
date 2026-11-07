@@ -8,7 +8,7 @@ from unittest.mock import Mock
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from news_pressrooms import document
 from news_publisher_sources import primary_source, collect_bundle, bundle_errors
-from news_publisher_articles import evidence_readiness
+from news_publisher_articles import evidence_readiness, evidence_catalog
 
 URL = 'https://www.go-electra.com/en/newsroom/synthetic-charging-partnership/'
 TITLE = 'Electra expands electric vehicle charging access across Europe'
@@ -64,6 +64,21 @@ class ElectraTests(unittest.TestCase):
         self.assertEqual(collector.fetch.call_args.kwargs,{'editorial':True})
         from run_publisher_news import HASH_FILES
         self.assertIn('news_electra.py',HASH_FILES)
+
+    def test_required_contract_survives_both_excerpt_and_twelve_evidence_caps(self):
+        noise = ''.join('<p>Electra describes European electric vehicle charging network access in region '+str(i)+'.</p>'
+                        for i in range(40))
+        condition = ('1 In order to use the MB.CHARGE Public digital extra, a separate customer '
+                     'charging contract with a selected third-party provider is required.')
+        html = page().replace('<p>The service requires a separate charging contract with a selected third party provider.</p>',
+            noise+'<p>\u201cWe describe our European charging partnership.\u201d</p>'
+            '<p>Synthetic Person, Global Head of Charging Solutions</p><hr><p><span><i>'+condition+'</i></span></p>')
+        collector=Mock();collector.fetch.return_value=(200,{},html,URL)
+        bundle=collect_bundle('electra-news',URL,collector,now=NOW)
+        catalog=evidence_catalog(bundle)
+        self.assertLessEqual(len(catalog),12)
+        self.assertTrue(any(v['quote'] == condition for v in catalog.values()))
+        self.assertIn('\n'+condition, bundle['items'][0]['payload']['content'])
 
 
 if __name__=='__main__': unittest.main()
