@@ -71,6 +71,22 @@ class SubjectSelectionTests(unittest.TestCase):
     def test_selection_still_requires_actual_ev_connection_and_freshness(self):
         row = item('European charging network expands to 800 stations')
         self.assertFalse(candidate_assessment(row, NOW)['eligible'])
+
+    def test_model_bound_battery_powertrain_can_establish_ev_without_adjective(self):
+        title = 'Market launch in Switzerland: XPENG G9L now available from CHF 74,600'
+        body = ('The XPENG G9L SUV (combined CO2 emissions: 0 g/km, subject to final WLTP homologation) '
+                'has six or seven seats. The XPENG G9L uses an 800-volt architecture with fast charging. '
+                'XPENG G9L RWD: with 110-kWh NCM battery and rear-wheel drive.')
+        selected = candidate_assessment(item(title, body), NOW)
+        self.assertTrue(selected['eligible'], selected)
+        self.assertEqual(coverage_scope({'items':[item(title, body)]}, NOW), 'european_development')
+        for changed in (body.replace('0 g/km', '12 g/km'), body.replace('110-kWh NCM battery', 'leather seats'),
+                        body.replace('800-volt architecture', 'new platform'),
+                        body.replace('XPENG G9L RWD:', 'XPENG G6 RWD:'),
+                        body.replace('The XPENG G9L SUV (', 'The XPENG G6 SUV ('),
+                        body+' This is a plug-in hybrid.', body+' It has a range extender.'):
+            self.assertFalse(candidate_assessment(item(title, changed), NOW)['eligible'], changed)
+        self.assertFalse(candidate_assessment(item('Unidentified SUV launches in Europe', body), NOW)['eligible'])
         row = item('BMW electric car launches in Europe', 'Potential later changes are background only.')
         row['payload']['published_at'] = (NOW - timedelta(days=8)).isoformat()
         self.assertFalse(candidate_assessment(row, NOW)['eligible'])
