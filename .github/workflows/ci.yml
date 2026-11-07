@@ -79,6 +79,7 @@ jobs:
       - run: python -m unittest discover -s tests -p test_news_primary_formats.py -v
       - run: python -m unittest discover -s tests -p test_news_xpeng_lexus.py -v
       - run: python -m unittest discover -s tests -p test_news_smart.py -v
+      - run: python -m unittest discover -s tests -p test_news_electra.py -v
       - run: python -m unittest discover -s tests -p test_news_provider_outcomes.py -v
       - run: python -m unittest discover -s tests -p test_news_rss.py -v
       - run: python -m unittest discover -s tests -p test_news_content_report.py -v
