@@ -45,3 +45,17 @@ AI audit, actual cost or article approval. No paid call or publication at this s
    when eligible, then normal publication/distribution only if every gate passes.
 4. Record actual receipts, verdict, cost and public result; never promote fixtures
    or retry a rejected/private source to manufacture success.
+
+## Actual Run And Selection Follow-Up
+
+PR #44 and exact merged-main CI passed all 144 steps. The normal production
+writer returned 194 words for USD0.015824, settled. Preflight held the article
+on significance/coverage (65.84); no independent reviewer was bought and nothing
+was published. The failed source remains quarantined, not a future retry.
+
+A separate fresh XPENG Swiss market-launch release exposes a free-reading gap:
+it identifies the powertrain through model-bound zero CO2, traction battery,
+high-voltage architecture and charging, without the adjective "electric". Accept
+this complete explicit combination for reading, never a brand/battery alone.
+Negative tests preserve unknown-model, other-model, missing-data and hybrid holds.
+Scores, costs, writer/reviewer checks and publishing thresholds do not change.

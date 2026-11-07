@@ -109,6 +109,12 @@ Permanent project rules for the Swedish EV Advisor codebase.
   mentions in the body. A manufacturer-owned primary must share an explicit model
   identifier in both headlines, plus the manufacturer in the report. Apply this
   before discovery slots and in final artifact validation, not only before writing.
+- A missing "electric" adjective may be resolved for free reading only from
+  explicit powertrain evidence: one branded headline model, matching model-bound
+  zero CO2 and traction-battery statements, high-voltage architecture and charging.
+  Orphan/other-model values, missing evidence and hybrid/combustion descriptions
+  stay held. This does not verify specifications, Swedish availability or scores;
+  source-bound extraction, independent audit and all release gates still apply.
 - smart Europe uses only declared `media.smart.com/en-CEU/` numeric article
   routes, one matching canonical/NewsArticle/main identity and original date.
   Preserve homologation and preliminary qualifications; exclude related links,

@@ -51,11 +51,32 @@ def assessment_text(payload):
     return normalize(payload.get('title', '')) + ' ' + normalize(material)
 
 
+def vehicle_evidence(payload):
+    text = assessment_text(payload)
+    if re.search(VEHICLE, text):
+        return True
+    # Some releases describe the named BEV through powertrain facts, not an "electric" label.
+    title = payload.get('title', '')
+    models = model_identifiers(title)
+    body = str(payload.get('content') or '')[:4000]
+    if (len(subject_brands(title)) != 1 or len(models) != 1
+            or not re.search(r'\b(?:suv|mpv|sedan|saloon|hatchback|crossover)\b', body, re.I)
+            or re.search(r'\b(?:hybrid\w*|phev|fuel.cell|range.extender|combustion|petrol|diesel)\b', body, re.I)):
+        return False
+    def model_bound(pattern):
+        return any(models == model_identifiers(body[max(0, m.start()-200):m.start()])
+                   for m in re.finditer(pattern, body, re.I))
+    return bool(model_bound(r'\bCO\s*2\s+emissions\s*:\s*0\s*g/km\b')
+        and model_bound(r'\b\d{2,3}[- ]kWh\s+(?:[A-Z]+\s+){0,2}battery\b')
+        and re.search(r'\b\d{3,4}[- ]volt architecture\b', body, re.I)
+        and re.search(r'\bcharging\b', body, re.I))
+
+
 def substantive_development(payload):
     """A concrete vehicle change, not geography or a brand name alone."""
     title = normalize(payload.get('title', ''))
     text = assessment_text(payload)
-    if not re.search(VEHICLE, text):
+    if not vehicle_evidence(payload):
         return False
     opening = text[:1200]
     network_development = (re.search(CHARGING_NETWORK, opening) and re.search(NETWORK_CHANGE, opening)
@@ -92,7 +113,7 @@ def candidate_assessment(item, now=None):
     europe = bool(re.search(EUROPE, title) or re.search(
         r'\b(?:for|in|across|to|into|fur) (?:the )?(?:europe\w*|europa|eu|sweden|sverige|germany|deutschland|france|norway|finland|denmark|uk)\b', text)
         or re.search(r'\bauf (?:dem|den) (?:deutschen|europaischen) markt\b', text))
-    vehicle = bool(re.search(VEHICLE, text))
+    vehicle = vehicle_evidence(p)
     if speculative_subject(p):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
     if re.search(r'\b(?:drones?|military|militaire\w*)\b', title):
