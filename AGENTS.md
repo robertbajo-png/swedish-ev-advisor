@@ -114,6 +114,15 @@ Permanent project rules for the Swedish EV Advisor codebase.
   Preserve homologation and preliminary qualifications; exclude related links,
   hidden blocks and corporate boilerplate. Venue openings are not model launches.
   Model identifiers must distinguish smart #2/#5 and Volkswagen ID.7/ID.4.
+- Electra English operator releases use the exact registered `/en/newsroom/`
+  article route, one main/narrative/H1, matching WebPage title and Electra WebSite
+  identity, visible original date and matching body dateline. The named adapter
+  accepts only the observed exact `/en/` + localized path canonical duplication
+  for the SAME requested slug; no general canonical or locale repair is allowed.
+  Exclude promotions, hidden blocks, contacts and corporate boilerplate; keep
+  contract/equipment conditions. Use independent factual reporting without
+  reproduced prose, quotations or assets. Access/TDM checks and separate review
+  remain mandatory; operator claims do not verify Swedish availability/car specs.
 
 - On 2026-11-04 the owner approved news ceilings of USD0.50/UTC day and
   USD10/UTC month, with the one-article and two-distinct-candidate limits unchanged.
