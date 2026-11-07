@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:news-terra-budget": "node scripts/verify_news_terra_budget.mjs",
+    "verify:news-terra-probe": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_terra_probe.py -v",
     "verify:static-content": "node scripts/verify_static_content.mjs",
     "verify:public-content-ui": "node scripts/verify_public_content_ui.mjs",
     "catalog:current:collect": "node scripts/run_python.mjs scripts/current_variant_intake.py",
