@@ -50,19 +50,22 @@ class SubjectSelectionTests(unittest.TestCase):
             self.assertTrue(candidate_assessment(item(title, 'The BMW i3 is a battery-electric passenger car.'), NOW)['eligible'], title)
         for title in ('Tesla cuts EV prices in Sweden', 'BMW reveals new prices for electric cars in Europe',
                       'BMW launches electric car discount in Germany', 'BMW EV leasing offer in Europe',
+                      'BMW reveals electric car price in Europe', 'BMW launches electric car pricing in Europe',
                       'BMW i3 update with lower prices in Germany', 'BMW EV gets Australian price tag'):
             self.assertFalse(candidate_assessment(item(title), NOW)['eligible'], title)
 
     def test_european_network_development_does_not_require_fake_swedish_availability(self):
         for title in ('European rapid charging network expands to 800 stations',
-                      'New partnership adds electric vehicle charging points across Europe'):
-            row = item(title, 'The network provides rapid charging for electric passenger cars in Europe.')
+                      'New partnership adds electric vehicle charging points across Europe',
+                      'Mercedes announces a new European partnership'):
+            row = item(title, 'The partnership adds rapid charging stations for electric passenger cars in Europe.')
             self.assertTrue(candidate_assessment(row, NOW)['eligible'])
             self.assertEqual(coverage_scope({'items': [row]}, NOW), 'european_development', title)
         for title in ('Electric car charging network bond issue in Europe',
                       'Electric car charging network award in Europe',
                       'Electric car charging network earnings in Europe'):
-            self.assertEqual(coverage_scope({'items': [item(title)]}, NOW), 'regional', title)
+            row = item(title, 'The network adds rapid charging stations for electric cars across Europe.')
+            self.assertEqual(coverage_scope({'items': [row]}, NOW), 'regional', title)
         self.assertFalse(candidate_assessment(item('Electric car charging station opens in Australia'), NOW)['eligible'])
 
     def test_selection_still_requires_actual_ev_connection_and_freshness(self):

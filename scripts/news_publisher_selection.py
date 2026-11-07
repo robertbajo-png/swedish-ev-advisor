@@ -13,7 +13,8 @@ LAUNCH = r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|arrivera|deba
 DEVELOPMENT = LAUNCH + r'|\b(?:update\w*|recall\w*|ruckruf\w*|modellpflege|uppdater\w*|aterkall\w*)\b'
 CHARGING_NETWORK = r'\b(?:charg\w* (?:network\w*|stations?|points?|hubs?)|(?:rapid|fast|ultra fast) charg\w*|ladenetz\w*|ladesaul\w*|laddnat\w*|laddstation\w*|reseau\w* de recharge)\b'
 NETWORK_CHANGE = r'\b(?:expand\w*|add\w*|open\w*|integrat\w*|connect\w*|roll\w* out|deploy\w*|access|acces|partnership|partenariat|offne\w*|erweiter\w*|utok\w*|oppna\w*|anslut\w*)\b'
-PRICE = r'\b(?:prices?|price tag|discount\w*|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b|\b(?:chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|sek)\s+\d'
+PRICE_WORD = r'\b(?:prices?|pricing|price tag|discount\w*|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b'
+PRICE = PRICE_WORD + r'|\b(?:chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|sek)\s+\d'
 PRICE_CHANGE = r'\b(?:cuts?|reduc\w*|discount\w*|rabatt\w*|senk\w*|sank\w*|hoj\w*|price (?:change\w*|increas\w*|drop\w*)|baisse\w*|hausse\w*|leasing\w*|lease (?:deal|offer)\w*)\b'
 STORAGE = r'\b(?:bess|stationary storage|home batter\w*|balcony solar|grid storage)\b'
 POLITICS = r'\b(?:coalition|election|electrification targets?|35 by 35|vows to scrap)\b'
@@ -55,8 +56,10 @@ def substantive_development(payload):
     text = assessment_text(payload)
     if not re.search(VEHICLE, text):
         return False
-    return bool(re.search(TECHNOLOGY, text) or re.search(DEVELOPMENT, title)
-                or (re.search(CHARGING_NETWORK, title) and re.search(NETWORK_CHANGE, title)))
+    opening = text[:1200]
+    network_development = (re.search(CHARGING_NETWORK, opening) and re.search(NETWORK_CHANGE, opening)
+        and not re.search(r'\b(?:earnings|profits?|financ\w*|bonds?|awards?|dividends?)\b', title))
+    return bool(re.search(TECHNOLOGY, text) or re.search(DEVELOPMENT, title) or network_development)
 
 
 def speculative_subject(payload):
@@ -72,6 +75,7 @@ def price_focused(title):
     """A launch with an incidental price is not a price-change/offer story."""
     return bool(re.search(PRICE, title) and
                 (not re.search(LAUNCH, title) or re.search(PRICE_CHANGE, title)
+                 or (re.search(PRICE_WORD, title) and not re.search(r'\bprice (?:from|at)\b', title))
                  or re.search(r'\b(?:new|updated|lower|higher|nya|nouveaux|neue) (?:prices?|priser|prix|preise)\b', title)))
 
 
