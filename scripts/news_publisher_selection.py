@@ -9,6 +9,12 @@ VEHICLE = r'\b(?:evs?|bevs?|electric (?:passenger )?(?:cars?|vehicles?|models?|s
 TECHNOLOGY = r'\b(?:sodium ion|solid state|battery chemistr\w*|energy density|lmr batter\w*|battery recycl\w*|cell to (?:pack|body)|superfast charg\w*|ultra fast charg\w*|800 volt|900 volt|festkorperbatter\w*|natrium ionen batter\w*|energiedichte)\b'
 LOCAL_BUSINESS = r'\b(?:dealers?|dealerships?|service network|local subsid\w*|rebates?|tax exemptions?|consumption tax|exempt\w*.*?tax|tax.*?exempt\w*|earnings|profits?|sales milestone|crosses.*?sales|factory|facilit\w*|plant|production line|off grid.*?station|charging station)\b'
 SPECULATION = r'\b(?:rumou?rs?|rumeurs?|rykter?|pourrait|spotted|spy shots?|patent|teased|potential|may get|could launch|readers questions|geruchte|erlkonig|konnte (?:kommen|starten|erhalten))\b'
+LAUNCH = r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|arrivera|debarque\w*|lancement\w*|presente\w*|prasentiert|weltpremiere|markteinfuhrung|marktstart|lanser\w*|presenterar)\b'
+DEVELOPMENT = LAUNCH + r'|\b(?:update\w*|recall\w*|ruckruf\w*|modellpflege|uppdater\w*|aterkall\w*)\b'
+CHARGING_NETWORK = r'\b(?:charg\w* (?:network\w*|stations?|points?|hubs?)|(?:rapid|fast|ultra fast) charg\w*|ladenetz\w*|ladesaul\w*|laddnat\w*|laddstation\w*|reseau\w* de recharge)\b'
+NETWORK_CHANGE = r'\b(?:expand\w*|add\w*|open\w*|integrat\w*|connect\w*|roll\w* out|deploy\w*|access|acces|partnership|partenariat|offne\w*|erweiter\w*|utok\w*|oppna\w*|anslut\w*)\b'
+PRICE = r'\b(?:prices?|price tag|discount\w*|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b|\b(?:chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|sek)\s+\d'
+PRICE_CHANGE = r'\b(?:cuts?|reduc\w*|discount\w*|rabatt\w*|senk\w*|sank\w*|hoj\w*|price (?:change\w*|increas\w*|drop\w*)|baisse\w*|hausse\w*|leasing\w*|lease (?:deal|offer)\w*)\b'
 STORAGE = r'\b(?:bess|stationary storage|home batter\w*|balcony solar|grid storage)\b'
 POLITICS = r'\b(?:coalition|election|electrification targets?|35 by 35|vows to scrap)\b'
 STOP = set(('the a an and or for with from into over under first new next this that its as at of to in '
@@ -49,10 +55,24 @@ def substantive_development(payload):
     text = assessment_text(payload)
     if not re.search(VEHICLE, text):
         return False
-    return bool(re.search(TECHNOLOGY, text) or re.search(
-        r'\b(?:launch\w*|unveil\w*|debut\w*|introduc\w*|reveal\w*|update\w*|recall\w*|'
-        r'arrivera|debarque\w*|lancement\w*|presente\w*|prasentiert|weltpremiere|markteinfuhrung|'
-        r'marktstart|ruckruf\w*|modellpflege|lanser\w*|presenterar|uppdater\w*|aterkall\w*)\b', title))
+    return bool(re.search(TECHNOLOGY, text) or re.search(DEVELOPMENT, title)
+                or (re.search(CHARGING_NETWORK, title) and re.search(NETWORK_CHANGE, title)))
+
+
+def speculative_subject(payload):
+    title = normalize(payload.get('title', ''))
+    if re.search(SPECULATION, title):
+        return True
+    # A confirmed headline is not a rumour because a later paragraph discusses potential.
+    opening = re.split(r'[.!?]\s|\n', str(payload.get('content') or payload.get('summary') or ''), maxsplit=1)[0]
+    return not substantive_development(payload) and bool(re.search(SPECULATION, normalize(opening)))
+
+
+def price_focused(title):
+    """A launch with an incidental price is not a price-change/offer story."""
+    return bool(re.search(PRICE, title) and
+                (not re.search(LAUNCH, title) or re.search(PRICE_CHANGE, title)
+                 or re.search(r'\b(?:new|updated|lower|higher|nya|nouveaux|neue) (?:prices?|priser|prix|preise)\b', title)))
 
 
 def candidate_assessment(item, now=None):
@@ -68,7 +88,7 @@ def candidate_assessment(item, now=None):
         r'\b(?:for|in|across|to|into|fur) (?:the )?(?:europe\w*|europa|eu|sweden|sverige|germany|deutschland|france|norway|finland|denmark|uk)\b', text)
         or re.search(r'\bauf (?:dem|den) (?:deutschen|europaischen) markt\b', text))
     vehicle = bool(re.search(VEHICLE, text))
-    if re.search(SPECULATION, text):
+    if speculative_subject(p):
         return {'eligible': False, 'priority': 0, 'reason': 'speculation_or_minor_sighting'}
     if re.search(r'\b(?:drones?|military|militaire\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'outside_passenger_ev_scope'}
@@ -86,8 +106,7 @@ def candidate_assessment(item, now=None):
         return {'eligible': False, 'priority': 0, 'reason': 'not_vehicle_energy_storage'}
     if not europe and (re.search(LOCAL_BUSINESS, title) or re.search(POLITICS, title)):
         return {'eligible': False, 'priority': 0, 'reason': 'regional_business_or_policy'}
-    if (re.search(r'\b(?:prices?|price tag|discount|prix|tarifs?|pris(?:er)?|preis\w*|rabatt\w*|\d+k|privatleasing\w*|leasing\w*|lease (?:deal|offer)\w*)\b', title)
-            or re.search(r'\b(?:chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|sek)\s+\d', title)):
+    if price_focused(title):
         return {'eligible': False, 'priority': 0, 'reason':
                 'price_notice_recipe_required' if re.search(EUROPE, title) else 'foreign_price_story'}
     if not vehicle:
@@ -158,7 +177,80 @@ def subject_terms(text):
     return {t for t in normalize(text).split() if len(t) >= 2 and not t.isdigit() and t not in STOP}
 
 
-def literal_spans(text):
+def event_actions(text):
+    text = normalize(text)
+    return {name for name, pattern in {
+        'launch': LAUNCH,
+        'update': r'\b(?:update\w*|rollout|roll\w* out|activat\w*|active|deploy\w*|mise a jour|aktualis\w*|modellpflege|uppdater\w*)\b',
+        'production': r'\b(?:production|factory|plant|fabrik\w*|fertigung|produktion|usine\w*)\b',
+        'recall': r'\b(?:recall\w*|ruckruf\w*|rappel\w*|aterkall\w*)\b',
+        'price': PRICE,
+        'test': r'\b(?:test\w*|review\w*|essai\w*)\b',
+        'market': r'\b(?:registrations?|immatriculations?|zulassung\w*|nybilregistrering\w*|sales|ventes)\b',
+    }.items() if re.search(pattern, text)}
+
+
+def event_topics(text):
+    text = normalize(text)
+    return {name for name, pattern in {
+        'battery_preconditioning': r'\b(?:preheat\w*|precondition\w*|prechauff\w*|vorkondition\w*|forvarm\w*)\b',
+        'bidirectional_charging': r'\b(?:v2g|v2h|bidirectional\w*|bidirektion\w*)\b',
+        'solid_state': r'\b(?:solid state|festkorper\w*|batteries? solides?|fastfas\w*)\b',
+        'sodium_ion': r'\b(?:sodium ion|natrium ion\w*)\b',
+        'charging_network': CHARGING_NETWORK,
+    }.items() if re.search(pattern, text)}
+
+
+def event_markets(text):
+    text = normalize(text)
+    return {name for name, pattern in {
+        'SE': r'\b(?:sweden|swedish|sverige|svensk\w*|suede)\b',
+        'DE': r'\b(?:germany|german|deutsch\w*|allemagne)\b',
+        'FR': r'\b(?:france|french|francais\w*)\b',
+        'CN': r'\b(?:china|chinese|chine|chinois\w*|kina|kinesisk\w*)\b',
+        'AU': r'\b(?:australia\w*|australie\w*|australien)\b',
+        'CH': r'\b(?:switzerland|swiss|schweiz\w*|suisse)\b',
+        'NO': r'\b(?:norway|norwegian|norge|norsk\w*)\b',
+        'FI': r'\b(?:finland|finnish|finlande)\b',
+        'DK': r'\b(?:denmark|danish|danmark|danemark)\b',
+        'UK': r'\b(?:uk|britain|british|united kingdom|royaume uni)\b',
+        'US': r'\b(?:usa|united states|american|etats unis)\b',
+        'JP': r'\b(?:japan|japanese|japon\w*)\b',
+        'KR': r'\b(?:korea\w*|coree\w*)\b',
+        'IN': r'\b(?:india\w*|inde)\b',
+    }.items() if re.search(pattern, text)}
+
+
+def event_conflicts(left, right):
+    for extract in (subject_brands, model_identifiers, event_actions, event_topics, event_markets, reference_periods):
+        a, b = extract(left), extract(right)
+        if a and b and not a & b:
+            return True
+    return False
+
+
+def cross_language_event_matches(left, right):
+    """Bounded concept matching, not translation, fact approval or independence."""
+    if event_conflicts(left, right) or not subject_brands(left) & subject_brands(right):
+        return False
+    actions = event_actions(left) & event_actions(right)
+    if not actions:
+        return False
+    left_models, right_models = model_identifiers(left), model_identifiers(right)
+    if bool(left_models) != bool(right_models):
+        return False
+    models = left_models & right_models
+    topics = event_topics(left) & event_topics(right)
+    existing = r'\b(?:older|existing|anciens?|existants?|bestand\w*|alteren|befintlig\w*|aldre)\b'
+    cohort = all(re.search(existing, normalize(t)) for t in (left, right))
+    if topics and (models or cohort):
+        return True
+    # Generic launch/price words plus a brand alone cannot identify an event.
+    return bool(models and 'launch' in actions and
+                re.search(EUROPE, normalize(left)) and re.search(EUROPE, normalize(right)))
+
+
+def _sentence_spans(text):
     """Whole sentences/clauses, with exact offsets in the unchanged captured text."""
     boundary = re.compile(r'(?<=[.!?;])\s+|(?<=[。！？；])|\n+')
     start = 0
@@ -172,10 +264,64 @@ def literal_spans(text):
             begin, finish = start + left, start + right
             quote = text[begin:finish]
             asian = bool(re.search(r'[\u4e00-\u9fff\u0e00-\u0e7f]', quote))
-            if (asian and 20 <= len(quote) <= 160) or (8 <= len(quote.split()) <= 45 and len(quote) <= 350):
+            if not quote.endswith(':') and ((asian and 20 <= len(quote) <= 160)
+                    or (8 <= len(quote.split()) <= 45 and len(quote) <= 350)):
                 yield begin, finish
         if match:
             start = match.end()
+
+
+def _structured_spans(text):
+    """Keep short field lines with their literal model header and nearby caveats."""
+    labels = r'(?:battery capacity|dc (?:peak|charging)|ac charging|range|ordering opens|batteriekapazitat|reichweite|rackvidd)'
+    field = re.compile(r'^' + labels + r'\s*:', re.I)
+    # HTML text extractors flatten list items. Split at literal field labels too,
+    # keeping offsets into the unchanged text, not reconstructed line breaks.
+    boundary = re.compile(r'\n+|(?<=[.:;!?])\s+(?=' + labels + r'\s*:)', re.I)
+    lines, start = [], 0
+    for match in list(boundary.finditer(text)) + [None]:
+        end = match.start() if match else len(text)
+        if text[start:end].strip():
+            lines.append((start, end, text[start:end]))
+        if match:
+            start = match.end()
+    for i, (begin, _, header) in enumerate(lines):
+        title = header.strip()
+        if (not title.endswith(':') or len(title) > 120
+                or not subject_brands(title) or not model_identifiers(title)):
+            continue
+        j = i + 1
+        while j < min(i + 7, len(lines)):
+            line_begin, end, line = lines[j]
+            if '\n\n' in text[lines[j-1][1]:line_begin].replace('\r', ''):
+                break
+            if not field.match(line.strip()):
+                break
+            if subject_brands(line) and model_identifiers(line) - model_identifiers(title):
+                break
+            # A following qualification belongs to the field, not a separate fact.
+            k = j + 1
+            while k < len(lines) and not field.match(lines[k][2].strip()):
+                gap = text[lines[k-1][1]:lines[k][0]].replace('\r', '')
+                following = lines[k][2].strip()
+                if ('\n\n' in gap or following.endswith(':') or not QUALIFICATION.search(following)
+                        or (model_identifiers(following) and
+                            not model_identifiers(title) & model_identifiers(following))):
+                    break
+                end = lines[k][1]
+                k += 1
+            start = begin + len(header) - len(header.lstrip())
+            quote = text[start:end].rstrip()
+            if len(quote) > 350 or len(quote.split()) > 45:
+                break
+            if 8 <= len(quote.split()) <= 45:
+                yield start, start + len(quote)
+            j = k
+
+
+def literal_spans(text):
+    """Exact narrative spans or model-bound contiguous field windows; never tables."""
+    yield from sorted(set(_sentence_spans(text)) | set(_structured_spans(text)))
 
 
 def passage_selection(content, report_title, source_title, byte_limit, *, primary=False):
@@ -249,11 +395,14 @@ def primary_identity_matches(report, primary):
         if a and b and not a & b:
             return False
     terms = subject_terms(title)
-    return len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
+    return (len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
+            or cross_language_event_matches(title, target['title']))
 
 
 def model_identifiers(text):
     result = set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(text)))
+    result = {value for value in result if value not in {'v2g', 'v2h', 'v2l', 'v2x', 'co2', 'nox', 'l2', 'l3', 'l4'}
+              and not re.fullmatch(r'(?:iso\d+|\d+(?:v|kw|kwh))', value)}
     result.update('smart'+number for number in re.findall(r'\bsmart\s*(?:#\s*)?([1-9])\b', text, re.I))
     result.update('id'+number for number in re.findall(r'\bid[\s.]*([1-9]\d?)\b', text, re.I))
     return result

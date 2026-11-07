@@ -189,6 +189,8 @@ def writer_call(bundle):
          'EVERY central fact needs official primary evidence. Attribute publisher-only details to that publisher '
          'in both the fact and the visible block. ') +
         'Keep the real foreign market clear in the title or intro, never invent Swedish availability or prices. '
+        'A model launch may mention a price in its source headline, but omit prices, discounts and leasing '
+        'offers from this article and its facts; price reporting uses the separate factual-notice route. '
         'Score sweden_relevance and significance honestly on 0-1; a useful European/international model or '
         'technology development need not have a Swedish sales announcement. Do not score to pass a threshold. '
         'Preserve preliminary/homologation/optional-equipment conditions, upper bounds and claimed versus tested '
@@ -322,6 +324,11 @@ def precheck(bundle, packet, now=None):
             errors.append('publisher_fact_shape')
             continue
         by_id[fact['id']] = fact
+        currency = r'(?:sek|chf|usd|eur|gbp|cny|rmb|aud|nok|dkk|kronor|euros?|dollar\w*)'
+        amount = r'\d(?:[\d\s.,\u2019\x27]*\d)?'
+        if (re.search(r'\b' + currency + r'\s+' + amount + r'|' + amount + r'\s*' + currency + r'\b', normalize(fact['statement']))
+                or re.search(r'[\u20ac\u00a3$]\s*' + amount + r'|' + amount + r'\s*[\u20ac\u00a3$]', fact['statement'])):
+            errors.append('publisher_price_fact_requires_notice:' + fact['id'])
         evidence, supporting = [], []
         for ref in fact['support']:
             if not isinstance(ref, dict) or set(ref) != {'source', 'quote'} or ref.get('source') not in views:

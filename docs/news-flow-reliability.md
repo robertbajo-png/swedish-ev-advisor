@@ -64,3 +64,64 @@ Exact main CI: https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs
 
 Normal production run (completed without an eligible new source or paid calls):
 https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/42225294667
+
+## Selection And Evidence Corrections, 2026-11-07
+
+Current status: upstream selection/evidence can reject usable material before
+writing. This change fixes those deterministic cases, not the model or budget.
+Missing proof: a fresh independently reviewed production article from this exact
+code. Offline acceptance and accessible content are not that proof.
+
+Small implementation slices:
+
+1. Subject selection: assess rumour language in the headline/opening rather than
+   rejecting a confirmed launch for a later mention of potential. Accept a launch
+   whose source headline includes an incidental price; keep price-change/offers
+   held and explicitly exclude monetary facts from generated articles. Euro NCAP
+   is not a currency amount. Require real EV evidence and the original fresh date.
+2. Coverage: concrete European charging-network expansion/access developments use
+   the existing European thresholds and independent scope review. Financing,
+   awards, local non-European station openings and unproven vehicle connections
+   do not qualify through this route.
+3. Matching: reuse exact model identities and bounded multilingual event concepts.
+   A specific update needs shared action/topic plus model or existing-fleet scope;
+   a launch needs the exact model and actual European scope. Reject conflicting
+   models, markets, reporting periods or topics. Technology labels such as V2G
+   and CO2 cannot hide a model conflict. Ownership, copying, circular reporting,
+   dates and per-fact dual-source evidence remain separately checked.
+4. Evidence: collect short labelled fields only in exact contiguous windows with
+   a recognized model header and its variant/conditions. Handle the real flattened
+   HTML text shape without inserting invented newlines. Keep missing context,
+   new-model boundaries, byte/word limits and unvalidated-table holds.
+
+Changed files: `AGENTS.md`, this document,
+`scripts/news_publisher_selection.py`, `scripts/news_reporting_policy.py`,
+`scripts/news_publisher_articles.py`, and
+`tests/test_news_publisher_selection_fixes.py` (already covered by the existing
+publisher-test CI glob). No schema, vehicle, source-registry or UI changes.
+
+Free source checks used the existing collector with normal TLS/access rules and
+an isolated SQLite store; no Supabase writes, provider calls or publication:
+
+- Mobility Sweden's 2 November October-registration release was accessible with
+  a fresh original date and passed the pre-writing material gate. This is source
+  readiness, not verified extracted facts or an approved article.
+- Volkswagen's checked global releases were older than the seven-day window.
+  Swedish VW award-finalist releases remained held as minor publicity.
+- BMW's global index returned a cross-domain redirect and remained blocked.
+- XPENG's Swiss English/Italian G9L releases were accessible but stayed held:
+  the extracted English narrative did not establish the explicit EV connection
+  required by this classifier; the Italian price-bearing headline did not qualify
+  as a supported launch. No brand-only inference or guessed translation was used.
+- Toyota UK's checked relevant release was stale. No fetch date replaced it.
+
+Operational limits and production switches were not changed; historical rejected
+URLs/proofs remain untouched. Next recommended task: current-main CI and then a
+budget-checked, genuinely fresh writer/reviewer case through the existing worker,
+not a retry of these old/private or previously rejected candidates.
+
+Local verification: all 830 `test_news*.py` tests passed, including 15 new
+positive/negative regressions, with no provider requests. `bun run build` passed
+(the shell did not expose `npm`; no dependency install was needed). Scoped
+`git diff --check` passed. No full-browser QA was needed for this backend-only
+change; this is not a claim of a new article or deployment.
