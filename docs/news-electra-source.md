@@ -59,3 +59,16 @@ high-voltage architecture and charging, without the adjective "electric". Accept
 this complete explicit combination for reading, never a brand/battery alone.
 Negative tests preserve unknown-model, other-model, missing-data and hybrid holds.
 Scores, costs, writer/reviewer checks and publishing thresholds do not change.
+
+The distinct XPENG production writer returned 172 words for USD0.016158,
+settled, but failed on insufficient significance, unspecified central market
+and a model digit missing from its cited span. No reviewer was bought and no
+article was published. Combined actual cost for the two distinct attempts is
+USD0.031982; the two-candidate/day limit is exhausted, not the monetary budget.
+
+Offline follow-up adds the missing CH market enum and literal Swiss-market/
+visible-lead checks, recognizes an explicit Swiss premiere rather than a
+publisher's country name, and tells the writer to cite an additional literal
+model-naming passage for an otherwise unnamed subject. Numeric checks and
+significance thresholds are unchanged. Both failed drafts remain quarantined;
+no new paid attempt, retry or manual approval is part of this correction.
