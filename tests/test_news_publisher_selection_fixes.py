@@ -163,7 +163,8 @@ class StructuredEvidenceTests(unittest.TestCase):
 
     def test_orphan_fields_unknown_headers_and_next_models_are_not_combined(self):
         orphan = '\n'.join(self.FIELDS)
-        for text in (orphan, 'Technical specifications:\n' + orphan):
+        for text in (orphan, 'Technical specifications:\n' + orphan,
+                     'BMW i3 and iX3 technical specifications:\n' + orphan):
             self.assertEqual(list(literal_spans(text)), [])
         text = self.HEADER + '\n' + self.FIELDS[0] + '\n\nBMW iX3 AWD:\nDC peak: 400 kW.'
         quotes = [text[a:b] for a, b in literal_spans(text)]

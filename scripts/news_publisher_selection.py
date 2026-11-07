@@ -292,7 +292,7 @@ def _structured_spans(text):
     for i, (begin, _, header) in enumerate(lines):
         title = header.strip()
         if (not title.endswith(':') or len(title) > 120
-                or not subject_brands(title) or not model_identifiers(title)):
+                or len(subject_brands(title)) != 1 or len(model_identifiers(title)) != 1):
             continue
         j = i + 1
         while j < min(i + 7, len(lines)):
