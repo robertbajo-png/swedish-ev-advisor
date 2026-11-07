@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 
 from news_editorial import normalize
 from news_publisher_registry import PUBLISHERS, REGISTERED_PUBLISHERS
-from news_publisher_selection import subject_terms
+from news_publisher_selection import subject_terms, event_conflicts, cross_language_event_matches
 
 RECIPE = 'news-article-review-2026-11-v2'
 HISTORICAL_RECIPES = frozenset(('news-publisher-short-2026-11-v1', RECIPE))
@@ -20,25 +20,11 @@ def same_event(left, right):
             return False
     except (ValueError, KeyError, TypeError):
         return False
-    def ids(text):
-        return set(re.findall(r'\b(?=[a-z0-9]*[a-z])(?=[a-z0-9]*\d)[a-z0-9]+\b', normalize(text)))
-    ai, bi = ids(a['title']), ids(b['title'])
-    if ai and bi and not ai & bi:
-        return False
-    def actions(text):
-        text = normalize(text)
-        return {name for name, pattern in {
-            'launch': r'\b(?:launch\w*|unveil\w*|debut\w*)\b',
-            'production': r'\b(?:production|factory|plant)\b',
-            'recall': r'\brecall\w*\b',
-            'price': r'\b(?:price\w*|discount\w*)\b',
-            'test': r'\b(?:test\w*|review\w*)\b',
-        }.items() if re.search(pattern, text)}
-    aa, ba = actions(a['title']), actions(b['title'])
-    if aa and ba and not aa & ba:
+    if event_conflicts(a['title'], b['title']):
         return False
     at, bt = subject_terms(a['title']), subject_terms(b['title'])
-    return len(at & bt) >= 2 and len(at & bt) / max(1, min(len(at), len(bt))) >= .3
+    return ((len(at & bt) >= 2 and len(at & bt) / max(1, min(len(at), len(bt))) >= .3)
+            or cross_language_event_matches(a['title'], b['title']))
 
 
 def independence(left, right):

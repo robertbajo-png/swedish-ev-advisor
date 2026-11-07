@@ -94,6 +94,17 @@ Permanent project rules for the Swedish EV Advisor codebase.
   Neither route establishes Swedish availability. Corporate brand names such as
   Nordic are not Swedish-market evidence. Fact, originality and spending gates
   remain unchanged; never retry old rejected/private URLs after a policy edit.
+- Editorial triage distinguishes a speculative subject from incidental background
+  wording, and a vehicle launch with a quoted price from a price/offer story.
+  The article route still omits monetary facts; price notices keep their separate
+  release switch. Concrete European charging-network developments may use the
+  existing European scope, never imply Swedish availability or evade significance
+  review. Cross-language event matching requires multiple explicit subject/action
+  anchors, not a brand or generic charging term alone; conflicts in models,
+  markets, periods and specific topics remain held. V2G/CO2/voltage are not models.
+  Short field evidence must retain its exact contiguous model/variant header and
+  qualifications, including in flattened HTML text. Orphan values and unvalidated
+  tables remain held. No source text reconstruction, paid retry or proof promotion.
 - smart Europe uses only declared `media.smart.com/en-CEU/` numeric article
   routes, one matching canonical/NewsArticle/main identity and original date.
   Preserve homologation and preliminary qualifications; exclude related links,
