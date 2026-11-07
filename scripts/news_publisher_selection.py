@@ -110,7 +110,7 @@ def candidate_assessment(item, now=None):
         require_recent_publication(p.get('published_at'), now)
     except (ValueError, TypeError):
         return {'eligible': False, 'priority': 0, 'reason': 'stale_or_missing_report_date'}
-    europe = bool(re.search(EUROPE, title) or re.search(
+    europe = bool(re.search(EUROPE, title) or re.search(r'\bswiss (?:premiere|market launch)\b', text) or re.search(
         r'\b(?:for|in|across|to|into|fur) (?:the )?(?:europe\w*|europa|eu|sweden|sverige|germany|deutschland|france|norway|finland|denmark|uk)\b', text)
         or re.search(r'\bauf (?:dem|den) (?:deutschen|europaischen) markt\b', text))
     vehicle = vehicle_evidence(p)

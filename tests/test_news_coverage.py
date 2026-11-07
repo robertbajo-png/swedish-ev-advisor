@@ -10,7 +10,7 @@ import test_news_publisher_articles as fixtures
 from news_store import artifact_hash
 from news_coverage import coverage_score, international_scope, coverage_scope
 from news_publisher_selection import candidate_assessment
-from news_publisher_articles import precheck, check_review, reviewer_call
+from news_publisher_articles import precheck, check_review, reviewer_call, writer_call
 
 
 def international_fixture():
@@ -34,6 +34,32 @@ def international_fixture():
 
 
 class InternationalCoverageTests(unittest.TestCase):
+    def test_swiss_market_has_explicit_schema_evidence_and_visible_lead(self):
+        b,p=fixtures.fixture()
+        title='Battery technology update at its Swiss premiere'
+        for row in b['items']:
+            row['payload']['title']=title
+            row['payload']['content']=row['payload']['content'].replace('in Europe','in Switzerland')
+            row['payload']['content_hash']=hashlib.sha256(row['payload']['content'].encode()).hexdigest()
+        b['bundle_hash']=artifact_hash({k:v for k,v in b.items() if k!='bundle_hash'})
+        p['extraction']['event']['subject']=title
+        for fact in p['extraction']['facts']:
+            fact['market']='CH'
+            for ref in fact['support']: ref['quote']=ref['quote'].replace('in Europe','in Switzerland')
+        p['article']['title']=p['article']['title'].replace('Europa','Schweiz')
+        p['article']['intro']=p['article']['intro'].replace('Europa','Schweiz')
+        self.assertEqual(coverage_scope(b,fixtures.NOW),'european_development')
+        self.assertTrue(precheck(b,p,fixtures.NOW)['passed'],precheck(b,p,fixtures.NOW)['errors'])
+        call=writer_call(b)
+        self.assertIn('CH',call[1]['properties']['extraction']['properties']['facts']['items']['properties']['market']['enum'])
+        self.assertIn('additional provided passage naming that exact model',call[2])
+        p['article']['title']=p['article']['title'].replace('Schweiz','utlandet')
+        p['article']['intro']=p['article']['intro'].replace('Schweiz','utlandet')
+        self.assertIn('publisher_foreign_scope_missing_from_lead',precheck(b,p,fixtures.NOW)['errors'])
+        for fact in p['extraction']['facts']:
+            for ref in fact['support']: ref['quote']=ref['quote'].replace('in Switzerland','in Europe')
+        self.assertTrue(any(e.startswith('publisher_swiss_market_not_in_evidence:') for e in precheck(b,p,fixtures.NOW)['errors']))
+
     def test_european_development_has_own_relevance_without_swedish_availability(self):
         b,p=fixtures.fixture()
         title='Nordic Cells unveils solid-state technology for electric cars in Europe'
