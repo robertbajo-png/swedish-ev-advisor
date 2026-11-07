@@ -71,18 +71,21 @@ class IndexLinks(HTMLParser):
             self.current = None
 
 
-def related(lead, title, summary=''):
-    return primary_identity_matches(lead, {'payload': {'title': title, 'content': summary}})
+def related(lead, title, summary='', publisher=''):
+    return primary_identity_matches(lead, {'payload': {'title': title, 'content': summary, 'publisher': publisher}})
 
 
-def candidate_related(lead, title, summary='', url=''):
+def candidate_related(lead, title, summary='', url='', *, publisher=''):
     """Broader discovery only; fetched documents must pass the strict match too."""
-    a_brands,b_brands=subject_brands(lead['payload']['title']),subject_brands(title)
+    a_brands = subject_brands(lead['payload']['title'])
+    b_brands = subject_brands(title) or subject_brands(publisher)
     if a_brands and b_brands and not a_brands & b_brands: return False
     report_models, candidate_models = model_identifiers(lead['payload']['title']), model_identifiers(title)
     if report_models and candidate_models and not report_models & candidate_models:
         return False
-    if related(lead,title,summary): return True
+    if not a_brands and b_brands and not report_models & candidate_models:
+        return False
+    if related(lead,title,summary,publisher): return True
     def terms(text):
         result=subject_terms(text)
         if re.search(r'bilsalg|nybilregistrering|immatriculation|registrations?|marche automobile',text,re.I):
@@ -109,7 +112,8 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
     terms = subject_terms(lead['payload']['title'])
     def add(url, title, summary, edge, priority):
         source = source_for(url, registry)
-        if not source or not source_subject_matches(lead, source) or url in seen or not candidate_related(lead,title,summary,url):
+        if (not source or not source_subject_matches(lead, source) or url in seen
+                or not candidate_related(lead,title,summary,url,publisher=source['name'])):
             return
         seen.add(url)
         score = len(terms & subject_terms(title + ' ' + summary))
@@ -127,7 +131,7 @@ def discover(lead, collector, registry, metadata=(), trace=None, *, indexes=True
         record = {'id':item['id'], 'source_id':item['source_id'], 'url':item['url'],
                   'title':p.get('title',''), 'published_at':p.get('published_at'),
                   'summary':summary[:1000]}
-        if not candidate_related(lead,record['title'],record['summary'],item['url']): continue
+        if not candidate_related(lead,record['title'],record['summary'],item['url'],publisher=source['name']): continue
         date=iso_date(record['published_at'])
         if date:
             gap=datetime.fromisoformat(lead['payload']['published_at'])-datetime.fromisoformat(date)

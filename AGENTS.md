@@ -105,6 +105,10 @@ Permanent project rules for the Swedish EV Advisor codebase.
   Short field evidence must retain its exact contiguous model/variant header and
   qualifications, including in flattened HTML text. Orphan values and unvalidated
   tables remain held. No source text reconstruction, paid retry or proof promotion.
+  Unknown/brandless report headlines may not borrow a manufacturer from competitor
+  mentions in the body. A manufacturer-owned primary must share an explicit model
+  identifier in both headlines, plus the manufacturer in the report. Apply this
+  before discovery slots and in final artifact validation, not only before writing.
 - smart Europe uses only declared `media.smart.com/en-CEU/` numeric article
   routes, one matching canonical/NewsArticle/main identity and original date.
   Preserve homologation and preliminary qualifications; exclude related links,
