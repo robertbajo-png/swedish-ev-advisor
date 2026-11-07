@@ -125,3 +125,29 @@ positive/negative regressions, with no provider requests. `bun run build` passed
 (the shell did not expose `npm`; no dependency install was needed). Scoped
 `git diff --check` passed. No full-browser QA was needed for this backend-only
 change; this is not a claim of a new article or deployment.
+
+## Deployment Follow-Up, 2026-11-07
+
+PR #42 was merged as `54ee99712e4d4312ed08a9b97ca588b3171d5f27` after
+143 passing PR checks. All 143 exact-main CI checks also passed. Remote preflight
+was ready: Sol, USD0.25/day and USD5/month, one article/day, no unsettled request,
+USD0 spent this UTC day and USD0.1397 this month. Existing conservative historical
+accounting remained intact. No activation or financial limit was changed.
+
+The free current-queue inspection then exposed an additional incorrect primary
+match: an unknown-brand Chery Tiggo report could match a Volkswagen release via
+generic terms and a competitor mentioned in its body. No paid call was made.
+Hold the live run until this upstream identity bug is corrected and checked:
+
+- Use the actual registered publisher when a primary headline omits its brand.
+- A brandless report may use a manufacturer primary only with the exact model
+  identifier in both headlines and the manufacturer explicitly in its narrative.
+  Body-only competitor mentions cannot establish the report subject.
+- Apply the same rule to official discovery before spending bounded fetch slots,
+  and recheck primary identity during final artifact validation as defense in depth.
+- Preserve general institutional/battery stories and correctly model-anchored
+  brandless headlines. Do not require a new hardcoded brand entry for each case.
+
+This follow-up touches selection, primary discovery, article validation, their
+regressions and project documentation only. It does not itself buy an article,
+publish data, install a migration or retry a historical paid/private draft.

@@ -367,11 +367,14 @@ def primary_identity_matches(report, primary):
     title = report['payload']['title']
     target = primary['payload']
     brands = subject_brands(title)
-    target_brands = subject_brands(target['title'])
+    target_brands = subject_brands(target['title']) or subject_brands(target.get('publisher', ''))
     if brands and target_brands and not brands & target_brands:
         return False
-    if not brands and target_brands and not target_brands & subject_brands(report['payload'].get('content','')[:1200]):
-        return False
+    if not brands and target_brands:
+        # A competitor mentioned in the report body cannot supply its subject.
+        if (not model_identifiers(title) & model_identifiers(target['title'])
+                or not target_brands & subject_brands(report['payload'].get('content','')[:1200])):
+            return False
     if brands and not brands & subject_brands(target['title']+' '+target['content']+' '+target.get('publisher','')):
         return False
     recall = r'\b(?:recall\w*|aterkall\w*|rappel\w*|ruckruf\w*)\b'

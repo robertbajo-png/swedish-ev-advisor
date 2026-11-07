@@ -45,6 +45,50 @@ class FakeCollector:
         return 200,{},value,url
 
 class OriginalDiscoveryTests(unittest.TestCase):
+    def test_unknown_headline_brand_cannot_borrow_a_competitor_from_body_or_generic_words(self):
+        from news_primary_discovery import candidate_related
+        for title in ('Chery Tiggo 2 electric SUV for Europe', 'UnknownMaker electric SUV for Europe'):
+            report = {'payload': {'title': title,
+                'content': 'A new electric SUV for Europe. Volkswagen ID.Cross is mentioned only as a competitor.'}}
+            primary = {'payload': {'title': 'Affordable electric SUV for Europe', 'publisher': 'Volkswagen Newsroom',
+                'content': 'Volkswagen introduces its electric SUV for Europe. Chery is a competitor.'}}
+            self.assertFalse(primary_identity_matches(report, primary))
+            self.assertFalse(candidate_related(report, primary['payload']['title'], primary['payload']['content'],
+                                              publisher='Volkswagen Newsroom'))
+            row = catalog()
+            row['payload'].update(title=primary['payload']['title'], summary=primary['payload']['content'])
+            c = Mock()
+            self.assertEqual(discover(report, c, PRIMARY_AUTHORITIES, [row], indexes=False), [])
+            c.fetch.assert_not_called()
+
+    def test_brandless_headline_requires_exact_headline_model_and_brand_in_report(self):
+        report = {'payload': {'title': 'i3 electric car launches in Europe',
+                              'content': 'BMW confirms its i3 electric passenger car.'}}
+        primary = {'payload': {'title': 'BMW i3 electric car launches in Europe',
+                               'content': 'BMW launches its i3 electric passenger car.'}}
+        self.assertTrue(primary_identity_matches(report, primary))
+        primary['payload']['title'] = 'BMW iX3 electric car launches in Europe'
+        self.assertFalse(primary_identity_matches(report, primary))
+        primary['payload']['title'] = 'BMW i3 electric car launches in Europe'
+        report['payload']['content'] = 'An unnamed company confirms an electric car.'
+        self.assertFalse(primary_identity_matches(report, primary))
+
+    def test_existing_artifact_precheck_cannot_skip_the_primary_subject_gate(self):
+        from news_publisher_articles import evidence_readiness, precheck
+        from news_publisher_sources import item_from_document
+        bundle, packet = fixture.fixture()
+        bundle['items'][0]['payload'].update(title='Chery Tiggo 2 electric SUV for Europe',
+            content='An electric SUV for Europe. Volkswagen is a competitor.')
+        bundle['items'][1] = item_from_document(ORIGINAL, primary_source(ORIGINAL), {
+            'title': 'Affordable electric SUV for Europe', 'published_at': NOW.isoformat(),
+            'content': 'Volkswagen describes its electric SUV for Europe. ' * 24}, NOW)
+        bundle['provenance'][0]['to_url'] = ORIGINAL
+        for row in bundle['items']:
+            p = row['payload']; p['content_hash'] = hashlib.sha256(p['content'].encode()).hexdigest()
+        bundle['bundle_hash'] = artifact_hash({k: v for k, v in bundle.items() if k != 'bundle_hash'})
+        self.assertIn('publisher_primary_subject_mismatch', evidence_readiness(bundle, NOW)['errors'])
+        self.assertIn('publisher_primary_subject_mismatch', precheck(bundle, packet, NOW)['errors'])
+
     def test_wrong_manufacturer_direct_links_do_not_crowd_out_actual_primary(self):
         from news_publisher_sources import PRIMARY_AUTHORITIES
         title='Toyota launches a synthetic electric car in Europe'

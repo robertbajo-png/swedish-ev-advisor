@@ -281,6 +281,10 @@ def pair_bound(ai, bundle):
 
 def precheck(bundle, packet, now=None):
     errors = bundle_errors(bundle, now) + table_context_errors(bundle)
+    if not errors and not official_release(bundle) and not reported(bundle) and not any(
+            primary_identity_matches(bundle['items'][0], row)
+            for row in bundle['items'] if row['payload']['source_kind'] == 'primary'):
+        errors.append('publisher_primary_subject_mismatch')
     if not isinstance(packet, dict) or set(packet) != {'extraction', 'article'}:
         return {'passed': False, 'errors': errors + ['publisher_packet_shape'], 'word_count': 0}
     if len(json.dumps(packet, ensure_ascii=False).encode()) > PACKET_BYTES:
