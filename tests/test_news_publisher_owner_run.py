@@ -10,7 +10,8 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import run_publisher_news as worker
 import test_news_publisher_articles as fixtures
-from news_publisher_articles import publisher_scope_errors
+from news_publisher_articles import publisher_scope_errors, writer_call, reviewer_call, precheck
+from news_store import artifact_hash
 
 
 class OwnerRunTests(unittest.TestCase):
@@ -90,6 +91,50 @@ class ShowingEventTests(unittest.TestCase):
             self.assertIn('claim_event_mismatch:p0:announcement', publisher_scope_errors(
                 self.article('Bilen har presenterats som skalmodell.'),
                 [{'id': 'f1', 'statement': statement, 'evidence': evidence}]))
+
+
+class StableEventSchemaTests(unittest.TestCase):
+    def test_portable_strict_schema_preserves_local_numeric_and_array_limits(self):
+        from news_ai import NewsAi
+        from news_editorial import RATING
+        b, p = fixtures.fixture()
+        ai = NewsAi.__new__(NewsAi)
+        ai.model, ai.output_limits = 'gpt-6-sol', worker.LIMITS
+        def inspect(node):
+            if isinstance(node, dict):
+                self.assertFalse({'minimum','maximum','minItems','maxItems'} & set(node))
+                if 'properties' in node:
+                    self.assertEqual(node['additionalProperties'], False)
+                    self.assertEqual(set(node['required']), set(node['properties']))
+                for value in node.values(): inspect(value)
+            elif isinstance(node, list):
+                for value in node: inspect(value)
+        for call in (writer_call(b), reviewer_call(b,p)):
+            inspect(call[1])
+            self.assertTrue(ai.payload(*call)['text']['format']['strict'])
+        self.assertEqual(RATING, {'type':'number','minimum':0,'maximum':1})
+        for change in ('rating', 'facts', 'paragraphs', 'support'):
+            invalid = copy.deepcopy(p)
+            if change == 'rating': invalid['extraction']['significance'] = 9
+            if change == 'facts': invalid['extraction']['facts'] *= 2
+            if change == 'paragraphs': invalid['article']['paragraphs'] *= 2
+            if change == 'support': invalid['extraction']['facts'][0]['support'] *= 3
+            self.assertFalse(precheck(b,invalid,fixtures.NOW)['passed'],change)
+
+    def test_untrusted_quoted_headline_is_input_data_not_json_schema(self):
+        import json
+        b, p = fixtures.fixture()
+        title = 'Synthetic maker presents "taxi" version: \u00e9lectric cars'
+        for item in b['items']: item['payload']['title'] = title
+        b['bundle_hash'] = artifact_hash({k:v for k,v in b.items() if k != 'bundle_hash'})
+        _, schema, prompt = writer_call(b)
+        self.assertEqual(schema['properties']['extraction']['properties']['event']['properties']['subject'], {'type':'string'})
+        self.assertNotIn(title, json.dumps(schema, ensure_ascii=False))
+        self.assertEqual(json.loads(prompt.partition('\n')[2])['report_subject'], title)
+        p['extraction']['event']['subject'] = title
+        self.assertNotIn('publisher_event_identity_invalid', precheck(b, p, fixtures.NOW)['errors'])
+        p['extraction']['event']['subject'] = 'A different event'
+        self.assertIn('publisher_event_identity_invalid', precheck(b, p, fixtures.NOW)['errors'])
 
 
 if __name__ == '__main__':

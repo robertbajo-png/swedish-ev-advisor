@@ -1,5 +1,28 @@
 # Flexible Newsroom Policy
 
+## API Schema And Approved Budget Follow-Up
+
+The additional 2026-11-08 production request was rejected with HTTP 400,
+`invalid_json_schema`, parameter `text.format.schema`, before a model response.
+No new text or review was produced. The specific rejected schema rule is not
+known because diagnostics deliberately retain only safe machine-readable fields.
+Do not claim a confirmed model-quality problem or an actual zero charge.
+
+The owner approved conservative closure of the full USD0.09145 reservation and
+installation of migration 022 (USD0.50/day, USD10/month). The charge remains in
+accounting with unknown actual use, and the failed URL stays excluded. No older
+charges, canonical cars, published articles, model or one-publication/day cap change.
+
+V3 now keeps untrusted headline text in the prompt, not an enum in the provider
+schema. Exact event identity is still checked locally. Writer/reviewer provider
+schemas retain strict object shape, required fields, enums and no extra properties,
+but omit model-dependent numeric/array bounds. All those limits remain mandatory
+in local precheck/review before publication; historical schema modules are unchanged.
+This portability mitigation requires a fresh accepted API response before it can
+be described as live-verified, not just an offline schema test.
+
+Official reference: https://developers.openai.com/api/docs/guides/structured-outputs
+
 ## Owner-Requested Additional Attempts
 
 On 2026-11-08 the owner requested further paid attempts until a good result.
