@@ -136,6 +136,29 @@ class FlexiblePublisherPolicyTests(unittest.TestCase):
         rehash(b)
         self.assertIn('publisher_reported_fact_conflicting_numbers_or_units:f1', precheck(b, p, fixtures.NOW)['errors'])
 
+    def test_complementary_spans_from_one_source_do_not_require_each_numeric_header(self):
+        b, p, _ = single_fixture()
+        quotes = [
+            'The European battery research project concerns the passenger vehicle called model X7.',
+            'The body of this passenger vehicle is 2000 mm wide under the stated configuration.',
+        ]
+        b['items'][0]['payload']['content'] += ' ' + ' '.join(quotes)
+        f = p['extraction']['facts'][0]
+        f['statement'] = 'Enligt CarNewsChina omfattar forskningsprojektet modell X7, vars kaross ar 2000 mm bred.'
+        f['support'] = [{'source': 's0', 'quote': q} for q in quotes]
+        rehash(b)
+        checked = precheck(b, p, fixtures.NOW)
+        self.assertNotIn('publisher_reported_fact_conflicting_numbers_or_units:f1', checked['errors'])
+        self.assertNotIn('publisher_fact_number_not_in_evidence:f1', checked['errors'])
+        # Two excerpts are still one newsroom, never two independent witnesses.
+        f['statement'] = 'Enligt CarNewsChina har modell X7 ett batteri pa 90 kWh.'
+        old = quotes[1]
+        quotes[1] = 'This passenger vehicle has a 90 kWh battery under the stated configuration.'
+        b['items'][0]['payload']['content'] = b['items'][0]['payload']['content'].replace(old, quotes[1])
+        f['support'][1]['quote'] = quotes[1]
+        rehash(b)
+        self.assertIn('publisher_reported_fact_needs_two_editors:f1', precheck(b, p, fixtures.NOW)['errors'])
+
     def test_single_source_requires_attribution_registered_identity_and_exact_review(self):
         for kind in ('attribution', 'owner', 'review', 'hash', 'availability'):
             b, p, review = single_fixture()

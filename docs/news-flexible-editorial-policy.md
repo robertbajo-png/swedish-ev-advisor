@@ -21,6 +21,21 @@ in local precheck/review before publication; historical schema modules are uncha
 This portability mitigation requires a fresh accepted API response before it can
 be described as live-verified, not just an offline schema test.
 
+The 2026-11-08 bounded run then obtained three completed, settled writer responses
+without schema errors (USD0.025690 total). One 115-word IM Motors draft failed
+precheck; the recall and advice cases declined. No independent review or new
+publication occurred. These are not successful editorial release proofs.
+
+The follow-up binds the writer's fixed `s0` event reference to the exact fetched
+headline in the existing resolver. Raw provider output and all visible prose
+remain unchanged. Literal numeric/unit checks combine complementary spans within
+the SAME source; each separate newsroom still has to cover the whole fact, and
+sensitive claims retain official/two-independent-newsroom requirements. Exact
+source/hash/identity checks and final independent review remain mandatory.
+Advice/how-to headlines are now filtered without AI. Historical rejected drafts
+stay quarantined; these fixes never promote them or reset the daily attempt count.
+867 offline news tests and the production build passed for this follow-up.
+
 Official reference: https://developers.openai.com/api/docs/guides/structured-outputs
 
 ## Owner-Requested Additional Attempts

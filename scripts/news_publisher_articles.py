@@ -119,6 +119,10 @@ def resolve_writer_output(bundle, output):
     catalog = evidence_catalog(bundle)
     if not isinstance(packet, dict) or set(packet) not in ({'extraction', 'article'}, {'extraction', 'articles'}):
         raise ValueError('publisher_writer_output_shape')
+    # The source identity is metadata, not text the writer must reproduce.
+    event = packet['extraction'].get('event')
+    if isinstance(event, dict) and event.get('subject') == 's0':
+        event['subject'] = bundle['items'][0]['payload']['title']
     for fact in packet['extraction']['facts']:
         refs = []
         for ref in fact['support']:
@@ -185,7 +189,7 @@ def writer_call(bundle):
     article['type'] = ['object', 'null']
     schema = obj({'extraction': obj({'relevant': BOOL, 'sweden_relevance': RATING, 'significance': RATING,
         'category': {'type': 'string', 'enum': CATEGORIES},
-        'event': obj({'subject': STRING,
+        'event': obj({'subject': {'type': 'string', 'enum': ['s0']},
             'action': {'type': 'string', 'enum': ['launch', 'battery', 'charging', 'test', 'market', 'update', 'recall']},
             'date': {'type': 'string', 'enum': [bundle['items'][0]['payload']['published_at'][:10]]}}),
         'facts': {'type': 'array', 'maxItems': 6, 'items': fact}}),
@@ -200,7 +204,8 @@ def writer_call(bundle):
         'A model identifier is required evidence too: if a passage only says the new SUV, cite an additional '
         'provided passage naming that exact model, not just the report headline. Use CH for explicit Swiss '
         'market facts, not EU membership or UNSPECIFIED; do not infer a market from the publisher name. '
-        'Mark the actual central development central=true. Event subject/date are the supplied report identity. '
+        'Mark the actual central development central=true. Set event.subject to the source identity s0; '
+        'the application binds it to the exact source headline. Event date is the supplied report date. '
         'The facts are an inventory, not finished article prose. Compose a new structure from them, not a '
         'sentence-by-sentence translation or synonym rewrite. Start with the actual change; optional '
         'lead_evidence_options suggest a different supported entry point. In the next paragraph explain distinct '
@@ -415,8 +420,14 @@ def precheck(bundle, packet, now=None):
                 r'\bswiss\b|\bswitzerland\b|\bschweiz\w*|\bsuisse\b|\bsvizzera\b', ' '.join(evidence), re.I):
             errors.append('publisher_swiss_market_not_in_evidence:' + fact['id'])
         if reported(bundle):
-            if any(not numbers(fact['statement']) <= numbers(quote, source_language=True)
-                   or not units(fact['statement']) <= units(quote) for quote in evidence):
+            # A model header and its numeric detail may be separate literal spans.
+            # Each independent source must support the whole fact, not every span.
+            source_evidence = {}
+            for source, quote in zip(supporting, evidence):
+                source_evidence.setdefault(source['id'], []).append(quote)
+            if any(not numbers(fact['statement']) <= numbers(' '.join(quotes), source_language=True)
+                   or not units(fact['statement']) <= units(' '.join(quotes))
+                   for quotes in source_evidence.values()):
                 errors.append('publisher_reported_fact_conflicting_numbers_or_units:' + fact['id'])
             if any(s['publisher'].lower() not in fact['statement'].lower() for s in supporting):
                 errors.append('publisher_reported_fact_attribution_missing:' + fact['id'])
