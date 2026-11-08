@@ -66,6 +66,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- On 2026-11-08 the owner requested more paid attempts until a good result.
+  The explicit production CLI may use up to six TOTAL candidates for that
+  owner-approved UTC day, counting the two already consumed. Require the exact
+  current `--owner-approved-day`; never reset counters or reuse old URLs/drafts.
+  Scheduled/default work stays at two/day. All monetary/model/token limits,
+  full writer/reviewer pair preflight, accounting stops, separate audit and
+  one-publication/day remain. No monetary budget exception was approved.
+
 - The owner-approved November 2026 flexible newsroom policy supersedes only the
   active publisher v2 rules below. New work uses `news-article-review-2026-11-v3`:
   source-based free eligibility/ranking before spending, not post-writing numeric

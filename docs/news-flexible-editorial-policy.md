@@ -1,5 +1,23 @@
 # Flexible Newsroom Policy
 
+## Owner-Requested Additional Attempts
+
+On 2026-11-08 the owner requested further paid attempts until a good result.
+An explicit production invocation may use `run --max-candidates 6
+--owner-approved-day YYYY-MM-DD`, for that exact current UTC day only. Six is
+the TOTAL including earlier attempts, not six additional ones. Scheduled and
+default work still use two. No private-trial expansion, budget reset, new money
+exception, old URL retry or old-proof promotion. Full pair reservation,
+unknown-usage stops, independent audit and one publication/day remain mandatory.
+
+The v3 language follow-up recognizes an extracted showing/reveal as a generic
+presentation only when the cited literal source also explicitly describes that
+event. It never promotes a showing into orders, market launch or deliveries,
+and does not accept statistics merely saying a number "shows" something. The
+writer is also instructed to distinguish scale models from variants and cite
+all facts needed for equipment/event/condition clauses. Historical recipe and
+fact-plan modules are unchanged; previously failed texts remain quarantined.
+
 Owner approval: implement all five proposed editorial relaxations. This affects
 the shared article publisher, not canonical vehicle ingestion or historical trials.
 
