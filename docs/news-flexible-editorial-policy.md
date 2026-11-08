@@ -65,3 +65,8 @@ Local verification: 856 offline news tests, production Vite build and package
 secret guard passed. No paid call, new public article or production data mutation is
 part of implementing the policy; scheduled production uses it after reviewed
 main CI. A successful live publication must be reported separately.
+
+CI bootstrap: three attempts failed before tests because GitHub release assets
+returned HTTP 504 for Bun. Install the official npm `bun@1.3.13` package in CI,
+matching the locally tested runtime, rather than the mutable latest GitHub ZIP.
+This changes no application dependencies, lockfile or test/publication gates.
