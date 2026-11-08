@@ -26,6 +26,16 @@ MARKETS = ['SE', 'EU', 'CH', 'CN', 'AU', 'US', 'TH', 'JP', 'KR', 'IN', 'GLOBAL',
 CYCLES = ['WLTP', 'CLTC', 'EPA', 'TEST', 'NOT_APPLICABLE', 'UNSPECIFIED']
 
 
+def provider_schema(schema):
+    """Portable strict shape; publication limits still belong to precheck/check_review."""
+    if isinstance(schema, list):
+        return [provider_schema(value) for value in schema]
+    if isinstance(schema, dict):
+        return {key: provider_schema(value) for key, value in schema.items()
+                if key not in ('minimum', 'maximum', 'minItems', 'maxItems')}
+    return schema
+
+
 def numbers(text, *, source_language=False):
     text = re.sub(r'\d{1,3}(?:[ \u00a0\u202f]\d{3})+', lambda m: re.sub(r'\s', '', m[0]), text)
     if source_language:
@@ -175,7 +185,7 @@ def writer_call(bundle):
     article['type'] = ['object', 'null']
     schema = obj({'extraction': obj({'relevant': BOOL, 'sweden_relevance': RATING, 'significance': RATING,
         'category': {'type': 'string', 'enum': CATEGORIES},
-        'event': obj({'subject': {'type': 'string', 'enum': [bundle['items'][0]['payload']['title']]},
+        'event': obj({'subject': STRING,
             'action': {'type': 'string', 'enum': ['launch', 'battery', 'charging', 'test', 'market', 'update', 'recall']},
             'date': {'type': 'string', 'enum': [bundle['items'][0]['payload']['published_at'][:10]]}}),
         'facts': {'type': 'array', 'maxItems': 6, 'items': fact}}),
@@ -235,7 +245,7 @@ def writer_call(bundle):
                     'sources': [{k: v for k, v in s.items() if k not in ('CONTENT', 'passage_offsets')} for s in source_views(bundle)],
                     'literal_evidence': catalog,
                     'lead_evidence_options': list(catalog)[1:4]}, ensure_ascii=False))
-    return 'swedish_ev_article', schema, prompt
+    return 'swedish_ev_article', provider_schema(schema), prompt
 
 
 def brief(bundle, packet):
@@ -301,7 +311,7 @@ def reviewer_call(bundle, packet):
         json.dumps({'brief_hash': b['brief_hash'], 'article_hash': artifact_hash(article),
                     'sources': source_views(bundle), 'basis': b['evidence_basis'],
                     'independence': b['independence'], 'packet': packet}, ensure_ascii=False))
-    return 'ev_news_independent_audit', schema, prompt
+    return 'ev_news_independent_audit', provider_schema(schema), prompt
 
 
 def pair_bound(ai, bundle):

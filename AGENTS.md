@@ -66,6 +66,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- On 2026-11-08 the owner separately approved installation of migration 022.
+  Current ordinary news limits are USD0.50/UTC day and USD10/month; one public
+  article/day remains. Keep conservative unknown reservations charged, never
+  invent token use or a zero cost. V3 API schemas use portable strict structural
+  constraints; local precheck/review still enforce all numeric/array/evidence
+  limits and exact event identity. Source headlines are prompt data, not dynamic
+  schema enums. Do not weaken publication guards to repair API schema errors.
+
 - On 2026-11-08 the owner requested more paid attempts until a good result.
   The explicit production CLI may use up to six TOTAL candidates for that
   owner-approved UTC day, counting the two already consumed. Require the exact
