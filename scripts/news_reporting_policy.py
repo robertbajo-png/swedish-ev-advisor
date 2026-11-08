@@ -82,6 +82,8 @@ def corroborated(bundle):
 def sensitive_fact(fact):
     """One newsroom may report a development, not alone substantiate buyer-critical claims."""
     text = normalize(fact.get('statement', ''))
+    # Powertrain history is not a numerical charging-performance claim.
+    charging_text = re.sub(r'\bladdhybrid\w*\b|\bladdbar\w*\s+hybrid\w*\b', 'hybrid', text)
     return (fact.get('range_cycle') in ('WLTP', 'CLTC', 'EPA', 'TEST') or bool(re.search(
         r'\b(?:pris\w*|kron\w*|sek|eur|usd|chf|cny|rmb|gbp|rabatt\w*|leasing\w*|'
         r'rackvid\w*|prestand\w*|acceleration\w*|toppfart\w*|effekt\w*|'
@@ -90,4 +92,4 @@ def sensitive_fact(fact):
         r'krock\w*|tillganglig\w*|saljs|salufor\w*|bestall\w*|leveran\w*|'
         r'marknadsstart\w*|saljstart\w*|erbjuds|gar att kopa|kommer till sverige)\b', text)) or bool(
         re.search(r'\b(?:sverige|svensk\w*)\b', text) and re.search(r'\b(?:lanser\w*|introducer\w*)\b', text)) or bool(
-        re.search(r'\d', text) and re.search(r'\b(?:ladd\w*|km|kilometer\w*|hk|hastighet\w*|co2|co 2|wh)\b', text)))
+        re.search(r'\d', text) and re.search(r'\b(?:ladd\w*|km|kilometer\w*|hk|hastighet\w*|co2|co 2|wh)\b', charging_text)))

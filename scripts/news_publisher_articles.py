@@ -38,9 +38,9 @@ def provider_schema(schema):
 
 
 def numbers(text, *, source_language=False):
-    text = re.sub(r'\d{1,3}(?:[ \u00a0\u202f]\d{3})+', lambda m: re.sub(r'\s', '', m[0]), text)
+    text = re.sub(r'(?<![\w.,#])\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?!\d)', lambda m: re.sub(r'\s', '', m[0]), text)
     if source_language:
-        text = re.sub(r'(?<![\d.,])\d{1,3}(?:,\d{3})+(?!\d)', lambda m: m[0].replace(',', ''), text)
+        text = re.sub(r'(?<![\w.,#])\d{1,3}(?:,\d{3})+(?!\d)', lambda m: m[0].replace(',', ''), text)
     return set(re.findall(r'\d+(?:\.\d+)?', text.replace(',', '.')))
 
 
@@ -530,7 +530,12 @@ def precheck(bundle, packet, now=None):
             errors.append('publisher_secondary_attribution_lost:' + b['id'])
         if reported(bundle):
             n = normalize(b['text'])
-            if b['id'] not in ('title', 'intro') and not re.search(r'\b(?:enligt|uppger|rapporterar|beskriver)\b', n):
+            attributed = bool(re.search(r'\b(?:enligt|uppger|rapporterar|beskriver)\b', n))
+            if (not attributed and re.search(r'\b(?:skriver|anger|noterar)\b', n) and
+                    any(re.search(r'\b' + re.escape(normalize(i['payload']['publisher'])) + r'\b', n)
+                        for i in bundle['items'])):
+                attributed = True
+            if b['id'] not in ('title', 'intro') and not attributed:
                 errors.append('publisher_reported_block_attribution_missing:' + b['id'])
             if re.search(r'oberoende verifier|vi har verifier|bekraftad svensk', n):
                 errors.append('publisher_reported_claim_presented_as_verified:' + b['id'])
