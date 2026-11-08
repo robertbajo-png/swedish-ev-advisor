@@ -69,4 +69,7 @@ main CI. A successful live publication must be reported separately.
 CI bootstrap: three attempts failed before tests because GitHub release assets
 returned HTTP 504 for Bun. Install the official npm `bun@1.3.13` package in CI,
 matching the locally tested runtime, rather than the mutable latest GitHub ZIP.
-This changes no application dependencies, lockfile or test/publication gates.
+Use the same bootstrap for the news production/preview distributors so new
+articles do not hit the identical download failure at upload. Targets, public-only
+credentials and unchanged-snapshot conditions remain. This changes no application
+dependencies, lockfile or test/publication gates.

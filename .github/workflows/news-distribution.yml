@@ -83,10 +83,9 @@ jobs:
         env:
           PREVIEW_URL: https://codex-ai-preview.seekev-ai-preview.pages.dev
         run: node scripts/news_distribution.mjs verify
-      - uses: oven-sh/setup-bun@v2
+      - name: Install pinned Bun from official npm package
         if: steps.snapshot.outputs.upload_required == 'true'
-        with:
-          bun-version: latest
+        run: npm install --global bun@1.3.13
       - uses: actions/setup-python@v5
         if: steps.snapshot.outputs.upload_required == 'true'
         with:
