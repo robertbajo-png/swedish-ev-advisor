@@ -13,6 +13,7 @@ from contextlib import ExitStack
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from news_ai import NewsAi
+from news_http import require_recent_publication
 from news_editorial import blocks
 from news_launch_hybrid import REVIEW_FLAGS
 from news_publisher_sources import (PUBLISHERS, parse_publisher, item_from_document, primary_source,
@@ -304,6 +305,8 @@ class PublisherLifecycleTests(unittest.TestCase):
         stack.enter_context(patch.object(worker, 'stage', side_effect=lambda st, bundle, packet, rev, ids, **kw:
                                               stage(st, bundle, packet, rev, ids, now=NOW, **kw)))
         stack.enter_context(patch.object(worker, 'now_iso', return_value=NOW.isoformat()))
+        stack.enter_context(patch.object(worker, 'require_recent_publication',
+                                  side_effect=lambda date: require_recent_publication(date, NOW)))
         stack.enter_context(patch('news_store.now_iso', return_value=NOW.isoformat()))
         stack.enter_context(patch.object(worker, 'DIRECTORY', Path(folder) / 'private-fixtures'))
         stack.enter_context(patch.object(worker, 'budget', side_effect=lambda st, required=0: {
