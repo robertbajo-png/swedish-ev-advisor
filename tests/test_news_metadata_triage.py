@@ -8,7 +8,7 @@ from datetime import datetime, timezone, timedelta
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from news_publisher_registry import PUBLISHERS, publisher_templates
 from news_publisher_selection import ranked_candidates, candidate_assessment, bounded_reading_queue
-from news_publisher_sources import collect_bundle, PublisherContentHeld
+from news_publisher_sources import collect_bundle, PublisherContentHeld, item_from_document
 from news_run_summary import summarize
 
 NOW=datetime(2026,11,5,8,tzinfo=timezone.utc)
@@ -72,15 +72,16 @@ class MetadataTriageTests(unittest.TestCase):
             self.assertEqual(result.exception.discovery_trace[0]['reason'],'vehicle_connection_not_established')
             original.assert_not_called();provider.assert_not_called()
 
-    def test_valid_body_still_requires_original_or_independent_evidence(self):
-        lead={'url':URL,'payload':{'title':'Motor har testet Kia EV2','published_at':NOW.isoformat(),
-              'content':'Kia EV2 is an electric passenger car for Europe. '*40}}
+    def test_valid_body_can_prepare_single_source_but_is_not_a_publication(self):
+        lead=item_from_document(URL,PUBLISHERS['motor-no'],
+            {'title':'Motor har testet Kia EV2','published_at':NOW.isoformat(),
+             'content':'Kia EV2 is an electric passenger car for Europe. '*40},NOW)
         with patch('news_publisher_sources.fetch_publisher',return_value=(lead,[])), \
                 patch('news_publisher_sources.discover_originals',return_value=[]), \
                 patch('news_publisher_sources.corroboration_candidates',return_value=[]), \
                 patch('news_ai.NewsAi.request') as provider:
-            with self.assertRaisesRegex(ValueError,'publisher_no_primary_or_independent_pair'):
-                collect_bundle('motor-no',URL,Mock(),now=NOW,content_triage=True)
+            bundle=collect_bundle('motor-no',URL,Mock(),now=NOW,content_triage=True)
+            self.assertEqual(bundle['evidence_basis'],'editorial_single_source')
             provider.assert_not_called()
 
     def test_unsupported_template_configuration_is_rejected(self):

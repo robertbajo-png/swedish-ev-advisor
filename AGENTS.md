@@ -66,6 +66,27 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- The owner-approved November 2026 flexible newsroom policy supersedes only the
+  active publisher v2 rules below. New work uses `news-article-review-2026-11-v3`:
+  source-based free eligibility/ranking before spending, not post-writing numeric
+  relevance/significance vetoes. Keep honest scores for diagnostics. Short news
+  uses 80-149 body words and >=2 distinct supported facts; standard articles use
+  150-250 words and >=3 facts, up to six facts and 1-5 body paragraphs. Never pad.
+  One official release can substantiate attributed company claims. Without an
+  official source, one approved, identified newsroom may support ordinary,
+  visibly attributed developments; label this reported, not independently
+  corroborated or verified. Performance, range, charging figures, safety and
+  availability still need official support or matching evidence from two truly
+  independent newsrooms. Monetary facts retain the separate notice route. Known
+  conflicts and old/future original dates cannot fall back to a single report.
+  Preserve exact evidence, numbers, market/cycle/conditions, source freshness,
+  access/TDM, originality, independent exact-artifact review and all three gates.
+  Keep two distinct attempts/day, one publication/day, current money/model/token
+  limits and historical quarantine/receipts unchanged. Never retry old URLs or
+  promote old proofs under v3. The scheduled worker uses v3 instead of the legacy
+  writer when enabled; legacy proof/test code and notice switches remain intact.
+  See `docs/news-flexible-editorial-policy.md` for scope and verification.
+
 - Public sitemap routes must ship visible content, headings and real links in
   the initial HTML, rendered from the same React views and validated public
   snapshots as the browser. Preserve hydration, deep-link filters and no-JS

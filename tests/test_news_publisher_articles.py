@@ -141,12 +141,13 @@ class PublisherSourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'feed_date_conflict'):
             parse_publisher(self.html(), REPORT_URL, 'carnewschina', (NOW - timedelta(hours=1)).isoformat(), NOW)
 
-    def test_no_official_support_is_held_without_ai(self):
+    def test_no_official_support_can_prepare_attributed_single_source_without_ai(self):
         class Collector:
             def fetch(_, url, source, **kwargs):
                 return 200, {}, self.html().replace(PRIMARY_URL, 'https://unapproved.example/news'), url
-        with self.assertRaisesRegex(ValueError, 'no_primary_or_independent_pair'):
-            collect_bundle('carnewschina', REPORT_URL, Collector(), now=NOW)
+        captured = collect_bundle('carnewschina', REPORT_URL, Collector(), now=NOW)
+        self.assertEqual(captured['evidence_basis'], 'editorial_single_source')
+        self.assertEqual(len(captured['items']), 1)
 
     def test_changed_source_hash_and_freshness_are_detected(self):
         b, _ = fixture()
@@ -195,13 +196,12 @@ class PublisherArticleTests(unittest.TestCase):
             p['article']['paragraphs'][0]['text'] += extra
             self.assertTrue(any(e.startswith(expected) for e in precheck(b, p, NOW)['errors']))
 
-    def test_low_relevance_wrong_scale_missing_citations_and_filler_fail(self):
-        for change in ['low', 'scale', 'citation', 'length', 'absence']:
+    def test_wrong_scale_missing_citations_and_filler_fail(self):
+        for change in ['scale', 'citation', 'length', 'absence']:
             b, p = fixture()
-            if change == 'low': p['extraction']['sweden_relevance'] = .1
             if change == 'scale': p['extraction']['significance'] = 8
             if change == 'citation': p['article']['intro_fact_ids'] = ['unknown']
-            if change == 'length': p['article']['paragraphs'] = p['article']['paragraphs'][:1]
+            if change == 'length': p['article']['paragraphs'] = []
             if change == 'absence': p['article']['paragraphs'][0]['text'] += ' Svenskt pris saknas.'
             self.assertFalse(precheck(b, p, NOW)['passed'], change)
 

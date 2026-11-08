@@ -134,10 +134,10 @@ class EditorialIndependenceTests(unittest.TestCase):
                 bundle['items'][1]['payload']['published_at'] = (NOW - timedelta(days=5)).isoformat()
             self.assertFalse(same_event(*bundle['items']), kind)
 
-    def test_every_fact_needs_two_literal_supporting_publications(self):
+    def test_ordinary_fact_can_use_one_literal_supporting_publication(self):
         bundle, packet, _ = reported_fixture()
         packet['extraction']['facts'][0]['support'] = packet['extraction']['facts'][0]['support'][:1]
-        self.assertIn('publisher_reported_fact_needs_two_editors:f1', precheck(bundle, packet, NOW)['errors'])
+        self.assertTrue(precheck(bundle, packet, NOW)['passed'])
 
     def test_conflicting_numbers_cannot_be_hidden_in_the_union_of_evidence(self):
         bundle, packet, _ = reported_fixture()

@@ -10,7 +10,7 @@ from news_http import Collector, PageText, canonical_url, iso_date, require_rece
 from news_store import artifact_hash, stable_id
 from news_publisher_selection import primary_identity_matches, subject_terms, candidate_assessment
 from news_publisher_registry import PUBLISHERS, LEAD_SOURCES
-from news_reporting_policy import independence, same_event, reported
+from news_reporting_policy import independence, same_event, reported, corroborated
 from news_primary_discovery import (authorities, source_for, discover as discover_originals,
                                     valid_edge, source_subject_matches)
 from news_pressrooms import document as primary_document, PressDocument
@@ -323,7 +323,8 @@ def bundle_errors(bundle, now=None):
     try:
         items = bundle['items']
         official = official_release(bundle)
-        if (not (len(items) == 1 if official else 2 <= len(items) <= 3)
+        single = bundle.get('evidence_basis') == 'editorial_single_source'
+        if (not (len(items) == 1 if official or single else 2 <= len(items) <= 3)
                 or len({i['url'] for i in items}) != len(items)):
             return ['publisher_distinct_report_and_primary_required']
         lead = items[0]
@@ -332,7 +333,7 @@ def bundle_errors(bundle, now=None):
         require_recent_publication(lead['payload']['published_at'], now)
         edges = bundle['provenance']
         editorial = reported(bundle)
-        if editorial:
+        if corroborated(bundle):
             if len(items) != 2 or not independence(*items)['passed']:
                 return ['publisher_editorial_independence_failed']
             if edges != [{'from_url': lead['url'], 'to_url': items[1]['url'], 'method': 'editorial_corroboration'}]:
@@ -370,6 +371,7 @@ def bundle_errors(bundle, now=None):
                 require_recent_publication(p['published_at'], now)
             if (not source or item['id'] != stable_id(item['url']) or source['id'] != item['source_id']
                     or p['publisher'] != source['name'] or p['source_kind'] != source['kind']
+                    or (source['kind'] == 'publisher' and p.get('publisher_group') != source['publisher_group'])
                     or p['access_status'] != 'accessible' or p['final_url'] != item['url']
                     or p['content_hash'] != hashlib.sha256(p['content'].encode()).hexdigest()
                     or not -timedelta(minutes=5) <= now - datetime.fromisoformat(p['fetched_at']) <= timedelta(days=1)):
@@ -399,6 +401,7 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
     direct = [(u, {'from_url': lead['url'], 'to_url': u}) for u in direct_urls[:2]]
     items, provenance, errors, trace = [lead], [], [], []
     accepted, visited = [], set()
+    date_conflict = False
     for strategy in ('direct', 'catalog', 'legacy', 'indexes'):
         if len(visited) >= 6:
             trace.append({'stage':'official_discovery','status':'candidate_fetch_limit'})
@@ -425,11 +428,17 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
                 date = item['payload'].get('published_at')
                 if date:
                     gap = datetime.fromisoformat(lead['payload']['published_at']) - datetime.fromisoformat(date)
-                    if gap > timedelta(days=30): raise ValueError('publisher_old_primary_background_only')
-                    if gap < -timedelta(days=1): raise ValueError('publisher_primary_after_report')
+                    if gap > timedelta(days=30):
+                        date_conflict = True
+                        raise ValueError('publisher_old_primary_background_only')
+                    if gap < -timedelta(days=1):
+                        date_conflict = True
+                        raise ValueError('publisher_primary_after_report')
                 accepted.append((item, edge, child_links))
                 trace.append({'stage':strategy,'url':candidate,'status':'source_matched'})
             except Exception as exc:
+                if str(exc) in ('primary_conflicting_dates', 'primary_publication_date_invalid'):
+                    date_conflict = True
                 errors.append(type(exc).__name__ + ':' + str(exc)[:100])
                 trace.append({'stage':strategy,'url':candidate,'status':'held',
                               'reason':type(exc).__name__+':'+str(exc)[:120]})
@@ -454,6 +463,8 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
                 except Exception as exc:
                     errors.append(type(exc).__name__ + ':' + str(exc)[:100])
     if len(items) < 2:
+        if date_conflict:
+            raise OriginalSourceNotFound(errors, trace)
         candidates = [item for item in corroborating_items if item['source_id'] in PUBLISHERS
                       and item['source_id'] != source_id and publisher_url(item['source_id'], item['url'])
                       and same_event(lead, item)]
@@ -472,9 +483,10 @@ def collect_bundle(source_id, url, collector, *, feed_date=None, now=None, corro
             except Exception as exc:
                 errors.append(type(exc).__name__ + ':' + str(exc)[:100])
         if len(items) < 2:
-            raise OriginalSourceNotFound(errors, trace)
+            trace.append({'stage': 'editorial_single_source', 'status': 'attributed_reporting_only'})
     result = {'items': items, 'provenance': provenance, 'support_fetch_errors': errors, 'discovery_trace':trace[:24]}
-    result['evidence_basis'] = 'editorial_corroboration' if items[1]['payload']['source_kind'] == 'publisher' else 'primary'
+    result['evidence_basis'] = ('editorial_single_source' if len(items) == 1 else
+                              'editorial_corroboration' if items[1]['payload']['source_kind'] == 'publisher' else 'primary')
     result['bundle_hash'] = artifact_hash(result)
     if bundle_errors(result, now):
         raise ValueError('publisher_bundle_validation_failed')
