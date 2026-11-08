@@ -9,6 +9,7 @@ from test_news_publisher_flexible_policy import single_fixture
 from test_news_reported_articles import rehash
 from news_publisher_articles import numbers, precheck
 from news_reporting_policy import sensitive_fact
+from news_publisher_selection import candidate_assessment
 
 
 class PublisherNumericTokenTests(unittest.TestCase):
@@ -69,6 +70,21 @@ class PublisherAttributionVerbTests(unittest.TestCase):
                 'Enligt medierna ', speaker + ' skriver att ')
             self.assertIn('publisher_reported_block_attribution_missing:p0',
                           precheck(bundle, packet, fixtures.NOW)['errors'])
+
+
+class PublisherAdviceTriageTests(unittest.TestCase):
+    def test_french_advice_questions_are_held_before_paid_writing(self):
+        for verb in ('payer le parking', 'acheter', 'choisir', 'recharger'):
+            item = {'payload': {'title': 'Faut-il ' + verb + ' une voiture electrique?',
+                               'published_at': fixtures.NOW.isoformat()}}
+            result = candidate_assessment(item, fixtures.NOW)
+            self.assertFalse(result['eligible'])
+            self.assertEqual(result['reason'], 'commentary_or_incident_not_vehicle_development')
+
+    def test_concrete_development_is_not_a_how_to_question(self):
+        item = {'payload': {'title': 'Nouveau moteur pour les voitures electriques en Europe',
+                           'published_at': fixtures.NOW.isoformat()}}
+        self.assertTrue(candidate_assessment(item, fixtures.NOW)['eligible'])
 
 
 if __name__ == '__main__':
