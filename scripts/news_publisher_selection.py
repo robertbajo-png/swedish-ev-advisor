@@ -392,6 +392,8 @@ def passage_selection(content, report_title, source_title, byte_limit, *, primar
 def primary_identity_matches(report, primary):
     title = report['payload']['title']
     target = primary['payload']
+    if event_conflicts(title, target['title']):
+        return False
     brands = subject_brands(title)
     target_brands = subject_brands(target['title']) or subject_brands(target.get('publisher', ''))
     if brands and target_brands and not brands & target_brands:
@@ -418,6 +420,8 @@ def primary_identity_matches(report, primary):
             return False
     ids = model_identifiers(title)
     primary_ids = model_identifiers(target['title'])
+    if ids and subject_brands(target.get('publisher', '')) and not ids & primary_ids:
+        return False
     if ids and primary_ids and not ids & primary_ids:
         return False
     if ids and not ids & model_identifiers(target['title']+' '+target['content']):

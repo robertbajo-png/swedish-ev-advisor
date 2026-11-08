@@ -79,6 +79,15 @@ Permanent project rules for the Swedish EV Advisor codebase.
   support its numbers/units, but every distinct editorial source must support
   the complete fact. Two spans from one newsroom never count as two witnesses.
   Advice/how-to headlines are held in free triage before paying the writer.
+  Exact fetched headlines may supply model/market context as h0 evidence, but
+  every cited source also needs literal body support. Headline evidence does
+  not increase the twelve-span cap, replace mandatory conditions, count as
+  another fact/source, or excuse copied wording. Independent review sees both.
+  Keep single-newsroom recalls out of paid writing until primary/independent
+  corroboration exists. Publisher boilerplate exclusions are explicit bounded
+  CSS classes, never whole-page guessing. Manufacturer corporate headlines
+  cannot become a model original merely because the body mentions that model;
+  explicit conflicting countries/events are rejected before date assessment.
 
 - On 2026-11-08 the owner requested more paid attempts until a good result.
   The explicit production CLI may use up to six TOTAL candidates for that
