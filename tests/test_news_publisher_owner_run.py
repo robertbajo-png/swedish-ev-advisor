@@ -70,6 +70,39 @@ class OwnerRunTests(unittest.TestCase):
                 worker.perform(remote, b, private=True, ai=ai, max_candidates=6, owner_day='2026-11-01')
             self.assertEqual(ai.calls, [])
 
+    def test_renewed_continuation_requires_explicit_flag_and_exact_day(self):
+        with patch.object(worker, 'now_iso', return_value=fixtures.NOW.isoformat()):
+            self.assertEqual(worker.approved_candidate_limit(12, '2026-11-01', continued=True), 12)
+            for limit, day, continued in ((12, '2026-11-01', False), (12, None, True),
+                                          (12, '2026-11-02', True), (13, '2026-11-01', True),
+                                          (12, '2026-11-01', 'true')):
+                with self.subTest(limit=limit, day=day, continued=continued), self.assertRaises(ValueError):
+                    worker.approved_candidate_limit(limit, day, continued=continued)
+
+    def test_continuation_counts_all_six_prior_candidates_and_still_buys_separate_review(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, b, ai = self.setup(stack, folder, previous=6)
+            self.assertEqual(worker.daily(remote, None, max_candidates=6, owner_day='2026-11-01')['status'], 'daily_attempt_limit')
+            self.assertEqual(ai.calls, [])
+            result = worker.daily(remote, None, max_candidates=12, owner_day='2026-11-01', continued=True)
+            self.assertEqual(result['status'], 'published', result)
+            self.assertEqual(ai.calls, ['swedish_ev_article', 'ev_news_independent_audit'])
+            runs = [r['payload'] for r in remote.rows('news_ingestion_runs') if r['payload'].get('continued_owner_run')]
+            self.assertEqual(len(runs), 1)
+            self.assertEqual(runs[0]['candidate_limit'], 12)
+            self.assertEqual(len([r for r in remote.rows('news_ingestion_runs') if r['payload'].get('kind') == 'short_daily']), 7)
+
+    def test_continuation_cannot_reset_twelve_attempts_bypass_money_or_expand_private_tests(self):
+        for previous, allowance, expected in ((12, 500000, 'daily_attempt_limit'), (6, 1, 'deferred_budget')):
+            with self.subTest(previous=previous), tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+                remote, b, ai = self.setup(stack, folder, previous=previous, allowance=allowance)
+                result = worker.daily(remote, None, max_candidates=12, owner_day='2026-11-01', continued=True)
+                self.assertEqual(result['status'], expected, result)
+                self.assertEqual(ai.calls, [])
+                with self.assertRaisesRegex(ValueError, 'private_trial_limit_unchanged'):
+                    worker.perform(remote, b, private=True, ai=ai, max_candidates=12,
+                                   owner_day='2026-11-01', continued=True)
+
 
 class ShowingEventTests(unittest.TestCase):
     def article(self, text):

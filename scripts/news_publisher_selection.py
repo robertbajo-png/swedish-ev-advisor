@@ -249,17 +249,32 @@ def event_markets(text):
     }.items() if re.search(pattern, text)}
 
 
-def event_conflicts(left, right):
-    for extract in (subject_brands, model_identifiers, event_actions, event_topics, event_markets, reference_periods):
+def explicit_event_markets(text):
+    """Country-of-event phrases, not the nationality of a manufacturer."""
+    text = normalize(text)
+    countries = (r'united states|united kingdom|south korea|switzerland|deutschland|allemagne|'
+                 r'australia|australie|australien|schweiz|suisse|sweden|sverige|suede|germany|'
+                 r'france|norway|norge|finland|finlande|denmark|danmark|danemark|britain|'
+                 r'china|chine|kina|japan|japon|korea|coree|india|indien|inde|usa|uk')
+    phrases = re.findall(r'\b(?:in|for|across|into|to|i|till|en|au|pour|fur)\s+'
+                         r'(?:(?:the|le|la|les|den|det|der|die|das)\s+)?(' + countries + r')\b', text)
+    phrases += re.findall(r'\b(swiss|swedish|german|french|chinese|australian|norwegian|finnish|danish|british|japanese|korean|indian)\s+'
+                          r'(?:market|premiere|launch)\b', text)
+    return {market for phrase in phrases for market in event_markets(phrase)}
+
+
+def event_conflicts(left, right, *, explicit_markets=False):
+    market_extractor = explicit_event_markets if explicit_markets else event_markets
+    for extract in (subject_brands, model_identifiers, event_actions, event_topics, market_extractor, reference_periods):
         a, b = extract(left), extract(right)
         if a and b and not a & b:
             return True
     return False
 
 
-def cross_language_event_matches(left, right):
+def cross_language_event_matches(left, right, *, explicit_markets=False):
     """Bounded concept matching, not translation, fact approval or independence."""
-    if event_conflicts(left, right) or not subject_brands(left) & subject_brands(right):
+    if event_conflicts(left, right, explicit_markets=explicit_markets) or not subject_brands(left) & subject_brands(right):
         return False
     actions = event_actions(left) & event_actions(right)
     if not actions:
@@ -392,6 +407,8 @@ def passage_selection(content, report_title, source_title, byte_limit, *, primar
 def primary_identity_matches(report, primary):
     title = report['payload']['title']
     target = primary['payload']
+    if event_conflicts(title, target['title'], explicit_markets=True):
+        return False
     brands = subject_brands(title)
     target_brands = subject_brands(target['title']) or subject_brands(target.get('publisher', ''))
     if brands and target_brands and not brands & target_brands:
@@ -418,6 +435,8 @@ def primary_identity_matches(report, primary):
             return False
     ids = model_identifiers(title)
     primary_ids = model_identifiers(target['title'])
+    if ids and subject_brands(target.get('publisher', '')) and not ids & primary_ids:
+        return False
     if ids and primary_ids and not ids & primary_ids:
         return False
     if ids and not ids & model_identifiers(target['title']+' '+target['content']):
@@ -429,7 +448,7 @@ def primary_identity_matches(report, primary):
             return False
     terms = subject_terms(title)
     return (len(terms & subject_terms(target['title'] + ' ' + target['content'])) >= 2
-            or cross_language_event_matches(title, target['title']))
+            or cross_language_event_matches(title, target['title'], explicit_markets=True))
 
 
 def model_identifiers(text):

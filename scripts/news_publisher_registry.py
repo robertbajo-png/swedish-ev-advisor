@@ -14,7 +14,7 @@ def publisher_templates(sources=None, templates=None):
     templates = templates if templates is not None else json.loads((ROOT / 'data/news/publisher_templates.json').read_text(encoding='utf-8'))
     registered = {s['id']: s for s in sources if s['kind'] == 'publisher'}
     result = {}
-    allowed = {'id', 'publisher_group', 'ownership_evidence_url', 'can_lead', 'body_class', 'body_attribute', 'article_path_pattern', 'metadata_triage_path_pattern'}
+    allowed = {'id', 'publisher_group', 'ownership_evidence_url', 'can_lead', 'body_class', 'body_attribute', 'article_path_pattern', 'metadata_triage_path_pattern', 'excluded_body_classes'}
     for supplied in templates:
         if set(supplied) - allowed:
             raise ValueError('publisher_template_cannot_override_registered_identity')
@@ -36,6 +36,11 @@ def publisher_templates(sources=None, templates=None):
             raise ValueError('publisher_template_known_parent_group_conflict')
         if row.get('body_attribute') is not None and not re.fullmatch(r'data-[a-z][a-z0-9-]*', row['body_attribute']):
             raise ValueError('publisher_template_body_attribute_invalid')
+        excluded = row.get('excluded_body_classes', [])
+        if (not isinstance(excluded, list) or len(excluded) > 12 or
+                any(not isinstance(v, str) or not re.fullmatch(r'[a-z0-9_-]{1,80}', v) for v in excluded) or
+                row['body_class'] in excluded or len(set(excluded)) != len(excluded)):
+            raise ValueError('publisher_template_excluded_classes_invalid')
         re.compile(row['article_path_pattern'])
         if row.get('metadata_triage_path_pattern') is not None:
             if not isinstance(row['metadata_triage_path_pattern'], str) or not row['metadata_triage_path_pattern'].startswith('/'):

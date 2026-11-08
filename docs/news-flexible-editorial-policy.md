@@ -1,5 +1,40 @@
 # Flexible Newsroom Policy
 
+## Source Context And Pre-Writing Checks
+
+The November 8 follow-up supplies a deterministic writing-evidence plan, not a
+confidence score or preapproved fact inventory. The exact fetched title can be
+cited as `s0h0` (or the corresponding source ID) for explicit model/market context.
+Every cited source still needs a literal body span; headline-only facts fail.
+Titles stay bound to the source snapshot, freshness and refresh comparison, and
+headlines are included in copied-wording checks. Geographic mentions in this
+guide are not established sales markets; manufacturer origin cannot establish
+the event country or availability. No article prose is rewritten
+by the resolver. A separate independent audit remains mandatory.
+
+The existing twelve-span/source cap is unchanged. Mandatory contract/availability
+qualifications take priority over the optional headline, and a headline never
+counts as body material in free readiness. A single newsroom's recall is held
+before writing, not bought and predictably declined later. Sensitive technical
+figure guidance does not weaken the official/two-independent-source rule.
+
+CarNewsChina explicitly excludes its observed `b-preferred-source`,
+`article_detail__top_stories` and `nwsl-adv` blocks. Template exclusions are
+bounded exact class names; they cannot exclude the configured narrative root.
+Both the configured layout and semantic-article fallback preserve this boundary.
+Real free fetch verification retained a 458-word narrative and removed all three
+promotion/newsletter/recommendation markers; this was not an AI trial.
+
+Explicitly different countries/events do not become a matching original through
+brand overlap. Manufacturer-owned corporate headlines must identify the report's
+model in the headline, not borrow it from a background body mention. An unrelated
+old document is not a conflicting original; an actually matching old/future or
+date-conflicting original still blocks fallback. No stale-source relaxation.
+
+885 offline news tests and the production build passed. Historic failed URLs,
+receipts and proofs remain excluded; these changes authorize no paid retry,
+attempt-counter reset, model change, monetary increase or manual approval.
+
 ## API Schema And Approved Budget Follow-Up
 
 The additional 2026-11-08 production request was rejected with HTTP 400,
@@ -47,6 +82,15 @@ the TOTAL including earlier attempts, not six additional ones. Scheduled and
 default work still use two. No private-trial expansion, budget reset, new money
 exception, old URL retry or old-proof promotion. Full pair reservation,
 unknown-usage stops, independent audit and one publication/day remain mandatory.
+
+There is a prepared continuation mode for a SEPARATELY confirmed additional
+batch: `run --max-candidates 12 --owner-approved-day YYYY-MM-DD
+--owner-approved-continuation`. It counts every earlier attempt, permits at most
+twelve total, requires the exact UTC day and does not expand private tests.
+The ordinary owner run still stops at six without that additional flag; the
+scheduler/default remains two. Preparing/testing this mode is not approval to
+execute it. A pending owner question leaves it unused. All money, full-pair,
+settlement, source/history, independent audit and one-publication limits apply.
 
 The v3 language follow-up recognizes an extracted showing/reveal as a generic
 presentation only when the cited literal source also explicitly describes that

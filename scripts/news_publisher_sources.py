@@ -55,11 +55,12 @@ VOID = {'meta', 'link', 'br', 'hr', 'img', 'input', 'source', 'wbr', 'area', 'ba
 
 
 class PublisherDocument(HTMLParser):
-    def __init__(self, body_class=None, article_mode=False, body_attribute=None):
+    def __init__(self, body_class=None, article_mode=False, body_attribute=None, excluded_body_classes=()):
         super().__init__(convert_charrefs=True)
         self.body_class = body_class
         self.article_mode = article_mode
         self.body_attribute = body_attribute
+        self.excluded_body_classes = frozenset(excluded_body_classes)
         self.stack, self.parts, self.links, self.regions = [], [], [], []
         self.meta, self.canonicals, self.title_parts = {}, [], []
         self.paywall = False
@@ -84,7 +85,8 @@ class PublisherDocument(HTMLParser):
         skip = skip or (tag == 'article' and not active and any(p[1] for p in self.stack))
         skip = skip or bool({'comments', 'related-posts', 'sharedaddy', 'articlescroller', 'adunit', 'google-ad'}
                             & set(a.get('class', '').split()))
-        if tag == 'a' and a.get('href') and any(p[1] for p in self.stack) and not any(p[2] for p in self.stack):
+        skip = skip or bool(self.excluded_body_classes & set(a.get('class', '').split()))
+        if tag == 'a' and a.get('href') and not skip and any(p[1] for p in self.stack) and not any(p[2] for p in self.stack):
             self.links.append(a['href'])
         if tag not in VOID:
             self.stack.append((tag, active, skip))
@@ -185,10 +187,12 @@ def parse_publisher(html, url, source_id, feed_date=None, now=None):
     if not publisher_url(source_id, url):
         raise ValueError('publisher_url_outside_adapter')
     parser = PublisherDocument(PUBLISHERS[source_id]['body_class'],
-                               body_attribute=PUBLISHERS[source_id].get('body_attribute'))
+                               body_attribute=PUBLISHERS[source_id].get('body_attribute'),
+                               excluded_body_classes=PUBLISHERS[source_id].get('excluded_body_classes', ()))
     parser.feed(html)
     if not parser.regions:
-        generic = PublisherDocument(article_mode=True)
+        generic = PublisherDocument(article_mode=True,
+                                    excluded_body_classes=PUBLISHERS[source_id].get('excluded_body_classes', ()))
         generic.feed(html)
         if len(generic.regions) == 1:
             parser = generic
