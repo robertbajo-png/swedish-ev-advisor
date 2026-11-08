@@ -74,7 +74,7 @@ class InternationalCoverageTests(unittest.TestCase):
         self.assertNotIn('publisher_insufficient_international_significance',checked['errors'])
         self.assertNotIn('publisher_international_market_not_established',checked['errors'])
         p['extraction']['significance']=.4
-        self.assertIn('publisher_insufficient_international_significance',precheck(b,p,fixtures.NOW)['errors'])
+        self.assertTrue(precheck(b,p,fixtures.NOW)['passed'], 'Significance is ranking, not a factual veto')
         p['extraction']['facts'][0]['market']='SE'
         self.assertIn('publisher_international_market_not_established',precheck(b,p,fixtures.NOW)['errors'])
 
@@ -119,7 +119,7 @@ class InternationalCoverageTests(unittest.TestCase):
         self.assertTrue(result['passed'], result['errors'])
         self.assertGreaterEqual(result['score'], 75)
         p['extraction']['significance'] = .5
-        self.assertIn('publisher_insufficient_international_significance', precheck(b, p, fixtures.NOW)['errors'])
+        self.assertTrue(precheck(b, p, fixtures.NOW)['passed'])
 
     def test_country_and_independent_scope_review_are_required(self):
         b, p = international_fixture()

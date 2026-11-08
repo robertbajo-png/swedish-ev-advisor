@@ -122,7 +122,7 @@ def candidate_assessment(item, now=None):
         return {'eligible': False, 'priority': 0, 'reason': 'commentary_or_incident_not_vehicle_development'}
     if re.search(r'\b(?:opening|opens?|eroffnung)\b.*\b(?:store|venue|atelier|showroom)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}
-    if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?|till final|finalister|nominerad\w*)\b', title):
+    if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?|earnings|quarterly profits?|financial results|till final|finalister|nominerad\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'minor_publicity_or_corporate_calendar'}
     if re.search(r'\b(?:kundenangebot\w*|aktionsangebot\w*|leasingangebot\w*|gewinnspiel\w*|roadshow\w*|handlerkonferenz\w*|filmproduktion\w*)\b', text):
         return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}

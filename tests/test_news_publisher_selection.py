@@ -163,11 +163,11 @@ class PublisherSelectionTests(unittest.TestCase):
             b['bundle_hash'] = artifact_hash({k: v for k, v in b.items() if k != 'bundle_hash'})
             self.assertFalse(evidence_readiness(b, NOW)['ready'], kind)
 
-    def test_preselection_does_not_relax_actual_relevance_or_fact_validation(self):
+    def test_preselection_allows_honest_low_swedish_score_but_not_unsupported_facts(self):
         b, p = fixtures.fixture()
         self.assertTrue(evidence_readiness(b, NOW)['ready'])
         p['extraction']['sweden_relevance'] = .4
-        self.assertIn('publisher_insufficient_swedish_relevance', precheck(b, p, NOW)['errors'])
+        self.assertTrue(precheck(b, p, NOW)['passed'])
         p['extraction']['facts'][0]['statement'] += ' 999 kWh.'
         self.assertTrue(any('number_not_in_evidence' in e for e in precheck(b, p, NOW)['errors']))
 

@@ -7,8 +7,8 @@ from news_editorial import normalize
 from news_publisher_registry import PUBLISHERS, REGISTERED_PUBLISHERS
 from news_publisher_selection import subject_terms, event_conflicts, cross_language_event_matches
 
-RECIPE = 'news-article-review-2026-11-v2'
-HISTORICAL_RECIPES = frozenset(('news-publisher-short-2026-11-v1', RECIPE))
+RECIPE = 'news-article-review-2026-11-v3'
+HISTORICAL_RECIPES = frozenset(('news-publisher-short-2026-11-v1', 'news-article-review-2026-11-v2', RECIPE))
 WIRE = {'reuters.com': 'Reuters', 'apnews.com': 'Associated Press', 'afp.com': 'AFP',
         'bloomberg.com': 'Bloomberg', 'xinhuanet.com': 'Xinhua'}
 
@@ -72,4 +72,22 @@ def independence(left, right):
 
 
 def reported(bundle):
+    return bundle.get('evidence_basis') in ('editorial_corroboration', 'editorial_single_source')
+
+
+def corroborated(bundle):
     return bundle.get('evidence_basis') == 'editorial_corroboration'
+
+
+def sensitive_fact(fact):
+    """One newsroom may report a development, not alone substantiate buyer-critical claims."""
+    text = normalize(fact.get('statement', ''))
+    return (fact.get('range_cycle') in ('WLTP', 'CLTC', 'EPA', 'TEST') or bool(re.search(
+        r'\b(?:pris\w*|kron\w*|sek|eur|usd|chf|cny|rmb|gbp|rabatt\w*|leasing\w*|'
+        r'rackvid\w*|prestand\w*|acceleration\w*|toppfart\w*|effekt\w*|'
+        r'kwh|gwh|kw|volt|batterikapacitet\w*|energitathet\w*|forbrukning\w*|'
+        r'laddtid\w*|snabbladd\w*|dragvikt\w*|sakerhet\w*|aterkall\w*|brandrisk\w*|'
+        r'krock\w*|tillganglig\w*|saljs|salufor\w*|bestall\w*|leveran\w*|'
+        r'marknadsstart\w*|saljstart\w*|erbjuds|gar att kopa|kommer till sverige)\b', text)) or bool(
+        re.search(r'\b(?:sverige|svensk\w*)\b', text) and re.search(r'\b(?:lanser\w*|introducer\w*)\b', text)) or bool(
+        re.search(r'\d', text) and re.search(r'\b(?:ladd\w*|km|kilometer\w*|hk|hastighet\w*|co2|co 2|wh)\b', text)))

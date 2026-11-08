@@ -20,12 +20,11 @@ jobs:
       VITE_CONTACT_EMAIL: kontakt@boleoai.se
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Install pinned Bun from official npm package
+        run: npm install --global bun@1.3.13
       - run: bun install --frozen-lockfile
       - run: bun run verify:db-security
       - run: bun run verify:db-access

@@ -60,7 +60,7 @@ jobs:
       - name: Verify owner activation, pricing and settled accounting
         run: python scripts/news_preflight.py --remote --mode publish
       - name: Run owner-activated short news (two audited AI formats, price notice proof, one-per-day setting)
-        if: ${{ vars.NEWS_SHORT_ARTICLES_ENABLED == 'true' }}
+        if: ${{ vars.NEWS_SHORT_ARTICLES_ENABLED == 'true' && vars.NEWS_PUBLISHER_ARTICLES_ENABLED != 'true' }}
         shell: bash
         run: |
           set -euo pipefail

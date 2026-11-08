@@ -42,7 +42,8 @@ const unchanged = job.steps.find((s) => s.name === 'Verify an unchanged preview 
 assert.equal(unchanged.if, "steps.snapshot.outputs.upload_required == 'false'");
 assert.equal(unchanged.run, 'node scripts/news_distribution.mjs verify');
 assert(job.steps.indexOf(reader) < job.steps.findIndex((s) => s.run === 'bun install --frozen-lockfile'));
-for (const step of job.steps.filter((s) => s.uses?.startsWith('oven-sh/') || s.uses?.startsWith('actions/setup-python') || s.run?.startsWith('bun '))) assert.equal(step.if, "steps.snapshot.outputs.upload_required == 'true'");
+assert(job.steps.some((s) => s.run === 'npm install --global bun@1.3.13'));
+for (const step of job.steps.filter((s) => s.run?.startsWith('npm install --global bun@') || s.uses?.startsWith('actions/setup-python') || s.run?.startsWith('bun '))) assert.equal(step.if, "steps.snapshot.outputs.upload_required == 'true'");
 assert(!JSON.stringify(job.steps.filter((s) => s.id !== 'snapshot')).includes('inputs.'), 'Only the validated snapshot step may read replay inputs');
 const upload = job.steps.find((s) => s.name === 'Upload to the existing AI preview only');
 assert(upload.run.includes('wrangler@4.151.1 pages deploy dist'));
