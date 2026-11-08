@@ -78,7 +78,7 @@ def related(lead, title, summary='', publisher=''):
 
 def candidate_related(lead, title, summary='', url='', *, publisher=''):
     """Broader discovery only; fetched documents must pass the strict match too."""
-    if event_conflicts(lead['payload']['title'], title):
+    if event_conflicts(lead['payload']['title'], title, explicit_markets=True):
         return False
     a_brands = subject_brands(lead['payload']['title'])
     b_brands = subject_brands(title) or subject_brands(publisher)

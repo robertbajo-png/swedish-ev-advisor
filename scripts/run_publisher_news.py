@@ -33,6 +33,7 @@ DIRECTORY = ROOT / 'data/local/release-data/publisher-news'
 ARTICLE_LEAD_SOURCES = LEAD_SOURCES | OFFICIAL_LEAD_SOURCES
 DAILY_CANDIDATE_LIMIT = 2
 OWNER_CANDIDATE_LIMIT = 6
+CONTINUED_OWNER_CANDIDATE_LIMIT = 12
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py', 'news_coverage.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
@@ -82,18 +83,19 @@ def new_receipt(remote, before, stage_name):
     return rows[0]
 
 
-def approved_candidate_limit(max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None):
-    if type(max_candidates) is not int or not DAILY_CANDIDATE_LIMIT <= max_candidates <= OWNER_CANDIDATE_LIMIT:
+def approved_candidate_limit(max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None, *, continued=False):
+    upper = CONTINUED_OWNER_CANDIDATE_LIMIT if continued is True else OWNER_CANDIDATE_LIMIT
+    if type(continued) is not bool or type(max_candidates) is not int or not DAILY_CANDIDATE_LIMIT <= max_candidates <= upper:
         raise ValueError('publisher_candidate_limit_invalid')
-    if max_candidates != DAILY_CANDIDATE_LIMIT and owner_day != now_iso()[:10]:
+    if (continued or max_candidates != DAILY_CANDIDATE_LIMIT) and owner_day != now_iso()[:10]:
         raise ValueError('publisher_current_day_owner_approval_required')
     return max_candidates
 
 
-def perform(remote, bundle, *, private, ai=None, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None):
+def perform(remote, bundle, *, private, ai=None, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None, continued=False):
     """One writer/reviewer pair; deterministic failures never buy a rewrite."""
-    limit_candidates = approved_candidate_limit(max_candidates, owner_day)
-    if private and limit_candidates != DAILY_CANDIDATE_LIMIT:
+    limit_candidates = approved_candidate_limit(max_candidates, owner_day, continued=continued)
+    if private and (continued or limit_candidates != DAILY_CANDIDATE_LIMIT):
         raise ValueError('publisher_private_trial_limit_unchanged')
     if bundle_errors(bundle):
         raise ValueError('publisher_fresh_bundle_required')
@@ -141,6 +143,8 @@ def perform(remote, bundle, *, private, ai=None, max_candidates=DAILY_CANDIDATE_
         'pair_bound_micro_usd': limit, 'request_ids': [], 'cost_micro_usd': 0, 'published': 0}
     if limit_candidates != DAILY_CANDIDATE_LIMIT:
         record.update(owner_approved_day=owner_day, candidate_limit=limit_candidates)
+    if continued:
+        record['continued_owner_run'] = True
     remote.put('news_ingestion_runs', {'id': key, 'payload': record})
     before = {r['id'] for r in ledger(remote.client)}
     initial_ids = set(before)
@@ -289,8 +293,8 @@ def preview_selection(remote, collector, sources=None):
             'paid_calls': 0, 'published': 0, 'writes': 0}
 
 
-def daily(remote, collector, *, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None):
-    limit_candidates = approved_candidate_limit(max_candidates, owner_day)
+def daily(remote, collector, *, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=None, continued=False):
+    limit_candidates = approved_candidate_limit(max_candidates, owner_day, continued=continued)
     if os.environ.get('NEWS_PUBLISHER_ARTICLES_ENABLED') != 'true':
         return {'status': 'publisher_worker_disabled', 'published': 0}
     if not matrix_valid(remote, load_state(remote)):
@@ -332,7 +336,7 @@ def daily(remote, collector, *, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=
             skipped.append({**context, 'reason': str(exc)[:130],
                             'discovery_trace':getattr(exc,'discovery_trace',[])})
             continue
-        record = perform(remote, bundle, private=False, max_candidates=limit_candidates, owner_day=owner_day)
+        record = perform(remote, bundle, private=False, max_candidates=limit_candidates, owner_day=owner_day, continued=continued)
         if record['status'] != 'passed':
             result = {k: v for k, v in record.items() if k in ('status', 'errors', 'error', 'cost_micro_usd', 'published')}
             if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
@@ -356,11 +360,13 @@ def main():
     p.add_argument('command', choices=('inspect', 'trial', 'status', 'run', 'qualify', 'select'))
     p.add_argument('--source', choices=tuple(ARTICLE_LEAD_SOURCES))
     p.add_argument('--url')
-    p.add_argument('--max-candidates', type=int, choices=range(DAILY_CANDIDATE_LIMIT, OWNER_CANDIDATE_LIMIT + 1),
+    p.add_argument('--max-candidates', type=int, choices=range(DAILY_CANDIDATE_LIMIT, CONTINUED_OWNER_CANDIDATE_LIMIT + 1),
                    default=DAILY_CANDIDATE_LIMIT, help='Owner-requested bounded run; never changes monetary limits')
     p.add_argument('--owner-approved-day', help='Explicit owner-authorized UTC day for additional production attempts')
+    p.add_argument('--owner-approved-continuation', action='store_true',
+                   help='Requires renewed owner approval; up to twelve total candidates, unchanged shared budget')
     args = p.parse_args()
-    if args.command != 'run' and (args.max_candidates != DAILY_CANDIDATE_LIMIT or args.owner_approved_day):
+    if args.command != 'run' and (args.max_candidates != DAILY_CANDIDATE_LIMIT or args.owner_approved_day or args.owner_approved_continuation):
         p.error('Additional candidates apply only to an owner-authorized production run')
     with worker_lock(), closing(NewsStore(backend='supabase')) as remote:
         collector = Collector(tls_context=verified_context())
@@ -387,7 +393,8 @@ def main():
         elif args.command == 'select':
             result = preview_selection(remote, collector, {args.source} if args.source else None)
         else:
-            result = daily(remote, collector, max_candidates=args.max_candidates, owner_day=args.owner_approved_day)
+            result = daily(remote, collector, max_candidates=args.max_candidates, owner_day=args.owner_approved_day,
+                           continued=args.owner_approved_continuation)
         print(json.dumps(result, ensure_ascii=True, indent=2))
         if result.get('status') == 'failed' or (args.command == 'trial' and result.get('status') == 'quarantined'):
             raise SystemExit(1)

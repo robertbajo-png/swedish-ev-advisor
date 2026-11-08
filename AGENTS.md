@@ -96,6 +96,11 @@ Permanent project rules for the Swedish EV Advisor codebase.
   Scheduled/default work stays at two/day. All monetary/model/token limits,
   full writer/reviewer pair preflight, accounting stops, separate audit and
   one-publication/day remain. No monetary budget exception was approved.
+  A separately confirmed continuation may use up to twelve TOTAL candidates,
+  only with both --owner-approved-continuation and the exact current owner day.
+  This is a dormant operator mode, never the scheduled/default worker and never
+  a private-test expansion. A pending approval question is not permission to
+  use it. Preserve all earlier attempts/charges and stop at one publication.
 
 - The owner-approved November 2026 flexible newsroom policy supersedes only the
   active publisher v2 rules below. New work uses `news-article-review-2026-11-v3`:

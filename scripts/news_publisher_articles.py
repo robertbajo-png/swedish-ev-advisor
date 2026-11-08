@@ -93,8 +93,9 @@ def writing_evidence_plan(bundle):
     figures = re.compile(r'\b\d[\d\s.,]*[- ]?(?:kwh|kw|km|kilomet\w*|volt\w*|v|hp)\b', re.I)
     return {
         'claim_policy': 'ordinary_attributed_only' if single else 'source_bound_claims',
-        'headline_context': [{'evidence_id': key, 'explicit_markets': sorted(event_markets(ref['quote']))}
+        'headline_context': [{'evidence_id': key, 'geography_mentions': sorted(event_markets(ref['quote']))}
                              for key, ref in catalog.items() if key.endswith('h0')],
+        'market_must_match_event_not_manufacturer_origin': True,
         'single_newsroom_technical_figure_cautions': [key for key, ref in catalog.items()
             if single and not key.endswith('h0') and figures.search(ref['quote'])],
         'body_required_per_source': True,
@@ -238,7 +239,9 @@ def writer_call(bundle):
         'provided passage naming that exact model. Exact headline evidence IDs ending h0 may supplement '
         'model, event or explicit country context, but EVERY cited source also needs a body passage supporting '
         'the fact. A headline alone cannot establish a technical claim. Use the writing_evidence_plan as '
-        'source guidance, not a list of approved facts. An explicit China headline permits CN only with '
+        'source guidance, not a list of approved facts. Geography mentions include nationality, not verified '
+        'sales markets: identify the event country, never the manufacturer origin. An explicit China event '
+        'headline permits CN only with '
         'that headline cited as well as body event evidence; never leave a central market UNSPECIFIED '
         'when citing that explicit country. Omit unsupported sensitive claims instead of filling the article '
         'with the technical figures flagged for a single newsroom. Use CH for explicit Swiss '

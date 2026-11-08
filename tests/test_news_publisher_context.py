@@ -72,7 +72,8 @@ class HeadlineContextTests(unittest.TestCase):
     def test_context_title_cannot_pad_readiness_or_hide_changed_title(self):
         b, _ = context_fixture()
         self.assertEqual(writing_evidence_plan(b)['headline_context'],
-                         [{'evidence_id': 's0h0', 'explicit_markets': ['CN']}])
+                         [{'evidence_id': 's0h0', 'geography_mentions': ['CN']}])
+        self.assertTrue(writing_evidence_plan(b)['market_must_match_event_not_manufacturer_origin'])
         changed = copy.deepcopy(b)
         changed['items'][0]['payload']['title'] += ' changed'
         rehash(changed)
@@ -168,6 +169,13 @@ class PublisherBodyBoundaryTests(unittest.TestCase):
 
 
 class PrimaryEventContextTests(unittest.TestCase):
+    def test_manufacturer_nationality_does_not_conflict_with_actual_european_launch(self):
+        report = {'payload': {'title': 'Chinese Smart #2 electric car launches in Europe', 'content': 'Smart presents its city car.'}}
+        title = 'Smart #2 electric car launches in Switzerland'
+        primary = {'payload': {'title': title, 'content': 'Smart #2 is an electric car for Switzerland.', 'publisher': 'smart Europe'}}
+        self.assertTrue(primary_identity_matches(report, primary))
+        self.assertTrue(candidate_related(report, title, primary['payload']['content'], publisher='smart Europe'))
+
     def test_manufacturer_corporate_story_does_not_become_a_model_original_from_body_mentions(self):
         report = {'payload': {'title': 'Smart #2 electric car launches in China', 'content': 'Smart presents its city car.'}}
         title = 'Smart strengthens customer services with a new communications team'
