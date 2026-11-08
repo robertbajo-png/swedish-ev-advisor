@@ -73,6 +73,12 @@ Permanent project rules for the Swedish EV Advisor codebase.
   constraints; local precheck/review still enforce all numeric/array/evidence
   limits and exact event identity. Source headlines are prompt data, not dynamic
   schema enums. Do not weaken publication guards to repair API schema errors.
+  New writer event.subject is the fixed source reference s0; the resolver binds
+  that metadata to the exact source title without changing raw provider output
+  or article prose. Complementary literal spans from ONE source may jointly
+  support its numbers/units, but every distinct editorial source must support
+  the complete fact. Two spans from one newsroom never count as two witnesses.
+  Advice/how-to headlines are held in free triage before paying the writer.
 
 - On 2026-11-08 the owner requested more paid attempts until a good result.
   The explicit production CLI may use up to six TOTAL candidates for that

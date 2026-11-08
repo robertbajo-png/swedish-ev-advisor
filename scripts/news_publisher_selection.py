@@ -120,6 +120,8 @@ def candidate_assessment(item, now=None):
         return {'eligible': False, 'priority': 0, 'reason': 'outside_passenger_ev_scope'}
     if re.search(r'\b(?:podcasts?|reader questions?|readers questions|lasarfrag\w*|vol|stolen|theft|stold\w*)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'commentary_or_incident_not_vehicle_development'}
+    if re.search(r'\b(?:how to|what (?:can|should) you|que (?:pouvez|devez) vous faire|comment (?:faire|choisir|utiliser)|vad (?:kan|ska) du gora|sa gor du)\b', title):
+        return {'eligible': False, 'priority': 0, 'reason': 'commentary_or_incident_not_vehicle_development'}
     if re.search(r'\b(?:opening|opens?|eroffnung)\b.*\b(?:store|venue|atelier|showroom)\b', title):
         return {'eligible': False, 'priority': 0, 'reason': 'local_offer_or_minor_publicity'}
     if re.search(r'\b(?:finalists?|shortlisted|nominated|nomination|agm|dividends?|earnings|quarterly profits?|financial results|till final|finalister|nominerad\w*)\b', title):

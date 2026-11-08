@@ -10,7 +10,9 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import run_publisher_news as worker
 import test_news_publisher_articles as fixtures
-from news_publisher_articles import publisher_scope_errors, writer_call, reviewer_call, precheck
+from news_publisher_articles import (publisher_scope_errors, writer_call, reviewer_call, precheck,
+                                    resolve_writer_output)
+from news_publisher_selection import candidate_assessment
 from news_store import artifact_hash
 
 
@@ -94,6 +96,18 @@ class ShowingEventTests(unittest.TestCase):
 
 
 class StableEventSchemaTests(unittest.TestCase):
+    def test_source_reference_resolves_exact_metadata_without_editing_provider_output(self):
+        b, p = fixtures.fixture()
+        output = fixtures.encoded_fixture(b, p)
+        output['extraction']['event']['subject'] = 's0'
+        original = copy.deepcopy(output)
+        resolved = resolve_writer_output(b, output)
+        self.assertEqual(resolved['extraction']['event']['subject'], b['items'][0]['payload']['title'])
+        self.assertTrue(precheck(b, resolved, fixtures.NOW)['passed'])
+        self.assertEqual(output, original)
+        output['extraction']['event']['subject'] = 's1'
+        self.assertIn('publisher_event_identity_invalid', precheck(b, resolve_writer_output(b, output), fixtures.NOW)['errors'])
+
     def test_portable_strict_schema_preserves_local_numeric_and_array_limits(self):
         from news_ai import NewsAi
         from news_editorial import RATING
@@ -128,13 +142,24 @@ class StableEventSchemaTests(unittest.TestCase):
         for item in b['items']: item['payload']['title'] = title
         b['bundle_hash'] = artifact_hash({k:v for k,v in b.items() if k != 'bundle_hash'})
         _, schema, prompt = writer_call(b)
-        self.assertEqual(schema['properties']['extraction']['properties']['event']['properties']['subject'], {'type':'string'})
+        self.assertEqual(schema['properties']['extraction']['properties']['event']['properties']['subject'], {'type':'string','enum':['s0']})
         self.assertNotIn(title, json.dumps(schema, ensure_ascii=False))
         self.assertEqual(json.loads(prompt.partition('\n')[2])['report_subject'], title)
         p['extraction']['event']['subject'] = title
         self.assertNotIn('publisher_event_identity_invalid', precheck(b, p, fixtures.NOW)['errors'])
         p['extraction']['event']['subject'] = 'A different event'
         self.assertIn('publisher_event_identity_invalid', precheck(b, p, fixtures.NOW)['errors'])
+
+
+class FreeAdviceTriageTests(unittest.TestCase):
+    def test_advice_is_held_before_spending_but_real_developments_stay_eligible(self):
+        for title in ('Une voiture thermique bloque une borne de recharge : que pouvez-vous faire ?',
+                      'How to choose an electric car for Europe', 'Vad ska du gora nar en elbil blockerar laddaren?'):
+            result = candidate_assessment({'title': title, 'published_at': fixtures.NOW.isoformat()}, fixtures.NOW)
+            self.assertFalse(result['eligible'], title)
+            self.assertEqual(result['reason'], 'commentary_or_incident_not_vehicle_development')
+        self.assertTrue(candidate_assessment({'title': 'BMW launches a new electric car in Europe',
+            'published_at': fixtures.NOW.isoformat()}, fixtures.NOW)['eligible'])
 
 
 if __name__ == '__main__':
