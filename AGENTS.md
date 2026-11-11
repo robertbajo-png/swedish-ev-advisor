@@ -66,6 +66,23 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- On 2026-11-11 the owner approved the four-step fact-first rollout. The new
+  news-fact-first-2026-11-v1 route starts with registered official pressrooms,
+  extracts and validates a source-bound fact packet BEFORE writing, freezes the
+  facts/citation plan, then independently reviews the exact final article.
+  Short articles may have 50-120 body words; standard articles 150-250. Do not
+  pad, infer buyer consequences, change models, promote old failed/private
+  drafts, or weaken factual/source/originality guards. Every live success needs
+  THREE exact settled receipts (facts, writer, independent reviewer), not fixture
+  approvals. Reserve the entire bounded pipeline before starting, then reserve
+  each call through the existing durable allowance. Keep USD0.50/day, USD10/month,
+  one publication/day, unknown historical charges and notice switches unchanged.
+  The existing v3 route/proofs retain their own word limits and two-call contract.
+  Validate two distinct fresh news types before switching the scheduler to the
+  new route. One may be a separately owner-started production qualification case
+  after a real private success; it still cannot publish until both types have
+  exact approved three-request proofs. Never publish a private test.
+
 - On 2026-11-08 the owner separately approved installation of migration 022.
   Current ordinary news limits are USD0.50/UTC day and USD10/month; one public
   article/day remains. Keep conservative unknown reservations charged, never

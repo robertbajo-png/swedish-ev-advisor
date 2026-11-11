@@ -8,7 +8,8 @@ from news_publisher_registry import PUBLISHERS, REGISTERED_PUBLISHERS
 from news_publisher_selection import subject_terms, event_conflicts, cross_language_event_matches
 
 RECIPE = 'news-article-review-2026-11-v3'
-HISTORICAL_RECIPES = frozenset(('news-publisher-short-2026-11-v1', 'news-article-review-2026-11-v2', RECIPE))
+FACT_FIRST_RECIPE = 'news-fact-first-2026-11-v1'
+HISTORICAL_RECIPES = frozenset(('news-publisher-short-2026-11-v1', 'news-article-review-2026-11-v2', RECIPE, FACT_FIRST_RECIPE))
 WIRE = {'reuters.com': 'Reuters', 'apnews.com': 'Associated Press', 'afp.com': 'AFP',
         'bloomberg.com': 'Bloomberg', 'xinhuanet.com': 'Xinhua'}
 

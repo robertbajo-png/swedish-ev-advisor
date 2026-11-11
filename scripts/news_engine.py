@@ -28,7 +28,7 @@ from supabase_client import load_local_env
 from news_publisher_registry import PUBLISHERS as PUBLISHER_TEMPLATES
 
 ROOT = Path(__file__).resolve().parents[1]
-BROAD_SOURCES = frozenset(('electrive', 'insideevs', 'cnevpost', 'carnewschina',
+BROAD_SOURCES = frozenset(('bmw-newsroom', 'electrive', 'insideevs', 'cnevpost', 'carnewschina',
     'electrek', 'autocar', 'autoexpress', 'bevolt', 'motor-no', 'cleantechnica',
     'thedriven', 'icct', 'acea', 'vw-press', 'bmw-press', 'vw-sweden-press', 'mobility-sweden', 'polestar-news', 'byd-de-press',
     'nio-press', 'toyota-uk-press', 'lexus-eu-press', 'lexus-uk-press', 'xpeng-ch-press', 'smart-eu-press', 'electra-news'))
