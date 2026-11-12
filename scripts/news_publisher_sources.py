@@ -234,6 +234,7 @@ def item_from_document(url, source, doc, now=None):
                 'access_status': 'accessible', 'final_url': url, 'fetched_at': (now or datetime.now(timezone.utc)).isoformat(),
                 'content': doc['content'], 'content_hash': hashlib.sha256(doc['content'].encode()).hexdigest(),
                 **({'unvalidated_table_context': True} if doc.get('unvalidated_table_context') else {}),
+                **({'document_scope': doc['document_scope']} if 'document_scope' in doc else {}),
                 **({'document_evidence': doc['document_evidence']} if 'document_evidence' in doc else {})}}
 
 
@@ -319,6 +320,12 @@ def fetch_primary(url, collector, now=None):
     links = [canonical_url(urljoin(url, u)) for u in page.links if urljoin(url, u).startswith('https://')]
     doc = {'title': title, 'published_at': next(iter(dates), None), 'content': content, 'links':links,
            'document_evidence': document_evidence}
+    if source.get('article_adapter') == 'bmw_presspage':
+        if scoped['excluded_chrome_tables'] != len(document_evidence['tables']):
+            raise ValueError('bmw_newsroom_table_scope_mismatch')
+        doc['document_scope'] = {'rule': 'bmw_presspage_sidebar_chrome_v1',
+            'raw_sha256': document_evidence['raw_sha256'], 'narrative_tables': 0,
+            'excluded_table_hashes': [t['table_hash'] for t in document_evidence['tables']]}
     return item_from_document(url, source, doc, now), links
 
 

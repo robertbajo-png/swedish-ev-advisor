@@ -85,6 +85,8 @@ def document(html, *, exclude_tables=False, url=None, body_region=None, adapter=
             from news_smart import document as adapted_document
         elif adapter == 'electra_en':
             from news_electra import document as adapted_document
+        elif adapter == 'bmw_presspage':
+            from news_bmw_newsroom import document as adapted_document
         else:raise ValueError('unsupported_pressroom_article_adapter')
         return adapted_document(html, url)
     if body_region is not None and body_region not in {'main', 'article'}:
@@ -179,9 +181,13 @@ def discover(index_html, index_url, source, collector, max_items, now=None):
     if not limit:
         return [], []
     if source.get('index_adapter') is not None:
-        if source['index_adapter'] != 'byd_de': raise ValueError('unsupported_pressroom_index_adapter')
-        from news_byd import discover as byd_discover
-        return byd_discover(index_html, index_url, source, collector, limit, now)
+        if source['index_adapter'] == 'byd_de':
+            from news_byd import discover as adapted_discover
+        elif source['index_adapter'] == 'bmw_presspage':
+            from news_bmw_newsroom import discover as adapted_discover
+        else:
+            raise ValueError('unsupported_pressroom_index_adapter')
+        return adapted_discover(index_html, index_url, source, collector, limit, now)
     expected_dates = {}
     if source.get('index_format') == 'rss':
         feed_rows = parse_feed(index_html, source)[:50]

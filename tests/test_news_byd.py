@@ -158,7 +158,8 @@ class BydTests(unittest.TestCase):
 
     def test_collection_remains_idempotent_metadata_only_without_provider_or_publication(self):
         with tempfile.TemporaryDirectory() as directory, closing(NewsStore(Path(directory)/'private.sqlite')) as store, \
-                patch('news_ai.NewsAi.request') as provider:
+                patch('news_ai.NewsAi.request') as provider, patch('news_http.datetime', wraps=datetime) as clock:
+            clock.now.return_value = NOW
             source={**self.source,'enabled':True};c=FakeCollector()
             self.assertEqual(collect(store,[source],c,1,True)['new_items'],1)
             self.assertEqual(collect(store,[source],c,1,True)['new_items'],0)

@@ -37,7 +37,8 @@ CONTINUED_OWNER_CANDIDATE_LIMIT = 12
 HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_publisher_news.py', 'news_budget_policy.py', 'news_coverage.py',
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
-              'news_document_evidence.py', 'news_byd.py', 'news_nio.py', 'news_xpeng.py', 'news_smart.py', 'news_electra.py')
+              'news_document_evidence.py', 'news_byd.py', 'news_nio.py', 'news_xpeng.py', 'news_smart.py', 'news_electra.py',
+              'news_bmw_newsroom.py')
 
 
 def code_hash():
