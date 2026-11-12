@@ -78,10 +78,14 @@ Permanent project rules for the Swedish EV Advisor codebase.
   each call through the existing durable allowance. Keep USD0.50/day, USD10/month,
   one publication/day, unknown historical charges and notice switches unchanged.
   The existing v3 route/proofs retain their own word limits and two-call contract.
-  Validate two distinct fresh news types before switching the scheduler to the
-  new route. One may be a separately owner-started production qualification case
-  after a real private success; it still cannot publish until both types have
-  exact approved three-request proofs. Never publish a private test.
+  On 2026-11-12 the owner replaced the two-news-type introduction requirement
+  with ONE genuinely passed private introduction case. It still needs exact
+  approved three-request receipts and current evidence/quality revalidation.
+  This authorizes starting the existing scheduler, not publishing the private
+  case or old failed drafts. Every new article independently passes the entire
+  fact-first workflow, separate audit and publication gates. Keep ordinary
+  attempt limits, spending caps and one publication/day unchanged. Never publish
+  a private test or buy additional introduction trials for normal operation.
   A prepared owner-only complete-trial command is NOT permission to reuse a
   quarantine. It needs separate specific owner approval and the current UTC day,
   accepts only an unreviewed private language-heuristic-only failure, unchanged
