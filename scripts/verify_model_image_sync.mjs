@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
 import { applyImagePlan, buildImagePlan, imagePlanHash } from './model_image_sync.mjs';
+import { readFile } from 'node:fs/promises';
 
 const db = new PGlite();
 try {
@@ -15,6 +16,15 @@ try {
     content_sha256: 'a'.repeat(64), source_url: 'https://commons.wikimedia.org/wiki/File:Fixture.jpg', reviewed_at: '2026-10-27' };
   const registry = { schema_version: 1, assets: [asset] };
   const plan = buildImagePlan(models, [models.find(row => row.id === 'one')], registry);
+  const press = JSON.parse(await readFile('src/image-rights.json', 'utf8')).assets.find(row => row.license_id === 'Manufacturer-media-use' && row.model_key === 'kia|ev3');
+  assert(press, 'Manufacturer media fixture must exercise current permission policy');
+  const pressModel = { ...models.find(row => row.id === 'one'), brand: 'Kia', model: 'Ev3' };
+  const exactPress = { ...press, model_key: 'kia|ev3' };
+  assert.equal(buildImagePlan([pressModel], [pressModel], { schema_version: 1, assets: [exactPress] }).length, 1);
+  for (const patch of [{ full_frame: false }, { publisher_id: 'unregistered' }, { metadata_sha256: '' },
+    { evidence_url: 'https://other.invalid/permission' }, { downloaded_from: 'https://other.invalid/car.jpg' }]) {
+    assert.throws(() => buildImagePlan([pressModel], [pressModel], { schema_version: 1, assets: [{ ...exactPress, ...patch }] }));
+  }
   const old = (await db.query('select * from canonical_models order by id')).rows;
   for (const bad of [{ ...registry, assets: [asset, asset] }, { ...registry, assets: [{ ...asset, model_key: 'other|model' }] },
     { ...registry, assets: [{ ...asset, status: 'candidate' }] }, { ...registry, assets: [{ ...asset, asset_url: 'https://evil.invalid/wrong.jpg' }] }]) {

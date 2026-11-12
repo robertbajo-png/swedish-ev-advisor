@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "models": {
+    "polestar|4": {
+      "asset_url": "/media/vehicles/polestar-4-press-34c05d967929.jpg",
+      "content_sha256": "34c05d967929c07962e7f91a3339d070ec13a178dfb8453f4c0f72359a6b7432",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "style": "manufacturer_press_photo"
+    },
+    "polestar|2": {
+      "asset_url": "/media/vehicles/polestar-2-press-72486aedf6a2.jpg",
+      "content_sha256": "72486aedf6a291b6dd7ffcdd36ff73493a69c20571cc4dced034adb85fe88ee3",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "style": "manufacturer_press_photo"
+    },
+    "kia|ev3": {
+      "asset_url": "/media/vehicles/kia-ev3-press-b0de32637809.jpg",
+      "content_sha256": "b0de326378091a93d128a6382ac20c9086c7697d29d0cf8c5a85f76e579fb30a",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
+    "kia|ev5": {
+      "asset_url": "/media/vehicles/kia-ev5-press-de4eab70d59a.jpg",
+      "content_sha256": "de4eab70d59ae4aee1613c7981cf87b0606b4c0e738812256214c70513c219e3",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
+    "kia|ev4": {
+      "asset_url": "/media/vehicles/kia-ev4-press-0446f33614bd.jpg",
+      "content_sha256": "0446f33614bda8c3ec31cb1e73a5d71f8bfe2705b6cb617dd5d1d709fff7b852",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
+    "kia|ev9": {
+      "asset_url": "/media/vehicles/kia-ev9-press-731db0e8f686.jpg",
+      "content_sha256": "731db0e8f686e67027138af830dbb12f0faf7b048aaf5a2a5d7a336b0e057513",
+      "status": "approved",
+      "reviewed_at": "2026-11-12",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    }
+  }
+}

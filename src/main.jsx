@@ -48,6 +48,7 @@ import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
 import needGuides from './need-guides.json';
 import imageVariants from './image-variants.json';
+import imagePresentation from './image-presentation.json';
 import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug } from './vehicle-names.js';
 
 
@@ -791,7 +792,7 @@ export function App({ initialData } = {}) {
         resetFilters={resetFilters} dataStatus={dataStatus} segment={route.segment}
         compare={compare} onCompare={toggleCompare} navigate={navigate} appPath={appPath}
         renderFilters={(prefix, brands) => <FilterSidebar prefix={prefix} brands={brands} bodies={[...new Set(cars.map((car) => car.body).filter((body) => body !== 'Elbil'))]} filters={filters} setFilters={setFilters} resultCount={ranked.length} totalCount={cars.length} onReset={resetFilters} />}
-        renderCard={(car) => <CarCard key={car.id} headingLevel={2} car={car} selected={compare.includes(car.id)} onCompare={() => toggleCompare(car.id)} compareLimitReached={!compare.includes(car.id) && compareLimitReached} />}
+        renderCard={(car, options = {}) => <CarCard key={options.modelKey || car.id} headingLevel={2} car={car} variants={options.variants} onVariantChange={options.onVariantChange} selected={compare.includes(car.id)} onCompare={() => toggleCompare(car.id)} compareLimitReached={!compare.includes(car.id) && compareLimitReached} />}
       />}
       {route.type === 'compare' && <section className="compareSection vehicleCompare vehicleContainer" id="compare">
         <div className="vehiclePageIntro"><span className="vehicleEyebrow">Ditt beslutsunderlag</span><h1>Jämför sida vid sida</h1><p>Vilken passar dig bäst? Se skillnaderna i pris, räckvidd och livet med bilen.</p></div>
@@ -887,9 +888,9 @@ function MarketStatusBadges({ car, compact = false }) {
   );
 }
 
-function CarCard({ car, selected, onCompare, compareLimitReached, headingLevel = 3 }) {
+function CarCard({ car, selected, onCompare, compareLimitReached, variants, onVariantChange, headingLevel = 3 }) {
   return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached}
-    onCompare={onCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />;
+    onCompare={onCompare} variants={variants} onVariantChange={onVariantChange} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />;
 }
 
 function SegmentHeader({ segment, count }) {
@@ -1049,8 +1050,9 @@ function CarImage({ car, priority = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
     const responsive = imageVariants[car.image];
+    const presentation = Object.values(imagePresentation.models).find(item => item.asset_url === car.image && item.content_sha256 === responsive?.source_sha256 && item.status === 'approved');
     const fallback = responsive?.variants.find((item) => item.width >= 800)?.url || car.image;
-    return <img src={fallback.startsWith('/') ? appPath(fallback) : fallback} srcSet={responsive?.variants.map((item) => `${appPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
+    return <img style={presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={fallback.startsWith('/') ? appPath(fallback) : fallback} srcSet={responsive?.variants.map((item) => `${appPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
   }
   return (
     <div className="missingCarImage" role="img" aria-label={`Verifierad bild saknas for ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>

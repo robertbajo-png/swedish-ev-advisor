@@ -27,6 +27,13 @@ class CatalogSourceTests(unittest.TestCase):
     def test_html_parser_ignores_scripts(self):
         self.assertEqual(source_text(b'<p>Long Range</p><script>999 km</script><p>605 km</p>', 'text/html'), 'Long Range 605 km')
 
+    def test_kia_swedish_technical_documents_keep_market_boundary(self):
+        prefix = 'https://www.kia.com/content/dam/kwcms/kme/'
+        self.assertTrue(allowed_url(prefix + 'se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf', {'Kia'}))
+        for path in ['de/de/assets/facts.pdf', 'se/en/assets/facts.pdf', 'se/sv-evil/facts.pdf']:
+            self.assertFalse(allowed_url(prefix + path, {'Kia'}))
+        self.assertFalse(allowed_url(prefix + 'se/sv/assets/facts.pdf', {'BMW'}))
+
     def test_http_success_is_not_fact_verification(self):
         self.assertEqual(assess_record(self.row, {**self.fetched, 'text': '<html>Loading</html>'}), 'rendered_content_required')
         self.assertEqual(assess_record(self.row, {**self.fetched, 'content_hash': 'new'}), 'source_changed_evidence_present')

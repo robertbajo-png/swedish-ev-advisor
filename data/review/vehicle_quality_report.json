@@ -1,0 +1,2171 @@
+{
+  "schema_version": 1,
+  "variants": 76,
+  "models": 30,
+  "coverage": {
+    "price_sek": {
+      "present": 56,
+      "missing": 20
+    },
+    "wltp_range_km": {
+      "present": 40,
+      "missing": 36
+    },
+    "battery_kwh": {
+      "present": 30,
+      "missing": 46
+    },
+    "dc_charge_kw": {
+      "present": 32,
+      "missing": 44
+    },
+    "ac_charge_kw": {
+      "present": 8,
+      "missing": 68
+    },
+    "tow_kg": {
+      "present": 28,
+      "missing": 48
+    },
+    "boot_liters": {
+      "present": 34,
+      "missing": 42
+    },
+    "seats": {
+      "present": 12,
+      "missing": 64
+    },
+    "drivetrain": {
+      "present": 39,
+      "missing": 37
+    },
+    "body_type": {
+      "present": 0,
+      "missing": 76
+    }
+  },
+  "complete_core_variants": 18,
+  "professional_photos_reviewed": 6,
+  "models_by_priority": [
+    {
+      "model_key": "skoda|elroq",
+      "brand": "Skoda",
+      "model": "Elroq",
+      "variant_count": 7,
+      "missing_core_values": 28,
+      "coverage": {
+        "price_sek": 7,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/skoda-elroq-5a1bc85ee272.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "60 Selection Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "60 Sportline Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "85 Selection Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "85 Sportline Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "85x Selection Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "85x Sportline Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "RS Explore Edition",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "skoda|enyaq",
+      "brand": "Skoda",
+      "model": "Enyaq",
+      "variant_count": 4,
+      "missing_core_values": 15,
+      "coverage": {
+        "price_sek": 4,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/skoda-enyaq-b11cc3b8db9e.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Solid Edition 85",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Solid Edition 85x",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Solid Edition 85x Sportline",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Solid Edition RS",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "kia|ev3",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_count": 7,
+      "missing_core_values": 12,
+      "coverage": {
+        "price_sek": 7,
+        "wltp_range_km": 4,
+        "battery_kwh": 4,
+        "dc_charge_kw": 4,
+        "ac_charge_kw": 0,
+        "tow_kg": 4,
+        "boot_liters": 4,
+        "seats": 0,
+        "drivetrain": 4,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/kia-ev3-press-b0de32637809.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "EV3 FWD",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 FWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 Plus AWD Long Range",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV3 Plus FWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "mazda|6e",
+      "brand": "Mazda",
+      "model": "6E",
+      "variant_count": 3,
+      "missing_core_values": 12,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/mazda-6e-ed32d8f075be.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Homura Plus MY2027",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Takumi MY2027",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Takumi Plus MY2027",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "mercedes benz|cla",
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_count": 3,
+      "missing_core_values": 12,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/mercedes-benz-cla-34a9050d5a36.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "renault|5",
+      "brand": "Renault",
+      "model": "5",
+      "variant_count": 3,
+      "missing_core_values": 12,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "evolution 40 kWh",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "iconic five 52 kWh",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "techno 52 kWh",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "tesla|model 3",
+      "brand": "Tesla",
+      "model": "Model 3",
+      "variant_count": 4,
+      "missing_core_values": 10,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 4,
+        "battery_kwh": 0,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 4,
+        "seats": 4,
+        "drivetrain": 4,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/tesla-model-3-2a81c85c6026.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Long Range AWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/model3",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Long Range RWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/model3",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Performance",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/model3",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Standard Range RWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/model3",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "ford|explorer",
+      "brand": "Ford",
+      "model": "Explorer",
+      "variant_count": 2,
+      "missing_core_values": 8,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 2,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/ford-explorer-fe5bb8df3715.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Explorer AWD 79 kWh",
+          "missing_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Explorer RWD 77 kWh",
+          "missing_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "polestar|4",
+      "brand": "Polestar",
+      "model": "4",
+      "variant_count": 2,
+      "missing_core_values": 8,
+      "coverage": {
+        "price_sek": 2,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/polestar-4-press-34c05d967929.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Dual motor",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Rear motor",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "tesla|model y",
+      "brand": "Tesla",
+      "model": "Model Y",
+      "variant_count": 4,
+      "missing_core_values": 8,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 4,
+        "battery_kwh": 0,
+        "dc_charge_kw": 4,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 4,
+        "seats": 3,
+        "drivetrain": 4,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/tesla-model-y-79024d97a52b.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Long Range AWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/modely?redirect=no",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Long Range RWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/modely?redirect=no",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Performance",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/modely?redirect=no",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Standard RWD",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg"
+          ],
+          "source_url": "https://www.tesla.com/sv_SE/modely?redirect=no",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "zeekr|7x",
+      "brand": "Zeekr",
+      "model": "7X",
+      "variant_count": 3,
+      "missing_core_values": 6,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 3,
+        "battery_kwh": 3,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 3,
+        "boot_liters": 3,
+        "seats": 0,
+        "drivetrain": 3,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/zeekr-7x-32d124d8b23b.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Core RWD 75 kWh",
+          "missing_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw"
+          ],
+          "source_url": "https://www.zeekr.eu/sv-se/models/7x",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Long Range RWD 100 kWh",
+          "missing_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw"
+          ],
+          "source_url": "https://www.zeekr.eu/sv-se/models/7x",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Privilege AWD 100 kWh",
+          "missing_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw"
+          ],
+          "source_url": "https://www.zeekr.eu/sv-se/models/7x",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "bmw|ix1",
+      "brand": "BMW",
+      "model": "iX1",
+      "variant_count": 2,
+      "missing_core_values": 5,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 2,
+        "battery_kwh": 1,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 1,
+        "tow_kg": 1,
+        "boot_liters": 1,
+        "seats": 0,
+        "drivetrain": 1,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/bmw-ix1-636f6be71a56.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "BMW iX1 eDrive20",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "BMW iX1 xDrive30",
+          "missing_fields": [
+            "price_sek",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek"
+          ],
+          "source_url": "https://www.bmw.se/sv/alla-modeller/i-series/ix1/bmw-ix1-tekniska-data.html",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "audi|a6 e tron",
+      "brand": "Audi",
+      "model": "A6 E-Tron",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/audi-a6-e-tron-8f0060e96039.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "A6 Sportback e-tron performance S-line 270 kW MY2027 (lagerbil RRR07B)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://lagerbilar.vwgroup.se/audi/RRR07B",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "audi|q6 e tron",
+      "brand": "Audi",
+      "model": "Q6 E-Tron",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/audi-q6-e-tron-996634d6ee7a.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Q6 e-tron quattro SUV 315 kW MY2027 (lagerbil JCE98Y)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.bilia.se/bilar/sok-bil/audi/q6-e-tron/jce98y/",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "bmw|i4",
+      "brand": "BMW",
+      "model": "i4",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/bmw-i4-827db86e3d75.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "i4 eDrive40 M Sport Business Edition (lagerbil FW37556)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://hitta.bmw.se/r/G26E-i4/i4-eDrive40-WBY61HD030FW37556",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "cupra|born",
+      "brand": "Cupra",
+      "model": "Born",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/cupra-born-a7f9a0e290ee.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Born VZ",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.cupraofficial.se/bilar/born",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "kia|ev4",
+      "brand": "Kia",
+      "model": "Ev4",
+      "variant_count": 3,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 0,
+        "tow_kg": 2,
+        "boot_liters": 2,
+        "seats": 0,
+        "drivetrain": 2,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/kia-ev4-press-0446f33614bd.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "kia|ev5",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_count": 5,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 5,
+        "wltp_range_km": 4,
+        "battery_kwh": 4,
+        "dc_charge_kw": 4,
+        "ac_charge_kw": 0,
+        "tow_kg": 4,
+        "boot_liters": 4,
+        "seats": 0,
+        "drivetrain": 4,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/kia-ev5-press-de4eab70d59a.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "EV5 FWD",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV5 Plus AWD Long Range",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "kia|ev6",
+      "brand": "Kia",
+      "model": "Ev6",
+      "variant_count": 3,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 0,
+        "tow_kg": 2,
+        "boot_liters": 2,
+        "seats": 0,
+        "drivetrain": 3,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/kia-ev6-def737594d59.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "EV6 AWD",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV6 GT",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/se/kopa/prislista/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV6 RWD",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "volkswagen|id 3",
+      "brand": "Volkswagen",
+      "model": "Id.3",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/volkswagen-id-3-64b62658bb2a.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "ID.3 Neo Trend",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.volkswagen.se/sv/bygg-din-bil.html/__app/30355.app",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "volkswagen|id 4",
+      "brand": "Volkswagen",
+      "model": "Id.4",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/volkswagen-id-4-cb5c3d94d423.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "ID.4 Pro 4MOTION 77 kWh MY2027 (lagerbil BSJ09L)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://lagerbilar.vwgroup.se/volkswagen/BSJ09L",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "volvo|es90",
+      "brand": "Volvo",
+      "model": "Es90",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/volvo-es90-372dd4eabcc6.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "ES90 Single Motor Extended Range Ultra MY2026 (lagerbil JWR04C)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.volvocarretail.se/bilar-i-lager/nya/volvo/es90/single-motor-extended-range-jwr04c",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "volvo|ex30",
+      "brand": "Volvo",
+      "model": "Ex30",
+      "variant_count": 1,
+      "missing_core_values": 4,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 0,
+        "battery_kwh": 0,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "EX30 P5 Long Range Core MY2027 (lagerbil)",
+          "missing_fields": [
+            "wltp_range_km",
+            "battery_kwh",
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "wltp_range_km",
+            "dc_charge_kw",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.volvocarretail.se/bilar-i-lager/nya/volvo/ex30/p5-long-range-01a0f17196c07c0eac58aa44aeea8ae4",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "audi|q4 e tron",
+      "brand": "Audi",
+      "model": "Q4 E-Tron",
+      "variant_count": 1,
+      "missing_core_values": 3,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 1,
+        "battery_kwh": 0,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 0,
+        "tow_kg": 0,
+        "boot_liters": 0,
+        "seats": 0,
+        "drivetrain": 0,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/audi-q4-e-tron-f32f57bc9d45.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Audi Q4 SUV e-tron",
+          "missing_fields": [
+            "price_sek",
+            "battery_kwh",
+            "ac_charge_kw",
+            "tow_kg",
+            "boot_liters",
+            "seats",
+            "drivetrain",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek",
+            "tow_kg",
+            "boot_liters"
+          ],
+          "source_url": "https://www.audi.se/se/web/sv/models/q4-e-tron/q4-e-tron.html",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "mercedes benz|eqa",
+      "brand": "Mercedes-Benz",
+      "model": "Eqa",
+      "variant_count": 2,
+      "missing_core_values": 2,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 2,
+        "tow_kg": 2,
+        "boot_liters": 2,
+        "seats": 2,
+        "drivetrain": 2,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/mercedes-benz-eqa-35c011b20405.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "EQA 250+",
+          "missing_fields": [
+            "price_sek",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek"
+          ],
+          "source_url": "https://www.mercedes-benz.se/passengercars/mercedes-benz-cars/models/eqa/explore.html?urlReference=937cb25de1b4467c85b1a4b7fcb32810",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EQA 300 4MATIC",
+          "missing_fields": [
+            "price_sek",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek"
+          ],
+          "source_url": "https://www.mercedes-benz.se/passengercars/mercedes-benz-cars/models/eqa/explore.html?urlReference=937cb25de1b4467c85b1a4b7fcb32810",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "toyota|bz4x",
+      "brand": "Toyota",
+      "model": "bZ4X",
+      "variant_count": 1,
+      "missing_core_values": 2,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 1,
+        "battery_kwh": 1,
+        "dc_charge_kw": 0,
+        "ac_charge_kw": 0,
+        "tow_kg": 1,
+        "boot_liters": 0,
+        "seats": 1,
+        "drivetrain": 1,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/toyota-bz4x-9c7085be8139.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "missing_fields": [
+            "dc_charge_kw",
+            "ac_charge_kw",
+            "boot_liters",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "dc_charge_kw",
+            "boot_liters"
+          ],
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "bmw|i5",
+      "brand": "BMW",
+      "model": "i5",
+      "variant_count": 1,
+      "missing_core_values": 1,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 1,
+        "battery_kwh": 1,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 1,
+        "tow_kg": 1,
+        "boot_liters": 1,
+        "seats": 0,
+        "drivetrain": 1,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/bmw-i5-ccac4c1e0daa.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "BMW i5 eDrive40 Sedan",
+          "missing_fields": [
+            "price_sek",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek"
+          ],
+          "source_url": "https://www.bmw.se/sv/alla-modeller/bmw-i/i5/bmw-i5-tekniska-data.html",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "bmw|ix3",
+      "brand": "BMW",
+      "model": "iX3",
+      "variant_count": 1,
+      "missing_core_values": 1,
+      "coverage": {
+        "price_sek": 0,
+        "wltp_range_km": 1,
+        "battery_kwh": 1,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 1,
+        "tow_kg": 1,
+        "boot_liters": 1,
+        "seats": 0,
+        "drivetrain": 1,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/bmw-ix3-560ee3c2b622.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": false,
+      "photo_action": "professional_photo_review_required",
+      "variants": [
+        {
+          "variant_name": "BMW iX3 50 xDrive",
+          "missing_fields": [
+            "price_sek",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "price_sek"
+          ],
+          "source_url": "https://www.bmw.se/sv/alla-modeller/x-serie/ix3/bmw-ix3-tekniska-data.html",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "kia|ev9",
+      "brand": "Kia",
+      "model": "Ev9",
+      "variant_count": 4,
+      "missing_core_values": 1,
+      "coverage": {
+        "price_sek": 4,
+        "wltp_range_km": 4,
+        "battery_kwh": 4,
+        "dc_charge_kw": 4,
+        "ac_charge_kw": 0,
+        "tow_kg": 4,
+        "boot_liters": 3,
+        "seats": 2,
+        "drivetrain": 4,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/kia-ev9-press-731db0e8f686.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "EV9 AWD",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "missing_fields": [
+            "ac_charge_kw",
+            "boot_liters",
+            "body_type"
+          ],
+          "missing_core_fields": [
+            "boot_liters"
+          ],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "missing_fields": [
+            "ac_charge_kw",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "EV9 RWD 7-SITS",
+          "missing_fields": [
+            "ac_charge_kw",
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "polestar|2",
+      "brand": "Polestar",
+      "model": "2",
+      "variant_count": 3,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 3,
+        "battery_kwh": 3,
+        "dc_charge_kw": 3,
+        "ac_charge_kw": 3,
+        "tow_kg": 3,
+        "boot_liters": 3,
+        "seats": 0,
+        "drivetrain": 3,
+        "body_type": 0
+      },
+      "image_url": "/media/vehicles/polestar-2-press-72486aedf6a2.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Long range Dual motor",
+          "missing_fields": [
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "missing_fields": [
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Long range Single motor",
+          "missing_fields": [
+            "seats",
+            "body_type"
+          ],
+          "missing_core_fields": [],
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash_present": true
+        }
+      ]
+    }
+  ],
+  "network_calls": 0,
+  "database_writes": 0,
+  "audited_at": "2026-11-12T22:46:40.157002+00:00"
+}

@@ -1,6 +1,12 @@
 {
   "type": "module",
   "scripts": {
+    "quality:audit": "node scripts/run_python.mjs scripts/audit_vehicle_quality.py",
+    "verify:vehicle-quality": "node scripts/run_python.mjs -m unittest discover -s tests -p test_vehicle_quality.py -v",
+    "verify:kia-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_specs.py -v",
+    "verify:kia-spec-sync": "node scripts/verify_kia_spec_sync.mjs",
+    "verify:press-images": "node scripts/run_python.mjs -m unittest discover -s tests -p test_press_images.py -v",
+    "verify:vehicle-catalog": "node scripts/verify_vehicle_catalog.mjs",
     "verify:static-content": "node scripts/verify_static_content.mjs",
     "verify:public-content-ui": "node scripts/verify_public_content_ui.mjs",
     "catalog:current:collect": "node scripts/run_python.mjs scripts/current_variant_intake.py",

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGrid, List, Package, PlugZap, Plus, Route, Search, SlidersHorizontal, Weight, X } from 'lucide-react';
 import { ImageAttribution } from './image-attribution.jsx';
 import { NeedGuide } from './need-guide.jsx';
+import { groupCatalogVariants } from './vehicle-catalog.js';
 
 export const vehicleMoney = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 export const vehicleMetric = (value, unit = '') => value == null ? 'Uppgift saknas' : `${value}${unit ? ` ${unit}` : ''}`;
@@ -23,18 +24,17 @@ export function VehicleLink({ car, navigate, children, className, appPath }) {
   }}>{children}</a>;
 }
 
-export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, className = '', compareLimitReached = false, headingLevel = 3 }) {
+export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3 }) {
   const identity = vehicleIdentity(car);
   const Heading = 'h' + headingLevel;
   const priceType = vehiclePriceLabel(car);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
     <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
-    <ImageAttribution car={car} />
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
-        <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>
+        {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} onChange={event => onVariantChange(event.target.value)}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
       </div>
       <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{car.priceType === 'campaign_price' && validDate(car.priceValidUntil) ? ` · gäller till ${car.priceValidUntil}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
       <dl className="homeVehicleSpecs">
@@ -45,7 +45,14 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
       {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla <ArrowUpRight size={12} /></a><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}
       <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
     </div>
+    <ImageAttribution car={car} />
   </article>;
+}
+
+function CatalogModelGroup({ group, renderCard }) {
+  const [chosen, setChosen] = useState(null);
+  const car = group.variants.find(variant => variant.id === chosen) || group.variants[0];
+  return renderCard(car, { variants: group.variants, onVariantChange: setChosen, modelKey: group.key });
 }
 
 export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters, dataStatus, segment, renderFilters, renderCard, onCompare, compare, navigate, appPath }) {
@@ -71,19 +78,20 @@ export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters
   }, [drawerOpen]);
   const closeDrawer = () => { dialog.current?.close(); setDrawerOpen(false); filterTrigger.current?.focus(); };
   const brands = [...new Set(cars.map((car) => car.brand))].sort();
+  const modelGroups = groupCatalogVariants(ranked);
   return <section className="vehicleCatalog vehicleContainer" id="cars" aria-labelledby="catalog-title">
     <div className="vehiclePageIntro"><span className="vehicleEyebrow">Elbilsagenten / {segment ? 'Dina behov' : 'Alla elbilar'}</span><h1 id="catalog-title">{segment?.title || 'Hitta din nästa elbil.'}</h1><p>{segment?.description || 'Upptäck modellerna, jämför detaljerna och hitta det som passar din vardag.'}</p></div>
     <div className="catalogLayout">
       <div className="catalogFiltersDesktop">{renderFilters('desktop', brands)}</div>
       <div className="catalogResults">
         <div className="catalogToolbar">
-          <div className="catalogResultCount" role="status"><strong>{ranked.length}</strong> {ranked.length === 1 ? 'variant' : 'varianter'}</div>
+          <div className="catalogResultCount" role="status"><strong>{view === 'grid' ? modelGroups.length : ranked.length}</strong> {view === 'grid' ? modelGroups.length === 1 ? 'modell' : 'modeller' : ranked.length === 1 ? 'variant' : 'varianter'}{view === 'grid' && <span> · {ranked.length} varianter</span>}</div>
           <button ref={filterTrigger} type="button" className="catalogFilterTrigger" onClick={() => setDrawerOpen(true)}><SlidersHorizontal size={16} /> Filter</button>
           <label className="catalogSort"><span>Sortera</span><select aria-label="Sortera bilar" value={filters.sort} onChange={(event) => setFilters({ ...filters, sort: event.target.value })}><option value="match">Smart matchning</option><option value="price">Lägst pris</option><option value="range">Längst räckvidd</option><option value="efficiency">Lägst förbrukning</option></select></label>
           <div className="catalogViewToggle" role="group" aria-label="Visningsläge"><button type="button" aria-pressed={view === 'grid'} title="Kortvy" aria-label="Kortvy" onClick={() => setView('grid')}><LayoutGrid size={17} /></button><button type="button" aria-pressed={view === 'table'} title="Tabellvy" aria-label="Tabellvy" onClick={() => setView('table')}><List size={18} /></button></div>
         </div>
         <label className="catalogSearch"><Search size={18} /><input aria-label="Sök bilmodell" type="search" value={filters.query} onChange={(event) => setFilters({ ...filters, query: event.target.value })} placeholder="Sök på märke, modell eller variant" /></label>
-        {dataStatus === 'loading' ? <div className="catalogLoading" role="status">Hämtar elbilar...</div> : ranked.length === 0 ? <div className="vehicleEmpty"><Search size={28} /><h2>{dataStatus === 'error' ? 'Biluppgifterna kunde inte hämtas.' : 'Ingen bil matchar just nu.'}</h2><p>{dataStatus === 'error' ? 'Försök igen om en stund.' : 'Prova en annan budget, räckvidd eller sökning.'}</p><button type="button" className="uiPrimary" onClick={dataStatus === 'error' ? () => window.location.reload() : resetFilters}>{dataStatus === 'error' ? 'Försök igen' : 'Återställ filter'}</button></div> : view === 'grid' ? <div className="carGrid vehicleCardGrid">{ranked.map(renderCard)}</div> : <div className="vehicleTableScroll" tabIndex={0} role="region" aria-label="Bilöversikt, rulla i sidled"><table className="catalogTable"><caption className="srOnly">Elbilar som matchar dina filter</caption><thead><tr>{['Bil', 'Pris', 'WLTP', 'DC-laddning', 'Dragvikt', 'Jämför'].map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead><tbody>{ranked.map((car) => <tr key={car.id}><th scope="row"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {car.model}<ArrowUpRight size={14} /></VehicleLink></th><td>{car.price ? vehicleMoney(car.price) : 'Ej angivet'}{car.priceType && car.priceType !== 'list_price' && <small>{car.priceType === 'campaign_price' ? 'Kampanjpris' : 'Återförsäljarerbjudande'}</small>}</td><td>{vehicleMetric(car.rangeVerified, 'km')}</td><td>{vehicleMetric(car.dcVerified, 'kW')}</td><td>{vehicleMetric(car.towingVerified, 'kg')}</td><td><button aria-label={`Jämför ${car.brand} ${car.model}`} aria-pressed={compare.includes(car.id)} onClick={() => onCompare(car.id)}>{compare.includes(car.id) ? <Check size={18} /> : <Plus size={18} />}</button></td></tr>)}</tbody></table></div>}
+        {dataStatus === 'loading' ? <div className="catalogLoading" role="status">Hämtar elbilar...</div> : ranked.length === 0 ? <div className="vehicleEmpty"><Search size={28} /><h2>{dataStatus === 'error' ? 'Biluppgifterna kunde inte hämtas.' : 'Ingen bil matchar just nu.'}</h2><p>{dataStatus === 'error' ? 'Försök igen om en stund.' : 'Prova en annan budget, räckvidd eller sökning.'}</p><button type="button" className="uiPrimary" onClick={dataStatus === 'error' ? () => window.location.reload() : resetFilters}>{dataStatus === 'error' ? 'Försök igen' : 'Återställ filter'}</button></div> : view === 'grid' ? <div className="carGrid vehicleCardGrid">{modelGroups.map(group => <CatalogModelGroup key={group.key} group={group} renderCard={renderCard} />)}</div> : <div className="vehicleTableScroll" tabIndex={0} role="region" aria-label="Bilöversikt, rulla i sidled"><table className="catalogTable"><caption className="srOnly">Elbilar som matchar dina filter</caption><thead><tr>{['Bil', 'Pris', 'WLTP', 'DC-laddning', 'Dragvikt', 'Jämför'].map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead><tbody>{ranked.map((car) => <tr key={car.id}><th scope="row"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {car.model}<ArrowUpRight size={14} /></VehicleLink></th><td>{car.price ? vehicleMoney(car.price) : 'Ej angivet'}{car.priceType && car.priceType !== 'list_price' && <small>{car.priceType === 'campaign_price' ? 'Kampanjpris' : 'Återförsäljarerbjudande'}</small>}</td><td>{vehicleMetric(car.rangeVerified, 'km')}</td><td>{vehicleMetric(car.dcVerified, 'kW')}</td><td>{vehicleMetric(car.towingVerified, 'kg')}</td><td><button aria-label={`Jämför ${car.brand} ${car.model}`} aria-pressed={compare.includes(car.id)} onClick={() => onCompare(car.id)}>{compare.includes(car.id) ? <Check size={18} /> : <Plus size={18} />}</button></td></tr>)}</tbody></table></div>}
       </div>
     </div>
     {drawerOpen && <dialog ref={dialog} className="catalogFilterDialog" aria-labelledby="mobile-filter-title" onCancel={(event) => { event.preventDefault(); closeDrawer(); }} onClose={() => { setDrawerOpen(false); filterTrigger.current?.focus(); }}><div className="catalogDialogHeading"><h2 id="mobile-filter-title">Anpassa urvalet</h2><button type="button" aria-label="Stäng filter" onClick={closeDrawer}><X size={22} /></button></div>{renderFilters('mobile', brands)}<button className="uiPrimary" type="button" onClick={closeDrawer}>Visa {ranked.length} varianter <ArrowRight size={17} /></button></dialog>}

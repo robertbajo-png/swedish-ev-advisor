@@ -14,6 +14,48 @@ ROOT = Path(__file__).resolve().parents[1]
 LICENSES = {'CC-BY-4.0': 'https://creativecommons.org/licenses/by/4.0/',
             'CC-BY-SA-4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
             'CC0-1.0': 'https://creativecommons.org/publicdomain/zero/1.0/'}
+POLESTAR_NOTICE = 'Content found in the Polestar media newsroom is intended for editorial use only and may not be used for any advertising or commercial purposes.'
+PRESS_PUBLISHERS = json.loads((ROOT / 'src/press-image-publishers.json').read_text(encoding='utf-8'))
+
+
+def reviewed_media_permission(evidence):
+    policy = PRESS_PUBLISHERS.get(evidence.get('publisher_id'))
+    if not policy or evidence.get('license_id') != policy['license_id']:
+        return False
+    source = urlsplit(evidence.get('source_url', ''))
+    asset = urlsplit(evidence.get('downloaded_from', ''))
+    return bool(evidence.get('model_key') in policy['model_keys']
+        and source.scheme + '://' + source.netloc == policy['origin']
+        and re.fullmatch(r'/images/[a-z0-9-]+-[0-9]+', source.path)
+        and not source.query and not source.fragment
+        and evidence.get('evidence_url') == evidence.get('source_url')
+        and evidence.get('license_url') == evidence.get('source_url')
+        and evidence.get('evidence_quote') == policy['permission_excerpt'] + ' | ' + policy['condition_excerpt']
+        and asset.scheme + '://' + asset.netloc == policy['asset_origin']
+        and re.fullmatch(r'/image/upload/fl_attachment/[a-zA-Z0-9_-]+', asset.path)
+        and not asset.query and not asset.fragment
+        and evidence.get('usage_scope') == 'independent_vehicle_editorial'
+        and evidence.get('full_frame') is True
+        and all(re.fullmatch('[a-f0-9]{64}', evidence.get(name, '')) for name in ('metadata_sha256', 'source_content_sha256')))
+
+
+def reviewed_press_permission(evidence):
+    if evidence.get('license_id') != 'Polestar-editorial':
+        return False
+    source = urlsplit(evidence.get('source_url', ''))
+    downloaded = urlsplit(evidence.get('downloaded_from', ''))
+    match = re.fullmatch(r'/gallery/images/([0-9]+)', source.path)
+    return bool(evidence.get('model_key') in ('polestar|2', 'polestar|4')
+        and source.scheme == 'https' and source.netloc == 'media.polestar.com' and not source.query and not source.fragment
+        and match and downloaded.scheme == 'https' and downloaded.netloc == source.netloc
+        and re.fullmatch(r'/assets/images/(?:original|small)/' + match[1] + r'-[a-zA-Z0-9._-]+\.jpe?g', downloaded.path)
+        and not downloaded.query and not downloaded.fragment
+        and evidence.get('evidence_url') == 'https://media.polestar.com/copyright'
+        and evidence.get('license_url') == evidence.get('evidence_url')
+        and evidence.get('evidence_quote') == POLESTAR_NOTICE
+        and evidence.get('usage_scope') == 'independent_vehicle_editorial'
+        and evidence.get('prohibited_uses') == ['advertising', 'commercial_promotion', 'endorsement']
+        and re.fullmatch('[a-f0-9]{64}', evidence.get('metadata_sha256', '')))
 
 
 def https_url(value):
@@ -36,7 +78,7 @@ def rights_errors(asset, evidence, today=None):
             errors.append('invalid_' + field)
     if evidence.get('status') != 'documented' or not str(evidence.get('evidence_quote', '')).strip():
         errors.append('permission_not_documented')
-    if evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id')):
+    if not (reviewed_press_permission(evidence) or reviewed_media_permission(evidence)) and (evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id'))):
         errors.append('license_requires_specific_review')
     for field in ('author', 'credit', 'changes'):
         if not str(evidence.get(field, '')).strip():
@@ -63,13 +105,13 @@ def image_lookup(root=ROOT):
     return ast.literal_eval('{' + match.group(1) + '}')
 
 
-def inventory(root=ROOT):
+def inventory(root=ROOT, candidate_registry=False):
     root = Path(root)
     lookup = image_lookup(root)
     assets = {}
     for row in public_records(root / 'public/data/public_ev_variants.json'):
         key = normalize_image_key(row['brand']) + '|' + normalize_image_key(row['model'])
-        url = row.get('image_url') or lookup.get(key)
+        url = lookup.get(key) if candidate_registry else row.get('image_url') or lookup.get(key)
         if url:
             assets[(key, url)] = {'model_key': key, 'asset_url': url, 'surface': 'vehicle'}
     for css in sorted((root / 'src').glob('*.css')):
@@ -112,8 +154,10 @@ def build_report(assets, registry, today=None, root=ROOT):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--candidate-registry', action='store_true', help='Audit proposed lookup before a canonical image transaction; not public parity')
     args = parser.parse_args()
-    report = build_report(inventory(), json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8')))
+    report = build_report(inventory(candidate_registry=args.candidate_registry), json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8')))
+    report['candidate_registry_only'] = args.candidate_registry
     print(json.dumps(report, ensure_ascii=True, indent=2))
     if args.check and not report['all_documented']:
         raise SystemExit(1)

@@ -197,69 +197,69 @@
       }
     ]
   },
-  "/media/vehicles/kia-ev3-f4a5326be0bc.jpg": {
-    "width": 1280,
-    "height": 852,
-    "source_sha256": "f4a5326be0bc494cf52e96eec41aa7302933022f13ff725a692391fd1171d815",
+  "/media/vehicles/kia-ev3-press-b0de32637809.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "b0de326378091a93d128a6382ac20c9086c7697d29d0cf8c5a85f76e579fb30a",
     "variants": [
       {
-        "url": "/media/responsive/kia-ev3-f4a5326be0bc-480.webp",
+        "url": "/media/responsive/kia-ev3-press-b0de32637809-480.webp",
         "width": 480,
-        "sha256": "1789810b26865bf81ea267c6382b7554b5667111bcce04fbcfa2e04e18e3d428"
+        "sha256": "9b61cfe21252acbcec86083be79c046d4e9f832f74bc074af90839d804708c71"
       },
       {
-        "url": "/media/responsive/kia-ev3-f4a5326be0bc-800.webp",
+        "url": "/media/responsive/kia-ev3-press-b0de32637809-800.webp",
         "width": 800,
-        "sha256": "c4aa734e7d686b7d438b35f5a13b6ee61c9496579c34d0233bc075dcd7f3df36"
+        "sha256": "df724349d9fcbfe9fee26e0c2132ce0d2465562c9e1f1f47a122b5c928d6cec0"
       },
       {
-        "url": "/media/responsive/kia-ev3-f4a5326be0bc-1280.webp",
+        "url": "/media/responsive/kia-ev3-press-b0de32637809-1280.webp",
         "width": 1280,
-        "sha256": "e23dfa5afaba54e49c3fe5b6cba6202da2c3f4b606203c88cde72ea36fcd7f55"
+        "sha256": "c481fec59d1eeac1e6b4164c62c9dcdd479c76e8a064a473d2b886a1ce51e4a1"
       }
     ]
   },
-  "/media/vehicles/kia-ev4-0c80a9482373.jpg": {
-    "width": 1280,
-    "height": 750,
-    "source_sha256": "0c80a9482373e18b4902536b10735f07ceca229dfded4c384a4ad48eec2a7e06",
+  "/media/vehicles/kia-ev4-press-0446f33614bd.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "0446f33614bda8c3ec31cb1e73a5d71f8bfe2705b6cb617dd5d1d709fff7b852",
     "variants": [
       {
-        "url": "/media/responsive/kia-ev4-0c80a9482373-480.webp",
+        "url": "/media/responsive/kia-ev4-press-0446f33614bd-480.webp",
         "width": 480,
-        "sha256": "7f91f956c0c253a62c44e9a2e6d20ccd731b95b9aa903d64e9b7ce8fc3c4a794"
+        "sha256": "ae1e027a2528efc77840055ece69b59d15e0ca9e52c5de99ca319d4e2995aa74"
       },
       {
-        "url": "/media/responsive/kia-ev4-0c80a9482373-800.webp",
+        "url": "/media/responsive/kia-ev4-press-0446f33614bd-800.webp",
         "width": 800,
-        "sha256": "734f30ce91bab5cd888bfce5a7baaf77ae5bf99854f550ab65f3c52c5db7ea3b"
+        "sha256": "4df61c11a73cef0a6bf540b47b8b4145360af3b28ed4ba6bec419320fd3e8301"
       },
       {
-        "url": "/media/responsive/kia-ev4-0c80a9482373-1280.webp",
+        "url": "/media/responsive/kia-ev4-press-0446f33614bd-1280.webp",
         "width": 1280,
-        "sha256": "2d6ddd39a85b074b4c4610c516cd1af9269d760b18f078ce84c206bae6a0adb8"
+        "sha256": "5b9843969dc41d2dc931c5e5487ce8c46f5e4d83aaf1981009ad76e35be27e42"
       }
     ]
   },
-  "/media/vehicles/kia-ev5-f7a1bd31244f.jpg": {
-    "width": 1280,
-    "height": 823,
-    "source_sha256": "f7a1bd31244f197519e199343489c7bc5d01d08f064c62551ddf4d3888a59c3f",
+  "/media/vehicles/kia-ev5-press-de4eab70d59a.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "de4eab70d59ae4aee1613c7981cf87b0606b4c0e738812256214c70513c219e3",
     "variants": [
       {
-        "url": "/media/responsive/kia-ev5-f7a1bd31244f-480.webp",
+        "url": "/media/responsive/kia-ev5-press-de4eab70d59a-480.webp",
         "width": 480,
-        "sha256": "b32ecc49a5ad956037ae038b3e9c8ac84b47b77cf170edef92d88b7f4845a3ea"
+        "sha256": "95f09d6f10c6b4f5e591b3c463c34702057cd39dc1136b591c5a2a7c9629bb65"
       },
       {
-        "url": "/media/responsive/kia-ev5-f7a1bd31244f-800.webp",
+        "url": "/media/responsive/kia-ev5-press-de4eab70d59a-800.webp",
         "width": 800,
-        "sha256": "a30769f0576f245aa3f07578e8330676b4aac3af54e8ef6221eb734177285a5f"
+        "sha256": "7e6de59b5600bcab78c99885c4ea7ef6264464be2c8cfa00da8fbc491eb4b077"
       },
       {
-        "url": "/media/responsive/kia-ev5-f7a1bd31244f-1280.webp",
+        "url": "/media/responsive/kia-ev5-press-de4eab70d59a-1280.webp",
         "width": 1280,
-        "sha256": "817e32350af8cebe9c84153e1271c44fdf5b159773a793b8dd3e9bffb079e14c"
+        "sha256": "95e594958f72200c88d4836f344deea6b22c65a30409a867aca3f35d39296dbd"
       }
     ]
   },
@@ -285,25 +285,25 @@
       }
     ]
   },
-  "/media/vehicles/kia-ev9-17749a771d5d.jpg": {
-    "width": 1280,
-    "height": 732,
-    "source_sha256": "17749a771d5dc0c24914704d9495a1a33a5579e4585ab855f8e9df006647b7fb",
+  "/media/vehicles/kia-ev9-press-731db0e8f686.jpg": {
+    "width": 1500,
+    "height": 844,
+    "source_sha256": "731db0e8f686e67027138af830dbb12f0faf7b048aaf5a2a5d7a336b0e057513",
     "variants": [
       {
-        "url": "/media/responsive/kia-ev9-17749a771d5d-480.webp",
+        "url": "/media/responsive/kia-ev9-press-731db0e8f686-480.webp",
         "width": 480,
-        "sha256": "2000302635f6bde9d8d6c7f22f1f0f63e35e1884b2e87538f1877ff9f1605329"
+        "sha256": "7748482783c78bf63ec28dfd0e0b9afbe6f6ed90c84bb236d0037e3d117cc2f1"
       },
       {
-        "url": "/media/responsive/kia-ev9-17749a771d5d-800.webp",
+        "url": "/media/responsive/kia-ev9-press-731db0e8f686-800.webp",
         "width": 800,
-        "sha256": "12fff87dfcd533408c011e6b44b9e77fd8e87c87754dc9e2c8312962f3b8304a"
+        "sha256": "cd4998f54fb62cc2032e608a783a47540f36c734788a2f46683e65c0bdfd53b8"
       },
       {
-        "url": "/media/responsive/kia-ev9-17749a771d5d-1280.webp",
+        "url": "/media/responsive/kia-ev9-press-731db0e8f686-1280.webp",
         "width": 1280,
-        "sha256": "2d6dda33704d6250a302dfea72fbcbbeb855eb502be2ab8a9a0d8d2bb40cb692"
+        "sha256": "e6ec0548c17d15b28df8a30d799d221c2b96367f12531e246717c808e3d39e60"
       }
     ]
   },
@@ -373,47 +373,47 @@
       }
     ]
   },
-  "/media/vehicles/polestar-2-503eade18ba7.jpg": {
-    "width": 1280,
-    "height": 714,
-    "source_sha256": "503eade18ba7b8b12932682e376169615dfb115cf21400764b832980c4427143",
+  "/media/vehicles/polestar-2-press-72486aedf6a2.jpg": {
+    "width": 1500,
+    "height": 1746,
+    "source_sha256": "72486aedf6a291b6dd7ffcdd36ff73493a69c20571cc4dced034adb85fe88ee3",
     "variants": [
       {
-        "url": "/media/responsive/polestar-2-503eade18ba7-480.webp",
+        "url": "/media/responsive/polestar-2-press-72486aedf6a2-480.webp",
         "width": 480,
-        "sha256": "a73f3f2ae9010448899a741b2ff8027ae7550e17d56c0161eca806466ae9e403"
+        "sha256": "9443026db03944554cd360bc9b4a81d0c931b4ae2845cfad8a1363d893bcd481"
       },
       {
-        "url": "/media/responsive/polestar-2-503eade18ba7-800.webp",
+        "url": "/media/responsive/polestar-2-press-72486aedf6a2-800.webp",
         "width": 800,
-        "sha256": "32a88bde478036f08878a9794f963b15117bf7074a43d85e984670c3f9601484"
+        "sha256": "7467e23f2249a5a7a410c4d90be92756032828de7340a0f0c09bee5ed77253bf"
       },
       {
-        "url": "/media/responsive/polestar-2-503eade18ba7-1280.webp",
+        "url": "/media/responsive/polestar-2-press-72486aedf6a2-1280.webp",
         "width": 1280,
-        "sha256": "73632d4116fbf8bddd2dc5823c6b13ed73eb46525560127d067a7028be9c86b5"
+        "sha256": "9dba3f85fb97c74dd3399dd6ab0d26a372940dfe883751cac2e9bd9d51dae878"
       }
     ]
   },
-  "/media/vehicles/polestar-4-afa0450df51a.jpg": {
-    "width": 1280,
-    "height": 839,
-    "source_sha256": "afa0450df51ad275f26c97f678ed7ef646c2470aedc1f6fa92effc116694c82f",
+  "/media/vehicles/polestar-4-press-34c05d967929.jpg": {
+    "width": 1500,
+    "height": 844,
+    "source_sha256": "34c05d967929c07962e7f91a3339d070ec13a178dfb8453f4c0f72359a6b7432",
     "variants": [
       {
-        "url": "/media/responsive/polestar-4-afa0450df51a-480.webp",
+        "url": "/media/responsive/polestar-4-press-34c05d967929-480.webp",
         "width": 480,
-        "sha256": "441aa23f436a94b8035f9c19357c73c78ac8645460629271a008961a7b4e3e05"
+        "sha256": "7a8e68771d3332e67ceb1d95bea1aaa730f641950fb327f460efc3088d6fbc69"
       },
       {
-        "url": "/media/responsive/polestar-4-afa0450df51a-800.webp",
+        "url": "/media/responsive/polestar-4-press-34c05d967929-800.webp",
         "width": 800,
-        "sha256": "41cbf5068edfebdd099e13ff0c1763d7691163cfc369a4ef33d2911dc8c095ed"
+        "sha256": "88885b48fc3658c40d661cf76189babaede7dae65071d5daa0e9bebd26cdaed1"
       },
       {
-        "url": "/media/responsive/polestar-4-afa0450df51a-1280.webp",
+        "url": "/media/responsive/polestar-4-press-34c05d967929-1280.webp",
         "width": 1280,
-        "sha256": "53b2ca7f6dcd5459b0c4ba5a4c3d28d779be1a32b60ad894f3dc71f0cc8ac126"
+        "sha256": "a46a1cd24ca54fefc85e57756b5ad8fbace8277dbc4d9b23f2abc219c598c287"
       }
     ]
   },

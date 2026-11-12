@@ -23,14 +23,19 @@
 .vehicleCardGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .vehicleCard.homeVehicleCard { display: flex; flex-direction: column; border: 1px solid var(--line); background: #fff; border-radius: 8px; overflow: hidden; box-shadow: none; transition: border-color .18s ease, box-shadow .18s ease; }
 .vehicleCard.homeVehicleCard:hover { border-color: #b5cac4; box-shadow: 0 6px 20px rgb(23 27 28 / 4%); transform: none; }
-.vehicleCard .homeVehiclePhoto { position: relative; display: block; aspect-ratio: 1.8; overflow: hidden; background: #edf0ed; }
+.vehicleCard .homeVehiclePhoto { position: relative; display: block; aspect-ratio: 1.6; overflow: hidden; background: #edf0ed; }
 .vehicleCard .homeVehiclePhoto img { width: 100%; height: 100%; object-fit: cover; }
 .vehicleCard img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
 .vehicleCard .homeVehicleBody { display: flex; flex-direction: column; padding: 20px; flex: 1; }
 .vehicleCard .homeVehicleBrand { font-size: 12px; color: var(--muted); }
-.vehicleCardIdentity { min-height: 80px; display: grid; align-content: start; gap: 4px; margin-bottom: 12px; }
+.vehicleCardIdentity { min-height: 104px; display: grid; align-content: start; gap: 4px; margin-bottom: 12px; }
 .vehicleCard.homeVehicleCard .vehicleCardTitle { min-height: 0; font-size: 20px; line-height: 1.3; margin: 0; font-weight: 700; }
 .vehicleCard .vehicleVariant { margin: 0; color: #5c6768; font-size: var(--ui-control-size); line-height: 1.5; }
+.vehicleVariantPicker { display: grid; gap: 8px; min-width: 0; margin-top: 8px; }
+.vehicleVariantPicker > span { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
+.vehicleVariantPicker small { font-size: 11px; font-weight: 400; }
+.vehicleVariantPicker select { width: 100%; min-width: 0; height: 44px; padding: 8px 32px 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: #f9faf9; color: var(--ink); font: inherit; font-size: 13px; text-overflow: ellipsis; }
+.vehicleCardIdentity:has(.vehicleVariantPicker) { min-height: 104px; }
 .vehicleCard .homeVehiclePrice { font-size: 22px; margin: 0 0 16px; line-height: 1.4; font-weight: 700; }
 .vehicleCard .homeVehiclePrice > span { display: block; color: var(--muted); font-size: 12px; font-weight: 400; margin-top: 4px; }
 .vehicleCard .homeVehicleSpecs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-block: 16px; border-block: 1px solid var(--line); margin: 0; }
@@ -64,7 +69,8 @@
 .catalogResults { min-width: 0; }
 .vehicleCatalog .carGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .catalogToolbar { display: flex; align-items: center; gap: 24px; min-height: 60px; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 16px; }
-.catalogResultCount { color: var(--muted); font-size: var(--ui-control-size); margin-right: auto; white-space: nowrap; }
+.catalogResultCount { color: var(--muted); font-size: var(--ui-control-size); margin-right: auto; }
+.catalogResultCount > span { display: inline-block; font-size: 12px; }
 .catalogResultCount strong { color: var(--ink); }
 .catalogSort { display: flex; align-items: center; gap: 12px; font-size: var(--ui-label-size); color: var(--muted); }
 .catalogSort select { max-width: 180px; height: 44px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); font-size: var(--ui-control-size); }
@@ -104,7 +110,7 @@
 .vehicleDetailHero { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; min-height: min(760px, 88svh); padding-block: 120px 24px; background: #233131; color: white; isolation: isolate; }
 .vehicleHeroMedia, .vehicleHeroOverlay { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 .vehicleHeroMedia img { width: 100%; height: 100%; object-fit: cover; object-position: 65% center; }
-.vehicleImageAttribution { margin: 0; padding: 8px 16px; color: #596462; font-size: 11px; line-height: 1.5; background: #f7f7f4; overflow-wrap: anywhere; }
+.vehicleImageAttribution { margin: 0; padding: 8px 20px; color: #596462; font-size: 11px; line-height: 1.5; background: #f7f7f4; overflow-wrap: anywhere; }
 .vehicleImageAttribution a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .vehicleImageCreditLine { display: flex; align-items: baseline; gap: 4px; }
 .vehicleImageCreditLine > a:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }

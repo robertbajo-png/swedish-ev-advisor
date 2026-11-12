@@ -35,7 +35,8 @@ def allowed_url(url, brands):
         if not any(parsed.hostname == domain or parsed.hostname.endswith('.' + domain) for domain in domains):
             return False
         prefixes = {'tesla.com': ('/sv_se/',), 'volvocars.com': ('/se/',), 'polestar.com': ('/se/',),
-                    'kia.com': ('/se/',), 'zeekr.eu': ('/sv-se/', '/se-se/')}
+                    'kia.com': ('/se/', '/content/dam/kwcms/kme/se/sv/'),
+                    'zeekr.eu': ('/sv-se/', '/se-se/')}
         for domain, paths in prefixes.items():
             if parsed.hostname == domain or parsed.hostname.endswith('.' + domain):
                 return parsed.path.lower().startswith(paths)

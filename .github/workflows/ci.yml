@@ -149,6 +149,11 @@ jobs:
       - run: bun run verify:catalog-audit
       - run: bun run verify:variant-refresh-extraction
       - run: python -m pip install -r requirements-source-intake.txt
+      - run: bun run verify:vehicle-quality
+      - run: bun run verify:kia-specs
+      - run: bun run verify:kia-spec-sync
+      - run: bun run verify:press-images
+      - run: bun run verify:vehicle-catalog
       - run: bun run verify:remaining-intake
       - run: bun run verify:stock-intake
       - run: bun run verify:toyota-intake

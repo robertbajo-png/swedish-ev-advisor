@@ -15,6 +15,9 @@ const listFixture = '<script type="application/ld+json" data-prerender="page">[{
 const fixed = synchronizeItemList(listFixture, '<article class="vehicleCard"><h2><a href="/bilar/synthetic">Synthetic &amp; Model</a></h2><p class="vehicleVariant">Exact variant</p></article>', 'https://elbilsagenten.se');
 assert(fixed.includes('"numberOfItems":1'));
 assert(fixed.includes('Exact variant'));
+const groupedFixture = synchronizeItemList(listFixture, '<article class="vehicleCard"><h2><a href="/bilar/synthetic-long-range">Synthetic Model</a></h2><label class="vehicleVariantPicker"><select><option>Base</option><option selected="">Long Range</option></select></label></article>', 'https://elbilsagenten.se');
+assert(groupedFixture.includes('Synthetic Model Long Range'), 'Structured list uses the actual visible selected version');
+assert(!groupedFixture.includes('Synthetic Model Base'));
 
 const rights = JSON.parse(await readFile('src/image-rights.json', 'utf8'));
 const variants = JSON.parse(await readFile('src/image-variants.json', 'utf8'));

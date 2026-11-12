@@ -13,6 +13,8 @@ def main():
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
     assets = json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8'))['assets']
+    manifest = ROOT / 'src/image-variants.json'
+    cached = json.loads(manifest.read_text(encoding='utf-8')) if manifest.exists() else {}
     output = {}
     total_original = total_small = 0
     for asset in assets:
@@ -22,6 +24,21 @@ def main():
         raw = source.read_bytes()
         if hashlib.sha256(raw).hexdigest() != asset['content_sha256']:
             raise ValueError('Licensed original image changed')
+        previous = cached.get(asset['asset_url'])
+        if previous and previous.get('source_sha256') == asset['content_sha256']:
+            expected_widths = sorted({min(previous['width'], size) for size in (480, 800, 1280)})
+            valid = [row['width'] for row in previous['variants']] == expected_widths
+            for row in previous['variants']:
+                target = ROOT / 'public' / row['url'].lstrip('/')
+                valid = valid and row['url'].startswith('/media/responsive/') and target.is_file() and not target.is_symlink()
+                if valid:
+                    content = target.read_bytes()
+                    valid = content[8:12] == b'WEBP' and hashlib.sha256(content).hexdigest() == row['sha256']
+            if valid:
+                output[asset['asset_url']] = previous
+                total_original += len(raw)
+                total_small += (ROOT / 'public' / previous['variants'][0]['url'].lstrip('/')).stat().st_size
+                continue
         with Image.open(source) as original:
             image = ImageOps.exif_transpose(original).convert('RGB')
             width, height = image.size
