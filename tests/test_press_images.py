@@ -1,10 +1,14 @@
 import copy
+import hashlib
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from audit_image_rights import POLESTAR_NOTICE, PRESS_PUBLISHERS, rights_errors, reviewed_press_permission, reviewed_media_permission
+from adopt_press_photos import prepare
 
 
 class PressImageTests(unittest.TestCase):
@@ -55,6 +59,35 @@ class PressImageTests(unittest.TestCase):
             changed = {**evidence, **patch}
             self.assertFalse(reviewed_media_permission(changed), patch)
             self.assertIn('license_requires_specific_review', rights_errors(changed, changed))
+
+    def test_adoption_binds_the_reviewed_file_and_does_not_publish(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / 'src').mkdir()
+            (root / 'public/data').mkdir(parents=True)
+            (root / 'public/data/public_ev_variants.json').write_text(json.dumps({'records': [{'brand': 'Polestar', 'model': '4'}]}))
+            original_registry = {'schema_version': 1, 'assets': [{'model_key': 'polestar|4', 'asset_url': '/media/vehicles/old.jpg'}]}
+            (root / 'src/image-rights.json').write_text(json.dumps(original_registry))
+            (root / 'src/model-images.json').write_text(json.dumps({'polestar|4': '/media/vehicles/old.jpg'}))
+            content = b'\xff\xd8\xffsynthetic-photo-fixture'
+            digest = hashlib.sha256(content).hexdigest()
+            filename = 'polestar-4-press-' + digest[:12] + '.jpg'
+            (root / filename).write_bytes(content)
+            candidate = {**self.evidence, 'review_filename': filename, 'content_sha256': digest,
+                'asset_url': self.evidence['downloaded_from'], 'original_url': self.evidence['downloaded_from']}
+            path = root / 'candidate.json'
+            path.write_text(json.dumps(candidate))
+            reviewed_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+            registry, lookup, file, evidence = prepare(path, reviewed_hash, root)
+            self.assertEqual(lookup['polestar|4'], '/media/vehicles/' + filename)
+            self.assertEqual(evidence['reviewed_candidate_sha256'], reviewed_hash)
+            self.assertEqual(json.loads((root / 'src/image-rights.json').read_text()), original_registry)
+            self.assertFalse((root / 'public/media').exists())
+            with self.assertRaisesRegex(ValueError, 'reviewed_candidate_changed'):
+                prepare(path, '0' * 64, root)
+            file.write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError, 'reviewed_photo_changed'):
+                prepare(path, reviewed_hash, root)
 
 
 if __name__ == '__main__':

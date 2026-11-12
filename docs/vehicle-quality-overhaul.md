@@ -94,10 +94,20 @@ maxima from a different version would repeat the old data-quality problem.
   held pending a separately tested numeric-column compatibility migration.
   Preliminary EV3 AWD, GT/GT Line mismatches and undocumented six-seat boot
   volumes also remain held, not borrowed from another version.
-- Reviewed six manufacturer press photos: Polestar 2/4 and Kia EV3/4/5/9.
+- Reviewed seven manufacturer press photos: Polestar 2/4 and Kia EV3/4/5/6/9.
   Full-frame Kia media assets retain their whole photographic frame, hash-bound
   derivatives, individual evidence and compact source credit. Rejected interior
   photos are not promoted as model-card exterior photography.
 - Catalog grid now groups by exact brand/model and offers matching variants in a
   labelled select; all versions remain separate in the table and comparison.
   JSON-LD uses the displayed selected variant, not a hidden or unfiltered version.
+- Offline checks passed: 27 focused Python tests, isolated Postgres transaction
+  regressions, advisor/public-image contracts, 90 rendered routes, desktop/tablet/
+  390px/320px vehicle and advisor flows, plus 22 Axe audits with zero violations.
+  The first PR CI exposed an obsolete redirect assertion requiring Kia EV3's
+  technical values to remain null; it now checks the current canonical values.
+  Separate explicit-zero/null transport fixtures remain enforced.
+- Native version selects remain disabled in no-JavaScript HTML until hydration:
+  a reader cannot change the version name while keeping another version's data.
+- PR #56 passed all 150 CI steps after the redirect assertion was updated. Final
+  EV6 photography/no-JS reading follow-up is tested again before release.

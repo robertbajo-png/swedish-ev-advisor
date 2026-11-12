@@ -263,25 +263,25 @@
       }
     ]
   },
-  "/media/vehicles/kia-ev6-def737594d59.jpg": {
-    "width": 1280,
-    "height": 960,
-    "source_sha256": "def737594d598a9de13de5a77b535ba453ed7c4dce37a22f5b1954b66d79ef13",
+  "/media/vehicles/kia-ev6-press-5e19a7dc0d49.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "5e19a7dc0d49f06143132458fb1322a88a573fa0c4e15139725eec2ea63d2756",
     "variants": [
       {
-        "url": "/media/responsive/kia-ev6-def737594d59-480.webp",
+        "url": "/media/responsive/kia-ev6-press-5e19a7dc0d49-480.webp",
         "width": 480,
-        "sha256": "9a1a8e84f7a83e617a1fb568209fef08d459301fbf2ec20a946a0f32ac80ee4f"
+        "sha256": "228f5be9613ff31d37adbdf49b4029637a7bb254c6ba2e72fe79c47451b645d6"
       },
       {
-        "url": "/media/responsive/kia-ev6-def737594d59-800.webp",
+        "url": "/media/responsive/kia-ev6-press-5e19a7dc0d49-800.webp",
         "width": 800,
-        "sha256": "44a4e68f2e93ee43236f836a5476683aca266cb87724d6fb1897642af11d768c"
+        "sha256": "165d4a143eadbdbbf45907f37a8ddc84891ad3ec28f3b6a2126951fe85eb6c47"
       },
       {
-        "url": "/media/responsive/kia-ev6-def737594d59-1280.webp",
+        "url": "/media/responsive/kia-ev6-press-5e19a7dc0d49-1280.webp",
         "width": 1280,
-        "sha256": "9ea386ee754b5ed0553a8db7afe6ae65753c9238e4945a293f341cd0d27e096b"
+        "sha256": "561caa4d33692d358893d59de552726cb6a84fe66504bcddafce4ff970988568"
       }
     ]
   },

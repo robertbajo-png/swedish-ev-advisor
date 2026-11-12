@@ -45,7 +45,7 @@
     }
   },
   "complete_core_variants": 18,
-  "professional_photos_reviewed": 6,
+  "professional_photos_reviewed": 7,
   "models_by_priority": [
     {
       "model_key": "skoda|elroq",
@@ -1579,11 +1579,11 @@
         "drivetrain": 3,
         "body_type": 0
       },
-      "image_url": "/media/vehicles/kia-ev6-def737594d59.jpg",
+      "image_url": "/media/vehicles/kia-ev6-press-5e19a7dc0d49.jpg",
       "image_consistent": true,
       "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
       "variants": [
         {
           "variant_name": "EV6 AWD",
@@ -2167,5 +2167,5 @@
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-12T22:46:40.157002+00:00"
+  "audited_at": "2026-11-12T23:08:51.265333+00:00"
 }

@@ -34,7 +34,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
-        {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} onChange={event => onVariantChange(event.target.value)}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
+        {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} disabled={!onVariantChange} onChange={onVariantChange ? event => onVariantChange(event.target.value) : undefined}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
       </div>
       <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{car.priceType === 'campaign_price' && validDate(car.priceValidUntil) ? ` · gäller till ${car.priceValidUntil}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
       <dl className="homeVehicleSpecs">
@@ -51,8 +51,10 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
 
 function CatalogModelGroup({ group, renderCard }) {
   const [chosen, setChosen] = useState(null);
+  const [interactive, setInteractive] = useState(false);
+  useEffect(() => { setInteractive(true); }, []);
   const car = group.variants.find(variant => variant.id === chosen) || group.variants[0];
-  return renderCard(car, { variants: group.variants, onVariantChange: setChosen, modelKey: group.key });
+  return renderCard(car, { variants: group.variants, onVariantChange: interactive ? setChosen : null, modelKey: group.key });
 }
 
 export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters, dataStatus, segment, renderFilters, renderCard, onCompare, compare, navigate, appPath }) {

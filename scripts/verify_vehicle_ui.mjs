@@ -131,6 +131,12 @@ try {
     await noOverflow(name + ' Kia press photos');
     await page.screenshot({ path: fileURLToPath(new URL(`catalog-kia-viewport-${name}.png`, out)) });
     await page.screenshot({ path: fileURLToPath(new URL(`catalog-kia-${name}.png`, out)), fullPage: true });
+    await page.goto(base + '/bilar/kia-ev6-rwd');
+    await page.locator('.vehicleDetailHero h1').waitFor();
+    await photosReady('.vehicleHeroMedia img');
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await noOverflow(name + ' Kia cinematic photo');
+    await page.screenshot({ path: fileURLToPath(new URL(`detail-kia-hero-${name}.png`, out)) });
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());
