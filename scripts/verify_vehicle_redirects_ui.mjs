@@ -39,13 +39,17 @@ try {
       checked++;
     }
     const basic = snapshot.records.find(row => row.brand === 'Kia' && row.model === 'Ev3' && row.variant_name === 'EV3 FWD');
-    assert(basic && basic.wltp_range_km === null && basic.dc_charge_kw === null);
+    assert(basic, 'Current exact basic variant must exist');
     await page.goto(base + '/bilar/' + retiredSlug(basic.brand,basic.model,basic.variant_name));
     await page.locator('.vehicleDetailHero h1').waitFor();
     const hero = await page.locator('.vehicleDetailHero').innerText();
     assert(hero.replace(/\s/g,' ').includes(basic.price_sek.toLocaleString('sv-SE').replace(/\s/g,' ') + ' kr'));
-    assert.match(hero,/Uppgift saknas/);
-    assert(!/\b0 (?:km|kW|kg)\b/.test(hero), 'Unknown technical values are not zeros');
+    for (const [field, unit] of [['wltp_range_km', 'km'], ['dc_charge_kw', 'kW'], ['tow_kg', 'kg']]) {
+      if (basic[field] == null) {
+        assert.match(hero,/Uppgift saknas/);
+        assert(!new RegExp('\\b0 ' + unit + '\\b').test(hero), 'Unknown ' + field + ' is not zero');
+      } else assert(hero.replace(/\s/g, '').includes(String(basic[field]) + unit), 'Show the verified ' + field + ' after enrichment');
+    }
     assert.deepEqual((await new AxeBuilder({page}).analyze()).violations.map(v=>v.id),[]);
     await page.screenshot({path:fileURLToPath(new URL('current-basic-profile-'+name+'.png',output)),fullPage:true});
     const longest=[...snapshot.records].sort((a,b)=>b.variant_name.length-a.variant_name.length)[0];
@@ -65,5 +69,5 @@ try {
   assert.deepEqual(errors,[]);
   assert.deepEqual(posts,[]);
   console.log(JSON.stringify({vehicle_redirect_ui_ok:true,retired_links_checked:checked,spa_and_static_fallback:true,
-    basic_profile_nulls:true,accessibility_violations:0,viewports:['1440x1000','390x844'],paid_calls:0}));
+    basic_profile_matches_canonical:true,accessibility_violations:0,viewports:['1440x1000','390x844'],paid_calls:0}));
 } finally {await browser.close();}
