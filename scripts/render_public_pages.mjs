@@ -30,9 +30,10 @@ export function synchronizeItemList(html, content, origin) {
     const link = nodes.find((node) => node.tagName === 'a' && attr(node, 'href')?.includes('/bilar/'));
     const heading = nodes.find((node) => node.tagName === 'h2');
     const variant = nodes.find((node) => attr(node, 'class') === 'vehicleVariant');
+    const selectedVersion = nodes.find(node => node.tagName === 'option' && node.attrs?.some(item => item.name === 'selected'));
     assert(link && heading, 'Visible catalog card identity required');
     return { '@type': 'ListItem', position: index + 1, url: new URL(attr(link, 'href'), origin).href,
-      name: [text(heading), variant ? text(variant) : ''].filter(Boolean).join(' ') };
+      name: [text(heading), variant ? text(variant) : selectedVersion ? text(selectedVersion) : ''].filter(Boolean).join(' ') };
   });
   target.list.numberOfItems = items.length;
   target.list.itemListElement = items.slice(0, 12);

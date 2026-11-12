@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publishers.json', import.meta.url), 'utf8'));
 
 const key = row => [row.brand, row.model].map(value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
 export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
@@ -16,7 +19,34 @@ export function buildImagePlan(models, publicModels, registry) {
     assert.equal(asset.status, 'documented');
     assert.match(asset.asset_url, /^\/media\/vehicles\/[a-z0-9-]+-[a-f0-9]{12}\.jpg$/);
     assert.match(asset.content_sha256, /^[a-f0-9]{64}$/);
-    assert.match(asset.source_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    if (asset.license_id === 'Polestar-editorial') {
+      assert(['polestar|2', 'polestar|4'].includes(asset.model_key));
+      const match = /^https:\/\/media\.polestar\.com\/gallery\/images\/([0-9]+)$/.exec(asset.source_url);
+      assert(match, 'Exact public pressroom photo required');
+      assert.equal(asset.evidence_url, 'https://media.polestar.com/copyright');
+      assert.equal(asset.license_url, asset.evidence_url);
+      assert.equal(asset.usage_scope, 'independent_vehicle_editorial');
+      assert.deepEqual(asset.prohibited_uses, ['advertising', 'commercial_promotion', 'endorsement']);
+      assert.match(asset.metadata_sha256, /^[a-f0-9]{64}$/);
+      assert(new RegExp('^https://media\\.polestar\\.com/assets/images/(?:original|small)/' + match[1] + '-[a-zA-Z0-9._-]+\\.jpe?g$').test(asset.downloaded_from));
+    } else if (asset.license_id === 'Manufacturer-media-use') {
+      const policy = pressPublishers[asset.publisher_id];
+      assert(policy?.model_keys.includes(asset.model_key), 'Registered exact press model required');
+      const source = new URL(asset.source_url);
+      assert.equal(source.origin, policy.origin);
+      assert.match(source.pathname, /^\/images\/[a-z0-9-]+-[0-9]+$/);
+      assert(!source.search && !source.hash);
+      assert.equal(asset.evidence_url, asset.source_url);
+      assert.equal(asset.license_url, asset.source_url);
+      assert.equal(asset.evidence_quote, policy.permission_excerpt + ' | ' + policy.condition_excerpt);
+      assert.equal(asset.usage_scope, 'independent_vehicle_editorial');
+      assert.equal(asset.full_frame, true);
+      for (const field of ['metadata_sha256', 'source_content_sha256']) assert.match(asset[field], /^[a-f0-9]{64}$/);
+      const download = new URL(asset.downloaded_from);
+      assert.equal(download.origin, policy.asset_origin);
+      assert.match(download.pathname, /^\/image\/upload\/fl_attachment\/[a-zA-Z0-9_-]+$/);
+      assert(!download.search && !download.hash);
+    } else assert.match(asset.source_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     const matches = models.filter(model => key(model) === asset.model_key);
     assert.equal(matches.length, 1, 'Exact canonical model required');
     const model = matches[0];
@@ -27,7 +57,7 @@ export function buildImagePlan(models, publicModels, registry) {
       reviewed_at: asset.reviewed_at };
   }).sort((a, b) => a.id.localeCompare(b.id));
   assert.equal(seen.size, scope.size);
-  return plan;
+  return plan.filter(row => row.expected.image_url !== row.image_url || row.expected.image_source_url !== row.image_source_url);
 }
 
 // The caller supplies its existing authenticated TLS client. No new role or RPC is created.

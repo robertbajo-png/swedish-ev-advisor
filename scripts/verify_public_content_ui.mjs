@@ -33,6 +33,7 @@ try {
       assert.equal(await page.locator('#main-content').count(), 1);
       assert(await page.locator('a[href="/bilar"]').count());
       assert(!/Hämtar bilar|Hämtar bilen/.test(await page.locator('main').innerText()));
+      if (!javascript) assert(await page.locator('.vehicleVariantPicker select').evaluateAll(selects => selects.every(select => select.disabled)), 'No-JS reading cannot change a version label without its specifications');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, path + ': no mobile overflow');
       if (javascript) {
         await page.waitForFunction(() => !document.querySelector('script[data-prerender="page"]'));

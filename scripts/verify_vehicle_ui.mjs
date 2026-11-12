@@ -23,9 +23,11 @@ try {
   const noOverflow = async (name) => assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name + ': no document overflow');
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {
-      await img.scrollIntoViewIfNeeded().catch(() => {});
-      await img.evaluate((element) => element.complete || new Promise((resolve) => { element.addEventListener('load', resolve, { once: true }); element.addEventListener('error', resolve, { once: true }); setTimeout(resolve, 5000); })).catch(() => {});
+      await img.scrollIntoViewIfNeeded();
+      await img.evaluate(element => element.decode());
+      assert(await img.evaluate(element => element.complete && element.naturalWidth > 0), 'Exact model photo must actually decode');
     }
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   };
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['tablet', { width: 820, height: 1180 }], ['mobile', { width: 390, height: 844 }], ['small', { width: 320, height: 740 }]]) {
     await page.setViewportSize(viewport);
@@ -39,6 +41,21 @@ try {
     await page.getByRole('combobox', { name: 'Sortera bilar' }).selectOption('range');
     assert.match(await page.locator('.carCard').first().innerText(), /659 km/);
     await page.getByRole('combobox', { name: 'Sortera bilar' }).selectOption('match');
+    const modelTitles = await page.locator('.carCard .vehicleCardTitle').allTextContents();
+    assert.equal(new Set(modelTitles).size, modelTitles.length, 'One card per exact model, not repeated trim photos');
+    const versionPicker = page.locator('.carCard').first().locator('.vehicleVariantPicker select');
+    if (await versionPicker.count()) {
+      const ids = await versionPicker.locator('option').evaluateAll(options => options.map(option => option.value));
+      const selectedId = ids.at(-1);
+      await versionPicker.focus();
+      await versionPicker.selectOption(selectedId);
+      assert.equal(await versionPicker.inputValue(), selectedId, 'Version choice is stable');
+      assert.equal(await versionPicker.evaluate(element => element === document.activeElement), true, 'Changing a version keeps keyboard focus');
+      assert((await page.locator('.carCard').first().getByRole('link', { name: 'Visa detaljer' }).getAttribute('href')).endsWith('/' + selectedId));
+      await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
+      assert.equal(await page.locator('.carCard').first().getByRole('button', { name: 'Vald', exact: true }).count(), 1);
+      await page.locator('.carCard').first().getByRole('button', { name: 'Vald', exact: true }).click();
+    }
     if (viewport.width <= 800) {
       await page.getByRole('button', { name: 'Filter', exact: true }).click();
       const drawer = page.getByRole('dialog');
@@ -56,6 +73,7 @@ try {
     await page.screenshot({ path: fileURLToPath(new URL(`catalog-${name}.png`, out)), fullPage: true });
     await page.getByRole('button', { name: 'Tabellvy', exact: true }).click();
     assert.equal(await page.getByRole('table').count(), 1);
+    assert(await page.locator('.catalogTable tbody tr').count() > modelTitles.length, 'Table retains the individual matching variants');
     await noOverflow(name + ' table');
     await page.getByRole('button', { name: 'Kortvy', exact: true }).click();
     await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
@@ -99,6 +117,26 @@ try {
     await page.locator('.vehicleHeroActions').getByRole('button', { name: 'Lägg till i jämförelse', exact: true }).click();
     assert.equal(await page.locator('.vehicleHeroActions').getByRole('button', { name: 'Tillagd i jämförelse', exact: true }).getAttribute('aria-pressed'), 'true');
     assert.equal(await page.getByRole('link', { name: 'Öppna källa', exact: true }).getAttribute('target'), '_blank');
+  }
+  for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }]]) {
+    await page.setViewportSize(viewport);
+    await page.goto(base + '/bilar?brand=Kia&query=EV');
+    await page.locator('.carGrid .carCard').first().waitFor();
+    await page.waitForFunction(() => document.querySelector('#desktop-brand')?.value === 'Kia');
+    assert(await page.locator('.carCard').evaluateAll(cards => cards.every(card => card.innerText.includes('Kia'))));
+    await photosReady('.carCard .homeVehiclePhoto img');
+    assert(await page.locator('.carCard .homeVehiclePhoto img').evaluateAll(images => images.some(image => getComputedStyle(image).objectFit === 'contain')), 'Manufacturer full-frame conditions affect actual rendering');
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await noOverflow(name + ' Kia press photos');
+    await page.screenshot({ path: fileURLToPath(new URL(`catalog-kia-viewport-${name}.png`, out)) });
+    await page.screenshot({ path: fileURLToPath(new URL(`catalog-kia-${name}.png`, out)), fullPage: true });
+    await page.goto(base + '/bilar/kia-ev6-rwd');
+    await page.locator('.vehicleDetailHero h1').waitFor();
+    await photosReady('.vehicleHeroMedia img');
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await noOverflow(name + ' Kia cinematic photo');
+    await page.screenshot({ path: fileURLToPath(new URL(`detail-kia-hero-${name}.png`, out)) });
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());

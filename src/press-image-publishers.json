@@ -1,0 +1,13 @@
+{
+  "kia-mynewsdesk": {
+    "origin": "https://kia-motors.mynewsdesk.com",
+    "publisher": "Kia Sweden AB",
+    "official_link_evidence": "https://www.kia.com/se/om-kia/pressrum/",
+    "model_keys": ["kia|ev3", "kia|ev4", "kia|ev5", "kia|ev6", "kia|ev9"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  }
+}
