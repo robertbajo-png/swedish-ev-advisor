@@ -17,7 +17,9 @@ LIMITS = {'ev_news_facts': 1600, 'swedish_ev_article': 1100, 'ev_news_independen
 FACT_BYTES = 3800
 # Explicit existing official adapters, not inferred manufacturer domains.
 START_SOURCES = frozenset(('vw-sweden-press', 'vw-press', 'polestar-news',
-                          'toyota-uk-press', 'bmw-newsroom'))
+                          'toyota-uk-press', 'bmw-newsroom', 'byd-de-press',
+                          'lexus-eu-press', 'lexus-uk-press', 'nio-press',
+                          'xpeng-ch-press', 'smart-eu-press', 'electra-news'))
 
 
 def readiness(bundle, now=None):

@@ -63,9 +63,10 @@ def exact_receipts(remote, record, *, count=3):
     return rows
 
 
-def reviewed(remote, record):
+def reviewed(remote, record, *, qualification_only=False):
     try:
-        if record.get('recipe') != contract.RECIPE or record.get('state') != 'passed' or record.get('code_hash') != code_hash():
+        if (record.get('recipe') != contract.RECIPE or record.get('state') != 'passed'
+                or not qualification_only and record.get('code_hash') != code_hash()):
             return False
         at = datetime.fromisoformat(record['checked_at'])
         locked = contract.lock_facts(record['bundle'], record['fact_output'], at)
@@ -173,7 +174,10 @@ def perform(remote, bundle, *, private, ai=None, max_candidates=2, owner_day=Non
 
 
 def qualification(remote):
-    approved = [r['payload'] for r in previous_attempts(remote) if reviewed(remote, r['payload'])]
+    # A registry/worker edit does not invalidate an unchanged, genuinely passed
+    # audit. All three CURRENT request payloads, exact outputs and gates still match.
+    approved = [r['payload'] for r in previous_attempts(remote)
+                if reviewed(remote, r['payload'], qualification_only=True)]
     categories = {r['packet']['extraction']['category'] for r in approved
                   if contract.readiness(r['bundle'], datetime.fromisoformat(r['checked_at']))['ready']}
     private_count = sum(r['kind'] == 'publisher_private_trial' for r in approved)
@@ -327,6 +331,7 @@ def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_quali
             if result['status'] != 'already_reported':
                 return result
     queue, held = selection_queue(remote, contract.START_SOURCES)
+    last_rejection = None
     for item, _ in queue:
         try:
             bundle = collect_bundle(item['source_id'], item['url'], collector, feed_date=item['payload']['published_at'])
@@ -339,7 +344,9 @@ def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_quali
             return release(remote, record, collector)
         if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
             return safe_result(record)
-    return {'status': 'no_eligible_new_source', 'published': 0, 'held_candidates': len(held)}
+        last_rejection = safe_result(record)
+    return {**(last_rejection or {'status': 'no_eligible_new_source', 'published': 0}),
+            'held_candidates': len(held)}
 
 
 def safe_result(record):

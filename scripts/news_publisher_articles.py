@@ -27,6 +27,15 @@ MARKETS = ['SE', 'EU', 'CH', 'CN', 'AU', 'US', 'TH', 'JP', 'KR', 'IN', 'GLOBAL',
 CYCLES = ['WLTP', 'CLTC', 'EPA', 'TEST', 'NOT_APPLICABLE', 'UNSPECIFIED']
 
 
+def lead_market_patterns(scope):
+    patterns = {'CN': r'\bkina\b|\bkines\w*', 'AU': r'\baustrali\w*', 'CH': r'\bschweiz\b|\bschweizisk\w*',
+                'US': r'\busa\b|\bamerika\w*|\bforenta staterna\b', 'TH': r'\bthailand\b|\bthailands\w*',
+                'JP': r'\bjapan\w*', 'KR': r'\bsydkorea\w*|\bkorea\w*', 'IN': r'\bindien\b|\bindisk\w*'}
+    if scope == 'european_development':
+        patterns['EU'] = r'\beuropa\b|\beuropeisk\w*|\beu\b|\btyskland\b|\bfrankrike\b|\bnorge\b|\bfinland\b|\bdanmark\b|\bstorbritannien\b|\bschweiz\b|\bosterrike\b'
+    return patterns
+
+
 def provider_schema(schema):
     """Portable strict shape; publication limits still belong to precheck/check_review."""
     if isinstance(schema, list):
@@ -505,6 +514,12 @@ def precheck(bundle, packet, now=None, *, fact_first=False, facts_only=False):
     forbidden_markets = ('SE', 'UNSPECIFIED') if scope == 'european_development' else ('SE', 'EU', 'UNSPECIFIED')
     if international and any(f['central'] and f['market'] in forbidden_markets for f in by_id.values()):
         errors.append('publisher_international_market_not_established')
+    scope_patterns = lead_market_patterns(scope)
+    if fact_first:
+        for fact in by_id.values():
+            if fact['central'] and fact['market'] in scope_patterns and not re.search(
+                    scope_patterns[fact['market']], normalize(fact['statement'])):
+                errors.append('fact_first_central_fact_missing_market')
     if facts_only:
         return {'passed': not errors, 'errors': sorted(set(errors)), 'extraction_hash': artifact_hash(e)}
     try:
@@ -582,11 +597,6 @@ def precheck(bundle, packet, now=None, *, fact_first=False, facts_only=False):
     errors += repetition_errors(article) + writing_style_errors(article)
     errors += wording_errors(bundle, article, fact_first=fact_first)
     whole = normalize(' '.join(b['text'] for b in bs))
-    scope_patterns = {'CN': r'\bkina\b|\bkines\w*', 'AU': r'\baustrali\w*', 'CH': r'\bschweiz\b|\bschweizisk\w*',
-                      'US': r'\busa\b|\bamerika\w*|\bforenta staterna\b', 'TH': r'\bthailand\b|\bthailands\w*',
-                      'JP': r'\bjapan\w*', 'KR': r'\bsydkorea\w*|\bkorea\w*', 'IN': r'\bindien\b|\bindisk\w*'}
-    if scope == 'european_development':
-        scope_patterns['EU'] = r'\beuropa\b|\beuropeisk\w*|\beu\b|\btyskland\b|\bfrankrike\b|\bnorge\b|\bfinland\b|\bdanmark\b|\bstorbritannien\b|\bschweiz\b|\bosterrike\b'
     for market in {f['market'] for f in by_id.values() if f['central']} & scope_patterns.keys():
         if not re.search(scope_patterns[market], normalize(article['title'] + ' ' + article['intro'])):
             errors.append('publisher_foreign_scope_missing_from_lead')

@@ -44,6 +44,24 @@ def fixture():
 
 
 class FactPacketTests(unittest.TestCase):
+    def test_central_market_is_checked_before_paying_for_prose(self):
+        b, raw, _, _, _ = fixture()
+        raw['facts'][0]['statement'] = raw['facts'][0]['statement'].replace('europeiska', '')
+        with patch('news_publisher_articles.coverage_scope', return_value='european_development'), \
+             self.assertRaisesRegex(ValueError, 'central_fact_missing_market'):
+            contract.lock_facts(b, raw, NOW)
+
+    def test_expanded_sources_are_existing_registered_date_required_official_leads(self):
+        from news_engine import registry
+        sources = {s['id']: s for s in registry()}
+        self.assertTrue({'byd-de-press', 'nio-press', 'lexus-eu-press', 'electra-news'} <= contract.START_SOURCES)
+        for identity in contract.START_SOURCES:
+            self.assertTrue(sources[identity]['official_article_lead'], identity)
+            self.assertTrue(sources[identity]['primary_date_required'], identity)
+            self.assertEqual(sources[identity]['kind'], 'primary')
+        self.assertNotIn('mobility-sweden', contract.START_SOURCES)
+        self.assertNotIn('bmw-press', contract.START_SOURCES)
+
     def test_three_separate_contracts_and_fixed_citations(self):
         b, raw, locked, output, review = fixture()
         packet = contract.bind_article(locked, output)
@@ -182,6 +200,36 @@ class FactFirstLifecycleTests(unittest.TestCase):
             self.assertFalse(worker.reviewed(remote, result))
             result['writer_output']['p0'] += ' Altered text.'
             self.assertFalse(worker.reviewed(remote, result))
+
+    def test_passed_qualification_survives_only_unrelated_code_not_changed_calls_or_failed_state(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, bundle, ai = self.environment(stack, folder)
+            result = worker.perform(remote, bundle, private=True, ai=ai)
+            stack.enter_context(patch.object(worker, 'code_hash', return_value='unrelated-worker-edit'))
+            self.assertFalse(worker.reviewed(remote, result), 'Production still needs current reviewed code')
+            self.assertTrue(worker.reviewed(remote, result, qualification_only=True))
+            self.assertEqual(worker.qualification(remote)['real_private_successes'], 1)
+            self.assertFalse(worker.reviewed(remote, {**result, 'state': 'quarantined'}, qualification_only=True))
+            remote.client.receipts[-1]['request_hash'] = '0' * 64
+            self.assertFalse(worker.reviewed(remote, result, qualification_only=True))
+            self.assertEqual(worker.qualification(remote)['real_private_successes'], 0)
+            self.assertEqual(len(ai.calls), 3, 'Revalidation never buys another audit')
+
+    def test_daily_preserves_actual_settled_rejection_instead_of_reporting_no_source(self):
+        b, _, _, _, _ = fixture()
+        class Remote:
+            def public_articles(self): return []
+        rejection = {'status': 'quarantined', 'cost_status': 'settled', 'errors': ['synthetic_scope_error'], 'published': 0}
+        with patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}), \
+             patch.object(worker, 'qualification', return_value={'passed': True}), \
+             patch.object(worker, 'previous_attempts', return_value=[]), \
+             patch.object(worker, 'selection_queue', return_value=([(b['items'][0], {})], [])), \
+             patch.object(worker, 'collect_bundle', return_value=b), \
+             patch.object(contract, 'readiness', return_value={'ready': True}), \
+             patch.object(worker, 'perform', return_value=rejection):
+            result = worker.daily(Remote(), None)
+            self.assertEqual(result['status'], 'quarantined')
+            self.assertEqual(result['errors'], ['synthetic_scope_error'])
 
     def test_invalid_facts_stop_before_writer_and_invalid_prose_before_reviewer(self):
         for corruption, expected in [('facts', 1), ('article', 2)]:

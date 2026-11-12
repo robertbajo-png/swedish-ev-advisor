@@ -88,6 +88,16 @@ Permanent project rules for the Swedish EV Advisor codebase.
   source/text/facts and two exact settled prefix requests, then buys at most ONE
   remaining audit (USD0.10 maximum within ordinary limits). Keep the parent in
   quarantine; never rewrite, publish, reset charges or auto-retry a completion.
+  For read-only fact-first QUALIFICATION only, an already passed v4 audit may
+  survive unrelated worker/registry edits when ALL THREE current request payload
+  hashes, raw outputs, source/fact/text bindings and current validation/review
+  gates still match. Never change the old record or qualify a failed state.
+  Production release/resumption still requires the current code hash and a fresh
+  source check. A registry edit alone is not permission to buy another audit.
+  The official starter route also accepts the already registered, date-required
+  BYD, NIO, Lexus, XPENG, smart and Electra sources; no inferred domains or
+  Mobility statistics/legacy BMW route. Reject missing central market context
+  before paying the writer, preserving the final lead-scope guard unchanged.
 
 - On 2026-11-08 the owner separately approved installation of migration 022.
   Current ordinary news limits are USD0.50/UTC day and USD10/month; one public

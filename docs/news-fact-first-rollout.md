@@ -55,3 +55,19 @@ unchanged text/facts, exact settled extraction/writer request hashes, and at mos
 one audit within USD0.10 and the ordinary allowance. It never buys writing,
 changes the parent quarantine or publishes a private test. Counts and charges
 remain; cross-record reporting must count shared prefix requests only once.
+
+## Operational Continuity
+
+The explicit official source set also includes existing BYD Germany, NIO,
+Lexus Europe/UK, XPENG Switzerland, smart Europe and Electra adapters. This is
+not an inferred-domain approval or permission to use Mobility statistics here.
+Central facts must include required market context before prose is purchased;
+the final headline/intro scope guard remains unchanged.
+
+An already PASSED v4 qualification may survive an unrelated worker/registry edit
+only through read-only revalidation of all three exact CURRENT provider request
+hashes, raw responses, immutable facts/text/source bindings and current quality
+gates. Never rewrite old records, reuse failed states or buy another audit just
+for a registry edit. Production release still requires the current code identity
+and fresh sources. A settled rejection must be reported as a rejection, not
+hidden behind an empty-source outcome.
