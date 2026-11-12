@@ -38,23 +38,25 @@ def previous_attempts(remote):
             and r['payload'].get('kind') in ('short_daily', 'publisher_private_trial')]
 
 
-def exact_receipts(remote, record):
+def exact_receipts(remote, record, *, count=3):
     ids = record.get('request_ids', [])
-    if len(ids) != 3 or len(set(ids)) != 3:
+    if count not in (2, 3) or len(ids) != count or len(set(ids)) != count:
         return None
     rows = remote.client.select('news_ai_requests', filters={'id': 'in.(' + ','.join(ids) + ')'})
     mapped = {r['id']: r for r in rows}
     if set(mapped) != set(ids):
         return None
     rows = [mapped[key] for key in ids]
-    if ([r['stage'] for r in rows] != list(contract.LIMITS)
+    if ([r['stage'] for r in rows] != list(contract.LIMITS)[:count]
             or any(r['model'] != 'gpt-6-sol' or r['provider_status'] != 'completed' or not r['settled_at'] for r in rows)):
         return None
-    if [response_json(r['response_payload']) for r in rows] != [record['fact_output'], record['writer_output'], record['review']]:
+    outputs = [record['fact_output'], record['writer_output']]
+    if count == 3: outputs.append(record['review'])
+    if [response_json(r['response_payload']) for r in rows] != outputs:
         return None
     ai = NewsAi(remote.client, model='gpt-6-sol', cache_enabled=False, output_limits=contract.LIMITS)
-    calls = (contract.extraction_call(record['bundle']), contract.writer_call(record['locked']),
-             contract.review_call(record['bundle'], record['packet']))
+    calls = [contract.extraction_call(record['bundle']), contract.writer_call(record['locked'])]
+    if count == 3: calls.append(contract.review_call(record['bundle'], record['packet']))
     if any(row['request_hash'] != hashlib.sha256(json.dumps(ai.payload(*spec), ensure_ascii=False).encode()).hexdigest()
            for row, spec in zip(rows, calls)):
         return None
@@ -179,6 +181,84 @@ def qualification(remote):
             'real_private_successes': private_count, 'real_approved_cases': len(approved), 'paid_calls': 0}
 
 
+def complete_trial(remote, parent_id, collector, owner_day, *, ai=None):
+    """Separately approved, one-time remaining review after a proven language-heuristic bug.
+
+    Never a normal retry: no extraction, writing, text edits or publication. The
+    original quarantine remains immutable and both old receipts must still match.
+    """
+    if owner_day != now_iso()[:10]:
+        raise ValueError('fact_first_current_day_owner_approval_required')
+    identity = stable_id(contract.RECIPE + ':language-review-completion:' + parent_id)
+    old = remote.get('news_ingestion_runs', identity)
+    if old:
+        return {**old['payload'], 'reused_completion': True}
+    parent = copy.deepcopy((remote.get('news_ingestion_runs', parent_id) or {}).get('payload', {}))
+    if (parent.get('recipe') != contract.RECIPE or parent.get('kind') != 'publisher_private_trial'
+            or parent.get('state') != 'quarantined' or parent.get('review_performed')
+            or parent.get('errors') != ['publisher_not_swedish'] or parent.get('cost_status') != 'settled'
+            or not exact_receipts(remote, parent, count=2)):
+        raise ValueError('fact_first_completion_requires_exact_language_only_parent')
+    b = parent['bundle']
+    locked = contract.lock_facts(b, parent['fact_output'])
+    checked = contract.packet_check(b, locked, parent['writer_output'])
+    if (locked != parent['locked'] or contract.bind_article(locked, parent['writer_output']) != parent['packet']
+            or not checked['passed']):
+        raise ValueError('fact_first_completion_artifact_or_other_gate_changed')
+    if not same_sources(b, refresh_bundle(b, collector)):
+        raise ValueError('fact_first_completion_source_changed')
+    today_private = sum(r['payload'].get('kind') == 'publisher_private_trial'
+        and r['payload'].get('started_at', '').startswith(owner_day) for r in previous_attempts(remote))
+    if today_private >= 3:
+        return {'status': 'private_trial_limit', 'published': 0}
+    before = {r['id'] for r in ledger(remote.client)}
+    ai = ai or NewsAi(remote.client, model='gpt-6-sol', cache_enabled=False, output_limits=contract.LIMITS)
+    spec = contract.review_call(b, parent['packet'])
+    amount = contract.call_bound(ai, spec)
+    if amount > 100000 or not budget(remote, amount)['allowed']:
+        return {'status': 'deferred_budget', 'required_micro_usd': amount, 'published': 0}
+    record = {**parent, 'completion_of': parent_id, 'code_hash': code_hash(), 'started_at': now_iso(),
+        'state': 'running', 'status': 'running', 'errors': [], 'precheck': checked,
+        'owner_approved_day': owner_day, 'reused_request_ids': list(parent['request_ids']),
+        'review_cap_micro_usd': 100000, 'review_performed': False, 'published': 0}
+    digest = hashlib.sha256(json.dumps(ai.payload(*spec), ensure_ascii=False).encode()).hexdigest()
+    remote.put('news_ingestion_runs', {'id': identity, 'payload': record})
+    try:
+        record['review'] = ai(*spec)
+        receipt = new_receipt(remote, before, 'ev_news_independent_audit')
+        record['request_ids'].append(receipt['id'])
+        record.update(review_performed=True, checked_at=now_iso())
+        errors = contract.review_check(b, record['packet'], record['review'])
+        if errors:
+            record.update(state='quarantined', status='quarantined', errors=errors)
+        elif not exact_receipts(remote, record):
+            raise ValueError('fact_first_completion_receipts_changed')
+        else:
+            DIRECTORY.mkdir(parents=True, exist_ok=True)
+            with closing(NewsStore(DIRECTORY / (identity + '.sqlite'))) as local:
+                if contract.stage_article(local, record)['status'] != 'draft':
+                    raise ValueError('fact_first_completion_local_gates_rejected')
+            record.update(state='passed', status='passed')
+    except Exception as exc:
+        record.update(state='failed', status='failed', error=type(exc).__name__ + ':' + str(exc)[:160])
+    finally:
+        try:
+            rows = remote.client.select('news_ai_requests', filters={'limit': 1000})
+            if len(rows) >= 1000: raise ValueError('fact_first_receipts_truncated')
+            own = [r for r in rows if r['id'] not in before and r['request_hash'] == digest]
+            record['new_cost_micro_usd'] = sum(r['charged_micro_usd'] for r in own)
+            record['cost_micro_usd'] = parent['cost_micro_usd'] + record['new_cost_micro_usd']
+            record['observed_request_ids'] = [r['id'] for r in own]
+            record['cost_status'] = 'settled' if all(r['settled_at'] for r in own) else 'reservation_retained_usage_unknown'
+        except Exception:
+            record['cost_status'] = 'reconciliation_required_no_more_calls'
+        record['finished_at'] = now_iso()
+        remote.put('news_ingestion_runs', {'id': identity, 'payload': record})
+        DIRECTORY.mkdir(parents=True, exist_ok=True)
+        (DIRECTORY / (identity + '.json')).write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')
+    return record
+
+
 def release(remote, proof, collector):
     if proof.get('kind') != 'short_daily' or not reviewed(remote, proof):
         raise ValueError('fact_first_fresh_production_review_required')
@@ -264,22 +344,26 @@ def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_quali
 
 def safe_result(record):
     return {k: record[k] for k in ('status', 'errors', 'error', 'cost_micro_usd', 'cost_status',
-        'request_ids', 'review_performed', 'precheck', 'published', 'required_micro_usd') if k in record}
+        'new_cost_micro_usd', 'request_ids', 'review_performed', 'precheck', 'published', 'required_micro_usd') if k in record}
 
 
 def main():
     load_local_env()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('status', 'select', 'collect', 'trial', 'run'))
+    parser.add_argument('command', choices=('status', 'select', 'collect', 'trial', 'complete-trial', 'run'))
     parser.add_argument('--source', choices=sorted(contract.START_SOURCES))
     parser.add_argument('--url')
     parser.add_argument('--max-candidates', type=int, default=2)
     parser.add_argument('--owner-approved-day')
+    parser.add_argument('--parent-run', help='Exact private language-only quarantine; separate approval required')
     parser.add_argument('--complete-qualification', action='store_true',
                         help='Explicit owner-only production case after a real private success')
     args = parser.parse_args()
-    if args.command != 'run' and (args.max_candidates != 2 or args.owner_approved_day or args.complete_qualification):
+    if args.command not in ('run', 'complete-trial') and (args.max_candidates != 2 or args.owner_approved_day or args.complete_qualification):
         parser.error('Extended production limits apply only to run')
+    if args.command == 'complete-trial' and (not args.parent_run or not args.owner_approved_day
+            or args.max_candidates != 2 or args.complete_qualification):
+        parser.error('Completion requires its exact parent and current owner day, no production options')
     with worker_lock(), closing(NewsStore(backend='supabase')) as remote:
         collector = Collector(tls_context=verified_context())
         if args.command == 'status':
@@ -291,6 +375,8 @@ def main():
             result = {**collect(remote, sources, collector, max_items=20, force=True), 'paid_calls': 0, 'published': 0}
         elif args.command == 'select':
             result = preview(remote, collector, {args.source} if args.source else None)
+        elif args.command == 'complete-trial':
+            result = safe_result(complete_trial(remote, args.parent_run, collector, args.owner_approved_day))
         elif args.command == 'trial':
             if not args.source or not args.url:
                 parser.error('trial requires --source and --url')

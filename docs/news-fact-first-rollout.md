@@ -41,3 +41,17 @@ A production qualification run requires an explicit current-day owner command
 and at least one real approved private case; it cannot publish before both types
 pass. A new production article must pass its own exact three receipts,
 source refresh, transaction, deployment and public HTML/sitemap verification.
+
+## Short-Text Language Diagnostics
+
+The new recipe treats the legacy seven-stopword heuristic as a diagnostic, not
+proof that a 50-120-word text is not Swedish. The exact independent audit must
+still approve Swedish quality; v3 retains its original language gate.
+
+An operator-only remaining-review completion is prepared for a known false
+language stop. Preparing it is NOT authorization. It requires separate owner
+approval, an exact private parent and current UTC day, the same source hash,
+unchanged text/facts, exact settled extraction/writer request hashes, and at most
+one audit within USD0.10 and the ordinary allowance. It never buys writing,
+changes the parent quarantine or publishes a private test. Counts and charges
+remain; cross-record reporting must count shared prefix requests only once.

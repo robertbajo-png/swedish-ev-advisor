@@ -82,6 +82,12 @@ Permanent project rules for the Swedish EV Advisor codebase.
   new route. One may be a separately owner-started production qualification case
   after a real private success; it still cannot publish until both types have
   exact approved three-request proofs. Never publish a private test.
+  A prepared owner-only complete-trial command is NOT permission to reuse a
+  quarantine. It needs separate specific owner approval and the current UTC day,
+  accepts only an unreviewed private language-heuristic-only failure, unchanged
+  source/text/facts and two exact settled prefix requests, then buys at most ONE
+  remaining audit (USD0.10 maximum within ordinary limits). Keep the parent in
+  quarantine; never rewrite, publish, reset charges or auto-retry a completion.
 
 - On 2026-11-08 the owner separately approved installation of migration 022.
   Current ordinary news limits are USD0.50/UTC day and USD10/month; one public

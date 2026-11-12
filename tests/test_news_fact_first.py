@@ -105,6 +105,18 @@ class FactPacketTests(unittest.TestCase):
         self.assertLessEqual(sum(contract.call_bound(ai, c) for c in calls), bound)
         self.assertLess(bound, 500000)
 
+    def test_language_wordlist_is_diagnostic_not_a_short_article_veto(self):
+        b, _, locked, output, _ = fixture()
+        output = {key: 'Independent English fixture text with names Nordic Cells Volkswagen Newsroom and project details.'
+                  for key in output}
+        packet = contract.bind_article(locked, output)
+        self.assertIn('publisher_not_swedish', precheck(b, packet, NOW)['errors'])
+        self.assertNotIn('publisher_not_swedish', contract.packet_check(b, locked, output, NOW)['errors'])
+        review = base.accepted_review(b, packet)
+        review['brief_hash'] = brief(b, packet, recipe=contract.RECIPE)['brief_hash']
+        review['swedish_quality'] = False
+        self.assertIn('hybrid_review_rejected:swedish_quality', contract.review_check(b, packet, review))
+
 
 class FactFirstLifecycleTests(unittest.TestCase):
     def environment(self, stack, folder, *, corruption=None, allowance=500000):
@@ -225,6 +237,62 @@ class FactFirstLifecycleTests(unittest.TestCase):
             self.assertEqual(ready.call_args[0][1], NOW, 'Historic qualification is checked at its real audit time')
             cases[1]['packet']['extraction']['category'] = 'batterier'
             self.assertFalse(worker.qualification(Remote())['passed'])
+
+    def completion_parent(self, remote, bundle, ai):
+        raw = ai(*contract.extraction_call(bundle))
+        locked = contract.lock_facts(bundle, raw, NOW)
+        parent = {'kind': 'publisher_private_trial', 'recipe': contract.RECIPE, 'state': 'quarantined',
+            'status': 'quarantined', 'started_at': NOW.isoformat(), 'source_id': bundle['items'][0]['source_id'],
+            'url': bundle['items'][0]['url'], 'bundle': bundle, 'fact_output': raw, 'locked': locked,
+            'errors': ['publisher_not_swedish'], 'review_performed': False, 'cost_status': 'settled',
+            'request_ids': ['1', '2'], 'cost_micro_usd': 2000, 'published': 0}
+        remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': parent})
+        parent['writer_output'] = ai(*contract.writer_call(locked))
+        parent['packet'] = contract.bind_article(locked, parent['writer_output'])
+        remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': parent})
+        return copy.deepcopy(parent)
+
+    def test_separately_approved_completion_buys_only_one_audit_and_preserves_parent(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, bundle, ai = self.environment(stack, folder)
+            parent = self.completion_parent(remote, bundle, ai)
+            stack.enter_context(patch.object(worker, 'refresh_bundle', return_value=copy.deepcopy(bundle)))
+            result = worker.complete_trial(remote, 'synthetic-parent', None, NOW.date().isoformat(), ai=ai)
+            self.assertEqual(result['status'], 'passed', result)
+            self.assertEqual(ai.calls, list(contract.LIMITS))
+            self.assertEqual(result['new_cost_micro_usd'], 1000)
+            self.assertEqual(result['cost_micro_usd'], 3000)
+            self.assertEqual(remote.get('news_ingestion_runs', 'synthetic-parent')['payload'], parent)
+            self.assertTrue(worker.reviewed(remote, result))
+            self.assertTrue(worker.complete_trial(remote, 'synthetic-parent', None,
+                NOW.date().isoformat(), ai=ai)['reused_completion'])
+            self.assertEqual(len(ai.calls), 3)
+            self.assertEqual(remote.public_articles(), [])
+
+    def test_completion_cannot_bypass_other_errors_changed_source_or_missing_owner_day(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            remote, bundle, ai = self.environment(stack, folder)
+            parent = self.completion_parent(remote, bundle, ai)
+            with self.assertRaisesRegex(ValueError, 'current_day_owner'):
+                worker.complete_trial(remote, 'synthetic-parent', None, None, ai=ai)
+            parent['errors'] = ['unsupported_number']
+            remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': parent})
+            with self.assertRaisesRegex(ValueError, 'language_only_parent'):
+                worker.complete_trial(remote, 'synthetic-parent', None, NOW.date().isoformat(), ai=ai)
+            parent['errors'] = ['publisher_not_swedish']
+            remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': parent})
+            altered = copy.deepcopy(parent)
+            altered['packet']['article']['title'] += ' altered'
+            remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': altered})
+            with self.assertRaisesRegex(ValueError, 'artifact_or_other_gate_changed'):
+                worker.complete_trial(remote, 'synthetic-parent', None, NOW.date().isoformat(), ai=ai)
+            remote.put('news_ingestion_runs', {'id': 'synthetic-parent', 'payload': parent})
+            changed = copy.deepcopy(bundle)
+            changed['items'][0]['payload']['content_hash'] = '0' * 64
+            stack.enter_context(patch.object(worker, 'refresh_bundle', return_value=changed))
+            with self.assertRaisesRegex(ValueError, 'source_changed'):
+                worker.complete_trial(remote, 'synthetic-parent', None, NOW.date().isoformat(), ai=ai)
+            self.assertEqual(len(ai.calls), 2, 'No new audit was bought')
 
 
 if __name__ == '__main__':

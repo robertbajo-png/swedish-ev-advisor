@@ -590,10 +590,16 @@ def precheck(bundle, packet, now=None, *, fact_first=False, facts_only=False):
     for market in {f['market'] for f in by_id.values() if f['central']} & scope_patterns.keys():
         if not re.search(scope_patterns[market], normalize(article['title'] + ' ' + article['intro'])):
             errors.append('publisher_foreign_scope_missing_from_lead')
-    if len(set(whole.split()) & {'och', 'att', 'som', 'for', 'med', 'den', 'det', 'ar', 'en', 'kan', 'pa', 'till'}) < 7:
+    language_count = len(set(whole.split()) & {'och', 'att', 'som', 'for', 'med', 'den', 'det', 'ar', 'en', 'kan', 'pa', 'till'})
+    if not fact_first and language_count < 7:
         errors.append('publisher_not_swedish')
-    return {'passed': not errors, 'errors': sorted(set(errors)), 'word_count': count, 'score': score,
-            'packet_hash': artifact_hash(packet), 'article_hash': artifact_hash(article)}
+    result = {'passed': not errors, 'errors': sorted(set(errors)), 'word_count': count, 'score': score,
+              'packet_hash': artifact_hash(packet), 'article_hash': artifact_hash(article)}
+    if fact_first:
+        # A short, proper-name-heavy article cannot be language-classified by seven stopwords.
+        # The independent audit still requires swedish_quality=True on the exact artifact.
+        result['language_signal_count'] = language_count
+    return result
 
 
 def check_review(bundle, packet, review, *, fact_first=False):
