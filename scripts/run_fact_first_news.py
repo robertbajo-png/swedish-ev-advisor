@@ -177,11 +177,11 @@ def qualification(remote):
     # A registry/worker edit does not invalidate an unchanged, genuinely passed
     # audit. All three CURRENT request payloads, exact outputs and gates still match.
     approved = [r['payload'] for r in previous_attempts(remote)
-                if reviewed(remote, r['payload'], qualification_only=True)]
-    categories = {r['packet']['extraction']['category'] for r in approved
-                  if contract.readiness(r['bundle'], datetime.fromisoformat(r['checked_at']))['ready']}
+                if reviewed(remote, r['payload'], qualification_only=True)
+                and contract.readiness(r['payload']['bundle'], datetime.fromisoformat(r['payload']['checked_at']))['ready']]
+    categories = {r['packet']['extraction']['category'] for r in approved}
     private_count = sum(r['kind'] == 'publisher_private_trial' for r in approved)
-    return {'passed': private_count >= 1 and len(categories) >= 2, 'categories': sorted(categories),
+    return {'passed': private_count >= 1, 'required_private_successes': 1, 'categories': sorted(categories),
             'real_private_successes': private_count, 'real_approved_cases': len(approved), 'paid_calls': 0}
 
 
@@ -314,7 +314,7 @@ def preview(remote, collector, sources=None):
 
 
 def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_qualification=False):
-    approved_candidate_limit(max_candidates, owner_day)
+    limit = approved_candidate_limit(max_candidates, owner_day)
     if os.environ.get('NEWS_PUBLISHER_ARTICLES_ENABLED') != 'true':
         return {'status': 'publisher_worker_disabled', 'published': 0}
     qualified = qualification(remote)
@@ -324,12 +324,16 @@ def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_quali
         return {'status': 'qualification_required', 'published': 0}
     if any(a['published_at'][:10] == now_iso()[:10] for a in remote.public_articles()):
         return {'status': 'daily_limit', 'published': 0}
-    for row in previous_attempts(remote):
+    previous = previous_attempts(remote)
+    for row in previous:
         proof = row['payload']
         if proof.get('kind') == 'short_daily' and reviewed(remote, proof) and contract.readiness(proof['bundle'])['ready']:
             result = release(remote, proof, collector)
             if result['status'] != 'already_reported':
                 return result
+    if sum(r['payload'].get('kind') == 'short_daily'
+           and r['payload'].get('started_at', '').startswith(now_iso()[:10]) for r in previous) >= limit:
+        return {'status': 'daily_attempt_limit', 'published': 0}
     queue, held = selection_queue(remote, contract.START_SOURCES)
     last_rejection = None
     for item, _ in queue:

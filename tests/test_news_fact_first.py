@@ -269,7 +269,7 @@ class FactFirstLifecycleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'current_day_owner'):
                 worker.daily(None, None, complete_qualification=True)
 
-    def test_two_types_require_real_reviewed_records_and_a_private_success(self):
+    def test_introduction_requires_one_real_approved_private_case_not_two_categories(self):
         cases = [
             {'kind': 'publisher_private_trial', 'recipe': contract.RECIPE, 'state': 'passed',
              'checked_at': NOW.isoformat(), 'bundle': {}, 'packet': {'extraction': {'category': 'batterier'}}},
@@ -284,7 +284,31 @@ class FactFirstLifecycleTests(unittest.TestCase):
             self.assertTrue(worker.qualification(Remote())['passed'])
             self.assertEqual(ready.call_args[0][1], NOW, 'Historic qualification is checked at its real audit time')
             cases[1]['packet']['extraction']['category'] = 'batterier'
+            self.assertTrue(worker.qualification(Remote())['passed'])
+            cases.pop()
+            self.assertTrue(worker.qualification(Remote())['passed'], 'One real private success is sufficient')
+            self.assertEqual(worker.qualification(Remote())['required_private_successes'], 1)
+            cases[0]['kind'] = 'short_daily'
             self.assertFalse(worker.qualification(Remote())['passed'])
+        with patch.object(worker, 'reviewed', return_value=True), \
+             patch.object(contract, 'readiness', return_value={'ready': False}):
+            cases[0]['kind'] = 'publisher_private_trial'
+            self.assertFalse(worker.qualification(Remote())['passed'], 'Unready evidence does not qualify')
+
+    def test_daily_attempt_cap_is_checked_before_discovery_or_paid_work(self):
+        class Remote:
+            def public_articles(self): return []
+        today = NOW.isoformat()[:10]
+        attempts = [{'payload': {'kind': 'short_daily', 'started_at': today + 'T00:01:00Z'}} for _ in range(2)]
+        with patch.dict('os.environ', {'NEWS_PUBLISHER_ARTICLES_ENABLED': 'true'}), \
+             patch.object(worker, 'now_iso', return_value=NOW.isoformat()), \
+             patch.object(worker, 'qualification', return_value={'passed': True}), \
+             patch.object(worker, 'previous_attempts', return_value=attempts), \
+             patch.object(worker, 'reviewed', return_value=False), \
+             patch.object(worker, 'selection_queue', side_effect=AssertionError('No unnecessary discovery')), \
+             patch.object(worker, 'perform', side_effect=AssertionError('No paid work')):
+            result = worker.daily(Remote(), None)
+            self.assertEqual(result, {'status': 'daily_attempt_limit', 'published': 0})
 
     def completion_parent(self, remote, bundle, ai):
         raw = ai(*contract.extraction_call(bundle))

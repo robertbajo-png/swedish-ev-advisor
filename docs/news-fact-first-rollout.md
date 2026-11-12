@@ -11,10 +11,11 @@ Owner-approved scope, November 11, 2026. This is not a new budget or model.
 3. Write 50-120 words for short news, or 150-250 for sufficiently rich material.
    No mandatory advice, analysis, negative contrasts, filler or paid rewrites.
    Independently audit the final artifact against the facts AND source context.
-4. Run offline positive/negative regressions, then fresh cases from two news
-   types. One can be a separately owner-started production qualification case
-   after a private success. Publish only that fresh production case after both
-   types independently pass, then verify the existing distributor.
+4. Run offline positive/negative regressions and verify one genuinely approved
+   private introduction case before enabling the existing scheduler. The owner
+   explicitly replaced the earlier two-type requirement on November 12, 2026.
+   Each fresh production case still passes its own entire fact-first workflow,
+   independent audit and publication gates, then the existing distributor.
    Report real receipts, quality verdicts, costs and public URLs, not test counts
    as evidence of editorial success. If gates fail, quarantine and name the cause.
 
@@ -36,10 +37,11 @@ Owner-approved scope, November 11, 2026. This is not a new budget or model.
 ## Release Evidence
 
 Implementation and offline tests alone are not an operational release. The
-scheduler changes only after two distinct, fresh, independently approved cases.
-A production qualification run requires an explicit current-day owner command
-and at least one real approved private case; it cannot publish before both types
-pass. A new production article must pass its own exact three receipts,
+scheduler changes only after one genuinely approved private introduction case
+with three exact settled requests. The private case never becomes a public
+article; failed drafts and historical charges remain unchanged. This November
+12 owner decision changes only the introduction requirement, not per-article
+validation. A new production article must pass its own exact three receipts,
 source refresh, transaction, deployment and public HTML/sitemap verification.
 
 ## Short-Text Language Diagnostics
