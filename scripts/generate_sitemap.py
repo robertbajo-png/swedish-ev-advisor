@@ -59,7 +59,11 @@ def display_model_name(brand: str, model: str, variant_name: str) -> str:
 
 
 def public_variant_slug(row: dict) -> str:
-    return slug(f"{row.get('brand', '')} {display_model_name(row.get('brand', ''), row.get('model', ''), row.get('variant_name', ''))}")
+    variant = row.get('variant_name', '')
+    if row.get('brand') == 'Mercedes-Benz' and row.get('model') == 'Cla' and re.fullmatch(
+            r'CLA (?:200|250\+|350 4MATIC) Advanced Edition MY2027 \(beställningsbil\)', variant):
+        variant = variant.replace('(beställningsbil)', '(lagerbil)')
+    return slug(f"{row.get('brand', '')} {display_model_name(row.get('brand', ''), row.get('model', ''), variant)}")
 
 
 def public_variant_urls(rows: list[dict]) -> list[str]:

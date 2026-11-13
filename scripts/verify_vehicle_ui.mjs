@@ -204,7 +204,9 @@ try {
   assert.equal(completedProfiles.length, 6);
   const mazdaRenaultProfiles = records.filter(row => row.brand === 'Mazda' && row.model === '6E' || row.brand === 'Renault' && row.model === '5');
   assert.equal(mazdaRenaultProfiles.length, 6);
-  for (const row of [...completedProfiles, ...mazdaRenaultProfiles]) {
+  const claProfiles = records.filter(row => row.brand === 'Mercedes-Benz' && row.model === 'Cla');
+  assert.equal(claProfiles.length, 3);
+  for (const row of [...completedProfiles, ...mazdaRenaultProfiles, ...claProfiles]) {
     await page.goto(base + '/bilar/' + vehicleSlug(row.brand, row.model, row.variant_name));
     await page.locator('.vehicleDetailHero h1').waitFor();
     await photosReady('.vehicleHeroMedia img'); await mobilePhotoClear();
@@ -217,6 +219,16 @@ try {
         assert(row[field] != null, 'Completed Mazda/Renault profile: ' + field);
       if (row.brand === 'Renault' && row.battery_kwh === 52)
         assert.match(await page.locator('#specifikationer').innerText(), /gemensamma WLTP-intervall/);
+    }
+    if (claProfiles.includes(row)) {
+      assert.equal(row.body_type, 'Sedan');
+      assert.equal(row.price_type, 'dealer_offer');
+      assert.match(row.image_url, /mercedes-benz-cla-press-/);
+      for (const field of ['price_sek','wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw','ac_charge_kw','tow_kg','boot_liters','seats','drivetrain'])
+        assert(row[field] != null, 'Completed CLA profile: ' + field);
+      assert.match(await page.locator('.vehicleDetailHero').innerText(), /beställningsbil/);
+      assert.match(await page.locator('#specifikationer').innerText(), /Monterad dragkrok ingår inte automatiskt/);
+      assert.match(new URL(page.url()).pathname, /-lagerbil\/?$/);
     }
     await noOverflow('Complete manufacturer profile ' + row.variant_name);
   }

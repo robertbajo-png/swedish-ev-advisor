@@ -131,6 +131,14 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         }
       }
       const source = draft.source;
+      const browserSource = policy.browserSource?.(draft) === true;
+      if (browserSource) {
+        assert.equal(source.status, 'browser_reachable');
+        assert.equal(source.retrieval_method, 'connected_browser_dom');
+        assert.equal(source.http_status, null, 'Do not invent an HTTP status for a DOM capture');
+      } else assert.equal(source.http_status, 200);
+      const httpStatus = browserSource ? null : 200;
+      const sourceValidation = browserSource ? 'reachable_official_browser_source' : 'reachable_official_model_source';
       const sourceName = typeof policy.sourceName === 'function' ? policy.sourceName(draft) : policy.sourceName;
       for (const extra of draft.supporting_sources || []) {
         const descriptor = policy.supportingSource?.(extra, draft);
@@ -166,13 +174,13 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         const saved = await client.query(`INSERT INTO public.manufacturer_sources
           (canonical_model_id,brand,model,source_type,url,title,country,language,fetched_at,content_hash,
            http_status,final_url,source_validation,source_authority,source_name,extraction_status,verified_at)
-          VALUES ($1,$2,$3,$8,$4,$5,'SE','sv',$6,$7,200,$4,'reachable_official_model_source',
+          VALUES ($1,$2,$3,$8,$4,$5,'SE','sv',$6,$7,$10,$4,$11,
            'manufacturer',$9,'published',$6)
           ON CONFLICT(url) DO UPDATE SET canonical_model_id=excluded.canonical_model_id,
-           fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=200,
+           fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=excluded.http_status,
            final_url=excluded.final_url,source_validation=excluded.source_validation,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, sourceName]);
+          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, sourceName, httpStatus, sourceValidation]);
         sources.set(source.final_url, saved.rows[0].id);
       }
       const quote = [...new Set(Object.values(draft.field_evidence).map(item => item.source_url === source.final_url
@@ -180,6 +188,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const payload = { adapter: policy.adapter, field_evidence: draft.field_evidence, held_fields: draft.held_fields,
         supporting_sources: draft.supporting_sources || [], source_resolution: draft.source_resolution || null,
         model_facts: draft.model_facts || {}, model_field_evidence: draft.model_field_evidence || {},
+        ...(browserSource ? { source_capture: source } : {}),
         ...(draft.price_evidence ? { price_evidence: draft.price_evidence } : {}),
         ...(draft.source_decisions ? { source_decisions: draft.source_decisions } : {}),
         previous_canonical: target.expected,
@@ -197,7 +206,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const extra = policy.canonicalExtras?.(draft, target.expected) || {};
       const allowedPriceFields = ['price_type','price_valid_until','price_source_url','price_source_hash',
         'price_source_quote','price_verified_at','price_source_name','price_refresh_batch_id'];
-      assert(Object.keys(extra).every(field => allowedPriceFields.includes(field) && policy.canonicalFields?.includes(field)),
+      assert(Object.keys(extra).every(field => policy.canonicalFields?.includes(field) && (allowedPriceFields.includes(field) ||
+        field === 'variant_name' && policy.replacementVariantName?.(target.expected, draft) === extra.variant_name)),
         'Only explicitly validated price provenance may supplement technical facts');
       const updateFields = [...fields, ...Object.keys(extra)];
       const updates = updateFields.map((field, index) => field + '=$' + (index + 1));

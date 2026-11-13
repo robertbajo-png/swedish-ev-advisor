@@ -329,25 +329,25 @@
       }
     ]
   },
-  "/media/vehicles/mercedes-benz-cla-34a9050d5a36.jpg": {
-    "width": 1280,
-    "height": 853,
-    "source_sha256": "34a9050d5a3697e0b8ce319e6ceb859f19218059368819e18091162077d06058",
+  "/media/vehicles/mercedes-benz-cla-press-1c9f8c164228.jpg": {
+    "width": 1500,
+    "height": 1001,
+    "source_sha256": "1c9f8c1642282ebb0ff2e96eebf251d5e1851b9ee584bc9876993a844168904a",
     "variants": [
       {
-        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-480.webp",
+        "url": "/media/responsive/mercedes-benz-cla-press-1c9f8c164228-480.webp",
         "width": 480,
-        "sha256": "d8121db9142f91ec31e19d9cd8e052a5a9e8f8393754cd547fe9de3ed5cc8503"
+        "sha256": "c49f1ddb0e69cd78b9869dfce7d2636f676cba531e470972e3cc3d01665614d1"
       },
       {
-        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-800.webp",
+        "url": "/media/responsive/mercedes-benz-cla-press-1c9f8c164228-800.webp",
         "width": 800,
-        "sha256": "fdcadc071b71abc6def7ed7a9a3e444630c8e93fc52047151cf6cef27df515b9"
+        "sha256": "db3cb34a409827633ce79f45c04df5f0d16a219c03834496bc400d3752a4f62c"
       },
       {
-        "url": "/media/responsive/mercedes-benz-cla-34a9050d5a36-1280.webp",
+        "url": "/media/responsive/mercedes-benz-cla-press-1c9f8c164228-1280.webp",
         "width": 1280,
-        "sha256": "584fa50d2b5102b8dec8a8575f71df898b4aa7e80723522a12e9a3adbd69c089"
+        "sha256": "2a4bef3ed47af948b6bf2460c40724c278cbe1a8c24b563e216bdd11ed9ed891"
       }
     ]
   },

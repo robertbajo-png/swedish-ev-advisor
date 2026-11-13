@@ -20,7 +20,7 @@ def collect(publisher, model_key, url, output):
     policy = PUBLISHERS[publisher]
     parsed = urlsplit(url)
     if (model_key not in policy['model_keys'] or parsed.scheme + '://' + parsed.netloc != policy['origin']
-            or not re.fullmatch(r'/images/[a-z0-9-]+-[0-9]+', parsed.path) or parsed.query or parsed.fragment):
+            or not re.fullmatch(re.escape(policy.get('image_path_prefix', '/images/')) + r'[a-z0-9-]+-[0-9]+', parsed.path) or parsed.query or parsed.fragment):
         raise ValueError('unapproved_exact_pressroom_image_page')
     if policy.get('approved_image_paths') and parsed.path not in policy['approved_image_paths']:
         raise ValueError('unapproved_exact_model_photo')
@@ -66,7 +66,7 @@ def collect(publisher, model_key, url, output):
         width, height = image.size
     content = encoded.getvalue()
     digest = hashlib.sha256(content).hexdigest()
-    filename = model_key.replace('|', '-') + '-press-' + digest[:12] + '.jpg'
+    filename = model_key.replace('|', '-').replace(' ', '-') + '-press-' + digest[:12] + '.jpg'
     output.mkdir(parents=True, exist_ok=True)
     (output / filename).write_bytes(content)
     (output / (response['content_hash'] + '.html')).write_bytes(body)

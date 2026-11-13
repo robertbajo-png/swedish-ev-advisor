@@ -43,7 +43,9 @@ export function buildImagePlan(models, publicModels, registry) {
       assert(policy?.model_keys.includes(asset.model_key), 'Registered exact press model required');
       const source = new URL(asset.source_url);
       assert.equal(source.origin, policy.origin);
-      assert.match(source.pathname, /^\/images\/[a-z0-9-]+-[0-9]+$/);
+      const prefix = policy.image_path_prefix || '/images/';
+      assert(source.pathname.startsWith(prefix));
+      assert.match(source.pathname.slice(prefix.length), /^[a-z0-9-]+-[0-9]+$/);
       assert(!policy.approved_image_paths || policy.approved_image_paths.includes(source.pathname), 'Reviewed exact-model photo required');
       assert(asset.model_key !== 'skoda|enyaq' || !source.pathname.includes('coup'), 'Enyaq SUV is not Enyaq Coupe');
       assert(!source.search && !source.hash);

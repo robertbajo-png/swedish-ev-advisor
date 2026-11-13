@@ -8,44 +8,44 @@
       "missing": 20
     },
     "wltp_range_km": {
-      "present": 59,
-      "missing": 17
+      "present": 62,
+      "missing": 14
     },
     "battery_kwh": {
-      "present": 49,
-      "missing": 27
+      "present": 52,
+      "missing": 24
     },
     "dc_charge_kw": {
-      "present": 51,
-      "missing": 25
-    },
-    "ac_charge_kw": {
-      "present": 28,
-      "missing": 48
-    },
-    "tow_kg": {
-      "present": 47,
-      "missing": 29
-    },
-    "boot_liters": {
       "present": 54,
       "missing": 22
     },
+    "ac_charge_kw": {
+      "present": 31,
+      "missing": 45
+    },
+    "tow_kg": {
+      "present": 50,
+      "missing": 26
+    },
+    "boot_liters": {
+      "present": 57,
+      "missing": 19
+    },
     "seats": {
-      "present": 34,
-      "missing": 42
+      "present": 37,
+      "missing": 39
     },
     "drivetrain": {
-      "present": 58,
-      "missing": 18
+      "present": 61,
+      "missing": 15
     },
     "body_type": {
-      "present": 23,
-      "missing": 53
+      "present": 26,
+      "missing": 50
     }
   },
-  "complete_core_variants": 38,
-  "professional_photos_reviewed": 12,
+  "complete_core_variants": 41,
+  "professional_photos_reviewed": 13,
   "models_by_priority": [
     {
       "model_key": "kia|ev3",
@@ -179,98 +179,6 @@
           ],
           "missing_core_fields": [],
           "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
-      "model_key": "mercedes benz|cla",
-      "brand": "Mercedes-Benz",
-      "model": "Cla",
-      "variant_count": 3,
-      "missing_core_values": 12,
-      "coverage": {
-        "price_sek": 3,
-        "wltp_range_km": 0,
-        "battery_kwh": 0,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 0,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/mercedes-benz-cla-34a9050d5a36.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
           "source_hash_present": true
         }
       ]
@@ -1569,6 +1477,53 @@
       ]
     },
     {
+      "model_key": "mercedes benz|cla",
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_count": 3,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 3,
+        "battery_kwh": 3,
+        "dc_charge_kw": 3,
+        "ac_charge_kw": 3,
+        "tow_kg": 3,
+        "boot_liters": 3,
+        "seats": 3,
+        "drivetrain": 3,
+        "body_type": 3
+      },
+      "image_url": "/media/vehicles/mercedes-benz-cla-press-1c9f8c164228.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "CLA 200 Advanced Edition MY2027 (beställningsbil)",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (beställningsbil)",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (beställningsbil)",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
       "model_key": "polestar|2",
       "brand": "Polestar",
       "model": "2",
@@ -1867,5 +1822,5 @@
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-13T20:01:56.376470+00:00"
+  "audited_at": "2026-11-13T21:01:48.222230+00:00"
 }

@@ -105,7 +105,7 @@ class PressImageTests(unittest.TestCase):
 
 
     def test_mazda_renault_only_the_reviewed_exterior_pages(self):
-        for publisher in ('mazda-se-mynewsdesk','renault-se-mynewsdesk'):
+        for publisher in ('mazda-se-mynewsdesk','renault-se-mynewsdesk','mercedes-se-mynewsdesk'):
             policy=PRESS_PUBLISHERS[publisher]
             source=policy['origin']+policy['approved_image_paths'][0]
             proof={**self.evidence,'model_key':policy['model_keys'][0],'publisher_id':publisher,
@@ -117,6 +117,11 @@ class PressImageTests(unittest.TestCase):
             for path in ('/images/other-model-123','/images/interior-only-456'):
                 other=policy['origin']+path
                 self.assertFalse(reviewed_media_permission({**proof,'source_url':other,'license_url':other,'evidence_url':other}))
+            if publisher=='mercedes-se-mynewsdesk':
+                for path in ('/se/other-manufacturer/images/mercedes-benz-cla-with-eq-technology-3210998',
+                             '/se/mercedes-benz-sverige/images/cla-shooting-brake-123'):
+                    other=policy['origin']+path
+                    self.assertFalse(reviewed_media_permission({**proof,'source_url':other,'license_url':other,'evidence_url':other}))
 
 
 if __name__ == '__main__':
