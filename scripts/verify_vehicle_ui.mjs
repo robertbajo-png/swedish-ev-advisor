@@ -200,6 +200,27 @@ try {
     assert.match(await page.locator('#nyckeltal').innerText(), /Kampanjpris, giltigt till 2026-12-15/);
     await noOverflow('Complete Skoda profile ' + row.variant_name);
   }
+  const completedProfiles = records.filter(row => row.brand === 'Toyota' && row.model === 'bZ4X' || row.brand === 'Polestar' && ['2','4'].includes(row.model));
+  assert.equal(completedProfiles.length, 6);
+  for (const row of completedProfiles) {
+    await page.goto(base + '/bilar/' + vehicleSlug(row.brand, row.model, row.variant_name));
+    await page.locator('.vehicleDetailHero h1').waitFor();
+    await photosReady('.vehicleHeroMedia img'); await mobilePhotoClear();
+    assert(!(await page.locator('#specifikationer').innerText()).includes('Uppgift saknas'));
+    if (row.brand === 'Polestar') assert.match(await page.locator('#specifikationer').innerText(), /WLTP-intervall/);
+    await noOverflow('Complete Toyota/Polestar profile ' + row.variant_name);
+  }
+  await page.goto(base + '/bilar?brand=Polestar&query=4%20Dual');
+  await page.getByRole('button', { name: 'Tabellvy', exact: true }).click();
+  const targetRow = page.locator('.catalogTable tbody tr').filter({ hasText: 'Polestar 4 Dual motor' });
+  await targetRow.waitFor();
+  assert.match(await targetRow.innerText(), /Tillverkarens mål/);
+  const compareTarget = targetRow.getByRole('button');
+  if (await compareTarget.getAttribute('aria-pressed') !== 'true') await compareTarget.click();
+  await page.locator('.siteHeader').getByRole('link', { name: 'Jämför', exact: true }).click();
+  const [targetCsv] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Exportera CSV', exact: true }).click()]);
+  const csvText = await readFile(await targetCsv.path(), 'utf8');
+  assert(csvText.includes('Räckviddens status') && csvText.includes('inte ett slutligt certifierat värde'));
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());
   publicRecords = [{ ...records[0], price_sek: 600000, price_type: null, wltp_range_km: 600, dc_charge_kw: null, tow_kg: 0, seats: null,

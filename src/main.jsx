@@ -296,11 +296,12 @@ function csvCell(value) {
 }
 
 function exportCompareCsv(cars) {
-  const headers = ['Bil', 'Prisuppgift', 'WLTP km', 'DC kW', 'Dragvikt kg', 'Bagage liter', 'Källa'];
+  const headers = ['Bil', 'Prisuppgift', 'WLTP km', 'Räckviddens status', 'DC kW', 'Dragvikt kg', 'Bagage liter', 'Källa'];
   const rows = cars.map((car) => [
     `${car.brand} ${car.model}`,
     car.price,
     car.rangeVerified,
+    car.rangeVerified == null ? 'Uppgift saknas' : car.rangeNote || 'Angiven WLTP-räckvidd',
     car.dcVerified,
     car.towingVerified,
     car.cargoVerified,
