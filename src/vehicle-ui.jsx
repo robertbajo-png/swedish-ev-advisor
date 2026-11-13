@@ -38,8 +38,9 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
       </div>
       <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{car.priceType === 'campaign_price' && validDate(car.priceValidUntil) ? ` · gäller till ${car.priceValidUntil}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
       <dl className="homeVehicleSpecs">
-        {[['WLTP', car.rangeVerified, 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
+        {[[car.rangeIsTarget ? 'WLTP-mål' : 'WLTP', car.rangeVerified, 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
       </dl>
+      {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
       {recommendation && <div className="homeVehicleReason"><h4>Varför den passar</h4><ul>{recommendation.reasons?.slice(0, 2).map((reason) => <li key={reason}><Check size={15} />{reason}</li>)}</ul>{!!recommendation.tradeoffs?.length && <><h4>Att tänka på</h4><p>{recommendation.tradeoffs.slice(0, 2).join(' ')}</p></>}</div>}
       <div className="vehicleSourceLine"><a href={car.source} target="_blank" rel="noreferrer"><BadgeCheck size={13} /> Bilens källa <ArrowUpRight size={12} /></a>{validDate(car.verifiedAt) && <time dateTime={car.verifiedAt}>{car.verifiedAt}</time>}</div>
       {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla <ArrowUpRight size={12} /></a><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}

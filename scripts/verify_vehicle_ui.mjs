@@ -45,7 +45,13 @@ try {
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {
       await img.scrollIntoViewIfNeeded();
-      await img.evaluate(element => element.decode());
+      await img.evaluate(async element => {
+        if (!element.complete) await new Promise((resolve, reject) => {
+          element.addEventListener('load', resolve, { once: true });
+          element.addEventListener('error', () => reject(new Error('Exact-model image failed to load: ' + element.currentSrc)), { once: true });
+        });
+        await element.decode();
+      });
       assert(await img.evaluate(element => element.complete && element.naturalWidth > 0), 'Exact model photo must actually decode');
     }
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));

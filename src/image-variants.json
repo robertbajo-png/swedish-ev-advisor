@@ -527,25 +527,25 @@
       }
     ]
   },
-  "/media/vehicles/toyota-bz4x-9c7085be8139.jpg": {
-    "width": 1280,
-    "height": 823,
-    "source_sha256": "9c7085be81393cda3847b846de130e4316db4a80b8c13585bc222c15de2ffaeb",
+  "/media/vehicles/toyota-bz4x-press-73b231dbe78d.jpg": {
+    "width": 2560,
+    "height": 1708,
+    "source_sha256": "73b231dbe78d8e6669ab162163665f627d69babcc543f13a30cf7355118a95e4",
     "variants": [
       {
-        "url": "/media/responsive/toyota-bz4x-9c7085be8139-480.webp",
+        "url": "/media/responsive/toyota-bz4x-press-73b231dbe78d-480.webp",
         "width": 480,
-        "sha256": "664f980a4c233a17388ba6e40a056332ad0ebd19301619d6d711d04183d10b3f"
+        "sha256": "7bee95eee6afa8e4ee228469af51f0557304fc3b6e59e4e1a26a798b77e1c087"
       },
       {
-        "url": "/media/responsive/toyota-bz4x-9c7085be8139-800.webp",
+        "url": "/media/responsive/toyota-bz4x-press-73b231dbe78d-800.webp",
         "width": 800,
-        "sha256": "a6f47701e79eb30ca5c19da17b7379fccb9a21fb3e33c74d9a8167ee865ad6e6"
+        "sha256": "d826234a6df0d64a1f249a6f34ed8923f7a87dcd121f28996d2386039437d9bb"
       },
       {
-        "url": "/media/responsive/toyota-bz4x-9c7085be8139-1280.webp",
+        "url": "/media/responsive/toyota-bz4x-press-73b231dbe78d-1280.webp",
         "width": 1280,
-        "sha256": "52aebed5223440a027a4c73bf17a440e2438a937b6eabd963d5e5cc0147bde2e"
+        "sha256": "2c90080f593402080079bd3ecc2f38a84c53cdf80499733a0085124acec8028d"
       }
     ]
   },

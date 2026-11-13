@@ -1,0 +1,886 @@
+{
+  "adapter": "toyota_polestar_sweden_specs_v1",
+  "drafts": [
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Toyota",
+      "model": "bZ4X",
+      "variant_name": "Active FWD 57.7 kWh 167 hk",
+      "facts": {
+        "wltp_range_km": 444,
+        "wltp_consumption_kwh_100km": 13.9,
+        "battery_kwh": 57.7,
+        "drivetrain": "FWD",
+        "tow_kg": 750,
+        "seats": 5,
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 150,
+        "boot_liters": 452
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 444,
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /carConfigMotorization/motorization/0/specs/0/value = \"444\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/carConfigMotorization/motorization/0/specs/0/value",
+          "raw_value": "444",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": null
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 13.9,
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /carConfigMotorization/motorization/0/specs/1/value = \"139\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/carConfigMotorization/motorization/0/specs/1/value",
+          "raw_value": "139",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": "Wh_per_km_to_kWh_per_100km"
+        },
+        "battery_kwh": {
+          "value": 57.7,
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /carConfigMotorization/motorization/0/engine/name = \"Elmotor 167 hk, batteri 57,7 kWh\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/carConfigMotorization/motorization/0/engine/name",
+          "raw_value": "Elmotor 167 hk, batteri 57,7 kWh",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": "battery_from_exact_engine_label"
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /carConfigMotorization/motorization/0/wheeldrive/name = \"Framhjulsdrift\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/carConfigMotorization/motorization/0/wheeldrive/name",
+          "raw_value": "Framhjulsdrift",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": "swedish_drive_to_code"
+        },
+        "tow_kg": {
+          "value": 750,
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /specs/techSpecs/6/data/2/value = \"750\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/specs/techSpecs/6/data/2/value",
+          "raw_value": "750",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": null
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | /specs/techSpecs/8/data/0/value = \"5\"",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_manufacturer_config",
+          "source_pointer": "/specs/techSpecs/8/data/0/value",
+          "raw_value": "5",
+          "manufacturer_variant_id": "552b7e03-84d2-4b36-a5bb-87d84cb7d05c",
+          "conversion": null
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "Ombordladdare 11 kW AC och kapacitet för snabbladdning 150 kW DC",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_standard_ac_not_charge_duration"
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "quote": "Ombordladdare 11 kW AC och kapacitet för snabbladdning 150 kW DC",
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "selected_standard_dc_peak_not_duration"
+        },
+        "boot_liters": {
+          "value": 452,
+          "quote": "Den långa hjulbasen ger ett generöst benutrymme medan det stora bagageutrymmet erbjuder 452 liters lastkapacitet.",
+          "source_url": "https://www.toyota.se/bilar/bz4x",
+          "source_hash": "045e28268f34f94bda84d097a2e593e730393576034e539d8414dd6cd9a6889a",
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "scope": "model_rear_boot_seats_up"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.toyota.se/bilar/bz4x",
+          "content_hash": "045e28268f34f94bda84d097a2e593e730393576034e539d8414dd6cd9a6889a",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.toyota.se/bilar/bz4x/specifications",
+        "content_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "En elegant SUV",
+          "source_url": "https://www.toyota.se/bilar/bz4x",
+          "source_hash": "045e28268f34f94bda84d097a2e593e730393576034e539d8414dd6cd9a6889a"
+        }
+      },
+      "price_evidence": {
+        "value": 479900,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Elmotor 167 hk, batteri 57,7 kWh | Active | 479900 | selected price.cash=479900 | price.exclVat=383920 | promotions=[]",
+        "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+        "source_hash": "b17149fb3a8c83cdd421433a06b0d8a9f0514f259906fbc0077a0860e4efd087",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      }
+    },
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Polestar",
+      "model": "2",
+      "variant_name": "Long range Single motor",
+      "facts": {
+        "battery_kwh": 82.0,
+        "dc_charge_kw": 205.0,
+        "ac_charge_kw": 11.0,
+        "boot_liters": 407.0,
+        "drivetrain": "Bakhjulsdrift",
+        "tow_kg": 1500,
+        "wltp_consumption_kwh_100km": 14.8,
+        "wltp_range_km": 659,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 82.0,
+          "quote": "Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "model_gross_battery"
+        },
+        "dc_charge_kw": {
+          "value": 205.0,
+          "quote": "DC-laddning Upp till 205 kW",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "model_peak_dc"
+        },
+        "ac_charge_kw": {
+          "value": 11.0,
+          "quote": "11 kW AC laddningstid (3-fas 16A AC)¹ 0-100 % på 8 timmar",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "model_standard_ac"
+        },
+        "boot_liters": {
+          "value": 407.0,
+          "quote": "Volym (uppfällda säten) 407 liter, inklusive under golvet",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "model_rear_boot_seats_up"
+        },
+        "drivetrain": {
+          "value": "Bakhjulsdrift",
+          "quote": "Drivlina Bakhjulsdrift",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Single motor"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Dragvikt Upp till 1 500 kg",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Single motor"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.8,
+          "quote": "Energikonsumtion (WLTP)² 14,8–15,8 kWh/100 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "exact_variant_wltp_interval_lower_bound",
+          "column_header": "Long range Single motor",
+          "interval": [
+            14.8,
+            15.8
+          ],
+          "qualification": "Tillverkarens WLTP-intervall; kalkylen använder det lägre värdet."
+        },
+        "wltp_range_km": {
+          "value": 659,
+          "quote": "Räckvidd² 659 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Single motor",
+          "scope": "exact_variant_wltp",
+          "column_header": "Long range Single motor"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Polestar 2 har fem säten.",
+          "source_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "source_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "variant_name": "Long range Single motor",
+          "scope": "exact_model_seating"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "content_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/polestar-2/",
+          "content_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "content_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 599000,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Long range Single motor | Pris från 599 000 kr",
+        "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Fastback"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Fastback",
+          "quote": "En fastback som är designad för körglädje och elektrisk prestanda.",
+          "source_url": "https://www.polestar.com/se/polestar-2/",
+          "source_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c"
+        }
+      }
+    },
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Polestar",
+      "model": "2",
+      "variant_name": "Long range Dual motor",
+      "facts": {
+        "battery_kwh": 82.0,
+        "dc_charge_kw": 205.0,
+        "ac_charge_kw": 11.0,
+        "boot_liters": 407.0,
+        "drivetrain": "Fyrhjulsdrift",
+        "tow_kg": 1500,
+        "wltp_consumption_kwh_100km": 15.8,
+        "wltp_range_km": 596,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 82.0,
+          "quote": "Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "model_gross_battery"
+        },
+        "dc_charge_kw": {
+          "value": 205.0,
+          "quote": "DC-laddning Upp till 205 kW",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "model_peak_dc"
+        },
+        "ac_charge_kw": {
+          "value": 11.0,
+          "quote": "11 kW AC laddningstid (3-fas 16A AC)¹ 0-100 % på 8 timmar",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "model_standard_ac"
+        },
+        "boot_liters": {
+          "value": 407.0,
+          "quote": "Volym (uppfällda säten) 407 liter, inklusive under golvet",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "model_rear_boot_seats_up"
+        },
+        "drivetrain": {
+          "value": "Fyrhjulsdrift",
+          "quote": "Drivlina Fyrhjulsdrift",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Dual motor"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Dragvikt Upp till 1 500 kg",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Dual motor"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.8,
+          "quote": "Energikonsumtion (WLTP)² 15,8–17,2 kWh/100 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "exact_variant_wltp_interval_lower_bound",
+          "column_header": "Long range Dual motor",
+          "interval": [
+            15.8,
+            17.2
+          ],
+          "qualification": "Tillverkarens WLTP-intervall; kalkylen använder det lägre värdet."
+        },
+        "wltp_range_km": {
+          "value": 596,
+          "quote": "Räckvidd² 596 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor",
+          "scope": "exact_variant_wltp",
+          "column_header": "Long range Dual motor"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Polestar 2 har fem säten.",
+          "source_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "source_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "variant_name": "Long range Dual motor",
+          "scope": "exact_model_seating"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "content_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/polestar-2/",
+          "content_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "content_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 639000,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Long range Dual motor | Pris från 639 000 kr",
+        "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Fastback"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Fastback",
+          "quote": "En fastback som är designad för körglädje och elektrisk prestanda.",
+          "source_url": "https://www.polestar.com/se/polestar-2/",
+          "source_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c"
+        }
+      }
+    },
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Polestar",
+      "model": "2",
+      "variant_name": "Long range Dual motor med Performance-paketet",
+      "facts": {
+        "battery_kwh": 82.0,
+        "dc_charge_kw": 205.0,
+        "ac_charge_kw": 11.0,
+        "boot_liters": 407.0,
+        "drivetrain": "Fyrhjulsdrift",
+        "tow_kg": 1500,
+        "wltp_consumption_kwh_100km": 16.8,
+        "wltp_range_km": 568,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 82.0,
+          "quote": "Batterikapacitet 400 V litiumjonbatteri, 82 kWh kapacitet, 27 moduler",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "model_gross_battery"
+        },
+        "dc_charge_kw": {
+          "value": 205.0,
+          "quote": "DC-laddning Upp till 205 kW",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "model_peak_dc"
+        },
+        "ac_charge_kw": {
+          "value": 11.0,
+          "quote": "11 kW AC laddningstid (3-fas 16A AC)¹ 0-100 % på 8 timmar",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "model_standard_ac"
+        },
+        "boot_liters": {
+          "value": 407.0,
+          "quote": "Volym (uppfällda säten) 407 liter, inklusive under golvet",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "model_rear_boot_seats_up"
+        },
+        "drivetrain": {
+          "value": "Fyrhjulsdrift",
+          "quote": "Drivlina Fyrhjulsdrift",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Dual motor med Performance-paketet"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Dragvikt Upp till 1 500 kg",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "exact_variant_column",
+          "column_header": "Long range Dual motor med Performance-paketet"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.8,
+          "quote": "Energikonsumtion (WLTP)² 16,8–17,2 kWh/100 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "exact_variant_wltp_interval_lower_bound",
+          "column_header": "Long range Dual motor med Performance-paketet",
+          "interval": [
+            16.8,
+            17.2
+          ],
+          "qualification": "Tillverkarens WLTP-intervall; kalkylen använder det lägre värdet."
+        },
+        "wltp_range_km": {
+          "value": 568,
+          "quote": "Räckvidd² Upp till 568 km",
+          "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "exact_variant_wltp",
+          "column_header": "Long range Dual motor med Performance-paketet"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Polestar 2 har fem säten.",
+          "source_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "source_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "variant_name": "Long range Dual motor med Performance-paketet",
+          "scope": "exact_model_seating"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/manual/polestar-2/2026/article/946775eb53a5592fc0a8015165dbd2b8/",
+          "content_hash": "3e936efc0cb9091176be63b13f3efd636a1048de373f238f6a80b7d410f5f63b",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/polestar-2/",
+          "content_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "content_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 699000,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Long range Dual motor med Performance-paketet | Pris från 699 000 kr",
+        "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+        "source_hash": "112d3bba4402ff84dcf0bf1b357ef91e66ca7fbd396c7ce4d06d924225bd5ccc",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Fastback"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Fastback",
+          "quote": "En fastback som är designad för körglädje och elektrisk prestanda.",
+          "source_url": "https://www.polestar.com/se/polestar-2/",
+          "source_hash": "b2b1a75db47a292c52352be68921c6940c6069542e2e6fb52fbb104cd420635c"
+        }
+      }
+    },
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Polestar",
+      "model": "4",
+      "variant_name": "Rear motor",
+      "facts": {
+        "battery_kwh": 100.0,
+        "dc_charge_kw": 200.0,
+        "ac_charge_kw": 11,
+        "boot_liters": 526,
+        "drivetrain": "Bakhjulsdrift",
+        "tow_kg": 1500,
+        "wltp_consumption_kwh_100km": 17.8,
+        "wltp_range_km": 620,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 100.0,
+          "quote": "Batteri 400-V Litiumjonbatteri 100 kWh kapacitet, cell-to-pack, 110 celler",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "model_gross_battery"
+        },
+        "dc_charge_kw": {
+          "value": 200.0,
+          "quote": "DC-laddning Upp till 200 kW",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "model_peak_dc"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "AC-laddning 11 kW 22 kW (tillval)",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "model_standard_ac"
+        },
+        "boot_liters": {
+          "value": 526,
+          "quote": "526 liters lastkapacitet med uppfällt baksäte, inklusive under lastgolvet",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "model_rear_boot_seats_up"
+        },
+        "drivetrain": {
+          "value": "Bakhjulsdrift",
+          "quote": "Drivlina Bakhjulsdrift",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "exact_variant_column",
+          "column_header": "Rear motor"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Dragkraft Upp till 1 500 kg",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "exact_variant_column",
+          "column_header": "Rear motor"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.8,
+          "quote": "Energikonsumtion (WLTP)² 17,8–18,4 kWh/100 km",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Rear motor",
+          "scope": "exact_variant_wltp_interval_lower_bound",
+          "column_header": "Rear motor",
+          "interval": [
+            17.8,
+            18.4
+          ],
+          "qualification": "Tillverkarens WLTP-intervall; kalkylen använder det lägre värdet."
+        },
+        "wltp_range_km": {
+          "value": 620,
+          "quote": "Bakre motor | 20-tumsdäck 620 17,8",
+          "source_url": "https://www.polestar.com/se/manual/polestar-4-coupe/2027/article/0ed816eed33d98cac0a8cc377bc12bc7-32882fb459557dbec0a8b097072c55bf-8664b2fa77a7e089c0a8296870d1a409/",
+          "source_hash": "c4d32a547eddc1f1c1504682c4e3272b51be8c069b55c37590041c512516837c",
+          "variant_name": "Rear motor",
+          "scope": "certified_rear_motor_20_inch",
+          "alias_basis": "Rear motor = Bakre motor; standard 20-tums Aero",
+          "column_header": "Rear motor"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Båda bilarna är rymliga, med gott om plats för fem personer och deras bagage",
+          "source_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "source_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604",
+          "variant_name": "Rear motor",
+          "scope": "exact_model_seating"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/manual/polestar-4-coupe/2027/article/0ed816eed33d98cac0a8cc377bc12bc7-32882fb459557dbec0a8b097072c55bf-8664b2fa77a7e089c0a8296870d1a409/",
+          "content_hash": "c4d32a547eddc1f1c1504682c4e3272b51be8c069b55c37590041c512516837c",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "content_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+        "content_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 619000,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Rear motor | Pris från 619 000 kr",
+        "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+        "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "Polestar 4 är en SUV-coupé",
+          "source_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "source_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604"
+        }
+      }
+    },
+    {
+      "adapter": "toyota_polestar_sweden_specs_v1",
+      "brand": "Polestar",
+      "model": "4",
+      "variant_name": "Dual motor",
+      "facts": {
+        "battery_kwh": 100.0,
+        "dc_charge_kw": 200.0,
+        "ac_charge_kw": 11,
+        "boot_liters": 526,
+        "drivetrain": "Fyrhjulsdrift",
+        "tow_kg": 2000,
+        "wltp_consumption_kwh_100km": 19.0,
+        "wltp_range_km": 590,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 100.0,
+          "quote": "Batteri 400-V Litiumjonbatteri 100 kWh kapacitet, cell-to-pack, 110 celler",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "model_gross_battery"
+        },
+        "dc_charge_kw": {
+          "value": 200.0,
+          "quote": "DC-laddning Upp till 200 kW",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "model_peak_dc"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "AC-laddning 11 kW 22 kW (tillval)",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "model_standard_ac"
+        },
+        "boot_liters": {
+          "value": 526,
+          "quote": "526 liters lastkapacitet med uppfällt baksäte, inklusive under lastgolvet",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "model_rear_boot_seats_up"
+        },
+        "drivetrain": {
+          "value": "Fyrhjulsdrift",
+          "quote": "Drivlina Fyrhjulsdrift",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "exact_variant_column",
+          "column_header": "Dual motor"
+        },
+        "tow_kg": {
+          "value": 2000,
+          "quote": "Dragkraft Upp till 2 000 kg",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "exact_variant_column",
+          "column_header": "Dual motor"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 19.0,
+          "quote": "Energikonsumtion (WLTP)² 19,0-21,7 kWh/100 km",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "exact_variant_wltp_interval_lower_bound",
+          "column_header": "Dual motor",
+          "interval": [
+            19.0,
+            21.7
+          ],
+          "qualification": "Tillverkarens WLTP-intervall; kalkylen använder det lägre värdet."
+        },
+        "wltp_range_km": {
+          "value": 590,
+          "quote": "Räckviddsmål (WLTP)² 590 km",
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+          "variant_name": "Dual motor",
+          "scope": "manufacturer_wltp_target",
+          "column_header": "Dual motor"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Båda bilarna är rymliga, med gott om plats för fem personer och deras bagage",
+          "source_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "source_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604",
+          "variant_name": "Dual motor",
+          "scope": "exact_model_seating"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "content_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604",
+          "fetched_at": "2026-11-13T15:00:00Z"
+        }
+      ],
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+        "content_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+        "fetched_at": "2026-11-13T15:00:00Z"
+      },
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 649000,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "quote": "Dual motor | Pris från 649 000 kr",
+        "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+        "source_hash": "01817a8fa38afa1305f3e901a262f7b8ec57cd95c6aa3845e1e509d79f8d33d0",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "Polestar 4 är en SUV-coupé",
+          "source_url": "https://www.polestar.com/se/news/suv-vs-suv-coupe-what-is-the-difference/",
+          "source_hash": "a17c3de8048d1ac3830cb5203778ec7a944f050100fa407b71217b701b87c604"
+        }
+      }
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}

@@ -88,7 +88,7 @@ function evaluate(row, r, asOf) {
   if (!nameMatches(row.brand, r.brand) || !nameMatches(row.model, r.model)) return 'no';
   const tests = [
     [r.budget_sek, currentPrice(row, asOf), (v, target) => v <= target],
-    [r.min_wltp_range_km, number(row.wltp_range_km), (v, target) => v >= target],
+    [r.min_wltp_range_km, row.wltp_range_is_target || specQualifications(row).rangeIsTarget ? null : number(row.wltp_range_km), (v, target) => v >= target],
     [r.min_tow_kg, number(row.tow_kg), (v, target) => v >= target],
     [r.min_seats, number(row.seats), (v, target) => v >= target],
     [r.min_boot_liters, number(row.boot_liters), (v, target) => v >= target],
@@ -165,3 +165,4 @@ export function ruleAdvice(variants, request = {}, { mode = 'deterministic_fallb
     return { ...result, summary: 'Dina krav kunde inte tolkas s\u00e4kert. F\u00f6rtydliga belopp och enheter eller anv\u00e4nd reglagen. Inga bilf\u00f6rslag visas innan kraven kan kontrolleras.' };
   }
 }
+import { specQualifications } from './spec-qualifications.js';

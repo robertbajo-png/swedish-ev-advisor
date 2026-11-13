@@ -3,6 +3,7 @@ import { REQUIREMENTS_SCHEMA, requirementsPrompt } from './advisor-requirements.
 import { AiBudgetError } from './ai-budget.mjs';
 import { hasPriceEvidence, priceEvidence } from '../../src/price-evidence.js';
 import { displayModelName } from '../../src/vehicle-names.js';
+import { specQualifications } from '../../src/spec-qualifications.js';
 
 const COMPARE_RESPONSE_SCHEMA = {
   type: 'object',
@@ -92,6 +93,8 @@ export function normalizePublicVariants(rows) {
         variant_name: row.variant_name,
         price_sek: toNumber(row.price_sek),
         wltp_range_km: toNumber(row.wltp_range_km),
+        wltp_range_is_target: specQualifications(row).rangeIsTarget,
+        range_note: specQualifications(row).rangeNote,
         dc_charge_kw: toNumber(row.dc_charge_kw),
         boot_liters: toNumber(row.boot_liters),
         tow_kg: toNumber(row.tow_kg),
@@ -139,7 +142,7 @@ export function deterministicCompareReport(selected) {
       : 'Välj minst en publicerad bil för att skapa rapporten.',
     reasons: winner ? [
       `Prisnivå: ${formatSek(winner.price_sek)}.`,
-      winner.wltp_range_km ? `Räckvidd: ${winner.wltp_range_km} km WLTP.` : 'Räckvidd saknas i databasen.',
+      winner.wltp_range_km ? `${winner.wltp_range_is_target ? 'Tillverkarens räckviddsmål' : 'Räckvidd'}: ${winner.wltp_range_km} km WLTP.` : 'Räckvidd saknas i databasen.',
       winner.tow_kg ? `Dragvikt: ${winner.tow_kg} kg.` : winner.boot_liters ? `Bagage: ${winner.boot_liters} liter.` : 'Praktiska uppgifter saknas.',
     ] : [],
     tradeoffs: ranked.slice(1, 3).map((row) => `${displayName(row)} kan passa bättre om dess enskilda styrkor väger tyngre för dig.`),
@@ -164,6 +167,7 @@ function compactVariant(row) {
     variant: row.variant_name,
     price_sek: row.price_sek,
     wltp_range_km: row.wltp_range_km,
+    range_note: row.range_note || null,
     dc_charge_kw: row.dc_charge_kw,
     boot_liters: row.boot_liters,
     tow_kg: row.tow_kg,

@@ -342,3 +342,4 @@
   .vehicleCompare .comparisonTable th, .vehicleCompare .comparisonTable td { padding: 16px; }
   .vehicleDetail .newsPreview { width: calc(100% - 40px); }
 }
+.vehicleSpecNote { color: var(--muted, #697374); font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
