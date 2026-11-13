@@ -4,8 +4,8 @@
   "models": 30,
   "coverage": {
     "price_sek": {
-      "present": 56,
-      "missing": 20
+      "present": 58,
+      "missing": 18
     },
     "wltp_range_km": {
       "present": 62,
@@ -16,36 +16,36 @@
       "missing": 24
     },
     "dc_charge_kw": {
-      "present": 54,
-      "missing": 22
+      "present": 56,
+      "missing": 20
     },
     "ac_charge_kw": {
-      "present": 31,
-      "missing": 45
+      "present": 33,
+      "missing": 43
     },
     "tow_kg": {
-      "present": 50,
-      "missing": 26
+      "present": 52,
+      "missing": 24
     },
     "boot_liters": {
-      "present": 57,
-      "missing": 19
+      "present": 59,
+      "missing": 17
     },
     "seats": {
-      "present": 37,
-      "missing": 39
+      "present": 39,
+      "missing": 37
     },
     "drivetrain": {
       "present": 61,
       "missing": 15
     },
     "body_type": {
-      "present": 26,
-      "missing": 50
+      "present": 28,
+      "missing": 48
     }
   },
-  "complete_core_variants": 41,
-  "professional_photos_reviewed": 13,
+  "complete_core_variants": 43,
+  "professional_photos_reviewed": 14,
   "models_by_priority": [
     {
       "model_key": "kia|ev3",
@@ -273,72 +273,6 @@
             "tow_kg"
           ],
           "source_url": "https://www.tesla.com/sv_SE/model3",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
-      "model_key": "ford|explorer",
-      "brand": "Ford",
-      "model": "Explorer",
-      "variant_count": 2,
-      "missing_core_values": 8,
-      "coverage": {
-        "price_sek": 0,
-        "wltp_range_km": 2,
-        "battery_kwh": 2,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 2,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/ford-explorer-fe5bb8df3715.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "Explorer AWD 79 kWh",
-          "missing_fields": [
-            "price_sek",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "price_sek",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "Explorer RWD 77 kWh",
-          "missing_fields": [
-            "price_sek",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "price_sek",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer",
           "source_hash_present": true
         }
       ]
@@ -1430,6 +1364,46 @@
       ]
     },
     {
+      "model_key": "ford|explorer",
+      "brand": "Ford",
+      "model": "Explorer",
+      "variant_count": 2,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 2,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 2,
+        "tow_kg": 2,
+        "boot_liters": 2,
+        "seats": 2,
+        "drivetrain": 2,
+        "body_type": 2
+      },
+      "image_url": "/media/vehicles/ford-explorer-press-050047452e4e.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Explorer Premium Edition AWD 77 kWh MY27.25",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Explorer Premium Edition RWD 79 kWh MY27.25",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
       "model_key": "mazda|6e",
       "brand": "Mazda",
       "model": "6E",
@@ -1822,5 +1796,5 @@
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-13T21:01:48.222230+00:00"
+  "audited_at": "2026-11-13T22:20:30.623453+00:00"
 }

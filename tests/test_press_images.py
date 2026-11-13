@@ -105,7 +105,7 @@ class PressImageTests(unittest.TestCase):
 
 
     def test_mazda_renault_only_the_reviewed_exterior_pages(self):
-        for publisher in ('mazda-se-mynewsdesk','renault-se-mynewsdesk','mercedes-se-mynewsdesk'):
+        for publisher in ('mazda-se-mynewsdesk','renault-se-mynewsdesk','mercedes-se-mynewsdesk','ford-se-mynewsdesk'):
             policy=PRESS_PUBLISHERS[publisher]
             source=policy['origin']+policy['approved_image_paths'][0]
             proof={**self.evidence,'model_key':policy['model_keys'][0],'publisher_id':publisher,

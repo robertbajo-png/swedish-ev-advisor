@@ -206,7 +206,9 @@ try {
   assert.equal(mazdaRenaultProfiles.length, 6);
   const claProfiles = records.filter(row => row.brand === 'Mercedes-Benz' && row.model === 'Cla');
   assert.equal(claProfiles.length, 3);
-  for (const row of [...completedProfiles, ...mazdaRenaultProfiles, ...claProfiles]) {
+  const fordProfiles = records.filter(row => row.brand === 'Ford' && row.model === 'Explorer');
+  assert.equal(fordProfiles.length, 2);
+  for (const row of [...completedProfiles, ...mazdaRenaultProfiles, ...claProfiles, ...fordProfiles]) {
     await page.goto(base + '/bilar/' + vehicleSlug(row.brand, row.model, row.variant_name));
     await page.locator('.vehicleDetailHero h1').waitFor();
     await photosReady('.vehicleHeroMedia img'); await mobilePhotoClear();
@@ -229,6 +231,18 @@ try {
       assert.match(await page.locator('.vehicleDetailHero').innerText(), /beställningsbil/);
       assert.match(await page.locator('#specifikationer').innerText(), /Monterad dragkrok ingår inte automatiskt/);
       assert.match(new URL(page.url()).pathname, /-lagerbil\/?$/);
+    }
+    if (fordProfiles.includes(row)) {
+      for (const field of ['price_sek','wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw','ac_charge_kw','tow_kg','boot_liters','seats','drivetrain'])
+        assert(row[field] != null, 'Completed Ford profile: ' + field);
+      assert.equal(row.body_type, 'SUV');assert.equal(row.price_type, 'campaign_price');
+      assert.equal(row.price_valid_until, '2026-12-30');assert.match(row.variant_name, /Premium Edition.*MY27\.25/);
+      assert.match(row.image_url, /ford-explorer-press-/);
+      assert.match(await page.locator('#specifikationer').innerText(), /Fords danska/);
+      assert.match(await page.locator('#nyckeltal').innerText(), /Kampanjpris, giltigt till 2026-12-30/);
+      assert(!(await page.locator('#nyckeltal').innerText()).includes('Uppgift saknas'));
+      await page.locator('#bilkallor summary').click();
+      assert.equal(await page.locator('#bilkallor a[href="https://www.ford.dk/koeb/kampagner/explorer-og-capri"]').count(), 1);
     }
     await noOverflow('Complete manufacturer profile ' + row.variant_name);
   }

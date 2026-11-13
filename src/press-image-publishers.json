@@ -53,6 +53,21 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "ford-se-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Ford Sverige / Hedin HMC Motor Company AB",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/ford/pressreleases/ford-elektrifierar-en-ikonisk-modell-med-introduktionen-av-nya-helelektriska-explorer-utvecklad-och-byggd-i-europa-3241069",
+    "image_path_prefix": "/se/ford/images/",
+    "model_title_pattern": "^2023_FORD_NewElectricExplorer_1$",
+    "approved_image_paths": ["/se/ford/images/2023-ford-newelectricexplorer-1-2732257"],
+    "model_keys": ["ford|explorer"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "skoda-dk-mynewsdesk": {
     "origin": "https://skoda-danmark.mynewsdesk.com",
     "publisher": "Škoda Danmark",

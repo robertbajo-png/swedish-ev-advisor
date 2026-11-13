@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:ford-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_ford_explorer_specs.py -v",
+    "verify:ford-sync": "node scripts/verify_ford_explorer_spec_sync.mjs",
     "verify:ui-navigation": "node scripts/verify_ui_navigation.mjs",
     "verify:cla-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_mercedes_cla_specs.py -v",
     "verify:cla-sync": "node scripts/verify_mercedes_cla_spec_sync.mjs",

@@ -1036,6 +1036,7 @@ function SourceVerificationCard({ car }) {
       <a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a>
       <p>{car.verifiedAt ? 'Biluppgifter verifierade ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas för bilens övriga uppgifter.'}</p>
       {car.priceSource && <p><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla: {car.priceSourceName} <ExternalLink size={15} /></a>{' · Pris verifierat '}<time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time>.</p>}
+      {car.practicalSource && <p><a href={car.practicalSource} target="_blank" rel="noreferrer">Bagagevolym: Ford Danmark <ExternalLink size={15} /></a>. Uppgift om samma europeiska Explorer.</p>}
       <MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>
       {imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}
     </div>

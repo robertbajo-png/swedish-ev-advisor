@@ -144,7 +144,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         const descriptor = policy.supportingSource?.(extra, draft);
         assert(descriptor && ['manufacturer_page', 'price_list_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
         const country = descriptor.country || 'SE', language = descriptor.language || 'sv';
-        assert(country === 'SE' && language === 'sv' || country === 'DE' && language === 'de', 'Registered source locale required');
+        assert(country === 'SE' && language === 'sv' || country === 'DE' && language === 'de' ||
+          country === 'DK' && language === 'da', 'Registered source locale required');
         if (sources.has(extra.final_url)) continue;
         const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [extra.final_url])).rows;
         const sourceParent = descriptor.shared ? null : parent.id;
@@ -207,7 +208,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const allowedPriceFields = ['price_type','price_valid_until','price_source_url','price_source_hash',
         'price_source_quote','price_verified_at','price_source_name','price_refresh_batch_id'];
       assert(Object.keys(extra).every(field => policy.canonicalFields?.includes(field) && (allowedPriceFields.includes(field) ||
-        field === 'variant_name' && policy.replacementVariantName?.(target.expected, draft) === extra.variant_name)),
+        field === 'variant_name' && policy.replacementVariantName?.(target.expected, draft) === extra.variant_name ||
+        field === 'price_sek' && policy.priceReplacement?.(target.expected, draft) === extra.price_sek)),
         'Only explicitly validated price provenance may supplement technical facts');
       const updateFields = [...fields, ...Object.keys(extra)];
       const updates = updateFields.map((field, index) => field + '=$' + (index + 1));
@@ -238,7 +240,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
           assert.equal(typeof value === 'number' ? Number(row[field]) : row[field], value);
         }
         for (const [field, value] of Object.entries(policy.canonicalExtras?.(target.draft, target.expected) || {}))
-          assert.equal(field === 'price_verified_at' ? new Date(row[field]).toISOString() : row[field], value,
+          assert.equal(field === 'price_verified_at' ? new Date(row[field]).toISOString()
+            : field === 'price_valid_until' && row[field] != null ? String(row[field]).slice(0,10) : row[field], value,
             'Saved price evidence differs: ' + field);
         for (const field of TECHNICAL_FIELDS.filter(field => !(field in target.draft.facts)))
           assert.deepEqual(row[field], beforeById.get(row.id)[field], 'An unprovided fact was cleared');
@@ -249,7 +252,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
     committed = true;
     return { committed: true, variants_updated: plan.targets.length, sources_updated: sources.size,
       new_technical_values: plan.targets.reduce((sum, row) => sum + Object.keys(row.draft.facts).filter(field => row.expected[field] == null).length, 0),
-      plan_sha256: expectedHash, prices_changed: 0,
+      plan_sha256: expectedHash, prices_changed: after.filter(row => targets.has(row.id) && row.price_sek !== beforeById.get(row.id).price_sek).length,
       models_changed: expectedModels.filter((row, index) => row.body_type !== models[index].body_type).length, paid_calls: 0 };
   } finally { if (!committed) await client.query('ROLLBACK'); }
 }

@@ -115,6 +115,15 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "ford|explorer": {
+      "asset_url": "/media/vehicles/ford-explorer-press-050047452e4e.jpg",
+      "content_sha256": "050047452e4e2226af4e8dc22ba10ff06f1ab8449606b832ec0a86bac3fd20c8",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }
