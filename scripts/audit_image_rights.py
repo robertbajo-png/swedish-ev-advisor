@@ -59,6 +59,17 @@ def reviewed_press_permission(evidence):
         and re.fullmatch('[a-f0-9]{64}', evidence.get('metadata_sha256', '')))
 
 
+def reviewed_toyota_permission(evidence):
+    from collect_toyota_press_photo import SOURCE, ASSET, NOTICE
+    return bool(evidence.get('model_key') == 'toyota|bz4x'
+        and evidence.get('license_id') == 'Toyota-editorial'
+        and all(evidence.get(field) == SOURCE for field in ('source_url', 'evidence_url', 'license_url'))
+        and evidence.get('downloaded_from') == ASSET and evidence.get('evidence_quote') == NOTICE
+        and evidence.get('usage_scope') == 'independent_vehicle_editorial' and evidence.get('full_frame') is True
+        and evidence.get('prohibited_uses') == ['advertising', 'commercial_promotion', 'endorsement']
+        and all(re.fullmatch('[a-f0-9]{64}', evidence.get(field, '')) for field in ('metadata_sha256', 'source_content_sha256')))
+
+
 def https_url(value):
     try:
         parsed = urlsplit(value)
@@ -79,7 +90,7 @@ def rights_errors(asset, evidence, today=None):
             errors.append('invalid_' + field)
     if evidence.get('status') != 'documented' or not str(evidence.get('evidence_quote', '')).strip():
         errors.append('permission_not_documented')
-    if not (reviewed_press_permission(evidence) or reviewed_media_permission(evidence)) and (evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id'))):
+    if not (reviewed_press_permission(evidence) or reviewed_media_permission(evidence) or reviewed_toyota_permission(evidence)) and (evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id'))):
         errors.append('license_requires_specific_review')
     for field in ('author', 'credit', 'changes'):
         if not str(evidence.get(field, '')).strip():

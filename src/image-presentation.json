@@ -79,6 +79,15 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "toyota|bz4x": {
+      "asset_url": "/media/vehicles/toyota-bz4x-press-73b231dbe78d.jpg",
+      "content_sha256": "73b231dbe78d8e6669ab162163665f627d69babcc543f13a30cf7355118a95e4",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

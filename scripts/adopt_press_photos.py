@@ -19,7 +19,7 @@ def prepare(path, reviewed_hash, root=ROOT):
         raise ValueError('reviewed_candidate_changed')
     candidate = json.loads(raw)
     expected_prefix = candidate.get('model_key', '').replace('|', '-')
-    if not re.fullmatch(r'(?:polestar-[24]|kia-ev[34569]|skoda-(?:elroq|enyaq))-press-[a-f0-9]{12}\.jpg', candidate.get('review_filename', '')) or not candidate['review_filename'].startswith(expected_prefix + '-press-'):
+    if not re.fullmatch(r'(?:polestar-[24]|kia-ev[34569]|skoda-(?:elroq|enyaq)|toyota-bz4x)-press-[a-f0-9]{12}\.jpg', candidate.get('review_filename', '')) or not candidate['review_filename'].startswith(expected_prefix + '-press-'):
         raise ValueError('unsafe_photo_filename')
     file = Path(path).parent / candidate['review_filename']
     content = file.read_bytes()

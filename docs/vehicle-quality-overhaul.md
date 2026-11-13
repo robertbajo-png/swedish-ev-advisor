@@ -123,6 +123,71 @@ maxima from a different version would repeat the old data-quality problem.
 
 ## Remaining Batches
 
+### Toyota And Polestar Batch, 13 November
+
+1. Source collection and version matching: complete. Scope is all six current
+   public versions across Toyota bZ4X, Polestar 2 and Polestar 4 coupe. Refresh
+   Swedish model/specification pages, exact configurator/manual data and current
+   price evidence. Resolve conflicts by exact version/model year; preserve source
+   intervals, wheel/equipment conditions and any preliminary status.
+2. Completeness and media: complete. Fill all nine technical fields, independent
+   price classification/evidence and body type. Replace the pre-facelift bZ4X
+   photo with an exact current-model manufacturer press image; revalidate the
+   existing Polestar press images rather than replacing suitable media needlessly.
+3. Guarded publication: complete. Stage exact-source facts, run extraction and SQL
+   rollback/scope regressions, then apply only the six variants/three models,
+   preserving every other vehicle and all news/AI/budget controls.
+4. Release: in progress. Export canonical public views, build, visual/accessibility
+   and no-JS regression checks, exact-main CI, existing production deployment and
+   actual public GET/image/mobile verification. No paid AI calls are needed.
+
+- Committed six exact-version profiles: 27 new technical values, three model body
+  classifications and fresh independent price evidence. All six amounts are
+  unchanged. The public catalog remains 76 versions / 30 models; other canonical
+  versions, news articles and news controls were verified unchanged.
+- Toyota uses the initialized Swedish Active FWD 57.7 kWh / 167 hp configuration,
+  not the generic AWD maximum. Standard AC 11/DC 150 kW comes from its selected
+  standard-equipment list; braked tow 750 kg, five seats and rear boot 452 litres
+  retain exact configuration/model evidence. The current manufacturer's cash
+  price matches its VAT-exclusive base price and has no cash promotions; finance
+  interest offers are not vehicle discounts.
+- Polestar 2 uses all three exact columns, common 82 kWh/205 DC/11 AC/407-litre
+  rear boot and the Swedish seating manual. Its body is sourced as Fastback.
+  Polestar 4 is the coupe, not the newly introduced SUV body: rear boot 526
+  litres from the current Swedish page, not old 500-litre or folded-seat figures;
+  standard AC 11 kW is separate from the 22 kW option. Towing remains variant-
+  specific, 1500/2000 kg. Rear motor's certified 620 km comes from the current
+  coupe manual for 20-inch wheels. Dual motor's 590 km is explicitly a
+  manufacturer WLTP target, labelled as such in UI/structured metadata, not
+  allowed to prove an advisor's certified minimum-range requirement or win a
+  direct measured-range comparison. Consumption intervals remain visible;
+  the TCO explicitly labels its lower-bound assumption.
+- The first two technical transactions rolled back at the price evidence
+  readback: migration 020's trigger correctly cleared incomplete reclassification
+  evidence. The updater now supplies its source-bound price refresh batch ID,
+  without changing or disabling the trigger. Regression tests install the REAL
+  trigger from migration 020 and verify price evidence, late-failure rollback,
+  unchanged out-of-scope rows and replay rejection. No partial technical writes.
+- Toyota now has a visually reviewed, current European FWD manufacturer press
+  photo, full-frame 2560x1708, with the Toyota UK gallery's explicit editorial
+  permission and source credit. Swedish pressroom terms were not assumed to
+  grant republication where their general clauses were contradictory. Polestar
+  photos 4690/6083 were fetched again: identical bytes, exact MY26 Polestar 2 and
+  Polestar 4 coupe identities; retained rather than needlessly replaced.
+- Local checks pass: new five extraction/media tests, six-version SQL regression,
+  unchanged Kia/Skoda SQL and extraction tests, price/advisor contracts, 90 static
+  and rendered routes, eight no-JS/hydrated checks, 22 Axe audits with zero
+  violations and all-version vehicle UI interactions. Actual built six-version
+  pages pass 36 checks at 320/375/390/430/768/1440px, no mobile photo/text/navigation
+  overlap or horizontal overflow, no technical gaps. All twelve batch photo
+  files match their recorded hashes. A lazy-image decode race in the UI test now
+  waits for the real image load before decoding; failed assets still fail.
+- Coverage after this batch: range 53, DC 45, tow 41, boot 48, battery 43, AC 22,
+  seats 28, drivetrain 52 and body 17 of 76. These include the explicitly labelled
+  Polestar range target; do not describe that target as certified. Prices remain
+  56/76, complete core-card profiles 32/76, professionally reviewed model photos
+  10/30. Other brands remain active research, not silently claimed complete.
+
 ### Skoda Batch, 13 November
 
 - Source discovery and collection: complete. Exact Swedish Elroq Explore Edition
@@ -169,7 +234,17 @@ maxima from a different version would repeat the old data-quality problem.
 - Final visual follow-up: remove avoidable empty decision metrics where a valid
   campaign/dealer price and WLTP already exist. Label the actual price type and
   expiry, never as list price or running cost; unknown/expired inputs remain
-  rejected. Pure regression tests pass; UI/build/CI/deployment checks follow.
+  rejected. Pure regression tests, the all-version UI suite, build and 90 static
+  routes pass. PR #59 merged as `e5692867d8ffcd66625089fbbc3ae985b65a58c7`.
+  All 153 exact-main CI steps passed after one complete rerun of an intermittent
+  pre-existing 320px footer-focus check; retain that failure for follow-up rather
+  than weakening its assertion. Production run `43425469841` passed on attempt 2:
+  initial immediate post-upload verification saw the previous HTML, then the
+  unchanged verifier and full guarded workflow passed once the new HTML was live.
+  Public 12:32 UTC checks confirmed all eight image hashes, all 76 records,
+  complete Skoda technical sections and non-empty explicitly labelled campaign
+  price metrics across the same mobile/desktop matrix. No additional DB writes,
+  paid calls, article publication or news/budget/DNS changes in this follow-up.
 
 - 2026-11-13: Skoda research paused for the owner's mobile EV5 layout report.
   The detail photo is now an in-flow, full-frame image at widths up to 800px;

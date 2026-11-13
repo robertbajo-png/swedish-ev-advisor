@@ -8,44 +8,44 @@
       "missing": 20
     },
     "wltp_range_km": {
-      "present": 51,
-      "missing": 25
+      "present": 53,
+      "missing": 23
     },
     "battery_kwh": {
-      "present": 41,
-      "missing": 35
+      "present": 43,
+      "missing": 33
     },
     "dc_charge_kw": {
-      "present": 42,
-      "missing": 34
-    },
-    "ac_charge_kw": {
-      "present": 19,
-      "missing": 57
-    },
-    "tow_kg": {
-      "present": 39,
-      "missing": 37
-    },
-    "boot_liters": {
       "present": 45,
       "missing": 31
     },
+    "ac_charge_kw": {
+      "present": 22,
+      "missing": 54
+    },
+    "tow_kg": {
+      "present": 41,
+      "missing": 35
+    },
+    "boot_liters": {
+      "present": 48,
+      "missing": 28
+    },
     "seats": {
-      "present": 23,
-      "missing": 53
+      "present": 28,
+      "missing": 48
     },
     "drivetrain": {
-      "present": 50,
-      "missing": 26
+      "present": 52,
+      "missing": 24
     },
     "body_type": {
-      "present": 11,
-      "missing": 65
+      "present": 17,
+      "missing": 59
     }
   },
-  "complete_core_variants": 29,
-  "professional_photos_reviewed": 9,
+  "complete_core_variants": 32,
+  "professional_photos_reviewed": 10,
   "models_by_priority": [
     {
       "model_key": "kia|ev3",
@@ -615,76 +615,6 @@
             "boot_liters"
           ],
           "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
-      "model_key": "polestar|4",
-      "brand": "Polestar",
-      "model": "4",
-      "variant_count": 2,
-      "missing_core_values": 8,
-      "coverage": {
-        "price_sek": 2,
-        "wltp_range_km": 0,
-        "battery_kwh": 0,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 0,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/polestar-4-press-34c05d967929.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": true,
-      "photo_action": "accepted",
-      "variants": [
-        {
-          "variant_name": "Dual motor",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "Rear motor",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
           "source_hash_present": true
         }
       ]
@@ -1627,47 +1557,6 @@
       ]
     },
     {
-      "model_key": "toyota|bz4x",
-      "brand": "Toyota",
-      "model": "bZ4X",
-      "variant_count": 1,
-      "missing_core_values": 2,
-      "coverage": {
-        "price_sek": 1,
-        "wltp_range_km": 1,
-        "battery_kwh": 1,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 1,
-        "boot_liters": 0,
-        "seats": 1,
-        "drivetrain": 1,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/toyota-bz4x-9c7085be8139.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "Active FWD 57.7 kWh 167 hk",
-          "missing_fields": [
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "boot_liters",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "dc_charge_kw",
-            "boot_liters"
-          ],
-          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
       "model_key": "bmw|i5",
       "brand": "BMW",
       "model": "i5",
@@ -1830,9 +1719,9 @@
         "ac_charge_kw": 3,
         "tow_kg": 3,
         "boot_liters": 3,
-        "seats": 0,
+        "seats": 3,
         "drivetrain": 3,
-        "body_type": 0
+        "body_type": 3
       },
       "image_url": "/media/vehicles/polestar-2-press-72486aedf6a2.jpg",
       "image_consistent": true,
@@ -1842,32 +1731,63 @@
       "variants": [
         {
           "variant_name": "Long range Dual motor",
-          "missing_fields": [
-            "seats",
-            "body_type"
-          ],
+          "missing_fields": [],
           "missing_core_fields": [],
           "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
           "source_hash_present": true
         },
         {
           "variant_name": "Long range Dual motor med Performance-paketet",
-          "missing_fields": [
-            "seats",
-            "body_type"
-          ],
+          "missing_fields": [],
           "missing_core_fields": [],
           "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
           "source_hash_present": true
         },
         {
           "variant_name": "Long range Single motor",
-          "missing_fields": [
-            "seats",
-            "body_type"
-          ],
+          "missing_fields": [],
           "missing_core_fields": [],
           "source_url": "https://www.polestar.com/se/polestar-2/specifications/",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "polestar|4",
+      "brand": "Polestar",
+      "model": "4",
+      "variant_count": 2,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 2,
+        "wltp_range_km": 2,
+        "battery_kwh": 2,
+        "dc_charge_kw": 2,
+        "ac_charge_kw": 2,
+        "tow_kg": 2,
+        "boot_liters": 2,
+        "seats": 2,
+        "drivetrain": 2,
+        "body_type": 2
+      },
+      "image_url": "/media/vehicles/polestar-4-press-34c05d967929.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Dual motor",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Rear motor",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
           "source_hash_present": true
         }
       ]
@@ -2000,9 +1920,42 @@
           "source_hash_present": true
         }
       ]
+    },
+    {
+      "model_key": "toyota|bz4x",
+      "brand": "Toyota",
+      "model": "bZ4X",
+      "variant_count": 1,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 1,
+        "battery_kwh": 1,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 1,
+        "tow_kg": 1,
+        "boot_liters": 1,
+        "seats": 1,
+        "drivetrain": 1,
+        "body_type": 1
+      },
+      "image_url": "/media/vehicles/toyota-bz4x-press-73b231dbe78d.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Active FWD 57.7 kWh 167 hk",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.toyota.se/bilar/bz4x/specifications",
+          "source_hash_present": true
+        }
+      ]
     }
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-13T11:45:56.834111+00:00"
+  "audited_at": "2026-11-13T18:40:38.745411+00:00"
 }

@@ -11,7 +11,8 @@ export const specPlanHash = plan => createHash('sha256').update(JSON.stringify(p
 const editable = new Set([...TECHNICAL_FIELDS, 'source_id', 'source_url', 'source_hash', 'source_quote',
   'extraction_confidence', 'updated_at']);
 const retained = (row, policy) => Object.fromEntries(Object.entries(row).filter(([name]) => !editable.has(name) &&
-  !(policy?.extraFields || []).includes(name) && !(policy?.reviewResetFields || []).includes(name)));
+  !(policy?.extraFields || []).includes(name) && !(policy?.reviewResetFields || []).includes(name) &&
+  !(policy?.canonicalFields || []).includes(name)));
 const identity = row => `${row.brand}|${row.model}|${row.variant_name}`;
 const KIA_POLICY = { adapter: ADAPTER, validate: validateSpecDraft, sourceType: 'technical_pdf',
   sourceName: 'Kia Sverige', sourceTitle: draft => 'Kia ' + draft.model.toUpperCase() + ' produktfakta', lockKey: 7240016 };
@@ -75,7 +76,8 @@ export function buildSpecPlan(variants, intake, now = new Date(), policy = KIA_P
     assert(['published', 'published_reviewed'].includes(previous.validation_status));
     assert(!previous.review_approved_by && !previous.review_promoted_at || policy.reviewRefresh?.(previous, draft),
       'Reviewed exceptions require separate reconciliation');
-    assert(previous.price_sek == null || previous.price_source_url && previous.price_source_hash && previous.price_source_quote && previous.price_verified_at,
+    assert(previous.price_sek == null || previous.price_source_url && previous.price_source_hash && previous.price_source_quote && previous.price_verified_at ||
+      policy.priceRefresh?.(previous, draft),
       'Existing independent price evidence must be retained');
     for (const [field, value] of Object.entries(draft.facts)) {
       const prior = previous[field];
@@ -119,7 +121,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const modelFacts = policy.modelFacts?.(draft) || {};
       assert(Object.keys(modelFacts).every(field => field === 'body_type'), 'Only explicit model body classification allowed');
       if (Object.hasOwn(modelFacts, 'body_type')) {
-        assert.equal(modelFacts.body_type, 'SUV');
+        assert((policy.allowedBodyTypes || ['SUV']).includes(modelFacts.body_type), 'Explicit model body type required');
         assert(parent.body_type == null || parent.body_type === modelFacts.body_type, 'Existing model classification conflicts');
         const expectedParent = expectedModels.find(row => row.id === parent.id);
         if (expectedParent.body_type !== modelFacts.body_type) {
@@ -129,6 +131,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         }
       }
       const source = draft.source;
+      const sourceName = typeof policy.sourceName === 'function' ? policy.sourceName(draft) : policy.sourceName;
       for (const extra of draft.supporting_sources || []) {
         const descriptor = policy.supportingSource?.(extra, draft);
         assert(descriptor && ['manufacturer_page', 'price_list_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
@@ -145,7 +148,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
           ON CONFLICT(url) DO UPDATE SET fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,
            http_status=200,final_url=excluded.final_url,source_validation=excluded.source_validation,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [brand,extra.final_url,extra.fetched_at,extra.content_hash,policy.sourceName,sourceParent,descriptor.model,descriptor.sourceType,descriptor.title]);
+          [brand,extra.final_url,extra.fetched_at,extra.content_hash,sourceName,sourceParent,descriptor.model,descriptor.sourceType,descriptor.title]);
         sources.set(extra.final_url, saved.rows[0].id);
       }
       if (!sources.has(source.final_url)) {
@@ -165,7 +168,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
            fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=200,
            final_url=excluded.final_url,source_validation=excluded.source_validation,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, policy.sourceName]);
+          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, sourceName]);
         sources.set(source.final_url, saved.rows[0].id);
       }
       const quote = [...new Set(Object.values(draft.field_evidence).map(item => item.source_url === source.final_url
@@ -173,6 +176,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const payload = { adapter: policy.adapter, field_evidence: draft.field_evidence, held_fields: draft.held_fields,
         supporting_sources: draft.supporting_sources || [], source_resolution: draft.source_resolution || null,
         model_facts: draft.model_facts || {}, model_field_evidence: draft.model_field_evidence || {},
+        ...(draft.price_evidence ? { price_evidence: draft.price_evidence } : {}),
         previous_canonical: target.expected,
         refresh_batch_id: expectedHash, previous_source_url: expected.source_url, previous_source_hash: expected.source_hash };
       const fields = Object.keys(draft.facts);
@@ -185,16 +189,22 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const placeholders = draftValues.map((_, index) => '$' + (index + 1));
       await client.query(`INSERT INTO public.extracted_variant_drafts (${draftColumns.join(',')}) VALUES (${placeholders.join(',')})
         ON CONFLICT(source_url,variant_name) DO UPDATE SET ${draftColumns.filter(field => !['source_url','variant_name'].includes(field)).map(field => field + '=excluded.' + field).join(',')},updated_at=now()`, draftValues);
-      const updates = fields.map((field, index) => field + '=$' + (index + 1));
-      values.push(sourceId,source.final_url,source.content_hash,quote,draft.extraction_confidence,target.id);
-      const offset = fields.length;
+      const extra = policy.canonicalExtras?.(draft, target.expected) || {};
+      const allowedPriceFields = ['price_type','price_valid_until','price_source_url','price_source_hash',
+        'price_source_quote','price_verified_at','price_source_name','price_refresh_batch_id'];
+      assert(Object.keys(extra).every(field => allowedPriceFields.includes(field) && policy.canonicalFields?.includes(field)),
+        'Only explicitly validated price provenance may supplement technical facts');
+      const updateFields = [...fields, ...Object.keys(extra)];
+      const updates = updateFields.map((field, index) => field + '=$' + (index + 1));
+      const updateValues = [...values, ...Object.values(extra),sourceId,source.final_url,source.content_hash,quote,draft.extraction_confidence,target.id];
+      const offset = updateFields.length;
       updates.push(`source_id=$${offset + 1}`,`source_url=$${offset + 2}`,`source_hash=$${offset + 3}`,
         `source_quote=$${offset + 4}`,`extraction_confidence=$${offset + 5}`,'updated_at=now()');
       if (policy.reviewRefresh?.(target.expected, draft)) {
         assert.deepEqual(policy.reviewResetFields, ['validation_status', 'review_approved_by', 'review_reason', 'review_promoted_at']);
         updates.push("validation_status='published'", 'review_approved_by=null', 'review_reason=null', 'review_promoted_at=null');
       }
-      await client.query(`UPDATE public.canonical_model_variants SET ${updates.join(',')} WHERE id=$${offset + 6}`, values);
+      await client.query(`UPDATE public.canonical_model_variants SET ${updates.join(',')} WHERE id=$${offset + 6}`, updateValues);
       await client.query("UPDATE public.extracted_variant_drafts SET validation_status='published',validation_errors='[]'::jsonb WHERE source_url=$1 AND variant_name=$2", [source.final_url,draft.variant_name]);
     }
     const after = plain((await client.query('SELECT * FROM public.canonical_model_variants ORDER BY id')).rows);
@@ -212,6 +222,9 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         for (const [field, value] of Object.entries(target.draft.facts)) {
           assert.equal(typeof value === 'number' ? Number(row[field]) : row[field], value);
         }
+        for (const [field, value] of Object.entries(policy.canonicalExtras?.(target.draft, target.expected) || {}))
+          assert.equal(field === 'price_verified_at' ? new Date(row[field]).toISOString() : row[field], value,
+            'Saved price evidence differs: ' + field);
         for (const field of TECHNICAL_FIELDS.filter(field => !(field in target.draft.facts)))
           assert.deepEqual(row[field], beforeById.get(row.id)[field], 'An unprovided fact was cleared');
       }

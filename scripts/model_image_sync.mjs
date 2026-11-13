@@ -29,6 +29,15 @@ export function buildImagePlan(models, publicModels, registry) {
       assert.deepEqual(asset.prohibited_uses, ['advertising', 'commercial_promotion', 'endorsement']);
       assert.match(asset.metadata_sha256, /^[a-f0-9]{64}$/);
       assert(new RegExp('^https://media\\.polestar\\.com/assets/images/(?:original|small)/' + match[1] + '-[a-zA-Z0-9._-]+\\.jpe?g$').test(asset.downloaded_from));
+    } else if (asset.license_id === 'Toyota-editorial') {
+      assert.equal(asset.model_key, 'toyota|bz4x');
+      const source = 'https://media.toyota.co.uk/images/bz4x-fwd-exterior-static-european-spec-2025/';
+      for (const field of ['source_url','evidence_url','license_url']) assert.equal(asset[field], source);
+      assert.equal(asset.downloaded_from, 'https://media.toyota.co.uk/wp-content/uploads/sites/5/2025/12/2026_bZ4X-FWD_Deep-Blue-Metallic_Static_001-scaled.jpg');
+      assert.equal(asset.evidence_quote, 'Images are copyright free for editorial purposes only');
+      assert.equal(asset.usage_scope, 'independent_vehicle_editorial'); assert.equal(asset.full_frame, true);
+      assert.deepEqual(asset.prohibited_uses, ['advertising','commercial_promotion','endorsement']);
+      for (const field of ['metadata_sha256','source_content_sha256']) assert.match(asset[field], /^[a-f0-9]{64}$/);
     } else if (asset.license_id === 'Manufacturer-media-use') {
       const policy = pressPublishers[asset.publisher_id];
       assert(policy?.model_keys.includes(asset.model_key), 'Registered exact press model required');

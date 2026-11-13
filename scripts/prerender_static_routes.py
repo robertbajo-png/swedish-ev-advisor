@@ -216,16 +216,18 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         path = f"/bilar/{slug(name)}"
         price = format_price(row.get("price_sek"))
         wltp = row.get("wltp_range_km")
+        range_label = 'Tillverkarens WLTP-räckviddsmål' if (row.get('brand') == 'Polestar' and row.get('model') == '4'
+            and row.get('variant_name') == 'Dual motor' and 'Räckviddsmål (WLTP)' in row.get('source_quote', '')) else 'WLTP-räckvidd'
         description_parts = [name]
         if price:
             price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
             description_parts.append(f"{price_label} {price}")
         if wltp:
-            description_parts.append(f"WLTP-räckvidd {wltp} km")
+            description_parts.append(f"{range_label} {wltp} km")
         description = ", ".join(description_parts) + ". Verifierade svenska källor och tydliga nyckeltal."
 
         properties = [
-            metric_property("WLTP-räckvidd", row.get("wltp_range_km"), "km"),
+            metric_property(range_label, row.get("wltp_range_km"), "km"),
             metric_property("DC-laddning", row.get("dc_charge_kw"), "kW"),
             metric_property("AC-laddning", row.get("ac_charge_kw"), "kW"),
             metric_property("Batteri", row.get("battery_kwh"), "kWh"),

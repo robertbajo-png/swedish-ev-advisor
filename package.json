@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:toyota-polestar-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_polestar_specs.py -v",
+    "verify:toyota-polestar-sync": "node scripts/verify_toyota_polestar_spec_sync.mjs",
     "quality:audit": "node scripts/run_python.mjs scripts/audit_vehicle_quality.py",
     "verify:vehicle-quality": "node scripts/run_python.mjs -m unittest discover -s tests -p test_vehicle_quality.py -v",
     "verify:kia-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_specs.py -v",

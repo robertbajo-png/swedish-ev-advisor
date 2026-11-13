@@ -53,7 +53,8 @@ export async function runTechnicalRefresh({ sync = kia, collector = 'scripts/kia
     assert.equal(fresh.held.length, 0, 'A current technical source needs review');
     const expectedIntake = { drafts: prepared.plan.targets.map(row => row.draft) };
     const sorted = rows => rows.sort((a,b) => (a.model + a.variant_name).localeCompare(b.model + b.variant_name));
-    assert.deepEqual(sorted(facts(fresh)), sorted(facts(expectedIntake)), 'Source bytes, exact variants or extracted facts changed');
+    const fingerprint = sync.intakeFingerprint || facts;
+    assert.deepEqual(sorted(fingerprint(fresh)), sorted(fingerprint(expectedIntake)), 'Source bytes, exact variants or extracted facts changed');
     const plan = buildSpecPlan(variants, fresh);
     const hash = specPlanHash(plan);
     const result = await applySpecPlan(client, plan, hash);
@@ -66,6 +67,7 @@ export async function runTechnicalRefresh({ sync = kia, collector = 'scripts/kia
 
 export function reportFailure(error) {
   console.error(JSON.stringify({ error: error.name, code: error.code || null,
+    location: String(error.stack || '').split('\n').find(line => / at .*scripts[/\\]/.test(line))?.trim() || null,
     reason: error.code === 'ERR_ASSERTION' ? error.message.split('\n')[0] : 'Technical source or transaction failed',
     instruction: 'Check the local committed receipt and actual canonical state before retrying. No secrets logged.' }));
   process.exitCode = 1;
