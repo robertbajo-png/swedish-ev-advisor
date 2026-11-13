@@ -153,8 +153,23 @@ maxima from a different version would repeat the old data-quality problem.
   the other 21 remain the next photography work, not falsely marked finished.
 - Tests: source extraction, bounds, exact variant binding, unit conversion,
   seating context, preserved prices, rollback, replay prevention and the narrow
-  historical DC resolution pass locally. UI/regression CI and deployment are in
-  progress; do not describe this batch as released until public checks pass.
+  historical DC resolution pass locally. All 152 PR and 152 exact-main CI steps
+  passed, alongside 90 static routes and 22 Axe audits with no violations.
+- Released via PR #58, main `df10f543068443253ca59d59e3a390675ce584ff`.
+  Production distribution `43421403212` succeeded. At 2026-11-13 12:02 UTC,
+  public GET/TLS checks matched all 76 approved records and all eight new photo
+  files byte-for-byte. Real public Skoda pages passed at 320/375/390/430/768/1440px:
+  no mobile image/copy/navigation overlap, full frame, 24px copy gap, no horizontal
+  overflow and no missing values in their technical sections. Desktop cinematic
+  layout remains intact. Detailed receipts/screenshots are kept under ignored
+  `data/local/release-data/skoda-quality-2026-11-13/`.
+- Skoda batch is complete. The whole catalog is not: retain the remaining gaps
+  as active source research and continue next with Toyota/Polestar. Do not hide
+  models, invent values or treat an unverified photo as professionally reviewed.
+- Final visual follow-up: remove avoidable empty decision metrics where a valid
+  campaign/dealer price and WLTP already exist. Label the actual price type and
+  expiry, never as list price or running cost; unknown/expired inputs remain
+  rejected. Pure regression tests pass; UI/build/CI/deployment checks follow.
 
 - 2026-11-13: Skoda research paused for the owner's mobile EV5 layout report.
   The detail photo is now an in-flow, full-frame image at widths up to 800px;

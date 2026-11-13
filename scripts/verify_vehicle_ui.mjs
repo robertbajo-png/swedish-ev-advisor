@@ -190,6 +190,8 @@ try {
     assert.match(row.image_url, /skoda-(elroq|enyaq)-press-/);
     assert.match(await page.locator('.vehicleHeroStats').innerText(), new RegExp(row.wltp_range_km + ' km'));
     await page.getByText('Förbrukning, grundutförande', { exact: true }).waitFor();
+    assert.equal(await page.locator('#nyckeltal').getByText('Uppgift saknas', { exact: true }).count(), 0, 'Verified current campaign prices support explicitly labelled value metrics');
+    assert.match(await page.locator('#nyckeltal').innerText(), /Kampanjpris, giltigt till 2026-12-15/);
     await noOverflow('Complete Skoda profile ' + row.variant_name);
   }
   // Explicit canonical zero is distinct from null; no production records are changed.

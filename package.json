@@ -9,6 +9,7 @@
     "verify:skoda-spec-sync": "node scripts/verify_skoda_spec_sync.mjs",
     "verify:press-images": "node scripts/run_python.mjs -m unittest discover -s tests -p test_press_images.py -v",
     "verify:vehicle-catalog": "node scripts/verify_vehicle_catalog.mjs",
+    "verify:decision-metrics": "node scripts/verify_decision_metrics.mjs",
     "verify:static-content": "node scripts/verify_static_content.mjs",
     "verify:public-content-ui": "node scripts/verify_public_content_ui.mjs",
     "catalog:current:collect": "node scripts/run_python.mjs scripts/current_variant_intake.py",
