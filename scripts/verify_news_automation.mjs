@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { configuration, checkTarget, snapshot, verify, ORIGIN } from './production_news_distribution.mjs';
+import { configuration, checkTarget, snapshot, verify, ORIGIN, FUNCTION_SOURCE_PATHS } from './production_news_distribution.mjs';
 import { newsHash } from './sync_news_snapshot.mjs';
 import { PUBLIC_CONTENT_VERSION } from '../src/public-content-version.js';
 
@@ -80,6 +80,7 @@ assert((await verify([article], { fetchImpl: htmlFetch() })).production_news_ver
 await assert.rejects(verify([article], { fetchImpl: htmlFetch({ missing: true }) }));
 await assert.rejects(verify([article], { fetchImpl: htmlFetch({ noindex: true }) }));
 assert.equal(newsHash([article]).length, 64);
+assert(FUNCTION_SOURCE_PATHS.includes('src/spec-qualifications.js'), 'Range qualification is shared by the actual deployed advisor');
 
 for (const file of ['news.yml', 'news-production-distribution.yml']) {
   const wf = Bun.YAML.parse(await readFile('.github/workflows/' + file, 'utf8'));
@@ -111,6 +112,11 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     const upload = worker.steps.find(s => s.name === 'Upload only to the existing production project');
     assert(upload.run.includes('--project-name=elbilsagenten --branch=main'));
     assert.equal(upload['working-directory'], 'news-deploy');
+    const compile = worker.steps.find(s => s.name === 'Compile the isolated package before deployment credentials');
+    assert(compile && compile.run.includes('wrangler@4.154.0 pages functions build functions'));
+    assert.equal(compile['working-directory'], 'news-deploy');
+    assert(!JSON.stringify(compile).includes('secrets.'));
+    assert(worker.steps.indexOf(compile) < worker.steps.findIndex(s => s.name === 'Recheck CI, production target and existing advisor budget'));
     assert.equal(worker.steps.find(s => s.run === 'npm install --global bun@1.3.13').if, undefined);
     assert.equal(worker.steps.find(s => s.run === 'bun install --frozen-lockfile').if, undefined,
       'Unchanged snapshots still need parse5 for the GET-only deployment verifier');
