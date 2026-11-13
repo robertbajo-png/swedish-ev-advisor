@@ -4,17 +4,20 @@ import { parseArgs } from 'node:util';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { applySpecPlan, buildSpecPlan, specPlanHash } from './kia_spec_sync.mjs';
+import * as kia from './kia_spec_sync.mjs';
 
 const read = async path => JSON.parse(await readFile(path, 'utf8'));
 const save = async (path, data) => writeFile(path, JSON.stringify(data, null, 2) + '\n');
 const plain = value => JSON.parse(JSON.stringify(value));
-const facts = intake => intake.drafts.map(({ source, ...row }) => ({ ...row,
-  source: Object.fromEntries(Object.entries(source).filter(([name]) => name !== 'fetched_at')) }));
+const sourceFingerprint = source => Object.fromEntries(Object.entries(source).filter(([name]) => name !== 'fetched_at'));
+const facts = intake => intake.drafts.map(({ source, supporting_sources, ...row }) => ({ ...row,
+  source: sourceFingerprint(source), ...(supporting_sources ? { supporting_sources: supporting_sources.map(sourceFingerprint) } : {}) }));
 
-async function main() {
+export async function runTechnicalRefresh({ sync = kia, collector = 'scripts/kia_specs_intake.py',
+  defaultOutput = 'data/local/release-data/vehicle-quality-2026-11-12/kia' } = {}) {
+  const { applySpecPlan, buildSpecPlan, specPlanHash } = sync;
   const { values } = parseArgs({ options: { 'client-module': { type: 'string' }, apply: { type: 'string' },
-    output: { type: 'string', default: 'data/local/release-data/vehicle-quality-2026-11-12/kia' } } });
+    output: { type: 'string', default: defaultOutput } } });
   assert(values['client-module'], 'Existing server-side TLS client required');
   const folder = resolve(values.output);
   await mkdir(folder, { recursive: true });
@@ -43,7 +46,7 @@ async function main() {
     assert.deepEqual(articles, prepared.articles, 'News articles changed; prepare again');
     await client.query('ROLLBACK');
     const freshFolder = resolve(folder, 'fresh');
-    const collection = spawnSync(process.execPath, ['scripts/run_python.mjs', 'scripts/kia_specs_intake.py', '--output', freshFolder],
+    const collection = spawnSync(process.execPath, ['scripts/run_python.mjs', collector, '--output', freshFolder],
       { encoding: 'utf8', windowsHide: true, timeout: 240000 });
     assert.equal(collection.status, 0, 'Fresh source collection failed');
     const fresh = await read(resolve(freshFolder, 'intake.json'));
@@ -61,9 +64,11 @@ async function main() {
   } finally { await connector.closeSourceSnapshot(client); }
 }
 
-main().catch(error => {
+export function reportFailure(error) {
   console.error(JSON.stringify({ error: error.name, code: error.code || null,
     reason: error.code === 'ERR_ASSERTION' ? error.message.split('\n')[0] : 'Technical source or transaction failed',
     instruction: 'Check the local committed receipt and actual canonical state before retrying. No secrets logged.' }));
   process.exitCode = 1;
-});
+}
+
+if (import.meta.url === pathToFileURL(resolve(process.argv[1] || '')).href) runTechnicalRefresh().catch(reportFailure);

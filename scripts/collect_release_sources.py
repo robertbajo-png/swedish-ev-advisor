@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--brand')
     parser.add_argument('--url')
+    parser.add_argument('--output', type=Path, default=OUT)
     args = parser.parse_args()
     if args.url and not args.brand:
         parser.error('--url requires --brand')
@@ -56,14 +57,14 @@ def main():
         sources = {args.url: {args.brand}}
     report = []
     for index, (url, brands) in enumerate(sources.items()):
-        result = capture(url, brands)
+        result = capture(url, brands, output=args.output)
         row = {key: result.get(key) for key in ('requested_url', 'brands', 'status', 'http_status', 'final_url', 'content_hash', 'body_file')}
         report.append(row)
         print(json.dumps(row, ensure_ascii=True), flush=True)
         if (index + 1) % 5 == 0:
             time.sleep(0.5)
     suffix = args.brand or 'all'
-    (OUT / ('collection-' + suffix + '.json')).write_text(json.dumps({'sources': report, 'database_writes': 0, 'paid_calls': 0}, indent=2) + '\n')
+    (args.output / ('collection-' + suffix + '.json')).write_text(json.dumps({'sources': report, 'database_writes': 0, 'paid_calls': 0}, indent=2) + '\n')
 
 
 if __name__ == '__main__':

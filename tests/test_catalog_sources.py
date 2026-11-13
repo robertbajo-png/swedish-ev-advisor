@@ -82,6 +82,12 @@ class CatalogSourceTests(unittest.TestCase):
         self.assertEqual(result['document'], 'structured fixture')
         self.assertEqual(len(calls), 1)
 
+    def test_larger_official_document_limit_is_explicit_and_bounded(self):
+        self.assertEqual(SourceFetcher().max_bytes, 8 * 1024 * 1024)
+        self.assertEqual(SourceFetcher(max_bytes=16 * 1024 * 1024).max_bytes, 16 * 1024 * 1024)
+        for size in (0, -1, 16 * 1024 * 1024 + 1, 1.5):
+            with self.assertRaises(ValueError): SourceFetcher(max_bytes=size)
+
     def test_deduplication_idempotence_failure_isolation_and_no_writes(self):
         class FakeFetcher:
             calls = 0

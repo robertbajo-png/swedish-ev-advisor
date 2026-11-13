@@ -42,6 +42,17 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Validation And Publishing
 
+- On 2026-11-13 the owner requested active completion of vehicle fields rather
+  than leaving every disagreement unresolved. Adjudicate manufacturer conflicts
+  by exact version/model year, explicit technical/FAQ scope, current availability
+  and source date. Prefer final version-specific WLTP over estimated price-list
+  ranges and generic model maxima. Preserve the chosen evidence, alternatives
+  and selection reason; test each resolution before updating canonical records.
+  This permits a documented source choice, not fabricated values, cross-version
+  borrowing or presenting a manufacturer's estimate as a certified measurement.
+  Missing fields remain a research task, not a reason to stop searching. These
+  vehicle rules do not relax news, access, budget or security safeguards.
+
 - Publish only canonical validated records.
 - High-confidence autopublishing is allowed only when all conditions pass:
   - official source is reachable and accepted

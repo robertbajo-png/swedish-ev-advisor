@@ -123,6 +123,39 @@ maxima from a different version would repeat the old data-quality problem.
 
 ## Remaining Batches
 
+### Skoda Batch, 13 November
+
+- Source discovery and collection: complete. Exact Swedish Elroq Explore Edition
+  and Enyaq Solid Edition MY2027 pages, current edition price PDFs and official
+  MY2027 technical release were fetched with hashes and per-field evidence.
+- Owner-directed conflict resolution: choose current edition's version-specific
+  FAQ over estimated price-list ranges, generic hero maxima and old DC equipment
+  text. Enyaq RS changes from historical 185 kW to the current FAQ's 165 kW.
+  Preserve the old canonical record in staging; do not reuse its automated review.
+- Consumption: current PDF motor rows are retained as standard-equipment values,
+  not personalized wheel/option measurements. Correct their erroneous l/100 km
+  header against the manufacturer's explicit Wh/km declaration, divide by ten
+  for kWh/100 km and label the qualification in details, comparisons and TCO.
+- Canonical transaction: committed 11 versions, 98 previously missing values and
+  one source-adjudicated DC update. Every version has all nine supported technical
+  fields plus its independent price evidence. No prices or out-of-scope rows
+  changed; no paid calls or news-control/article changes.
+- A separately revalidated follow-up fills both canonical model body types from
+  their exact Swedish manufacturer descriptions; model image/market metadata
+  remain unchanged. Both model updates committed through the tested rollback
+  transaction; all 11 public Skoda versions now also have a sourced SUV body type.
+- Photography transaction: two exact-model manufacturer press photos committed,
+  Elroq studio exterior and facelift Enyaq SUV (not Coupe). Keep full frames,
+  source credits, permission records and hash-bound responsive derivatives.
+- Public snapshot: 76 versions / 30 models retained. Core-card completeness is
+  now 29/76 (18 before this batch). WLTP 51, DC 42, towing 39, boot 45, battery 41,
+  AC 19, seating 23 and drivetrain 50. Nine model photos have professional review;
+  the other 21 remain the next photography work, not falsely marked finished.
+- Tests: source extraction, bounds, exact variant binding, unit conversion,
+  seating context, preserved prices, rollback, replay prevention and the narrow
+  historical DC resolution pass locally. UI/regression CI and deployment are in
+  progress; do not describe this batch as released until public checks pass.
+
 - 2026-11-13: Skoda research paused for the owner's mobile EV5 layout report.
   The detail photo is now an in-flow, full-frame image at widths up to 800px;
   copy, badges, actions and key figures follow below it on a solid background.
@@ -130,15 +163,22 @@ maxima from a different version would repeat the old data-quality problem.
   EV5/EV6 at 320/375/390/430/768px, including source aspect ratio, no dark overlay
   and a minimum gap between the image and all copy. Build, visual review and
   deployment checks are required before calling this correction released.
+- Mobile correction released through PR #57 as
+  `b5beac6e1e197e4edc2adb6eed3b55eeba5838d6` after 150 exact-main CI steps passed.
+  Production distribution `43376077766` succeeded. Actual public EV5 checks at
+  320/375/390/430/768px confirmed a full-frame photo, no navigation/copy overlap,
+  a 24px content gap and no horizontal overflow; 820/1440px retained the desktop
+  cinematic layout. HTTPS/route checks, 90 static pages and 22 Axe audits passed.
+  All 76 canonical variants are unchanged. No paid calls or database/news changes.
 
 - This is the first delivered batch, not a claim that every field/model is done.
   Twenty-three model photos still need professional-photo review/replacement.
-- Prioritize Skoda Elroq/Enyaq, then remaining Polestar/Toyota and other brands.
+- After releasing Skoda Elroq/Enyaq, prioritize remaining Polestar/Toyota and other brands.
   The fresh Swedish Elroq price list labels its range values as estimated;
   the current Polestar 4 page labels its range as a target. Preserve those
   qualifications and seek final exact-version evidence instead of laundering
   these figures into certified WLTP fields.
-- Reconcile the remaining 36 missing WLTP, 44 DC, 48 towing and 42 boot values;
+- Reconcile the remaining 25 missing WLTP, 34 DC, 37 towing and 31 boot values;
   20 variants still lack a verified price. Keep each gap explicit until its
   exact-version source passes validation. No model has been removed to improve
   the coverage figures.

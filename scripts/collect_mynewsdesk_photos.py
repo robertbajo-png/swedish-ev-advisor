@@ -35,10 +35,12 @@ def collect(publisher, model_key, url, output):
             raise ValueError('per_image_media_permission_not_found')
     heading = one(document.nodes('h1'), 'unique_image_title_required').text()
     model = model_key.split('|')[1]
-    if not re.search(r'\b' + model + r'\b', heading, re.I):
+    if not re.search(r'(?<![a-z0-9])' + re.escape(model) + r'(?![a-z0-9])', heading, re.I):
         raise ValueError('exact_model_image_title_required')
+    if model_key == 'skoda|enyaq' and re.search(r'coup|coupe', heading, re.I):
+        raise ValueError('enyaq_coupe_is_a_different_body')
     links = [node.attrs.get('href') for node in document.nodes('a')
-             if node.text() == 'Ladda ner' and node.attrs.get('href', '').startswith(policy['asset_origin'] + '/')]
+             if node.text() == policy['download_label'] and node.attrs.get('href', '').startswith(policy['asset_origin'] + '/')]
     asset_url = one(set(links), 'one_published_original_download_required')
     robot = SourceFetcher()
     if not robot.robots_allowed(asset_url):

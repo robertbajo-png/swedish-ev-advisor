@@ -7,7 +7,20 @@
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
+  "skoda-dk-mynewsdesk": {
+    "origin": "https://skoda-danmark.mynewsdesk.com",
+    "publisher": "Škoda Danmark",
+    "official_link_evidence": "https://ww4.skoda.dk/skoda/pressemeddelelser/",
+    "model_keys": ["skoda|elroq", "skoda|enyaq"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Brug i medier",
+    "download_label": "Download",
+    "permission_excerpt": "Materialet kan downloades af journalister, bloggere, meningsdannere etc.",
+    "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
   }
 }

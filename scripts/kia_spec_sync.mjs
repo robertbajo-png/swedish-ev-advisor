@@ -10,8 +10,11 @@ const plain = value => JSON.parse(JSON.stringify(value));
 export const specPlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
 const editable = new Set([...TECHNICAL_FIELDS, 'source_id', 'source_url', 'source_hash', 'source_quote',
   'extraction_confidence', 'updated_at']);
-const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) => !editable.has(name)));
+const retained = (row, policy) => Object.fromEntries(Object.entries(row).filter(([name]) => !editable.has(name) &&
+  !(policy?.extraFields || []).includes(name) && !(policy?.reviewResetFields || []).includes(name)));
 const identity = row => `${row.brand}|${row.model}|${row.variant_name}`;
+const KIA_POLICY = { adapter: ADAPTER, validate: validateSpecDraft, sourceType: 'technical_pdf',
+  sourceName: 'Kia Sverige', sourceTitle: draft => 'Kia ' + draft.model.toUpperCase() + ' produktfakta', lockKey: 7240016 };
 
 export function validateSpecDraft(row, now = new Date()) {
   assert.equal(row.adapter, ADAPTER);
@@ -57,47 +60,52 @@ export function validateSpecDraft(row, now = new Date()) {
   return row;
 }
 
-export function buildSpecPlan(variants, intake, now = new Date()) {
-  assert.equal(intake.adapter, ADAPTER);
+// Reuse the guarded transaction for an explicitly validated manufacturer adapter.
+export function buildSpecPlan(variants, intake, now = new Date(), policy = KIA_POLICY) {
+  assert.equal(intake.adapter, policy.adapter);
   assert(intake.drafts.length > 0 && intake.drafts.length <= 30);
   const seen = new Set();
   const targets = intake.drafts.map(draft => {
-    validateSpecDraft(draft, now);
+    policy.validate(draft, now);
     assert(!seen.has(identity(draft)), 'Duplicate technical target');
     seen.add(identity(draft));
     const matches = variants.filter(row => identity(row) === identity(draft));
     assert.equal(matches.length, 1, 'One exact existing canonical version required');
     const previous = plain(matches[0]);
     assert(['published', 'published_reviewed'].includes(previous.validation_status));
-    assert(!previous.review_approved_by && !previous.review_promoted_at, 'Reviewed exceptions require separate reconciliation');
+    assert(!previous.review_approved_by && !previous.review_promoted_at || policy.reviewRefresh?.(previous, draft),
+      'Reviewed exceptions require separate reconciliation');
     assert(previous.price_sek == null || previous.price_source_url && previous.price_source_hash && previous.price_source_quote && previous.price_verified_at,
       'Existing independent price evidence must be retained');
     for (const [field, value] of Object.entries(draft.facts)) {
       const prior = previous[field];
-      assert(prior == null || (typeof value === 'number' ? Number(prior) === value : prior === value),
+      assert(prior == null || (typeof value === 'number' ? Number(prior) === value : prior === value) || policy.resolveConflict?.(field, prior, value, previous, draft),
         'A conflicting existing technical fact must be quarantined: ' + field);
     }
-    for (const field of [...TECHNICAL_FIELDS, 'ac_charge_kw']) {
+    for (const field of [...new Set([...TECHNICAL_FIELDS, 'ac_charge_kw', ...(policy.extraFields || [])])]) {
       assert(previous[field] == null || field in draft.facts,
         'A retained technical field needs evidence from the new source: ' + field);
     }
     return { id: previous.id, expected: previous, draft };
   });
-  return { adapter: ADAPTER, targets: targets.sort((a, b) => a.id.localeCompare(b.id)) };
+  return { adapter: policy.adapter, targets: targets.sort((a, b) => a.id.localeCompare(b.id)) };
 }
 
-export async function applySpecPlan(client, plan, expectedHash, now = new Date()) {
+export async function applySpecPlan(client, plan, expectedHash, now = new Date(), policy = KIA_POLICY) {
   assert.equal(specPlanHash(plan), expectedHash, 'Prepared technical packet changed');
   assert.deepEqual(buildSpecPlan(plan.targets.map(row => row.expected),
-    { adapter: ADAPTER, drafts: plan.targets.map(row => row.draft) }, now), plan);
+    { adapter: policy.adapter, drafts: plan.targets.map(row => row.draft) }, now, policy), plan);
+  assert(['technical_pdf', 'manufacturer_model_page'].includes(policy.sourceType));
+  assert(Number.isSafeInteger(policy.lockKey));
   let committed = false;
   await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
   try {
     await client.query('SET LOCAL search_path=pg_catalog');
     await client.query("SET LOCAL lock_timeout='10s'");
-    await client.query('SELECT pg_advisory_xact_lock(7240016)');
+    await client.query('SELECT pg_advisory_xact_lock($1)', [policy.lockKey]);
     const before = plain((await client.query('SELECT * FROM public.canonical_model_variants ORDER BY id FOR UPDATE')).rows);
-    const models = plain((await client.query('SELECT * FROM public.canonical_models ORDER BY id')).rows);
+    const models = plain((await client.query('SELECT * FROM public.canonical_models ORDER BY id FOR UPDATE')).rows);
+    const expectedModels = plain(models);
     const beforeById = new Map(before.map(row => [row.id, row]));
     const modelById = new Map(models.map(row => [row.id, row]));
     const sources = new Map();
@@ -108,7 +116,38 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       assert.equal(parent?.brand, brand);
       assert.equal(parent?.model, model);
       const { draft } = target;
+      const modelFacts = policy.modelFacts?.(draft) || {};
+      assert(Object.keys(modelFacts).every(field => field === 'body_type'), 'Only explicit model body classification allowed');
+      if (Object.hasOwn(modelFacts, 'body_type')) {
+        assert.equal(modelFacts.body_type, 'SUV');
+        assert(parent.body_type == null || parent.body_type === modelFacts.body_type, 'Existing model classification conflicts');
+        const expectedParent = expectedModels.find(row => row.id === parent.id);
+        if (expectedParent.body_type !== modelFacts.body_type) {
+          const changed = await client.query('UPDATE public.canonical_models SET body_type=$1,updated_at=now() WHERE id=$2 RETURNING updated_at', [modelFacts.body_type, parent.id]);
+          expectedParent.body_type = modelFacts.body_type;
+          expectedParent.updated_at = plain(changed.rows[0].updated_at);
+        }
+      }
       const source = draft.source;
+      for (const extra of draft.supporting_sources || []) {
+        const descriptor = policy.supportingSource?.(extra, draft);
+        assert(descriptor && ['manufacturer_page', 'price_list_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
+        if (sources.has(extra.final_url)) continue;
+        const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [extra.final_url])).rows;
+        const sourceParent = descriptor.shared ? null : parent.id;
+        assert(old.length <= 1 && (!old[0] || old[0].brand === brand && old[0].model === descriptor.model &&
+          (!old[0].canonical_model_id || old[0].canonical_model_id === sourceParent)), 'Supporting source identity changed');
+        const saved = await client.query(`INSERT INTO public.manufacturer_sources
+          (canonical_model_id,brand,model,source_type,url,title,country,language,fetched_at,content_hash,http_status,final_url,
+           source_validation,source_authority,source_name,extraction_status,verified_at)
+          VALUES ($6,$1,$7,$8,$2,$9,'SE','sv',$3,$4,200,$2,
+           'reachable_official_model_source','manufacturer',$5,'published',$3)
+          ON CONFLICT(url) DO UPDATE SET fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,
+           http_status=200,final_url=excluded.final_url,source_validation=excluded.source_validation,
+           extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
+          [brand,extra.final_url,extra.fetched_at,extra.content_hash,policy.sourceName,sourceParent,descriptor.model,descriptor.sourceType,descriptor.title]);
+        sources.set(extra.final_url, saved.rows[0].id);
+      }
       if (!sources.has(source.final_url)) {
         const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [source.final_url])).rows;
         assert(old.length <= 1);
@@ -120,17 +159,21 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         const saved = await client.query(`INSERT INTO public.manufacturer_sources
           (canonical_model_id,brand,model,source_type,url,title,country,language,fetched_at,content_hash,
            http_status,final_url,source_validation,source_authority,source_name,extraction_status,verified_at)
-          VALUES ($1,$2,$3,'technical_pdf',$4,$5,'SE','sv',$6,$7,200,$4,'reachable_official_model_source',
-           'manufacturer','Kia Sverige','published',$6)
+          VALUES ($1,$2,$3,$8,$4,$5,'SE','sv',$6,$7,200,$4,'reachable_official_model_source',
+           'manufacturer',$9,'published',$6)
           ON CONFLICT(url) DO UPDATE SET canonical_model_id=excluded.canonical_model_id,
            fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=200,
            final_url=excluded.final_url,source_validation=excluded.source_validation,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [parent.id, brand, model, source.final_url, 'Kia ' + model.toUpperCase() + ' produktfakta', source.fetched_at, source.content_hash]);
+          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, policy.sourceName]);
         sources.set(source.final_url, saved.rows[0].id);
       }
-      const quote = [...new Set(Object.values(draft.field_evidence).map(item => item.quote))].join(' | ');
-      const payload = { adapter: ADAPTER, field_evidence: draft.field_evidence, held_fields: draft.held_fields,
+      const quote = [...new Set(Object.values(draft.field_evidence).map(item => item.source_url === source.final_url
+        ? item.quote : item.source_url + ' | ' + item.quote))].join(' | ');
+      const payload = { adapter: policy.adapter, field_evidence: draft.field_evidence, held_fields: draft.held_fields,
+        supporting_sources: draft.supporting_sources || [], source_resolution: draft.source_resolution || null,
+        model_facts: draft.model_facts || {}, model_field_evidence: draft.model_field_evidence || {},
+        previous_canonical: target.expected,
         refresh_batch_id: expectedHash, previous_source_url: expected.source_url, previous_source_hash: expected.source_hash };
       const fields = Object.keys(draft.facts);
       const values = fields.map(field => draft.facts[field]);
@@ -147,6 +190,10 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const offset = fields.length;
       updates.push(`source_id=$${offset + 1}`,`source_url=$${offset + 2}`,`source_hash=$${offset + 3}`,
         `source_quote=$${offset + 4}`,`extraction_confidence=$${offset + 5}`,'updated_at=now()');
+      if (policy.reviewRefresh?.(target.expected, draft)) {
+        assert.deepEqual(policy.reviewResetFields, ['validation_status', 'review_approved_by', 'review_reason', 'review_promoted_at']);
+        updates.push("validation_status='published'", 'review_approved_by=null', 'review_reason=null', 'review_promoted_at=null');
+      }
       await client.query(`UPDATE public.canonical_model_variants SET ${updates.join(',')} WHERE id=$${offset + 6}`, values);
       await client.query("UPDATE public.extracted_variant_drafts SET validation_status='published',validation_errors='[]'::jsonb WHERE source_url=$1 AND variant_name=$2", [source.final_url,draft.variant_name]);
     }
@@ -157,7 +204,11 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const target = targets.get(row.id);
       if (!target) assert.deepEqual(row, beforeById.get(row.id), 'Out-of-scope variant changed');
       else {
-        assert.deepEqual(retained(row), retained(beforeById.get(row.id)), 'Price, status or identity changed');
+        assert.deepEqual(retained(row, policy), retained(beforeById.get(row.id), policy), 'Price, status or identity changed');
+        if (policy.reviewRefresh?.(target.expected, target.draft)) {
+          assert.equal(row.validation_status, 'published');
+          assert(policy.reviewResetFields.filter(field => field !== 'validation_status').every(field => row[field] === null));
+        } else for (const field of policy.reviewResetFields || []) assert.deepEqual(row[field], beforeById.get(row.id)[field]);
         for (const [field, value] of Object.entries(target.draft.facts)) {
           assert.equal(typeof value === 'number' ? Number(row[field]) : row[field], value);
         }
@@ -165,11 +216,12 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
           assert.deepEqual(row[field], beforeById.get(row.id)[field], 'An unprovided fact was cleared');
       }
     }
-    assert.deepEqual(plain((await client.query('SELECT * FROM public.canonical_models ORDER BY id')).rows), models);
+    assert.deepEqual(plain((await client.query('SELECT * FROM public.canonical_models ORDER BY id')).rows), expectedModels);
     await client.query('COMMIT');
     committed = true;
     return { committed: true, variants_updated: plan.targets.length, sources_updated: sources.size,
       new_technical_values: plan.targets.reduce((sum, row) => sum + Object.keys(row.draft.facts).filter(field => row.expected[field] == null).length, 0),
-      plan_sha256: expectedHash, prices_changed: 0, models_changed: 0, paid_calls: 0 };
+      plan_sha256: expectedHash, prices_changed: 0,
+      models_changed: expectedModels.filter((row, index) => row.body_type !== models[index].body_type).length, paid_calls: 0 };
   } finally { if (!committed) await client.query('ROLLBACK'); }
 }
