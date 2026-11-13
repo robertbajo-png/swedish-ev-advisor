@@ -27,6 +27,7 @@ def reviewed_media_permission(evidence):
     return bool(evidence.get('model_key') in policy['model_keys']
         and source.scheme + '://' + source.netloc == policy['origin']
         and re.fullmatch(r'/images/[a-z0-9-]+-[0-9]+', source.path)
+        and (not policy.get('approved_image_paths') or source.path in policy['approved_image_paths'])
         and not (evidence.get('model_key') == 'skoda|enyaq' and 'coup' in source.path)
         and not source.query and not source.fragment
         and evidence.get('evidence_url') == evidence.get('source_url')

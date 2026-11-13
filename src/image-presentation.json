@@ -88,6 +88,24 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "mazda|6e": {
+      "asset_url": "/media/vehicles/mazda-6e-press-a1c2da758f43.jpg",
+      "content_sha256": "a1c2da758f43ea163a9ee6148bb50764e4daee05dac765e7a1e8391176b0fd5b",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
+    "renault|5": {
+      "asset_url": "/media/vehicles/renault-5-press-541b86620ad3.jpg",
+      "content_sha256": "541b86620ad365839cacc21d93df04e922780efb5b48f1fd632d5c080bbeb1aa",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

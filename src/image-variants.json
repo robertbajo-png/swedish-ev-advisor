@@ -307,25 +307,25 @@
       }
     ]
   },
-  "/media/vehicles/mazda-6e-ed32d8f075be.jpg": {
-    "width": 1280,
-    "height": 689,
-    "source_sha256": "ed32d8f075be82648131d215a5c8bcdd7840a5bf5e502e7fd04c54dcfa82dc5e",
+  "/media/vehicles/mazda-6e-press-a1c2da758f43.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "a1c2da758f43ea163a9ee6148bb50764e4daee05dac765e7a1e8391176b0fd5b",
     "variants": [
       {
-        "url": "/media/responsive/mazda-6e-ed32d8f075be-480.webp",
+        "url": "/media/responsive/mazda-6e-press-a1c2da758f43-480.webp",
         "width": 480,
-        "sha256": "b6e3a9258739441d57e148c069ed4166c8b65002aa9df64aaa347aa8ef37a8be"
+        "sha256": "377d398408e51913520aa27eebd5cff8d00cf3fbf561a81bababb3fd8ee422e3"
       },
       {
-        "url": "/media/responsive/mazda-6e-ed32d8f075be-800.webp",
+        "url": "/media/responsive/mazda-6e-press-a1c2da758f43-800.webp",
         "width": 800,
-        "sha256": "78fb8645bc56dcaec1d77c9158f79f5e9e4a598993657a6b850126514aa3e7a4"
+        "sha256": "5497ff08080e0804a581a2d851f71b56de422840c599f2caa1d5dfd108e64d56"
       },
       {
-        "url": "/media/responsive/mazda-6e-ed32d8f075be-1280.webp",
+        "url": "/media/responsive/mazda-6e-press-a1c2da758f43-1280.webp",
         "width": 1280,
-        "sha256": "6b83a3945d4430d926958fcd70501dd7cbc5853ae508c790b3a89fdf60fe29f8"
+        "sha256": "678efb6a687f60f97efe14a09a485827763d434fecd174942dfe8276425c9435"
       }
     ]
   },
@@ -417,25 +417,25 @@
       }
     ]
   },
-  "/media/vehicles/renault-5-ea922ac6e56f.jpg": {
-    "width": 1280,
-    "height": 1705,
-    "source_sha256": "ea922ac6e56f54cb8654f8a319e83508d3afe93e32adab90efa588d9598c1b03",
+  "/media/vehicles/renault-5-press-541b86620ad3.jpg": {
+    "width": 1500,
+    "height": 1001,
+    "source_sha256": "541b86620ad365839cacc21d93df04e922780efb5b48f1fd632d5c080bbeb1aa",
     "variants": [
       {
-        "url": "/media/responsive/renault-5-ea922ac6e56f-480.webp",
+        "url": "/media/responsive/renault-5-press-541b86620ad3-480.webp",
         "width": 480,
-        "sha256": "2bd049c9b53b786b694f34b81e247e42b16a658de1e25e71febab7839dea023c"
+        "sha256": "52956b4aa6e45ac4dd8fc6377f8bb7ce65bb7aa049a24e8bb76da8e7fa82fce0"
       },
       {
-        "url": "/media/responsive/renault-5-ea922ac6e56f-800.webp",
+        "url": "/media/responsive/renault-5-press-541b86620ad3-800.webp",
         "width": 800,
-        "sha256": "65667274f916154933efe10247dda05bf3c8a647d89099501e83cd59927370a8"
+        "sha256": "1a8bb6842e9469a41ab534a6267029f490b5dc03707844ebbcc2ae70ebbdea4a"
       },
       {
-        "url": "/media/responsive/renault-5-ea922ac6e56f-1280.webp",
+        "url": "/media/responsive/renault-5-press-541b86620ad3-1280.webp",
         "width": 1280,
-        "sha256": "a00a8339f904eaaac7a7ca191d462a5af8af1aad1eb20398457e18f0ac6a4950"
+        "sha256": "746e412c1bfd18949f06bdfe9b11a8a2829784b387abe0371a1b466c3f48088e"
       }
     ]
   },

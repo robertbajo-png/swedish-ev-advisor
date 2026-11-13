@@ -8,44 +8,44 @@
       "missing": 20
     },
     "wltp_range_km": {
-      "present": 53,
-      "missing": 23
+      "present": 59,
+      "missing": 17
     },
     "battery_kwh": {
-      "present": 43,
-      "missing": 33
+      "present": 49,
+      "missing": 27
     },
     "dc_charge_kw": {
-      "present": 45,
-      "missing": 31
+      "present": 51,
+      "missing": 25
     },
     "ac_charge_kw": {
-      "present": 22,
-      "missing": 54
-    },
-    "tow_kg": {
-      "present": 41,
-      "missing": 35
-    },
-    "boot_liters": {
-      "present": 48,
-      "missing": 28
-    },
-    "seats": {
       "present": 28,
       "missing": 48
     },
+    "tow_kg": {
+      "present": 47,
+      "missing": 29
+    },
+    "boot_liters": {
+      "present": 54,
+      "missing": 22
+    },
+    "seats": {
+      "present": 34,
+      "missing": 42
+    },
     "drivetrain": {
-      "present": 52,
-      "missing": 24
+      "present": 58,
+      "missing": 18
     },
     "body_type": {
-      "present": 17,
-      "missing": 59
+      "present": 23,
+      "missing": 53
     }
   },
-  "complete_core_variants": 32,
-  "professional_photos_reviewed": 10,
+  "complete_core_variants": 38,
+  "professional_photos_reviewed": 12,
   "models_by_priority": [
     {
       "model_key": "kia|ev3",
@@ -184,98 +184,6 @@
       ]
     },
     {
-      "model_key": "mazda|6e",
-      "brand": "Mazda",
-      "model": "6E",
-      "variant_count": 3,
-      "missing_core_values": 12,
-      "coverage": {
-        "price_sek": 3,
-        "wltp_range_km": 0,
-        "battery_kwh": 0,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 0,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/mazda-6e-ed32d8f075be.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "Homura Plus MY2027",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "Takumi MY2027",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "Takumi Plus MY2027",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
       "model_key": "mercedes benz|cla",
       "brand": "Mercedes-Benz",
       "model": "Cla",
@@ -363,98 +271,6 @@
             "boot_liters"
           ],
           "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
-      "model_key": "renault|5",
-      "brand": "Renault",
-      "model": "5",
-      "variant_count": 3,
-      "missing_core_values": 12,
-      "coverage": {
-        "price_sek": 3,
-        "wltp_range_km": 0,
-        "battery_kwh": 0,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 0,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/renault-5-ea922ac6e56f.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "evolution 40 kWh",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "iconic five 52 kWh",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
-          "source_hash_present": true
-        },
-        {
-          "variant_name": "techno 52 kWh",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
           "source_hash_present": true
         }
       ]
@@ -1706,6 +1522,53 @@
       ]
     },
     {
+      "model_key": "mazda|6e",
+      "brand": "Mazda",
+      "model": "6E",
+      "variant_count": 3,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 3,
+        "battery_kwh": 3,
+        "dc_charge_kw": 3,
+        "ac_charge_kw": 3,
+        "tow_kg": 3,
+        "boot_liters": 3,
+        "seats": 3,
+        "drivetrain": 3,
+        "body_type": 3
+      },
+      "image_url": "/media/vehicles/mazda-6e-press-a1c2da758f43.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Homura Plus MY2027",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Takumi MY2027",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "Takumi Plus MY2027",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
       "model_key": "polestar|2",
       "brand": "Polestar",
       "model": "2",
@@ -1788,6 +1651,53 @@
           "missing_fields": [],
           "missing_core_fields": [],
           "source_url": "https://www.polestar.com/se/polestar-4-models/polestar-4-coupe/specifications/",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
+      "model_key": "renault|5",
+      "brand": "Renault",
+      "model": "5",
+      "variant_count": 3,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 3,
+        "wltp_range_km": 3,
+        "battery_kwh": 3,
+        "dc_charge_kw": 3,
+        "ac_charge_kw": 3,
+        "tow_kg": 3,
+        "boot_liters": 3,
+        "seats": 3,
+        "drivetrain": 3,
+        "body_type": 3
+      },
+      "image_url": "/media/vehicles/renault-5-press-541b86620ad3.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "evolution 40 kWh",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "iconic five 52 kWh",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash_present": true
+        },
+        {
+          "variant_name": "techno 52 kWh",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
           "source_hash_present": true
         }
       ]
@@ -1957,5 +1867,5 @@
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-13T18:40:38.745411+00:00"
+  "audited_at": "2026-11-13T20:01:56.376470+00:00"
 }

@@ -135,6 +135,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       for (const extra of draft.supporting_sources || []) {
         const descriptor = policy.supportingSource?.(extra, draft);
         assert(descriptor && ['manufacturer_page', 'price_list_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
+        const country = descriptor.country || 'SE', language = descriptor.language || 'sv';
+        assert(country === 'SE' && language === 'sv' || country === 'DE' && language === 'de', 'Registered source locale required');
         if (sources.has(extra.final_url)) continue;
         const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [extra.final_url])).rows;
         const sourceParent = descriptor.shared ? null : parent.id;
@@ -143,12 +145,14 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         const saved = await client.query(`INSERT INTO public.manufacturer_sources
           (canonical_model_id,brand,model,source_type,url,title,country,language,fetched_at,content_hash,http_status,final_url,
            source_validation,source_authority,source_name,extraction_status,verified_at)
-          VALUES ($6,$1,$7,$8,$2,$9,'SE','sv',$3,$4,200,$2,
-           'reachable_official_model_source','manufacturer',$5,'published',$3)
+          VALUES ($6,$1,$7,$8,$2,$9,$10,$11,$3,$4,200,$2,
+           $12,'manufacturer',$5,'published',$3)
           ON CONFLICT(url) DO UPDATE SET fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,
            http_status=200,final_url=excluded.final_url,source_validation=excluded.source_validation,
+           country=excluded.country,language=excluded.language,source_name=excluded.source_name,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [brand,extra.final_url,extra.fetched_at,extra.content_hash,sourceName,sourceParent,descriptor.model,descriptor.sourceType,descriptor.title]);
+          [brand,extra.final_url,extra.fetched_at,extra.content_hash,descriptor.sourceName || sourceName,sourceParent,descriptor.model,descriptor.sourceType,descriptor.title,
+            country,language,country === 'SE' ? 'reachable_official_model_source' : 'reachable_eu_official_source']);
         sources.set(extra.final_url, saved.rows[0].id);
       }
       if (!sources.has(source.final_url)) {
@@ -177,6 +181,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         supporting_sources: draft.supporting_sources || [], source_resolution: draft.source_resolution || null,
         model_facts: draft.model_facts || {}, model_field_evidence: draft.model_field_evidence || {},
         ...(draft.price_evidence ? { price_evidence: draft.price_evidence } : {}),
+        ...(draft.source_decisions ? { source_decisions: draft.source_decisions } : {}),
         previous_canonical: target.expected,
         refresh_batch_id: expectedHash, previous_source_url: expected.source_url, previous_source_hash: expected.source_hash };
       const fields = Object.keys(draft.facts);

@@ -44,6 +44,7 @@ export function buildImagePlan(models, publicModels, registry) {
       const source = new URL(asset.source_url);
       assert.equal(source.origin, policy.origin);
       assert.match(source.pathname, /^\/images\/[a-z0-9-]+-[0-9]+$/);
+      assert(!policy.approved_image_paths || policy.approved_image_paths.includes(source.pathname), 'Reviewed exact-model photo required');
       assert(asset.model_key !== 'skoda|enyaq' || !source.pathname.includes('coup'), 'Enyaq SUV is not Enyaq Coupe');
       assert(!source.search && !source.hash);
       assert.equal(asset.evidence_url, asset.source_url);

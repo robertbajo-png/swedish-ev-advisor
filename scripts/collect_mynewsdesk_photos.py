@@ -22,6 +22,8 @@ def collect(publisher, model_key, url, output):
     if (model_key not in policy['model_keys'] or parsed.scheme + '://' + parsed.netloc != policy['origin']
             or not re.fullmatch(r'/images/[a-z0-9-]+-[0-9]+', parsed.path) or parsed.query or parsed.fragment):
         raise ValueError('unapproved_exact_pressroom_image_page')
+    if policy.get('approved_image_paths') and parsed.path not in policy['approved_image_paths']:
+        raise ValueError('unapproved_exact_model_photo')
     fetcher = SourceFetcher(document_parser=lambda body, _kind: body,
         url_policy=lambda target, _brands: target == url)
     response = fetcher.fetch(url, set())
@@ -35,7 +37,8 @@ def collect(publisher, model_key, url, output):
             raise ValueError('per_image_media_permission_not_found')
     heading = one(document.nodes('h1'), 'unique_image_title_required').text()
     model = model_key.split('|')[1]
-    if not re.search(r'(?<![a-z0-9])' + re.escape(model) + r'(?![a-z0-9])', heading, re.I):
+    pattern = policy.get('model_title_pattern', r'(?<![a-z0-9])' + re.escape(model) + r'(?![a-z0-9])')
+    if not re.search(pattern, heading, re.I):
         raise ValueError('exact_model_image_title_required')
     if model_key == 'skoda|enyaq' and re.search(r'coup|coupe', heading, re.I):
         raise ValueError('enyaq_coupe_is_a_different_body')

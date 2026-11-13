@@ -202,13 +202,23 @@ try {
   }
   const completedProfiles = records.filter(row => row.brand === 'Toyota' && row.model === 'bZ4X' || row.brand === 'Polestar' && ['2','4'].includes(row.model));
   assert.equal(completedProfiles.length, 6);
-  for (const row of completedProfiles) {
+  const mazdaRenaultProfiles = records.filter(row => row.brand === 'Mazda' && row.model === '6E' || row.brand === 'Renault' && row.model === '5');
+  assert.equal(mazdaRenaultProfiles.length, 6);
+  for (const row of [...completedProfiles, ...mazdaRenaultProfiles]) {
     await page.goto(base + '/bilar/' + vehicleSlug(row.brand, row.model, row.variant_name));
     await page.locator('.vehicleDetailHero h1').waitFor();
     await photosReady('.vehicleHeroMedia img'); await mobilePhotoClear();
     assert(!(await page.locator('#specifikationer').innerText()).includes('Uppgift saknas'));
     if (row.brand === 'Polestar') assert.match(await page.locator('#specifikationer').innerText(), /WLTP-intervall/);
-    await noOverflow('Complete Toyota/Polestar profile ' + row.variant_name);
+    if (mazdaRenaultProfiles.includes(row)) {
+      assert.equal(row.body_type, 'Halvkombi');
+      assert.match(row.image_url, /(?:mazda-6e|renault-5)-press-/);
+      for (const field of ['price_sek','wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw','ac_charge_kw','tow_kg','boot_liters','seats','drivetrain'])
+        assert(row[field] != null, 'Completed Mazda/Renault profile: ' + field);
+      if (row.brand === 'Renault' && row.battery_kwh === 52)
+        assert.match(await page.locator('#specifikationer').innerText(), /gemensamma WLTP-intervall/);
+    }
+    await noOverflow('Complete manufacturer profile ' + row.variant_name);
   }
   await page.goto(base + '/bilar?brand=Polestar&query=4%20Dual');
   await page.getByRole('button', { name: 'Tabellvy', exact: true }).click();

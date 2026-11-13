@@ -11,6 +11,33 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "mazda-se-mynewsdesk": {
+    "origin": "https://mazda.mynewsdesk.com",
+    "publisher": "Mazda Motor Sverige",
+    "official_link_evidence": "https://www.mazda.se/varfor-mazda/press/",
+    "model_title_pattern": "^2027_mazda6e_src_still_3_highres\\.jpg$",
+    "approved_image_paths": ["/images/2027-mazda6e-src-still-3-highres-punkt-jpg-3540810"],
+    "model_keys": ["mazda|6e"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
+  "renault-se-mynewsdesk": {
+    "origin": "https://renault.mynewsdesk.com",
+    "publisher": "RN Nordic AB / Renault",
+    "official_link_evidence": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/drivlina",
+    "model_keys": ["renault|5"],
+    "approved_image_paths": ["/images/renault-5-e-tech-electric-iconic-cinq-version-pop-yellow-8-punkt-jpg-3172684"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "skoda-dk-mynewsdesk": {
     "origin": "https://skoda-danmark.mynewsdesk.com",
     "publisher": "Škoda Danmark",

@@ -2732,6 +2732,13 @@ footer button {
   .verificationGrid { grid-template-columns: 1fr; }
 }
 
+.specQualificationNote {
+  margin: 1rem 0 0;
+  color: #697374;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
 .sectionSource {
   display: flex;
   flex-wrap: wrap;

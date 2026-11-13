@@ -1,0 +1,913 @@
+{
+  "adapter": "mazda_renault_sweden_specs_v1",
+  "drafts": [
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Mazda",
+      "model": "6E",
+      "variant_name": "Takumi MY2027",
+      "facts": {
+        "battery_kwh": 78.0,
+        "dc_charge_kw": 200.0,
+        "wltp_range_km": 560.0,
+        "wltp_consumption_kwh_100km": 16.1,
+        "drivetrain": "RWD",
+        "ac_charge_kw": 11,
+        "tow_kg": 1500,
+        "boot_liters": 336,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 78.0,
+          "quote": "Mazda6e 78 kWh | Batterikapacitet (kWh) | 78",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "dc_charge_kw": {
+          "value": 200.0,
+          "quote": "Mazda6e 78 kWh | Maximal hastighet för DC-laddning (kW) | 200",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_range_km": {
+          "value": 560.0,
+          "quote": "Mazda6e 78 kWh | Elektrisk räckvidd vid blandad körning enligt WLPT (km) | 560",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.1,
+          "quote": "Mazda6e 78 kWh | Blandad körning, WLTP (kWh/100 km) | 16,1",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "Mazda6e 78 kWh | Drivning | Bakhjulsdrift",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "Mazda6e 78 kWh | Laddningstid (AC, 3-fas 11 kW), 0–100 % (timmar) | 7,9",
+          "scope": "my2027_three_phase_ac_not_duration",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Mazda6e 78 kWh | Dragvikt, max (kg) | 1 500",
+          "scope": "my2027_braked_towing",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "boot_liters": {
+          "value": 336,
+          "quote": "Mazda6e 78 kWh | Lastvolym (med/utan förvaringsutrymme under golv) (alla säten uppfällda, upp till bakre hatthylla) | 337 l / 336 l",
+          "scope": "rear_boot_below_shelf_excluding_underfloor_not_frunk",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Technische Daten Mazda6e 2027 | Verfügbare Ausstattungen TAKUMI, TAKUMI PLUS, HOMURA PLUS | Anzahl Sitzplätze 5",
+          "scope": "same_european_my2027_all_grades_seating_only",
+          "variant_name": "Takumi MY2027",
+          "source_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "source_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "content_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "content_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "SE",
+          "language": "sv"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "content_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 469900,
+        "quote": "Mazda6e Takumi, 258 hk, 78 kWh | 469 900 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "2027 Mazda6e är en helt elektrisk modell med bakhjulsdrift. Snabbladdning (upp till 392 km på bara 24 minuter 2 ) i kombination med sportig hantering (0 till 100 km/h på drygt 7 sekunder) och bekvämligheten med en femdörrars halvkombi (inkl. ett 336-liters bagageutrymme och ett 72-liters främre bagageutrymme). Den eleganta designen förstärks av djärv signaturbelysning, ramlösa dörrar och 19-tums aerodynamiska fälgar.",
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed"
+        }
+      },
+      "source_decisions": [
+        "MY2027 78 kWh replaces neither legacy 68.8 nor 80 kWh facts.",
+        "Swedish MY2027 PDF: combined WLTP 16.1, not calculator 16.6 or city-cycle 12.4.",
+        "Rear boot 336 L below shelf excludes the separate 72 L frunk and 466 L roof-height measurement.",
+        "Swedish PDF three-phase AC 11 kW supersedes inconsistent 7.2 kW equipment caption.",
+        "Only seating uses the manufacturer European MY2027 sheet; no foreign prices or availability."
+      ]
+    },
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Mazda",
+      "model": "6E",
+      "variant_name": "Homura Plus MY2027",
+      "facts": {
+        "battery_kwh": 78.0,
+        "dc_charge_kw": 200.0,
+        "wltp_range_km": 560.0,
+        "wltp_consumption_kwh_100km": 16.1,
+        "drivetrain": "RWD",
+        "ac_charge_kw": 11,
+        "tow_kg": 1500,
+        "boot_liters": 336,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 78.0,
+          "quote": "Mazda6e 78 kWh | Batterikapacitet (kWh) | 78",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "dc_charge_kw": {
+          "value": 200.0,
+          "quote": "Mazda6e 78 kWh | Maximal hastighet för DC-laddning (kW) | 200",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_range_km": {
+          "value": 560.0,
+          "quote": "Mazda6e 78 kWh | Elektrisk räckvidd vid blandad körning enligt WLPT (km) | 560",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.1,
+          "quote": "Mazda6e 78 kWh | Blandad körning, WLTP (kWh/100 km) | 16,1",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "Mazda6e 78 kWh | Drivning | Bakhjulsdrift",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "Mazda6e 78 kWh | Laddningstid (AC, 3-fas 11 kW), 0–100 % (timmar) | 7,9",
+          "scope": "my2027_three_phase_ac_not_duration",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Mazda6e 78 kWh | Dragvikt, max (kg) | 1 500",
+          "scope": "my2027_braked_towing",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "boot_liters": {
+          "value": 336,
+          "quote": "Mazda6e 78 kWh | Lastvolym (med/utan förvaringsutrymme under golv) (alla säten uppfällda, upp till bakre hatthylla) | 337 l / 336 l",
+          "scope": "rear_boot_below_shelf_excluding_underfloor_not_frunk",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Technische Daten Mazda6e 2027 | Verfügbare Ausstattungen TAKUMI, TAKUMI PLUS, HOMURA PLUS | Anzahl Sitzplätze 5",
+          "scope": "same_european_my2027_all_grades_seating_only",
+          "variant_name": "Homura Plus MY2027",
+          "source_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "source_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "content_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "content_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "SE",
+          "language": "sv"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "content_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 492800,
+        "quote": "Mazda6e Homura Plus, 258 hk, 78 kWh | 492 800 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "2027 Mazda6e är en helt elektrisk modell med bakhjulsdrift. Snabbladdning (upp till 392 km på bara 24 minuter 2 ) i kombination med sportig hantering (0 till 100 km/h på drygt 7 sekunder) och bekvämligheten med en femdörrars halvkombi (inkl. ett 336-liters bagageutrymme och ett 72-liters främre bagageutrymme). Den eleganta designen förstärks av djärv signaturbelysning, ramlösa dörrar och 19-tums aerodynamiska fälgar.",
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed"
+        }
+      },
+      "source_decisions": [
+        "MY2027 78 kWh replaces neither legacy 68.8 nor 80 kWh facts.",
+        "Swedish MY2027 PDF: combined WLTP 16.1, not calculator 16.6 or city-cycle 12.4.",
+        "Rear boot 336 L below shelf excludes the separate 72 L frunk and 466 L roof-height measurement.",
+        "Swedish PDF three-phase AC 11 kW supersedes inconsistent 7.2 kW equipment caption.",
+        "Only seating uses the manufacturer European MY2027 sheet; no foreign prices or availability."
+      ]
+    },
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Mazda",
+      "model": "6E",
+      "variant_name": "Takumi Plus MY2027",
+      "facts": {
+        "battery_kwh": 78.0,
+        "dc_charge_kw": 200.0,
+        "wltp_range_km": 560.0,
+        "wltp_consumption_kwh_100km": 16.1,
+        "drivetrain": "RWD",
+        "ac_charge_kw": 11,
+        "tow_kg": 1500,
+        "boot_liters": 336,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 78.0,
+          "quote": "Mazda6e 78 kWh | Batterikapacitet (kWh) | 78",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "dc_charge_kw": {
+          "value": 200.0,
+          "quote": "Mazda6e 78 kWh | Maximal hastighet för DC-laddning (kW) | 200",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_range_km": {
+          "value": 560.0,
+          "quote": "Mazda6e 78 kWh | Elektrisk räckvidd vid blandad körning enligt WLPT (km) | 560",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.1,
+          "quote": "Mazda6e 78 kWh | Blandad körning, WLTP (kWh/100 km) | 16,1",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "Mazda6e 78 kWh | Drivning | Bakhjulsdrift",
+          "scope": "my2027_78_kwh_all_grades",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "Mazda6e 78 kWh | Laddningstid (AC, 3-fas 11 kW), 0–100 % (timmar) | 7,9",
+          "scope": "my2027_three_phase_ac_not_duration",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "Mazda6e 78 kWh | Dragvikt, max (kg) | 1 500",
+          "scope": "my2027_braked_towing",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "boot_liters": {
+          "value": 336,
+          "quote": "Mazda6e 78 kWh | Lastvolym (med/utan förvaringsutrymme under golv) (alla säten uppfällda, upp till bakre hatthylla) | 337 l / 336 l",
+          "scope": "rear_boot_below_shelf_excluding_underfloor_not_frunk",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+          "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Technische Daten Mazda6e 2027 | Verfügbare Ausstattungen TAKUMI, TAKUMI PLUS, HOMURA PLUS | Anzahl Sitzplätze 5",
+          "scope": "same_european_my2027_all_grades_seating_only",
+          "variant_name": "Takumi Plus MY2027",
+          "source_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "source_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+          "content_hash": "e132ba81bd760f17994d809a3bcfce068eacabae472122e6101489a678aae5ed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "content_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "SE",
+          "language": "sv"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "content_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 492800,
+        "quote": "Mazda6e Takumi Plus, 258 hk, 78 kWh, Brun interiör | 492 800 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+        "source_hash": "21c195c9536a012098a5feba70c4b65a91d01d4e9b530552379cf1c3764bd307",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "2027 Mazda6e är en helt elektrisk modell med bakhjulsdrift. Snabbladdning (upp till 392 km på bara 24 minuter 2 ) i kombination med sportig hantering (0 till 100 km/h på drygt 7 sekunder) och bekvämligheten med en femdörrars halvkombi (inkl. ett 336-liters bagageutrymme och ett 72-liters främre bagageutrymme). Den eleganta designen förstärks av djärv signaturbelysning, ramlösa dörrar och 19-tums aerodynamiska fälgar.",
+          "source_url": "https://www.mazda.se/modeller/mazda-6e/",
+          "source_hash": "cd32042dd71437bf52d08f925129472469967a8f6718dcb121d9aa2b7782efed"
+        }
+      },
+      "source_decisions": [
+        "MY2027 78 kWh replaces neither legacy 68.8 nor 80 kWh facts.",
+        "Swedish MY2027 PDF: combined WLTP 16.1, not calculator 16.6 or city-cycle 12.4.",
+        "Rear boot 336 L below shelf excludes the separate 72 L frunk and 466 L roof-height measurement.",
+        "Swedish PDF three-phase AC 11 kW supersedes inconsistent 7.2 kW equipment caption.",
+        "Only seating uses the manufacturer European MY2027 sheet; no foreign prices or availability."
+      ]
+    },
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Renault",
+      "model": "5",
+      "variant_name": "evolution 40 kWh",
+      "facts": {
+        "battery_kwh": 40,
+        "wltp_range_km": 320,
+        "seats": 5,
+        "boot_liters": 326,
+        "tow_kg": 500,
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 80,
+        "wltp_consumption_kwh_100km": 14.3,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 40,
+          "quote": "EVOLUTION 40 kWh | Kapacitet (kWh) | 40",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "wltp_range_km": {
+          "value": 320,
+          "quote": "EVOLUTION 40 kWh | Homologerad räckvidd WLTP - blandad körning (km) | 320",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "EVOLUTION 40 kWh | Antal sittplatser | 5",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "boot_liters": {
+          "value": 326,
+          "quote": "EVOLUTION 40 kWh | Bagagerumsvolym (L) | 326",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "tow_kg": {
+          "value": 500,
+          "quote": "EVOLUTION 40 kWh | Maxvikt för bromsat/obromsat släp (kg) | 500/500",
+          "scope": "pdf_braked_towing",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "EVOLUTION 40 kWh | AC 11 kW + DC 80 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "dc_charge_kw": {
+          "value": 80,
+          "quote": "EVOLUTION 40 kWh | AC 11 kW + DC 80 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.3,
+          "quote": "EVOLUTION 40 kWh | förbruk. (kWh/100 km) | 14,3",
+          "scope": "exact_battery_consumption",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "EVOLUTION 40 kWh",
+          "interval": [
+            14.3
+          ]
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | E-Tech elektrisch 120 Urban Range | E-Tech elektrisch 150 Comfort Range | Antriebsart Vorderradantrieb",
+          "scope": "manufacturer_current_e_tech_generation_drivetrain_only",
+          "variant_name": "evolution 40 kWh",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "content_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "content_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 364900,
+        "quote": "EVOLUTION 40 kWh | Rek. cirkapris | 364 900 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "source_decisions": [
+        "Current November price PDF supersedes January launch figures 312/410 km.",
+        "Range is cropped against each printed grade header: 320/424/421, not a group maximum.",
+        "52 kWh consumption remains the published 14.1-14.2 interval, not an invented exact-grade number.",
+        "Only front-wheel architecture uses the official European E-Tech manufacturer configurator; no foreign prices/range."
+      ],
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | Karosserieform Berline | Anzahl Türen 5",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      }
+    },
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Renault",
+      "model": "5",
+      "variant_name": "techno 52 kWh",
+      "facts": {
+        "battery_kwh": 52,
+        "wltp_range_km": 424,
+        "seats": 5,
+        "boot_liters": 326,
+        "tow_kg": 500,
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 100,
+        "wltp_consumption_kwh_100km": 14.1,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 52,
+          "quote": "TECHNO 52 kWh | Kapacitet (kWh) | 52",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "wltp_range_km": {
+          "value": 424,
+          "quote": "TECHNO 52 kWh | Homologerad räckvidd WLTP - blandad körning (km) | 424",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "TECHNO 52 kWh | Antal sittplatser | 5",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "boot_liters": {
+          "value": 326,
+          "quote": "TECHNO 52 kWh | Bagagerumsvolym (L) | 326",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "tow_kg": {
+          "value": 500,
+          "quote": "TECHNO 52 kWh | Maxvikt för bromsat/obromsat släp (kg) | 500/500",
+          "scope": "pdf_braked_towing",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "TECHNO 52 kWh | AC 11 kW + DC 100 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "dc_charge_kw": {
+          "value": 100,
+          "quote": "TECHNO 52 kWh | AC 11 kW + DC 100 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.1,
+          "quote": "TECHNO 52 kWh | förbruk. (kWh/100 km) | 14,1-14,2 | Förbrukning (WLTP, versionsgrupp): 14,1–14,2 kWh/100 km",
+          "scope": "battery_group_consumption_interval_lower_bound",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "TECHNO 52 kWh",
+          "interval": [
+            14.1,
+            14.2
+          ]
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | E-Tech elektrisch 120 Urban Range | E-Tech elektrisch 150 Comfort Range | Antriebsart Vorderradantrieb",
+          "scope": "manufacturer_current_e_tech_generation_drivetrain_only",
+          "variant_name": "techno 52 kWh",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "content_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "content_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 414900,
+        "quote": "TECHNO 52 kWh | Rek. cirkapris | 414 900 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "source_decisions": [
+        "Current November price PDF supersedes January launch figures 312/410 km.",
+        "Range is cropped against each printed grade header: 320/424/421, not a group maximum.",
+        "52 kWh consumption remains the published 14.1-14.2 interval, not an invented exact-grade number.",
+        "Only front-wheel architecture uses the official European E-Tech manufacturer configurator; no foreign prices/range."
+      ],
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | Karosserieform Berline | Anzahl Türen 5",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      }
+    },
+    {
+      "adapter": "mazda_renault_sweden_specs_v1",
+      "brand": "Renault",
+      "model": "5",
+      "variant_name": "iconic five 52 kWh",
+      "facts": {
+        "battery_kwh": 52,
+        "wltp_range_km": 421,
+        "seats": 5,
+        "boot_liters": 326,
+        "tow_kg": 500,
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 100,
+        "wltp_consumption_kwh_100km": 14.1,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 52,
+          "quote": "ICONIC FIVE 52 kWh | Kapacitet (kWh) | 52",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "wltp_range_km": {
+          "value": 421,
+          "quote": "ICONIC FIVE 52 kWh | Homologerad räckvidd WLTP - blandad körning (km) | 421",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "ICONIC FIVE 52 kWh | Antal sittplatser | 5",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "boot_liters": {
+          "value": 326,
+          "quote": "ICONIC FIVE 52 kWh | Bagagerumsvolym (L) | 326",
+          "scope": "exact_pdf_grade_column",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "tow_kg": {
+          "value": 500,
+          "quote": "ICONIC FIVE 52 kWh | Maxvikt för bromsat/obromsat släp (kg) | 500/500",
+          "scope": "pdf_braked_towing",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "ICONIC FIVE 52 kWh | AC 11 kW + DC 100 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "dc_charge_kw": {
+          "value": 100,
+          "quote": "ICONIC FIVE 52 kWh | AC 11 kW + DC 100 kW",
+          "scope": "exact_battery_peak_charging",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.1,
+          "quote": "ICONIC FIVE 52 kWh | förbruk. (kWh/100 km) | 14,1-14,2 | Förbrukning (WLTP, versionsgrupp): 14,1–14,2 kWh/100 km",
+          "scope": "battery_group_consumption_interval_lower_bound",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+          "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+          "column_header": "ICONIC FIVE 52 kWh",
+          "interval": [
+            14.1,
+            14.2
+          ]
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | E-Tech elektrisch 120 Urban Range | E-Tech elektrisch 150 Comfort Range | Antriebsart Vorderradantrieb",
+          "scope": "manufacturer_current_e_tech_generation_drivetrain_only",
+          "variant_name": "iconic five 52 kWh",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "content_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e",
+          "fetched_at": "2026-11-13T21:00:00Z",
+          "country": "DE",
+          "language": "de"
+        }
+      ],
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "content_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "fetched_at": "2026-11-13T21:00:00Z",
+        "country": "SE",
+        "language": "sv"
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 449900,
+        "quote": "ICONIC FIVE 52 kWh | Rek. cirkapris | 449 900 kr",
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+        "source_hash": "5a7251d2799ec039f35257c939e4b4e9c7f6c4b5d41880a45ece7c900a0c0ce7",
+        "classification": "current_exact_variant_base_cash_price_not_finance_or_discount"
+      },
+      "source_decisions": [
+        "Current November price PDF supersedes January launch figures 312/410 km.",
+        "Range is cropped against each printed grade header: 320/424/421, not a group maximum.",
+        "52 kWh consumption remains the published 14.1-14.2 interval, not an invented exact-grade number.",
+        "Only front-wheel architecture uses the official European E-Tech manufacturer configurator; no foreign prices/range."
+      ],
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "RENAULT 5 E-TECH ELEKTRISCH | Karosserieform Berline | Anzahl Türen 5",
+          "source_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+          "source_hash": "9aee10e45413d8941662eeb7cb059d90bae4e15ceb0d12149b152ef45e0b553e"
+        }
+      }
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}
