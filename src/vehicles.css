@@ -261,6 +261,7 @@
   .vehicleCompare .tcoLayout { grid-template-columns: 240px minmax(0, 1fr); gap: 24px; }
 }
 @media (max-width: 800px) {
+  .siteHeader.premiumHeader.siteHeaderCinematic { position: relative; inset: auto; background: #142122; backdrop-filter: none; }
   .vehicleContainer { width: calc(100% - 48px); }
   .vehiclePageIntro h1 { font-size: 36px; }
   .catalogLayout { grid-template-columns: 1fr; }
@@ -268,7 +269,12 @@
   .catalogFilterTrigger { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 8px 12px; border: 1px solid #c8d6cf; background: white; border-radius: 6px; color: var(--pine); font-size: var(--ui-control-size); }
   .catalogToolbar { position: sticky; top: 0; z-index: 5; background: var(--ui-background); padding-block: 12px; }
   .vehicleHeroCopy h1 { font-size: 44px; }
-  .vehicleDetailHero { min-height: 0; padding-top: 144px; gap: 32px; }
+  .vehicleDetailHero { min-height: 0; padding-block: 0 24px; gap: 24px; }
+  .vehicleHeroMedia { position: relative; inset: auto; z-index: auto; width: 100%; }
+  .vehicleHeroMedia img { display: block; width: 100%; height: auto; }
+  .vehicleHeroMedia .missingCarImage { height: auto; min-height: 220px; aspect-ratio: 3 / 2; justify-content: center; padding: 24px; }
+  .vehicleHeroOverlay { display: none; }
+  .vehicleBackLink { margin-bottom: 16px; }
   .vehicleHeroStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 0; padding-block: 20px; }
   .vehicleHeroStats > div:nth-child(3) { border-left: 0; }
   .vehicleAssessmentColumns, .vehicleDetail .detailSectionGrid { grid-template-columns: 1fr; gap: 32px; }
@@ -311,8 +317,6 @@
   .vehicleHeroStats svg { width: 18px; grid-row: auto; }
   .vehicleHeroStats strong { grid-column: 1 / -1; font-size: 16px; margin-top: 6px; }
   .vehicleHeroStats span { font-size: 12px; }
-  .vehicleHeroMedia img:not([src*="/cc-lite/mobile/"]) { object-fit: contain; object-position: center 16%; }
-  .vehicleHeroOverlay { background: linear-gradient(0deg, rgb(10 20 22 / 96%), rgb(10 20 22 / 62%) 75%, rgb(10 20 22 / 35%)); }
   .vehicleDetailNav { gap: 24px; }
   .vehicleAssessment { padding-block: 40px; }
   .vehicleAssessment h2 { font-size: 26px; }
