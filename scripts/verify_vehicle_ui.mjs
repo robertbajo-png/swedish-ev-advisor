@@ -3,6 +3,7 @@ import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { launchQaBrowser } from './qa_browser.mjs';
 import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
+import { vehicleSlug } from '../src/vehicle-names.js';
 
 const base = process.env.VEHICLE_UI_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
@@ -161,7 +162,7 @@ try {
   }
   for (const width of [320, 375, 390, 430, 768]) {
     await page.setViewportSize({ width, height: 844 });
-    for (const slug of ['kia-ev5-fwd', 'kia-ev6-rwd']) {
+    for (const slug of ['kia-ev5-fwd', 'kia-ev6-rwd', 'skoda-elroq-60-selection-explore-edition', 'skoda-enyaq-solid-edition-rs']) {
       await page.goto(base + '/bilar/' + slug);
       await page.locator('.vehicleDetailHero h1').waitFor();
       await photosReady('.vehicleHeroMedia img');
@@ -171,6 +172,25 @@ try {
       await page.screenshot({ path: fileURLToPath(new URL(`detail-${slug}-${width}.png`, out)), fullPage: true });
       await page.locator('.vehicleDetailHero').screenshot({ path: fileURLToPath(new URL(`detail-hero-${slug}-${width}.png`, out)) });
     }
+  }
+  const skoda = records.filter(row => row.brand === 'Skoda');
+  assert.equal(skoda.length, 11);
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const row of skoda) {
+    assert.equal(row.body_type, 'SUV');
+    for (const field of ['price_sek', 'wltp_range_km', 'wltp_consumption_kwh_100km', 'battery_kwh', 'dc_charge_kw', 'ac_charge_kw', 'boot_liters', 'tow_kg', 'seats', 'drivetrain'])
+      assert(row[field] != null, 'Current Skoda profile is complete: ' + row.variant_name + ' / ' + field);
+    await page.goto(base + '/bilar/' + vehicleSlug(row.brand, row.model, row.variant_name));
+    await page.locator('.vehicleDetailHero h1').waitFor();
+    await photosReady('.vehicleHeroMedia img');
+    await mobilePhotoClear();
+    const img = page.locator('.vehicleHeroMedia img');
+    const originalStem = row.image_url.split('/').at(-1).replace(/\.jpg$/, '');
+    assert.match(await img.getAttribute('src'), new RegExp('^/media/(?:vehicles/' + originalStem + '\\.jpg|responsive/' + originalStem + '-(?:480|800|1280)\\.webp)$'), 'Detail derivative belongs to this exact canonical photograph');
+    assert.match(row.image_url, /skoda-(elroq|enyaq)-press-/);
+    assert.match(await page.locator('.vehicleHeroStats').innerText(), new RegExp(row.wltp_range_km + ' km'));
+    await page.getByText('Förbrukning, grundutförande', { exact: true }).waitFor();
+    await noOverflow('Complete Skoda profile ' + row.variant_name);
   }
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());

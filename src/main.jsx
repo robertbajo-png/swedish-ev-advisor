@@ -131,6 +131,8 @@ function transformPublicVariant(row) {
     rangeVerified,
     consumption: consumptionVerified,
     consumptionVerified,
+    consumptionNote: sourceQuote.includes('*Värde gäller för motor i grundutförande.')
+      ? 'Motor i grundutförande. Utrustning och hjul kan påverka förbrukningen.' : null,
     dc: dcVerified || 0,
     dcVerified,
     cargo: cargoVerified || 0,
@@ -958,7 +960,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       <AiSummaryCard car={car} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
         <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
-        <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], ['Förbrukning', car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas']]} />
+        <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas']]} />
         <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
       <div id="nyckeltal"><DecisionMetricsCard car={car} cars={cars} /></div>
@@ -1376,7 +1378,7 @@ function TcoResultCard({ car, result, isBest }) {
       </div>
       <p className="tcoConsumptionNote">
         <BatteryCharging size={15} /> {formatDecimal(result.consumptionKwh100Km)} kWh/100 km
-        <small>{result.consumptionSource === 'verified' ? 'Verifierad biluppgift' : 'Antagande'}</small>
+        <small title={car.consumptionNote || undefined}>{result.consumptionSource === 'verified' ? car.consumptionNote ? 'Tillverkarens grundutförande' : 'Verifierad biluppgift' : 'Antagande'}</small>
       </p>
     </article>
   );
@@ -1391,7 +1393,7 @@ function ComparisonTable({ cars }) {
     { label: 'Batteri', get: (car) => detailValue(car.batteryVerified, 'kWh') },
     { label: 'DC-laddning', get: (car) => detailValue(car.dcVerified, 'kW'), value: valueMetric('dcVerified'), best: 'max' },
     { label: 'AC-laddning', get: (car) => detailValue(car.acVerified, 'kW') },
-    { label: 'Förbrukning WLTP', get: (car) => car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas', value: valueMetric('consumptionVerified'), best: 'min' },
+    { label: 'Förbrukning WLTP', get: (car) => car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' + (car.consumptionNote ? ' (grundutförande)' : '') : 'Uppgift saknas', value: valueMetric('consumptionVerified'), best: 'min' },
     { label: 'Bagage', get: (car) => detailValue(car.cargoVerified, 'liter'), value: valueMetric('cargoVerified'), best: 'max' },
     { label: 'Dragvikt', get: (car) => detailValue(car.towingVerified, 'kg'), value: valueMetric('towingVerified'), best: 'max' },
     { label: 'Säten', get: (car) => detailValue(car.seatsVerified) },

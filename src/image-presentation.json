@@ -61,6 +61,24 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "skoda|elroq": {
+      "asset_url": "/media/vehicles/skoda-elroq-press-f4e272190bd0.jpg",
+      "content_sha256": "f4e272190bd0d25ed437758de61c78ee4654614711c78dbaaaaaba597bee9418",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
+    "skoda|enyaq": {
+      "asset_url": "/media/vehicles/skoda-enyaq-press-7ff884552690.jpg",
+      "content_sha256": "7ff884552690eb1b9c0018014fec7c59ffcedc0ac777fc1a3b9bf6c2c2d2ddb1",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

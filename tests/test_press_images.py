@@ -60,6 +60,20 @@ class PressImageTests(unittest.TestCase):
             self.assertFalse(reviewed_media_permission(changed), patch)
             self.assertIn('license_requires_specific_review', rights_errors(changed, changed))
 
+    def test_danish_skoda_permission_does_not_allow_coupe_as_suv(self):
+        policy = PRESS_PUBLISHERS['skoda-dk-mynewsdesk']
+        source = policy['origin'] + '/images/new-skoda-enyaq-photo-123'
+        evidence = {**self.evidence, 'model_key': 'skoda|enyaq', 'license_id': policy['license_id'],
+            'publisher_id': 'skoda-dk-mynewsdesk', 'source_url': source, 'license_url': source, 'evidence_url': source,
+            'evidence_quote': policy['permission_excerpt'] + ' | ' + policy['condition_excerpt'],
+            'downloaded_from': policy['asset_origin'] + '/image/upload/fl_attachment/fixture123',
+            'full_frame': True, 'source_content_sha256': 'b' * 64}
+        self.assertTrue(reviewed_media_permission(evidence))
+        for model, page in [('skoda|enyaq', source.replace('enyaq-', 'enyaq-coupe-')),
+                            ('skoda|epiq', source), ('kia|ev3', source)]:
+            changed = {**evidence, 'model_key': model, 'source_url': page, 'evidence_url': page, 'license_url': page}
+            self.assertFalse(reviewed_media_permission(changed))
+
     def test_adoption_binds_the_reviewed_file_and_does_not_publish(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

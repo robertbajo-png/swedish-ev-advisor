@@ -92,7 +92,10 @@ class ReservationParser(HTMLParser):
 
 
 class SourceFetcher:
-    def __init__(self, timeout=10, document_parser=None, url_policy=None):
+    def __init__(self, timeout=10, document_parser=None, url_policy=None, max_bytes=MAX_BYTES):
+        if not isinstance(max_bytes, int) or not 1 <= max_bytes <= 16 * 1024 * 1024:
+            raise ValueError('invalid_bounded_document_size')
+        self.max_bytes = max_bytes
         self.timeout = timeout
         self.document_parser = document_parser
         self.url_policy = url_policy or allowed_url
@@ -126,18 +129,18 @@ class SourceFetcher:
     def read_body(self, response):
         # read1 returns available chunks; a slow stream must not reset the deadline.
         if not hasattr(response, 'read1'):
-            return response.read(MAX_BYTES + 1)
+            return response.read(self.max_bytes + 1)
         deadline = time.monotonic() + self.timeout
         parts, size = [], 0
         while True:
             if time.monotonic() >= deadline:
                 raise TimeoutError('source_body_deadline')
-            chunk = response.read1(min(65536, MAX_BYTES + 1 - size))
+            chunk = response.read1(min(65536, self.max_bytes + 1 - size))
             if not chunk:
                 return b''.join(parts)
             parts.append(chunk)
             size += len(chunk)
-            if size > MAX_BYTES:
+            if size > self.max_bytes:
                 return b''.join(parts)
 
     def fetch(self, url, brands):
@@ -152,7 +155,7 @@ class SourceFetcher:
                     if response.headers.get('tdm-reservation') == '1':
                         return {'status': 'machine_reservation', 'final_url': current}
                     body = self.read_body(response)
-                    if len(body) > MAX_BYTES:
+                    if len(body) > self.max_bytes:
                         return {'status': 'source_too_large', 'final_url': current}
                     content_type = response.headers.get('content-type', '').lower()
                     if 'html' in content_type:
