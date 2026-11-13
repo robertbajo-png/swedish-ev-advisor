@@ -35,6 +35,11 @@ try {
       assert(!/Hämtar bilar|Hämtar bilen/.test(await page.locator('main').innerText()));
       if (!javascript) assert(await page.locator('.vehicleVariantPicker select').evaluateAll(selects => selects.every(select => select.disabled)), 'No-JS reading cannot change a version label without its specifications');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, path + ': no mobile overflow');
+      if (path.startsWith('/bilar/')) assert(await page.evaluate(() => {
+        const photo = document.querySelector('.vehicleHeroMedia').getBoundingClientRect();
+        return photo.top >= document.querySelector('.siteHeader').getBoundingClientRect().bottom &&
+          document.querySelector('.vehicleHeroCopy').getBoundingClientRect().top >= photo.bottom + 16;
+      }), 'No-JS and hydrated mobile detail photos stay clear of navigation and copy');
       if (javascript) {
         await page.waitForFunction(() => !document.querySelector('script[data-prerender="page"]'));
         await page.evaluate(() => document.fonts.ready);

@@ -21,6 +21,26 @@ try {
   await page.route('**/data/news_articles.json', (route) => route.fulfill({ json: { records: [] } }));
   await page.route('**/api/compare', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
   const noOverflow = async (name) => assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name + ': no document overflow');
+  const mobilePhotoClear = async () => {
+    if (page.viewportSize().width > 800) return;
+    const layout = await page.evaluate(() => {
+      const media = document.querySelector('.vehicleHeroMedia');
+      const rect = media.getBoundingClientRect();
+      const copy = document.querySelector('.vehicleHeroCopy').getBoundingClientRect();
+      const stats = document.querySelector('.vehicleHeroStats').getBoundingClientRect();
+      const header = document.querySelector('.siteHeader').getBoundingClientRect();
+      const img = media.querySelector('img');
+      return { height: rect.height, width: rect.width, headerGap: rect.top - header.bottom, copyGap: copy.top - rect.bottom,
+        statsGap: stats.top - rect.bottom, overlay: getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display,
+        frameRatio: img ? img.getBoundingClientRect().width / img.getBoundingClientRect().height : null,
+        sourceRatio: img ? img.naturalWidth / img.naturalHeight : null };
+    });
+    assert(layout.height >= 160, 'Mobile model photo has a real, reserved area');
+    assert(layout.headerGap >= 0, 'Mobile navigation cannot cover the top of the photograph');
+    assert(layout.copyGap >= 16 && layout.statsGap >= 16, 'No vehicle text, badges, actions or specifications over the mobile photo');
+    assert.equal(layout.overlay, 'none', 'Mobile model photo is not darkened for overlaid copy');
+    if (layout.sourceRatio) assert(Math.abs(layout.frameRatio - layout.sourceRatio) < 0.01, 'Mobile photograph preserves its full original frame');
+  };
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {
       await img.scrollIntoViewIfNeeded();
@@ -109,6 +129,7 @@ try {
     assert.equal(await page.getByText('Familjepoäng').count(), 0);
     assert.equal(await page.getByText('Vinterpoäng').count(), 0);
     await photosReady('.vehicleHeroMedia img');
+    await mobilePhotoClear();
     await photosReady('.vehicleSimilar .homeVehiclePhoto img');
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     await noOverflow(name + ' detail');
@@ -138,6 +159,19 @@ try {
     await noOverflow(name + ' Kia cinematic photo');
     await page.screenshot({ path: fileURLToPath(new URL(`detail-kia-hero-${name}.png`, out)) });
   }
+  for (const width of [320, 375, 390, 430, 768]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const slug of ['kia-ev5-fwd', 'kia-ev6-rwd']) {
+      await page.goto(base + '/bilar/' + slug);
+      await page.locator('.vehicleDetailHero h1').waitFor();
+      await photosReady('.vehicleHeroMedia img');
+      await mobilePhotoClear();
+      await noOverflow(width + ' ' + slug + ' separated photo');
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: fileURLToPath(new URL(`detail-${slug}-${width}.png`, out)), fullPage: true });
+      await page.locator('.vehicleDetailHero').screenshot({ path: fileURLToPath(new URL(`detail-hero-${slug}-${width}.png`, out)) });
+    }
+  }
   // Explicit canonical zero is distinct from null; no production records are changed.
   await page.route('**/media/vehicles/qa-missing.jpg', (route) => route.abort());
   publicRecords = [{ ...records[0], price_sek: 600000, price_type: null, wltp_range_km: 600, dc_charge_kw: null, tow_kg: 0, seats: null,
@@ -151,6 +185,8 @@ try {
   assert.match(await page.locator('.vehicleHeroStats').innerText(), /Prisuppgift/);
   assert.equal(await page.locator('#nyckeltal').getByText('Uppgift saknas', { exact: true }).count(), 3, 'Unknown list price and absent peer data do not produce value metrics');
   await page.locator('.vehicleHeroMedia .missingCarImage').waitFor();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mobilePhotoClear();
   assert.equal(await page.locator('.vehicleHeroMedia img').count(), 0, 'Failed exact image never becomes a replacement model photo');
   for (const [type, label] of [['list_price', 'Listpris'], ['campaign_price', 'Kampanjpris'], ['dealer_offer', 'Återförsäljarerbjudande']]) {
     publicRecords = [{ ...publicRecords[0], price_type: type }];

@@ -10,7 +10,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Inventory | Complete | Repeatable per-model missing-field and image-quality report; source queues and baseline counts. |
 | 2. Photography | In progress | Professional exact-model photos, source-specific rights evidence, visual review, local optimized assets and no unrelated fallback. |
 | 3. Specifications | First batch committed | 16 Kia variants refreshed from five Swedish technical PDFs; 81 missing values filled. Remaining brands still queued. |
-| 4. Presentation and release | Testing | Model-first grid and exact-version picker, discreet accessible credits, consistent photo framing; deployment follows QA. |
+| 4. Presentation and release | First batch released | Model-first grid, exact-version picker and seven press photos verified on production. Remaining brand batches are still open. |
 
 ## Baseline
 
@@ -111,3 +111,36 @@ maxima from a different version would repeat the old data-quality problem.
   a reader cannot change the version name while keeping another version's data.
 - PR #56 passed all 150 CI steps after the redirect assertion was updated. Final
   EV6 photography/no-JS reading follow-up is tested again before release.
+- Final follow-up passed all 150 PR CI steps and all 150 exact-main CI steps.
+  PR #56 merged as `16a95aa2abc1e9c99d56edba28836d9c74b267ab`.
+  Existing production distribution run `43327896861` succeeded. No new articles
+  or paid calls were requested by distribution. Production GET checks passed for
+  routes, canonical snapshot, sitemap, robots and advisor budget readiness.
+- 2026-11-12 23:23 UTC: checked the actual production bytes of all seven new
+  photos and 21 responsive files, plus the 76-row canonical export. Every hash
+  matched the reviewed release; the two published news articles were unchanged.
+  Receipts remain under ignored `data/local/release-data/vehicle-quality-2026-11-12/`.
+
+## Remaining Batches
+
+- 2026-11-13: Skoda research paused for the owner's mobile EV5 layout report.
+  The detail photo is now an in-flow, full-frame image at widths up to 800px;
+  copy, badges, actions and key figures follow below it on a solid background.
+  Desktop cinematic presentation is unchanged. Added geometric regressions for
+  EV5/EV6 at 320/375/390/430/768px, including source aspect ratio, no dark overlay
+  and a minimum gap between the image and all copy. Build, visual review and
+  deployment checks are required before calling this correction released.
+
+- This is the first delivered batch, not a claim that every field/model is done.
+  Twenty-three model photos still need professional-photo review/replacement.
+- Prioritize Skoda Elroq/Enyaq, then remaining Polestar/Toyota and other brands.
+  The fresh Swedish Elroq price list labels its range values as estimated;
+  the current Polestar 4 page labels its range as a target. Preserve those
+  qualifications and seek final exact-version evidence instead of laundering
+  these figures into certified WLTP fields.
+- Reconcile the remaining 36 missing WLTP, 44 DC, 48 towing and 42 boot values;
+  20 variants still lack a verified price. Keep each gap explicit until its
+  exact-version source passes validation. No model has been removed to improve
+  the coverage figures.
+- Review an AC numeric-column compatibility migration separately, then publish
+  source-exact decimal AC facts. Do not round or alter schema in an image batch.
