@@ -37,6 +37,16 @@
       "model": "Explorer"
     },
     {
+      "slug": "ford-explorer-rwd-77-kwh",
+      "brand": "Ford",
+      "model": "Explorer"
+    },
+    {
+      "slug": "ford-explorer-awd-79-kwh",
+      "brand": "Ford",
+      "model": "Explorer"
+    },
+    {
       "slug": "kia-ev3",
       "brand": "Kia",
       "model": "Ev3"

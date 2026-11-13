@@ -175,25 +175,25 @@
       }
     ]
   },
-  "/media/vehicles/ford-explorer-fe5bb8df3715.jpg": {
-    "width": 1280,
-    "height": 765,
-    "source_sha256": "fe5bb8df37154fbdfd96c56503cb45ac0979789f960309ebd6384311ac8d0463",
+  "/media/vehicles/ford-explorer-press-050047452e4e.jpg": {
+    "width": 1500,
+    "height": 814,
+    "source_sha256": "050047452e4e2226af4e8dc22ba10ff06f1ab8449606b832ec0a86bac3fd20c8",
     "variants": [
       {
-        "url": "/media/responsive/ford-explorer-fe5bb8df3715-480.webp",
+        "url": "/media/responsive/ford-explorer-press-050047452e4e-480.webp",
         "width": 480,
-        "sha256": "c01285be53985b4f37d91a400cc271fe464e8e762f6b55bf752eff03fe4b355e"
+        "sha256": "8f2125c5dd630e6a0365c5a31df1737cb67e7082cb15bae558e7d1184229ce89"
       },
       {
-        "url": "/media/responsive/ford-explorer-fe5bb8df3715-800.webp",
+        "url": "/media/responsive/ford-explorer-press-050047452e4e-800.webp",
         "width": 800,
-        "sha256": "af15855cff6f6ee7ad72c772c44d7344bbcae4b8dbea6b89d7ee935d0b44618c"
+        "sha256": "3189302f009ee2f169f75606d38de87a5e66f7268ecb10bf665eb8549ef83fcc"
       },
       {
-        "url": "/media/responsive/ford-explorer-fe5bb8df3715-1280.webp",
+        "url": "/media/responsive/ford-explorer-press-050047452e4e-1280.webp",
         "width": 1280,
-        "sha256": "225d1a58863ea437666f83b4e648e691eb80752f735915393f4e8c4a314d34eb"
+        "sha256": "1c772c0f48c29d47059c9a8f8165db9252d5a0181571e8f99a68087bdbe3fd7a"
       }
     ]
   },

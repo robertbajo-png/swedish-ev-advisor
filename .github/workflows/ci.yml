@@ -40,6 +40,7 @@ jobs:
       - run: bun run verify:toyota-polestar-sync
       - run: bun run verify:mazda-renault-sync
       - run: bun run verify:cla-sync
+      - run: bun run verify:ford-sync
       - run: bun run verify:ui-navigation
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
@@ -156,6 +157,7 @@ jobs:
       - run: python -m pip install -r requirements-source-intake.txt
       - run: bun run verify:mazda-renault-specs
       - run: bun run verify:cla-specs
+      - run: bun run verify:ford-specs
       - run: bun run verify:vehicle-quality
       - run: bun run verify:kia-specs
       - run: bun run verify:kia-spec-sync

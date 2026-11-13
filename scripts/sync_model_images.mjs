@@ -11,7 +11,7 @@ async function main() {
     output: { type: 'string', default: 'data/local/release-data/vehicle-quality-2026-11-12/photos' } } });
   assert(values['client-module'], 'Existing TLS client required');
   const audit = spawnSync(process.execPath, ['scripts/run_python.mjs', 'scripts/audit_image_rights.py', '--candidate-registry', '--check'],
-    { encoding: 'utf8', windowsHide: true, timeout: 30000 });
+    { encoding: 'utf8', windowsHide: true, timeout: 120000 });
   assert.equal(audit.status, 0, 'Image bytes/permission evidence must pass before connecting');
   const registry = JSON.parse(await readFile('src/image-rights.json', 'utf8'));
   const folder = resolve(values.output);

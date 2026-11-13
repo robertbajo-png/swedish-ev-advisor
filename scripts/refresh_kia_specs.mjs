@@ -13,6 +13,12 @@ const sourceFingerprint = source => Object.fromEntries(Object.entries(source).fi
 const facts = intake => intake.drafts.map(({ source, supporting_sources, ...row }) => ({ ...row,
   source: sourceFingerprint(source), ...(supporting_sources ? { supporting_sources: supporting_sources.map(sourceFingerprint) } : {}) }));
 
+export function useCalendarDateText(client) {
+  assert.equal(typeof client.setTypeParser, 'function', 'Postgres DATE parser configuration required before refresh');
+  // SQL DATE has no time zone. Do not serialize local midnight through UTC.
+  client.setTypeParser(1082, value => value);
+}
+
 export async function runTechnicalRefresh({ sync = kia, collector = 'scripts/kia_specs_intake.py',
   defaultOutput = 'data/local/release-data/vehicle-quality-2026-11-12/kia' } = {}) {
   const { applySpecPlan, buildSpecPlan, specPlanHash } = sync;
@@ -25,6 +31,7 @@ export async function runTechnicalRefresh({ sync = kia, collector = 'scripts/kia
   let client;
   try {
     client = await connector.openSourceSnapshot();
+    useCalendarDateText(client);
     const variants = (await client.query(`SELECT v.*,m.brand,m.model FROM public.canonical_model_variants v
       JOIN public.canonical_models m ON m.id=v.canonical_model_id ORDER BY v.id`)).rows;
     const controls = plain((await client.query('SELECT * FROM public.news_ai_config ORDER BY id')).rows);

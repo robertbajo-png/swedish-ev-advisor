@@ -1,0 +1,360 @@
+{
+  "adapter": "ford_explorer_sweden_my2725_v1",
+  "drafts": [
+    {
+      "adapter": "ford_explorer_sweden_my2725_v1",
+      "brand": "Ford",
+      "model": "Explorer",
+      "variant_name": "Explorer RWD 77 kWh",
+      "replacement_variant_name": "Explorer Premium Edition RWD 79 kWh MY27.25",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+        "content_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+        "fetched_at": "2026-11-13T21:47:11.202764+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "content_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "fetched_at": "2026-11-13T21:47:08.290406+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.se/erbjudanden/privatperson",
+          "content_hash": "d28afc85bc1f31d759ae0d9b4e3fbd4433fd843e4e61dc33d720b6d4adc22354",
+          "fetched_at": "2026-11-13T21:47:13.715613+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.dk/koeb/kampagner/explorer-og-capri",
+          "content_hash": "019de8d6f1a1f7122f38bd6c0683fb3694c1c0d01cc5471835945e5b8de9f808",
+          "fetched_at": "2026-11-13T21:47:17.058031+00:00"
+        }
+      ],
+      "source_resolution": "owner_2026_11_13_current_exact_version_replacement",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "wltp_range_km": 572,
+        "wltp_consumption_kwh_100km": 15.5,
+        "battery_kwh": 79,
+        "drivetrain": "RWD",
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 185,
+        "tow_kg": 2000,
+        "seats": 5,
+        "boot_liters": 472
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 572,
+          "quote": "Explorer RWD, Long Range (79 kWh) Premium Edition 286 hk (210 kW) 572 15,5 360 kr 2 536 kr 626 000 kr 549 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.5,
+          "quote": "Explorer RWD, Long Range (79 kWh) Premium Edition 286 hk (210 kW) 572 15,5 360 kr 2 536 kr 626 000 kr 549 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "battery_kwh": {
+          "value": 79,
+          "quote": "Explorer RWD, Long Range (79 kWh) Premium Edition 286 hk (210 kW) 572 15,5 360 kr 2 536 kr 626 000 kr 549 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "Explorer RWD, Long Range (79 kWh) Premium Edition 286 hk (210 kW) 572 15,5 360 kr 2 536 kr 626 000 kr 549 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "11 kW 3-fasladdare (Ombordladdare)",
+          "scope": "current_my2725_onboard_ac",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "dc_charge_kw": {
+          "value": 185,
+          "quote": "Upp till 185 kW DC-snabbladdning (RWD)",
+          "scope": "current_swedish_my2725_peak_dc",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "tow_kg": {
+          "value": 2000,
+          "quote": "Dragvikt: LR RWD 2000 kg / LR AWD 2200 kg (MY27.25)",
+          "scope": "current_swedish_my2725_braked_towing",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "seats": {
+          "value": 5,
+          "quote": "5 sittplatser",
+          "scope": "current_swedish_electric_explorer",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "source_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "page": null
+        },
+        "boot_liters": {
+          "value": 472,
+          "quote": "Dimensioner Explorer® Capri® Bagagerum 472 liter 572 liter Bagagerum med sæder lagt ned 1.460 liter 1.510 liter",
+          "scope": "european_explorer_named_cargo_table_not_capri",
+          "variant_name": "Explorer RWD 77 kWh",
+          "column_header": "Explorer RWD, Long Range (79 kWh) Premium Edition",
+          "source_url": "https://www.ford.dk/koeb/kampagner/explorer-og-capri",
+          "source_hash": "019de8d6f1a1f7122f38bd6c0683fb3694c1c0d01cc5471835945e5b8de9f808",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "price_evidence": {
+        "value": 549000,
+        "reference_price": 626000,
+        "price_type": "campaign_price",
+        "price_valid_until": "2026-12-30",
+        "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+        "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+        "quote": "Rek. pris / Rek. Edition pris | Explorer RWD, Long Range (79 kWh) Premium Edition 286 hk (210 kW) 572 15,5 360 kr 2 536 kr 626 000 kr 549 000 kr",
+        "classification": "swedish_premium_edition_offer_not_reference_or_leasing",
+        "campaign_quote": "Erbjudandet giltligt till och med 30 december 2026. | Explorer Premium Edition finns även som RWD från 549 000 kr.",
+        "campaign_source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+        "campaign_source_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18"
+      },
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "source_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "quote": "Explorer Premium Edition | Car.Tags | Personbilar SUV | El"
+        }
+      },
+      "source_decisions": [
+        "Replace legacy generic powertrains with the current Swedish MY27.25 Premium Edition pair; keep canonical IDs, retire old URLs to the model catalog.",
+        "Use the linked Swedish price list 8, not the old model-page paragraph, older price lists or the Nordic trim maximum.",
+        "Swedish MY27.25 DC is RWD 185/AWD 175 kW, even where foreign or historical documents state 183/185.",
+        "Swedish MY27.25 towing is RWD 2000/AWD 2200 kg, not the old model year 1000/1200.",
+        "Preserve recommended reference prices 626000/686000 as evidence; public Edition offers 549000/569000 remain campaign prices, never lease payments.",
+        "RWD is explicitly included on the shared Premium Edition offer page: use that page validity, not another model or a monthly-lease duration. AWD also has its exact dated campaign card.",
+        "European Explorer boot is 472 L in the named Danish manufacturer table; never use Capri 572 L, 1460 L with seats folded or cabin storage.",
+        "Keep the Danish source locale and the original field evidence. No foreign pricing, consumption, charging or availability is imported."
+      ]
+    },
+    {
+      "adapter": "ford_explorer_sweden_my2725_v1",
+      "brand": "Ford",
+      "model": "Explorer",
+      "variant_name": "Explorer AWD 79 kWh",
+      "replacement_variant_name": "Explorer Premium Edition AWD 77 kWh MY27.25",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+        "content_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+        "fetched_at": "2026-11-13T21:47:11.202764+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "content_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "fetched_at": "2026-11-13T21:47:08.290406+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.se/erbjudanden/privatperson",
+          "content_hash": "d28afc85bc1f31d759ae0d9b4e3fbd4433fd843e4e61dc33d720b6d4adc22354",
+          "fetched_at": "2026-11-13T21:47:13.715613+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.ford.dk/koeb/kampagner/explorer-og-capri",
+          "content_hash": "019de8d6f1a1f7122f38bd6c0683fb3694c1c0d01cc5471835945e5b8de9f808",
+          "fetched_at": "2026-11-13T21:47:17.058031+00:00"
+        }
+      ],
+      "source_resolution": "owner_2026_11_13_current_exact_version_replacement",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "wltp_range_km": 519,
+        "wltp_consumption_kwh_100km": 17.3,
+        "battery_kwh": 77,
+        "drivetrain": "AWD",
+        "ac_charge_kw": 11,
+        "dc_charge_kw": 175,
+        "tow_kg": 2200,
+        "seats": 5,
+        "boot_liters": 472
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 519,
+          "quote": "Explorer AWD, Long Range (77 kWh) Premium Edition 340 hk (250 kW) 519 17,3 360 kr 2 602 kr 686 000 kr 569 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.3,
+          "quote": "Explorer AWD, Long Range (77 kWh) Premium Edition 340 hk (250 kW) 519 17,3 360 kr 2 602 kr 686 000 kr 569 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "battery_kwh": {
+          "value": 77,
+          "quote": "Explorer AWD, Long Range (77 kWh) Premium Edition 340 hk (250 kW) 519 17,3 360 kr 2 602 kr 686 000 kr 569 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "quote": "Explorer AWD, Long Range (77 kWh) Premium Edition 340 hk (250 kW) 519 17,3 360 kr 2 602 kr 686 000 kr 569 000 kr",
+          "scope": "exact_swedish_my2725_premium_row",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 1
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "11 kW 3-fasladdare (Ombordladdare)",
+          "scope": "current_my2725_onboard_ac",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "dc_charge_kw": {
+          "value": 175,
+          "quote": "Upp till 175 kW DC-snabbladdning (AWD)",
+          "scope": "current_swedish_my2725_peak_dc",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "tow_kg": {
+          "value": 2200,
+          "quote": "Dragvikt: LR RWD 2000 kg / LR AWD 2200 kg (MY27.25)",
+          "scope": "current_swedish_my2725_braked_towing",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+          "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+          "page": 2
+        },
+        "seats": {
+          "value": 5,
+          "quote": "5 sittplatser",
+          "scope": "current_swedish_electric_explorer",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "source_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "page": null
+        },
+        "boot_liters": {
+          "value": 472,
+          "quote": "Dimensioner Explorer® Capri® Bagagerum 472 liter 572 liter Bagagerum med sæder lagt ned 1.460 liter 1.510 liter",
+          "scope": "european_explorer_named_cargo_table_not_capri",
+          "variant_name": "Explorer AWD 79 kWh",
+          "column_header": "Explorer AWD, Long Range (77 kWh) Premium Edition",
+          "source_url": "https://www.ford.dk/koeb/kampagner/explorer-og-capri",
+          "source_hash": "019de8d6f1a1f7122f38bd6c0683fb3694c1c0d01cc5471835945e5b8de9f808",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "price_evidence": {
+        "value": 569000,
+        "reference_price": 686000,
+        "price_type": "campaign_price",
+        "price_valid_until": "2026-12-30",
+        "source_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/fordsesite/cardocuments/explorer/prislista-explorer-premium-edition.pdf",
+        "source_hash": "92c9c9b08e914241e707d14d4a79d76c88949d040d2a3512828b61650df05155",
+        "quote": "Rek. pris / Rek. Edition pris | Explorer AWD, Long Range (77 kWh) Premium Edition 340 hk (250 kW) 519 17,3 360 kr 2 602 kr 686 000 kr 569 000 kr",
+        "classification": "swedish_premium_edition_offer_not_reference_or_leasing",
+        "campaign_quote": "Explorer Premium Edition AWD PRIVATLEASING Från 5 595 kr/mån* KAMPANJPRIS Från 569 000 kr Köp din Explorer Premium Edition och få dragkrok, värmepump, massagestolar och 21-tums aluminiumfälgar. ERBJUDANDET GILTIGT TILL 2026-12-30",
+        "campaign_source_url": "https://www.ford.se/erbjudanden/privatperson",
+        "campaign_source_hash": "d28afc85bc1f31d759ae0d9b4e3fbd4433fd843e4e61dc33d720b6d4adc22354"
+      },
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.ford.se/bilar/personbilar-och-suver/explorer/explorer-premium-edition",
+          "source_hash": "4a421b6d7bec797c85ff104d41dc1d93bd87eeb8dac301c0d964dfb655cf3c18",
+          "quote": "Explorer Premium Edition | Car.Tags | Personbilar SUV | El"
+        }
+      },
+      "source_decisions": [
+        "Replace legacy generic powertrains with the current Swedish MY27.25 Premium Edition pair; keep canonical IDs, retire old URLs to the model catalog.",
+        "Use the linked Swedish price list 8, not the old model-page paragraph, older price lists or the Nordic trim maximum.",
+        "Swedish MY27.25 DC is RWD 185/AWD 175 kW, even where foreign or historical documents state 183/185.",
+        "Swedish MY27.25 towing is RWD 2000/AWD 2200 kg, not the old model year 1000/1200.",
+        "Preserve recommended reference prices 626000/686000 as evidence; public Edition offers 549000/569000 remain campaign prices, never lease payments.",
+        "RWD is explicitly included on the shared Premium Edition offer page: use that page validity, not another model or a monthly-lease duration. AWD also has its exact dated campaign card.",
+        "European Explorer boot is 472 L in the named Danish manufacturer table; never use Capri 572 L, 1460 L with seats folded or cabin storage.",
+        "Keep the Danish source locale and the original field evidence. No foreign pricing, consumption, charging or availability is imported."
+      ]
+    }
+  ],
+  "held": []
+}

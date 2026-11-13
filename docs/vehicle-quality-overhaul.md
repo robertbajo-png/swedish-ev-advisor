@@ -5,6 +5,78 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Ford Explorer Batch (2026-11-13)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Current Swedish linked price list 8 / 2026, MY27.25 Premium Edition; exact RWD 79 / AWD 77 kWh and current campaign evidence. |
+| 2. Facts and photography | Committed | Two nine-field profiles, twelve filled gaps, two dated campaign prices, SUV classification and reviewed European electric Explorer press photo. Canonical IDs retained. |
+| 3. Regression and visual QA | Passed locally | Six extraction tests, real price-trigger/rollback/replay tests, previous adapters, 90 built routes, twelve six-width Ford checks, four dedicated and 22 general Axe audits pass. Mobile/desktop screenshots inspected. |
+| 4. Publication | In progress | Package a reviewed PR, require exact-main CI, then use the existing production workflow and actual public HTTPS/data/photo checks. |
+
+Keep the two canonical identities and old deep links when replacing obsolete
+versions with documented current successors. Never combine a new model year's
+price with the old powertrain's battery, range or charging. No paid AI, schema,
+news, budget or infrastructure changes are part of this batch.
+
+- The old model-page prose, obsolete PDF link and cached search snippets mix
+  years/editions. The live public manufacturer JSON links price list 8, MY27.25,
+  with only the two Premium Edition versions. Use RWD 79 kWh / 572 km / 15.5
+  kWh/100 km and AWD 77 kWh / 519 km / 17.3. Do not borrow Nordic maxima 602/553.
+- Current Swedish PDF charging is RWD 185 / AWD 175 kW DC, 11 kW AC; braked
+  towing is 2000/2200 kg. Prefer those exact local MY27.25 figures over old
+  135/185 kW, 1000/1200 kg or foreign charging tables. Retain all alternatives
+  and selection reasons in staging; the obsolete profiles are replaced, not
+  described as the very same historical batteries.
+- Swedish Premium page confirms five seats and SUV identity. Boot volume
+  472 L comes only from the named Explorer column in Ford Denmark's current
+  European model table. Capri's 572 L and folded-seat 1460 L are rejected.
+  Keep country DK/language da and a visible separate source link/qualification.
+  Swiss/German PDF research was not imported because direct robots retrieval
+  was unavailable; do not present search-cached PDF text as a fetched source.
+- Cash Edition offers 549000/569000 remain campaign prices, not leasing
+  payments or ordinary reference prices 626000/686000. Both use the common
+  Premium Edition offer page's 30 December 2026 validity; RWD is explicitly
+  included on that page and AWD also has an exact dated offer card. No date
+  is borrowed from Capri or the monthly lease term. Source excerpts stay bound.
+- Adopt only the visually reviewed Ford Sweden photograph
+  `2023_FORD_NewElectricExplorer_1`, per-image media-use permission, full frame,
+  credit and responsive derivatives. It is a European electric Explorer model
+  press photo, not a claim of exact Swedish MY27.25 paint/wheels/equipment.
+- Preserve canonical IDs and all 76 public profiles. Old `rwd-77-kwh` and
+  `awd-79-kwh` URLs go to the Ford Explorer catalog using the existing retired
+  link policy, not a silent redirect claiming the old drivetrain is unchanged.
+- The first canonical transaction refused the DATE readback and rolled back
+  before commit. Node-postgres represents DATE as local midnight by default;
+  JSON UTC serialization can then move its calendar day. The refresh connection
+  now configures the DATE-only (OID 1082) parser to retain calendar text, leaving
+  timestamps and TLS untouched. A dedicated parser regression and the unchanged
+  campaign-date constraint are mandatory. No missing date or evidence guard is
+  relaxed to make this batch publish.
+- Read-only real-driver diagnosis confirmed that the default parser returned
+  `2026-12-29T23:00:00.000Z` for SQL DATE `2026-12-30`; the corrected per-connection
+  parser returns the exact `2026-12-30` text. The subsequent canonical transaction
+  committed both profiles, twelve missing technical values, two prices, four
+  source records and one body classification. News records/controls were equal
+  before and after. IDs and the unrelated quarantined Business Edition are kept.
+- The local image preflight initially exceeded its 30-second subprocess limit,
+  before connecting to the database. Running the unchanged full rights/bytes
+  audit independently passed all 31 surfaces without errors. Allow a bounded
+  120 seconds for that same mandatory audit; no permission check is skipped.
+- The image transaction updated only the Explorer model. The approved public
+  export still contains 76 versions across 30 models: only the two Ford rows
+  differ from the prior snapshot, and all other 74 are equal. Core completeness
+  is now 43/76 and professionally reviewed model photos 14/30; this is not a
+  claim that the other brands are finished. Four photo files are hash-verified.
+- Local Ford checks cover both versions at 320/375/390/430/768/1440px. All
+  technical sections and price-qualified metrics are complete, each old URL
+  reaches current model choices, and no horizontal overflow or runtime errors
+  occur. Mobile photos remain full-frame above the copy with a 24px content
+  gap. All four Ford and 22 general Axe audits have zero violations. Filtering,
+  sorting, comparison, CSV, report-error handling and static/hydrated route
+  checks pass. The isolated, concurrently loaded local performance observations
+  are not production field measurements or a claimed performance improvement.
+
 ## Mercedes-Benz CLA Batch (2026-11-13)
 
 | Step | Status | Acceptance |
@@ -12,7 +84,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | Live Swedish C174 manufacturer technical dialog, 37 rows / three exact powertrains, and freshly checked MY2027 Advanced Edition order offers. |
 | 2. Facts and photography | Committed | 27 missing technical values, one Sedan classification and exact electric-sedan press photo. Three unchanged cash offers remain dealer offers; corrected order-car names retain their indexed URLs and canonical IDs. |
 | 3. Regression and visual QA | Passed locally | Six extraction tests, real-trigger transaction/rollback/replay, previous brand adapters, rights, 90 built routes, 18 six-width CLA checks, six dedicated and 22 general Axe audits pass. |
-| 4. Publication | In progress | Reviewed GitHub change, exact-main CI, existing production distribution and actual HTTPS/data/photo verification. |
+| 4. Publication | Complete | PR #63 merged; all 160 PR and exact-main CI steps passed. Production run 43511244723 succeeded; actual HTTPS, 76-record parity, four photo hashes, 18 detail checks and six CLA Axe audits passed. |
 
 Preserve all 76 published identities and existing links. No paid AI, migrations,
 news activity, budget or infrastructure changes are part of this vehicle batch.
@@ -67,6 +139,23 @@ news activity, budget or infrastructure changes are part of this vehicle batch.
   focus/disconnected overlay and keeps instant reduced-motion-safe scrolling.
   A deterministic delayed-scroll regression and the original geometric browser
   assertions remain mandatory; do not classify a rerun alone as a fix.
+- Released through PR #63 as main
+  `84e0093db24044a549e6d4bb424e5f7f63efb471`. Both final CI runs passed all
+  160 steps, including the original footer-focus assertions after the bounded
+  correction. Existing production distribution `43511244723` succeeded.
+  At `2026-11-13T21:32:28.711Z`, actual public GET checks matched all 76 approved
+  records and all four new image hashes. Three CLA pages passed six widths
+  (18 checks) and six additional Axe audits without violations, overflow or
+  runtime errors. Mobile/desktop screenshots were visually reviewed. HTTPS,
+  indexability, sitemap, API health and budget-storage readiness also passed;
+  no provider was contacted. The complete release receipt is attached to PR #63.
+- CLA is complete within the current catalog fields: all three technical
+  profiles, independent dealer cash offers, Sedan classification and exact-model
+  press photograph are present. Preserve configuration/equipment qualifications.
+  The wider catalog remains unfinished (41/76 core-complete, 13/30 professionally
+  reviewed photos). Next recommended new-brand batch: Ford Explorer. No paid
+  AI, new articles, news-control, budget, schema or infrastructure changes were
+  made in this vehicle update.
 
 ## Mazda 6e / Renault 5 Batch (2026-11-13)
 
