@@ -38,6 +38,21 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "mercedes-se-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Mercedes-Benz Sverige AB",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/pressreleases/nya-eldrivna-mercedes-benz-cla-aer-aarets-bil-2026-3424247",
+    "image_path_prefix": "/se/mercedes-benz-sverige/images/",
+    "model_title_pattern": "^Mercedes-Benz CLA with EQ Technology$",
+    "approved_image_paths": ["/se/mercedes-benz-sverige/images/mercedes-benz-cla-with-eq-technology-3210998"],
+    "model_keys": ["mercedes benz|cla"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "skoda-dk-mynewsdesk": {
     "origin": "https://skoda-danmark.mynewsdesk.com",
     "publisher": "Škoda Danmark",

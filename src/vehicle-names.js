@@ -41,5 +41,9 @@ export function slug(value) {
 }
 
 export function vehicleSlug(brand, model, variant) {
-  return slug(`${brand} ${displayModelName(brand, model, variant)}`);
+  // Corrected fulfilment does not invalidate the three already indexed offer URLs.
+  const legacyClaOffer = brand === 'Mercedes-Benz' && model === 'Cla' &&
+    /^CLA (?:200|250\+|350 4MATIC) Advanced Edition MY2027 \(beställningsbil\)$/.test(variant);
+  const routeVariant = legacyClaOffer ? variant.replace('(beställningsbil)', '(lagerbil)') : variant;
+  return slug(`${brand} ${displayModelName(brand, model, routeVariant)}`);
 }

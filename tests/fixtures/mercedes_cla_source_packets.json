@@ -1,0 +1,526 @@
+{
+  "capture": {
+    "url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+    "canonical": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+    "dialog_heading": "Alla tekniska data (Electric)",
+    "h1": "CLA Elektrisk",
+    "lang": "sv-SE",
+    "pressroom_url": "https://www.mynewsdesk.com/se/mercedes-benz-sverige",
+    "rows": [
+      [
+        "",
+        "CLA 200",
+        "CLA 250+",
+        "CLA 350 4MATIC"
+      ],
+      [
+        "Bränsleförbrukning, koldioxidutsläpp och energieffektivitet"
+      ],
+      [
+        "Förbrukning blandad körning",
+        "12,7 kWh/100km",
+        "12,6 kWh/100km",
+        "13,1 kWh/100km"
+      ],
+      [
+        "CO₂-utsläpp",
+        "0 g/km",
+        "0 g/km",
+        "0 g/km"
+      ],
+      [
+        "Elektrisk räckvidd, blandad körning",
+        "528 km",
+        "772 km",
+        "751 km"
+      ],
+      [
+        "Elektrisk räckvidd, låg/mellanhög hastighet",
+        "615 km",
+        "898 km",
+        "864 km"
+      ],
+      [
+        "Effekt"
+      ],
+      [
+        "Bränsletyp",
+        "Electric",
+        "Electric",
+        "Electric"
+      ],
+      [
+        "Motoreffekt",
+        "165 kW (224 hk)",
+        "200 kW (272 hk)",
+        "260 kW (354 hk)"
+      ],
+      [
+        "Nominellt vridmoment",
+        "335 Nm",
+        "335 Nm",
+        "515 Nm"
+      ],
+      [
+        "Acceleration 0-100 km/h",
+        "7,5 s",
+        "6,7 s",
+        "4,9 s"
+      ],
+      [
+        "Maximal hastighet",
+        "210 km/h",
+        "210 km/h",
+        "210 km/h"
+      ],
+      [
+        "Drivlina",
+        "Bakhjulsdrift",
+        "Bakhjulsdrift",
+        "Fyrhjulsdrift"
+      ],
+      [
+        "Batteri & laddning"
+      ],
+      [
+        "DC-laddning:Räckvidd efter 10 minuter (WLTP)",
+        "175 - 200 km",
+        "285 - 325 km",
+        "275 - 315 km"
+      ],
+      [
+        "DC laddningstid 10–80 % SOC (netto)Detta värde kan avvika beroende på vilken utrustning som valts.",
+        "20 min",
+        "22 min",
+        "22 min"
+      ],
+      [
+        "Maximal laddeffekt DCDetta värde kan avvika beroende på vilken utrustning som valts.",
+        "200 kW",
+        "320 kW",
+        "320 kW"
+      ],
+      [
+        "Laddningstid AC 0–100 % SOC (netto) väggbox/offentliga laddningsstationrDetta värde kan avvika beroende på vilken utrustning som valts.",
+        "6,5 h",
+        "9 h",
+        "9 h"
+      ],
+      [
+        "Maximal laddeffekt ACDetta värde kan avvika beroende på vilken utrustning som valts.",
+        "11 kW",
+        "11 kW",
+        "11 kW"
+      ],
+      [
+        "Användbart energiinnehåll batteri",
+        "58 kWh",
+        "85 kWh",
+        "85 kWh"
+      ],
+      [
+        "Mått"
+      ],
+      [
+        "Längd",
+        "4 723 mm",
+        "4 723 mm",
+        "4 723 mm"
+      ],
+      [
+        "Bredd (med speglar)",
+        "2 021 mm",
+        "2 021 mm",
+        "2 021 mm"
+      ],
+      [
+        "Bredd (infällda ytterbackspeglar)",
+        "1 885 mm",
+        "1 885 mm",
+        "1 885 mm"
+      ],
+      [
+        "Bredd (utan ytterbackspeglar)",
+        "1 855 mm",
+        "1 855 mm",
+        "1 855 mm"
+      ],
+      [
+        "Höjd",
+        "1 468 mm",
+        "1 468 mm",
+        "1 468 mm"
+      ],
+      [
+        "Vänddiameter",
+        "11,2 m",
+        "11,2 m",
+        "11,2 m"
+      ],
+      [
+        "BagageutrymmesvolymBagageutrymmesvolymen kan avvika beroende på tillval.",
+        "405 l",
+        "405 l",
+        "405 l"
+      ],
+      [
+        "Vikt"
+      ],
+      [
+        "Tjänstevikt (EU)",
+        "2 045 kg",
+        "2 055 kg",
+        "2 135 kg"
+      ],
+      [
+        "Lastkapacitet (EU)",
+        "455 kg",
+        "455 kg",
+        "440 kg"
+      ],
+      [
+        "Tillåten taklast",
+        "0 kg",
+        "0 kg",
+        "0 kg"
+      ],
+      [
+        "Tillåten totalvikt",
+        "2 500 kg",
+        "2 510 kg",
+        "2 575 kg"
+      ],
+      [
+        "Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)Detta värde kan avvika beroende på vilken utrustning som valts.",
+        "750 kg (1 500 kg)",
+        "750 kg (1 500 kg)",
+        "750 kg (1 800 kg)"
+      ],
+      [
+        "Detaljer"
+      ],
+      [
+        "Sittplatser",
+        "5",
+        "5",
+        "5"
+      ],
+      [
+        "Dörrar",
+        "4",
+        "4",
+        "4"
+      ]
+    ],
+    "tdm_reservation": null,
+    "title": "Eldrivna CLA | Priser och specifikationer | Mercedes-Benz",
+    "captured_at": "2026-11-13T20:45:26.328Z",
+    "retrieval_method": "connected_browser_dom",
+    "http_status": null,
+    "robots": "User-agent: *\nDisallow: /bin\nDisallow: /account\nDisallow: /apps\nDisallow: /crx\nDisallow: /system\nDisallow: /libs\nDisallow: /content\nDisallow: /*/mercedes-benz-cars/car-configurator*\nDisallow: /passengercars/services/manuals.html/*/search?\nDisallow: /passengercars/owners-manuals/*/pdf\nAllow: /content/dam/hq/brand-logo\nAllow: /passengercars/content-pool/tool-pages/car-configurator*\nAllow: /content/*/mpc/*\nDisallow: /pab/\nDisallow: /sec/js/\nDisallow: /*.inc$\nDisallow: /*.wmv$\nDisallow: /*.cgi$\nDisallow: /*.xhtml$\nDisallow: /*.swf\nDisallow: /*/mobile/\nDisallow: /*.popup.html$\nDisallow: /etc\nAllow: /etc/clientlibs/acs-commons\nAllow: /etc.clientlibs\nAllow: /etc/designs/embxp-wholesale\nDisallow: *content-pool\nAllow: *content-pool/*.jpg\nAllow: *content-pool/*.png\nAllow: *content-pool/*.svg\nAllow: *content-pool/*.jpeg\nAllow: /vans/*/content-pool/apps\nAllow: /vans/*/content-pool/tools/legal\nAllow: /vans/*/content-pool/forms\nAllow: /content/*.jpg\nAllow: /content/*.png\nAllow: /content/*.svg\nAllow: /content/*.jpeg\nAllow: /content/*.mp4\nAllow: /content/*.webm\nAllow: /content/*.ogv\nAllow: /content/*.vtt\nAllow: /content/*.gif\nAllow: /content/*.ico\nAllow: /content/*.svgz\nSitemap: https://www.mercedes-benz.se/sitemaponeweb/sitemap.index.xml.gz\nSitemap: https://www.mercedes-benz.se/passengercars/customer-service/sitemap/sv_SE\nSitemap: https://www.mercedes-benz.se/sitemaps/atcscos/service-contracts-SE.xml\nSitemap: https://www.mercedes-benz.se/sitemaps/emh/sitemap_se.xml"
+  },
+  "offers": [
+    {
+      "price_sek": 559000,
+      "price_type": "dealer_offer",
+      "price_valid_until": null,
+      "wltp_range_km": null,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+      "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+      "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+      "source_quote": "{\"car_id\":\"19043773\",\"name\":\"Mercedes-Benz CLA 200 Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":559000,\"car_exkl_moms\":447200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+      "source_name": "Höglunds Bil",
+      "source_authority": "authorized_dealer",
+      "source_type": "authorized_dealer_stock_page",
+      "authorization_evidence_url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+      "fetched_at": "2026-11-13T20:51:29.797410+00:00",
+      "extraction_confidence": 0.99,
+      "extraction_payload": {
+        "policy": "current_exact_variants_2026_10_v2",
+        "adapter": "hoglund_exact_new_cla_stock_v1",
+        "stock_row": {
+          "car_id": "19043773",
+          "name": "Mercedes-Benz CLA 200 Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 559000,
+          "car_exkl_moms": 447200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        },
+        "source_pointer": "/props/pageProps/carsList/64",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "field_evidence": {
+          "price_sek": {
+            "quote": "{\"car_id\":\"19043773\",\"name\":\"Mercedes-Benz CLA 200 Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":559000,\"car_exkl_moms\":447200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+            "variant": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+            "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+            "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8"
+          }
+        }
+      }
+    },
+    {
+      "price_sek": 599000,
+      "price_type": "dealer_offer",
+      "price_valid_until": null,
+      "wltp_range_km": null,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+      "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+      "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+      "source_quote": "{\"car_id\":\"19003980\",\"name\":\"Mercedes-Benz CLA 250+ Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":599000,\"car_exkl_moms\":479200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+      "source_name": "Höglunds Bil",
+      "source_authority": "authorized_dealer",
+      "source_type": "authorized_dealer_stock_page",
+      "authorization_evidence_url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+      "fetched_at": "2026-11-13T20:51:29.797410+00:00",
+      "extraction_confidence": 0.99,
+      "extraction_payload": {
+        "policy": "current_exact_variants_2026_10_v2",
+        "adapter": "hoglund_exact_new_cla_stock_v1",
+        "stock_row": {
+          "car_id": "19003980",
+          "name": "Mercedes-Benz CLA 250+ Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 599000,
+          "car_exkl_moms": 479200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        },
+        "source_pointer": "/props/pageProps/carsList/54",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "field_evidence": {
+          "price_sek": {
+            "quote": "{\"car_id\":\"19003980\",\"name\":\"Mercedes-Benz CLA 250+ Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":599000,\"car_exkl_moms\":479200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+            "variant": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+            "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+            "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8"
+          }
+        }
+      }
+    },
+    {
+      "price_sek": 639000,
+      "price_type": "dealer_offer",
+      "price_valid_until": null,
+      "wltp_range_km": null,
+      "wltp_consumption_kwh_100km": null,
+      "battery_kwh": null,
+      "dc_charge_kw": null,
+      "ac_charge_kw": null,
+      "boot_liters": null,
+      "tow_kg": null,
+      "seats": null,
+      "drivetrain": null,
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+      "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+      "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+      "source_quote": "{\"car_id\":\"19004063\",\"name\":\"Mercedes-Benz CLA 350 4MATIC Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":639000,\"car_exkl_moms\":511200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+      "source_name": "Höglunds Bil",
+      "source_authority": "authorized_dealer",
+      "source_type": "authorized_dealer_stock_page",
+      "authorization_evidence_url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+      "fetched_at": "2026-11-13T20:51:29.797410+00:00",
+      "extraction_confidence": 0.99,
+      "extraction_payload": {
+        "policy": "current_exact_variants_2026_10_v2",
+        "adapter": "hoglund_exact_new_cla_stock_v1",
+        "stock_row": {
+          "car_id": "19004063",
+          "name": "Mercedes-Benz CLA 350 4MATIC Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 639000,
+          "car_exkl_moms": 511200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        },
+        "source_pointer": "/props/pageProps/carsList/56",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "field_evidence": {
+          "price_sek": {
+            "quote": "{\"car_id\":\"19004063\",\"name\":\"Mercedes-Benz CLA 350 4MATIC Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":639000,\"car_exkl_moms\":511200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+            "variant": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+            "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+            "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8"
+          }
+        }
+      }
+    }
+  ],
+  "details": {
+    "19003980": {
+      "car": {
+        "databaseId": 3523954,
+        "fuelTypes": {
+          "nodes": [
+            {
+              "name": "El"
+            }
+          ]
+        },
+        "bodyTypes": {
+          "nodes": [
+            {
+              "databaseId": 28,
+              "name": "Sedan"
+            }
+          ]
+        },
+        "bytbil": {
+          "carYearmodel": 2027,
+          "carNoveltyType": "new_car",
+          "carPriceSek": "599000",
+          "carExklMoms": "479200",
+          "carModeldescription": "CLA 250+ Advanced Edition 3.95% RÄNTA",
+          "carInfo": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+          "carEquipment": "<ul class=\"car-info\"><li class=\"car-info__item\">5G Kommunikation</li><li class=\"car-info__item\">ACC Klima THERMATIC 1-Zon</li><li class=\"car-info__item\">Adaptiv Farthållare DISTRONIC</li><li class=\"car-info__item\">Advanced paket plus</li><li class=\"car-info__item\">Aktiv hastighetsbegränsningsassist.</li><li class=\"car-info__item\">Aktiv Kurshållningsassistent</li><li class=\"car-info__item\">Ansiktsigenkänning</li><li class=\"car-info__item\">Auto. Helljusassistent</li><li class=\"car-info__item\">Baksäte fällbart 40/20/40</li><li class=\"car-info__item\">Belyst front MB-stjärnor</li><li class=\"car-info__item\">Bromsassistent</li><li class=\"car-info__item\">Centerkrockkudde</li><li class=\"car-info__item\">Digital Bilnyckel</li><li class=\"car-info__item\">Digitalradio DAB</li><li class=\"car-info__item\">Dödvinkelassistent Plus</li><li class=\"car-info__item\">Elinställbart svankstöd 4-vägs</li><li class=\"car-info__item\">Eluppvärmbara stolar fram</li><li class=\"car-info__item\">Frunk</li><li class=\"car-info__item\">Förardisplay 10.25 tum</li><li class=\"car-info__item\">Infällbara dörrhandtag</li><li class=\"car-info__item\">Innertak i svart tyg</li><li class=\"car-info__item\">Interiörpanel antracit</li><li class=\"car-info__item\">KEYLESS-GO</li><li class=\"car-info__item\">Knäkrockkuddar</li><li class=\"car-info__item\">Komfortchassi</li><li class=\"car-info__item\">Komfortstolar</li><li class=\"car-info__item\">Konstläder/Textilklädsel</li><li class=\"car-info__item\">Laddningssystem AC 11kW</li><li class=\"car-info__item\">Laddningssystem DC 800V</li><li class=\"car-info__item\">LED-Strålkastare</li><li class=\"car-info__item\">Ljuslist bak</li><li class=\"car-info__item\">LM-Fälgar 18 tum 5-eker</li><li class=\"car-info__item\">MB Charge Public</li><li class=\"car-info__item\">MB nödanropsystem E-Call</li><li class=\"car-info__item\">MBUX Live Traffic Information</li><li class=\"car-info__item\">MBUX Multimediasystem</li><li class=\"car-info__item\">MBUX Navigation</li><li class=\"car-info__item\">Medieskärm 14 tum</li><li class=\"car-info__item\">Mittarmstöd bak nedfällbart</li><li class=\"car-info__item\">Multifunktionssportratt Nappa</li><li class=\"car-info__item\">Nödstoppfunktion</li><li class=\"car-info__item\">Panelbelysning</li><li class=\"car-info__item\">Panoramaglastak</li><li class=\"car-info__item\">Parkeringspaket m. backkamera</li><li class=\"car-info__item\">Progressive Line</li><li class=\"car-info__item\">Rangerassistent</li><li class=\"car-info__item\">Ruttbaserad Hastighetsanpassning</li><li class=\"car-info__item\">Selfie- och Videokamera</li><li class=\"car-info__item\">Spegelpaket</li><li class=\"car-info__item\">Trafikljusassistent</li><li class=\"car-info__item\">Trådlös Mobiltelefonladdare fram</li><li class=\"car-info__item\">Undanmanöverassistent</li><li class=\"car-info__item\">Urstigningsvarning</li><li class=\"car-info__item\">Utökad igångkörningsassistent</li><li class=\"car-info__item\">Utökat USB Paket</li><li class=\"car-info__item\">Varning för hastighetsgräns</li><li class=\"car-info__item\">Värmepump</li></ul>"
+        }
+      },
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-250-advanced-edition-2-95-ranta-3",
+        "content_hash": "1b01664dd5c8fdbb0935da56d7b88653ed96dc94306fbc0eb5f3c8f553772875",
+        "fetched_at": "2026-11-13T20:51:31.872100+00:00"
+      }
+    },
+    "19004063": {
+      "car": {
+        "databaseId": 3523969,
+        "fuelTypes": {
+          "nodes": [
+            {
+              "name": "El"
+            }
+          ]
+        },
+        "bodyTypes": {
+          "nodes": [
+            {
+              "databaseId": 28,
+              "name": "Sedan"
+            }
+          ]
+        },
+        "bytbil": {
+          "carYearmodel": 2027,
+          "carNoveltyType": "new_car",
+          "carPriceSek": "639000",
+          "carExklMoms": "511200",
+          "carModeldescription": "CLA 350 4MATIC Advanced Edition 3.95% RÄNTA",
+          "carInfo": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+          "carEquipment": "<ul class=\"car-info\"><li class=\"car-info__item\">5G Kommunikation</li><li class=\"car-info__item\">ACC Klima THERMATIC 1-Zon</li><li class=\"car-info__item\">Adaptiv Farthållare DISTRONIC</li><li class=\"car-info__item\">Advanced paket plus</li><li class=\"car-info__item\">Aktiv hastighetsbegränsningsassist.</li><li class=\"car-info__item\">Aktiv Kurshållningsassistent</li><li class=\"car-info__item\">Ansiktsigenkänning</li><li class=\"car-info__item\">Auto. Helljusassistent</li><li class=\"car-info__item\">Baksäte fällbart 40/20/40</li><li class=\"car-info__item\">Belyst front MB-stjärnor</li><li class=\"car-info__item\">Bromsassistent</li><li class=\"car-info__item\">Centerkrockkudde</li><li class=\"car-info__item\">Digital Bilnyckel</li><li class=\"car-info__item\">Digitalradio DAB</li><li class=\"car-info__item\">Dödvinkelassistent Plus</li><li class=\"car-info__item\">Elinställbart svankstöd 4-vägs</li><li class=\"car-info__item\">Eluppvärmbara stolar fram</li><li class=\"car-info__item\">Frunk</li><li class=\"car-info__item\">Förardisplay 10.25 tum</li><li class=\"car-info__item\">Infällbara dörrhandtag</li><li class=\"car-info__item\">Innertak i svart tyg</li><li class=\"car-info__item\">Interiörpanel antracit</li><li class=\"car-info__item\">KEYLESS-GO</li><li class=\"car-info__item\">Knäkrockkuddar</li><li class=\"car-info__item\">Komfortchassi</li><li class=\"car-info__item\">Komfortstolar</li><li class=\"car-info__item\">Konstläder/Textilklädsel</li><li class=\"car-info__item\">Laddningssystem AC 11kW</li><li class=\"car-info__item\">Laddningssystem DC 800V</li><li class=\"car-info__item\">LED-Strålkastare</li><li class=\"car-info__item\">Ljuslist bak</li><li class=\"car-info__item\">LM-Fälgar 18 tum 5-eker</li><li class=\"car-info__item\">MB Charge Public</li><li class=\"car-info__item\">MB nödanropsystem E-Call</li><li class=\"car-info__item\">MBUX Live Traffic Information</li><li class=\"car-info__item\">MBUX Multimediasystem</li><li class=\"car-info__item\">MBUX Navigation</li><li class=\"car-info__item\">Medieskärm 14 tum</li><li class=\"car-info__item\">Mittarmstöd bak nedfällbart</li><li class=\"car-info__item\">Multifunktionssportratt Nappa</li><li class=\"car-info__item\">Nödstoppfunktion</li><li class=\"car-info__item\">Panelbelysning</li><li class=\"car-info__item\">Panoramaglastak</li><li class=\"car-info__item\">Parkeringspaket m. backkamera</li><li class=\"car-info__item\">Progressive Line</li><li class=\"car-info__item\">Rangerassistent</li><li class=\"car-info__item\">Ruttbaserad Hastighetsanpassning</li><li class=\"car-info__item\">Selfie- och Videokamera</li><li class=\"car-info__item\">Spegelpaket</li><li class=\"car-info__item\">Trafikljusassistent</li><li class=\"car-info__item\">Trådlös Mobiltelefonladdare fram</li><li class=\"car-info__item\">Undanmanöverassistent</li><li class=\"car-info__item\">Urstigningsvarning</li><li class=\"car-info__item\">Utökad igångkörningsassistent</li><li class=\"car-info__item\">Utökat USB Paket</li><li class=\"car-info__item\">Varning för hastighetsgräns</li><li class=\"car-info__item\">Värmepump</li></ul>"
+        }
+      },
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-350-4matic-advanced-edition-2-95-ranta",
+        "content_hash": "9d11ba74394c547d91793cafb1d478847d028fcb5dd9e26a99135dfc899b73ff",
+        "fetched_at": "2026-11-13T20:51:32.847817+00:00"
+      }
+    },
+    "19043773": {
+      "car": {
+        "databaseId": 3523992,
+        "fuelTypes": {
+          "nodes": [
+            {
+              "name": "El"
+            }
+          ]
+        },
+        "bodyTypes": {
+          "nodes": [
+            {
+              "databaseId": 28,
+              "name": "Sedan"
+            }
+          ]
+        },
+        "bytbil": {
+          "carYearmodel": 2027,
+          "carNoveltyType": "new_car",
+          "carPriceSek": "559000",
+          "carExklMoms": "447200",
+          "carModeldescription": "CLA 200 Advanced Edition 3.95% RÄNTA",
+          "carInfo": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+          "carEquipment": "<ul class=\"car-info\"><li class=\"car-info__item\">5G Kommunikation</li><li class=\"car-info__item\">ACC Klima THERMATIC 1-Zon</li><li class=\"car-info__item\">Adaptiv Farthållare DISTRONIC</li><li class=\"car-info__item\">Advanced paket plus</li><li class=\"car-info__item\">Aktiv hastighetsbegränsningsassist.</li><li class=\"car-info__item\">Aktiv Kurshållningsassistent</li><li class=\"car-info__item\">Ansiktsigenkänning</li><li class=\"car-info__item\">Auto. Helljusassistent</li><li class=\"car-info__item\">Baksäte fällbart 40/20/40</li><li class=\"car-info__item\">Belyst front MB-stjärnor</li><li class=\"car-info__item\">Bromsassistent</li><li class=\"car-info__item\">Centerkrockkudde</li><li class=\"car-info__item\">Digital Bilnyckel</li><li class=\"car-info__item\">Digitalradio DAB</li><li class=\"car-info__item\">Dödvinkelassistent Plus</li><li class=\"car-info__item\">Elinställbart svankstöd 4-vägs</li><li class=\"car-info__item\">Eluppvärmbara stolar fram</li><li class=\"car-info__item\">Frunk</li><li class=\"car-info__item\">Förardisplay 10.25 tum</li><li class=\"car-info__item\">Infällbara dörrhandtag</li><li class=\"car-info__item\">Innertak i svart tyg</li><li class=\"car-info__item\">Interiörpanel antracit</li><li class=\"car-info__item\">KEYLESS-GO</li><li class=\"car-info__item\">Knäkrockkuddar</li><li class=\"car-info__item\">Komfortchassi</li><li class=\"car-info__item\">Komfortstolar</li><li class=\"car-info__item\">Konstläder/Textilklädsel</li><li class=\"car-info__item\">Laddningssystem AC 11kW</li><li class=\"car-info__item\">Laddningssystem DC 800V 200kW</li><li class=\"car-info__item\">LED-Strålkastare</li><li class=\"car-info__item\">Ljuslist bak</li><li class=\"car-info__item\">LM-Fälgar 18 tum 5-eker</li><li class=\"car-info__item\">MB Charge Public</li><li class=\"car-info__item\">MB nödanropsystem E-Call</li><li class=\"car-info__item\">MBUX Live Traffic Information</li><li class=\"car-info__item\">MBUX Multimediasystem</li><li class=\"car-info__item\">MBUX Navigation</li><li class=\"car-info__item\">Medieskärm 14 tum</li><li class=\"car-info__item\">Mittarmstöd bak nedfällbart</li><li class=\"car-info__item\">Multifunktionssportratt Nappa</li><li class=\"car-info__item\">Nödstoppfunktion</li><li class=\"car-info__item\">Panelbelysning</li><li class=\"car-info__item\">Panoramaglastak</li><li class=\"car-info__item\">Parkeringspaket m. backkamera</li><li class=\"car-info__item\">Progressive Line</li><li class=\"car-info__item\">Rangerassistent</li><li class=\"car-info__item\">Ruttbaserad Hastighetsanpassning</li><li class=\"car-info__item\">Selfie- och Videokamera</li><li class=\"car-info__item\">Spegelpaket</li><li class=\"car-info__item\">Trafikljusassistent</li><li class=\"car-info__item\">Trådlös Mobiltelefonladdare fram</li><li class=\"car-info__item\">Undanmanöverassistent</li><li class=\"car-info__item\">Urstigningsvarning</li><li class=\"car-info__item\">Utökad igångkörningsassistent</li><li class=\"car-info__item\">Utökat USB Paket</li><li class=\"car-info__item\">Varning för hastighetsgräns</li><li class=\"car-info__item\">Värmepump</li></ul>"
+        }
+      },
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-200-advanced-edition-2-95-ranta",
+        "content_hash": "49a832fb71fd0517a5e3972aed58a3f7389a306f64e1e99308fa0b7d261cf305",
+        "fetched_at": "2026-11-13T20:51:30.887170+00:00"
+      }
+    }
+  }
+}

@@ -106,6 +106,15 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "mercedes benz|cla": {
+      "asset_url": "/media/vehicles/mercedes-benz-cla-press-1c9f8c164228.jpg",
+      "content_sha256": "1c9f8c1642282ebb0ff2e96eebf251d5e1851b9ee584bc9876993a844168904a",
+      "status": "approved",
+      "reviewed_at": "2026-11-13",
+      "object_position": "50% 60%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

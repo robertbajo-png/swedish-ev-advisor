@@ -1,0 +1,536 @@
+{
+  "adapter": "mercedes_cla_sweden_browser_specs_v1",
+  "drafts": [
+    {
+      "adapter": "mercedes_cla_sweden_browser_specs_v1",
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+      "replacement_variant_name": "CLA 200 Advanced Edition MY2027 (beställningsbil)",
+      "source": {
+        "status": "browser_reachable",
+        "http_status": null,
+        "final_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+        "content_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1",
+        "fetched_at": "2026-11-13T20:45:26.328Z",
+        "retrieval_method": "connected_browser_dom",
+        "hash_basis": "normalized_named_technical_dialog_and_identity_v1"
+      },
+      "supporting_sources": [],
+      "facts": {
+        "wltp_range_km": 528,
+        "wltp_consumption_kwh_100km": 12.7,
+        "battery_kwh": 58,
+        "dc_charge_kw": 200,
+        "ac_charge_kw": 11,
+        "boot_liters": 405,
+        "seats": 5,
+        "tow_kg": 1500,
+        "drivetrain": "RWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 528,
+          "quote": "CLA 200 | Elektrisk räckvidd, blandad körning | 528 km",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 12.7,
+          "quote": "CLA 200 | Förbrukning blandad körning | 12,7 kWh/100km",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "battery_kwh": {
+          "value": 58,
+          "quote": "CLA 200 | Användbart energiinnehåll batteri | 58 kWh",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "dc_charge_kw": {
+          "value": 200,
+          "quote": "CLA 200 | Maximal laddeffekt DCDetta värde kan avvika beroende på vilken utrustning som valts. | 200 kW",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "CLA 200 | Maximal laddeffekt ACDetta värde kan avvika beroende på vilken utrustning som valts. | 11 kW",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "boot_liters": {
+          "value": 405,
+          "quote": "CLA 200 | BagageutrymmesvolymBagageutrymmesvolymen kan avvika beroende på tillval. | 405 l",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "CLA 200 | Sittplatser | 5",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "CLA 200 | Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)Detta värde kan avvika beroende på vilken utrustning som valts. | 750 kg (1 500 kg)",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "maximum_braked_towing_with_required_equipment",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "CLA 200 | Drivlina | Bakhjulsdrift",
+          "variant_name": "CLA 200 Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 200",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        }
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 559000,
+        "price_type": "dealer_offer",
+        "price_valid_until": null,
+        "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+        "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+        "quote": "{\"car_id\":\"19043773\",\"name\":\"Mercedes-Benz CLA 200 Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":559000,\"car_exkl_moms\":447200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+        "classification": "exact_current_swedish_order_offer_cash_inclusive_vat",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "order_source": {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-200-advanced-edition-2-95-ranta",
+          "content_hash": "49a832fb71fd0517a5e3972aed58a3f7389a306f64e1e99308fa0b7d261cf305",
+          "fetched_at": "2026-11-13T20:51:30.887170+00:00"
+        },
+        "order_quote": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+        "stock_identity": {
+          "car_id": "19043773",
+          "name": "Mercedes-Benz CLA 200 Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 559000,
+          "car_exkl_moms": 447200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        }
+      },
+      "model_facts": {
+        "body_type": "Sedan"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Sedan",
+          "source_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-200-advanced-edition-2-95-ranta",
+          "source_hash": "49a832fb71fd0517a5e3972aed58a3f7389a306f64e1e99308fa0b7d261cf305",
+          "quote": "CLA 200 Advanced Edition MY2027 | Kaross Sedan | Bränsle El"
+        }
+      },
+      "source_decisions": [
+        "Live Swedish C174 technical dialog, not cached search excerpts, Finnish trim data, Shooting Brake or the older petrol CLA.",
+        "Combined WLTP follows each powertrain column, not the model hero maximum or urban range.",
+        "AC is the 11 kW powertrain/offer equipment, not the optional 22 kW charger or cable rating.",
+        "Rear boot 405 L excludes the separate front compartment.",
+        "Maximum braked towing uses the equipment-qualified parenthesized value; no installed towbar is claimed.",
+        "Dealer explicitly says order car, not in-stock. Retain cash amount/type, replace the misleading label and preserve legacy links.",
+        "Browser-rendered DOM is hash-bound; HTTP status is not observed and remains null, never invented as 200."
+      ]
+    },
+    {
+      "adapter": "mercedes_cla_sweden_browser_specs_v1",
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+      "replacement_variant_name": "CLA 250+ Advanced Edition MY2027 (beställningsbil)",
+      "source": {
+        "status": "browser_reachable",
+        "http_status": null,
+        "final_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+        "content_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1",
+        "fetched_at": "2026-11-13T20:45:26.328Z",
+        "retrieval_method": "connected_browser_dom",
+        "hash_basis": "normalized_named_technical_dialog_and_identity_v1"
+      },
+      "supporting_sources": [],
+      "facts": {
+        "wltp_range_km": 772,
+        "wltp_consumption_kwh_100km": 12.6,
+        "battery_kwh": 85,
+        "dc_charge_kw": 320,
+        "ac_charge_kw": 11,
+        "boot_liters": 405,
+        "seats": 5,
+        "tow_kg": 1500,
+        "drivetrain": "RWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 772,
+          "quote": "CLA 250+ | Elektrisk räckvidd, blandad körning | 772 km",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 12.6,
+          "quote": "CLA 250+ | Förbrukning blandad körning | 12,6 kWh/100km",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "battery_kwh": {
+          "value": 85,
+          "quote": "CLA 250+ | Användbart energiinnehåll batteri | 85 kWh",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "dc_charge_kw": {
+          "value": 320,
+          "quote": "CLA 250+ | Maximal laddeffekt DCDetta värde kan avvika beroende på vilken utrustning som valts. | 320 kW",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "CLA 250+ | Maximal laddeffekt ACDetta värde kan avvika beroende på vilken utrustning som valts. | 11 kW",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "boot_liters": {
+          "value": 405,
+          "quote": "CLA 250+ | BagageutrymmesvolymBagageutrymmesvolymen kan avvika beroende på tillval. | 405 l",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "CLA 250+ | Sittplatser | 5",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "CLA 250+ | Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)Detta värde kan avvika beroende på vilken utrustning som valts. | 750 kg (1 500 kg)",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "maximum_braked_towing_with_required_equipment",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "CLA 250+ | Drivlina | Bakhjulsdrift",
+          "variant_name": "CLA 250+ Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 250+",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        }
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 599000,
+        "price_type": "dealer_offer",
+        "price_valid_until": null,
+        "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+        "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+        "quote": "{\"car_id\":\"19003980\",\"name\":\"Mercedes-Benz CLA 250+ Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":599000,\"car_exkl_moms\":479200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+        "classification": "exact_current_swedish_order_offer_cash_inclusive_vat",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "order_source": {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-250-advanced-edition-2-95-ranta-3",
+          "content_hash": "1b01664dd5c8fdbb0935da56d7b88653ed96dc94306fbc0eb5f3c8f553772875",
+          "fetched_at": "2026-11-13T20:51:31.872100+00:00"
+        },
+        "order_quote": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+        "stock_identity": {
+          "car_id": "19003980",
+          "name": "Mercedes-Benz CLA 250+ Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 599000,
+          "car_exkl_moms": 479200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        }
+      },
+      "model_facts": {
+        "body_type": "Sedan"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Sedan",
+          "source_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-250-advanced-edition-2-95-ranta-3",
+          "source_hash": "1b01664dd5c8fdbb0935da56d7b88653ed96dc94306fbc0eb5f3c8f553772875",
+          "quote": "CLA 250+ Advanced Edition MY2027 | Kaross Sedan | Bränsle El"
+        }
+      },
+      "source_decisions": [
+        "Live Swedish C174 technical dialog, not cached search excerpts, Finnish trim data, Shooting Brake or the older petrol CLA.",
+        "Combined WLTP follows each powertrain column, not the model hero maximum or urban range.",
+        "AC is the 11 kW powertrain/offer equipment, not the optional 22 kW charger or cable rating.",
+        "Rear boot 405 L excludes the separate front compartment.",
+        "Maximum braked towing uses the equipment-qualified parenthesized value; no installed towbar is claimed.",
+        "Dealer explicitly says order car, not in-stock. Retain cash amount/type, replace the misleading label and preserve legacy links.",
+        "Browser-rendered DOM is hash-bound; HTTP status is not observed and remains null, never invented as 200."
+      ]
+    },
+    {
+      "adapter": "mercedes_cla_sweden_browser_specs_v1",
+      "brand": "Mercedes-Benz",
+      "model": "Cla",
+      "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+      "replacement_variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (beställningsbil)",
+      "source": {
+        "status": "browser_reachable",
+        "http_status": null,
+        "final_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+        "content_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1",
+        "fetched_at": "2026-11-13T20:45:26.328Z",
+        "retrieval_method": "connected_browser_dom",
+        "hash_basis": "normalized_named_technical_dialog_and_identity_v1"
+      },
+      "supporting_sources": [],
+      "facts": {
+        "wltp_range_km": 751,
+        "wltp_consumption_kwh_100km": 13.1,
+        "battery_kwh": 85,
+        "dc_charge_kw": 320,
+        "ac_charge_kw": 11,
+        "boot_liters": 405,
+        "seats": 5,
+        "tow_kg": 1800,
+        "drivetrain": "AWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 751,
+          "quote": "CLA 350 4MATIC | Elektrisk räckvidd, blandad körning | 751 km",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 13.1,
+          "quote": "CLA 350 4MATIC | Förbrukning blandad körning | 13,1 kWh/100km",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "battery_kwh": {
+          "value": 85,
+          "quote": "CLA 350 4MATIC | Användbart energiinnehåll batteri | 85 kWh",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "dc_charge_kw": {
+          "value": 320,
+          "quote": "CLA 350 4MATIC | Maximal laddeffekt DCDetta värde kan avvika beroende på vilken utrustning som valts. | 320 kW",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "CLA 350 4MATIC | Maximal laddeffekt ACDetta värde kan avvika beroende på vilken utrustning som valts. | 11 kW",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "boot_liters": {
+          "value": 405,
+          "quote": "CLA 350 4MATIC | BagageutrymmesvolymBagageutrymmesvolymen kan avvika beroende på tillval. | 405 l",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "CLA 350 4MATIC | Sittplatser | 5",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "tow_kg": {
+          "value": 1800,
+          "quote": "CLA 350 4MATIC | Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)Detta värde kan avvika beroende på vilken utrustning som valts. | 750 kg (1 800 kg)",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "maximum_braked_towing_with_required_equipment",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "quote": "CLA 350 4MATIC | Drivlina | Fyrhjulsdrift",
+          "variant_name": "CLA 350 4MATIC Advanced Edition MY2027 (lagerbil)",
+          "column_header": "CLA 350 4MATIC",
+          "scope": "swedish_c174_exact_powertrain_column",
+          "source_url": "https://www.mercedes-benz.se/passengercars/models/saloon/cla-electric/overview.html",
+          "source_hash": "68f64065054ff28421bfb892ad6327f27c9bf4b3b73a3dd7d2cec01f321462b1"
+        }
+      },
+      "held_fields": {},
+      "extraction_confidence": 0.99,
+      "source_resolution": "owner_2026_11_13_exact_version_current_sources",
+      "price_evidence": {
+        "value": 639000,
+        "price_type": "dealer_offer",
+        "price_valid_until": null,
+        "source_url": "https://www.hoglundsbil.se/bilar?sort=0",
+        "source_hash": "a572fa3d9af5fad2003419fc4849f7a8fa88e2d4ca49eec38f80caae77a850c8",
+        "quote": "{\"car_id\":\"19004063\",\"name\":\"Mercedes-Benz CLA 350 4MATIC Advanced Edition 3.95% RÄNTA\",\"noveltyType\":\"new_car\",\"year\":2027,\"mileage\":0,\"is_leasing\":0,\"brand_name\":\"Mercedes-Benz\",\"model_name\":\"CLA\",\"body_type_name\":\"Sedan\",\"fuel_type_name\":\"El\",\"location_name\":\"Höglunds Bil\",\"price\":639000,\"car_exkl_moms\":511200,\"sale_price\":\"\",\"sale_car_exkl_moms\":\"\"}",
+        "classification": "exact_current_swedish_order_offer_cash_inclusive_vat",
+        "authorization_review": {
+          "url": "https://www.hoglundsbil.mercedes-benz.se/passengercars/startpage.html",
+          "supporting_url": "https://www.hoglundsbil.se/anlaggningar/mobility-motors-norrtalje",
+          "supporting_hash": "5f300b689acf7013394d389d9adb6290ab2e2ef32c00aa1ffcac915e4043fb64",
+          "quote": "Vi är en fullserviceanläggning som är auktoriserad återförsäljare av Mercedes och Mazda.",
+          "fetched_at": "2026-11-13T20:51:22.505590+00:00",
+          "method": "existing_primary_appointment_and_fresh_dealer_identity"
+        },
+        "order_source": {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-350-4matic-advanced-edition-2-95-ranta",
+          "content_hash": "9d11ba74394c547d91793cafb1d478847d028fcb5dd9e26a99135dfc899b73ff",
+          "fetched_at": "2026-11-13T20:51:32.847817+00:00"
+        },
+        "order_quote": "Denna bil är en beställningsbil och finns ej på plats hos oss - kontakta en säljare för mer information.",
+        "stock_identity": {
+          "car_id": "19004063",
+          "name": "Mercedes-Benz CLA 350 4MATIC Advanced Edition 3.95% RÄNTA",
+          "noveltyType": "new_car",
+          "year": 2027,
+          "mileage": 0,
+          "is_leasing": 0,
+          "brand_name": "Mercedes-Benz",
+          "model_name": "CLA",
+          "body_type_name": "Sedan",
+          "fuel_type_name": "El",
+          "location_name": "Höglunds Bil",
+          "price": 639000,
+          "car_exkl_moms": 511200,
+          "sale_price": "",
+          "sale_car_exkl_moms": ""
+        }
+      },
+      "model_facts": {
+        "body_type": "Sedan"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Sedan",
+          "source_url": "https://www.hoglundsbil.se/bil/mercedes-benz-cla-350-4matic-advanced-edition-2-95-ranta",
+          "source_hash": "9d11ba74394c547d91793cafb1d478847d028fcb5dd9e26a99135dfc899b73ff",
+          "quote": "CLA 350 4MATIC Advanced Edition MY2027 | Kaross Sedan | Bränsle El"
+        }
+      },
+      "source_decisions": [
+        "Live Swedish C174 technical dialog, not cached search excerpts, Finnish trim data, Shooting Brake or the older petrol CLA.",
+        "Combined WLTP follows each powertrain column, not the model hero maximum or urban range.",
+        "AC is the 11 kW powertrain/offer equipment, not the optional 22 kW charger or cable rating.",
+        "Rear boot 405 L excludes the separate front compartment.",
+        "Maximum braked towing uses the equipment-qualified parenthesized value; no installed towbar is claimed.",
+        "Dealer explicitly says order car, not in-stock. Retain cash amount/type, replace the misleading label and preserve legacy links.",
+        "Browser-rendered DOM is hash-bound; HTTP status is not observed and remains null, never invented as 200."
+      ]
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}

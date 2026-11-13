@@ -5,6 +5,69 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Mercedes-Benz CLA Batch (2026-11-13)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Live Swedish C174 manufacturer technical dialog, 37 rows / three exact powertrains, and freshly checked MY2027 Advanced Edition order offers. |
+| 2. Facts and photography | Committed | 27 missing technical values, one Sedan classification and exact electric-sedan press photo. Three unchanged cash offers remain dealer offers; corrected order-car names retain their indexed URLs and canonical IDs. |
+| 3. Regression and visual QA | Passed locally | Six extraction tests, real-trigger transaction/rollback/replay, previous brand adapters, rights, 90 built routes, 18 six-width CLA checks, six dedicated and 22 general Axe audits pass. |
+| 4. Publication | In progress | Reviewed GitHub change, exact-main CI, existing production distribution and actual HTTPS/data/photo verification. |
+
+Preserve all 76 published identities and existing links. No paid AI, migrations,
+news activity, budget or infrastructure changes are part of this vehicle batch.
+
+- Normal direct fetching of Mercedes' robots file was refused by its bot filter.
+  The connected ordinary Chrome browser returned both the actual robots rules
+  (model route allowed) and current manufacturer page without a challenge or
+  security bypass. The named public technical dialog was captured, then reloaded
+  and all 37 rows compared before applying. Indexed search text and Finnish trim
+  values were research only; neither was imported. A DOM capture's hash binds its
+  normalized table, identity and robots evidence, NOT alleged original HTML bytes.
+  Its unobserved HTTP status stays null with `reachable_official_browser_source`;
+  previous direct-fetch adapters still require their actual HTTP 200 evidence.
+- Exact columns: CLA 200 = 58 kWh, 528 km, 12.7 kWh/100 km, 200 kW DC;
+  CLA 250+ = 85 kWh, 772 km, 12.6, 320 kW; CLA 350 4MATIC = 85 kWh,
+  751 km, 13.1, 320 kW. All have 11 kW AC, 405 L rear boot and five seats.
+  Drive is RWD/RWD/AWD. Use combined range, not city figures or generic hero
+  maxima; AC equipment is not the optional charger/cable's 22 kW rating.
+- Braked towing is the manufacturer's equipment-qualified maximum in parentheses:
+  1500/1500/1800 kg. Preserve the raw 750 kg (maximum) entries and visible equipment
+  warning. No fitted towbar, VIN-specific homologation or guaranteed real range
+  is claimed. Manufacturer WLTP figures are the model-table reference configuration.
+- Höglunds' exact three offer pages explicitly say the cars are order cars, not
+  physically in stock. Correct canonical display names to `(beställningsbil)`;
+  JS, sitemap and prerender preserve each existing `-lagerbil` URL for the same
+  car, rather than redirecting to an assumed successor. Prices 559000/599000/639000
+  remain dealer offers, not manufacturer list prices. Expired financing campaign
+  prose is not imported as a current finance offer or a cash-price expiry.
+- Real canonical transaction committed three versions / 27 missing facts and one
+  model body type, with staged per-field evidence and independent price provenance.
+  A separate image transaction updated only the same CLA model. No paid calls or
+  news-control/article changes. 76 versions / 30 models retained; complete core
+  profiles now 41/76 and professionally reviewed photos 13/30. Other brands remain
+  open work, not claimed complete. Sources and receipts are local under
+  `data/local/release-data/mercedes-cla-quality-2026-11-13/`.
+- Local visual checks cover each version at 320/375/390/430/768/1440px. All
+  photographs decode, all four new files match their hashes, technical sections
+  and price-qualified metrics are complete, and no overflow or runtime errors
+  occur. Mobile photos keep their full aspect ratio above the text; actual
+  mobile/desktop screenshots were inspected. All 28 Axe audits have zero
+  violations. General filtering, drawer/keyboard, sorting, comparison, CSV,
+  report errors and explicit-zero-versus-null regressions also pass.
+- The first UI run found a separate frontend ID conversion that broke corrected
+  CLA URLs. Both hydrated IDs and generated paths now use the shared stable
+  URL policy; the unchanged regression passes. A private Axe harness initially
+  used the wrong browser-context API, then passed after correcting the harness.
+  No product assertion was weakened. The complete 76-record comparison shows
+  only the three CLA rows changed, with all three price amounts unchanged.
+- The first remote CI run exposed the existing intermittent footer-focus overlap
+  at 640px. Native focus scrolling could finish after the single animation-frame
+  correction. The shared handler now rechecks for at most 250ms, stops on moved
+  focus/disconnected overlay and keeps instant reduced-motion-safe scrolling.
+  A deterministic delayed-scroll regression and the original geometric browser
+  assertions remain mandatory; do not classify a rerun alone as a fix.
+
 ## Mazda 6e / Renault 5 Batch (2026-11-13)
 
 | Step | Status | Acceptance |
@@ -12,7 +75,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | Current Swedish 78 kWh MY2027 Mazda PDF and Renault November 10 / October-production PDF, exact battery/grade columns. |
 | 2. Facts and photography | Committed | 54 formerly missing technical facts, six unchanged independently reverified list prices, two body classifications and two exact-model press photos. All 76 versions retained; news unchanged. |
 | 3. Regression and visual QA | Passed locally | Extraction, real-trigger transactional rollback/replay, previous brand adapters, prices, rights, build/90 routes and 36 six-width detail checks pass. Filter/compare/CSV/null handling pass. |
-| 4. Publication | In progress | Package reviewed GitHub change, require exact-main CI, deploy to existing production project, then prove actual HTTPS/data/image parity. |
+| 4. Publication | Complete | PR #62 merged; all 157 PR and exact-main CI steps passed. Production run 43500699789 succeeded; actual public HTTPS, 76-record parity, eight photo hashes and 36 detail-page checks passed. |
 
 Mazda's MY2027 battery is not the previous 68.8/80 kWh powertrain. Do not
 borrow the previous year's range, consumption or charging performance. Renault
@@ -50,6 +113,20 @@ does not authorize paid AI, news changes, migrations or infrastructure changes.
   no navigation overlap, no horizontal overflow, complete technical sections and
   value metrics. Group consumption qualification is now visible beside its
   specification, not just in a calculator tooltip. No client runtime errors.
+- Released as main `441ae8d2f5847d7d15d2aeedacc8e3ad06bbe6e9` through the
+  existing production distribution workflow, run `43500699789`. Public checks
+  completed at `2026-11-13T20:23:24.545Z`: all 76 records equal the approved
+  snapshot, all eight new image files match their recorded hashes, and all six
+  Mazda/Renault pages pass at 320/375/390/430/768/1440px. Ordinary HTTPS, routes,
+  sitemap and readiness checks pass; no provider calls were made. Actual public
+  mobile and desktop screenshots were visually reviewed. Sources, full frames,
+  photo credits and Renault's consumption qualification remain visible.
+- PR #62 contains the verified release receipt. Private source captures,
+  transactional receipts, screenshots and `production-verification.json` remain
+  under `data/local/release-data/mazda-renault-quality-2026-11-13/`. This batch
+  is complete without paid AI, article publication or infrastructure changes.
+  Next recommended batch: Mercedes-Benz CLA's remaining exact-version facts and
+  professional photography. The wider catalog is not yet complete.
 
 ## Overall Tracker
 

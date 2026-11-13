@@ -2,6 +2,7 @@
 export function specQualifications(row) {
   const quote = row.source_quote || '';
   const polestar = row.brand === 'Polestar';
+  const cla = row.brand === 'Mercedes-Benz' && row.model === 'Cla' && quote.includes('Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)');
   const rangeIsTarget = polestar && row.model === '4' && row.variant_name === 'Dual motor' &&
     quote.includes('Räckviddsmål (WLTP)');
   const groupInterval = row.brand === 'Renault' && row.model === '5' &&
@@ -14,6 +15,8 @@ export function specQualifications(row) {
     consumptionNote: groupInterval ? 'Tillverkarens gemensamma WLTP-intervall för 52 kWh-versionerna. Kostnadskalkylen använder det lägre värdet; exakt förbrukning beror på version och utrustning.'
       : interval ? 'Tillverkarens WLTP-intervall. Kostnadskalkylen använder det lägre värdet; hjul och utrustning påverkar förbrukningen.'
       : quote.includes('*Värde gäller för motor i grundutförande.')
-        ? 'Motor i grundutförande. Utrustning och hjul kan påverka förbrukningen.' : null,
+        ? 'Motor i grundutförande. Utrustning och hjul kan påverka förbrukningen.'
+        : cla ? 'Tillverkarens svenska modelltabell. Hjul och tillval kan påverka WLTP-värden och laddprestanda.' : null,
+    practicalNote: cla ? 'Maximal bromsad dragvikt med erforderlig dragutrustning. Monterad dragkrok ingår inte automatiskt; kontrollera utrustning och registreringsbevis för bilen du beställer.' : null,
   };
 }

@@ -51,7 +51,7 @@ import { specQualifications } from './spec-qualifications.js';
 import needGuides from './need-guides.json';
 import imageVariants from './image-variants.json';
 import imagePresentation from './image-presentation.json';
-import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug } from './vehicle-names.js';
+import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug, vehicleSlug } from './vehicle-names.js';
 
 
 const formatSEK = (value) =>
@@ -112,7 +112,7 @@ function transformPublicVariant(row) {
   const sourceQuote = row.source_quote || '';
   const priceProof = priceEvidence(row);
   return {
-    id: `${slug(brand)}-${slug(model)}`,
+    id: vehicleSlug(brand, row.model, variantName),
     canonicalKey: `${row.brand}|${row.model}|${row.variant_name}`,
     canonicalModel: row.model,
     variantName,
@@ -954,7 +954,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
         <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
         <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
-        <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
+        <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} note={car.practicalNote} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
       <div id="nyckeltal"><DecisionMetricsCard car={car} cars={cars} /></div>
       <SourceVerificationCard car={car} />

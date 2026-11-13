@@ -1,6 +1,7 @@
 import json
 from news_public import news_routes
 from site_info import info_routes
+from generate_sitemap import public_variant_slug
 import os
 import re
 from html import escape
@@ -179,7 +180,7 @@ def item_list_json_ld(path: str, name: str, rows: list[dict]) -> dict:
             {
                 "@type": "ListItem",
                 "position": index,
-                "url": f"{SITE_URL}/bilar/{slug(route_label(row))}",
+                "url": f"{SITE_URL}/bilar/{public_variant_slug(row)}",
                 "name": route_label(row),
             }
             for index, row in enumerate(rows[:12], start=1)
@@ -213,7 +214,7 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         if not name:
             continue
 
-        path = f"/bilar/{slug(name)}"
+        path = f"/bilar/{public_variant_slug(row)}"
         price = format_price(row.get("price_sek"))
         wltp = row.get("wltp_range_km")
         range_label = 'Tillverkarens WLTP-räckviddsmål' if (row.get('brand') == 'Polestar' and row.get('model') == '4'
