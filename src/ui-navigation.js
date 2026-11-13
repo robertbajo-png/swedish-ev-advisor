@@ -14,8 +14,12 @@ export function revealFocusAboveCompareBar(event) {
     }
   };
   reveal();
-  // Recheck after native focus scrolling and newly reserved footer space settle.
-  requestAnimationFrame(() => {
-    if (document.activeElement === target && bar.isConnected) reveal();
-  });
+  // Native focus scrolling can finish after the first animation frame.
+  const until = performance.now() + 250;
+  const recheck = (now) => {
+    if (document.activeElement !== target || !bar.isConnected) return;
+    reveal();
+    if (now < until) requestAnimationFrame(recheck);
+  };
+  requestAnimationFrame(recheck);
 }

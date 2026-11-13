@@ -40,6 +40,7 @@ jobs:
       - run: bun run verify:toyota-polestar-sync
       - run: bun run verify:mazda-renault-sync
       - run: bun run verify:cla-sync
+      - run: bun run verify:ui-navigation
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
       - run: bun run verify:price-evidence

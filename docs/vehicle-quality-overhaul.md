@@ -61,6 +61,12 @@ news activity, budget or infrastructure changes are part of this vehicle batch.
   used the wrong browser-context API, then passed after correcting the harness.
   No product assertion was weakened. The complete 76-record comparison shows
   only the three CLA rows changed, with all three price amounts unchanged.
+- The first remote CI run exposed the existing intermittent footer-focus overlap
+  at 640px. Native focus scrolling could finish after the single animation-frame
+  correction. The shared handler now rechecks for at most 250ms, stops on moved
+  focus/disconnected overlay and keeps instant reduced-motion-safe scrolling.
+  A deterministic delayed-scroll regression and the original geometric browser
+  assertions remain mandatory; do not classify a rerun alone as a fix.
 
 ## Mazda 6e / Renault 5 Batch (2026-11-13)
 

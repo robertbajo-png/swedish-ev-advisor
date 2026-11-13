@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "verify:ui-navigation": "node scripts/verify_ui_navigation.mjs",
     "verify:cla-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_mercedes_cla_specs.py -v",
     "verify:cla-sync": "node scripts/verify_mercedes_cla_spec_sync.mjs",
     "verify:mazda-renault-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_mazda_renault_specs.py -v",
