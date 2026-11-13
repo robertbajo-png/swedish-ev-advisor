@@ -1,0 +1,865 @@
+{
+  "mazda_pdf": {
+    "raw": "Synthetic source-grid fixture for mazda_pdf",
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://media-assets.mazda.eu/raw/upload//mazdase/globalassets/mms-local-pages/brochures-and-pricelists/mazda6e_se_2026-09-29.pdf?rnd=4a8623",
+      "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "fetched_at": "2026-11-13T21:00:00Z"
+    },
+    "pages": [
+      {
+        "text": "PRISER UTRUSTNINGSNIVÅ FÄRGER TILLBEHÖR UTRUSTNING OCH TEKNISKA SPECIFIKATIONER SERVICE OCH KONTAKT PRISER MODELL REK. PRIS Mazda6e Takumi, 258 hk, 78 kWh 469 900 kr Mazda6e Takumi Plus, 258 hk, 78 kWh, Brun interiör 492 800 kr Mazda6e Takumi Plus, 258 hk, 78 kWh, Beige interiör 492 800 kr Mazda6e Homura Plus, 258 hk, 78 kWh 492 800 kr Bilarna är typgodkända enligt förordningen WLTP (EU förordning 2017/1151, EU förordning 2007/715)",
+        "tables": [
+          [
+            [
+              "Mazda6e Takumi, 258 hk, 78 kWh",
+              "469 900 kr"
+            ],
+            [
+              "Mazda6e Takumi Plus, 258 hk, 78 kWh, Brun interiör",
+              "492 800 kr"
+            ],
+            [
+              "Mazda6e Takumi Plus, 258 hk, 78 kWh, Beige interiör",
+              "492 800 kr"
+            ],
+            [
+              "Mazda6e Homura Plus, 258 hk, 78 kWh",
+              "492 800 kr"
+            ]
+          ]
+        ],
+        "technical_cells": null
+      },
+      {
+        "text": "PRISER UTRUSTNINGSNIVÅ FÄRGER TILLBEHÖR UTRUSTNING OCH TEKNISKA SPECIFIKATIONER SERVICE OCH KONTAKT TEKNISK INFORMATION Mazda6e 78 kWh Vikt och mått Totallängd (mm) 4 921 Totalbredd (mm) 2 156 Höjd (mm) 1 491 Axelavstånd (mm) 2 895 Markfrigång mellan axlarna – lastad (mm) 120 Takhöjd, fram (mm) 988 Benutrymme, fram (mm) 1 074 Axelutrymme, fram (mm) 1 478 Takhöjd, bak (mm) 963 Benutrymme, bak (mm) 921 Axelutrymme, bak (mm) 1 416 Tillåten totalvikt (kg) 2 440 Maximal tjänstevikt (kg) 2 015 Dragvikt, max (kg) 1 500 Volym Lastvolym (med/utan förvaringsutrymme under golv) (alla säten uppfällda, upp till bakre hatthylla) 337 l / 336 l Lastvolym (inklusive förvaringsutrymme under golv) (sätesrad 2 nedfälld, upp till bakre hatthylla) 678 l Lastvolym (inklusive förvaringsutrymme under golv) (sätesrad 2 nedfälld, upp till tak) 1 074 l Lastvolym fram (frunk) 72 l 1 491 mm 2 895 mm 2 156 mm 4 921 mm",
+        "tables": [
+          [
+            [
+              "Totallängd (mm)",
+              "4 921"
+            ],
+            [
+              "Totalbredd (mm)",
+              "2 156"
+            ],
+            [
+              "Höjd (mm)",
+              "1 491"
+            ],
+            [
+              "Axelavstånd (mm)",
+              "2 895"
+            ],
+            [
+              "Markfrigång mellan axlarna – lastad (mm)",
+              "120"
+            ],
+            [
+              "Takhöjd, fram (mm)",
+              "988"
+            ],
+            [
+              "Benutrymme, fram (mm)",
+              "1 074"
+            ],
+            [
+              "Axelutrymme, fram (mm)",
+              "1 478"
+            ],
+            [
+              "Takhöjd, bak (mm)",
+              "963"
+            ],
+            [
+              "Benutrymme, bak (mm)",
+              "921"
+            ],
+            [
+              "Axelutrymme, bak (mm)",
+              "1 416"
+            ],
+            [
+              "Tillåten totalvikt (kg)",
+              "2 440"
+            ],
+            [
+              "Maximal tjänstevikt (kg)",
+              "2 015"
+            ],
+            [
+              "Dragvikt, max (kg)",
+              "1 500"
+            ]
+          ],
+          [
+            [
+              "Lastvolym (med/utan förvaringsutrymme under golv) (alla säten uppfällda, upp till bakre hatthylla)",
+              "337 l / 336 l"
+            ],
+            [
+              "Lastvolym (inklusive förvaringsutrymme under golv) (sätesrad 2 nedfälld, upp till bakre hatthylla)",
+              "678 l"
+            ],
+            [
+              "Lastvolym (inklusive förvaringsutrymme under golv) (sätesrad 2 nedfälld, upp till tak)",
+              "1 074 l"
+            ],
+            [
+              "Lastvolym fram (frunk)",
+              "72 l"
+            ]
+          ]
+        ],
+        "technical_cells": null
+      },
+      {
+        "text": "PRISER UTRUSTNINGSNIVÅ FÄRGER TILLBEHÖR UTRUSTNING OCH TEKNISKA SPECIFIKATIONER SERVICE OCH KONTAKT TEKNISK INFORMATION Mazda6e, 78 kWh Högvoltsbatteri Typ Litiumjonbatteri (LFP) Spänningsarkitektur (V) 400 Batterikapacitet (kWh) 78 Batteriets vikt (kg) 550 Maximal hastighet för DC-laddning (kW) 200 Snabbladdning, tid* (minuter) 24* (10–80 %) Laddningstid (AC, 3-fas 11 kW), 0–100 % (timmar) 7,9 Elektrisk motor Maximal effekt (hk/kW) 258/190 Maximalt vridmoment (Nm) 290 Prestanda Drivning Bakhjulsdrift Toppfart med begränsning (km/h) 175 Acceleration, 0–100 km/h (sekunder) 7,3 Växellåda Utväxling, reduktionsväxel 13,561 Elektrisk energiförbrukning Blandad körning, WLTP (kWh/100 km) 16,1 Räckvidd Elektrisk räckvidd vid blandad körning enligt WLPT (km) 560 Elektrisk räckvidd vid stadskörning enligt WLTP (km) 703 * Indikerad tid gäller för snabbladdning från 10-80 % under optimala förhållanden.",
+        "tables": [
+          [
+            [
+              "Typ",
+              "Litiumjonbatteri (LFP)"
+            ],
+            [
+              "Spänningsarkitektur (V)",
+              "400"
+            ],
+            [
+              "Batterikapacitet (kWh)",
+              "78"
+            ],
+            [
+              "Batteriets vikt (kg)",
+              "550"
+            ],
+            [
+              "Maximal hastighet för DC-laddning (kW)",
+              "200"
+            ],
+            [
+              "Snabbladdning, tid* (minuter)",
+              "24* (10–80 %)"
+            ],
+            [
+              "Laddningstid (AC, 3-fas 11 kW), 0–100 % (timmar)",
+              "7,9"
+            ]
+          ],
+          [
+            [
+              "Maximal effekt (hk/kW)",
+              "258/190"
+            ],
+            [
+              "Maximalt vridmoment (Nm)",
+              "290"
+            ]
+          ],
+          [
+            [
+              "Drivning",
+              "Bakhjulsdrift"
+            ],
+            [
+              "Toppfart med begränsning (km/h)",
+              "175"
+            ],
+            [
+              "Acceleration, 0–100 km/h (sekunder)",
+              "7,3"
+            ]
+          ],
+          [
+            [
+              "Utväxling, reduktionsväxel",
+              "13,561"
+            ]
+          ],
+          [
+            [
+              "Blandad körning, WLTP (kWh/100 km)",
+              "16,1"
+            ]
+          ],
+          [
+            [
+              "Elektrisk räckvidd vid blandad körning enligt WLPT (km)",
+              "560"
+            ],
+            [
+              "Elektrisk räckvidd vid stadskörning enligt WLTP (km)",
+              "703"
+            ]
+          ]
+        ],
+        "technical_cells": null
+      }
+    ]
+  },
+  "mazda_model": {
+    "raw": "<html lang=\"sv-SE\"><body data-page=\"ShowroomPage:2027 Mazda6e\"><script>window.mxp.data.push(JSON.parse('{\"type\": \"textBlock\", \"props\": {\"copy\": \"2027 Mazda6e \\\\u00e4r en helt elektrisk modell med bakhjulsdrift. Bekv\\\\u00e4mligheten med en femd\\\\u00f6rrars halvkombi och ett 336-liters bagageutrymme.\"}}'));</script></body></html>",
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.mazda.se/modeller/mazda-6e/",
+      "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "fetched_at": "2026-11-13T21:00:00Z"
+    }
+  },
+  "mazda_seats": {
+    "raw": "Synthetic source-grid fixture for mazda_seats",
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://de.mazda-press.com/api/assets/download/6e41ae9c-cada-4c65-aff2-7383fa28ccb9_Default?isDownload=false",
+      "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "fetched_at": "2026-11-13T21:00:00Z"
+    },
+    "pages": [
+      {
+        "text": "Technische Daten Mazda6e 2027 Verfügbare Ausstattungen TAKUMI, TAKUMI PLUS, HOMURA PLUS Anzahl Sitzplätze 5 Batteriekapazität brutto (kWh) 78"
+      }
+    ]
+  },
+  "renault_pdf": {
+    "raw": "Synthetic source-grid fixture for renault_pdf",
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://edge.sitecorecloud.io/hedinitaban27a1-hedin8837-prod5c4b-4604/media/project/hedin/distribution-cars/renaultsesite/cardocuments/prislista-renault-5-e-tech-electric.pdf",
+      "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "fetched_at": "2026-11-13T21:00:00Z"
+    },
+    "pages": [
+      {
+        "text": "Gällande från10 november 2026 Avser bilar från oktober2026-produktion",
+        "tables": [
+          [
+            [
+              "Modell",
+              "batteri\n(kWh)",
+              "motor\n(hk)",
+              "räckvidd\n(km) (1)",
+              "CO2\n(g/km)",
+              "förbruk.\n(kWh/100 km)\n(2)",
+              "inbyggda laddare",
+              "EVOLUTION",
+              "TECHNO",
+              "ICONIC FIVE"
+            ],
+            [
+              "EL",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "5 E-Tech electric",
+              "40",
+              "120",
+              "320",
+              "0",
+              "14,3",
+              "AC 11 kW + DC 80 kW",
+              "364 900 kr",
+              "-",
+              "-"
+            ],
+            [
+              "5 E-Tech electric",
+              "52",
+              "150",
+              "421-424",
+              "0",
+              "14,1-14,2",
+              "AC 11 kW + DC 100 kW",
+              "-",
+              "414 900 kr",
+              "449 900 kr"
+            ]
+          ]
+        ]
+      },
+      {
+        "text": "Teknisk specifikation EVOLUTION TECHNO ICONIC FIVE 40 kWh 52 kWh 52 kWh BATTERI Batteri 40 kWh 52 kWh INTERIÖR Antal sittplatser 5 RÄCKVIDD & FÖRBRUKNING Homologerad räckvidd WLTP - blandad körning (km) 320 424 421 MOTOR Max. effekt kW (hk) 90 (120) 110 (150) Max. vridmoment (Nm) 225 245 BATTERI Typ NMC NMC Kapacitet (kWh) 40 52 Teknik Lithium-ion Totalspänning (V) 400 400 Antal moduler / celler 3 / 93 4 / 184 Vikt (kg) 249 307 LADDNINGSTIDER (PREL. DATA) Inbyggd laddare Anpassningsbar en-trefas från 1 kW till 11 kW Vanligt eluttag 2,3 kW (1-fas 10 A) (15-80%) 11 tim 15 min 15 tim Laddstolpe 3,7 kW (1-fas 16 A) (15-80%) 7 tim 10 tim Laddstolpe 11 kW (3-fas 16 A) (15-80%) 2 tim 45 min 3 tim 15 min Snabbladdning upp till DC 80 kW (15-80%) 30 min - Snabbladdning upp till DC 100 kW (15-80%) - 30 min VÄXELLÅDA Växellådstyp Rattmonterad E-shifter-växelspak Antal växlar 1 PRESTANDA Maximal hastighet (km/h) 150 150 0-100 km/h (s) 9,0 8,0 STYRNING Styrning Elektrisk servostyrning Vänddiameter mellan trottoarer (m) 10,3 Antal rattvarv mellan ändlägen 2,61 HJUL OCH DÄCK Referensfälgar (18″) 195/55 R18 93H 195/55 R18 93H 195/55 R18 93H VIKT (KG) OCH VOLYM (L) Tjänstevikt (utan tillval) (kg) 1455 1534 1541 Godkänd maxvikt (kg) 1865 1920 1920 Maxvikt för bromsat/obromsat släp (kg) 500/500 Bagagerumsvolym (L) 326 Bagagerumsvolym, fällt säte (L) 1106 Förvaringsutrymme under lastgolvet (L) 41 Bakre öppningshöjd (mm) 600 Bakre öppningsbredd - övre, max., nedre (mm) 893/981/977 Bagageutrymme - Invändig bredd mellan hjulhus (mm) 1011 Garanti på fordonet: 3 års nybilsgaranti, som består av 2 års fabriksgaranti + 1 års förlängd garanti. Obegränsad körsträcka gäller de två första åren alternativt 100 000 km på tre år, vilket som inträffar först. Samtliga priser är rekommenderade cirkapriser. Vi förbehåller oss rätten att när som helst ändra priser och specifikationer utan föregående meddelande. Alla rimliga ansträngningar har gjorts för att innehållet i detta produktblad ska vara uppdaterat och korrekt vid trycktillfället. RN Nordic AB, Box 1028, 164 21 Kista, Sverige. www.renault.se",
+        "tables": [
+          [
+            [
+              "Teknisk specifikation",
+              "EVOLUTION\n40 kWh",
+              "TECHNO\n52 kWh",
+              "ICONIC FIVE\n52 kWh"
+            ],
+            [
+              "BATTERI",
+              null,
+              null,
+              null
+            ],
+            [
+              "Batteri",
+              "40 kWh",
+              "52 kWh",
+              null
+            ],
+            [
+              "INTERIÖR",
+              null,
+              null,
+              null
+            ],
+            [
+              "Antal sittplatser",
+              "5",
+              null,
+              null
+            ],
+            [
+              "RÄCKVIDD & FÖRBRUKNING",
+              null,
+              null,
+              null
+            ],
+            [
+              "Homologerad räckvidd WLTP - blandad körning (km)",
+              "320",
+              "424 421",
+              null
+            ],
+            [
+              "MOTOR",
+              null,
+              null,
+              null
+            ],
+            [
+              "Max. effekt kW (hk)",
+              "90 (120)",
+              "110 (150)",
+              null
+            ],
+            [
+              "Max. vridmoment (Nm)",
+              "225",
+              "245",
+              null
+            ],
+            [
+              "BATTERI",
+              null,
+              null,
+              null
+            ],
+            [
+              "Typ",
+              "NMC",
+              "NMC",
+              null
+            ],
+            [
+              "Kapacitet (kWh)",
+              "40",
+              "52",
+              null
+            ],
+            [
+              "Teknik",
+              "Lithium-ion",
+              null,
+              null
+            ],
+            [
+              "Totalspänning (V)",
+              "400",
+              "400",
+              null
+            ],
+            [
+              "Antal moduler / celler",
+              "3 / 93",
+              "4 / 184",
+              null
+            ],
+            [
+              "Vikt (kg)",
+              "249",
+              "307",
+              null
+            ],
+            [
+              "LADDNINGSTIDER (PREL. DATA)",
+              null,
+              null,
+              null
+            ],
+            [
+              "Inbyggd laddare",
+              "Anpassningsbar en-trefas från 1 kW till 11 kW",
+              null,
+              null
+            ],
+            [
+              "Vanligt eluttag 2,3 kW (1-fas 10 A) (15-80%)",
+              "11 tim 15 min",
+              "15 tim",
+              null
+            ],
+            [
+              "Laddstolpe 3,7 kW (1-fas 16 A) (15-80%)",
+              "7 tim",
+              "10 tim",
+              null
+            ],
+            [
+              "Laddstolpe 11 kW (3-fas 16 A) (15-80%)",
+              "2 tim 45 min",
+              "3 tim 15 min",
+              null
+            ],
+            [
+              "Snabbladdning upp till DC 80 kW (15-80%)",
+              "30 min",
+              "-",
+              null
+            ],
+            [
+              "Snabbladdning upp till DC 100 kW (15-80%)",
+              "-",
+              "30 min",
+              null
+            ],
+            [
+              "VÄXELLÅDA",
+              null,
+              null,
+              null
+            ],
+            [
+              "Växellådstyp",
+              "Rattmonterad E-shifter-växelspak",
+              null,
+              null
+            ],
+            [
+              "Antal växlar",
+              "1",
+              null,
+              null
+            ],
+            [
+              "PRESTANDA",
+              null,
+              null,
+              null
+            ],
+            [
+              "Maximal hastighet (km/h)",
+              "150",
+              "150",
+              null
+            ],
+            [
+              "0-100 km/h (s)",
+              "9,0",
+              "8,0",
+              null
+            ],
+            [
+              "STYRNING",
+              null,
+              null,
+              null
+            ],
+            [
+              "Styrning",
+              "Elektrisk servostyrning",
+              null,
+              null
+            ],
+            [
+              "Vänddiameter mellan trottoarer (m)",
+              "10,3",
+              null,
+              null
+            ],
+            [
+              "Antal rattvarv mellan ändlägen",
+              "2,61",
+              null,
+              null
+            ],
+            [
+              "HJUL OCH DÄCK",
+              null,
+              null,
+              null
+            ],
+            [
+              "Referensfälgar (18″)",
+              "195/55 R18 93H",
+              "195/55 R18 93H",
+              "195/55 R18 93H"
+            ],
+            [
+              "VIKT (KG) OCH VOLYM (L)",
+              null,
+              null,
+              null
+            ],
+            [
+              "Tjänstevikt (utan tillval) (kg)",
+              "1455",
+              "1534",
+              "1541"
+            ],
+            [
+              "Godkänd maxvikt (kg)",
+              "1865",
+              "1920",
+              "1920"
+            ],
+            [
+              "Maxvikt för bromsat/obromsat släp (kg)",
+              "500/500",
+              null,
+              null
+            ],
+            [
+              "Bagagerumsvolym (L)",
+              "326",
+              null,
+              null
+            ],
+            [
+              "Bagagerumsvolym, fällt säte (L)",
+              "1106",
+              null,
+              null
+            ],
+            [
+              "Förvaringsutrymme under lastgolvet (L)",
+              "41",
+              null,
+              null
+            ],
+            [
+              "Bakre öppningshöjd (mm)",
+              "600",
+              null,
+              null
+            ],
+            [
+              "Bakre öppningsbredd - övre, max., nedre (mm)",
+              "893/981/977",
+              null,
+              null
+            ],
+            [
+              "Bagageutrymme - Invändig bredd mellan hjulhus (mm)",
+              "1011",
+              null,
+              null
+            ]
+          ]
+        ],
+        "technical_cells": [
+          [
+            "Teknisk specifikation",
+            "EVOLUTION 40 kWh",
+            "TECHNO 52 kWh",
+            "ICONIC FIVE 52 kWh"
+          ],
+          [
+            "BATTERI",
+            "BATTERI",
+            "BATTERI",
+            "BATTERI"
+          ],
+          [
+            "Batteri",
+            "40 kWh",
+            "52 kWh",
+            "52 kWh"
+          ],
+          [
+            "INTERIÖR",
+            "INTERIÖR",
+            "INTERIÖR",
+            "INTERIÖR"
+          ],
+          [
+            "Antal sittplatser",
+            "5",
+            "5",
+            "5"
+          ],
+          [
+            "RÄCKVIDD & FÖRBRUKNING",
+            "RÄCKVIDD & FÖRBRUKNING",
+            "RÄCKVIDD & FÖRBRUKNING",
+            "RÄCKVIDD & FÖRBRUKNING"
+          ],
+          [
+            "Homologerad räckvidd WLTP - blandad körning (km)",
+            "320",
+            "424",
+            "421"
+          ],
+          [
+            "MOTOR",
+            "MOTOR",
+            "MOTOR",
+            "MOTOR"
+          ],
+          [
+            "Max. effekt kW (hk)",
+            "90 (120)",
+            "110 (150)",
+            "110 (150)"
+          ],
+          [
+            "Max. vridmoment (Nm)",
+            "225",
+            "245",
+            "245"
+          ],
+          [
+            "BATTERI",
+            "BATTERI",
+            "BATTERI",
+            "BATTERI"
+          ],
+          [
+            "Typ",
+            "NMC",
+            "NMC",
+            "NMC"
+          ],
+          [
+            "Kapacitet (kWh)",
+            "40",
+            "52",
+            "52"
+          ],
+          [
+            "Teknik",
+            "Lithium-ion",
+            "Lithium-ion",
+            "Lithium-ion"
+          ],
+          [
+            "Totalspänning (V)",
+            "400",
+            "400",
+            "400"
+          ],
+          [
+            "Antal moduler / celler",
+            "3 / 93",
+            "4 / 184",
+            "4 / 184"
+          ],
+          [
+            "Vikt (kg)",
+            "249",
+            "307",
+            "307"
+          ],
+          [
+            "LADDNINGSTIDER (PREL. DATA)",
+            "LADDNINGSTIDER (PREL. DATA)",
+            "LADDNINGSTIDER (PREL. DATA)",
+            "LADDNINGSTIDER (PREL. DATA)"
+          ],
+          [
+            "Inbyggd laddare",
+            "Anpassningsbar en-trefas från 1 kW till 11 kW",
+            "Anpassningsbar en-trefas från 1 kW till 11 kW",
+            "Anpassningsbar en-trefas från 1 kW till 11 kW"
+          ],
+          [
+            "Vanligt eluttag 2,3 kW (1-fas 10 A) (15-80%)",
+            "11 tim 15 min",
+            "15 tim",
+            "15 tim"
+          ],
+          [
+            "Laddstolpe 3,7 kW (1-fas 16 A) (15-80%)",
+            "7 tim",
+            "10 tim",
+            "10 tim"
+          ],
+          [
+            "Laddstolpe 11 kW (3-fas 16 A) (15-80%)",
+            "2 tim 45 min",
+            "3 tim 15 min",
+            "3 tim 15 min"
+          ],
+          [
+            "Snabbladdning upp till DC 80 kW (15-80%)",
+            "30 min",
+            "-",
+            "-"
+          ],
+          [
+            "Snabbladdning upp till DC 100 kW (15-80%)",
+            "-",
+            "30 min",
+            "30 min"
+          ],
+          [
+            "VÄXELLÅDA",
+            "VÄXELLÅDA",
+            "VÄXELLÅDA",
+            "VÄXELLÅDA"
+          ],
+          [
+            "Växellådstyp",
+            "Rattmonterad E-shifter-växelspak",
+            "Rattmonterad E-shifter-växelspak",
+            "Rattmonterad E-shifter-växelspak"
+          ],
+          [
+            "Antal växlar",
+            "1",
+            "1",
+            "1"
+          ],
+          [
+            "PRESTANDA",
+            "PRESTANDA",
+            "PRESTANDA",
+            "PRESTANDA"
+          ],
+          [
+            "Maximal hastighet (km/h)",
+            "150",
+            "150",
+            "150"
+          ],
+          [
+            "0-100 km/h (s)",
+            "9,0",
+            "8,0",
+            "8,0"
+          ],
+          [
+            "STYRNING",
+            "STYRNING",
+            "STYRNING",
+            "STYRNING"
+          ],
+          [
+            "Styrning",
+            "Elektrisk servostyrning",
+            "Elektrisk servostyrning",
+            "Elektrisk servostyrning"
+          ],
+          [
+            "Vänddiameter mellan trottoarer (m)",
+            "10,3",
+            "10,3",
+            "10,3"
+          ],
+          [
+            "Antal rattvarv mellan ändlägen",
+            "2,61",
+            "2,61",
+            "2,61"
+          ],
+          [
+            "HJUL OCH DÄCK",
+            "HJUL OCH DÄCK",
+            "HJUL OCH DÄCK",
+            "HJUL OCH DÄCK"
+          ],
+          [
+            "Referensfälgar (18″)",
+            "195/55 R18 93H",
+            "195/55 R18 93H",
+            "195/55 R18 93H"
+          ],
+          [
+            "VIKT (KG) OCH VOLYM (L)",
+            "VIKT (KG) OCH VOLYM (L)",
+            "VIKT (KG) OCH VOLYM (L)",
+            "VIKT (KG) OCH VOLYM (L)"
+          ],
+          [
+            "Tjänstevikt (utan tillval) (kg)",
+            "1455",
+            "1534",
+            "1541"
+          ],
+          [
+            "Godkänd maxvikt (kg)",
+            "1865",
+            "1920",
+            "1920"
+          ],
+          [
+            "Maxvikt för bromsat/obromsat släp (kg)",
+            "500/500",
+            "500/500",
+            "500/500"
+          ],
+          [
+            "Bagagerumsvolym (L)",
+            "326",
+            "326",
+            "326"
+          ],
+          [
+            "Bagagerumsvolym, fällt säte (L)",
+            "1106",
+            "1106",
+            "1106"
+          ],
+          [
+            "Förvaringsutrymme under lastgolvet (L)",
+            "41",
+            "41",
+            "41"
+          ],
+          [
+            "Bakre öppningshöjd (mm)",
+            "600",
+            "600",
+            "600"
+          ],
+          [
+            "Bakre öppningsbredd - övre, max., nedre (mm)",
+            "893/981/977",
+            "893/981/977",
+            "893/981/977"
+          ],
+          [
+            "Bagageutrymme - Invändig bredd mellan hjulhus (mm)",
+            "1011",
+            "1011",
+            "1011"
+          ]
+        ]
+      }
+    ]
+  },
+  "renault_drive": {
+    "raw": "<h1>RENAULT 5 E-TECH ELEKTRISCH</h1><p>E-Tech elektrisch 120 Urban Range E-Tech elektrisch 150 Comfort Range</p><div aria-hidden=\"true\"><dl class=\"OneConfigEngineTechSpecGroups__line\"><dd>Antriebsart</dd><dd>Vorderradantrieb</dd></dl><dl class=\"OneConfigEngineTechSpecGroups__line\"><dd>Karosserieform</dd><dd>Berline</dd></dl><dl class=\"OneConfigEngineTechSpecGroups__line\"><dd>Anzahl Türen</dd><dd>5</dd></dl></div>",
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.renault.de/elektromodelle/r5-e-tech-elektrisch-my26/konfigurator.html",
+      "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "fetched_at": "2026-11-13T21:00:00Z"
+    }
+  }
+}

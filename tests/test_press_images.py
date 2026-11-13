@@ -104,5 +104,20 @@ class PressImageTests(unittest.TestCase):
                 prepare(path, reviewed_hash, root)
 
 
+    def test_mazda_renault_only_the_reviewed_exterior_pages(self):
+        for publisher in ('mazda-se-mynewsdesk','renault-se-mynewsdesk'):
+            policy=PRESS_PUBLISHERS[publisher]
+            source=policy['origin']+policy['approved_image_paths'][0]
+            proof={**self.evidence,'model_key':policy['model_keys'][0],'publisher_id':publisher,
+                'license_id':policy['license_id'],'source_url':source,'license_url':source,'evidence_url':source,
+                'evidence_quote':policy['permission_excerpt']+' | '+policy['condition_excerpt'],
+                'downloaded_from':policy['asset_origin']+'/image/upload/fl_attachment/fixture123',
+                'full_frame':True,'source_content_sha256':'b'*64}
+            self.assertTrue(reviewed_media_permission(proof))
+            for path in ('/images/other-model-123','/images/interior-only-456'):
+                other=policy['origin']+path
+                self.assertFalse(reviewed_media_permission({**proof,'source_url':other,'license_url':other,'evidence_url':other}))
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,54 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Mazda 6e / Renault 5 Batch (2026-11-13)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Current Swedish 78 kWh MY2027 Mazda PDF and Renault November 10 / October-production PDF, exact battery/grade columns. |
+| 2. Facts and photography | Committed | 54 formerly missing technical facts, six unchanged independently reverified list prices, two body classifications and two exact-model press photos. All 76 versions retained; news unchanged. |
+| 3. Regression and visual QA | Passed locally | Extraction, real-trigger transactional rollback/replay, previous brand adapters, prices, rights, build/90 routes and 36 six-width detail checks pass. Filter/compare/CSV/null handling pass. |
+| 4. Publication | In progress | Package reviewed GitHub change, require exact-main CI, deploy to existing production project, then prove actual HTTPS/data/image parity. |
+
+Mazda's MY2027 battery is not the previous 68.8/80 kWh powertrain. Do not
+borrow the previous year's range, consumption or charging performance. Renault
+40/52 kWh values must stay bound to their exact grade/battery column. This batch
+does not authorize paid AI, news changes, migrations or infrastructure changes.
+
+- Swedish MY2027 Mazda PDF: 78 kWh, 560 km combined WLTP, 16.1 kWh/100 km,
+  200 kW DC, 11 kW three-phase AC, 1500 kg tow and 336 L rear boot below shelf.
+  Do not substitute city-cycle consumption, the calculator's stale 16.6 figure,
+  inconsistent 7.2 kW equipment caption, 466 L roof-height volume or 72 L frunk.
+- Mazda seating is explicitly five across all three grades in the manufacturer's
+  European MY2027/78 kWh sheet. Only seating comes from that German source.
+  The adapter follows its exact observed robots.txt -> robots.txt/ redirect;
+  404 keeps existing no-file semantics, while denial, foreign redirects or 5xx stop.
+- Renault exact grade ranges: evolution 40=320, techno 52=424, iconic five 52=421.
+  The common 52 kWh consumption interval stays 14.1-14.2, visibly qualified;
+  cost calculations use the lower endpoint, not an invented exact grade figure.
+- Renault's manufacturer E-Tech-generation technical dialog supplies only
+  front-drive architecture and five-door Berline -> Halvkombi classification.
+  Its older foreign prices/ranges are never imported. European supporting sources
+  retain their actual DE/de locale instead of being mislabelled Swedish.
+- Press photos: Mazda MY2027 exterior 3540810 and Renault 5 exterior 3172684.
+  Interior/detail shots and the time-limited Mazda people shot were rejected as
+  primary model photos during visual selection. Retain full photographic frames.
+- Canonical commit filled all nine technical fields on all six versions. The
+  legacy source spelling 6e is retained and bound to the exact same canonical
+  parent 6E, not accepted through broad case-insensitive matching. The initial
+  source-identity refusal rolled back completely; an explicit regression now
+  reproduces that historical source row. Two body types and two images committed
+  separately through existing transactions. Prices changed: zero; paid calls: zero.
+- Coverage after this batch: 38/76 complete core profiles and 12/30 professionally
+  reviewed model photos. This is not a claim that the other brands are complete.
+- Local rendered checks cover every new version at 320/375/390/430/768/1440px,
+  exact photograph files and full-frame aspect ratio, >=16px photo/copy gap,
+  no navigation overlap, no horizontal overflow, complete technical sections and
+  value metrics. Group consumption qualification is now visible beside its
+  specification, not just in a calculator tooltip. No client runtime errors.
+
+## Overall Tracker
+
 | Phase | Status | Deliverable / acceptance |
 | --- | --- | --- |
 | 1. Inventory | Complete | Repeatable per-model missing-field and image-quality report; source queues and baseline counts. |
@@ -137,7 +185,7 @@ maxima from a different version would repeat the old data-quality problem.
 3. Guarded publication: complete. Stage exact-source facts, run extraction and SQL
    rollback/scope regressions, then apply only the six variants/three models,
    preserving every other vehicle and all news/AI/budget controls.
-4. Release: in progress. Export canonical public views, build, visual/accessibility
+4. Release: complete. Export canonical public views, build, visual/accessibility
    and no-JS regression checks, exact-main CI, existing production deployment and
    actual public GET/image/mobile verification. No paid AI calls are needed.
 
@@ -187,6 +235,35 @@ maxima from a different version would repeat the old data-quality problem.
   Polestar range target; do not describe that target as certified. Prices remain
   56/76, complete core-card profiles 32/76, professionally reviewed model photos
   10/30. Other brands remain active research, not silently claimed complete.
+- PR #60 merged as `64111f01e893e1bf5bd57f7864446d57fe29862d` after all
+  155 PR and exact-main CI steps passed. Production run `43488409146` failed
+  before uploading: its isolated function package omitted the new shared
+  `spec-qualifications.js` module. No replacement site was deployed by that run.
+  PR #61 adds the exact missing dependency, a shared explicit package inventory,
+  actual isolated-package compilation in CI (including a negative omitted-module
+  regression) and pre-credential compilation of the real deployment package.
+  No extra data writes or AI/article activity are needed to retry distribution.
+- Final release: PR #61 merged as `a27e5aafb52ae368e1f4c16ca4cea4b23e2b14e6`.
+  All 155 PR checks and all 155 exact-main checks passed, including isolated
+  production-package compilation and intentional missing-module rejection.
+  Production distribution `43490914376` succeeded. At 19:21 UTC on 13 November,
+  actual `https://elbilsagenten.se/` passed ordinary TLS/GET/readiness checks.
+  All 76 deployed records match the approved snapshot, all twelve batch image
+  files match their hashes, and all six Toyota/Polestar pages pass the full
+  320/375/390/430/768/1440px matrix: no technical gaps, wrong-model replacements,
+  mobile image/copy/navigation overlap, horizontal overflow or runtime errors.
+  Production screenshots were visually reviewed; source frames and credits are
+  preserved. The target qualifier also survives the real table/CSV workflow.
+- Verified release receipts are attached to GitHub PRs #60 and #61. Private
+  source captures, before-images, SQL receipts and 36 public-page geometry checks
+  remain under `data/local/release-data/toyota-polestar-quality-2026-11-13/`.
+  No paid AI calls, additional article generation/publication, news-switch,
+  budget, DNS, email, key or permission changes were made for this batch.
+- Next recommended data batch: Mazda 6e and Renault 5, each currently carrying
+  twelve missing core values across three public versions. Reuse exact Swedish
+  manufacturer technical sources and professional model photography. Keep the
+  separate Kia decimal-AC compatibility work and other remaining brands visible;
+  this completion applies to Toyota bZ4X and Polestar 2/4, not the whole catalog.
 
 ### Skoda Batch, 13 November
 

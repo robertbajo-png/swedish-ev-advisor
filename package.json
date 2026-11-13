@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:mazda-renault-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_mazda_renault_specs.py -v",
+    "verify:mazda-renault-sync": "node scripts/verify_mazda_renault_spec_sync.mjs",
     "verify:toyota-polestar-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_polestar_specs.py -v",
     "verify:toyota-polestar-sync": "node scripts/verify_toyota_polestar_spec_sync.mjs",
     "quality:audit": "node scripts/run_python.mjs scripts/audit_vehicle_quality.py",
