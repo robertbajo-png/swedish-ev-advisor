@@ -156,6 +156,7 @@ jobs:
       - run: bun run verify:skoda-spec-sync
       - run: bun run verify:press-images
       - run: bun run verify:vehicle-catalog
+      - run: bun run verify:decision-metrics
       - run: bun run verify:remaining-intake
       - run: bun run verify:stock-intake
       - run: bun run verify:toyota-intake

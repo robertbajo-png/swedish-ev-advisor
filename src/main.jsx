@@ -46,6 +46,7 @@ import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
+import { decisionMetricsFor } from './decision-metrics.js';
 import needGuides from './need-guides.json';
 import imageVariants from './image-variants.json';
 import imagePresentation from './image-presentation.json';
@@ -314,17 +315,6 @@ function exportCompareCsv(cars) {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
-}
-
-function decisionMetricsFor(car, cars = []) {
-  const comparable = cars.filter((item) => item.rangeVerified != null);
-  const averageRange = comparable.length > 1 ? Math.round(comparable.reduce((sum, item) => sum + item.rangeVerified, 0) / comparable.length) : null;
-  const listPrice = car.price && car.priceType === 'list_price' ? car.price : null;
-  return [
-    { label: 'Räckvidd per 100 000 kr', value: listPrice && car.rangeVerified ? (car.rangeVerified / (listPrice / 100000)).toFixed(1) + ' km' : 'Uppgift saknas', note: 'Beräknas endast med listpris och WLTP.' },
-    { label: 'Pris per WLTP-km', value: listPrice && car.rangeVerified ? Math.round(listPrice / car.rangeVerified).toLocaleString('sv-SE') + ' kr/km' : 'Uppgift saknas', note: 'Listpris fördelat på angiven räckvidd. Inte körkostnad.' },
-    { label: 'Räckvidd mot utbudets snitt', value: averageRange != null && car.rangeVerified != null ? (car.rangeVerified >= averageRange ? '+' : '') + (car.rangeVerified - averageRange) + ' km' : 'Uppgift saknas', note: averageRange ? 'Snittet för publicerade varianter med räckviddsuppgift är ' + averageRange + ' km WLTP.' : 'Jämförelseunderlag saknas.' }
-  ];
 }
 
 function scoreCar(car, advisor) {
