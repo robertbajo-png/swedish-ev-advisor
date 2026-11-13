@@ -88,6 +88,12 @@ jobs:
         env:
           NEWS_SNAPSHOT_HASH: ${{ steps.snapshot.outputs.snapshot_hash }}
         run: node scripts/production_news_distribution.mjs package
+      - name: Compile the isolated package before deployment credentials
+        if: steps.snapshot.outputs.upload_required == 'true'
+        working-directory: news-deploy
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+        run: bunx wrangler@4.154.0 pages functions build functions --outdir=/tmp/elbilsagenten-function-preflight
       - name: Confirm the same published source snapshot
         if: steps.snapshot.outputs.upload_required == 'true'
         env:

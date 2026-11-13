@@ -13,6 +13,16 @@ export const PROJECT = 'elbilsagenten';
 export const ORIGIN = 'https://elbilsagenten.se';
 const ACCOUNT = 'e52a9db99ad554c58db919e0c8296e81';
 const BUDGET_ID = '206ce4df-f219-4d67-be24-e4b56f52a6be';
+export const FUNCTION_SOURCE_PATHS = ['functions', 'src/advisor-matching.js', 'src/price-evidence.js',
+  'src/vehicle-names.js', 'src/spec-qualifications.js'];
+
+export function functionSourceFiles(sha) {
+  const files = execFileSync('git', ['ls-tree','-r','--name-only',sha,'--',...FUNCTION_SOURCE_PATHS],
+    { encoding: 'utf8', windowsHide: true }).trim().split('\n');
+  assert(FUNCTION_SOURCE_PATHS.filter(file => file !== 'functions').every(file => files.includes(file)), 'Required shared function module missing');
+  assert(files.every(file => /^(?:functions\/.*\.(?:js|mjs)|src\/[\w-]+\.js)$/.test(file)), 'Unexpected function source');
+  return files;
+}
 const REPO = 'robertbajo-png/swedish-ev-advisor';
 
 export function configuration(env) {
@@ -102,8 +112,7 @@ export async function packageBuild(sha, expectedHash) {
   assert.deepEqual(catalog, canonical, 'A news deployment must not change the vehicle catalog');
   const stage = path.resolve('news-deploy');
   await mkdir(stage); // A reused or partial package is never accepted.
-  const files = git('ls-tree', '-r', '--name-only', sha, '--', 'functions', 'src/advisor-matching.js',
-    'src/price-evidence.js', 'src/vehicle-names.js').trim().split('\n');
+  const files = functionSourceFiles(sha);
   for (const file of files) {
     assert(/^(?:functions\/.*\.(?:js|mjs)|src\/[\w-]+\.js)$/.test(file), 'Unexpected function source');
     await mkdir(path.dirname(path.join(stage, file)), { recursive: true });
