@@ -523,8 +523,17 @@ export function App({ initialData } = {}) {
   const [route, setRoute] = useState(() => initialData ? getRoute(initialData.path, '') : getRoute());
   const contentRef = useRef(null);
   const previousRoute = useRef(route);
+  const advisorFocusRequested = useRef(false);
+  const focusAdvisorInput = () => {
+    document.getElementById('home-advisor-query')?.focus({ preventScroll: true });
+    document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior() });
+  };
   useEffect(() => {
-    if (previousRoute.current !== route) contentRef.current?.focus({ preventScroll: true });
+    // Resolve the requested target after the new route has mounted.
+    if (advisorFocusRequested.current && route.type === 'home') {
+      advisorFocusRequested.current = false;
+      focusAdvisorInput();
+    } else if (previousRoute.current !== route) contentRef.current?.focus({ preventScroll: true });
     previousRoute.current = route;
   }, [route]);
   const [advisor, setAdvisor] = useState({
@@ -741,8 +750,10 @@ export function App({ initialData } = {}) {
           {[[ '/', 'Hitta elbil', 'home' ], [ '/bilar', 'Alla elbilar', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
         </nav>
         <button className="uiPrimary" type="button" onClick={() => {
-          if (route.type !== 'home') navigate('/');
-          requestAnimationFrame(() => { document.getElementById('home-advisor-query')?.focus(); document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior() }); });
+          if (route.type !== 'home') {
+            advisorFocusRequested.current = true;
+            navigate('/');
+          } else focusAdvisorInput();
         }}><Sparkles size={16} /> Fråga AI</button>
       </header>
 

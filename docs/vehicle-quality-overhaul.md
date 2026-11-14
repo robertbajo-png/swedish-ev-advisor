@@ -42,6 +42,13 @@ photo and preserve the full frame and equipment notice; never imply a GT photo.
   The professional Baseline press photograph was visually reviewed with its
   existing manufacturer permission. Keep its full frame and add equipment
   notice, not a claim that the image depicts GT equipment.
+- First PR CI run43633095551 passed22 Axe audits but exposed an existing
+  advisor-navigation focus race. Its requestAnimationFrame shortcut could run
+  before/against the route's generic main-focus effect. Resolve advisor focus
+  in the committed route effect, retain ordinary route focus and same-page
+  focus, and test six repeated desktop/mobile transitions plus stable focus
+  across two animation frames. The original focus assertion remains. Rebuild
+  and rerun full QA/CI; do not rerun the already committed database transaction.
 
 ## Kia EV4 Completion (2026-11-14)
 

@@ -114,7 +114,21 @@ try {
   await page.getByRole('navigation').getByRole('link', { name: 'Alla elbilar', exact: true }).click();
   await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
   await page.locator('#home-advisor-query').waitFor();
+  await page.waitForFunction(() => document.activeElement?.id === 'home-advisor-query', null, { timeout: 2000 });
   assert(await page.locator('#home-advisor-query').evaluate((node) => node === document.activeElement));
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await page.getByRole('navigation').getByRole('link', { name: 'Alla elbilar', exact: true }).click();
+      await page.locator('.carCard').first().waitFor();
+      await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
+      await page.waitForFunction(() => document.activeElement?.id === 'home-advisor-query', null, { timeout: 2000 });
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      assert(await page.locator('#home-advisor-query').evaluate(node => node === document.activeElement), 'Route focus must not reclaim advisor focus');
+    }
+    await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
+    assert(await page.locator('#home-advisor-query').evaluate(node => node === document.activeElement), 'Same-page advisor focus');
+  }
   report.keyboard.push('skip link', 'SPA route focus', 'back navigation focus', 'advisor shortcut focus');
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
