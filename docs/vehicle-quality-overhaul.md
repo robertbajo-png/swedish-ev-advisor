@@ -5,14 +5,52 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Kia EV5 Completion (2026-11-14)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | All 45 facts for five existing profiles bound to nine fresh manufacturer sources. Swedish MY2027 standard-wheel values and separate 306hp GT; nested X9/W5 seat/engine identities, explicit Panorama option and dated November prices. |
+| 2. Canonical completion | Committed | Fresh nine-source transaction filled 21 gaps across five versions, with no price-amount changes and one sourced SUV body type. IDs/routes, other vehicles, existing photo and market flags preserved. News controls/articles unchanged. Anonymous export still contains 76 versions and exactly five changed rows. |
+| 3. Regression and visual QA | Passed locally | Ten extraction tests, five-profile transaction/real-price-trigger/rollback/replay/price-alternative/source tests and 16 previous regression suites pass. Anonymous export verifies all 71 other versions unchanged. Client/SSR build, 90 static routes, SEO, no-JS/hydration/filter and EV5 variant/comparison tests pass. Four widths 320/390/768/1440 and two Axe audits, no runtime errors/overflow/mobile overlap. Screenshots visually reviewed. |
+| 4. Publication | In progress | Scoped PR and exact-head/current-main CI, then existing production distribution and actual public-site verification before marking complete. |
+
+No paid AI or new migrations. News, budgets, credentials, DNS, mail and hosting
+configuration remain unchanged. Inspect the approved EV5 Baseline model press
+photo and preserve the full frame and equipment notice; never imply a GT photo.
+
+- Prefer Swedish product facts dated 14 October 2026 (MY2027): FWD18-inch
+  552km/16.0kWh per100km; Plus AWD18-inch 513/17.2; GT Line AWD19-inch 491/18.1.
+  Do not replace these with older foreign530/484km or the generic web footer's
+  16.9/18.2 consumption. The energy declaration's FWD204hp typo is not the
+  Swedish160kW engine; its nested web table says218hp, the PDF217hp.
+- Panorama is explicitly a GT Line option in the PDF. The current Swedish
+  price-list pair658900/670900 binds the AWD package; five seats and powertrain
+  come from the exact GT Line AWD engine, not another trim. Qualify491km as
+  the group's maximum, not an individually measured panorama configuration.
+- GT306hp uses Swedish476km/81.4kWh/1800kg and October18.6 consumption. Exact
+  German225kW/306hp pages10-11 support DC150 and seats-up566L including the floor
+  compartment, not1650folded or615km city range. Polish page15 explicitly
+  includes306hp GT and standard onboardAC10.5, optional22K is not selected.
+  Regular Swedish onboardAC is also10.5, not rounded11 or350kW station supply.
+- Keep all five cash list amounts. Dated November1-30 PDF overrides undated
+  embedded engine prices1000SEK lower; preserve those exact alternate values,
+  source hashes and decision reason in staging's price evidence. Panorama's
+  base web price also excludes its option total. No lease, paint or foreign
+  cash amounts are selected. Public price validity is30November.
+- Preserve shared source model* and uppercaseEV5 labels for the existing
+  model/spec pages. The old price HTML belongs to EV4 and remains untouched.
+  The professional Baseline press photograph was visually reviewed with its
+  existing manufacturer permission. Keep its full frame and add equipment
+  notice, not a claim that the image depicts GT equipment.
+
 ## Kia EV4 Completion (2026-11-14)
 
 | Step | Status | Acceptance |
 | --- | --- | --- |
 | 1. Exact-version research | Complete | All27 facts for three Swedish7Z/S6 hatchback versions, nested regular and flat GT engine/seats/price data, MY2027 Swedish GT Line table and separate292hp GT sources. |
 | 2. Canonical completion | Committed | Fresh eight-source guarded transaction filled 13 technical gaps in exactly three versions, with no price-amount changes. Preserved IDs/routes, independent prices, existing photo and market flags. One sourced Halvkombi body type added. News controls/articles unchanged. |
-| 3. Regression and visual QA | Passed locally | Ten extraction tests, guarded transaction/real-price-trigger/rollback/replay/source/decimal/qualification tests and fifteen broader suites pass. Anonymous export retains 76 versions, exactly three changed and all 73 others unchanged. Client/SSR build, 90 static routes, SEO, no-JS/hydration/filter tests and EV4 details/comparison pass. Four widths 320/390/768/1440, two Axe audits with no violations; mobile/desktop screenshots reviewed. The final GT-only source-link refinement also passes its focused regression; exact-head cloud CI will rebuild the final source. |
-| 4. Publication | In progress | Prepare scoped GitHub PR, exact-head CI, main merge and existing production distribution. Actual-site verification remains required before marking complete. |
+| 3. Regression and visual QA | Passed | Ten extraction tests, guarded transaction/real-price-trigger/rollback/replay/source/decimal/qualification tests and fifteen broader suites pass. Anonymous export retains 76 versions, exactly three changed and all 73 others unchanged. Client/SSR build, 90 static routes, SEO, no-JS/hydration/filter tests and EV4 details/comparison pass. All 171 PR CI steps and exact-main CI passed with the final GT-only source links. Actual production passed four widths 320/390/768/1440, two Axe audits with no violations, photo/metadata/variant-picker/comparison checks and visual screenshot review. |
+| 4. Publication | Complete | PR #70 merged as 643c1e7aea79216f6661e05593cf3385a15b0f7c. Fixed-target production distribution 43626517993 passed. Actual HTTPS/catalog/EV4/photo/metadata/mobile/comparison verification completed 14 November at 18:29:59 UTC. |
 
 No paid AI, migrations, news-control/budget, credential, DNS, mail or hosting
 changes. Inspect the approved existing EV4 GT Line press photo; do not substitute
@@ -39,6 +77,21 @@ active exact-source research task, not permission to invent or borrow facts.
   inspected with its stored manufacturer media permission. Preserve original
   frame/bytes and add a visible equipment notice rather than a wrong-model or
   Fastback fallback. This batch requires no new image or database schema.
+- Release evidence: PR CI 43625625104 (171 steps), exact-main CI 43626021048
+  and production distribution 43626517993 succeeded. An earlier automatic
+  workflow-run trigger 43626056925 was correctly stopped by the exact-main CI
+  eligibility gate before deployment credentials; its upload job was skipped.
+  No gate was weakened. Public verification matched all 76 approved records,
+  all nine technical fields for each EV4 version, original press-photo bytes,
+  qualified WLTP metadata, GT tyre/boot notes and the final exact-version source
+  links. Mobile copy gap is 24px, with no image/header overlap or horizontal
+  overflow; desktop cinematic presentation is retained. Detailed GET-only proof,
+  receipts and screenshots remain under ignored
+  `data/local/release-data/kia-ev4-completion-2026-11-14/`; the PR records the
+  production closeout. No paid AI, migrations or news/infra changes.
+- Next batch: Kia EV5, five existing versions with 21 missing technical values.
+  EV3 and EV4 now have all nine fields across ten versions. The full catalog is
+  not complete: 40 of 76 versions currently have all nine technical fields.
 
 ## Kia EV3 Completion (2026-11-14)
 

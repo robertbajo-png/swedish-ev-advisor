@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:ev5-completion": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev5_completion_specs.py -v",
+    "verify:ev5-completion-sync": "node scripts/verify_kia_ev5_completion_sync.mjs",
     "verify:ev4-completion": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev4_completion_specs.py -v",
     "verify:ev4-completion-sync": "node scripts/verify_kia_ev4_completion_sync.mjs",
     "verify:decimal-ac": "node scripts/verify_decimal_ac_migration.mjs",
