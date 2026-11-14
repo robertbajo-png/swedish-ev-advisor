@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:cupra-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_cupra_born_specs.py -v",
+    "verify:cupra-sync": "node scripts/verify_cupra_born_spec_sync.mjs",
     "verify:ford-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_ford_explorer_specs.py -v",
     "verify:ford-sync": "node scripts/verify_ford_explorer_spec_sync.mjs",
     "verify:ui-navigation": "node scripts/verify_ui_navigation.mjs",

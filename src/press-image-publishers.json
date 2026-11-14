@@ -68,6 +68,20 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "cupra-dk-mynewsdesk": {
+    "origin": "https://seat-denmark.mynewsdesk.com",
+    "publisher": "SEAT & CUPRA Danmark",
+    "official_link_evidence": "https://seat-denmark.mynewsdesk.com/pressreleases/den-nye-cupra-born-er-lanceret-op-til-623-km-raekkevidde-og-fire-varianter-fra-249-punktum-990-kr-3443974",
+    "model_keys": ["cupra|born"],
+    "model_title_pattern": "^NEW CUPRA BORN VZ_DARK FOREST_003\\.JPG$",
+    "approved_image_paths": ["/images/new-cupra-born-vz-dark-forest-003-punktum-jpg-3455027"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Brug i medier",
+    "download_label": "Download",
+    "permission_excerpt": "Materialet kan downloades af journalister, bloggere, meningsdannere etc.",
+    "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
+  },
   "skoda-dk-mynewsdesk": {
     "origin": "https://skoda-danmark.mynewsdesk.com",
     "publisher": "Škoda Danmark",

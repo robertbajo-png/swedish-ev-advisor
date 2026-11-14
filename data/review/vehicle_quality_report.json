@@ -8,44 +8,44 @@
       "missing": 18
     },
     "wltp_range_km": {
+      "present": 63,
+      "missing": 13
+    },
+    "battery_kwh": {
+      "present": 53,
+      "missing": 23
+    },
+    "dc_charge_kw": {
+      "present": 57,
+      "missing": 19
+    },
+    "ac_charge_kw": {
+      "present": 34,
+      "missing": 42
+    },
+    "tow_kg": {
+      "present": 53,
+      "missing": 23
+    },
+    "boot_liters": {
+      "present": 60,
+      "missing": 16
+    },
+    "seats": {
+      "present": 40,
+      "missing": 36
+    },
+    "drivetrain": {
       "present": 62,
       "missing": 14
     },
-    "battery_kwh": {
-      "present": 52,
-      "missing": 24
-    },
-    "dc_charge_kw": {
-      "present": 56,
-      "missing": 20
-    },
-    "ac_charge_kw": {
-      "present": 33,
-      "missing": 43
-    },
-    "tow_kg": {
-      "present": 52,
-      "missing": 24
-    },
-    "boot_liters": {
-      "present": 59,
-      "missing": 17
-    },
-    "seats": {
-      "present": 39,
-      "missing": 37
-    },
-    "drivetrain": {
-      "present": 61,
-      "missing": 15
-    },
     "body_type": {
-      "present": 28,
-      "missing": 48
+      "present": 29,
+      "missing": 47
     }
   },
-  "complete_core_variants": 43,
-  "professional_photos_reviewed": 14,
+  "complete_core_variants": 44,
+  "professional_photos_reviewed": 15,
   "models_by_priority": [
     {
       "model_key": "kia|ev3",
@@ -643,54 +643,6 @@
             "boot_liters"
           ],
           "source_url": "https://hitta.bmw.se/r/G26E-i4/i4-eDrive40-WBY61HD030FW37556",
-          "source_hash_present": true
-        }
-      ]
-    },
-    {
-      "model_key": "cupra|born",
-      "brand": "Cupra",
-      "model": "Born",
-      "variant_count": 1,
-      "missing_core_values": 4,
-      "coverage": {
-        "price_sek": 1,
-        "wltp_range_km": 0,
-        "battery_kwh": 0,
-        "dc_charge_kw": 0,
-        "ac_charge_kw": 0,
-        "tow_kg": 0,
-        "boot_liters": 0,
-        "seats": 0,
-        "drivetrain": 0,
-        "body_type": 0
-      },
-      "image_url": "/media/vehicles/cupra-born-a7f9a0e290ee.jpg",
-      "image_consistent": true,
-      "image_rights_documented": true,
-      "professional_photo_reviewed": false,
-      "photo_action": "professional_photo_review_required",
-      "variants": [
-        {
-          "variant_name": "Born VZ",
-          "missing_fields": [
-            "wltp_range_km",
-            "battery_kwh",
-            "dc_charge_kw",
-            "ac_charge_kw",
-            "tow_kg",
-            "boot_liters",
-            "seats",
-            "drivetrain",
-            "body_type"
-          ],
-          "missing_core_fields": [
-            "wltp_range_km",
-            "dc_charge_kw",
-            "tow_kg",
-            "boot_liters"
-          ],
-          "source_url": "https://www.cupraofficial.se/bilar/born",
           "source_hash_present": true
         }
       ]
@@ -1364,6 +1316,39 @@
       ]
     },
     {
+      "model_key": "cupra|born",
+      "brand": "Cupra",
+      "model": "Born",
+      "variant_count": 1,
+      "missing_core_values": 0,
+      "coverage": {
+        "price_sek": 1,
+        "wltp_range_km": 1,
+        "battery_kwh": 1,
+        "dc_charge_kw": 1,
+        "ac_charge_kw": 1,
+        "tow_kg": 1,
+        "boot_liters": 1,
+        "seats": 1,
+        "drivetrain": 1,
+        "body_type": 1
+      },
+      "image_url": "/media/vehicles/cupra-born-press-7b71951e205b.jpg",
+      "image_consistent": true,
+      "image_rights_documented": true,
+      "professional_photo_reviewed": true,
+      "photo_action": "accepted",
+      "variants": [
+        {
+          "variant_name": "Born VZ",
+          "missing_fields": [],
+          "missing_core_fields": [],
+          "source_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+          "source_hash_present": true
+        }
+      ]
+    },
+    {
       "model_key": "ford|explorer",
       "brand": "Ford",
       "model": "Explorer",
@@ -1796,5 +1781,5 @@
   ],
   "network_calls": 0,
   "database_writes": 0,
-  "audited_at": "2026-11-13T22:20:30.623453+00:00"
+  "audited_at": "2026-11-14T08:35:24.728762+00:00"
 }
