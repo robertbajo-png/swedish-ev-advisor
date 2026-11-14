@@ -65,25 +65,25 @@
       }
     ]
   },
-  "/media/vehicles/bmw-i4-827db86e3d75.jpg": {
-    "width": 1280,
-    "height": 960,
-    "source_sha256": "827db86e3d75e5adab8e6e88fd31f23521cfbeaff827d053e504a3cbd3bd4ca0",
+  "/media/vehicles/bmw-i4-press-497a46b16ded.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "497a46b16dedcbd5e52036a7fc2d3a48713862f5104bab2fc4ba4808059322c6",
     "variants": [
       {
-        "url": "/media/responsive/bmw-i4-827db86e3d75-480.webp",
+        "url": "/media/responsive/bmw-i4-press-497a46b16ded-480.webp",
         "width": 480,
-        "sha256": "e2128222417f72e3f587ca135e8e9645677a8e4543dfbc4fa9c2bcdb38d26d9b"
+        "sha256": "b51adc84bb10107303c052f6f816d42c3c4a60660b80de765d0bde2781e4c842"
       },
       {
-        "url": "/media/responsive/bmw-i4-827db86e3d75-800.webp",
+        "url": "/media/responsive/bmw-i4-press-497a46b16ded-800.webp",
         "width": 800,
-        "sha256": "7cd6b03414b2f70a19cb20a98694326a5b4964d8a1325e2d8b4d3b3a2e5e11d3"
+        "sha256": "1cba82e4fef186ba812ffa7eb73bf65e9079889fa0185380d31c3a795f9c6b4e"
       },
       {
-        "url": "/media/responsive/bmw-i4-827db86e3d75-1280.webp",
+        "url": "/media/responsive/bmw-i4-press-497a46b16ded-1280.webp",
         "width": 1280,
-        "sha256": "cc2aff791de0c0241c69c10a6deeb54986a0f093f874e3e58702d437045f8a09"
+        "sha256": "eb690af3d987662d7d8c9a637677c64a8d8a715da6cd2ef3e98761a0642befd6"
       }
     ]
   },

@@ -1,6 +1,8 @@
 {
   "type": "module",
   "scripts": {
+    "verify:bmw-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_bmw_i4_specs.py -v",
+    "verify:bmw-sync": "node scripts/verify_bmw_i4_spec_sync.mjs",
     "verify:cupra-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_cupra_born_specs.py -v",
     "verify:cupra-sync": "node scripts/verify_cupra_born_spec_sync.mjs",
     "verify:ford-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_ford_explorer_specs.py -v",
