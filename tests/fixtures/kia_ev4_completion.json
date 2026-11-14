@@ -1,0 +1,641 @@
+{
+  "adapter": "kia_ev4_sweden_completion_v1",
+  "drafts": [
+    {
+      "adapter": "kia_ev4_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev4",
+      "variant_name": "EV4 GT Line FWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+        "content_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+        "fetched_at": "2026-11-14T17:07:18.977129+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "content_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628",
+          "fetched_at": "2026-11-14T17:12:25.865723+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4-gt/specifications/",
+          "content_hash": "502328770cf6a9d10f7ec28173dd5d29bc4f0d6d90c9951676b73ac8b0158542",
+          "fetched_at": "2026-11-14T17:12:29.436282+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T17:07:40.651629+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T17:07:47.494054+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev4/dane-techniczne/",
+          "content_hash": "0159d9b71bbba31f3502bcb6c8baf9c573d4f0f8afa2dfe03cafad59da6777da",
+          "fetched_at": "2026-11-14T17:07:53.561092+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "content_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "fetched_at": "2026-11-14T17:08:01.751294+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev4_hatchback_my27_not_fastback_or_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 584,
+        "wltp_consumption_kwh_100km": 15.8,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1000,
+        "boot_liters": 435,
+        "drivetrain": "FWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Batterikapacitet (kWh) 81.4",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 584,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) 584 550",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.8,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 15.8 16.5",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "DC snabbladdning max kW 128",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1000,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 000 1 500",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 435,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt 435 / 1450 359 / 1370",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV4 GT Line FWD Long Range",
+          "column_header": "EV4 GT Line FWD Long Range | 7ZS6ZHZ7Z-LX1 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "source_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628",
+          "quote": "7ZS6ZHZ7Z-LX1 | Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "EV4 | 7Z/S6 | Halvkombins design baktill.",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "source_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628"
+        }
+      },
+      "price_evidence": {
+        "value": 623400,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV4 GT Line FWD Long Range 623,400 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "qualifications": {
+        "gt_tyre_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Reichweite2, max. (km) 473 (20\" Michelin)/505 (20\" Pirelli)"
+        },
+        "gt_boot_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Laderaumvolumen bei aufgestellter Rücksitzbank, mit Einrechnung des doppelten Bodens 377"
+        }
+      },
+      "source_decisions": [
+        "Preserve all three canonical EV4 hatchback identities, routes and existing price amounts; exact7Z/S6, never EV4 Fastback.",
+        "Swedish regular engine/trimsDetail nested groups bind204/265hp, five seats and623400/658400SEK; flat GT292hp engine binds711900SEK.",
+        "MY2027 Swedish20August technical PDF supplies GT Line standard19inch584/550km,15.8/16.5 consumption and81.4kWh.",
+        "Exact onboard AC10.5kW is not rounded to11 and not optional22. For GT use matching Polish292hp manufacturer column, preserving PL/pl locale.",
+        "Swedish GT505km,81.4kWh and1500kg plus October292hp consumption17.9 take precedence over generic footer values or other models.",
+        "GT German215kW/81.4kWh table supplies nominal DC128, not350kW charger supply or Polish127.5 rounded by the extractor.",
+        "German GT page12 binds505km to20inchPirelli and473km to20inchMichelin; preserve tyre conditions, not an identical range for all options.",
+        "GT boot359L comes from exact Polish GT column, not generic AWD390 or German377 including the double floor. Keep both measurement bases visible.",
+        "Swedish GT Line boot435FWD/359AWD overrides other-market generic AWD390; no folded1450/1370 or roof75/ball100kg used as boot/towing.",
+        "November1-30 Swedish PDF prices match engine prices. Keep list_price and its validity, not Euro offers, lease amounts or optional paint.",
+        "Shared price/energy source model label is* with no canonical parent; preserve legacyEV4priceHTML row and every other vehicle.",
+        "Existing approved EV4 GT Line press photograph is a hatchback model photograph with equipment notice, not each trim or Fastback."
+      ]
+    },
+    {
+      "adapter": "kia_ev4_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev4",
+      "variant_name": "EV4 GT Line AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+        "content_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+        "fetched_at": "2026-11-14T17:07:18.977129+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "content_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628",
+          "fetched_at": "2026-11-14T17:12:25.865723+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4-gt/specifications/",
+          "content_hash": "502328770cf6a9d10f7ec28173dd5d29bc4f0d6d90c9951676b73ac8b0158542",
+          "fetched_at": "2026-11-14T17:12:29.436282+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T17:07:40.651629+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T17:07:47.494054+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev4/dane-techniczne/",
+          "content_hash": "0159d9b71bbba31f3502bcb6c8baf9c573d4f0f8afa2dfe03cafad59da6777da",
+          "fetched_at": "2026-11-14T17:07:53.561092+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "content_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "fetched_at": "2026-11-14T17:08:01.751294+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev4_hatchback_my27_not_fastback_or_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 550,
+        "wltp_consumption_kwh_100km": 16.5,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1500,
+        "boot_liters": 359,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Batterikapacitet (kWh) 81.4",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 550,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) 584 550",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.5,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 15.8 16.5",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "DC snabbladdning max kW 128",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1500,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 000 1 500",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 359,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt 435 / 1450 359 / 1370",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev4/kia-sweden-ev4-specification.pdf",
+          "source_hash": "92b70d2a1dbcb6a6a93ebdde2439f2d3ec79b2d0930b673e137f64511491bbda",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_gt_line_19inch_column",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV4 GT Line AWD Long Range",
+          "column_header": "EV4 GT Line AWD Long Range | 7ZS6YGZ7Z-LX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "source_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628",
+          "quote": "7ZS6YGZ7Z-LX1_V00 | Elmotor AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "EV4 | 7Z/S6 | Halvkombins design baktill.",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "source_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628"
+        }
+      },
+      "price_evidence": {
+        "value": 658400,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV4 GT Line AWD Long Range 658,400 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "qualifications": {
+        "gt_tyre_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Reichweite2, max. (km) 473 (20\" Michelin)/505 (20\" Pirelli)"
+        },
+        "gt_boot_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Laderaumvolumen bei aufgestellter Rücksitzbank, mit Einrechnung des doppelten Bodens 377"
+        }
+      },
+      "source_decisions": [
+        "Preserve all three canonical EV4 hatchback identities, routes and existing price amounts; exact7Z/S6, never EV4 Fastback.",
+        "Swedish regular engine/trimsDetail nested groups bind204/265hp, five seats and623400/658400SEK; flat GT292hp engine binds711900SEK.",
+        "MY2027 Swedish20August technical PDF supplies GT Line standard19inch584/550km,15.8/16.5 consumption and81.4kWh.",
+        "Exact onboard AC10.5kW is not rounded to11 and not optional22. For GT use matching Polish292hp manufacturer column, preserving PL/pl locale.",
+        "Swedish GT505km,81.4kWh and1500kg plus October292hp consumption17.9 take precedence over generic footer values or other models.",
+        "GT German215kW/81.4kWh table supplies nominal DC128, not350kW charger supply or Polish127.5 rounded by the extractor.",
+        "German GT page12 binds505km to20inchPirelli and473km to20inchMichelin; preserve tyre conditions, not an identical range for all options.",
+        "GT boot359L comes from exact Polish GT column, not generic AWD390 or German377 including the double floor. Keep both measurement bases visible.",
+        "Swedish GT Line boot435FWD/359AWD overrides other-market generic AWD390; no folded1450/1370 or roof75/ball100kg used as boot/towing.",
+        "November1-30 Swedish PDF prices match engine prices. Keep list_price and its validity, not Euro offers, lease amounts or optional paint.",
+        "Shared price/energy source model label is* with no canonical parent; preserve legacyEV4priceHTML row and every other vehicle.",
+        "Existing approved EV4 GT Line press photograph is a hatchback model photograph with equipment notice, not each trim or Fastback."
+      ]
+    },
+    {
+      "adapter": "kia_ev4_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev4",
+      "variant_name": "EV4 GT (292hk) AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/se/nya-bilar/ev4-gt/upptack/",
+        "content_hash": "0c27ee2a86eabdd5fd1efd7d56c984152817bd6ae7d53e1f0db728ae83e3b894",
+        "fetched_at": "2026-11-14T17:07:36.453162+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "content_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628",
+          "fetched_at": "2026-11-14T17:12:25.865723+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev4-gt/specifications/",
+          "content_hash": "502328770cf6a9d10f7ec28173dd5d29bc4f0d6d90c9951676b73ac8b0158542",
+          "fetched_at": "2026-11-14T17:12:29.436282+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T17:07:40.651629+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T17:07:47.494054+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev4/dane-techniczne/",
+          "content_hash": "0159d9b71bbba31f3502bcb6c8baf9c573d4f0f8afa2dfe03cafad59da6777da",
+          "fetched_at": "2026-11-14T17:07:53.561092+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "content_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "fetched_at": "2026-11-14T17:08:01.751294+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev4_hatchback_my27_not_fastback_or_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 505,
+        "wltp_consumption_kwh_100km": 17.9,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1500,
+        "boot_liters": 359,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4-gt/upptack/",
+          "source_hash": "0c27ee2a86eabdd5fd1efd7d56c984152817bd6ae7d53e1f0db728ae83e3b894",
+          "quote": "EV4 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minutes Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg Acceleration (0-100 km/h) : 5.6 sekunder Max räckvidd (km) enligt WLTP (Upp till): 505 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null
+        },
+        "wltp_range_km": {
+          "value": 505,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4-gt/upptack/",
+          "source_hash": "0c27ee2a86eabdd5fd1efd7d56c984152817bd6ae7d53e1f0db728ae83e3b894",
+          "quote": "EV4 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minutes Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg Acceleration (0-100 km/h) : 5.6 sekunder Max räckvidd (km) enligt WLTP (Upp till): 505 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.9,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "quote": "EV4 | Elmotor 292hk AWD LR | 17,9 kWh",
+          "scope": "swedish_october_gt_not_generic_footer",
+          "page": 1
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "quote": "Motor 81,4 kWh AWD GT | Leistung max. (kW/PS) 215/292 | Max. DC-Ladeleistung (kW) 128",
+          "scope": "german_same_gt_nominal_peak_not_supply_rating",
+          "page": 11
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/pl/modele/ev4/dane-techniczne/",
+          "source_hash": "0159d9b71bbba31f3502bcb6c8baf9c573d4f0f8afa2dfe03cafad59da6777da",
+          "quote": "81,4 kWh AWD GT | Max. moc ładowarki pokładowej AC [kW] 10,5 / 22 (opcja)",
+          "scope": "polish_same_gt_standard_not_optional_22",
+          "page": null
+        },
+        "tow_kg": {
+          "value": 1500,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4-gt/upptack/",
+          "source_hash": "0c27ee2a86eabdd5fd1efd7d56c984152817bd6ae7d53e1f0db728ae83e3b894",
+          "quote": "EV4 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minutes Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg Acceleration (0-100 km/h) : 5.6 sekunder Max räckvidd (km) enligt WLTP (Upp till): 505 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null
+        },
+        "boot_liters": {
+          "value": 359,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/pl/modele/ev4/dane-techniczne/",
+          "source_hash": "0159d9b71bbba31f3502bcb6c8baf9c573d4f0f8afa2dfe03cafad59da6777da",
+          "quote": "81,4 kWh AWD GT | Pojemność bagażnika [l] 359",
+          "scope": "polish_same_gt_not_390_awd_or_377_double_floor",
+          "page": null
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4-gt/specifications/",
+          "source_hash": "502328770cf6a9d10f7ec28173dd5d29bc4f0d6d90c9951676b73ac8b0158542",
+          "quote": "7ZS6YGZ7Z-LX2 | Elmotor AWD (El , Elektrisk); 215 KW (292 hk)",
+          "scope": "exact_swedish_flat_gt_drivetrain",
+          "page": null
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV4 GT (292hk) AWD Long Range",
+          "column_header": "EV4 GT (292hk) AWD Long Range | 7ZS6YGZ7Z-LX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4-gt/specifications/",
+          "source_hash": "502328770cf6a9d10f7ec28173dd5d29bc4f0d6d90c9951676b73ac8b0158542",
+          "quote": "7ZS6YGZ7Z-LX2 | Elmotor AWD (El , Elektrisk); 215 KW (292 hk) | number of seats 5",
+          "scope": "exact_swedish_flat_gt_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "EV4 | 7Z/S6 | Halvkombins design baktill.",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev4/specs/",
+          "source_hash": "2fa9aab9749de93d8128d9cdf534c6e7fcb9991b79f2fe904d213414ea25d628"
+        }
+      },
+      "price_evidence": {
+        "value": 711900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV4 GT (292hk) AWD Long Range 711,900 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "qualifications": {
+        "gt_tyre_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Reichweite2, max. (km) 473 (20\" Michelin)/505 (20\" Pirelli)"
+        },
+        "gt_boot_basis": {
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV4-GT-Preisliste.pdf",
+          "source_hash": "a00840355213496fe929f0b62c7d123a6b80ee74bfc60b7ad5d4876bd1b7af9f",
+          "page": 12,
+          "quote": "Laderaumvolumen bei aufgestellter Rücksitzbank, mit Einrechnung des doppelten Bodens 377"
+        }
+      },
+      "source_decisions": [
+        "Preserve all three canonical EV4 hatchback identities, routes and existing price amounts; exact7Z/S6, never EV4 Fastback.",
+        "Swedish regular engine/trimsDetail nested groups bind204/265hp, five seats and623400/658400SEK; flat GT292hp engine binds711900SEK.",
+        "MY2027 Swedish20August technical PDF supplies GT Line standard19inch584/550km,15.8/16.5 consumption and81.4kWh.",
+        "Exact onboard AC10.5kW is not rounded to11 and not optional22. For GT use matching Polish292hp manufacturer column, preserving PL/pl locale.",
+        "Swedish GT505km,81.4kWh and1500kg plus October292hp consumption17.9 take precedence over generic footer values or other models.",
+        "GT German215kW/81.4kWh table supplies nominal DC128, not350kW charger supply or Polish127.5 rounded by the extractor.",
+        "German GT page12 binds505km to20inchPirelli and473km to20inchMichelin; preserve tyre conditions, not an identical range for all options.",
+        "GT boot359L comes from exact Polish GT column, not generic AWD390 or German377 including the double floor. Keep both measurement bases visible.",
+        "Swedish GT Line boot435FWD/359AWD overrides other-market generic AWD390; no folded1450/1370 or roof75/ball100kg used as boot/towing.",
+        "November1-30 Swedish PDF prices match engine prices. Keep list_price and its validity, not Euro offers, lease amounts or optional paint.",
+        "Shared price/energy source model label is* with no canonical parent; preserve legacyEV4priceHTML row and every other vehicle.",
+        "Existing approved EV4 GT Line press photograph is a hatchback model photograph with equipment notice, not each trim or Fastback."
+      ]
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}
