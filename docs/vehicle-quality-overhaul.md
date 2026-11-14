@@ -5,6 +5,43 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## BMW i4 Batch (2026-11-14)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Stock VIN FW37556, production2026, current cash offer and active technical type61HD; reject historical21HD and model maxima. |
+| 2. Facts and photography | Facts committed; photo sync pending | Nine technical gaps and body type saved through guarded staging. Reviewed current eDrive40 press image from BMW Norway adopted locally; canonical ID and URL retained. |
+| 3. Regression and visual QA | In progress | Seven extraction regressions and guarded transaction/rollback/replay/price-invalidation/GET tests pass. Wider regressions, build and six-width visual QA remain. |
+| 4. Publication | Pending | Scoped PR, exact-main CI, existing production distribution and actual public verification. |
+
+No paid AI, migrations, news-generation/control/budget, DNS, email, credentials
+or new hosting. Keep a stock-specific cash offer distinct from a list price;
+do not borrow a financing campaign deadline for a cash price. Resolve current
+versus historical i4 technical tables by their exact model/type identity.
+
+- Actual current stock HTML/Next state/JSON-LD Sell offer agree on 673900 SEK,
+  replacing 675900. Keep `dealer_offer` and cash offer validity2026-12-31;
+  neither model base price650700 nor zero leasing price is the cash price.
+- Stock WLTP588 km, seats5 and RWD come from this exact VIN. Technical type61HD
+  supplies battery81.3 kWh, DC205 kW, onboard AC11 kW, braked towing1600 kg at12%
+  and seats-up boot470 L. Do not use old21HD81.1 kWh, type maximum613 km,
+  kultryck75 kg or folded1290 L. Stock packageZMG includes3AC towing equipment.
+- The current technical feed dates type61HD to2027, while stock production is
+  2026. Match the unchanged exact type and340hp; do not relabel the stock year.
+  Manufacturer type consumption is14.9-17.1 kWh/100 km, not exact-stock consumption.
+  Show the whole interval and explain that the cost estimate uses its lower end.
+- Professional full-car image3037474 from BMW Group Norway (current i4 eDrive40,
+  May2024 facelift) has explicit per-image media-use permission. Preserve full
+  frame, credit and model-photo equipment notice. Swedish taillight-only3037243,
+  M50 and old-generation photos were rejected as this profile's main photo.
+- Public source collection uses bounded ordinary GET with defaultTLS, exact URL
+  allowlists, fresh per-origin robots before content, TDM reservation rejection
+  and actual byte hashes. Node transport handles Python network timeouts without
+  changing identity, bypassing access controls or claiming failed fetches succeeded.
+- Guarded live transaction updated one existing variant, two source records and
+  one model body classification. Nine gaps filled, one documented cash-price
+  correction; all other variants and news controls/articles checked unchanged.
+
 ## CUPRA Born Batch (2026-11-14)
 
 | Step | Status | Acceptance |
@@ -12,7 +49,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | Swedish VZ MY2027 list price, October consumption, current Swedish manual and final international VZ technical table; exact facelift generation. |
 | 2. Facts and photography | Committed | Nine gaps filled, six sources, body classification and exact-generation press photo saved. Canonical identity, list price and all 76 public variants retained. |
 | 3. Regression and visual QA | Passed locally | 41 brand extraction regressions, transaction/rollback/replay/scope, rights/access tests, 90 built/static routes and six-width Born checks pass. Two Born and 22 general Axe audits have zero violations. |
-| 4. Publication | Pending | Reviewed PR, exact-main CI, fixed production distribution and actual public verification. |
+| 4. Publication | Complete | PR #65 merged as 37f0f242; all 164 PR and all 164 exact-main CI steps passed. Production run 43578393914 and actual public HTTPS/catalog/photo/six-width/comparison/Axe verification passed. |
 
 Normal vehicle research only: no paid AI, new news articles, news-switch/budget,
 schema, infrastructure, credential or permission changes. The manufacturer's
@@ -67,6 +104,20 @@ indicative WLTP and model-year differences explicit in evidence and display.
   compare, CSV, report failure/reset, missing photographs and explicit zero/null.
   Overall core completeness is now 44/76 and professional photos 15/30. The
   remaining brands are still research work, not claimed complete by this batch.
+- Released as `37f0f2420ecb432e954749072cd6e53a83697340` through PR #65.
+  PR run 43577615720 and exact-main run 43578021129 passed all 164 steps each;
+  fixed production distribution 43578393914 succeeded on its first attempt.
+  Actual GET-only production verification on 14 November 2026 passes normal
+  TLS, readiness, robots and sitemap; all 76 records match the approved public
+  snapshot, four new photo bytes/hashes match, and Born passes all six widths,
+  two dedicated Axe audits and the catalog-to-comparison interaction. Public
+  mobile/desktop screenshots were inspected. No image/copy/navigation overlap,
+  horizontal overflow or runtime errors. Current Born URL is retained. No paid
+  calls, new articles, news-control/budget/schema/infrastructure changes.
+- The isolated 13-file production function package also compiles; deliberately
+  withholding its shared qualification module correctly fails before upload.
+  The next separate quality batch is BMW i4: verify the exact stock/version
+  rather than copying generic eDrive40 figures or a current model-wide price.
 
 ## Ford Explorer Batch (2026-11-13)
 

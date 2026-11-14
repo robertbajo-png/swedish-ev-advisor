@@ -68,6 +68,21 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "bmw-no-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "BMW Group Norge",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/bmw_group_sverige/latest_media",
+    "image_path_prefix": "/no/bmw-no/images/",
+    "model_keys": ["bmw|i4"],
+    "model_title_pattern": "^Nye BMW i4 eDrive40$",
+    "approved_image_paths": ["/no/bmw-no/images/nye-bmw-i4-edrive40-3037474", "/no/bmw-no/images/nye-bmw-i4-edrive40-3037470"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Bruk i media",
+    "download_label": "Last ned",
+    "permission_excerpt": "Innholdet kan lastes ned, bli brukt og delt i ulike medier",
+    "condition_excerpt": "forutsatt at innholdet er uendret og brukt i sin helhet"
+  },
   "cupra-dk-mynewsdesk": {
     "origin": "https://seat-denmark.mynewsdesk.com",
     "publisher": "SEAT & CUPRA Danmark",
