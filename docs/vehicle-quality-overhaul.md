@@ -11,8 +11,8 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | --- | --- | --- |
 | 1. Exact-version research | Complete | All seven exact Swedish trim/engine identities, November cash prices, wheel-bound FWD values, preliminary AWD and separate292hp GT sources bound. |
 | 2. Canonical completion | Prepared privately |63 facts across seven profiles,39 gaps to fill, SUV classification and price evidence; original routes/photo preserved. No production writes; migration023 awaits owner approval. |
-| 3. Regression and visual QA | Final checks |56 brand extraction tests,10 generic refresh tests, all prior sync suites, seven-profile transaction/rollback/replay/price/source/target tests, decimal migration tests and the edge advisor contract pass. Normalized API rows preserve both target qualifiers and expired list-price exclusions. Production build and90 static routes pass; final private fixture visual checks and draft CI are pending. |
-| 4. Publication | Not started | No merge, migration installation or public data changes before approval and final checks. |
+| 3. Regression and visual QA | Passed locally; CI pending |56 brand extraction tests,10 generic refresh tests, all prior sync suites, seven-profile transaction/rollback/replay/price/source/target tests, decimal migration tests and the edge advisor contract pass. Normalized API rows preserve target qualifiers and expired list-price exclusions. Build,90 static routes and private seven-version UI checks pass:320/390/768/1440px, two Axe audits, version selection and comparison; screenshots visually reviewed. |
+| 4. Publication | Draft PR #67; approval pending | No merge, migration installation or public data changes before approval and final checks. |
 
 No paid AI, migrations, new news articles, news controls/budgets, infrastructure
 or credential changes. Do not borrow FWD range/tow ratings for AWD, GT Line
@@ -53,6 +53,12 @@ the owner's separate approval; never round10.5 to11 or hide the limitation.
   Fresh schema, SQLite, structured extraction and evidence parsing accept exact
   AC decimals. Production metadata preflight confirms integer columns, expected
   owner/barrier, no column-specific metadata and no observed dependent views.
+- Code is isolated in draft PR #67. The public snapshot remains unchanged at76
+  versions/30 models;39 newly supported EV3 values are still private, not released.
+  Explicit owner approval of migration023 is the next required release action,
+  followed by a fresh source collection, guarded seven-row transaction, anon-view
+  export, exact-head CI and the existing production distribution. Reuse neither
+  stale intake timestamps nor the isolated PostgreSQL fixture as production data.
 
 ## BMW i4 Batch (2026-11-14)
 
