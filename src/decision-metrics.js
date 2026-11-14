@@ -7,7 +7,8 @@ export function decisionMetricsFor(car, cars = [], now = new Date()) {
   const expired = car.priceValidUntil && car.priceValidUntil.slice(0, 10) < now.toISOString().slice(0, 10);
   const price = Number.isFinite(car.price) && car.price > 0 && type && !expired ? car.price : null;
   const basis = price ? type + (car.priceValidUntil ? ', giltigt till ' + car.priceValidUntil.slice(0, 10) : '') +
-    (car.rangeIsTarget ? '; baserat på tillverkarens räckviddsmål, inte slutlig certifiering' : '') : 'Verifierad prisuppgift krävs';
+    (car.rangeIsTarget ? '; baserat på tillverkarens räckviddsmål, inte slutlig certifiering' : '') +
+    (car.rangeInterval ? '; beräknat på den övre gränsen i intervallet ' + car.rangeInterval : '') : 'Verifierad prisuppgift krävs';
   const missing = expired ? 'Erbjudandet har gått ut.' : 'Beräknas med verifierat pris och WLTP.';
   return [
     { label: 'Räckvidd per 100 000 kr', value: price && car.rangeVerified ? (car.rangeVerified / (price / 100000)).toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km' : 'Uppgift saknas', note: price ? basis + ' och angiven WLTP-räckvidd.' : missing },

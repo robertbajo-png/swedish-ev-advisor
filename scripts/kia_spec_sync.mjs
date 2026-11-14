@@ -142,10 +142,10 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       const sourceName = typeof policy.sourceName === 'function' ? policy.sourceName(draft) : policy.sourceName;
       for (const extra of draft.supporting_sources || []) {
         const descriptor = policy.supportingSource?.(extra, draft);
-        assert(descriptor && ['manufacturer_page', 'price_list_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
+        assert(descriptor && ['manufacturer_page', 'price_list_pdf', 'technical_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
         const country = descriptor.country || 'SE', language = descriptor.language || 'sv';
         assert(country === 'SE' && language === 'sv' || country === 'DE' && language === 'de' ||
-          country === 'DK' && language === 'da', 'Registered source locale required');
+          country === 'DK' && language === 'da' || country === 'EU' && language === 'en', 'Registered source locale required');
         if (sources.has(extra.final_url)) continue;
         const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [extra.final_url])).rows;
         const sourceParent = descriptor.shared ? null : parent.id;

@@ -1,0 +1,214 @@
+{
+  "index": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/kopa/broschyrer-prislistor",
+      "content_hash": "b754f7fb5f5af749144aca2bb37e61cbc06d944b561b921d0857f501a5969150",
+      "fetched_at": "2026-11-14T08:18:36.328978+00:00"
+    },
+    "content": "CUPRA Born Prislista modellår 27 (7 april–26)",
+    "links": [
+      "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/prislistor/born/cupra-born-modellar-27.pdf",
+      "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/broschyr/cupra-bransledeklaration-okt2026.pdf"
+    ]
+  },
+  "model": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/bilar/born",
+      "content_hash": "09e6d05b202710be7035dc5d52829472786dc9ea84c32a68657221e21dbc0a2d",
+      "fetched_at": "2026-11-14T08:18:38.708181+00:00"
+    },
+    "content": "100 % eldriven kombisedan | Bagagerumsvolym 385 L | Säten 5"
+  },
+  "price": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/prislistor/born/cupra-born-modellar-27.pdf",
+      "content_hash": "ca5ab6552132dde3680e6ceae9de8f4dccbf8965193939514cde0877102b9ba0",
+      "fetched_at": "2026-11-14T08:18:41.293436+00:00"
+    },
+    "content": [
+      "Born VZ 79 kWh 240 kW (326 hk) 596 900:–\nSamtliga priser är inklusive moms och avser modellår 2027.",
+      ""
+    ]
+  },
+  "energy": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/broschyr/cupra-bransledeklaration-okt2026.pdf",
+      "content_hash": "26f1b6f753888c6d6403755992624af47fb05eb4f7feb3dfe69a7715f176091c",
+      "fetched_at": "2026-11-14T08:18:46.329413+00:00"
+    },
+    "content": [
+      "Born 79 kWh Batteri 240 kW / 326 hk – 14,2 0 | OKTOBER 2026 | Värdena avser fordonets grundversion | WLTP"
+    ]
+  },
+  "manuals": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/aga/instruktionsbocker/manual-details/_jcr_content/par/modeldetails.data.manualsModelDetails.born.json",
+      "content_hash": "d6e78e01bd30fb3c4ba6c77d57079c09d6f58a1a682736d302f533c282623b21",
+      "fetched_at": "2026-11-14T08:18:49.382915+00:00"
+    },
+    "content": {
+      "modelName": "Born",
+      "modelYears": [
+        {
+          "modelYear": "2027",
+          "modelImage": "/content/dam/manuals/cupra/models/born/2027/14/born_26.png",
+          "multimediaId": "CUPRA_K1_2027",
+          "editions": [
+            {
+              "editionName": "Upplaga 03.26",
+              "manualId": "CUPRA_K1_2027_14"
+            }
+          ]
+        }
+      ],
+      "manuals": [
+        {
+          "manualId": "CUPRA_K1_2027_14",
+          "categories": [
+            {
+              "categoryId": "All",
+              "categoryName": "Instruktionsbok",
+              "languages": [
+                {
+                  "languageId": "SE",
+                  "languageName": "Svenska",
+                  "pdfPath": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_03_26_SE.pdf"
+                }
+              ]
+            },
+            {
+              "categoryId": "Characteristics",
+              "categoryName": "Tekniska data",
+              "languages": [
+                {
+                  "languageId": "SE",
+                  "languageName": "Svenska",
+                  "pdfPath": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "manual": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_03_26_SE.pdf",
+      "content_hash": "2f9a9fcf9fb7c8c82ef3095d905b7d2bc9fa4f88f94108d4c4507f17c3374e75",
+      "fetched_at": "2026-11-14T08:18:55.082070+00:00"
+    },
+    "content": "Bilen är inte godkänd för dragkrok. | aldrig tillåtet att använda den för att dra en släpvagn eller ett fordon",
+    "page": 290
+  },
+  "characteristics": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+      "content_hash": "07807193db1616ba1fe922366e541e5825619bae2b7e8acb368f56ba06c13b71",
+      "fetched_at": "2026-11-14T08:18:58.410028+00:00"
+    },
+    "content": [],
+    "tables": [
+      [
+        [
+          "240 kW/84 kWh elmotor",
+          null
+        ],
+        [
+          "Drivning",
+          "Bak"
+        ],
+        [
+          "Maximal effekt (kW)",
+          "240"
+        ],
+        [
+          "Motor",
+          "Synkron, perma-\nnentmagnet"
+        ],
+        [
+          "Maximalt vridmoment\n(Nm)",
+          "545"
+        ],
+        [
+          "Topphastighet (km/h)",
+          "200"
+        ],
+        [
+          "Acceleration 0/100 km/h\n(sekunder)",
+          "5,6"
+        ],
+        [
+          "Maximal tillåten vikt (kg)",
+          "2 430"
+        ],
+        [
+          "Högvoltssystem",
+          null
+        ],
+        [
+          "Batteriets bruttokapacitet\n(kWh)",
+          "84"
+        ],
+        [
+          "Batteriets nettokapacitet\n(kWh)",
+          "79"
+        ],
+        [
+          "Maximal AC-laddningsef-\nfekt (kW)",
+          "11"
+        ]
+      ]
+    ]
+  },
+  "technical": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.seat-cupra-mediacenter.com/content/dam/seat-media-center/models-all-brands/cupra-models/cupra-born/technical-data/New_CUPRA_Born_Technical_Data_26.pdf",
+      "content_hash": "74b30b65e5a58e4821def3fd5a36e3d66120ee99463e6b7ebfb933b50dcd49b9",
+      "fetched_at": "2026-11-14T08:19:05.114001+00:00"
+    },
+    "content": [],
+    "table": [
+      [
+        "LINE-UP",
+        "BORN (140kW/58kWh)",
+        "ENDURANCE (170kW/79kWh)",
+        "VZ (240kW/79kWh)"
+      ],
+      [
+        "HV- Battery net /gross (kWh)",
+        "58/61",
+        "79/84",
+        null
+      ],
+      [
+        "Charging time DC 183kW 10-80% SoC (h)",
+        "",
+        "0:29",
+        null
+      ],
+      [
+        "Range (km)",
+        "484 - 413",
+        "627 - 538",
+        "631 - 552"
+      ]
+    ]
+  }
+}

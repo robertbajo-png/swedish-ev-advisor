@@ -1,0 +1,192 @@
+{
+  "adapter": "cupra_born_sweden_my2027_v1",
+  "drafts": [
+    {
+      "adapter": "cupra_born_sweden_my2027_v1",
+      "brand": "Cupra",
+      "model": "Born",
+      "variant_name": "Born VZ",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+        "content_hash": "07807193db1616ba1fe922366e541e5825619bae2b7e8acb368f56ba06c13b71",
+        "fetched_at": "2026-11-14T08:18:58.410028+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/prislistor/born/cupra-born-modellar-27.pdf",
+          "content_hash": "ca5ab6552132dde3680e6ceae9de8f4dccbf8965193939514cde0877102b9ba0",
+          "fetched_at": "2026-11-14T08:18:41.293436+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/broschyr/cupra-bransledeklaration-okt2026.pdf",
+          "content_hash": "26f1b6f753888c6d6403755992624af47fb05eb4f7feb3dfe69a7715f176091c",
+          "fetched_at": "2026-11-14T08:18:46.329413+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.seat-cupra-mediacenter.com/content/dam/seat-media-center/models-all-brands/cupra-models/cupra-born/technical-data/New_CUPRA_Born_Technical_Data_26.pdf",
+          "content_hash": "74b30b65e5a58e4821def3fd5a36e3d66120ee99463e6b7ebfb933b50dcd49b9",
+          "fetched_at": "2026-11-14T08:19:05.114001+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_03_26_SE.pdf",
+          "content_hash": "2f9a9fcf9fb7c8c82ef3095d905b7d2bc9fa4f88f94108d4c4507f17c3374e75",
+          "fetched_at": "2026-11-14T08:18:55.082070+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.cupraofficial.se/bilar/born",
+          "content_hash": "09e6d05b202710be7035dc5d52829472786dc9ea84c32a68657221e21dbc0a2d",
+          "fetched_at": "2026-11-14T08:18:38.708181+00:00"
+        }
+      ],
+      "source_resolution": "exact_my2027_swedish_vz_final_technical_data",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 79,
+        "drivetrain": "RWD",
+        "ac_charge_kw": 11,
+        "wltp_range_km": 631,
+        "dc_charge_kw": 183,
+        "wltp_consumption_kwh_100km": 14.2,
+        "tow_kg": 0,
+        "boot_liters": 385,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 79,
+          "quote": "240 kW/84 kWh elmotor | Batteriets nettokapacitet (kWh) 79",
+          "scope": "sv_my2027_vz_net_and_onboard",
+          "page": 3,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+          "source_hash": "07807193db1616ba1fe922366e541e5825619bae2b7e8acb368f56ba06c13b71"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "quote": "240 kW/84 kWh elmotor | Drivning Bak",
+          "scope": "sv_my2027_vz_net_and_onboard",
+          "page": 3,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+          "source_hash": "07807193db1616ba1fe922366e541e5825619bae2b7e8acb368f56ba06c13b71"
+        },
+        "ac_charge_kw": {
+          "value": 11,
+          "quote": "240 kW/84 kWh elmotor | Maximal AC-laddningsef- fekt (kW) 11",
+          "scope": "sv_my2027_vz_net_and_onboard",
+          "page": 3,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_Datos_tecnicos_03_26_SE.pdf",
+          "source_hash": "07807193db1616ba1fe922366e541e5825619bae2b7e8acb368f56ba06c13b71"
+        },
+        "wltp_range_km": {
+          "value": 631,
+          "quote": "VZ (240kW/79kWh) | Range (km) 631 - 552",
+          "scope": "final_global_vz_wltp_interval_maximum",
+          "page": 1,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.seat-cupra-mediacenter.com/content/dam/seat-media-center/models-all-brands/cupra-models/cupra-born/technical-data/New_CUPRA_Born_Technical_Data_26.pdf",
+          "source_hash": "74b30b65e5a58e4821def3fd5a36e3d66120ee99463e6b7ebfb933b50dcd49b9"
+        },
+        "dc_charge_kw": {
+          "value": 183,
+          "quote": "ENDURANCE (170kW/79kWh) / VZ (240kW/79kWh) | Charging time DC 183kW 10-80% SoC (h) 0:29",
+          "scope": "final_shared_79kwh_peak_dc_not_58kwh",
+          "page": 1,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.seat-cupra-mediacenter.com/content/dam/seat-media-center/models-all-brands/cupra-models/cupra-born/technical-data/New_CUPRA_Born_Technical_Data_26.pdf",
+          "source_hash": "74b30b65e5a58e4821def3fd5a36e3d66120ee99463e6b7ebfb933b50dcd49b9"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.2,
+          "quote": "Born 79 kWh Batteri 240 kW / 326 hk – 14,2 0 | grundversion | WLTP",
+          "scope": "swedish_october_vz_grundversion",
+          "page": 1,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/broschyr/cupra-bransledeklaration-okt2026.pdf",
+          "source_hash": "26f1b6f753888c6d6403755992624af47fb05eb4f7feb3dfe69a7715f176091c"
+        },
+        "tow_kg": {
+          "value": 0,
+          "quote": "Bilen är inte godkänd för dragkrok.",
+          "scope": "explicit_not_approved_for_trailers_not_missing",
+          "page": 290,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/datamanual-manual/manuals/cupra/se-se/CUPRA_Born_03_26_SE.pdf",
+          "source_hash": "2f9a9fcf9fb7c8c82ef3095d905b7d2bc9fa4f88f94108d4c4507f17c3374e75"
+        },
+        "boot_liters": {
+          "value": 385,
+          "quote": "Bagagerumsvolym 385 L",
+          "scope": "current_swedish_born",
+          "page": null,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/bilar/born",
+          "source_hash": "09e6d05b202710be7035dc5d52829472786dc9ea84c32a68657221e21dbc0a2d"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "Säten 5",
+          "scope": "current_swedish_born",
+          "page": null,
+          "column_header": "VZ (240kW/79kWh)",
+          "variant_name": "Born VZ",
+          "source_url": "https://www.cupraofficial.se/bilar/born",
+          "source_hash": "09e6d05b202710be7035dc5d52829472786dc9ea84c32a68657221e21dbc0a2d"
+        }
+      },
+      "held_fields": {},
+      "price_evidence": {
+        "value": 596900,
+        "price_type": "list_price",
+        "price_valid_until": null,
+        "source_url": "https://www.cupraofficial.se/content/dam/countries/se/cupra-website/prislistor/born/cupra-born-modellar-27.pdf",
+        "source_hash": "ca5ab6552132dde3680e6ceae9de8f4dccbf8965193939514cde0877102b9ba0",
+        "quote": "Born VZ 79 kWh 240 kW (326 hk) 596 900:–",
+        "classification": "swedish_my2027_vz_including_vat_not_lease_or_accessory"
+      },
+      "model_facts": {
+        "body_type": "Halvkombi"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Halvkombi",
+          "quote": "kombisedan",
+          "source_url": "https://www.cupraofficial.se/bilar/born",
+          "source_hash": "09e6d05b202710be7035dc5d52829472786dc9ea84c32a68657221e21dbc0a2d"
+        }
+      },
+      "source_decisions": [
+        "Current Swedish MY2027 Born VZ 79 kWh / 240 kW price row controls version and 596900 SEK list price, never monthly leasing or carrier accessory price.",
+        "Swedish MY2027 manual edition 03.26 right-hand 240 kW table: 79 net / 84 gross kWh, rear drive and 11 kW onboard AC, not the optional 22 kW cable rating.",
+        "Final international VZ technical table supersedes indicative launch estimates (about 600 km / 185 kW): WLTP 552-631 km, DC 183 kW. Keep international source locale and visible qualification.",
+        "631 is the VZ interval maximum, not a guarantee for every Swedish wheel/equipment configuration; do not borrow Endurance 627 or standard Born 484.",
+        "Swedish October 2026 VZ 240 kW consumption is 14.2 in grundversion; do not substitute global interval 14.1-16.2.",
+        "Swedish current manual page 288 (PDF page 290) explicitly prohibits trailers. Zero denotes no approved trailer capacity, not missing evidence; carrier vertical 55/75 kg is not towing.",
+        "Current Swedish model page supplies only 385 L boot, five seats and hatchback body; its stale indicative maximum is not version-specific WLTP.",
+        "Preserve canonical identity, independent price evidence, market flags and all other variants. No availability inference from a price list."
+      ]
+    }
+  ],
+  "held": []
+}

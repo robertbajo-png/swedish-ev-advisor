@@ -69,7 +69,8 @@ class CatalogSourceTests(unittest.TestCase):
             def __exit__(self, *_): pass
             def read(self, _): return self.body
         response = Response()
-        fetcher = SourceFetcher(document_parser=lambda *_: self.fail('Reserved document must not reach extraction'))
+        fetcher = SourceFetcher(document_parser=lambda *_: self.fail('Reserved document must not reach extraction'),
+                                text_parser=lambda *_: self.fail('Reserved document must not reach selected-page parsing'))
         fetcher.robots_allowed = lambda _: True
         fetcher.opener.open = lambda *_args, **_kwargs: response
         for body in [b'<meta name="tdm-reservation" content="1">', b'<meta content="1" NAME="tdm-reservation">']:
@@ -78,9 +79,12 @@ class CatalogSourceTests(unittest.TestCase):
         response.body = b'<p>Allowed fixture</p>'
         calls = []
         fetcher.document_parser = lambda body, kind: calls.append((body, kind)) or 'structured fixture'
+        fetcher.text_parser = source_text
         result = fetcher.fetch(self.row['source_url'], {'Kia'})
         self.assertEqual(result['document'], 'structured fixture')
         self.assertEqual(len(calls), 1)
+        fetcher.text_parser = lambda body, kind: 'Selected public page'
+        self.assertEqual(fetcher.fetch(self.row['source_url'], {'Kia'})['text'], 'Selected public page')
 
     def test_larger_official_document_limit_is_explicit_and_bounded(self):
         self.assertEqual(SourceFetcher().max_bytes, 8 * 1024 * 1024)

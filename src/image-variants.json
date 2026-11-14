@@ -153,25 +153,25 @@
       }
     ]
   },
-  "/media/vehicles/cupra-born-a7f9a0e290ee.jpg": {
-    "width": 1280,
-    "height": 700,
-    "source_sha256": "a7f9a0e290ee996adc2abd43272749603d24740367b68c60f17a0cfa3b608015",
+  "/media/vehicles/cupra-born-press-7b71951e205b.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "7b71951e205b9efa4798e6d99ec74ad8f93b6e83519f8e3c2b799b4c7d8b69ca",
     "variants": [
       {
-        "url": "/media/responsive/cupra-born-a7f9a0e290ee-480.webp",
+        "url": "/media/responsive/cupra-born-press-7b71951e205b-480.webp",
         "width": 480,
-        "sha256": "2bf98101d662e2669369b01d0c97ce3ba402a4c8600b3504142b36f8331ef683"
+        "sha256": "3bd17bda645128a6e66b18fddcf7b4baa06b182297419e32fe3ffb27b39952a6"
       },
       {
-        "url": "/media/responsive/cupra-born-a7f9a0e290ee-800.webp",
+        "url": "/media/responsive/cupra-born-press-7b71951e205b-800.webp",
         "width": 800,
-        "sha256": "8a0f5dad78036867367105ee608a6fdc7cd238ec81130dfcb3a549178153148b"
+        "sha256": "c4f884f6a6c9c1dc46c760cb6dbf6b13764f3f7d2255b3e95b371a6aa8747329"
       },
       {
-        "url": "/media/responsive/cupra-born-a7f9a0e290ee-1280.webp",
+        "url": "/media/responsive/cupra-born-press-7b71951e205b-1280.webp",
         "width": 1280,
-        "sha256": "3c69e3b86f72c8a781a2e7c3ca3f139edc944d89570ea3c577f8ae267830e935"
+        "sha256": "0274813d846612d5bb30d7c879a6a359c46d95ea4d277cd58eeaebe782c6c28b"
       }
     ]
   },

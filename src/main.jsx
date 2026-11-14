@@ -156,7 +156,7 @@ function transformPublicVariant(row) {
     comingOrLowVolume: row.coming_or_low_volume,
     summary:
       priceProof
-        ? ([rangeVerified && `${rangeVerified} km ${specQualifications(row).rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${dcVerified} kW.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
+        ? ([rangeVerified && `${specQualifications(row).rangeInterval || rangeVerified + ' km'} ${specQualifications(row).rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${dcVerified} kW.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
         : sourceQuote
         ? `${sourceQuote.slice(0, 170)}${sourceQuote.length > 170 ? '...' : ''}`
         : 'Publicerad med verifierade svenska källor för pris och specifikationer.'
@@ -341,7 +341,7 @@ function scoreCar(car, advisor) {
 
 function reasonsFor(car, advisor) {
   const reasons = [];
-  if (car.rangeVerified && car.rangeVerified >= advisor.range) reasons.push(`${car.rangeVerified} km WLTP mot ditt mål på ${advisor.range} km`);
+  if (car.rangeVerified && car.rangeVerified >= advisor.range) reasons.push(`${car.rangeInterval || car.rangeVerified + ' km'} WLTP mot ditt mål på ${advisor.range} km`);
   if (car.price && car.price <= advisor.budget) reasons.push(`${priceLabel(car).toLowerCase()} ${formatSEK(car.price)} inom vald budget`);
   if (car.towing >= 1500) reasons.push(`dragvikt upp till ${car.towing} kg`);
   if (advisor.need === 'vinter' && car.drivetrain === 'Fyrhjulsdrift') reasons.push('fyrhjulsdrift för vintervägar');
@@ -486,7 +486,7 @@ function setSeo({ title, description, jsonLd }) {
 
 function carJsonLd(car) {
   const properties = [
-    car.rangeVerified != null ? { '@type': 'PropertyValue', name: car.rangeIsTarget ? 'Tillverkarens WLTP-räckviddsmål' : 'WLTP-räckvidd', value: `${car.rangeVerified} km` } : null,
+    car.rangeVerified != null ? { '@type': 'PropertyValue', name: car.rangeIsTarget ? 'Tillverkarens WLTP-räckviddsmål' : 'WLTP-räckvidd', value: car.rangeInterval || `${car.rangeVerified} km` } : null,
     car.dcVerified != null ? { '@type': 'PropertyValue', name: 'DC-laddning', value: `${car.dcVerified} kW` } : null,
     car.towingVerified != null ? { '@type': 'PropertyValue', name: 'Dragvikt', value: `${car.towingVerified} kg` } : null,
     car.cargoVerified != null ? { '@type': 'PropertyValue', name: 'Bagage', value: `${car.cargoVerified} liter` } : null
@@ -940,11 +940,11 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
         <a className="vehicleBackLink" href={appPath('/bilar')} onClick={(event) => { if (!event.ctrlKey && !event.metaKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={15} /></a>
         <span className="vehicleHeroSource"><BadgeCheck size={15} /> Uppgifter med svenska källor</span>
         <h1 id="vehicle-title">{car.brand} {identity.model}<span>{identity.variant}</span></h1>
-        <p className="vehicleHeroDescription">{car.rangeVerified != null ? car.rangeVerified + ' km ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP. ' : ''}{car.dcVerified != null ? 'DC-laddning upp till ' + car.dcVerified + ' kW. ' : ''}Utforska detaljerna och jämför med dina alternativ.</p>
+        <p className="vehicleHeroDescription">{car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP. ' : ''}{car.dcVerified != null ? 'DC-laddning upp till ' + car.dcVerified + ' kW. ' : ''}Utforska detaljerna och jämför med dina alternativ.</p>
         <MarketStatusBadges car={car} />
         <div className="vehicleHeroActions"><button className="uiPrimary" type="button" aria-pressed={selected} onClick={() => onCompare(car.id)}>{selected ? <Check size={17} /> : <Plus size={17} />}{selected ? 'Tillagd i jämförelse' : 'Lägg till i jämförelse'}</button><a href={car.source} target="_blank" rel="noreferrer">Öppna källa <ExternalLink size={16} /></a>{selected && <button className="vehicleHeroCompareLink" type="button" onClick={() => navigate('/jamfor')}>Jämför nu <ArrowRight size={16} /></button>}</div>
       </div>
-      <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
+      <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
     <div className="vehicleContainer"><ImageAttribution car={car} /></div>
     <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil">Överblick</a><a href="#specifikationer">Specifikationer</a><a href="#nyckeltal">Nyckeltal</a><a href="#bilkallor">Källor</a></nav>
@@ -953,7 +953,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       <AiSummaryCard car={car} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
         <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
-        <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
+        <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
         <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} note={car.practicalNote} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
       <div id="nyckeltal"><DecisionMetricsCard car={car} cars={cars} /></div>
@@ -965,7 +965,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
 }
 
 function AiSummaryCard({ car }) {
-  const strengths = [car.rangeVerified != null ? car.rangeVerified + ' km ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP.' : null, car.dcVerified != null ? 'DC-laddning upp till ' + car.dcVerified + ' kW.' : null, car.towingVerified != null ? 'Angiven dragvikt: ' + car.towingVerified + ' kg.' : null].filter(Boolean);
+  const strengths = [car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP.' : null, car.dcVerified != null ? 'DC-laddning upp till ' + car.dcVerified + ' kW.' : null, car.towingVerified != null ? 'Angiven dragvikt: ' + car.towingVerified + ' kg.' : null].filter(Boolean);
   const missing = [[car.price, 'svenskt pris'], [car.dcVerified, 'DC-laddning'], [car.towingVerified, 'dragvikt']].filter(([value]) => value == null).map(([, label]) => label);
   const suitability = [car.rangeVerified >= 500 ? 'För dig som prioriterar lång angiven räckvidd.' : null, car.towingVerified >= 1500 ? 'För dig som behöver dra ett tyngre släp.' : null, car.cargoVerified >= 450 ? 'För dig som behöver större bagageutrymme.' : null].filter(Boolean);
   return <section className="vehicleAssessment" id="bilprofil"><div><span className="vehicleEyebrow">Bilens profil</span><h2>Det här är bra att veta.</h2><p>Databaserad sammanfattning av bilens uppgifter, inte ett körtest.</p></div><div className="vehicleAssessmentColumns"><SummaryBlock title="Passar dig som" items={suitability.length ? suitability : ['Se specifikationerna mot dina egna behov.']} /><SummaryBlock title="Några nyckelfakta" items={strengths.length ? strengths : ['Uppgift saknas i databasen.']} /><SummaryBlock title="Att väga in" items={[...(!car.availableConfirmed ? ['Aktuell tillgänglighet är inte separat bekräftad.'] : []), ...(missing.length ? ['Uppgifter saknas om ' + missing.join(', ') + '.'] : ['WLTP är ett standardiserat mätvärde, inte en garanti för din körning.'])]} /></div></section>;
@@ -1037,6 +1037,7 @@ function SourceVerificationCard({ car }) {
       <p>{car.verifiedAt ? 'Biluppgifter verifierade ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas för bilens övriga uppgifter.'}</p>
       {car.priceSource && <p><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla: {car.priceSourceName} <ExternalLink size={15} /></a>{' · Pris verifierat '}<time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time>.</p>}
       {car.practicalSource && <p><a href={car.practicalSource} target="_blank" rel="noreferrer">Bagagevolym: Ford Danmark <ExternalLink size={15} /></a>. Uppgift om samma europeiska Explorer.</p>}
+      {car.specSources?.map(source => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label} <ExternalLink size={15} /></a></p>)}
       <MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>
       {imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}
     </div>
@@ -1384,7 +1385,7 @@ function ComparisonTable({ cars }) {
   const valueMetric = (field) => (car) => car[field];
   const rows = [
     { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType) && new Set(cars.map((car) => car.priceType)).size === 1 },
-    { label: 'WLTP-räckvidd', get: (car) => detailValue(car.rangeVerified, 'km') + (car.rangeIsTarget ? ' (tillverkarens mål)' : ''), value: car => car.rangeIsTarget ? null : car.rangeVerified, best: 'max' },
+    { label: 'WLTP-räckvidd', get: (car) => (car.rangeInterval || detailValue(car.rangeVerified, 'km')) + (car.rangeIsTarget ? ' (tillverkarens mål)' : ''), value: car => car.rangeIsTarget || car.rangeInterval ? null : car.rangeVerified, best: 'max' },
     { label: 'Batteri', get: (car) => detailValue(car.batteryVerified, 'kWh') },
     { label: 'DC-laddning', get: (car) => detailValue(car.dcVerified, 'kW'), value: valueMetric('dcVerified'), best: 'max' },
     { label: 'AC-laddning', get: (car) => detailValue(car.acVerified, 'kW') },
@@ -1393,7 +1394,7 @@ function ComparisonTable({ cars }) {
     { label: 'Dragvikt', get: (car) => detailValue(car.towingVerified, 'kg'), value: valueMetric('towingVerified'), best: 'max' },
     { label: 'Säten', get: (car) => detailValue(car.seatsVerified) },
     { label: 'Drivning', get: (car) => car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain },
-    { label: 'Räckvidd per 100 000 kr', get: (car) => car.price && car.priceType === 'list_price' && car.rangeVerified ? Math.round(car.rangeVerified / (car.price / 100000)) + ' km' : 'Uppgift saknas' }
+    { label: 'Räckvidd per 100 000 kr', get: (car) => car.price && car.priceType === 'list_price' && car.rangeVerified ? (car.rangeInterval ? 'Upp till ' : '') + Math.round(car.rangeVerified / (car.price / 100000)) + ' km' : 'Uppgift saknas' }
   ];
   return <div className="comparisonTable" tabIndex={0} role="region" aria-label="Jämförelse av elbilar, rulla i sidled">
     <table style={{ minWidth: 190 + cars.length * 240 }}><caption>Valda varianter och deras uppgifter</caption>

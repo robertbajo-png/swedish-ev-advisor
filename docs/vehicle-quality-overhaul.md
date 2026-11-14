@@ -5,6 +5,69 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## CUPRA Born Batch (2026-11-14)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Swedish VZ MY2027 list price, October consumption, current Swedish manual and final international VZ technical table; exact facelift generation. |
+| 2. Facts and photography | Committed | Nine gaps filled, six sources, body classification and exact-generation press photo saved. Canonical identity, list price and all 76 public variants retained. |
+| 3. Regression and visual QA | Passed locally | 41 brand extraction regressions, transaction/rollback/replay/scope, rights/access tests, 90 built/static routes and six-width Born checks pass. Two Born and 22 general Axe audits have zero violations. |
+| 4. Publication | Pending | Reviewed PR, exact-main CI, fixed production distribution and actual public verification. |
+
+Normal vehicle research only: no paid AI, new news articles, news-switch/budget,
+schema, infrastructure, credential or permission changes. The manufacturer's
+bicycle-carrier support load is not a braked trailer rating. Keep final versus
+indicative WLTP and model-year differences explicit in evidence and display.
+
+- Current Swedish MY2027 list price remains 596900 SEK including VAT. The linked
+  April price PDF and October consumption declaration bind VZ 79 kWh / 240 kW,
+  not base Born, Endurance, leasing, a 5100 SEK carrier fitting or an old VZ.
+- Current Swedish manual edition 03.26, MY2027 registry, gives rear drive,
+  79 kWh net / 84 gross and onboard AC 11 kW in its exact 240 kW column. The
+  optional cable's 22 kW rating and unrelated 125 kW appendix are not imported.
+- Final international manufacturer table gives VZ 552-631 km WLTP and the
+  merged 79 kWh Endurance/VZ DC 183 kW row. Prefer this final version-bound
+  table to indicative March launch figures (about 600 km / 185 kW), old VZ
+  595 km and base-model 484 km. Store source locale EU/en, not SE/sv; display
+  the full interval and separately link its source. It is not a guarantee of
+  631 km for every Swedish wheel/equipment configuration. Swedish October
+  grundversion consumption 14.2 is retained instead of global 14.1-16.2.
+- The Swedish manual explicitly prohibits towing (printed page 288 / PDF 290).
+  Zero means no approved trailer capacity, not unknown data. Carrier vertical
+  load 55/75 kg is never a trailer rating. Model page supplies 385 L boot,
+  five seats and kombisedan/hatchback identity, not its stale indicative range.
+- Adopt only the reviewed new Born VZ Dark Forest image 3455027 from the
+  manufacturer's Danish pressroom with per-image media-use permission and
+  full frame/credit. Danish prices/specs are not imported. An earlier Commons
+  candidate captured in 2026 actually showed the old generation and was rejected.
+- Source collection retains ordinary public GET, exact URL allowlists,
+  robots/TDM rules, real HTTP status, hashes and timestamps. A selected-page
+  text parser avoids extracting all 375 manual pages; it runs only after the
+  same access/reservation/size checks. Missing access never becomes a source.
+- Fresh source retrieval passed and the exact existing Born VZ canonical ID
+  `1311bd59-7a5d-4098-968c-295bb567a2dc` was updated. Nine technical values,
+  six manufacturer source records and one model body classification committed;
+  no prices changed, all other variants remained equal and news controls/articles
+  were checked equal before/after. A temporary international robots HTTP 400
+  was retained as a failed fetch, not bypassed or treated as evidence.
+- The image plan prepared before body classification was correctly rejected
+  because the expected model row had changed. A new plan against the actual
+  post-specification row committed only the Born image, no variants or news.
+  Public export retains 76 versions/30 models; only the Born VZ record differs,
+  all other 75 are equal to the previous release.
+- Local Born checks at 320/375/390/430/768/1440px pass: original detail route,
+  four exact image hashes, full-frame mobile photo above copy (24px gap), no
+  overflow/runtime errors, complete specifications, separate source links and
+  qualified comparison. Two focused Axe audits pass; mobile/desktop screenshots
+  were inspected. The private harness was corrected to create an explicit
+  browser context for Axe and follow the existing SPA comparison link rather
+  than clearing in-memory selections with a full reload. No product workaround.
+- Build and static/hydrated content checks cover all 90 public routes; generic
+  vehicle UI covers filtering, drawer keyboard behavior, sorting, card/table,
+  compare, CSV, report failure/reset, missing photographs and explicit zero/null.
+  Overall core completeness is now 44/76 and professional photos 15/30. The
+  remaining brands are still research work, not claimed complete by this batch.
+
 ## Ford Explorer Batch (2026-11-13)
 
 | Step | Status | Acceptance |
@@ -12,7 +75,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | Current Swedish linked price list 8 / 2026, MY27.25 Premium Edition; exact RWD 79 / AWD 77 kWh and current campaign evidence. |
 | 2. Facts and photography | Committed | Two nine-field profiles, twelve filled gaps, two dated campaign prices, SUV classification and reviewed European electric Explorer press photo. Canonical IDs retained. |
 | 3. Regression and visual QA | Passed locally | Six extraction tests, real price-trigger/rollback/replay tests, previous adapters, 90 built routes, twelve six-width Ford checks, four dedicated and 22 general Axe audits pass. Mobile/desktop screenshots inspected. |
-| 4. Publication | In progress | Package a reviewed PR, require exact-main CI, then use the existing production workflow and actual public HTTPS/data/photo checks. |
+| 4. Publication | Complete | PR #64 merged; all 162 PR and exact-main CI steps passed. Production run 43522523512 succeeded on attempt 2; actual HTTPS, 76-record parity, four photo hashes, twelve Ford detail checks, four Axe audits and both retired links passed. |
 
 Keep the two canonical identities and old deep links when replacing obsolete
 versions with documented current successors. Never combine a new model year's
@@ -76,6 +139,30 @@ news, budget or infrastructure changes are part of this batch.
   sorting, comparison, CSV, report-error handling and static/hydrated route
   checks pass. The isolated, concurrently loaded local performance observations
   are not production field measurements or a claimed performance improvement.
+- Released through PR #64 as `e8dde21a00dc884fec8b7f0f89619bc31b70e841`.
+  All 162 PR and all 162 exact-main CI steps passed. Production distribution
+  `43522523512` succeeded on attempt 2. Its first immediate post-upload check
+  saw old HTML; subsequent ordinary GET checks found the new content marker
+  on both the immutable Pages address and the public domain. The unchanged
+  guarded distribution then passed. A separate bounded post-deploy readiness
+  improvement remains follow-up work, not permission to weaken content checks.
+- Actual public Ford verification passes all twelve two-version checks at
+  320/375/390/430/768/1440px and four dedicated Axe audits, with no overflow,
+  mobile photograph/copy/navigation overlap or runtime errors. All 76 catalog
+  records and four photo files match the approved snapshot/hashes; normal TLS,
+  production readiness, robots and sitemap checks pass. Public screenshots
+  were visually inspected. Both old drivetrain links reach the current Ford
+  Explorer model card, where both version choices select their correct detail
+  links. Keep Pages' valid trailing slash and the existing one-card/two-version
+  grouping in the private test contract; earlier harness assumptions about
+  slashless paths and two separate cards were corrected, not product behavior.
+  One earlier browser-load timeout is retained in the local test history.
+- Final receipts/screenshots are retained under ignored
+  `data/local/release-data/ford-explorer-quality-2026-11-13/`; the durable
+  production receipt is posted to PR #64. No further canonical writes, paid AI,
+  article generation/publication, news controls, budgets, DNS, email or credentials
+  were changed during release verification. Ford's four steps are complete;
+  other vehicle brands remain separate source-completion work.
 
 ## Mercedes-Benz CLA Batch (2026-11-13)
 

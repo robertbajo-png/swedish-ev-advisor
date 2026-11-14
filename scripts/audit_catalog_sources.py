@@ -92,12 +92,13 @@ class ReservationParser(HTMLParser):
 
 
 class SourceFetcher:
-    def __init__(self, timeout=10, document_parser=None, url_policy=None, max_bytes=MAX_BYTES):
+    def __init__(self, timeout=10, document_parser=None, url_policy=None, max_bytes=MAX_BYTES, text_parser=None):
         if not isinstance(max_bytes, int) or not 1 <= max_bytes <= 16 * 1024 * 1024:
             raise ValueError('invalid_bounded_document_size')
         self.max_bytes = max_bytes
         self.timeout = timeout
         self.document_parser = document_parser
+        self.text_parser = text_parser or source_text
         self.url_policy = url_policy or allowed_url
         self.opener = build_opener(NoRedirect())
         self.robots = {}
@@ -164,7 +165,7 @@ class SourceFetcher:
                         if reservation.reserved:
                             return {'status': 'machine_reservation', 'final_url': current}
                     document = self.document_parser(body, content_type) if self.document_parser is not None else None
-                    text = source_text(body, content_type)
+                    text = self.text_parser(body, content_type)
                     result = {'status': 'reachable', 'final_url': current, 'http_status': response.status,
                             'content_hash': hashlib.sha256(body).hexdigest(), 'text_hash': hashlib.sha256(text.encode('utf-8')).hexdigest(),
                             'text': text, 'content_type': content_type}
