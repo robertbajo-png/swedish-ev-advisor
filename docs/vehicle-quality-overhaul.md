@@ -12,7 +12,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | All seven exact Swedish trim/engine identities, November cash prices, wheel-bound FWD values, preliminary AWD and separate292hp GT sources bound. |
 | 2. Canonical completion | Committed |Migration023 preserved existing facts/grants/RLS. Fresh sources then filled39 technical gaps across all seven existing profiles, with exact10.5kW AC, unchanged prices and original routes/photo. Anonymous export verifies all69 other versions unchanged. |
 | 3. Regression and visual QA | Passed locally; CI pending |56 brand extraction tests,10 generic refresh tests, all prior sync suites, seven-profile transaction/rollback/replay/price/source/target tests, decimal migration tests and the edge advisor contract pass. Normalized API rows preserve target qualifiers and expired list-price exclusions. Build,90 static routes and private seven-version UI checks pass:320/390/768/1440px, two Axe audits, version selection and comparison; screenshots visually reviewed. |
-| 4. Publication | Compatibility live; catalog release pending |PR #67 merged asd7c53d1 after169 PR CI steps; exact-main CI and production run43612778929 passed. Public HTTPS/route/catalog/readiness checks passed before the guarded data transaction. Final catalog PR/CI/deployment and public EV3 visual checks remain. |
+| 4. Publication | Compatibility live; final metadata gate |PR #67 compatibility deployment43612778929 passed. PR #68 catalog merged as5397d14 after169 PR steps and green exact-main CI. Final delivery is held for matching preliminary AWD qualifications in meta descriptions/Vehicle JSON-LD, then exact-main CI, distribution and actual-site EV3 checks. |
 
 No paid AI, new news articles, news controls/budgets, infrastructure
 or credential changes. The only migration is the approved decimal-AC023. Do not borrow FWD range/tow ratings for AWD, GT Line
@@ -65,6 +65,14 @@ private tables. Never round10.5 to11 or hide the source qualification.
   version, all market flags and existing press-photo URLs are unchanged.
   Final catalog distribution and actual-site EV3 verification remain pending.
   Reuse neither stale intake timestamps nor the isolated fixture as production.
+- Final SEO review found that the older Python metadata renderer only knew the
+  Polestar target qualifier. Extend the same source-bound policy to the two
+  exact ordinary EV3 AWD trims; preserve final GT/FWD data and decimal AC in
+  structured data. Add all-seven-version metadata regression before distribution.
+  On this Windows session Vite's runtime SSR transport timed out; normal cloud
+  CI/production builds passed. Local precompiled same-React-view rendering then
+  completed all90 routes and passed static/no-JS/hydration/filter checks, without
+  changing the production renderer or weakening any test.
 
 ## BMW i4 Batch (2026-11-14)
 
