@@ -41,6 +41,13 @@ def extract(html):
 
 
 class VariantRefreshTests(unittest.TestCase):
+    def test_decimal_ac_survives_extraction_and_evidence_validation(self):
+        for text in ['10.5','10,5']:
+            drafts,doc,src,previous=extract(fixture().replace('11 kW AC',text+' kW AC'))
+            for row,old in zip(drafts,previous):
+                self.assertEqual(row['ac_charge_kw'],10.5)
+                self.assertEqual(refresh_errors(row,src,doc,old),[])
+
     def test_exact_columns_and_field_evidence(self):
         drafts, doc, src, previous = extract(fixture())
         self.assertEqual([row['price_sek'] for row in drafts], [510000, 610000, 710000])

@@ -74,7 +74,7 @@ function awd(row) {
 }
 
 function currentPrice(row, asOf) {
-  if (['campaign_price', 'dealer_offer'].includes(row.price_type) && /^\d{4}-\d{2}-\d{2}$/.test(row.price_valid_until || '') && row.price_valid_until < asOf) return null;
+  if (['list_price', 'campaign_price', 'dealer_offer'].includes(row.price_type) && /^\d{4}-\d{2}-\d{2}$/.test(row.price_valid_until || '') && row.price_valid_until < asOf) return null;
   return number(row.price_sek);
 }
 

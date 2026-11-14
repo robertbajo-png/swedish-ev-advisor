@@ -62,7 +62,9 @@ const formatDecimal = (value) =>
 
 function detailValue(value, unit = '') {
   if (value === null || value === undefined || value === '') return 'Uppgift saknas';
-  return `${value}${unit ? ` ${unit}` : ''}`;
+  const display = typeof value === 'number' && !Number.isInteger(value)
+    ? new Intl.NumberFormat('sv-SE', { maximumFractionDigits: 2 }).format(value) : value;
+  return `${display}${unit ? ` ${unit}` : ''}`;
 }
 
 function splitCarTitle(car) {

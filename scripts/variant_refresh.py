@@ -142,8 +142,8 @@ def extract_polestar(document, source, expected):
         'boot_liters': (*definition(document, 'Volym (uppfällda säten)'), r'([0-9 ]+) liter, inklusive under golvet'),
     }
     ac_term = one((node.text() for node in document.nodes('dt')
-                   if re.fullmatch(r'[0-9]+ kW AC laddningstid.*', node.text())), 'common_ac_power_missing')
-    ac = exact_number(ac_term, r'([0-9]+) kW AC laddningstid.*')
+                   if re.fullmatch(r'[0-9]+(?:[.,][0-9]+)? kW AC laddningstid.*', node.text())), 'common_ac_power_missing')
+    ac = exact_number(ac_term, r'([0-9]+(?:[.,][0-9]+)?) kW AC laddningstid.*')
     extracted = []
     for column, heading in enumerate(headings):
         row = {field: None for field in FACT_FIELDS}
@@ -177,7 +177,7 @@ def extract_polestar(document, source, expected):
             if field_name != 'battery_kwh':
                 row[field_name] = int(row[field_name])
             evidence[field_name] = {'quote': label + ' ' + value, 'scope': 'common_model'}
-        row['ac_charge_kw'] = int(ac)
+        row['ac_charge_kw'] = float(ac)
         evidence['ac_charge_kw'] = {'quote': ac_term, 'scope': 'common_model'}
         for item in evidence.values():
             item.update(source_url=source['url'], source_hash=source['content_hash'])
@@ -196,7 +196,7 @@ def evidence_value(field_name, quote):
         'wltp_range_km': r'Räckvidd[¹²³0-9]* (?:Upp till )?([0-9]+) km',
         'tow_kg': r'Dragvikt (?:Upp till )?([0-9 ]+) kg',
         'dc_charge_kw': r'DC-laddning (?:Upp till )?([0-9]+) kW',
-        'ac_charge_kw': r'([0-9]+) kW AC laddningstid.*',
+        'ac_charge_kw': r'([0-9]+(?:[.,][0-9]+)?) kW AC laddningstid.*',
         'boot_liters': r'Volym \(uppfällda säten\) ([0-9 ]+) liter, inklusive under golvet',
         'battery_kwh': r'Batterikapacitet 400 V litiumjonbatteri, ([0-9]+(?:[.,][0-9]+)?) kWh kapacitet, [0-9]+ moduler',
     }

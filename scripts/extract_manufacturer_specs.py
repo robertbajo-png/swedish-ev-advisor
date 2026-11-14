@@ -40,7 +40,7 @@ STRICT_EXTRACTION_SCHEMA = {
                     "wltp_consumption_kwh_100km": {"type": ["number", "null"]},
                     "battery_kwh": {"type": ["number", "null"]},
                     "dc_charge_kw": {"type": ["integer", "null"]},
-                    "ac_charge_kw": {"type": ["integer", "null"]},
+                    "ac_charge_kw": {"type": ["number", "null"]},
                     "boot_liters": {"type": ["integer", "null"]},
                     "tow_kg": {"type": ["integer", "null"]},
                     "seats": {"type": ["integer", "null"]},

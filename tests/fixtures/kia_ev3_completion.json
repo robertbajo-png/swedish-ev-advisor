@@ -1,0 +1,1378 @@
+{
+  "adapter": "kia_ev3_sweden_completion_v1",
+  "drafts": [
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 FWD",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 58.3,
+        "dc_charge_kw": 101,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 436,
+        "tow_kg": 500,
+        "boot_liters": 460,
+        "drivetrain": "FWD",
+        "wltp_consumption_kwh_100km": 14.9,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 58.3,
+          "quote": "Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 101,
+          "quote": "DC snabbladdning max kW 101 128",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 436,
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) FWD 436 (17\") 605 (17\") & 563 (19\")",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 500,
+          "quote": "Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 460,
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) FWD 460 / 1251 / 25",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "FWD FWD/AWD",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.9,
+          "quote": "Blandad, kWh/100km enligt WLTP FWD 1 4,9 (17\") 14,9 (17\") & 16,2 (19\")",
+          "scope": "swedish_fwd_exact_17_or_19_wheel",
+          "page": 3,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5ZHZ7Z-TX1 | Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 FWD | 9VW5ZHZ7Z-TX1 | 17 tum",
+          "variant_name": "EV3 FWD",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 434900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 FWD 434,900 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 FWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 605,
+        "tow_kg": 1000,
+        "boot_liters": 460,
+        "drivetrain": "FWD",
+        "wltp_consumption_kwh_100km": 14.9,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "DC snabbladdning max kW 101 128",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 605,
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) FWD 436 (17\") 605 (17\") & 563 (19\")",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 1000,
+          "quote": "Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 460,
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) FWD 460 / 1251 / 25",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "FWD FWD/AWD",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.9,
+          "quote": "Blandad, kWh/100km enligt WLTP FWD 1 4,9 (17\") 14,9 (17\") & 16,2 (19\")",
+          "scope": "swedish_fwd_exact_17_or_19_wheel",
+          "page": 3,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5ZHZ7Z-LX1 | Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 FWD Long Range | 9VW5ZHZ7Z-LX1 | 17 tum",
+          "variant_name": "EV3 FWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 508300,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 FWD Long Range 508,300 kr 4,495 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 Plus FWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 605,
+        "tow_kg": 1000,
+        "boot_liters": 460,
+        "drivetrain": "FWD",
+        "wltp_consumption_kwh_100km": 14.9,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "DC snabbladdning max kW 101 128",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 605,
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) FWD 436 (17\") 605 (17\") & 563 (19\")",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 1000,
+          "quote": "Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 460,
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) FWD 460 / 1251 / 25",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "FWD FWD/AWD",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.9,
+          "quote": "Blandad, kWh/100km enligt WLTP FWD 1 4,9 (17\") 14,9 (17\") & 16,2 (19\")",
+          "scope": "swedish_fwd_exact_17_or_19_wheel",
+          "page": 3,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5ZHZ7Z-LX2 | Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 Plus FWD Long Range | 9VW5ZHZ7Z-LX2 | 17 tum",
+          "variant_name": "EV3 Plus FWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 540300,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 Plus FWD Long Range 540,300 kr 4,795 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 GT Line FWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 563,
+        "tow_kg": 1000,
+        "boot_liters": 460,
+        "drivetrain": "FWD",
+        "wltp_consumption_kwh_100km": 16.2,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "DC snabbladdning max kW 101 128",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 563,
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) FWD 436 (17\") 605 (17\") & 563 (19\")",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 1000,
+          "quote": "Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 460,
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) FWD 460 / 1251 / 25",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "quote": "FWD FWD/AWD",
+          "scope": "swedish_final_fwd_wheel_column",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.2,
+          "quote": "Blandad, kWh/100km enligt WLTP FWD 1 4,9 (17\") 14,9 (17\") & 16,2 (19\")",
+          "scope": "swedish_fwd_exact_17_or_19_wheel",
+          "page": 3,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5ZHZ7Z-SX1 | Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 GT Line FWD Long Range | 9VW5ZHZ7Z-SX1 | 19 tum",
+          "variant_name": "EV3 GT Line FWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 590300,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 GT Line FWD Long Range 590,300 kr 5,295 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 Plus AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 572,
+        "tow_kg": 1500,
+        "boot_liters": 413,
+        "drivetrain": "AWD",
+        "wltp_consumption_kwh_100km": 15.8,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | DC snabbladdning max kW 101 128",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 572,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Max räckvidd (km) enligt WLTP (Upp till) AWD 572 (19\")",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 413,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Baksäte uppfällt / nedfällt / under framhuv (liter) AWD 413 / 1204 / 25",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "quote": "(AWD, Preliminär information i väntan på homologering) | FWD FWD/AWD",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.8,
+          "quote": "EV3 | Elmotor 265hk AWD LR | 15,8 kWh",
+          "scope": "swedish_october_powertrain_not_foreign_wltp",
+          "page": 1,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5YGZ7Z-LX3 | Elmotor AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 Plus AWD Long Range | 9VW5YGZ7Z-LX3 | 19 tum",
+          "variant_name": "EV3 Plus AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 575300,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 Plus AWD Long Range 575,300 kr 5,395 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 GT Line AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+        "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+        "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "wltp_range_km": 572,
+        "tow_kg": 1500,
+        "boot_liters": 413,
+        "drivetrain": "AWD",
+        "wltp_consumption_kwh_100km": 15.8,
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Batterikapacitet (kWh) 58.3 81.4",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | DC snabbladdning max kW 101 128",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_range_km": {
+          "value": 572,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Max räckvidd (km) enligt WLTP (Upp till) AWD 572 (19\")",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Max släpvagnsvikt, bromsat släp 500 1 000 / 1500",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "boot_liters": {
+          "value": 413,
+          "quote": "(AWD, Preliminär information i väntan på homologering) | Baksäte uppfällt / nedfällt / under framhuv (liter) AWD 413 / 1204 / 25",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "quote": "(AWD, Preliminär information i väntan på homologering) | FWD FWD/AWD",
+          "scope": "swedish_265hp_awd_preliminary",
+          "page": 3,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+          "source_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.8,
+          "quote": "EV3 | Elmotor 265hk AWD LR | 15,8 kWh",
+          "scope": "swedish_october_powertrain_not_foreign_wltp",
+          "page": 1,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5YGZ7Z-SX2 | Elmotor AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 GT Line AWD Long Range | 9VW5YGZ7Z-SX2 | 19 tum",
+          "variant_name": "EV3 GT Line AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3 | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "source_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46"
+        }
+      },
+      "price_evidence": {
+        "value": 625300,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 GT Line AWD Long Range 625,300 kr 5,795 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    },
+    {
+      "adapter": "kia_ev3_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev3",
+      "variant_name": "EV3 GT (292hk) AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+        "content_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5",
+        "fetched_at": "2026-11-14T13:06:34.151030+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+          "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+          "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+          "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+          "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+          "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+        }
+      ],
+      "source_resolution": "current_swedish_exact_ev3_trim_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "wltp_range_km": 532,
+        "battery_kwh": 81.4,
+        "tow_kg": 1500,
+        "drivetrain": "AWD",
+        "dc_charge_kw": 128,
+        "ac_charge_kw": 10.5,
+        "boot_liters": 413,
+        "wltp_consumption_kwh_100km": 17.1,
+        "seats": 5
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 532,
+          "quote": "EV3 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minuter Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg 0-100 km/h: 5.7 sekunder Toppfart: 170 km/h Max räckvidd (km) enligt WLTP (Upp till): 532 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+          "source_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5"
+        },
+        "battery_kwh": {
+          "value": 81.4,
+          "quote": "EV3 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minuter Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg 0-100 km/h: 5.7 sekunder Toppfart: 170 km/h Max räckvidd (km) enligt WLTP (Upp till): 532 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+          "source_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5"
+        },
+        "tow_kg": {
+          "value": 1500,
+          "quote": "EV3 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minuter Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg 0-100 km/h: 5.7 sekunder Toppfart: 170 km/h Max räckvidd (km) enligt WLTP (Upp till): 532 km",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+          "source_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "quote": "EV3 GT är utrustad med fyrhjulsdrift (AWD) med dubbla elmotorer och ett batteri på 81,4 kWh",
+          "scope": "swedish_292hp_gt_not_gt_line",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+          "source_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5"
+        },
+        "dc_charge_kw": {
+          "value": 128,
+          "quote": "Motor 81,4 kWh AWD GT | Leistung max. (kW/PS) 215/292 | Max. DC-Ladeleistung (kW) 128",
+          "scope": "german_same_gt_nominal_peak",
+          "page": 12,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+          "source_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "quote": "81,4 kWh AWD GT | Max. moc ładowarki pokładowej AC [kW] 10,5 / 22 (opcja)",
+          "scope": "polish_same_292hp_gt_standard_not_optional_22",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "source_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2"
+        },
+        "boot_liters": {
+          "value": 413,
+          "quote": "81,4 kWh AWD GT | Pojemność bagażnika tył [l] 413 / 1 204",
+          "scope": "polish_same_gt_seats_up_not_folded",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+          "source_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.1,
+          "quote": "EV3 | Elmotor 292hk AWD LR | 17,1 kWh",
+          "scope": "swedish_october_powertrain_not_foreign_wltp",
+          "page": 1,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf"
+        },
+        "seats": {
+          "value": 5,
+          "quote": "9VW5YGZ7Z-DX1 | Elmotor AWD (El , Elektrisk); 215 KW (292 hk) | number of seats 5",
+          "scope": "exact_swedish_engine_trim",
+          "page": null,
+          "column_header": "EV3 GT (292hk) AWD Long Range | 9VW5YGZ7Z-DX1 | 20 tum",
+          "variant_name": "EV3 GT (292hk) AWD Long Range",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "source_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "quote": "vehicle_name ev3gt | vehicle_type suv---stadsjeep",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+          "source_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10"
+        }
+      },
+      "price_evidence": {
+        "value": 650900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV3 GT (292hk) AWD Long Range 650,900 kr",
+        "classification": "november_swedish_list_inclusive_vat_not_lease_or_paint"
+      },
+      "source_decisions": [
+        "Preserve all seven existing canonical identities and routes. Swedish 9V/W5 exact trim/engine codes, five seats and cash amounts agree with November price PDF.",
+        "November1-30 price-list validity belongs to the whole list, not a financing campaign. Preserve list_price; leasing and optional20000SEK matte paint are not cash price.",
+        "FWD Swedish standard wheels:17 inches except GT Line19. Keep436/605/563km and14.9/16.2 consumption aligned, not every FWD version at605km.",
+        "Standard onboard AC10.5kW is exact, never rounded to11. GT Polish manufacturer column independently distinguishes standard10.5 from optional22.",
+        "Regular AWD265hp remains explicitly preliminary pending Swedish homologation, including572km. Show a qualified manufacturer target; do not satisfy hard range requirements with it.",
+        "GT292hp is not GT Line265hp. Swedish model page532km and October17.1 supersede foreign501km/18.1 for Swedish buyer display; preserve the disagreement and sources.",
+        "GT nominal DC128kW is explicit in the German same215kW/81.4kWh GT table, not inferred from charging time or rounded by us from Polish127.5.",
+        "GT boot413L and standardAC10.5 are explicit in the matching Polish292hp GT column; keep PL/pl source locale and linked qualification, no foreign prices imported.",
+        "Swedish standard FWD boot460L, AWD413L; never add25L frunk or use folded1251/1204. Braked tow500/1000/1500kg is not80kg roof or100kg ball load.",
+        "Existing approved exact-model EV3 GT Line press photo remains a model photograph with equipment notice, not a photograph of every trim.",
+        "No other car, model-image, availability, news or budget changes."
+      ]
+    }
+  ],
+  "held": []
+}
