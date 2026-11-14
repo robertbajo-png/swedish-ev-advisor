@@ -10,6 +10,7 @@ export function ImageAttribution({ car }) {
     <span className="vehicleImageCreditLine"><a href={asset.source_url} target="_blank" rel="noreferrer" title={asset.credit}>Foto: {asset.author}</a>
     <span aria-hidden="true"> · </span>
     <a href={asset.license_url} target="_blank" rel="noreferrer">{['Polestar-editorial', 'Manufacturer-media-use'].includes(asset.license_id) ? 'Pressbild' : asset.license_id}</a></span>
+    {car.imageNotice && <span className="vehicleImageNotice">{car.imageNotice}</span>}
     <span className="vehicleImageNotice srOnly">{notice}. {asset.changes}</span>
   </div>;
 }

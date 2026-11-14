@@ -5,6 +5,62 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Kia EV3 Completion (2026-11-14)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | All seven exact Swedish trim/engine identities, November cash prices, wheel-bound FWD values, preliminary AWD and separate292hp GT sources bound. |
+| 2. Canonical completion | Approved; awaiting compatibility deployment |Migration023 installed14 November15:39UTC, with every existing vehicle/source/staging/public row, view grants and RLS unchanged.63 facts across seven profiles and39 gaps are prepared; original routes/photo preserved. |
+| 3. Regression and visual QA | Passed locally; CI pending |56 brand extraction tests,10 generic refresh tests, all prior sync suites, seven-profile transaction/rollback/replay/price/source/target tests, decimal migration tests and the edge advisor contract pass. Normalized API rows preserve target qualifiers and expired list-price exclusions. Build,90 static routes and private seven-version UI checks pass:320/390/768/1440px, two Axe audits, version selection and comparison; screenshots visually reviewed. |
+| 4. Publication | Compatibility release in progress |Owner approved continuation after the explicit migration request. Install decimal/target presentation through PR #67 before exposing new EV3 values; then fresh guarded completion, public export, exact-head CI and catalog deployment. |
+
+No paid AI, new news articles, news controls/budgets, infrastructure
+or credential changes. The only migration is the approved decimal-AC023. Do not borrow FWD range/tow ratings for AWD, GT Line
+figures for GT, optional AC22 kW for standard onboard charging, or roof/ball
+loads for trailer capacity. Keep manufacturer qualifications and actual dates.
+
+Compatibility exception found during research: AC is integer in canonical,
+staging and public view, but Kia explicitly publishes10.5 kW. Migration023 is
+tested in isolation (decimal roundtrip, unchanged facts/ACL/RLS, idempotence and
+rollback for unknown dependencies), then installed after owner approval. Remote
+anonymous checks still read30 public models/76 versions and deny all seven
+private tables. Never round10.5 to11 or hide the source qualification.
+
+- Swedish manufacturer trim codes9V/W5 bind all seven versions and five seats.
+  November PDF and embedded current Swedish prices agree:434900/508300/540300/
+  590300/575300/625300/650900SEK. These are list prices, not leasing or optional
+  20000SEK matte paint. Preserve list classification and November30 validity.
+- FWD standard wheels remain17in (GT Line19in), with436/605/563km,14.9/16.2
+  kWh/100km, batteries58.3/81.4, nominal DC101/128, onboard AC10.5 and boot460L.
+  Regular AWD has413L boot and1500kg braked towing, not FWD460L/1000kg.
+- The Swedish September fact sheet still labels ordinary265hp AWD preliminary
+  pending homologation. Preserve that qualification on572km; display a target,
+  exclude it from hard range matches and from best-certified-range comparisons.
+  Do not silently promote it because another market no longer shows a caveat.
+- Swedish292hp GT page532km and October energy declaration17.1 are selected over
+  Polish/German501km and18.1. German exact215kW/81.4kWh GT table supplies nominal
+  DC128; Polish exact292hp GT column supplies standardAC10.5 (optional22 is not
+  selected) and seats-up boot413. Preserve DE/de and PL/pl source labels/links.
+  German AC11 is not substituted for the more precise Polish standard rating.
+- The previously approved EV3 GT Line press photograph remains a model photo
+  with equipment notice, not an assertion that every trim looks identical.
+- Existing shared Swedish price-page source incorrectly belongs to EV4. Do not
+  rewrite it: use the independently fetched November price PDF as a new shared
+  source. Preserve the legacy uppercase EV3 source label when registering the
+  existing exact-parent specification page. Tests protect unrelated EV4 records.
+- Private PostgreSQL fixture tests apply all seven drafts, preserve other rows,
+  exercise the real price-invalidation trigger, roll back injected failures,
+  reject replay, retain decimal10.5 and verify target/expired-price matching.
+  Fresh schema, SQLite, structured extraction and evidence parsing accept exact
+  AC decimals. Production metadata preflight confirms integer columns, expected
+  owner/barrier, no column-specific metadata and no observed dependent views.
+- Code is isolated in PR #67. The public snapshot remains unchanged at76
+  versions/30 models;39 newly supported EV3 values are still private, not released.
+  Migration023 is now installed; next deploy compatibility code, then a fresh
+  source collection, guarded seven-row transaction, anon-view
+  export, exact-head CI and the existing production distribution. Reuse neither
+  stale intake timestamps nor the isolated PostgreSQL fixture as production data.
+
 ## BMW i4 Batch (2026-11-14)
 
 | Step | Status | Acceptance |
@@ -12,7 +68,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | 1. Exact-version research | Complete | Stock VIN FW37556, production2026, current cash offer and active technical type61HD; reject historical21HD and model maxima. |
 | 2. Facts and photography | Committed | Nine gaps, body type, corrected cash offer and exact-generation professional image saved. Canonical ID, URL and all 76 public variants retained. |
 | 3. Regression and visual QA | Passed locally | 48 brand extraction regressions, all eight spec-sync suites, image/access/rights/advisor/metrics tests, build and 90 static routes pass. Six BMW widths, two Axe audits and comparison pass; mobile/desktop screenshots inspected. |
-| 4. Publication | In progress | Scoped code pushed to GitHub; exact-head CI, existing production distribution and public verification still required. |
+| 4. Publication | Complete | PR #66 merged as79c0733b; all166 PR and166 exact-main CI steps passed. Production run43592979077 and actual public HTTPS/catalog/photo/six-width/comparison/Axe verification passed. |
 
 No paid AI, migrations, news-generation/control/budget, DNS, email, credentials
 or new hosting. Keep a stock-specific cash offer distinct from a list price;
@@ -49,6 +105,21 @@ versus historical i4 technical tables by their exact model/type identity.
   full-frame mobile image above copy with no overlay/overflow, complete specs,
   qualified consumption, cash-offer metrics, source links and SPA comparison.
   Dedicated390/1440px Axe audits have zero violations. No paid API calls.
+- Production closeout: PR66, reviewed head0909842a and merged main79c0733b
+  have identical trees. All166 steps passed in each CI run; distribution
+  43592979077 succeeded. Actual public HTTPS, readiness (GET only), all76
+  catalog records, four image hashes, six BMW widths, two Axe audits and
+  comparison passed. Public mobile and desktop screenshots were inspected.
+- The first Windows isolated-function compile timed out under concurrent QA
+  after compiler success; the unchanged rerun passed, including rejection of
+  a missing dependency. A first public browser navigation hit its global-load
+  timeout; the completed run explicitly awaited DOM, hero, decoded images and
+  fonts, retaining every geometry/content/source/accessibility assertion.
+  No TLS bypass, data/proof relaxation or production code workaround was used.
+- All four BMW steps are complete. Broader work remains:45/76 core-complete
+  versions and16/30 professional photographs. Prioritize the remaining exact
+  Kia EV3 profiles, then Tesla Model3/ModelY; never replace missing facts with
+  another version's values or a similar vehicle image.
 
 ## CUPRA Born Batch (2026-11-14)
 

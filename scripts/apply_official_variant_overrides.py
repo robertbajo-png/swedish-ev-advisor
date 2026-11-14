@@ -13,7 +13,7 @@ NUMBER_FIELDS = {
     "wltp_range_km": int,
     "battery_kwh": float,
     "dc_charge_kw": int,
-    "ac_charge_kw": int,
+    "ac_charge_kw": float,
     "boot_liters": int,
     "tow_kg": int,
     "seats": int,

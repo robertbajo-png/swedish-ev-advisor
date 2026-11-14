@@ -1,0 +1,108 @@
+{
+  "technical": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev3/Faktablad-Kia-EV3.pdf",
+      "content_hash": "8d907a3e005ac0ae58121c4faf00c193f9b5050a2980705e0a2aabea21ddebee",
+      "fetched_at": "2026-11-14T13:06:22.787388+00:00"
+    },
+    "pages": [
+      "Produktfakta gäller fr.o.m. 16 september 2026",
+      "",
+      "Teknisk specifikation\n(AWD, Preliminär information i väntan på homologering)\nMOTOR Standard Range Long Range\n58.3kWh 81.4kWh\nFWD FWD/AWD\nELMOTOR Energityp Elektricitet\nMotortyp Synkronmotor\nMotoreffekt 204 204/265\nMotoreffekt kW 150 150/195\nVridmoment max (Nm) 283 283/385\nBATTERI Batterityp LIPB (litium-jon-polymer)\nBatterikapacitet (kWh) 58.3 81.4\nVikt, ca (kg) 375 470\nLaddkontakt CCS Typ 2 (Combo 2)\nBilens laddare (On Board Charger) (kW) 10.5\nLaddningstid (AC standardladdning med 3-fas laddbox, 16 A, 10,5kW) ca. 5h20min* ca. 7h15min*\nLaddningstid (DC snabbladdning +150kW 10-80% laddning, ner till) 29 min* 31 min*\nDC snabbladdning max kW 101 128\nMax räckvidd (km) enligt WLTP (Upp till) FWD 436 (17\") 605 (17\") & 563 (19\")\nMax räckvidd (km) enligt WLTP (Upp till) AWD 572 (19\")\nENERGI-\nFÖRBRUKNING Blandad, kWh/100km enligt WLTP FWD 1 4,9 (17\") 14,9 (17\") & 16,2 (19\")\nBlandad, kWh/100km enligt WLTP AWD 15,8 (19\")\nKoldioxidutsläpp, CO (g/km) enligt WLTP 0\n2\nPRESTANDA 0-100 km/h (sek) 7,5 7,9 / 6,6\nToppfart (km/h) 170\nSTYRNING Typ / Vändcirkel Elektrisk servostyrning / 10,38 m\nHJUL Däckdimension 17\" (215/60 R17), 19\" (215/50 R19)\nFälg 7.0Jx17, 7.5Jx19\nBROMSSYSTEM Låsningsfria bromsar (ABS)\nBromsar fram Ventilerade skivor\nBromsar bak Skivor\nParkeringsbroms Verkar på bakhjulen\nDIMENSIONER (mm) Längd / Bredd (infällda backspeglar) / Höjd / Markfrigång\nEV3 & Plus 4300 / 1850 / 1560 / 140 (147 AWD)\nGT Line 4310 / 1850 / 1570 / 147\nBAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) FWD 460 / 1251 / 25\nBaksäte uppfällt / nedfällt / under framhuv (liter) AWD 413 / 1204 / 25\nVIKTER (kg) Totalvikt 2 270 2 355 / 2 480\nTjänstevikt 1 860 1 945 / 2 120\nMax släpvagnsvikt, bromsat släp 500 1 000 / 1500\nMax släpvagnsvikt, obromsat släp 500 750 / 750\nTaklast 80\nMILJÖKLASS Euro 6ax\nFORDONSSKATT (kr) T.o.m 2026 360\n*Laddtiderna, som är cirkatider, är teoretiskt framräknade och har inte tagit hänsyn till ev. effektförluster i omvandlingsfasen.\nLaddtider är beroende av laddeffekten som tillförs bilen. Högre laddeffekt tillåter kortare laddtider. Bl.a. typ av laddbox (1 el. 3-fas), dess anslutning i elservisen, ev,\nlastbalansering i elservisen, batteritemperatur och laddningsnivå i batteriet vid laddtillfället påverkar laddtiderna. Laddeffekten kan också variera under pågående\nladdning för att optimera laddning av batteriet.\n**Den faktiska räckvidden under verkliga förhållanden varierar beroende på körstil, hastighet, användning av komfortfunktioner eller extrautrustning, utomhustempera-\ntur, antal passagerare och last, samt höjdskillnader i terrängen.\nFrån och med den 1 september 2018 fastställs värden för energi- och bränsleförbrukning, koldioxidutsläpp samt elektrisk räckvidd enligt WLTP (Worldwide Harmonised Light Vehicles Test Procedure). WLTP 3\när en internationellt harmoniserad testmetod som används för att mäta och jämföra fordons prestanda under standardiserade laboratorieförhållanden. De angivna värdena har fastställts i enlighet med\ngällande lagstiftning och är avsedda att möjliggöra jämförelser mellan olika fordonsmodeller och versioner. Faktisk energi- eller bränsleförbrukning, koldioxidutsläpp och räckvidd kan avvika beroende på ett\nflertal faktorer, såsom körsätt, hastighet, last, tillvalsutrustning, underhåll, temperatur, väderförhållanden, väglag och övriga yttre omständigheter.\nYtterligare information om WLTP finns på WLTP Fakta. Läs mer om WLTP på www.wltpfakta.se",
+      "",
+      ""
+    ]
+  },
+  "specifications": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/se/nya-bilar/ev3/specifikationer/",
+      "content_hash": "60083264a66f981ad9da15bafe88e499c733c8be0848e54e1e0a7058e7290a46",
+      "fetched_at": "2026-11-14T13:06:30.448218+00:00"
+    },
+    "html": "<html lang=\"sv\"><body><script>window.dtmDataLayer.vehicle_name = 'ev3'; window.dtmDataLayer.vehicle_type = ['suv---stadsjeep']; eut.tableDatas[\"4\"] = {\"modelName\": \"EV3\", \"modelCode\": \"9V\", \"bodyTypeCode\": \"W5\", \"specialFeatureCode\": \"*\", \"tableType\": \"engine\", \"tableTitle\": \"Prices\", \"keyTitle\": \"\", \"engines\": [{\"id\": \"9VW5ZHZ7Z-TX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"number of seats\": \"5\"}, {\"id\": \"9VW5ZHZ7Z-LX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"number of seats\": \"5\"}, {\"id\": \"9VW5ZHZ7Z-LX2\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"number of seats\": \"5\"}, {\"id\": \"9VW5YGZ7Z-LX3\", \"name\": \"Elmotor AWD (El , Elektrisk); 195 KW (265 hk)\", \"number of seats\": \"5\"}, {\"id\": \"9VW5ZHZ7Z-SX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"number of seats\": \"5\"}, {\"id\": \"9VW5YGZ7Z-SX2\", \"name\": \"Elmotor AWD (El , Elektrisk); 195 KW (265 hk)\", \"number of seats\": \"5\"}], \"trims\": [{\"id\": \"TX1\", \"name\": \"EV3 - 5 Seats\", \"sortOrder\": \"1\", \"enginesInTrim\": [{\"id\": \"9VW5ZHZ7Z-TX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"price\": \"434900\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"150 kW / 204 hk\", \"maxTorque\": \"283\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;   g/km. Effektivitetsklass .\"}]}, {\"id\": \"LX1\", \"name\": \"EV3 Long Range - 5 Seats\", \"sortOrder\": \"2\", \"enginesInTrim\": [{\"id\": \"9VW5ZHZ7Z-LX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"price\": \"508300\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"150 kW / 204 hk\", \"maxTorque\": \"283\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;  0 g/km. Effektivitetsklass .\"}]}, {\"id\": \"LX2\", \"name\": \"EV3 Plus Long Range - 5 Seats\", \"sortOrder\": \"3\", \"enginesInTrim\": [{\"id\": \"9VW5ZHZ7Z-LX2\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"price\": \"540300\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"150 kW / 204 hk\", \"maxTorque\": \"283\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;  0 g/km. Effektivitetsklass .\"}]}, {\"id\": \"LX3\", \"name\": \"EV3 Plus AWD Long Range - 5 Seats\", \"sortOrder\": \"4\", \"enginesInTrim\": [{\"id\": \"9VW5YGZ7Z-LX3\", \"name\": \"Elmotor AWD (El , Elektrisk); 195 KW (265 hk)\", \"price\": \"575300\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"195 kW / 265 hk\", \"maxTorque\": \"385\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;   g/km. Effektivitetsklass .\"}]}, {\"id\": \"SX1\", \"name\": \"EV3 GT Line Long Range - 5 Seats\", \"sortOrder\": \"5\", \"enginesInTrim\": [{\"id\": \"9VW5ZHZ7Z-SX1\", \"name\": \"Elmotor 204hk FWD (El , Elektrisk); 150 KW (204 hk)\", \"price\": \"590300\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"150 kW / 204 hk\", \"maxTorque\": \"283\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;  0 g/km. Effektivitetsklass .\"}]}, {\"id\": \"SX2\", \"name\": \"EV3 GT Line AWD Long Range - 5 Seats\", \"sortOrder\": \"6\", \"enginesInTrim\": [{\"id\": \"9VW5YGZ7Z-SX2\", \"name\": \"Elmotor AWD (El , Elektrisk); 195 KW (265 hk)\", \"price\": \"625300\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"195 kW / 265 hk\", \"maxTorque\": \"385\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;   g/km. Effektivitetsklass .\"}]}]};</script></body></html>"
+  },
+  "gt_specifications": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/specifikationer/",
+      "content_hash": "1f4236b5d981530e86a3d9906d6b42e58153d6889a2038e4a1810b23e7b9da10",
+      "fetched_at": "2026-11-14T13:06:32.115154+00:00"
+    },
+    "html": "<html lang=\"sv\"><body><script>window.dtmDataLayer.vehicle_name = 'ev3gt'; window.dtmDataLayer.vehicle_type = ['suv---stadsjeep']; eut.tableDatas[\"4\"] = {\"modelName\": \"EV3 GT\", \"modelCode\": \"9V\", \"bodyTypeCode\": \"W5\", \"specialFeatureCode\": \"*\", \"tableType\": \"engine\", \"tableTitle\": \"Prices\", \"keyTitle\": \"\", \"engines\": [{\"id\": \"9VW5YGZ7Z-DX1\", \"name\": \"Elmotor AWD (El , Elektrisk); 215 KW (292 hk)\", \"number of seats\": \"5\"}], \"trims\": [{\"id\": \"DX1\", \"name\": \"EV3 GT - 5 Seats\", \"sortOrder\": \"7\", \"enginesInTrim\": [{\"id\": \"9VW5YGZ7Z-DX1\", \"name\": \"Elmotor AWD (El , Elektrisk); 215 KW (292 hk)\", \"price\": \"650900\", \"sortOrder\": 1, \"engineCategory\": \"7\", \"displacement\": \"\", \"maxPower\": \"215 kW / 292 hk\", \"maxTorque\": \"468\", \"code\": \"\", \"desc\": \"Bränsleförbrukning tillsammans  l/100 km;   g/km. Effektivitetsklass .\"}]}]};</script></body></html>"
+  },
+  "gt": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/se/nya-bilar/ev3-gt/upptack/",
+      "content_hash": "076dd96c1b149070a83b4469a01dce135b1ff14ae491d186966f6f3a4a7e52f5",
+      "fetched_at": "2026-11-14T13:06:34.151030+00:00"
+    },
+    "html": "<html lang=\"sv\"><body><h1>Kia EV3 GT</h1><p>EV3 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 31 minuter Motoreffekt: 215 kW / 292 hk Max släpvagnsvikt, bromsat släp: 1,500 kg 0-100 km/h: 5.7 sekunder Toppfart: 170 km/h Max räckvidd (km) enligt WLTP (Upp till): 532 km EV3 GT är utrustad med fyrhjulsdrift (AWD) med dubbla elmotorer och ett batteri på 81,4 kWh</p></body></html>"
+  },
+  "energy": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+      "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+      "fetched_at": "2026-11-14T13:06:36.956580+00:00"
+    },
+    "pages": [
+      "OKTOBER 2026\nElmotor 204hk FWD SR El Euro 6ax 14,9 kWh 0 360 30 000 / 24\nEV3 Elmotor 204hk FWD LR El Euro 6ax 14,9-16,2 kWh 0 360 30 000 / 24\nElmotor 265hk AWD LR El Euro 6ax 15,8 kWh 0 360 30 000 / 24\nElmotor 292hk AWD LR El Euro 6ax 17,1 kWh 0 360 30 000 / 24\n"
+    ]
+  },
+  "price_pdf": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+      "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+      "fetched_at": "2026-11-14T13:06:42.368003+00:00"
+    },
+    "pages": [
+      "2026-11-01\n2026-11-30\nEV3 FWD 434,900 kr\nEV3 FWD Long Range 508,300 kr 4,495 kr\nEV3 Plus FWD Long Range 540,300 kr 4,795 kr\nEV3 GT Line FWD Long Range 590,300 kr 5,295 kr\nEV3 Plus AWD Long Range 575,300 kr 5,395 kr\nEV3 GT Line AWD Long Range 625,300 kr 5,795 kr\nEV3 GT\nEV3 GT (292hk) AWD Long Range 650,900 kr",
+      ""
+    ]
+  },
+  "poland": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/pl/modele/ev3/dane-techniczne/",
+      "content_hash": "046dacc912384444f8506cbfd3b01c2bfb2cbafc226ce53ade1dc905e0fab6f2",
+      "fetched_at": "2026-11-14T13:06:47.154440+00:00"
+    },
+    "html": "<html lang=\"pl\"><body><h1>EV3</h1><table><tr><td></td><td>EV3</td><td>EV3</td></tr></table><table><tr><td>Długość całkowita</td><td>4 300 / 4 310 (GT-Line, GT)</td><td></td></tr><tr><td>Rozstaw osi</td><td>2 680</td><td></td></tr><tr><td>Zwis przedni</td><td>810 / 815 (GT-Line, GT)</td><td></td></tr><tr><td>Zwis tylny</td><td>810 / 815 (GT-Line, GT)</td><td></td></tr><tr><td>Szerokość (bez lusterek)</td><td>1 850</td><td></td></tr><tr><td>Rozstaw kół osi przedniej</td><td>1 614 (17&quot;) / 1 610 (19&quot;) / 1 598 (20&quot;)</td><td></td></tr><tr><td>Rozstaw kół osi tylnej</td><td>1 611 (17&quot;) / 1 607 (19&quot;) / 1 602 (20&quot;)</td><td></td></tr><tr><td>Wysokość</td><td>1 560 / 1 570 (GT-Line) / 1 575 (GT)</td><td></td></tr></table><table><tr><td></td><td>58,3 kWh FWD</td><td>81,4 kWh FWD</td><td>81,4 kWh AWD</td><td>81,4 kWh AWD GT</td><td>58,3 kWh FWD 81,4 kWh FWD 81,4 kWh AWD 81,4 kWh AWD GT</td></tr></table><table><tr><td>Typ baterii</td><td>litowo-jonowy</td><td>litoto-jonowy</td><td>litoto-jonowy</td><td>litoto-jonowy</td><td></td></tr><tr><td>Pojemność baterii [kWh]</td><td>58,3</td><td>81,4</td><td>81,4</td><td>81,4</td><td></td></tr><tr><td>Typ skrzyni biegów</td><td>redukcyjna o stałym przełożeniu</td><td>redukcyjna o stałym przełożeniu</td><td>redukcyjna o stałym przełożeniu</td><td>redukcyjna o stałym przełożeniu</td><td></td></tr><tr><td>Napęd</td><td>na koła przednie (FWD)</td><td>na koła przednie (FWD)</td><td>na wszystkie koła (AWD)</td><td>na wszystkie koła (AWD)</td><td></td></tr><tr><td>Typ silnika przedniego</td><td>synchroniczny z magnesami stałymi</td><td>synchroniczny z magnesami stałymi</td><td>synchroniczny z magnesami stałymi</td><td>synchroniczny z magnesami stałymi</td><td></td></tr><tr><td>Max. moc silnika przedniego [KM]</td><td>204</td><td>204</td><td>170</td><td>197</td><td></td></tr><tr><td>Typ silnika tylnego</td><td>-</td><td>-</td><td>silnik indukcyjny</td><td>silnik indukcyjny</td><td></td></tr><tr><td>Max. moc silnika tylnego [KM]</td><td>-</td><td>-</td><td>95</td><td>95</td><td></td></tr><tr><td>Max. moc łączna [KM]</td><td>204</td><td>204</td><td>265</td><td>292</td><td></td></tr><tr><td>Max. łączny moment obrotowy [Nm]</td><td>283</td><td>283</td><td>brak danych</td><td>brak danych</td><td></td></tr><tr><td>Max. moc ładowarki pokładowej AC [kW]</td><td>10,5 / 22 (opcja)</td><td>10,5 / 22 (opcja)</td><td>10,5 / 22 (opcja)</td><td>10,5 / 22 (opcja)</td><td></td></tr><tr><td>Min. czas ładowania AC 11kW (10-100%)</td><td>5h 20min</td><td>7h 15min</td><td>7h 15min</td><td>7h 15min</td><td></td></tr><tr><td>Min. czas ładowania AC 22kW (10-100%)</td><td>2h 55min</td><td>3h 55min</td><td>3h 55min</td><td>3h 55min</td><td></td></tr><tr><td>Max. moc ładowania DC</td><td>100,5 kW</td><td>127,5 kW</td><td>127,5 kW</td><td>127,5 kW</td><td></td></tr><tr><td>Min. czas ładowania DC (10-80%)</td><td>29 min</td><td>31 min</td><td>31 min</td><td>31 min</td><td></td></tr></table><table><tr><td></td><td>58,3 kWh FWD</td><td>81,4 kWh FWD</td><td>81,4 kWh AWD</td><td>81,4 kWh AWD GT</td><td>58,3 kWh FWD 81,4 kWh FWD 81,4 kWh AWD 81,4 kWh AWD GT</td></tr></table><table><tr><td>Max. moc łączna [KM]</td><td>204</td><td>204</td><td>265</td><td>292</td><td></td></tr><tr><td>Prędkość maksymalna [km/h]</td><td>170</td><td>170</td><td>170</td><td>170</td><td></td></tr><tr><td>Przyspieszenie 0-100 km/h [s]</td><td>7,5 (17&quot;) / 7,6 (19&quot;)</td><td>7,7 (17&quot;) / 7,9 (19&quot;)</td><td>6,6 (19&quot;)</td><td>5,7 (20&quot;)</td><td></td></tr><tr><td>Zasięg w cyklu miejskim [km]</td><td>584 (17&quot;) / 542 (19&quot;)</td><td>773 (17&quot;) / 737 (19&quot;)</td><td>741 (19&quot;)</td><td>621 (20&quot;)</td><td></td></tr><tr><td>Zasięg w cyklu miesszanym [km]</td><td>436 (17&quot;) / 414 (19&quot;)</td><td>605 (17&quot;) / 563 (19&quot;)</td><td>572 (19&quot;)</td><td>501 (20&quot;)</td><td></td></tr><tr><td>Zużycie energii, cykl mieszany [kWh/100 km]</td><td>14,9 (17&quot;) / 15,8 (19&quot;)</td><td>14,9 (17&quot;) / 16,2 (19&quot;)</td><td>15,8 (19&quot;)</td><td>18,1 (20&quot;)</td><td></td></tr></table><table><tr><td></td><td>58,3 kWh FWD</td><td>81,4 kWh FWD</td><td>81,4 kWh AWD</td><td>81,4 kWh AWD GT</td><td>58,3 kWh FWD 81,4 kWh FWD 81,4 kWh AWD 81,4 kWh AWD GT</td></tr></table><table><tr><td>Pojemność bagażnika przód [l]</td><td>25 / 19 (z pakietem 22K)</td><td>25 / 19 (z pakietem 22K)</td><td>25 / 19 (z pakietem 22K)</td><td>25 / 19 (z pakietem 22K)</td><td></td></tr><tr><td>Pojemność bagażnika tył [l]</td><td>460 / 1 251</td><td>460 / 1 251</td><td>413 / 1 204</td><td>413 / 1 204</td><td></td></tr><tr><td>Min. masa własna [kg]</td><td>1 725</td><td>1 810</td><td>1 920</td><td>1 935</td><td></td></tr><tr><td>Dopuszczalna masa całkowita [kg]</td><td>2 270</td><td>2 355</td><td>2 480</td><td>2 480</td><td></td></tr><tr><td>Masa przyczepy hamowanej [kg]</td><td>500</td><td>1 000</td><td>1 500</td><td>1 500</td><td></td></tr><tr><td>Masa przyczepy niehamowanej [kg]</td><td>500</td><td>750</td><td>750</td><td>750</td><td></td></tr><tr><td>Prześwit [mm]</td><td>140 (17”) / 147 (19”)</td><td>140 (17”) / 147 (19”)</td><td>140 (17”) / 147 (19”)</td><td>153 (20”)</td><td></td></tr></table></body></html>"
+  },
+  "gt_germany": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV3-GT-Preisliste.pdf",
+      "content_hash": "3b24475e8871852d6d4e31f497cb3b75b47d55930053de2b3c581c9ad4c81179",
+      "fetched_at": "2026-11-14T13:06:52.327598+00:00"
+    },
+    "pages": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Motor 81,4 kWh AWD GT\nLeistung max. (kW/PS) 215/292\nMax. DC-Ladeleistung (kW) 128",
+      "",
+      ""
+    ]
+  }
+}

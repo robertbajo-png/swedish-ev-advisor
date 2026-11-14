@@ -97,7 +97,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
   assert.equal(specPlanHash(plan), expectedHash, 'Prepared technical packet changed');
   assert.deepEqual(buildSpecPlan(plan.targets.map(row => row.expected),
     { adapter: policy.adapter, drafts: plan.targets.map(row => row.draft) }, now, policy), plan);
-  assert(['technical_pdf', 'manufacturer_model_page'].includes(policy.sourceType));
+  assert(typeof policy.sourceType === 'function' || ['technical_pdf', 'manufacturer_model_page'].includes(policy.sourceType));
   assert(Number.isSafeInteger(policy.lockKey));
   let committed = false;
   await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
@@ -118,6 +118,8 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
       assert.equal(parent?.brand, brand);
       assert.equal(parent?.model, model);
       const { draft } = target;
+      const sourceType = typeof policy.sourceType === 'function' ? policy.sourceType(draft) : policy.sourceType;
+      assert(['technical_pdf', 'manufacturer_model_page'].includes(sourceType), 'Registered primary source type required');
       const modelFacts = policy.modelFacts?.(draft) || {};
       assert(Object.keys(modelFacts).every(field => field === 'body_type'), 'Only explicit model body classification allowed');
       if (Object.hasOwn(modelFacts, 'body_type')) {
@@ -145,7 +147,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
         assert(descriptor && ['manufacturer_page', 'price_list_pdf', 'technical_pdf'].includes(descriptor.sourceType), 'Supporting manufacturer source must be explicitly registered');
         const country = descriptor.country || 'SE', language = descriptor.language || 'sv';
         assert(country === 'SE' && language === 'sv' || country === 'DE' && language === 'de' ||
-          country === 'DK' && language === 'da' || country === 'EU' && language === 'en', 'Registered source locale required');
+          country === 'DK' && language === 'da' || country === 'PL' && language === 'pl' || country === 'EU' && language === 'en', 'Registered source locale required');
         if (sources.has(extra.final_url)) continue;
         const old = (await client.query('SELECT * FROM public.manufacturer_sources WHERE url=$1 FOR UPDATE', [extra.final_url])).rows;
         const sourceParent = descriptor.shared ? null : parent.id;
@@ -181,7 +183,7 @@ export async function applySpecPlan(client, plan, expectedHash, now = new Date()
            fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=excluded.http_status,
            final_url=excluded.final_url,source_validation=excluded.source_validation,
            extraction_status='published',verified_at=excluded.verified_at,updated_at=now() RETURNING id`,
-          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, policy.sourceType, sourceName, httpStatus, sourceValidation]);
+          [parent.id, brand, model, source.final_url, policy.sourceTitle(draft), source.fetched_at, source.content_hash, sourceType, sourceName, httpStatus, sourceValidation]);
         sources.set(source.final_url, saved.rows[0].id);
       }
       const quote = [...new Set(Object.values(draft.field_evidence).map(item => item.source_url === source.final_url

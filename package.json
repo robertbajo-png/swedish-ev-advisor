@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
+    "verify:decimal-ac": "node scripts/verify_decimal_ac_migration.mjs",
+    "verify:ev3-completion": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev3_completion_specs.py -v",
+    "verify:ev3-completion-sync": "node scripts/verify_kia_ev3_completion_sync.mjs",
     "verify:bmw-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_bmw_i4_specs.py -v",
     "verify:bmw-sync": "node scripts/verify_bmw_i4_spec_sync.mjs",
     "verify:cupra-specs": "node scripts/run_python.mjs -m unittest discover -s tests -p test_cupra_born_specs.py -v",
