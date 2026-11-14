@@ -224,6 +224,9 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
                 and re.search(r'9VW5YGZ7Z-(?:LX3|SX2)', row.get('source_quote', ''))
                 and '(AWD, Preliminär information i väntan på homologering)' in row.get('source_quote', '')):
             range_label = 'Preliminärt WLTP-räckviddsmål'
+        if (row.get('brand') == 'Kia' and row.get('model') == 'Ev4'
+                and re.search(r'7ZS6(?:ZHZ7Z-LX1|YGZ7Z-LX1_V00|YGZ7Z-LX2)', row.get('source_quote', ''))):
+            range_label = 'WLTP-räckvidd, upp till'
         description_parts = [name]
         if price:
             price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
