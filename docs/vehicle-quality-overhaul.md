@@ -10,9 +10,9 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | Step | Status | Acceptance |
 | --- | --- | --- |
 | 1. Exact-version research | Complete | Stock VIN FW37556, production2026, current cash offer and active technical type61HD; reject historical21HD and model maxima. |
-| 2. Facts and photography | Facts committed; photo sync pending | Nine technical gaps and body type saved through guarded staging. Reviewed current eDrive40 press image from BMW Norway adopted locally; canonical ID and URL retained. |
-| 3. Regression and visual QA | In progress | Seven extraction regressions and guarded transaction/rollback/replay/price-invalidation/GET tests pass. Wider regressions, build and six-width visual QA remain. |
-| 4. Publication | Pending | Scoped PR, exact-main CI, existing production distribution and actual public verification. |
+| 2. Facts and photography | Committed | Nine gaps, body type, corrected cash offer and exact-generation professional image saved. Canonical ID, URL and all 76 public variants retained. |
+| 3. Regression and visual QA | Passed locally | 48 brand extraction regressions, all eight spec-sync suites, image/access/rights/advisor/metrics tests, build and 90 static routes pass. Six BMW widths, two Axe audits and comparison pass; mobile/desktop screenshots inspected. |
+| 4. Publication | In progress | Scoped code pushed to GitHub; exact-head CI, existing production distribution and public verification still required. |
 
 No paid AI, migrations, news-generation/control/budget, DNS, email, credentials
 or new hosting. Keep a stock-specific cash offer distinct from a list price;
@@ -41,6 +41,14 @@ versus historical i4 technical tables by their exact model/type identity.
 - Guarded live transaction updated one existing variant, two source records and
   one model body classification. Nine gaps filled, one documented cash-price
   correction; all other variants and news controls/articles checked unchanged.
+- The separate guarded image transaction changed only this model's image,
+  no variants or news. Public export and anonymous read-back agree on all76
+  records, with only BMW i4 changed versus the preceding release. Audit now
+  counts45/76 core-complete versions and16/30 professional model photographs.
+- Local BMW QA at320/375/390/430/768/1440px verifies four exact photo hashes,
+  full-frame mobile image above copy with no overlay/overflow, complete specs,
+  qualified consumption, cash-offer metrics, source links and SPA comparison.
+  Dedicated390/1440px Axe audits have zero violations. No paid API calls.
 
 ## CUPRA Born Batch (2026-11-14)
 
