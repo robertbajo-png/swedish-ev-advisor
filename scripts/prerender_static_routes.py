@@ -219,6 +219,11 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         wltp = row.get("wltp_range_km")
         range_label = 'Tillverkarens WLTP-räckviddsmål' if (row.get('brand') == 'Polestar' and row.get('model') == '4'
             and row.get('variant_name') == 'Dual motor' and 'Räckviddsmål (WLTP)' in row.get('source_quote', '')) else 'WLTP-räckvidd'
+        if (row.get('brand') == 'Kia' and row.get('model') == 'Ev3'
+                and row.get('variant_name') in ('EV3 Plus AWD Long Range', 'EV3 GT Line AWD Long Range')
+                and re.search(r'9VW5YGZ7Z-(?:LX3|SX2)', row.get('source_quote', ''))
+                and '(AWD, Preliminär information i väntan på homologering)' in row.get('source_quote', '')):
+            range_label = 'Preliminärt WLTP-räckviddsmål'
         description_parts = [name]
         if price:
             price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')

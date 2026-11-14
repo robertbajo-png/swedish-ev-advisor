@@ -7,9 +7,24 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from kia_ev3_completion_intake import extract,engine_data,VERSIONS
 from variant_refresh import RefreshError
+from prerender_static_routes import public_variant_routes
 
 
 class Ev3CompletionTests(unittest.TestCase):
+    def test_search_metadata_preserves_preliminary_awd_and_decimal_ac(self):
+        snapshot=json.loads((Path(__file__).resolve().parents[1]/'public/data/public_ev_variants.json').read_text(encoding='utf8'))
+        rows=[r for r in snapshot['records'] if r['brand']=='Kia' and r['model']=='Ev3']
+        self.assertEqual(len(rows),7)
+        for row in rows:
+            with self.subTest(variant=row['variant_name']):
+                route=public_variant_routes([row])[0]
+                properties=route['json_ld'][0]['additionalProperty']
+                label='Preliminärt WLTP-räckviddsmål' if row['variant_name'] in ('EV3 Plus AWD Long Range','EV3 GT Line AWD Long Range') else 'WLTP-räckvidd'
+                self.assertEqual(properties[0]['name'],label)
+                self.assertEqual(properties[0]['value'],f"{row['wltp_range_km']} km")
+                self.assertIn(label,route['description'])
+                self.assertEqual(next(p['value'] for p in properties if p['name']=='AC-laddning'),'10.5 kW')
+
     def setUp(self):
         self.p=json.loads((Path(__file__).parent/'fixtures/kia_ev3_completion_packets.json').read_text(encoding='utf8'))
         self.now=max(datetime.fromisoformat(p['source']['fetched_at']) for p in self.p.values())
