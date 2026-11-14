@@ -6,6 +6,7 @@ import {buildSpecPlan,applySpecPlan,specPlanHash,validateSpecDraft,urls} from '.
 import {TECHNICAL_FIELDS} from './kia_spec_sync.mjs';
 import {specQualifications} from '../src/spec-qualifications.js';
 import {matchAdvisorVariants,ruleRequirements} from '../src/advisor-matching.js';
+import {normalizePublicVariants} from '../functions/_shared/advisor-core.mjs';
 const intake=JSON.parse(await readFile('tests/fixtures/kia_ev3_completion.json','utf8'));
 const snapshot=JSON.parse(await readFile('public/data/public_ev_variants.json','utf8'));
 const now=new Date(Math.max(...intake.drafts.flatMap(r=>[r.source,...r.supporting_sources].map(s=>Date.parse(s.fetched_at)))));
@@ -79,7 +80,15 @@ try{
  const requirements={...ruleRequirements({budget:700000,range:500,need:'allround'}),awd_required:true};
  const matched=matchAdvisorVariants(current,requirements,{asOf:'2026-11-14'});
  assert.equal(matched.matching_count,1);assert.equal(matched.excluded_unknown_count,2);assert.equal(matched.shortlist[0].variant_name,gt.variant_name);
+ // PostgREST transports timestamps as JSON strings, unlike PGlite's Date objects.
+ const normalized=normalizePublicVariants(JSON.parse(JSON.stringify(current)));
+ assert.equal(normalized.length,7);
+ assert.equal(normalized.filter(r=>r.wltp_range_is_target).length,2);
+ const normalizedMatch=matchAdvisorVariants(normalized,requirements,{asOf:'2026-11-14'});
+ assert.equal(normalizedMatch.matching_count,1);assert.equal(normalizedMatch.excluded_unknown_count,2);
+ assert.equal(normalizedMatch.shortlist[0].variant_name,gt.variant_name);
  assert.equal(matchAdvisorVariants(current,{...requirements,awd_required:false,min_wltp_range_km:null},{asOf:'2026-12-01'}).matching_count,0);
+ assert.equal(matchAdvisorVariants(normalized,{...requirements,awd_required:false,min_wltp_range_km:null},{asOf:'2026-12-01'}).matching_count,0);
  assert.equal((await db.query('SELECT count(*)::int n FROM extracted_variant_drafts')).rows[0].n,7);
  await assert.rejects(applySpecPlan(db,plan,specPlanHash(plan),now));
  if(process.argv.includes('--preview')){

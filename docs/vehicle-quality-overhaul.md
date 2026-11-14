@@ -11,7 +11,7 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | --- | --- | --- |
 | 1. Exact-version research | Complete | All seven exact Swedish trim/engine identities, November cash prices, wheel-bound FWD values, preliminary AWD and separate292hp GT sources bound. |
 | 2. Canonical completion | Prepared privately |63 facts across seven profiles,39 gaps to fill, SUV classification and price evidence; original routes/photo preserved. No production writes; migration023 awaits owner approval. |
-| 3. Regression and visual QA | In progress |56 brand extraction tests,10 generic refresh tests, all prior sync suites, new seven-profile transaction/rollback/replay/price/source/target tests and decimal migration tests pass. Production build passes; private fixture visual QA underway. |
+| 3. Regression and visual QA | Final checks |56 brand extraction tests,10 generic refresh tests, all prior sync suites, seven-profile transaction/rollback/replay/price/source/target tests, decimal migration tests and the edge advisor contract pass. Normalized API rows preserve both target qualifiers and expired list-price exclusions. Production build and90 static routes pass; final private fixture visual checks and draft CI are pending. |
 | 4. Publication | Not started | No merge, migration installation or public data changes before approval and final checks. |
 
 No paid AI, migrations, new news articles, news controls/budgets, infrastructure
