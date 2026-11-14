@@ -95,7 +95,7 @@ const policy={adapter:ADAPTER,validate:validateSpecDraft,sourceType:r=>isGt(r)?'
  supportingSource:s=>{
   const key=Object.keys(urls).find(k=>urls[k]===s.final_url);if(!key||['gt','technical'].includes(key))return null;
   const shared=['energy','price_pdf'].includes(key);
-  return {model:shared?null:key==='specifications'?'EV3':'Ev3',shared,sourceType:key==='price_pdf'?'price_list_pdf':s.final_url.endsWith('.pdf')?'technical_pdf':'manufacturer_page',
+  return {model:shared?'*':key==='specifications'?'EV3':'Ev3',shared,sourceType:key==='price_pdf'?'price_list_pdf':s.final_url.endsWith('.pdf')?'technical_pdf':'manufacturer_page',
    title:key==='energy'?'Kia Sverige: bränsledeklaration oktober2026':key==='price_pdf'?'Kia Sverige: prislista november2026':'EV3: versionsbundna tillverkaruppgifter',
    country:key==='poland'?'PL':key==='gt_germany'?'DE':'SE',language:key==='poland'?'pl':key==='gt_germany'?'de':'sv',
    sourceName:key==='poland'?'Kia Polen':key==='gt_germany'?'Kia Tyskland':'Kia Sverige'};

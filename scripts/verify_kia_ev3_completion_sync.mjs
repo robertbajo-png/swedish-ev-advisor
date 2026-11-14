@@ -19,7 +19,7 @@ try{
  review_approved_by text,review_promoted_at text,price_sek int,price_type text,price_valid_until date,
  price_source_url text,price_source_hash text,price_source_quote text,price_verified_at timestamptz,price_source_name text,price_refresh_batch_id text,
  ${columns},source_id text,source_url text,source_hash text,source_quote text,extraction_confidence numeric,updated_at timestamptz);
- CREATE TABLE manufacturer_sources(id text primary key default gen_random_uuid()::text,canonical_model_id text,brand text,model text,
+ CREATE TABLE manufacturer_sources(id text primary key default gen_random_uuid()::text,canonical_model_id text,brand text NOT NULL,model text NOT NULL,
  source_type text,url text unique,title text,country text,language text,fetched_at timestamptz,content_hash text,http_status int,
  final_url text,source_validation text,source_authority text,source_name text,extraction_status text,verified_at timestamptz,updated_at timestamptz);
  CREATE TABLE extracted_variant_drafts(canonical_model_id text,source_id text,brand text,model text,variant_name text,${columns},
@@ -39,7 +39,10 @@ try{
   const baseline=snapshot.records.find(x=>x.brand===r.brand&&x.model===r.model&&x.variant_name===r.variant_name);assert(baseline);
   const fields=['id','canonical_model_id','variant_name','validation_status','price_sek','price_type','price_valid_until',
    'price_source_url','price_source_hash','price_source_quote','price_verified_at','price_source_name',...TECHNICAL_FIELDS,'ac_charge_kw'];
-  const row={...baseline,id:'ev3-'+i,canonical_model_id:'ev3'};
+  // Keep the legacy-gap scenario reproducible after the public snapshot is completed.
+  const gaps=i<4?['wltp_consumption_kwh_100km','ac_charge_kw','seats']:[...TECHNICAL_FIELDS,'ac_charge_kw'];
+  const row={...baseline,id:'ev3-'+i,canonical_model_id:'ev3',price_valid_until:null,
+   ...Object.fromEntries(gaps.map(field=>[field,null]))};
   await db.query('INSERT INTO canonical_model_variants('+fields.join(',')+') VALUES('+fields.map((_,i)=>'$'+(i+1)).join(',')+')',fields.map(f=>row[f]??null));
  }
  const joined=async()=>(await db.query('SELECT v.*,m.brand,m.model FROM canonical_model_variants v JOIN canonical_models m ON m.id=v.canonical_model_id ORDER BY v.id')).rows;
@@ -74,6 +77,7 @@ try{
  assert.equal(sources.find(s=>s.url===urls.gt).source_type,'manufacturer_model_page');
  assert.equal(sources.find(s=>s.url===urls.technical).source_type,'technical_pdf');
  assert.equal(sources.find(s=>s.url===urls.energy).canonical_model_id,null);
+ for(const url of [urls.energy,urls.price_pdf])assert.equal(sources.find(s=>s.url===url).model,'*');
  const target=current.find(r=>r.variant_name==='EV3 Plus AWD Long Range');assert(specQualifications(target).rangeIsTarget);
  assert.match(specQualifications(target).rangeNote,/preliminär/);
  const gt=current.find(r=>r.variant_name.includes('(292hk)'));assert(!specQualifications(gt).rangeIsTarget);assert.match(specQualifications(gt).consumptionNote,/17,1/);
