@@ -46,6 +46,7 @@ jobs:
       - run: bun run verify:decimal-ac
       - run: bun run verify:ev3-completion-sync
       - run: bun run verify:ev4-completion-sync
+      - run: bun run verify:ev5-completion-sync
       - run: bun run verify:ui-navigation
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
@@ -167,6 +168,7 @@ jobs:
       - run: bun run verify:bmw-specs
       - run: bun run verify:ev3-completion
       - run: bun run verify:ev4-completion
+      - run: bun run verify:ev5-completion
       - run: bun run verify:vehicle-quality
       - run: bun run verify:kia-specs
       - run: bun run verify:kia-spec-sync

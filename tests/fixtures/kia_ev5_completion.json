@@ -1,0 +1,1098 @@
+{
+  "adapter": "kia_ev5_sweden_completion_v1",
+  "drafts": [
+    {
+      "adapter": "kia_ev5_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_name": "EV5 FWD",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+        "content_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+        "fetched_at": "2026-11-14T19:25:11.679412+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "fetched_at": "2026-11-14T19:25:13.514741+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "content_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "fetched_at": "2026-11-14T19:25:14.875519+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "content_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "fetched_at": "2026-11-14T19:25:17.975071+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T19:25:19.825052+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T19:25:21.369810+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "content_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "fetched_at": "2026-11-14T19:25:24.063891+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "content_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "fetched_at": "2026-11-14T19:25:27.786861+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev5_my27_powertrain_wheel_and_panorama_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 552,
+        "wltp_consumption_kwh_100km": 16.0,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1200,
+        "boot_liters": 566,
+        "drivetrain": "FWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Batterikapacitet (kWh) 81.4 81.4",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 552,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till): FWD 552km, (534km GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.0,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 16,0 (16,6 GT Line) 17,2 (18,1 GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "DC snabbladdning max kW 150",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1200,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 200 1 800",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 566,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / Nedfällt / Frunk 566 / 1 650 / 44",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV5 FWD",
+          "column_header": "EV5 FWD | X9W5ZHZ7Z-LX1 | 18 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "quote": "X9W5ZHZ7Z-LX1 | Elmotor 218hk FWD (El , Elektrisk); 160 KW (218 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "source_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "quote": "Upptäck Kia EV5 AWD, en el-SUV med gott om utrymme"
+        }
+      },
+      "price_evidence": {
+        "value": 554900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV5 FWD Long Range 554,900 kr 6,495 kr",
+        "classification": "dated_november_swedish_list_not_undated_engine_or_lease",
+        "alternative": {
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "engine_code": "X9W5ZHZ7Z-LX1",
+          "embedded_price": 553900,
+          "reason": "undated_engine_price_1000_below_dated_november_pdf"
+        }
+      },
+      "price_alternative": {
+        "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+        "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+        "engine_code": "X9W5ZHZ7Z-LX1",
+        "embedded_price": 553900,
+        "reason": "undated_engine_price_1000_below_dated_november_pdf"
+      },
+      "source_decisions": [
+        "Preserve five existing canonical identities/routes and all price amounts. EV5 FWD is the explicit alias of Swedish EV5 FWD Long Range.",
+        "Swedish14October2026 MY2027 PDF supplies18inch FWD552/16.0 and PlusAWD513/17.2,19inch GTLine491/18.1; do not select old foreign530/484 or generic footer16.9/18.2.",
+        "FWD engine JSON218hk and PDF217hk both identify160kW/X9W5; do not infer another motor from horsepower rounding or borrow204hp EV5 energy-declaration typo.",
+        "GTLinePanorama is the documented GTLineAWD option: exact November658900/670900 price pair plus PDF optional Panoramaglastak; use qualified group maxima, not an invented individual homologation.",
+        "Swedish nested X9/W5 trim/engine groups bind five seats; GT225kW306hp is separate from regularAWD195kW265hp.",
+        "Swedish GT block supplies476km/81.4kWh/1800kg. October306hp energy row supplies18.6; German same-GT table supplies DC150 and seats-up boot566 including double floor.",
+        "Polish manufacturer PDF page15 explicitly includes81.4kWh AWD GT306hp and standard onboardAC10.5; optional22K is not standard. German AC11 supply timing is not selected as exact onboard maximum.",
+        "All four regular versions use explicit Swedish onboardAC10.5, DC150, boot566 with seats up excluding44frunk/1650folded, tow1200FWD/1800AWD.",
+        "Choose dated Swedish November1-30 list PDF over undated embedded prices1000SEK lower; store both observations. Never use lease6xxx/7xxx, paint20000 or foreign offers as cash list price.",
+        "Preserve shared price/energy source model* and uppercase EV5 labels for existing model/spec pages. Leave unrelated old EV4 price HTML source unchanged.",
+        "Retain exact EV5 Baseline press photo and full frame with model/equipment notice, not a claim of GT equipment. Foreign evidence retains PL/pl and DE/de labels."
+      ]
+    },
+    {
+      "adapter": "kia_ev5_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_name": "EV5 Plus AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+        "content_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+        "fetched_at": "2026-11-14T19:25:11.679412+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "fetched_at": "2026-11-14T19:25:13.514741+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "content_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "fetched_at": "2026-11-14T19:25:14.875519+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "content_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "fetched_at": "2026-11-14T19:25:17.975071+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T19:25:19.825052+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T19:25:21.369810+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "content_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "fetched_at": "2026-11-14T19:25:24.063891+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "content_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "fetched_at": "2026-11-14T19:25:27.786861+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev5_my27_powertrain_wheel_and_panorama_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 513,
+        "wltp_consumption_kwh_100km": 17.2,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 566,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Batterikapacitet (kWh) 81.4 81.4",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 513,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till): AWD 513km, (491km GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.2,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 16,0 (16,6 GT Line) 17,2 (18,1 GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "DC snabbladdning max kW 150",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 200 1 800",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 566,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / Nedfällt / Frunk 566 / 1 650 / 44",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV5 Plus AWD Long Range",
+          "column_header": "EV5 Plus AWD Long Range | X9W5YLZ7Z-SX1_V00 | 18 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "quote": "X9W5YLZ7Z-SX1_V00 | Elmotor 265hk AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "source_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "quote": "Upptäck Kia EV5 AWD, en el-SUV med gott om utrymme"
+        }
+      },
+      "price_evidence": {
+        "value": 624900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV5 Plus AWD Long Range 624,900 kr 7,295 kr",
+        "classification": "dated_november_swedish_list_not_undated_engine_or_lease",
+        "alternative": {
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "engine_code": "X9W5YLZ7Z-SX1_V00",
+          "embedded_price": 623900,
+          "reason": "undated_engine_price_1000_below_dated_november_pdf"
+        }
+      },
+      "price_alternative": {
+        "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+        "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+        "engine_code": "X9W5YLZ7Z-SX1_V00",
+        "embedded_price": 623900,
+        "reason": "undated_engine_price_1000_below_dated_november_pdf"
+      },
+      "source_decisions": [
+        "Preserve five existing canonical identities/routes and all price amounts. EV5 FWD is the explicit alias of Swedish EV5 FWD Long Range.",
+        "Swedish14October2026 MY2027 PDF supplies18inch FWD552/16.0 and PlusAWD513/17.2,19inch GTLine491/18.1; do not select old foreign530/484 or generic footer16.9/18.2.",
+        "FWD engine JSON218hk and PDF217hk both identify160kW/X9W5; do not infer another motor from horsepower rounding or borrow204hp EV5 energy-declaration typo.",
+        "GTLinePanorama is the documented GTLineAWD option: exact November658900/670900 price pair plus PDF optional Panoramaglastak; use qualified group maxima, not an invented individual homologation.",
+        "Swedish nested X9/W5 trim/engine groups bind five seats; GT225kW306hp is separate from regularAWD195kW265hp.",
+        "Swedish GT block supplies476km/81.4kWh/1800kg. October306hp energy row supplies18.6; German same-GT table supplies DC150 and seats-up boot566 including double floor.",
+        "Polish manufacturer PDF page15 explicitly includes81.4kWh AWD GT306hp and standard onboardAC10.5; optional22K is not standard. German AC11 supply timing is not selected as exact onboard maximum.",
+        "All four regular versions use explicit Swedish onboardAC10.5, DC150, boot566 with seats up excluding44frunk/1650folded, tow1200FWD/1800AWD.",
+        "Choose dated Swedish November1-30 list PDF over undated embedded prices1000SEK lower; store both observations. Never use lease6xxx/7xxx, paint20000 or foreign offers as cash list price.",
+        "Preserve shared price/energy source model* and uppercase EV5 labels for existing model/spec pages. Leave unrelated old EV4 price HTML source unchanged.",
+        "Retain exact EV5 Baseline press photo and full frame with model/equipment notice, not a claim of GT equipment. Foreign evidence retains PL/pl and DE/de labels."
+      ]
+    },
+    {
+      "adapter": "kia_ev5_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_name": "EV5 GT Line AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+        "content_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+        "fetched_at": "2026-11-14T19:25:11.679412+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "fetched_at": "2026-11-14T19:25:13.514741+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "content_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "fetched_at": "2026-11-14T19:25:14.875519+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "content_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "fetched_at": "2026-11-14T19:25:17.975071+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T19:25:19.825052+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T19:25:21.369810+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "content_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "fetched_at": "2026-11-14T19:25:24.063891+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "content_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "fetched_at": "2026-11-14T19:25:27.786861+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev5_my27_powertrain_wheel_and_panorama_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 491,
+        "wltp_consumption_kwh_100km": 18.1,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 566,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Batterikapacitet (kWh) 81.4 81.4",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 491,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till): AWD 513km, (491km GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 18.1,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 16,0 (16,6 GT Line) 17,2 (18,1 GT Line)",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "DC snabbladdning max kW 150",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 200 1 800",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 566,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / Nedfällt / Frunk 566 / 1 650 / 44",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_powertrain_and_standard_wheels",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV5 GT Line AWD Long Range",
+          "column_header": "EV5 GT Line AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "quote": "X9W5YLZ7Z-GX1_V00 | Elmotor 265hk AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "source_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "quote": "Upptäck Kia EV5 AWD, en el-SUV med gott om utrymme"
+        }
+      },
+      "price_evidence": {
+        "value": 658900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV5 GT Line AWD Long Range 658,900 kr 7,795 kr",
+        "classification": "dated_november_swedish_list_not_undated_engine_or_lease",
+        "alternative": {
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "engine_code": "X9W5YLZ7Z-GX1_V00",
+          "embedded_price": 657900,
+          "reason": "undated_engine_price_1000_below_dated_november_pdf"
+        }
+      },
+      "price_alternative": {
+        "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+        "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+        "engine_code": "X9W5YLZ7Z-GX1_V00",
+        "embedded_price": 657900,
+        "reason": "undated_engine_price_1000_below_dated_november_pdf"
+      },
+      "source_decisions": [
+        "Preserve five existing canonical identities/routes and all price amounts. EV5 FWD is the explicit alias of Swedish EV5 FWD Long Range.",
+        "Swedish14October2026 MY2027 PDF supplies18inch FWD552/16.0 and PlusAWD513/17.2,19inch GTLine491/18.1; do not select old foreign530/484 or generic footer16.9/18.2.",
+        "FWD engine JSON218hk and PDF217hk both identify160kW/X9W5; do not infer another motor from horsepower rounding or borrow204hp EV5 energy-declaration typo.",
+        "GTLinePanorama is the documented GTLineAWD option: exact November658900/670900 price pair plus PDF optional Panoramaglastak; use qualified group maxima, not an invented individual homologation.",
+        "Swedish nested X9/W5 trim/engine groups bind five seats; GT225kW306hp is separate from regularAWD195kW265hp.",
+        "Swedish GT block supplies476km/81.4kWh/1800kg. October306hp energy row supplies18.6; German same-GT table supplies DC150 and seats-up boot566 including double floor.",
+        "Polish manufacturer PDF page15 explicitly includes81.4kWh AWD GT306hp and standard onboardAC10.5; optional22K is not standard. German AC11 supply timing is not selected as exact onboard maximum.",
+        "All four regular versions use explicit Swedish onboardAC10.5, DC150, boot566 with seats up excluding44frunk/1650folded, tow1200FWD/1800AWD.",
+        "Choose dated Swedish November1-30 list PDF over undated embedded prices1000SEK lower; store both observations. Never use lease6xxx/7xxx, paint20000 or foreign offers as cash list price.",
+        "Preserve shared price/energy source model* and uppercase EV5 labels for existing model/spec pages. Leave unrelated old EV4 price HTML source unchanged.",
+        "Retain exact EV5 Baseline press photo and full frame with model/equipment notice, not a claim of GT equipment. Foreign evidence retains PL/pl and DE/de labels."
+      ]
+    },
+    {
+      "adapter": "kia_ev5_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_name": "EV5 GT Line Panorama AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+        "content_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+        "fetched_at": "2026-11-14T19:25:11.679412+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "fetched_at": "2026-11-14T19:25:13.514741+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "content_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "fetched_at": "2026-11-14T19:25:14.875519+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "content_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "fetched_at": "2026-11-14T19:25:17.975071+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T19:25:19.825052+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T19:25:21.369810+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "content_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "fetched_at": "2026-11-14T19:25:24.063891+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "content_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "fetched_at": "2026-11-14T19:25:27.786861+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev5_my27_powertrain_wheel_and_panorama_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 491,
+        "wltp_consumption_kwh_100km": 18.1,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 566,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Batterikapacitet (kWh) 81.4 81.4",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 491,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till): AWD 513km, (491km GT Line)",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 18.1,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 16,0 (16,6 GT Line) 17,2 (18,1 GT Line)",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "DC snabbladdning max kW 150",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "Max släpvagnsvikt, bromsat släp 1 200 1 800",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 566,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / Nedfällt / Frunk 566 / 1 650 / 44",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev5/kia-sweden-ev5-specification.pdf",
+          "source_hash": "5c7960e4ef45ebadb1e2fff066a044c641569fc23216132ecf91b337bcbe7410",
+          "quote": "FWD AWD",
+          "scope": "swedish_my27_gt_line_panorama_option_group",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV5 GT Line Panorama AWD Long Range",
+          "column_header": "EV5 GT Line Panorama AWD Long Range | X9W5YLZ7Z-GX1_V00 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "quote": "X9W5YLZ7Z-GX1_V00 | Elmotor 265hk AWD (El , Elektrisk); 195 KW (265 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_engine_and_panorama_option",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "source_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "quote": "Upptäck Kia EV5 AWD, en el-SUV med gott om utrymme"
+        }
+      },
+      "price_evidence": {
+        "value": 670900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV5 GT Line Panorama AWD Long Range 670,900 kr 7,995 kr",
+        "classification": "dated_november_swedish_list_not_undated_engine_or_lease",
+        "alternative": {
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "engine_code": "X9W5YLZ7Z-GX1_V00",
+          "embedded_price": 657900,
+          "reason": "undated_base_trim_price_excludes_panorama_total"
+        }
+      },
+      "price_alternative": {
+        "source_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+        "source_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+        "engine_code": "X9W5YLZ7Z-GX1_V00",
+        "embedded_price": 657900,
+        "reason": "undated_base_trim_price_excludes_panorama_total"
+      },
+      "source_decisions": [
+        "Preserve five existing canonical identities/routes and all price amounts. EV5 FWD is the explicit alias of Swedish EV5 FWD Long Range.",
+        "Swedish14October2026 MY2027 PDF supplies18inch FWD552/16.0 and PlusAWD513/17.2,19inch GTLine491/18.1; do not select old foreign530/484 or generic footer16.9/18.2.",
+        "FWD engine JSON218hk and PDF217hk both identify160kW/X9W5; do not infer another motor from horsepower rounding or borrow204hp EV5 energy-declaration typo.",
+        "GTLinePanorama is the documented GTLineAWD option: exact November658900/670900 price pair plus PDF optional Panoramaglastak; use qualified group maxima, not an invented individual homologation.",
+        "Swedish nested X9/W5 trim/engine groups bind five seats; GT225kW306hp is separate from regularAWD195kW265hp.",
+        "Swedish GT block supplies476km/81.4kWh/1800kg. October306hp energy row supplies18.6; German same-GT table supplies DC150 and seats-up boot566 including double floor.",
+        "Polish manufacturer PDF page15 explicitly includes81.4kWh AWD GT306hp and standard onboardAC10.5; optional22K is not standard. German AC11 supply timing is not selected as exact onboard maximum.",
+        "All four regular versions use explicit Swedish onboardAC10.5, DC150, boot566 with seats up excluding44frunk/1650folded, tow1200FWD/1800AWD.",
+        "Choose dated Swedish November1-30 list PDF over undated embedded prices1000SEK lower; store both observations. Never use lease6xxx/7xxx, paint20000 or foreign offers as cash list price.",
+        "Preserve shared price/energy source model* and uppercase EV5 labels for existing model/spec pages. Leave unrelated old EV4 price HTML source unchanged.",
+        "Retain exact EV5 Baseline press photo and full frame with model/equipment notice, not a claim of GT equipment. Foreign evidence retains PL/pl and DE/de labels."
+      ]
+    },
+    {
+      "adapter": "kia_ev5_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev5",
+      "variant_name": "EV5 GT (306hk) AWD Long Range",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/upptack/",
+        "content_hash": "ab658aee7be03cbb7abf5cbcffe6082caf608d6e2303867fa70c0dfe56db2790",
+        "fetched_at": "2026-11-14T19:25:16.371862+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/specifikationer/",
+          "content_hash": "7ff0d20fc713ada239f90067f53588f2b4211c3bd2893d0a65415a4050126d4f",
+          "fetched_at": "2026-11-14T19:25:13.514741+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "content_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "fetched_at": "2026-11-14T19:25:14.875519+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "content_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "fetched_at": "2026-11-14T19:25:17.975071+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-14T19:25:19.825052+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-14T19:25:21.369810+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "content_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "fetched_at": "2026-11-14T19:25:24.063891+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "content_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "fetched_at": "2026-11-14T19:25:27.786861+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev5_my27_powertrain_wheel_and_panorama_not_gt_line_as_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 81.4,
+        "wltp_range_km": 476,
+        "wltp_consumption_kwh_100km": 18.6,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 566,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 81.4,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/upptack/",
+          "source_hash": "ab658aee7be03cbb7abf5cbcffe6082caf608d6e2303867fa70c0dfe56db2790",
+          "quote": "EV5 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 30 minuter Motoreffekt: 225 kW / 306 hk Max släpvagnsvikt, bromsat släp: 1,800 kg 0-100 km/h: 6.2 sekunder Toppfart: 180 km/h Max räckvidd (km) enligt WLTP (Upp till): 476 km",
+          "scope": "swedish_306hp_gt_not_gt_line",
+          "page": null
+        },
+        "wltp_range_km": {
+          "value": 476,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/upptack/",
+          "source_hash": "ab658aee7be03cbb7abf5cbcffe6082caf608d6e2303867fa70c0dfe56db2790",
+          "quote": "EV5 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 30 minuter Motoreffekt: 225 kW / 306 hk Max släpvagnsvikt, bromsat släp: 1,800 kg 0-100 km/h: 6.2 sekunder Toppfart: 180 km/h Max räckvidd (km) enligt WLTP (Upp till): 476 km",
+          "scope": "swedish_306hp_gt_not_gt_line",
+          "page": null
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 18.6,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "quote": "EV5 | Elmotor 306hk AWD LR | 18,6 kWh",
+          "scope": "swedish_october_306hp_gt_not_204hp_footer",
+          "page": 1
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "source_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "quote": "Motor 81,4 kWh AWD | Leistung max. (kW/PS) 225/306 | Max. DC-Ladeleistung (kW) 150",
+          "scope": "german_same_225kw_gt_nominal_peak",
+          "page": 10
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/pl/pl/assets/contents/utility/Price_list/ev5/Cennik_EV5_MY26-1_RP26_2026-06-18.pdf",
+          "source_hash": "b3666b2e9acb4c6cc30e6dbba50f6761122eb7ee5c6f5d027ce590ae790b1dcf",
+          "quote": "81.4 kWh AWD GT | Maksymalna moc ładowarki pokładowej [kW] 10.5 / 22 (z pakietem 22K)",
+          "scope": "polish_same_306hp_gt_standard_not_22K",
+          "page": 15
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/upptack/",
+          "source_hash": "ab658aee7be03cbb7abf5cbcffe6082caf608d6e2303867fa70c0dfe56db2790",
+          "quote": "EV5 GT Batterikapacitet: 81.4 kWh Laddningstid (min. DC 10-80%): 30 minuter Motoreffekt: 225 kW / 306 hk Max släpvagnsvikt, bromsat släp: 1,800 kg 0-100 km/h: 6.2 sekunder Toppfart: 180 km/h Max räckvidd (km) enligt WLTP (Upp till): 476 km",
+          "scope": "swedish_306hp_gt_not_gt_line",
+          "page": null
+        },
+        "boot_liters": {
+          "value": 566,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV5-GT-Preisliste.pdf",
+          "source_hash": "9d3853cdce8376464e25926bb3aa6537b75d0f19d354abfce49828a7a450ea70",
+          "quote": "Motor 81,4 kWh AWD | Laderaumvolumen bei aufgestellter Rücksitzbank, mit Einrechnung des doppelten Bodens 566",
+          "scope": "german_same_gt_seats_up_including_double_floor",
+          "page": 11
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "source_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "quote": "X9W5YRZ7Z-GX2 | Elmotor 306hk AWD (El , Elektrisk); 225 KW (306 hk)",
+          "scope": "exact_swedish_nested_gt_drivetrain",
+          "page": null
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV5 GT (306hk) AWD Long Range",
+          "column_header": "EV5 GT (306hk) AWD Long Range | X9W5YRZ7Z-GX2 | 20 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "source_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "quote": "X9W5YRZ7Z-GX2 | Elmotor 306hk AWD (El , Elektrisk); 225 KW (306 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5/upptack/",
+          "source_hash": "58e24423f62b8db19663bf28735eb18b5446e07dd24d3c20016d9cb5f384e80d",
+          "quote": "Upptäck Kia EV5 AWD, en el-SUV med gott om utrymme"
+        }
+      },
+      "price_evidence": {
+        "value": 700900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV5 GT (306hk) AWD Long Range 700,900 kr",
+        "classification": "dated_november_swedish_list_not_undated_engine_or_lease",
+        "alternative": {
+          "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+          "source_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+          "engine_code": "X9W5YRZ7Z-GX2",
+          "embedded_price": 699900,
+          "reason": "undated_engine_price_1000_below_dated_november_pdf"
+        }
+      },
+      "price_alternative": {
+        "source_url": "https://www.kia.com/se/nya-bilar/ev5-gt/specifikationer/",
+        "source_hash": "2b16353c0a1cb496e672a293af96e46f2234c65e02ac3098156f420777b0e968",
+        "engine_code": "X9W5YRZ7Z-GX2",
+        "embedded_price": 699900,
+        "reason": "undated_engine_price_1000_below_dated_november_pdf"
+      },
+      "source_decisions": [
+        "Preserve five existing canonical identities/routes and all price amounts. EV5 FWD is the explicit alias of Swedish EV5 FWD Long Range.",
+        "Swedish14October2026 MY2027 PDF supplies18inch FWD552/16.0 and PlusAWD513/17.2,19inch GTLine491/18.1; do not select old foreign530/484 or generic footer16.9/18.2.",
+        "FWD engine JSON218hk and PDF217hk both identify160kW/X9W5; do not infer another motor from horsepower rounding or borrow204hp EV5 energy-declaration typo.",
+        "GTLinePanorama is the documented GTLineAWD option: exact November658900/670900 price pair plus PDF optional Panoramaglastak; use qualified group maxima, not an invented individual homologation.",
+        "Swedish nested X9/W5 trim/engine groups bind five seats; GT225kW306hp is separate from regularAWD195kW265hp.",
+        "Swedish GT block supplies476km/81.4kWh/1800kg. October306hp energy row supplies18.6; German same-GT table supplies DC150 and seats-up boot566 including double floor.",
+        "Polish manufacturer PDF page15 explicitly includes81.4kWh AWD GT306hp and standard onboardAC10.5; optional22K is not standard. German AC11 supply timing is not selected as exact onboard maximum.",
+        "All four regular versions use explicit Swedish onboardAC10.5, DC150, boot566 with seats up excluding44frunk/1650folded, tow1200FWD/1800AWD.",
+        "Choose dated Swedish November1-30 list PDF over undated embedded prices1000SEK lower; store both observations. Never use lease6xxx/7xxx, paint20000 or foreign offers as cash list price.",
+        "Preserve shared price/energy source model* and uppercase EV5 labels for existing model/spec pages. Leave unrelated old EV4 price HTML source unchanged.",
+        "Retain exact EV5 Baseline press photo and full frame with model/equipment notice, not a claim of GT equipment. Foreign evidence retains PL/pl and DE/de labels."
+      ]
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}
