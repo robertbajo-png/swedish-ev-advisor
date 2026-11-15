@@ -48,6 +48,7 @@ jobs:
       - run: bun run verify:ev4-completion-sync
       - run: bun run verify:ev5-completion-sync
       - run: bun run verify:ev6-completion-sync
+      - run: bun run verify:ev9-completion-sync
       - run: bun run verify:ui-navigation
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
@@ -171,6 +172,8 @@ jobs:
       - run: bun run verify:ev4-completion
       - run: bun run verify:ev5-completion
       - run: bun run verify:ev6-completion
+      - run: bun run verify:ev9-completion
+      - run: bun run verify:expansion-preflight
       - run: bun run verify:vehicle-quality
       - run: bun run verify:kia-specs
       - run: bun run verify:kia-spec-sync
@@ -213,6 +216,7 @@ jobs:
           bun run verify:home-ui
           bun run verify:vehicle-ui
           bun run verify:ev6-ui
+          bun run verify:ev9-ui
           bun run verify:vehicle-redirects-ui
           bun run verify:price-evidence-ui
           bun run verify:journal-ui

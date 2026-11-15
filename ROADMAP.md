@@ -157,6 +157,13 @@ Exit criteria:
 
 ## Expansion Wave - Market Ranks 31-60
 
+Current quality-first execution order (15 November 2026):
+[`docs/catalog-expansion-quality-plan.md`](docs/catalog-expansion-quality-plan.md).
+Finish existing EV9 profiles, refresh the dated market index, then add ten
+complete models in two five-model waves. Use the current public snapshot for
+exclusions; the legacy broad seed/sync runner is not production approval.
+New SEO work is deferred by the owner.
+
 Goal: Reuse the validated MVP pipeline to expand public coverage with free web sources.
 
 Deliverables:

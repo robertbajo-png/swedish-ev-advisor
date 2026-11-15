@@ -1,0 +1,766 @@
+{
+  "adapter": "kia_ev9_sweden_completion_v1",
+  "drafts": [
+    {
+      "adapter": "kia_ev9_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev9",
+      "variant_name": "EV9 RWD 7-SITS",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+        "content_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+        "fetched_at": "2026-11-15T16:20:25.272265+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "content_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "fetched_at": "2026-11-15T16:20:27.226486+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "content_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "fetched_at": "2026-11-15T16:20:28.597632+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf",
+          "content_hash": "ef84836660ee32afd068f66a4cfdd2958b13d48d506d95d7563030c67ca4bb62",
+          "fetched_at": "2026-11-15T16:20:30.936634+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T16:20:33.739351+00:00"
+        }
+      ],
+      "source_resolution": "swedish_ev9_218_384hp_19_21inch_separate_six_seven_seats",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 76.1,
+        "ac_charge_kw": 10.5,
+        "dc_charge_kw": 210,
+        "wltp_range_km": 443,
+        "wltp_consumption_kwh_100km": 18.7,
+        "tow_kg": 900,
+        "boot_liters": 333,
+        "drivetrain": "RWD",
+        "seats": 7
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 76.1,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Batterikapacitet (kWh) 76.1 99.8",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "dc_charge_kw": {
+          "value": 210,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "DC snabbladdning max 210kW",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_range_km": {
+          "value": 443,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max räckvidd (km) enligt WLTP (upp till) upp till 443* * upp till 512 (19\"), 505 (21\")**",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 18.7,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 18,7 22,2 (19\") 22,8 (21\")",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "tow_kg": {
+          "value": 900,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 450 / 900 750 / 2 500",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "boot_liters": {
+          "value": 333,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "BAGAGEUTRYMME 2-sits / 5-sits / 7-sits / under framhuv (liter) 2 318 / 828 / 333 / 52",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "MOTOR Standard Range Long Range RWD AWD",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "seats": {
+          "value": 7,
+          "variant_name": "EV9 RWD 7-SITS",
+          "column_header": "EV9 RWD 7-SITS | DOW7ZHZ7Z-LX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "quote": "DOW7ZHZ7Z-LX2 | Elmotor 218hk RWD (El , Elektrisk); 160 KW (218 hk) | number of seats 7",
+          "page": null,
+          "scope": "exact_swedish_flat_trim_engine"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "source_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "quote": "Kia EV9 är en robust, rymlig och helt elektrifierad SUV"
+        }
+      },
+      "price_evidence": {
+        "value": 701900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV9 RWD 7-SITS 701,900 kr 10,363 kr",
+        "classification": "dated_november_swedish_cash_over_undated_engine",
+        "alternatives": [
+          {
+            "value": 701900,
+            "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+            "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+            "quote": "DOW7ZHZ7Z-LX2 | price 701900"
+          }
+        ]
+      },
+      "source_decisions": [
+        "Keep all four exact existing identities/routes and cash amounts; GT Line384hp is not EV9GT508hp.",
+        "Swedish dated20August2026 technical columns:76.1kWh RWD218hp and99.8kWh AWD384hp. No German563km99.8RWD or EPA/city substitution.",
+        "Standard19inch:443km/18.7RWD and512km/22.2AWD. GT Line21inch505km/22.8 applies to both six and seven seats; manufacturer maximum, not individually measured option configuration.",
+        "Swedish DO/W7 andDO/W6 exact engine IDs establish seven versus six seats, not engineCategory7 or door count.",
+        "Swedish boot333L explicitly covers seven seats in use. German same-body VDA table also explicitly covers six seats, all upright including underfloor. Not828,2393folded or52frunk.",
+        "OnboardAC10.5 is not nominal supply11; maximumDC210 is not the250kW minimum station supply in the charge-time condition.",
+        "Bromsad tow900RWD/2500AWD, not B-licence750, unbraked450/750, ball load or roof load.",
+        "November1-30 cash list takes precedence over undated web prices. Six-seatGTLine web897900 conflicts with dated909900: retain alternate, selected exact dated909900 unchanged.",
+        "German evidence only supplies six-seat boot scope; retain source localeDE/de, no German prices, availability or consumption.",
+        "Preserve shared price source model*, uppercaseEV9 legacy model/spec pages and approved exact-model press photo. Equipment/colour may differ."
+      ]
+    },
+    {
+      "adapter": "kia_ev9_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev9",
+      "variant_name": "EV9 AWD",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+        "content_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+        "fetched_at": "2026-11-15T16:20:25.272265+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "content_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "fetched_at": "2026-11-15T16:20:27.226486+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "content_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "fetched_at": "2026-11-15T16:20:28.597632+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf",
+          "content_hash": "ef84836660ee32afd068f66a4cfdd2958b13d48d506d95d7563030c67ca4bb62",
+          "fetched_at": "2026-11-15T16:20:30.936634+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T16:20:33.739351+00:00"
+        }
+      ],
+      "source_resolution": "swedish_ev9_218_384hp_19_21inch_separate_six_seven_seats",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 99.8,
+        "ac_charge_kw": 10.5,
+        "dc_charge_kw": 210,
+        "wltp_range_km": 512,
+        "wltp_consumption_kwh_100km": 22.2,
+        "tow_kg": 2500,
+        "boot_liters": 333,
+        "drivetrain": "AWD",
+        "seats": 7
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 99.8,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Batterikapacitet (kWh) 76.1 99.8",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "dc_charge_kw": {
+          "value": 210,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "DC snabbladdning max 210kW",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_range_km": {
+          "value": 512,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max räckvidd (km) enligt WLTP (upp till) upp till 443* * upp till 512 (19\"), 505 (21\")**",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 22.2,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 18,7 22,2 (19\") 22,8 (21\")",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "tow_kg": {
+          "value": 2500,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 450 / 900 750 / 2 500",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "boot_liters": {
+          "value": 333,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "BAGAGEUTRYMME 2-sits / 5-sits / 7-sits / under framhuv (liter) 2 318 / 828 / 333 / 52",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "MOTOR Standard Range Long Range RWD AWD",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "seats": {
+          "value": 7,
+          "variant_name": "EV9 AWD",
+          "column_header": "EV9 AWD | DOW7YBZ7Z-TX2 | 19 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "quote": "DOW7YBZ7Z-TX2 | Elmotor 384hk AWD (El , Elektrisk); 282 KW (384 hk) | number of seats 7",
+          "page": null,
+          "scope": "exact_swedish_flat_trim_engine"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "source_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "quote": "Kia EV9 är en robust, rymlig och helt elektrifierad SUV"
+        }
+      },
+      "price_evidence": {
+        "value": 819900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV9 AWD 7-SITS Long Range 819,900 kr 11,665 kr",
+        "classification": "dated_november_swedish_cash_over_undated_engine",
+        "alternatives": [
+          {
+            "value": 819900,
+            "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+            "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+            "quote": "DOW7YBZ7Z-TX2 | price 819900"
+          }
+        ]
+      },
+      "source_decisions": [
+        "Keep all four exact existing identities/routes and cash amounts; GT Line384hp is not EV9GT508hp.",
+        "Swedish dated20August2026 technical columns:76.1kWh RWD218hp and99.8kWh AWD384hp. No German563km99.8RWD or EPA/city substitution.",
+        "Standard19inch:443km/18.7RWD and512km/22.2AWD. GT Line21inch505km/22.8 applies to both six and seven seats; manufacturer maximum, not individually measured option configuration.",
+        "Swedish DO/W7 andDO/W6 exact engine IDs establish seven versus six seats, not engineCategory7 or door count.",
+        "Swedish boot333L explicitly covers seven seats in use. German same-body VDA table also explicitly covers six seats, all upright including underfloor. Not828,2393folded or52frunk.",
+        "OnboardAC10.5 is not nominal supply11; maximumDC210 is not the250kW minimum station supply in the charge-time condition.",
+        "Bromsad tow900RWD/2500AWD, not B-licence750, unbraked450/750, ball load or roof load.",
+        "November1-30 cash list takes precedence over undated web prices. Six-seatGTLine web897900 conflicts with dated909900: retain alternate, selected exact dated909900 unchanged.",
+        "German evidence only supplies six-seat boot scope; retain source localeDE/de, no German prices, availability or consumption.",
+        "Preserve shared price source model*, uppercaseEV9 legacy model/spec pages and approved exact-model press photo. Equipment/colour may differ."
+      ]
+    },
+    {
+      "adapter": "kia_ev9_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev9",
+      "variant_name": "EV9 AWD GT Line 7-sits",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+        "content_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+        "fetched_at": "2026-11-15T16:20:25.272265+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "content_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "fetched_at": "2026-11-15T16:20:27.226486+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "content_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "fetched_at": "2026-11-15T16:20:28.597632+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf",
+          "content_hash": "ef84836660ee32afd068f66a4cfdd2958b13d48d506d95d7563030c67ca4bb62",
+          "fetched_at": "2026-11-15T16:20:30.936634+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T16:20:33.739351+00:00"
+        }
+      ],
+      "source_resolution": "swedish_ev9_218_384hp_19_21inch_separate_six_seven_seats",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 99.8,
+        "ac_charge_kw": 10.5,
+        "dc_charge_kw": 210,
+        "wltp_range_km": 505,
+        "wltp_consumption_kwh_100km": 22.8,
+        "tow_kg": 2500,
+        "boot_liters": 333,
+        "drivetrain": "AWD",
+        "seats": 7
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 99.8,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Batterikapacitet (kWh) 76.1 99.8",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "dc_charge_kw": {
+          "value": 210,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "DC snabbladdning max 210kW",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_range_km": {
+          "value": 505,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max räckvidd (km) enligt WLTP (upp till) upp till 443* * upp till 512 (19\"), 505 (21\")**",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 22.8,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 18,7 22,2 (19\") 22,8 (21\")",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "tow_kg": {
+          "value": 2500,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 450 / 900 750 / 2 500",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "boot_liters": {
+          "value": 333,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "BAGAGEUTRYMME 2-sits / 5-sits / 7-sits / under framhuv (liter) 2 318 / 828 / 333 / 52",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "MOTOR Standard Range Long Range RWD AWD",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "seats": {
+          "value": 7,
+          "variant_name": "EV9 AWD GT Line 7-sits",
+          "column_header": "EV9 AWD GT Line 7-sits | DOW7YBZ7Z-GX1 | 21 tum | 7 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "quote": "DOW7YBZ7Z-GX1 | Elmotor 384hk AWD (El , Elektrisk); | number of seats 7",
+          "page": null,
+          "scope": "exact_swedish_flat_trim_engine"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "source_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "quote": "Kia EV9 är en robust, rymlig och helt elektrifierad SUV"
+        }
+      },
+      "price_evidence": {
+        "value": 889900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV9 GT Line AWD 7-SITS Long Range 889,900 kr 12,195 kr",
+        "classification": "dated_november_swedish_cash_over_undated_engine",
+        "alternatives": [
+          {
+            "value": 889900,
+            "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+            "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+            "quote": "DOW7YBZ7Z-GX1 | price 889900"
+          }
+        ]
+      },
+      "source_decisions": [
+        "Keep all four exact existing identities/routes and cash amounts; GT Line384hp is not EV9GT508hp.",
+        "Swedish dated20August2026 technical columns:76.1kWh RWD218hp and99.8kWh AWD384hp. No German563km99.8RWD or EPA/city substitution.",
+        "Standard19inch:443km/18.7RWD and512km/22.2AWD. GT Line21inch505km/22.8 applies to both six and seven seats; manufacturer maximum, not individually measured option configuration.",
+        "Swedish DO/W7 andDO/W6 exact engine IDs establish seven versus six seats, not engineCategory7 or door count.",
+        "Swedish boot333L explicitly covers seven seats in use. German same-body VDA table also explicitly covers six seats, all upright including underfloor. Not828,2393folded or52frunk.",
+        "OnboardAC10.5 is not nominal supply11; maximumDC210 is not the250kW minimum station supply in the charge-time condition.",
+        "Bromsad tow900RWD/2500AWD, not B-licence750, unbraked450/750, ball load or roof load.",
+        "November1-30 cash list takes precedence over undated web prices. Six-seatGTLine web897900 conflicts with dated909900: retain alternate, selected exact dated909900 unchanged.",
+        "German evidence only supplies six-seat boot scope; retain source localeDE/de, no German prices, availability or consumption.",
+        "Preserve shared price source model*, uppercaseEV9 legacy model/spec pages and approved exact-model press photo. Equipment/colour may differ."
+      ]
+    },
+    {
+      "adapter": "kia_ev9_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev9",
+      "variant_name": "EV9 AWD GT Line 6-sits",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+        "content_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+        "fetched_at": "2026-11-15T16:20:25.272265+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "content_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "fetched_at": "2026-11-15T16:20:27.226486+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "content_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "fetched_at": "2026-11-15T16:20:28.597632+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf",
+          "content_hash": "ef84836660ee32afd068f66a4cfdd2958b13d48d506d95d7563030c67ca4bb62",
+          "fetched_at": "2026-11-15T16:20:30.936634+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T16:20:33.739351+00:00"
+        }
+      ],
+      "source_resolution": "swedish_ev9_218_384hp_19_21inch_separate_six_seven_seats",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 99.8,
+        "ac_charge_kw": 10.5,
+        "dc_charge_kw": 210,
+        "wltp_range_km": 505,
+        "wltp_consumption_kwh_100km": 22.8,
+        "tow_kg": 2500,
+        "boot_liters": 333,
+        "drivetrain": "AWD",
+        "seats": 6
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 99.8,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Batterikapacitet (kWh) 76.1 99.8",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "dc_charge_kw": {
+          "value": 210,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "DC snabbladdning max 210kW",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_range_km": {
+          "value": 505,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max räckvidd (km) enligt WLTP (upp till) upp till 443* * upp till 512 (19\"), 505 (21\")**",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 22.8,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 18,7 22,2 (19\") 22,8 (21\")",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "tow_kg": {
+          "value": 2500,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 450 / 900 750 / 2 500",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "boot_liters": {
+          "value": 333,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf",
+          "source_hash": "ef84836660ee32afd068f66a4cfdd2958b13d48d506d95d7563030c67ca4bb62",
+          "quote": "Alle Sitze in Normalposition, bis Fensterhöhe, max. 333",
+          "page": 15,
+          "scope": "german_same_ev9_all_six_seats_upright_vda"
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf",
+          "source_hash": "78312de969b1444c9fcad7435b349028744e63f0c2bba315acbb7881b5ccf068",
+          "quote": "MOTOR Standard Range Long Range RWD AWD",
+          "page": 3,
+          "scope": "swedish_standard_wheels_and_seating"
+        },
+        "seats": {
+          "value": 6,
+          "variant_name": "EV9 AWD GT Line 6-sits",
+          "column_header": "EV9 AWD GT Line 6-sits | DOW6YBZ7Z-SX2 | 21 tum | 6 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+          "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+          "quote": "DOW6YBZ7Z-SX2 | Elmotor 384hk AWD (El , Elektrisk); 283 KW (384 hk) | number of seats 6",
+          "page": null,
+          "scope": "exact_swedish_flat_trim_engine"
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "SUV"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "SUV",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev9/upptack/",
+          "source_hash": "208023414a65eececeb23fee82886e749c650ba6722b5335506a7b4455ccda13",
+          "quote": "Kia EV9 är en robust, rymlig och helt elektrifierad SUV"
+        }
+      },
+      "price_evidence": {
+        "value": 909900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV9 GT Line AWD 6-SITS Long Range 909,900 kr",
+        "classification": "dated_november_swedish_cash_over_undated_engine",
+        "alternatives": [
+          {
+            "value": 897900,
+            "source_url": "https://www.kia.com/se/nya-bilar/ev9/specifications/",
+            "source_hash": "412acbb703ee2a37693c6865e9c35a969b0170d6c65f927db0795dc3dcb69232",
+            "quote": "DOW6YBZ7Z-SX2 | price 897900"
+          }
+        ]
+      },
+      "source_decisions": [
+        "Keep all four exact existing identities/routes and cash amounts; GT Line384hp is not EV9GT508hp.",
+        "Swedish dated20August2026 technical columns:76.1kWh RWD218hp and99.8kWh AWD384hp. No German563km99.8RWD or EPA/city substitution.",
+        "Standard19inch:443km/18.7RWD and512km/22.2AWD. GT Line21inch505km/22.8 applies to both six and seven seats; manufacturer maximum, not individually measured option configuration.",
+        "Swedish DO/W7 andDO/W6 exact engine IDs establish seven versus six seats, not engineCategory7 or door count.",
+        "Swedish boot333L explicitly covers seven seats in use. German same-body VDA table also explicitly covers six seats, all upright including underfloor. Not828,2393folded or52frunk.",
+        "OnboardAC10.5 is not nominal supply11; maximumDC210 is not the250kW minimum station supply in the charge-time condition.",
+        "Bromsad tow900RWD/2500AWD, not B-licence750, unbraked450/750, ball load or roof load.",
+        "November1-30 cash list takes precedence over undated web prices. Six-seatGTLine web897900 conflicts with dated909900: retain alternate, selected exact dated909900 unchanged.",
+        "German evidence only supplies six-seat boot scope; retain source localeDE/de, no German prices, availability or consumption.",
+        "Preserve shared price source model*, uppercaseEV9 legacy model/spec pages and approved exact-model press photo. Equipment/colour may differ."
+      ]
+    }
+  ],
+  "held": []
+}
