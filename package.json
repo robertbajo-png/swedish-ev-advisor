@@ -1,6 +1,10 @@
 {
   "type": "module",
   "scripts": {
+    "verify:expansion-preflight": "node scripts/run_python.mjs -m unittest discover -s tests -p test_catalog_expansion_preflight.py -v",
+    "verify:ev9-completion": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev9_completion_specs.py -v",
+    "verify:ev9-completion-sync": "node scripts/verify_kia_ev9_completion_sync.mjs",
+    "verify:ev9-ui": "node scripts/verify_kia_ev9_ui.mjs",
     "verify:ev6-completion": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev6_completion_specs.py -v",
     "verify:ev6-completion-sync": "node scripts/verify_kia_ev6_completion_sync.mjs",
     "verify:ev6-ui": "node scripts/verify_kia_ev6_ui.mjs",

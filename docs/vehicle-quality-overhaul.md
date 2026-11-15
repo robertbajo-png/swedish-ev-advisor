@@ -5,14 +5,32 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Kia EV9 Completion And Expansion Plan (2026-11-15)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Five fresh official sources, four Swedish DO/W7/W6 identities. Standard19/21inch, 218/384hp, six/seven seats. German same-body VDA explicitly supports333L with all six seats upright. Dated November cash prices retained; six-seat web alternate897900 preserved, not silently substituted for909900. Approved exact-model press photograph visually reviewed. |
+| 2. Canonical completion | Committed | Fresh five-source guarded transaction filled11 gaps across four versions. Prices unchanged, November30 validity refreshed, sourced SUV body. Anonymous export verifies exactly4 changed/72 preserved, all30models/76versions retained. News controls/articles unchanged. |
+| 3. Regression and visual QA | Passed locally | Nine extraction tests, six expansion-preflight tests, all48 Kia completion extraction tests, EV6/EV9 transaction regressions and release build pass.90 static routes, eight no-JS/hydrated checks,22 Axe audits and16 EV9 viewport checks pass. Two additional EV9 Axe audits, exact variant selection/comparison, full-frame mobile geometry and visual press-photo review pass. Exact-main CI and production verification still required. |
+| 4. Publication | Pending | Scoped PR and exact-main CI before existing production distributor. Verify actual deployed hash/photo/metadata/pages; no new SEO project. |
+| 5. Expansion design | Prepared | See catalog-expansion-quality-plan.md. Current public snapshot preflight:30models/76variants,24 research candidates from old ranks31-60, all need fresh market data; three mapping holds. No new-model publication implied. |
+
+Technical completeness after this transaction:52/76 versions, all30models
+retained. Existing Kia EV3/4/5/6/9 profiles now have all nine technical fields
+across22 versions. No paid AI, migrations, news/control or infrastructure changes.
+
+Keep news controls/articles, budgets and infrastructure unchanged. All new
+research reports, raw captures and database receipts stay under ignored
+`data/local/release-data/kia-ev9-completion-2026-11-15/`.
+
 ## Kia EV6 Completion (2026-11-15)
 
 | Step | Status | Acceptance |
 | --- | --- | --- |
 | 1. Exact-version research | Complete | Eight fresh manufacturer sources bind all 27 facts and three November cash prices. Swedish 84kWh base RWD/AWD19inch and separate609/650hp GT; German same-GT AC/DC/boot rows, Swedish five-seat engine identities. Existing approved Baseline press image visually reviewed. |
 | 2. Canonical completion | Committed | Fresh eight-source transaction filled14 gaps and corrected only GT's historical drivetrain label to AWD. Three price amounts unchanged, November30 validity and independent price evidence refreshed; one sourced Crossover body type. Anonymous export:76 versions, exactly3 changed. Other vehicles/news controls and articles preserved. |
-| 3. Regression and visual QA | Passed locally | Ten extraction tests, three-profile transaction/real-price-trigger/rollback/replay/source tests and twelve prior suites pass. Anonymous export verifies exactly3 changed/73 preserved. Full release build and90 static routes, eight no-JS/hydrated checks and22 Axe audits pass. All three EV6 pages pass320/390/768/1440px, two further Axe audits, full-frame mobile/image/copy separation and real catalog-selector/comparison checks. Screenshots visually reviewed. |
-| 4. Publication | In progress | Scoped PR, exact-main CI, existing production distributor and actual HTTPS/catalog/image/mobile verification. SEO work remains deferred. |
+| 3. Regression and visual QA | Passed | Ten extraction tests, three-profile transaction/real-price-trigger/rollback/replay/source tests and twelve prior suites pass. Anonymous export verifies exactly3 changed/73 preserved. Full release build and90 static routes, eight no-JS/hydrated checks and22 Axe audits pass. All175 PR steps and175 exact-main steps passed. Local and production EV6 pages pass320/390/768/1440px, two further Axe audits per environment, full-frame mobile/image/copy separation and real catalog-selector/comparison checks. |
+| 4. Publication | Complete | PR #72 merged as2a7968d2e9e42add60ca5b4095123910cd4e6157. Production distribution43733637538 succeeded. Actual HTTPS/catalog/image/metadata/mobile/comparison verification completed2026-11-15 at16:12:14 UTC. SEO work remains deferred. |
 
 No paid AI or new migrations are planned. Preserve current news, budget,
 credentials, domain, mail and hosting configuration. Existing local edits in
@@ -26,6 +44,19 @@ other reports/documents are not part of this batch.
   reset this app's in-memory selection. The regression now selects all three
   real versions through the catalog's version selector and compares them via
   normal SPA navigation; no product persistence feature was added.
+- Final release: PR CI43732583641 and exact-main CI43733114573 each passed
+  all175 steps. The fixed production distributor43733637538 deployed the
+  approved catalog hash8c162a65912ce7353fe739727a246707300dfe4ad7d0add1564cd0272224db06
+  and content version2026-11-kia-ev6-complete-v1. Ordinary TLS/GET checks pass;
+  all76 public rows and the original EV6 press-photo hash match exactly.
+  The three live detail pages retain exact prices, seat counts, AC10.5 and
+  qualified WLTP in initial structured metadata. The private metadata probe
+  initially expected a top-level seating property, but the existing renderer
+  represents seats as an additionalProperty; correct the probe, not the product.
+  All12 real production viewport checks, two Axe audits and the three-version
+  comparison pass. Detailed receipts/screenshots remain under ignored
+  `data/local/release-data/kia-ev6-completion-2026-11-15/`.
+  No paid calls, new articles, migrations, news/budget or infrastructure changes.
 - Catalog coverage is now48/76 versions with all nine technical fields, keeping
   all30 models. Next batch: four Kia EV9 versions with11 missing technical values.
   This batch does not claim that the remaining catalog gaps or photos are done.
