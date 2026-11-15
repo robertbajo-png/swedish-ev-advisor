@@ -63,6 +63,7 @@ export function buildNewModelPlan(snapshot,intake,image,now=new Date()){
  const alias=one(snapshot.model_aliases.filter(r=>r.normalized_brand===m.normalized_brand&&r.normalized_model===m.normalized_model),'One resolved alias required');
  assert.equal(alias.canonical_model_id,model.id);assert.equal(alias.needs_mapping,false);assert(!alias.model_group);
  assert.equal(alias.alias_rule,policy.aliasRule);assert(Number(alias.confidence)>=0.92);
+ for(const field of ['brand_raw','model_raw'])assert.equal(alias[field],intake.market.row[field],'Exact raw alias required: '+field);
  const market=one(snapshot.market_models.filter(r=>r.normalized_brand===m.normalized_brand&&r.normalized_model===m.normalized_model&&r.fuel_type_raw==='EL'),'One exact BEV market row required');
  assert(!market.needs_mapping&&!market.model_group);assert([null,model.id].includes(market.canonical_model_id));
  for(const f of ['brand_raw','model_raw'])assert.equal(market[f],intake.market.row[f]);

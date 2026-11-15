@@ -7,9 +7,9 @@ work, and plan broader coverage without repeating incomplete/incorrect imports.
 
 - Supabase/Postgres remains canonical; the public snapshot is an export of
   validated public views, never a replacement authoring database.
-- Previous released baseline: 30 models / 76 variants, 52 variants with all nine
-  core technical fields after EV9. The EV2 canonical commit is31/79, pending
-  website release. Existing prices and image evidence need their
+- Current released baseline:31models/79variants,55variants with all nine core
+  technical fields after the EV2 pilot. Previous EV9 baseline was30/76 and52
+  complete. EV2 release was verified15November18:03UTC. Prices and image evidence need their
   own freshness/rights checks; technical completeness alone is not release-ready.
 - The existing expansion runner uses legacy seed/state files and a broad seed
   postprocess. Do not run its write/sync mode against production for this wave.
@@ -25,7 +25,7 @@ work, and plan broader coverage without repeating incomplete/incorrect imports.
 | 0. Inventory | Complete | Tested read-only preflight against the current public snapshot:30models/76versions,24 research candidates from ranks31-60, three mapping holds. All24 require a newer market export. Never described as source-ready or publication-ready. |
 | 1. EV9 completion | Complete | Four exact existing versions,11 gaps filled, independent November price evidence refreshed with no amount changes. Guarded transaction,178 PR CI steps,178 exact-main steps and production checks passed. Deployed through PR73/run43737114773, verified15November16:45UTC and16 real responsive pages. Total52/76 technically complete; no new-model release implied. |
 | 2. Fresh expansion scope | Research prepared | Official October workbook fetched and parsed privately:135 BEV rows. Within current ranks1-60,17 matched not-yet-public candidates and14 raw mapping holds. Raw workbook hash and dated report retained. No production market/model writes. Reconcile aliases and preserve historical months before promoting this index. |
-| 3. First five-model pilot | EV2 canonical commit/local QA complete; release pending | First model has three complete five-seat profiles via the new tested transaction.31models/79variants, all76 old public records unchanged. Four other pilot models still require their own exact source/identity/image adapters and release packets. |
+| 3. First five-model pilot | 1/5 released; C-HR+ committed/local QA passed | EV2 is live through PR74. C-HR+ adds three complete source-bound profiles; anonymous catalog32/82 and all79 old records unchanged. Local build/12 responsive views/advisor/comparison/Axe checks pass; C-HR+ CI and actual release remain. Three later pilot models need their own evidence packets. |
 | 4. Second five-model wave | Planned | Reuse passing adapters/contracts; five more NEW models, not a lower quality threshold. Investigate failures independently; one blocked source must not stop other candidates. |
 | 5. Repeatable operation | Planned | Reuse source discovery, hash/change queues and scoped refresh commands. Scheduled discovery/preparation is separate from canonical writes and deployment. Verify freshness, rights, rollback and run logs before enabling any new write schedule. |
 
@@ -37,6 +37,8 @@ Its SHA-256 is
 `1fee5254c4671bd9239b0a0b3819c027c30eac46e1c3a9c1df9c7e9bc55d92c6`.
 Keep the old March capture as history, not the current ranking. Fresh reports
 and workbook remain in ignored `data/local/release-data/catalog-expansion-2026-11-15/`.
+After EV2, a separate post-pilot report retains16 matched research candidates
+and14 raw mapping holds in current ranks1-60. These are not source-ready models.
 
 - Proposed pilot: Kia EV2, Toyota C-HR+, Volvo EX90, Volkswagen ID. Buzz, MG4.
 - Proposed second wave: CUPRA Tavascan, XPENG G6, Hyundai Ioniq 5, Lexus RZ,
@@ -160,12 +162,17 @@ node scripts/run_python.mjs scripts/plan_catalog_expansion.py
 | Schema and source inspection | Complete | Existing EV2 canonical draft and deterministic alias exist; no variants. Swedish September29 technical PDF, current November prices and 6N/W5/W4 engine table found. |
 | Source-bound extraction | Complete | Three exact five-seat engines: base SR16inch, base LR16inch, GT Line LR19inch; all nine facts, separate prices and a reviewed professional exact-model press photo. Ten extraction tests pass. |
 | Safe new-version transaction | Committed and read back | Fresh official sources; three canonical/staging rows, three model sources and EV2 October market merge only. Private receipt saved;76 old public records, aliases, historical March month, shared sources and news unchanged. No migration/bulk seed. |
-| Local and CI verification | Local complete; CI pending | New extraction/publication/photo tests, image/public contracts and93-route production build pass.12responsive detail views, two Axe audits, exact-photo decode, advisor, filters/picker and three-way comparison pass. |
-| Production release | Pending | Exact-main CI, existing distributor, anonymous catalog parity, real HTTPS/detail/image checks. |
+| Local and CI verification | Complete | New extraction/publication/photo tests, image/public contracts and93-route production build pass.181 PR CI steps and181 exact-main steps pass.12responsive detail views, two Axe audits, exact-photo decode, advisor, filters/picker and three-way comparison pass locally and on production. |
+| Production release | Complete | PR74/main2c602ea5e06511e7007da9e23732963f89ac223f; existing production distributor43744379952. Actual HTTPS,79-row catalog, exact-photo hash and all three initial metadata pages verified2026-11-15T18:03:44Z; responsive production checks also pass. |
 
-Finish the EV2 exact-main CI and actual production deployment/readback. Then
-prepare Toyota C-HR+ as the second pilot using a separate source/identity adapter,
-current Swedish prices, all nine facts and reviewed exact-model photograph.
+Toyota C-HR+ now has a separate registered adapter,27 technical facts, three
+current Swedish list prices and a reviewed exact-model professional photograph.
+Guarded canonical insertion and local regressions pass. Finish its exact-main CI,
+existing production distribution and actual-site readback before marking2/5 live.
+The existing normalizer drops the plus sign: do not confuse C-HR+ EV with C-HR
+hybrid based only on the normalized key. Require exact raw alias/electric model
+identity before adapting insertion. Then continue EX90, ID. Buzz and MG4 as
+source-ready evidence permits. EV2 approval does not preapprove these models.
 Target ten additional complete models in two waves, then
 review coverage before pursuing the remainder of ranks 31-60. Dates depend on
 source availability; missing evidence is not permission to lower the release gate.

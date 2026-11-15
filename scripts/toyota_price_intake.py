@@ -35,7 +35,7 @@ def exact_link_policy(candidate, official):
     return allowed
 
 
-def parse_pdf(body, content_type):
+def parse_pdf(body, content_type, *, allowed_empty_pages=()):
     from pypdf import PdfReader
     if 'application/pdf' not in content_type or not body.startswith(b'%PDF-'):
         raise RefreshError('pdf_signature_and_type_required')
@@ -57,7 +57,7 @@ def parse_pdf(body, content_type):
                 if 'tdm' in key.casefold() and key.rsplit('}', 1)[-1].casefold() in ('reservation', 'tdm-reservation') and value.strip() == '1':
                     raise RefreshError('machine_reservation')
     pages = [page.extract_text(extraction_mode='layout', layout_mode_space_vertically=False) or '' for page in reader.pages]
-    if not all(page.strip() for page in pages):
+    if any(not page.strip() and index not in allowed_empty_pages for index,page in enumerate(pages,1)):
         raise RefreshError('scanned_or_empty_page')
     return {'pages': pages, 'body': body}
 

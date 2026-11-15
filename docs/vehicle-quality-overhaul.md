@@ -5,6 +5,25 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Kia EV2 Safe Insertion Pilot (2026-11-15)
+
+Complete and verified on production. Three new five-seat SR/LR/GT Line profiles,
+27 technical facts, separate November list prices and an exact professional Kia
+press photo. Guarded source-bound insertion, staged evidence, late rollback,
+idempotence, alias/collision/concurrency and market-history checks pass. No
+migration, paid AI, new permissions or changes to the76 existing public records.
+
+PR74/main2c602ea5e06511e7007da9e23732963f89ac223f;181 passing PR CI steps and181
+passing exact-main steps. Distribution43744379952 and actual HTTPS/catalog/photo/
+initial metadata verification passed2026-11-15T18:03:44Z.12production viewport
+checks, two Axe audits, actual-photo decode and three-version comparison pass.
+Current total:31models/79variants,55technically complete. Availability remains
+unconfirmed rather than inferred from Mobility Sweden's registrations.
+
+See kia-ev2-pilot.md and catalog-expansion-quality-plan.md for receipts and
+the remaining four first-wave models. Next is Toyota C-HR+, whose exact electric
+identity must be preserved despite normalization dropping the plus sign.
+
 ## Kia EV9 Completion And Expansion Plan (2026-11-15)
 
 | Step | Status | Acceptance |

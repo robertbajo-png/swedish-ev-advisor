@@ -16,6 +16,7 @@ LICENSES = {'CC-BY-4.0': 'https://creativecommons.org/licenses/by/4.0/',
             'CC0-1.0': 'https://creativecommons.org/publicdomain/zero/1.0/'}
 POLESTAR_NOTICE = 'Content found in the Polestar media newsroom is intended for editorial use only and may not be used for any advertising or commercial purposes.'
 PRESS_PUBLISHERS = json.loads((ROOT / 'src/press-image-publishers.json').read_text(encoding='utf-8'))
+TOYOTA_PRESS_IMAGES = json.loads((ROOT / 'src/toyota-press-images.json').read_text(encoding='utf-8'))
 
 
 def reviewed_media_permission(evidence):
@@ -61,11 +62,12 @@ def reviewed_press_permission(evidence):
 
 
 def reviewed_toyota_permission(evidence):
-    from collect_toyota_press_photo import SOURCE, ASSET, NOTICE
-    return bool(evidence.get('model_key') == 'toyota|bz4x'
-        and evidence.get('license_id') == 'Toyota-editorial'
-        and all(evidence.get(field) == SOURCE for field in ('source_url', 'evidence_url', 'license_url'))
-        and evidence.get('downloaded_from') == ASSET and evidence.get('evidence_quote') == NOTICE
+    policy = TOYOTA_PRESS_IMAGES.get(evidence.get('model_key'))
+    if not policy:
+        return False
+    return bool(evidence.get('license_id') == 'Toyota-editorial'
+        and all(evidence.get(field) == policy['source_url'] for field in ('source_url', 'evidence_url', 'license_url'))
+        and evidence.get('downloaded_from') == policy['asset_url'] and evidence.get('evidence_quote') == policy['permission']
         and evidence.get('usage_scope') == 'independent_vehicle_editorial' and evidence.get('full_frame') is True
         and evidence.get('prohibited_uses') == ['advertising', 'commercial_promotion', 'endorsement']
         and all(re.fullmatch('[a-f0-9]{64}', evidence.get(field, '')) for field in ('metadata_sha256', 'source_content_sha256')))

@@ -659,6 +659,36 @@
       "reviewed_candidate_sha256": "3cc44e7cd61729bf484ad72b78e0a59c8d9fe91d835f4cce19cbbb7ba34dbe35"
     },
     {
+      "model_key": "toyota|c hr",
+      "source_url": "https://media.toyota.co.uk/images/c-hr-design-exterior-static-2026-current/",
+      "evidence_url": "https://media.toyota.co.uk/images/c-hr-design-exterior-static-2026-current/",
+      "evidence_quote": "Images are copyright free for editorial purposes only",
+      "license_id": "Toyota-editorial",
+      "license_url": "https://media.toyota.co.uk/images/c-hr-design-exterior-static-2026-current/",
+      "author": "Toyota (GB) PLC",
+      "credit": "Toyota / Toyota Media",
+      "content_sha256": "39c5e82ee449b0b4424d5f8ddda24922ff80eadba6a54a90de9348d9e3788e1a",
+      "metadata_sha256": "6b29296887b067f9f3121bcd94d49659330011e88acd6af285aecf45964eba71",
+      "source_content_sha256": "6b29296887b067f9f3121bcd94d49659330011e88acd6af285aecf45964eba71",
+      "publisher_id": "toyota-chr-plus-media",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg",
+      "downloaded_from": "https://media.toyota.co.uk/wp-content/uploads/sites/5/2026/03/2026_ToyotaCHR_Statics_014-scaled.jpg",
+      "original_url": "https://media.toyota.co.uk/wp-content/uploads/sites/5/2026/03/2026_ToyotaCHR_Statics_014-scaled.jpg",
+      "status": "documented",
+      "reviewed_at": "2026-11-15",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "changes": "Hela bildutsnittet bevaras. Endast storlek och filformat har anpassats; ingen retusch.",
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "reviewed_candidate_sha256": "8ea63b1704396bd0c06819da194734be517ed599a90c562246e32141b7674584",
+      "original_content_sha256": "e65addc6e1b711887a9ae1e5e2b5cc659dfa30531ac955767208d25189f98695"
+    },
+    {
       "model_key": "volkswagen|id 3",
       "asset_url": "/media/vehicles/volkswagen-id-3-64b62658bb2a.jpg",
       "source_url": "https://commons.wikimedia.org/wiki/File:Volkswagen_ID.3_Neo_IMG_8792_(cropped).jpg",

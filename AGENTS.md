@@ -87,6 +87,9 @@ Permanent project rules for the Swedish EV Advisor codebase.
   Never widen the Toyota exception or use the legacy bulk reseeder for expansion.
   Register future models separately; an EV2 approval does not authorize another
   model's mapping, source, photograph or values.
+  Toyota C-HR+ has its own separately approved15November adapter: bind the exact
+  raw C-HR+ alias and registered Swedish BEV generation/grade/engine identifiers.
+  Normalization removes the plus and is never sufficient identity evidence.
 
 - On 2026-11-11 the owner approved the four-step fact-first rollout. The new
   news-fact-first-2026-11-v1 route starts with registered official pressrooms,

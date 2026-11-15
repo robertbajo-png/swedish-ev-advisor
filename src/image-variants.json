@@ -571,6 +571,28 @@
       }
     ]
   },
+  "/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "39c5e82ee449b0b4424d5f8ddda24922ff80eadba6a54a90de9348d9e3788e1a",
+    "variants": [
+      {
+        "url": "/media/responsive/toyota-c-hr-press-39c5e82ee449-480.webp",
+        "width": 480,
+        "sha256": "3bdd86b80acd9a67a13e44f81c62d9c7355bb939b14d261e362cf66d905a1492"
+      },
+      {
+        "url": "/media/responsive/toyota-c-hr-press-39c5e82ee449-800.webp",
+        "width": 800,
+        "sha256": "0ed96d88bf3330a827f912a85fac706a8422352f3409f7bc97caf17024456fb1"
+      },
+      {
+        "url": "/media/responsive/toyota-c-hr-press-39c5e82ee449-1280.webp",
+        "width": 1280,
+        "sha256": "58604cde6eebc88c6e0440419e40b10e4a5ff7bdc4bdbfae5fc840b18101d6c5"
+      }
+    ]
+  },
   "/media/vehicles/volkswagen-id-3-64b62658bb2a.jpg": {
     "width": 1280,
     "height": 772,

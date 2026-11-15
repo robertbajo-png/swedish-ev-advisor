@@ -2,6 +2,9 @@
   "type": "module",
   "scripts": {
     "verify:ev2-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_kia_ev2_intake.py -v",
+    "verify:chr-plus-intake": "node scripts/run_python.mjs -m unittest discover -s tests -p test_toyota_chr_plus_intake.py -v",
+    "verify:chr-plus-publication": "node scripts/verify_toyota_chr_plus_publication.mjs",
+    "verify:chr-plus-ui": "node scripts/verify_toyota_chr_plus_ui.mjs",
     "verify:new-model-photo": "node scripts/run_python.mjs -m unittest discover -s tests -p test_new_model_photo.py -v",
     "verify:ev2-ui": "node scripts/verify_kia_ev2_ui.mjs",
     "verify:new-model-publication": "node scripts/verify_new_model_publication.mjs",

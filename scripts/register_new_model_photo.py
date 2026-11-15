@@ -7,7 +7,7 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
-from audit_image_rights import ROOT, rights_errors
+from audit_image_rights import ROOT, rights_errors, normalize_image_key
 
 
 def prepare(candidate_path, reviewed_hash, root=ROOT):
@@ -29,6 +29,10 @@ def prepare(candidate_path, reviewed_hash, root=ROOT):
         prohibited_uses=['advertising','commercial_promotion','endorsement'],
         changes='Hela bildutsnittet bevaras. Endast storlek och filformat har anpassats; ingen retusch.',
         model_image_notice='Pressbild. Utrustning kan skilja mellan versioner.', reviewed_candidate_sha256=reviewed_hash)
+    if c.get('original_content_sha256'):
+        if not re.fullmatch('[a-f0-9]{64}',c['original_content_sha256']):
+            raise ValueError('original_photo_hash_required')
+        evidence['original_content_sha256']=c['original_content_sha256']
     if rights_errors(evidence, evidence):
         raise ValueError('new_model_media_permission_required')
     registry = json.loads((root/'src/image-rights.json').read_text(encoding='utf8'))
@@ -37,7 +41,7 @@ def prepare(candidate_path, reviewed_hash, root=ROOT):
     if existing or c['model_key'] in lookup:
         raise ValueError('existing_image_requires_separate_refresh')
     public = json.loads((root/'public/data/public_ev_variants.json').read_text(encoding='utf8'))['records']
-    if any((r['brand']+'|'+r['model']).lower() == c['model_key'] for r in public):
+    if any(normalize_image_key(r['brand'])+'|'+normalize_image_key(r['model']) == c['model_key'] for r in public):
         raise ValueError('existing_public_model_requires_separate_refresh')
     registry['assets'] = sorted(registry['assets']+[evidence], key=lambda r: r['model_key'])
     lookup[c['model_key']] = evidence['asset_url']

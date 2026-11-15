@@ -10,7 +10,8 @@ import {useCalendarDateText,reportFailure} from './refresh_kia_specs.mjs';
 const read=async p=>JSON.parse(await readFile(p,'utf8'));
 const save=async(p,v)=>writeFile(p,JSON.stringify(v,null,2)+'\n');
 const fingerprint=v=>JSON.parse(JSON.stringify(v,(k,value)=>['content_hash','source_hash','fetched_at'].includes(k)?undefined:value));
-const collectors=new Map([['kia_ev2_sweden_pilot_v1','scripts/kia_ev2_intake.py']]);
+const collectors=new Map([['kia_ev2_sweden_pilot_v1','scripts/kia_ev2_intake.py'],
+ ['toyota_chr_plus_sweden_pilot_v1','scripts/toyota_chr_plus_intake.py']]);
 async function main(){
  const {values}=parseArgs({options:{adapter:{type:'string',default:'kia_ev2_sweden_pilot_v1'},'client-module':{type:'string'},
   output:{type:'string',default:'data/local/release-data/kia-ev2-pilot-2026-11-15/publication'},apply:{type:'string'}}});
