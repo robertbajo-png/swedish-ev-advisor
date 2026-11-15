@@ -142,6 +142,15 @@
       "object_position": "50% 60%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "kia|ev2": {
+      "asset_url": "/media/vehicles/kia-ev2-press-42a663c6e0ce.jpg",
+      "content_sha256": "42a663c6e0ce765ebc59d1865699e61c99909e4a1b3fe6f7b7f20204e63392d9",
+      "status": "approved",
+      "reviewed_at": "2026-11-15",
+      "object_position": "50% 50%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

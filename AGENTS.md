@@ -77,6 +77,17 @@ Permanent project rules for the Swedish EV Advisor codebase.
 
 ## Engineering Rules
 
+- New-model publication uses `publish_new_model.mjs` with a registered exact-source
+  adapter, a prepared hash and a fresh source recheck. The first adapter is the
+  three-version five-seat Kia EV2 pilot (15 November 2026). Require a resolved
+  existing canonical draft/alias, complete nine-field profiles, independent
+  current price evidence and reviewed model photo. Stage and insert atomically;
+  verify readback, exact replay, collision/concurrency rejection and late rollback.
+  Preserve other models, shared sources, historical months and availability flags.
+  Never widen the Toyota exception or use the legacy bulk reseeder for expansion.
+  Register future models separately; an EV2 approval does not authorize another
+  model's mapping, source, photograph or values.
+
 - On 2026-11-11 the owner approved the four-step fact-first rollout. The new
   news-fact-first-2026-11-v1 route starts with registered official pressrooms,
   extracts and validates a source-bound fact packet BEFORE writing, freezes the

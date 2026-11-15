@@ -18,6 +18,7 @@ export function specQualifications(row) {
   const ev6 = row.brand === 'Kia' && row.model === 'Ev6' && /ASW5(?:ZHZ7Z-TX1|YCZ7Z-TX1|YDZ7Z-GX2)/.test(quote);
   const ev6Gt = ev6 && row.variant_name === 'EV6 GT';
   const ev9 = row.brand === 'Kia' && row.model === 'Ev9' && /DOW[67](?:ZHZ7Z-LX2|YBZ7Z-(?:TX2|GX1|SX2))/.test(quote);
+  const ev2 = row.brand === 'Kia' && row.model === 'Ev2' && /6NW5ZFZ7Z-(?:TX2(?:_V00)?|LX1)/.test(quote);
   const ev3Preliminary = ev3 && /^EV3 (?:Plus|GT Line) AWD Long Range$/.test(row.variant_name) &&
     quote.includes('(AWD, Preliminär information i väntan på homologering)');
   const rangeIsTarget = ev3Preliminary || polestar && row.model === '4' && row.variant_name === 'Dual motor' &&
@@ -26,7 +27,9 @@ export function specQualifications(row) {
     quote.match(/Förbrukning \(WLTP, versionsgrupp\): ([0-9]+,[0-9]+)–([0-9]+,[0-9]+) kWh\/100 km/);
   const interval = groupInterval || polestar && quote.match(/Energikonsumtion \(WLTP\)² ([0-9]+,[0-9]+)[–-]([0-9]+,[0-9]+) kWh\/100 km/);
   return {
-    imageNotice: ev3 && row.image_url === '/media/vehicles/kia-ev3-press-b0de32637809.jpg'
+    imageNotice: ev2 && row.image_url === '/media/vehicles/kia-ev2-press-42a663c6e0ce.jpg'
+      ? 'Modellbild: Kia EV2 GT Line. Färg, hjul och utrustning kan skilja från den valda versionen.'
+      : ev3 && row.image_url === '/media/vehicles/kia-ev3-press-b0de32637809.jpg'
       ? 'Modellbild: Kia EV3 GT Line. Färg och utrustning kan skilja från den valda versionen.'
       : ev4 && row.image_url === '/media/vehicles/kia-ev4-press-0446f33614bd.jpg'
         ? 'Modellbild: Kia EV4 GT Line halvkombi. Färg och utrustning kan skilja från den valda versionen.'
@@ -40,6 +43,7 @@ export function specQualifications(row) {
     rangeInterval: born ? '552–631 km' : null,
     rangeNote: ev3Preliminary ? '572 km är en preliminär tillverkaruppgift i väntan på homologering enligt Kias svenska faktablad, inte slutlig certifierad räckvidd. Den används inte för att bekräfta ett hårt räckviddskrav.'
       : rangeIsTarget ? 'Tillverkarens räckviddsmål enligt WLTP, inte ett slutligt certifierat värde.'
+      : ev2 ? 'WLTP upp till: Standard Range 317 km och Long Range 453 km med standardhjulen 16 tum. GT Line Long Range har 19-tumshjul och anges till 413 km, inte modellens högsta 453 km. Uppgifterna gäller de femsitsiga versionerna.'
       : ev9 ? 'WLTP upp till: 443 km för RWD 76,1 kWh och 512 km för AWD 99,8 kWh med 19-tumshjul. GT Line med 21-tumshjul anges till 505 km för både sex och sju sittplatser. Hjul och utrustning påverkar räckvidden.'
       : ev6Gt ? 'Upp till 450 km blandad WLTP för EV6 GT med 84 kWh och 21-tumshjul. 550 km i den tyska tabellen gäller stadskörning. Däck, utrustning och körförhållanden påverkar räckvidden.'
       : ev6 ? 'Upp till 582 km för RWD och 546 km för AWD med standardhjulen 19 tum. 522 km gäller GT Line AWD med tillvalshjul på 20 tum, inte dessa basversioner.'
@@ -49,6 +53,7 @@ export function specQualifications(row) {
       : born ? 'CUPRA:s internationella VZ-tabell anger 552–631 km WLTP för modellår 2027. Hjul och utrustning påverkar värdet; 631 km är intervallets övre gräns, inte räckvidden för varje svensk konfiguration.' : null,
     consumptionInterval: i4 ? '14,9–17,1 kWh/100 km' : interval ? `${interval[1]}–${interval[2]} kWh/100 km` : null,
     consumptionNote: i4 ? 'BMW:s WLTP-intervall för eDrive40, typ 61HD, inte ett individuellt förbrukningsvärde för lagerbilen. Kostnadskalkylen använder 14,9 kWh/100 km; hjul och utrustning påverkar förbrukningen. Räckvidden 588 km kommer från just lagerbil FW37556. Batteri och laddning gäller samma tekniska typ; lagerbilens produktionsår är 2026.'
+      : ev2 ? 'Svenska produktfakta från 29 september 2026: Standard Range 15,1 och Long Range 14,9 kWh/100 km med 16-tumshjul; GT Line Long Range 16,3 med 19 tum. Ombordladdaren är 10,5 kW och maximal DC-effekt 150 kW. Den äldre broschyrens preliminära värden används inte.'
       : ev9 ? 'Svenska produktfakta från 20 augusti 2026: RWD 18,7 och AWD 22,2 kWh/100 km med 19-tumshjul; GT Line 22,8 med 21 tum. Ombordladdaren är 10,5 kW och maximal DC-effekt 210 kW. 250 kW i laddtidsvillkoret avser stationen, inte bilen.'
       : ev6Gt ? 'Blandad WLTP-förbrukning 20,9 kWh/100 km enligt Kia Sverige. Ombordladdaren är 10,5 kW och maximal DC-effekt 258 kW, styrkt av Kias tyska tabell för samma 84 kWh-GT. 650 hk gäller med Launch Control; normal maxeffekt är 609 hk.'
       : ev6 ? '84 kWh-versioner med standardhjulen 19 tum: RWD 15,9 och AWD 17,0 kWh/100 km. Ombordladdaren är 10,5 kW och maximal DC-effekt 258 kW. 17,7 kWh/100 km gäller AWD med 20-tumshjul.'
@@ -66,6 +71,7 @@ export function specQualifications(row) {
         : explorer ? 'Svensk Premium Edition MY27.25. Hjul och utrustning påverkar WLTP-värden. Laddning och dragvikt gäller det aktuella modellåret, inte äldre Explorer.'
         : born ? 'Förbrukningen 14,2 kWh/100 km gäller grundversionen i den svenska bränsledeklarationen, oktober 2026. Batteriet är 79 kWh netto (84 kWh brutto). DC 183 kW gäller den aktuella internationella 79 kWh-tabellen; AC är 11 kW ombord, inte kabelns märkning.' : null,
     practicalNote: i4 ? 'BMW anger 1 600 kg bromsad släpvagn vid 12 % lutning för typ 61HD. Lagerbilen har utrustningskod 3AC för utfällbar dragkrok; kontrollera registreringsbeviset. 75 kg kultryck är inte dragvikt. Bagagevolymen 470 liter gäller med baksätet uppfällt. Pressbilden visar samma i4 eDrive40-modell, inte nödvändigtvis lagerbilens färg och hjul.'
+      : ev2 ? 'Fem sittplatser i bruk: 362 liter bak. 403 liter avser den separata fyrasitsversionens skjutbara baksäte, inte dessa bilar; 1 201 liter kräver fällt baksäte. Frunkens 15 liter ingår inte och basversionen har ingen frunk. Bromsad dragvikt är 750 kg med rätt utrustning; kontrollera registreringsbeviset.'
       : ev9 ? '333 liter bak med samtliga sittplatser i bruk. Sexsitsversionen styrks separat av Kias tyska VDA-tabell inklusive utrymmet under lastgolvet; 828 liter kräver fälld tredje rad. Frunken ingår inte. Bromsad dragvikt är 900 kg för RWD och 2 500 kg för AWD med rätt utrustning; kontrollera registreringsbeviset.'
       : ev6Gt ? 'GT: 480 liter bak med baksätet uppfällt, inklusive utrymmet under lastgolvet enligt den tyska VDA-tabellen. Frunkens 20 liter ingår inte. Bromsad dragvikt är 1 800 kg med rätt utrustning; kontrollera registreringsbeviset.'
       : ev6 ? '480 liter bak med baksätet uppfällt, utan frunkens 50 liter för RWD eller 20 liter för AWD. Bromsad dragvikt är 1 800 kg med rätt utrustning; körkortsbehörighet och registreringsbevis kan begränsa vad du får dra.'
@@ -78,7 +84,10 @@ export function specQualifications(row) {
       : explorer ? 'Bagagevolymen kommer från Fords danska presentation av samma europeiska Explorer, med baksätet uppfällt. Lastgolv och utrustning påverkar utrymmet. Dragvikten gäller svensk MY27.25; kontrollera registreringsbeviset för bilen du beställer.'
       : born ? 'Bilen är inte godkänd för släp enligt den svenska instruktionsboken. 0 kg är därför ett styrkt förbud, inte saknad data. Fästet för cykelhållare får inte användas för släp; dess vertikala belastning är ingen dragvikt.' : null,
     practicalSource: explorer && quote.includes('https://www.ford.dk/koeb/kampagner/explorer-og-capri') ? 'https://www.ford.dk/koeb/kampagner/explorer-og-capri' : null,
-    specSources: ev9 ? [
+    specSources: ev2 ? [
+      { label: 'Kia Sverige: slutliga EV2-produktfakta, september 2026', url: 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf#page=3' },
+      { label: 'Kia Sverige: exakt motor och femsitsutförande', url: 'https://www.kia.com/se/nya-bilar/ev2/specifikationer/' },
+    ] : ev9 ? [
       { label: 'Kia Sverige: EV9, motorer och standardhjul', url: 'https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev9/kia-sweden-ev9-gtline-specification.pdf#page=3' },
       { label: 'Kia Sverige: exakt motor och sex/sju sittplatser', url: 'https://www.kia.com/se/nya-bilar/ev9/specifications/' },
       ...(row.seats === 6 ? [{ label: 'Kia Tyskland: sexsitsversionens bagage, alla säten i bruk', url: 'https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV9-Preisliste.pdf#page=15' }] : []),

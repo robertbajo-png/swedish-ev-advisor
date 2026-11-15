@@ -111,6 +111,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev2-fwd-5-sits</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev2-fwd-long-range-5-sits</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/kia-ev2-gt-line-fwd-long-range-5-sits</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://elbilsagenten.se/bilar/kia-ev3-fwd</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

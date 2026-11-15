@@ -11,9 +11,23 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 | --- | --- | --- |
 | 1. Exact-version research | Complete | Five fresh official sources, four Swedish DO/W7/W6 identities. Standard19/21inch, 218/384hp, six/seven seats. German same-body VDA explicitly supports333L with all six seats upright. Dated November cash prices retained; six-seat web alternate897900 preserved, not silently substituted for909900. Approved exact-model press photograph visually reviewed. |
 | 2. Canonical completion | Committed | Fresh five-source guarded transaction filled11 gaps across four versions. Prices unchanged, November30 validity refreshed, sourced SUV body. Anonymous export verifies exactly4 changed/72 preserved, all30models/76versions retained. News controls/articles unchanged. |
-| 3. Regression and visual QA | Passed locally | Nine extraction tests, six expansion-preflight tests, all48 Kia completion extraction tests, EV6/EV9 transaction regressions and release build pass.90 static routes, eight no-JS/hydrated checks,22 Axe audits and16 EV9 viewport checks pass. Two additional EV9 Axe audits, exact variant selection/comparison, full-frame mobile geometry and visual press-photo review pass. Exact-main CI and production verification still required. |
-| 4. Publication | Pending | Scoped PR and exact-main CI before existing production distributor. Verify actual deployed hash/photo/metadata/pages; no new SEO project. |
+| 3. Regression and visual QA | Passed | Nine extraction tests, six expansion-preflight tests, all48 Kia completion extraction tests, EV6/EV9 transaction regressions and release build pass.90 static routes, eight no-JS/hydrated checks,22 Axe audits and16 EV9 viewport checks pass. All178 PR CI steps and178 exact-main steps pass. Actual production16-view matrix, two further Axe audits, variant/comparison, photo/hash/metadata and mobile geometry checks pass. Screenshots visually reviewed. |
+| 4. Publication | Complete | PR #73 merged as3ab0631096a733b033ab868b218466ba3ef0a383. Production distribution43737114773 succeeded. Actual HTTPS/catalog/photo/metadata verification passed at2026-11-15T16:45:12Z, followed by production UI checks. No new SEO work. |
 | 5. Expansion design | Prepared | See catalog-expansion-quality-plan.md. Current public snapshot preflight:30models/76variants,24 research candidates from old ranks31-60, all need fresh market data; three mapping holds. No new-model publication implied. |
+
+Release receipts: PR CI43736042676, exact-main CI43736533865 and fixed-target
+production distribution43737114773. All76 deployed rows match the approved hash
+77cf9199d465e25ef6a669c20d9d734835243b332cbfe74feaabe1a05064617a;
+the retained EV9 press original matches its local source hash byte-for-byte.
+Remote access checks confirm30/76 public models/variants and denial of anonymous
+access to all seven internal vehicle tables. No paid calls or news changes.
+
+Expansion follow-up: the actual October2026 Mobility workbook has now been
+fetched and parsed privately (135BEV rows). A current ranks1-60 research scope
+contains17 matched new-model candidates and14 raw mapping holds. Keep March
+as history. No market/canonical writes or new-model publications were made for
+that discovery. Prioritize safe insertion/alias tests and the Kia EV2 pilot,
+then Toyota C-HR+, EX90, ID.Buzz and MG4 as source-ready evidence permits.
 
 Technical completeness after this transaction:52/76 versions, all30models
 retained. Existing Kia EV3/4/5/6/9 profiles now have all nine technical fields

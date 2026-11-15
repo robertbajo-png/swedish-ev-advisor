@@ -1,4 +1,20 @@
 {
+  "kia-ev2-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Kia Sweden AB",
+    "official_link_evidence": "https://www.kia.com/se/om-kia/pressrum/",
+    "image_path_prefix": "/se/kia/images/",
+    "model_title_pattern": "^kia-ev2-gtline-ivory-silver-matt-static-highres-001\\.jpg$",
+    "approved_image_paths": ["/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874"],
+    "model_keys": ["kia|ev2"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "max_asset_bytes": 24000000,
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "kia-mynewsdesk": {
     "origin": "https://kia-motors.mynewsdesk.com",
     "publisher": "Kia Sweden AB",
