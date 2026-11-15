@@ -6,11 +6,34 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from audit_image_rights import PRESS_PUBLISHERS, reviewed_media_permission
+from audit_image_rights import PRESS_PUBLISHERS, reviewed_media_permission, reviewed_toyota_permission
 from register_new_model_photo import prepare
 
 
 class NewModelPhotoTests(unittest.TestCase):
+    def test_toyota_plus_permission_is_not_a_hybrid_bz4x_or_arbitrary_photo(self):
+        real=Path(__file__).resolve().parents[1]
+        proof=next(r for r in json.loads((real/'src/image-rights.json').read_text(encoding='utf8'))['assets'] if r['model_key']=='toyota|c hr')
+        self.assertTrue(reviewed_toyota_permission(proof))
+        for patch in [dict(model_key='toyota|bz4x'),dict(source_url=proof['source_url'].replace('c-hr-design','c-hr-hybrid')),
+            dict(downloaded_from=proof['downloaded_from'].replace('_014-','_010-')),dict(full_frame=False),dict(usage_scope='advertising')]:
+            self.assertFalse(reviewed_toyota_permission({**proof,**patch}))
+
+    def test_public_plus_model_is_blocked_even_when_image_key_is_normalized(self):
+        real=Path(__file__).resolve().parents[1]
+        proof=next(r for r in json.loads((real/'src/image-rights.json').read_text(encoding='utf8'))['assets'] if r['model_key']=='toyota|c hr')
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'src').mkdir();(root/'public/data').mkdir(parents=True)
+            (root/'src/image-rights.json').write_text('{"schema_version":1,"assets":[]}')
+            (root/'src/model-images.json').write_text('{}')
+            (root/'public/data/public_ev_variants.json').write_text('{"records":[{"brand":"Toyota","model":"C-Hr+"}]}')
+            body=b'\xff\xd8\xffsynthetic-plus-model-photo';digest=hashlib.sha256(body).hexdigest()
+            name='toyota-c-hr-press-'+digest[:12]+'.jpg';(root/name).write_bytes(body)
+            candidate={**proof,'content_sha256':digest,'review_filename':name,'asset_url':proof['downloaded_from']}
+            path=root/'candidate.json';path.write_text(json.dumps(candidate))
+            with self.assertRaisesRegex(ValueError,'existing_public_model_requires_separate_refresh'):
+                prepare(path,hashlib.sha256(path.read_bytes()).hexdigest(),root)
+
     def test_ev2_permission_is_exact_and_does_not_widen_existing_publishers(self):
         policy = PRESS_PUBLISHERS['kia-ev2-mynewsdesk']
         self.assertEqual(policy['model_keys'], ['kia|ev2'])

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publishers.json', import.meta.url), 'utf8'));
+const toyotaPhotos = JSON.parse(readFileSync(new URL('../src/toyota-press-images.json', import.meta.url), 'utf8'));
 
 const key = row => [row.brand, row.model].map(value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
 export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
@@ -30,11 +31,11 @@ export function buildImagePlan(models, publicModels, registry) {
       assert.match(asset.metadata_sha256, /^[a-f0-9]{64}$/);
       assert(new RegExp('^https://media\\.polestar\\.com/assets/images/(?:original|small)/' + match[1] + '-[a-zA-Z0-9._-]+\\.jpe?g$').test(asset.downloaded_from));
     } else if (asset.license_id === 'Toyota-editorial') {
-      assert.equal(asset.model_key, 'toyota|bz4x');
-      const source = 'https://media.toyota.co.uk/images/bz4x-fwd-exterior-static-european-spec-2025/';
+      const photo = toyotaPhotos[asset.model_key];assert(photo, 'Registered exact Toyota photo required');
+      const source = photo.source_url;
       for (const field of ['source_url','evidence_url','license_url']) assert.equal(asset[field], source);
-      assert.equal(asset.downloaded_from, 'https://media.toyota.co.uk/wp-content/uploads/sites/5/2025/12/2026_bZ4X-FWD_Deep-Blue-Metallic_Static_001-scaled.jpg');
-      assert.equal(asset.evidence_quote, 'Images are copyright free for editorial purposes only');
+      assert.equal(asset.downloaded_from, photo.asset_url);
+      assert.equal(asset.evidence_quote, photo.permission);
       assert.equal(asset.usage_scope, 'independent_vehicle_editorial'); assert.equal(asset.full_frame, true);
       assert.deepEqual(asset.prohibited_uses, ['advertising','commercial_promotion','endorsement']);
       for (const field of ['metadata_sha256','source_content_sha256']) assert.match(asset[field], /^[a-f0-9]{64}$/);

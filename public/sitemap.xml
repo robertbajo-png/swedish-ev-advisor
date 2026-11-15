@@ -416,6 +416,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://elbilsagenten.se/bilar/toyota-c-hr-active-awd-77-kwh-343-hk</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/toyota-c-hr-active-fwd-77-kwh-224-hk</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/toyota-c-hr-executive-awd-77-kwh-343-hk</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://elbilsagenten.se/bilar/volkswagen-id-3-neo-trend</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

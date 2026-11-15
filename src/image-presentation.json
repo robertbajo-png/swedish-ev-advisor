@@ -151,6 +151,15 @@
       "object_position": "50% 50%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "toyota|c hr": {
+      "asset_url": "/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg",
+      "content_sha256": "39c5e82ee449b0b4424d5f8ddda24922ff80eadba6a54a90de9348d9e3788e1a",
+      "status": "approved",
+      "reviewed_at": "2026-11-15",
+      "object_position": "50% 50%",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }

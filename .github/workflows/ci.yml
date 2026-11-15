@@ -50,6 +50,7 @@ jobs:
       - run: bun run verify:ev6-completion-sync
       - run: bun run verify:ev9-completion-sync
       - run: bun run verify:new-model-publication
+      - run: bun run verify:chr-plus-publication
       - run: bun run verify:ui-navigation
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
@@ -175,6 +176,7 @@ jobs:
       - run: bun run verify:ev6-completion
       - run: bun run verify:ev9-completion
       - run: bun run verify:ev2-intake
+      - run: bun run verify:chr-plus-intake
       - run: bun run verify:new-model-photo
       - run: bun run verify:expansion-preflight
       - run: bun run verify:vehicle-quality
@@ -221,6 +223,7 @@ jobs:
           bun run verify:ev6-ui
           bun run verify:ev9-ui
           bun run verify:ev2-ui
+          bun run verify:chr-plus-ui
           bun run verify:vehicle-redirects-ui
           bun run verify:price-evidence-ui
           bun run verify:journal-ui

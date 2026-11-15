@@ -81,3 +81,26 @@ First PR CI attempt43742996008 stopped before EV2 tests because the clean
 Linux runner lacked openpyxl (present in the desktop runtime). Added pinned
 openpyxl3.1.5 and et-xmlfile2.0.0 to the source-intake dependency file. No source
 or data rules were changed; retain the failed run rather than claiming it passed.
+
+## Verified Production Release
+
+- PR74 merged as `2c602ea5e06511e7007da9e23732963f89ac223f`.
+- Passing PR CI43743379788 and exact-main CI43743875208:181 successful steps
+  each. Source-intake workbook dependencies are now installed on clean runners.
+- Existing fixed-target production distributor43744379952 passed; no new hosting,
+  keys, permissions, DNS, budget or news-production changes.
+- Actual `https://elbilsagenten.se/` verification completed
+  `2026-11-15T18:03:44.042Z`: HTTPS, public catalog79rows, approved catalog hash,
+  exact original photo SHA-256 and all three pages' initial Vehicle metadata.
+- Production Playwright also passed all12views, two Axe audits, decoded hero and
+  related photos, separated mobile image/text, version picker and comparison.
+  Advisor checks use actual canonical records with the deterministic engine;
+  no paid provider calls or new article publication was made by this release.
+- Private receipts, screenshots and actual-site reports are retained under
+  `data/local/release-data/kia-ev2-pilot-2026-11-15/`.
+
+First five-model pilot progress:1/5 released. Next: Toyota C-HR+, with separate
+electric identity/alias safeguards (normalization strips the plus), exact Swedish
+versions/prices, full technical evidence and reviewed model imagery. Recomputed
+October ranks1-60 research scope has16 remaining matched candidates and14 raw
+mapping holds; neither is an automatic publication approval.
