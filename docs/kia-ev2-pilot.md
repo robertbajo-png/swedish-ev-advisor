@@ -76,3 +76,8 @@ The screenshot test now explicitly scrolls/decode-checks lazy-loaded related
 photographs before the full-page capture. The extra check passed after waiting
 for the real load event; it was an early decode timing issue, not a substituted
 or broken model photograph. Existing EV9's16-view regression also passes.
+
+First PR CI attempt43742996008 stopped before EV2 tests because the clean
+Linux runner lacked openpyxl (present in the desktop runtime). Added pinned
+openpyxl3.1.5 and et-xmlfile2.0.0 to the source-intake dependency file. No source
+or data rules were changed; retain the failed run rather than claiming it passed.
