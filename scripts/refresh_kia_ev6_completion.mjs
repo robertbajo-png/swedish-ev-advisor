@@ -1,0 +1,4 @@
+import * as sync from './kia_ev6_completion_sync.mjs';
+import {runTechnicalRefresh,reportFailure} from './refresh_kia_specs.mjs';
+runTechnicalRefresh({sync,collector:'scripts/kia_ev6_completion_intake.py',
+ defaultOutput:'data/local/release-data/kia-ev6-completion-2026-11-15/specs'}).catch(reportFailure);

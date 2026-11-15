@@ -1,0 +1,617 @@
+{
+  "adapter": "kia_ev6_sweden_completion_v1",
+  "drafts": [
+    {
+      "adapter": "kia_ev6_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev6",
+      "variant_name": "EV6 RWD",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+        "content_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+        "fetched_at": "2026-11-15T15:41:05.366606+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "content_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "fetched_at": "2026-11-15T15:41:07.456796+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/technische-daten/",
+          "content_hash": "9ea85a0d81f8623b07200a0b6bd558b3461f98aad3de90845f6077958002b468",
+          "fetched_at": "2026-11-15T15:41:08.857915+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "content_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "fetched_at": "2026-11-15T15:41:10.373797+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/specifikationer/",
+          "content_hash": "13a0fa106be3c1ef5dd63934f90865e887b9828b8712b8118ac6206f7ea35c44",
+          "fetched_at": "2026-11-15T15:41:11.706456+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "content_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "fetched_at": "2026-11-15T15:41:13.869378+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-15T15:41:16.441107+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T15:41:18.042529+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev6_84kwh_standard_19inch_and_separate_609_650hp_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 84,
+        "wltp_range_km": 582,
+        "wltp_consumption_kwh_100km": 15.9,
+        "dc_charge_kw": 258,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 480,
+        "drivetrain": "RWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 84,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Batterikapacitet (kWh) 84",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 582,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Max räckvidd (km) enligt WLTP upp till 582** upp till 546**",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.9,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 15,9 17,0 19\" / 17,7 20\"",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 258,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "DC snabbladdning max 258kW",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 750 / 1800 750 / 1800",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 480,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) 480 / 1290 / 50 480 / 1290 / 20",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "RWD",
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "MOTOR Elmotor Elmotor RWD AWD",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV6 RWD",
+          "column_header": "EV6 RWD | ASW5ZHZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6/technische-daten/",
+          "source_hash": "9ea85a0d81f8623b07200a0b6bd558b3461f98aad3de90845f6077958002b468",
+          "quote": "ASW5ZHZ7Z-TX1 | Elmotor 228hk RWD (El , Elektrisk); 168 KW (229 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Crossover"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Crossover",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "source_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "quote": "Upptäck Kias snabbladdande crossover med en sportig design redan idag."
+        }
+      },
+      "price_evidence": {
+        "value": 596400,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV6 RWD Long Range 596,400 kr",
+        "classification": "dated_november_swedish_cash_list_and_matching_engine"
+      },
+      "source_decisions": [
+        "Preserve all three existing canonical identities/routes and all three price amounts; RWD/AWD are explicit aliases of the Swedish base Long Range profiles.",
+        "Regular 84kWh base versions use standard19inch wheels:582km/15.9RWD and546km/17.0AWD. Do not use optional20inch522km/17.7 or old77.4kWh GT data.",
+        "Both Swedish AS/W5 engine tables are nested. TX1 has two motors despite its trim display label RWD: match the exact engine ID, not the trim label alone.",
+        "GT ASW5YDZ7Z-GX2 has609hp normally and650hp only with Launch Control; the dated Swedish price name650hk identifies that same84kWh version.",
+        "Swedish GT model data supplies450km/84kWh/AWD/1800kg. October energy declaration supplies20.9. German same448/609[478/650]84kWh GT supplies AC10.5/DC258 and seats-up480L including underfloor space.",
+        "Resolve historical drivetrain GT to AWD only for this exact GT identity; GT is an equipment/performance label, not a driven-axle specification.",
+        "Boot480L is rear seats up, not folded1250/1290 or frunk20/50. Tow1800kg is braked capacity, not750unbraked,100ball load or B-licence limits.",
+        "Use exact onboardAC10.5, not nominal supply11 or DC station350. Keep German technical evidence labelled DE/de; no foreign prices are imported.",
+        "November1-30 Swedish cash amounts596400/631400/771400 agree with engine JSON. Never substitute Plus price, lease12360 or optional paint20000.",
+        "Keep shared price/energy sources model* and legacy uppercaseEV6 model/engine pages unchanged. Preserve the approved full-frame Baseline press image with equipment notice, not a GT-photo claim."
+      ]
+    },
+    {
+      "adapter": "kia_ev6_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev6",
+      "variant_name": "EV6 AWD",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+        "content_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+        "fetched_at": "2026-11-15T15:41:05.366606+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "content_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "fetched_at": "2026-11-15T15:41:07.456796+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/technische-daten/",
+          "content_hash": "9ea85a0d81f8623b07200a0b6bd558b3461f98aad3de90845f6077958002b468",
+          "fetched_at": "2026-11-15T15:41:08.857915+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "content_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "fetched_at": "2026-11-15T15:41:10.373797+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/specifikationer/",
+          "content_hash": "13a0fa106be3c1ef5dd63934f90865e887b9828b8712b8118ac6206f7ea35c44",
+          "fetched_at": "2026-11-15T15:41:11.706456+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "content_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "fetched_at": "2026-11-15T15:41:13.869378+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-15T15:41:16.441107+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T15:41:18.042529+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev6_84kwh_standard_19inch_and_separate_609_650hp_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 84,
+        "wltp_range_km": 546,
+        "wltp_consumption_kwh_100km": 17.0,
+        "dc_charge_kw": 258,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 480,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 84,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Batterikapacitet (kWh) 84",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "wltp_range_km": {
+          "value": 546,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Max räckvidd (km) enligt WLTP upp till 582** upp till 546**",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 17.0,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP 15,9 17,0 19\" / 17,7 20\"",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 258,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "DC snabbladdning max 258kW",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10.5",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "Max släpvagnsvikt (obromsat / bromsat släp) 750 / 1800 750 / 1800",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 480,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (liter) 480 / 1290 / 50 480 / 1290 / 20",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "source_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "quote": "MOTOR Elmotor Elmotor RWD AWD",
+          "scope": "swedish_84kwh_base_trim_19inch",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV6 AWD",
+          "column_header": "EV6 AWD | ASW5YCZ7Z-TX1 | 19 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6/technische-daten/",
+          "source_hash": "9ea85a0d81f8623b07200a0b6bd558b3461f98aad3de90845f6077958002b468",
+          "quote": "ASW5YCZ7Z-TX1 | Elmotor 325hk AWD (El , Elektrisk); 239 KW (325 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Crossover"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Crossover",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "source_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "quote": "Upptäck Kias snabbladdande crossover med en sportig design redan idag."
+        }
+      },
+      "price_evidence": {
+        "value": 631400,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV6 AWD Long Range 631,400 kr",
+        "classification": "dated_november_swedish_cash_list_and_matching_engine"
+      },
+      "source_decisions": [
+        "Preserve all three existing canonical identities/routes and all three price amounts; RWD/AWD are explicit aliases of the Swedish base Long Range profiles.",
+        "Regular 84kWh base versions use standard19inch wheels:582km/15.9RWD and546km/17.0AWD. Do not use optional20inch522km/17.7 or old77.4kWh GT data.",
+        "Both Swedish AS/W5 engine tables are nested. TX1 has two motors despite its trim display label RWD: match the exact engine ID, not the trim label alone.",
+        "GT ASW5YDZ7Z-GX2 has609hp normally and650hp only with Launch Control; the dated Swedish price name650hk identifies that same84kWh version.",
+        "Swedish GT model data supplies450km/84kWh/AWD/1800kg. October energy declaration supplies20.9. German same448/609[478/650]84kWh GT supplies AC10.5/DC258 and seats-up480L including underfloor space.",
+        "Resolve historical drivetrain GT to AWD only for this exact GT identity; GT is an equipment/performance label, not a driven-axle specification.",
+        "Boot480L is rear seats up, not folded1250/1290 or frunk20/50. Tow1800kg is braked capacity, not750unbraked,100ball load or B-licence limits.",
+        "Use exact onboardAC10.5, not nominal supply11 or DC station350. Keep German technical evidence labelled DE/de; no foreign prices are imported.",
+        "November1-30 Swedish cash amounts596400/631400/771400 agree with engine JSON. Never substitute Plus price, lease12360 or optional paint20000.",
+        "Keep shared price/energy sources model* and legacy uppercaseEV6 model/engine pages unchanged. Preserve the approved full-frame Baseline press image with equipment notice, not a GT-photo claim."
+      ]
+    },
+    {
+      "adapter": "kia_ev6_sweden_completion_v1",
+      "brand": "Kia",
+      "model": "Ev6",
+      "variant_name": "EV6 GT",
+      "source": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+        "content_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+        "fetched_at": "2026-11-15T15:41:10.373797+00:00"
+      },
+      "supporting_sources": [
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev6/kia-sweden-ev6-specification.pdf",
+          "content_hash": "7f084db5ca3081ed046b3f38b4d4026cf1007c51a05a618d57678bc3fc44f307",
+          "fetched_at": "2026-11-15T15:41:05.366606+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "content_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "fetched_at": "2026-11-15T15:41:07.456796+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6/technische-daten/",
+          "content_hash": "9ea85a0d81f8623b07200a0b6bd558b3461f98aad3de90845f6077958002b468",
+          "fetched_at": "2026-11-15T15:41:08.857915+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/se/nya-bilar/ev6-gt/specifikationer/",
+          "content_hash": "13a0fa106be3c1ef5dd63934f90865e887b9828b8712b8118ac6206f7ea35c44",
+          "fetched_at": "2026-11-15T15:41:11.706456+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "content_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "fetched_at": "2026-11-15T15:41:13.869378+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "content_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "fetched_at": "2026-11-15T15:41:16.441107+00:00"
+        },
+        {
+          "status": "reachable",
+          "http_status": 200,
+          "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+          "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+          "fetched_at": "2026-11-15T15:41:18.042529+00:00"
+        }
+      ],
+      "source_resolution": "exact_swedish_ev6_84kwh_standard_19inch_and_separate_609_650hp_gt",
+      "extraction_confidence": 0.99,
+      "facts": {
+        "battery_kwh": 84,
+        "wltp_range_km": 450,
+        "wltp_consumption_kwh_100km": 20.9,
+        "dc_charge_kw": 258,
+        "ac_charge_kw": 10.5,
+        "tow_kg": 1800,
+        "boot_liters": 480,
+        "drivetrain": "AWD",
+        "seats": 5
+      },
+      "field_evidence": {
+        "battery_kwh": {
+          "value": 84,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "source_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "quote": "Batterikapacitet: 84 kWh AWD - fyrhjulsdrift Räckvidd: upp till 450 km 12a Ultrasnabb laddning: 10-80 % på ner till 18 minuter 12b 0-100 km/h: 3,7 sekunder / 3,5 sekunder (med Launch Control aktiverat) Prestanda: 609 hk/448 kW samt vid Launch Control: 650 hk/478 kW Maxhastighet: 260 km/h Virtual Gear Shift / Adaptive Sound Design Dragvikt: upp till 1 800 kg",
+          "scope": "swedish_same_gt_609hp_650hp_launch_control",
+          "page": null
+        },
+        "wltp_range_km": {
+          "value": 450,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "source_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "quote": "Batterikapacitet: 84 kWh AWD - fyrhjulsdrift Räckvidd: upp till 450 km 12a Ultrasnabb laddning: 10-80 % på ner till 18 minuter 12b 0-100 km/h: 3,7 sekunder / 3,5 sekunder (med Launch Control aktiverat) Prestanda: 609 hk/448 kW samt vid Launch Control: 650 hk/478 kW Maxhastighet: 260 km/h Virtual Gear Shift / Adaptive Sound Design Dragvikt: upp till 1 800 kg",
+          "scope": "swedish_same_gt_609hp_650hp_launch_control",
+          "page": null
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 20.9,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/bransledeklaration/kia-sweden-bransledeklaration.pdf",
+          "source_hash": "1969a54aaa4f224c30bed182657c0f020f902977832e3e0a969bafc244569fcf",
+          "quote": "EV6 GT Elmotor 650hk El Euro 6ax 20,9 kWh",
+          "scope": "swedish_october_gt_consumption",
+          "page": 1
+        },
+        "dc_charge_kw": {
+          "value": 258,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "source_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "quote": "Max. DC-Ladeleistung (kW) 258",
+          "scope": "german_same_84kwh_609_650hp_gt",
+          "page": 10
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "source_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "quote": "Max. AC-Ladeleistung (kW) 3-phasig (AC), 10,5 kW",
+          "scope": "german_same_84kwh_609_650hp_gt",
+          "page": 10
+        },
+        "tow_kg": {
+          "value": 1800,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "source_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "quote": "Batterikapacitet: 84 kWh AWD - fyrhjulsdrift Räckvidd: upp till 450 km 12a Ultrasnabb laddning: 10-80 % på ner till 18 minuter 12b 0-100 km/h: 3,7 sekunder / 3,5 sekunder (med Launch Control aktiverat) Prestanda: 609 hk/448 kW samt vid Launch Control: 650 hk/478 kW Maxhastighet: 260 km/h Virtual Gear Shift / Adaptive Sound Design Dragvikt: upp till 1 800 kg",
+          "scope": "swedish_same_gt_609hp_650hp_launch_control",
+          "page": null
+        },
+        "boot_liters": {
+          "value": 480,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/de/de/assets/contents/utility/Preisliste/Kia-Germany-EV6-GT-Pricelist.pdf",
+          "source_hash": "ec273b6bd968773a150ca54da51b967c86600329b06e27b6f37e275f9aa5931e",
+          "quote": "Gepäckraumvolumen nach VDA (Liter), inkl. Ablagefach im Gepäckraumboden Sitze in Normalposition, bis Fensterhöhe, max. 480",
+          "scope": "german_same_84kwh_609_650hp_gt",
+          "page": 11
+        },
+        "drivetrain": {
+          "value": "AWD",
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6-gt/upptack/",
+          "source_hash": "28f5351436a8e70a589a211805ce5b99549a2e2c352aafc03cbac682b7e83134",
+          "quote": "Batterikapacitet: 84 kWh AWD - fyrhjulsdrift Räckvidd: upp till 450 km 12a Ultrasnabb laddning: 10-80 % på ner till 18 minuter 12b 0-100 km/h: 3,7 sekunder / 3,5 sekunder (med Launch Control aktiverat) Prestanda: 609 hk/448 kW samt vid Launch Control: 650 hk/478 kW Maxhastighet: 260 km/h Virtual Gear Shift / Adaptive Sound Design Dragvikt: upp till 1 800 kg",
+          "scope": "swedish_same_gt_609hp_650hp_launch_control",
+          "page": null
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV6 GT",
+          "column_header": "EV6 GT | ASW5YDZ7Z-GX2 | 21 tum",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6-gt/specifikationer/",
+          "source_hash": "13a0fa106be3c1ef5dd63934f90865e887b9828b8712b8118ac6206f7ea35c44",
+          "quote": "ASW5YDZ7Z-GX2 | Elmotor 650hk AWD (El , Elektrisk); 478 KW (650 hk) | number of seats 5",
+          "scope": "exact_swedish_nested_trim_engine",
+          "page": null
+        }
+      },
+      "held_fields": {},
+      "model_facts": {
+        "body_type": "Crossover"
+      },
+      "model_field_evidence": {
+        "body_type": {
+          "value": "Crossover",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev6/upptack/",
+          "source_hash": "5481e19e533b06980f2faaa727486d6d4dfa807b0e372ab0001be88145d32894",
+          "quote": "Upptäck Kias snabbladdande crossover med en sportig design redan idag."
+        }
+      },
+      "price_evidence": {
+        "value": 771400,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "page": 2,
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "quote": "EV6 GT (650hk) AWD Long Range 771,400 kr 12,360 kr",
+        "classification": "dated_november_swedish_cash_list_and_matching_engine"
+      },
+      "source_decisions": [
+        "Preserve all three existing canonical identities/routes and all three price amounts; RWD/AWD are explicit aliases of the Swedish base Long Range profiles.",
+        "Regular 84kWh base versions use standard19inch wheels:582km/15.9RWD and546km/17.0AWD. Do not use optional20inch522km/17.7 or old77.4kWh GT data.",
+        "Both Swedish AS/W5 engine tables are nested. TX1 has two motors despite its trim display label RWD: match the exact engine ID, not the trim label alone.",
+        "GT ASW5YDZ7Z-GX2 has609hp normally and650hp only with Launch Control; the dated Swedish price name650hk identifies that same84kWh version.",
+        "Swedish GT model data supplies450km/84kWh/AWD/1800kg. October energy declaration supplies20.9. German same448/609[478/650]84kWh GT supplies AC10.5/DC258 and seats-up480L including underfloor space.",
+        "Resolve historical drivetrain GT to AWD only for this exact GT identity; GT is an equipment/performance label, not a driven-axle specification.",
+        "Boot480L is rear seats up, not folded1250/1290 or frunk20/50. Tow1800kg is braked capacity, not750unbraked,100ball load or B-licence limits.",
+        "Use exact onboardAC10.5, not nominal supply11 or DC station350. Keep German technical evidence labelled DE/de; no foreign prices are imported.",
+        "November1-30 Swedish cash amounts596400/631400/771400 agree with engine JSON. Never substitute Plus price, lease12360 or optional paint20000.",
+        "Keep shared price/energy sources model* and legacy uppercaseEV6 model/engine pages unchanged. Preserve the approved full-frame Baseline press image with equipment notice, not a GT-photo claim."
+      ]
+    }
+  ],
+  "held": [],
+  "database_writes": 0,
+  "paid_calls": 0
+}
