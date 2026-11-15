@@ -11,8 +11,11 @@ from news_publisher_selection import BRAND_PATTERNS
 def summarize(result):
     status = result.get('status', 'unknown')
     if not isinstance(status, str) or not re.fullmatch(r'[a-z_]{1,80}', status): status = 'unknown'
+    skipped = result.get('skipped', [])
+    skipped = skipped if isinstance(skipped, list) else []
+    held = result.get('held_candidates')
     output = {'status': status, 'published': 1 if result.get('published') == 1 else 0,
-              'held_candidates': len(result.get('skipped', [])),
+              'held_candidates': held if type(held) is int and held >= len(skipped) else len(skipped),
               'review_performed': result.get('review_performed') is True}
     for field in ('cost_micro_usd', 'word_count'):
         value = result.get(field)
@@ -28,7 +31,9 @@ def summarize(result):
         else:
             output['failure_kind'] = 'worker_failure'
     reasons, gaps = Counter(), {}
-    for candidate in result.get('skipped', []):
+    for candidate in skipped:
+        if not isinstance(candidate, dict):
+            continue
         values = candidate.get('reason', candidate.get('errors', []))
         for value in values if isinstance(values, list) else [values]:
             reasons[safe_reason(value)] += 1
@@ -48,10 +53,37 @@ def summarize(result):
     return output
 
 
+def summarize_result_file(path, *, worker_failed=False):
+    # Do not turn an upstream worker exception into a second, misleading JSON failure.
+    fallback = {'status': 'worker_not_completed', 'published': 0, 'review_performed': False}
+    try:
+        raw = path.read_text(encoding='utf-8')
+    except FileNotFoundError:
+        issue = 'missing'
+    except (OSError, UnicodeError):
+        issue = 'unreadable'
+    else:
+        if not raw.strip():
+            issue = 'empty'
+        else:
+            try:
+                result = json.loads(raw)
+            except ValueError:
+                result = None
+            if isinstance(result, dict) and isinstance(result.get('status'), str):
+                return summarize(result)
+            issue = 'invalid'
+    # The original failure remains visible in its workflow step; never copy raw output.
+    if issue != 'missing' or worker_failed:
+        fallback['result_file_issue'] = issue
+    if worker_failed:
+        fallback['failure_kind'] = 'upstream_worker_failure'
+    return fallback
+
+
 if __name__ == '__main__':
-    path = Path('publisher-run-result.json')
-    report = summarize(json.loads(path.read_text(encoding='utf-8'))) if path.exists() else {
-        'status': 'worker_not_completed', 'published': 0, 'review_performed': False}
+    report = summarize_result_file(Path('publisher-run-result.json'),
+                                   worker_failed=os.environ.get('NEWS_PUBLISHER_WORKER_FAILED') == 'true')
     Path('news-operation-summary.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a', encoding='utf-8') as handle:

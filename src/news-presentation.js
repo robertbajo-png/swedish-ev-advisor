@@ -5,6 +5,7 @@ export const NEWS_CATEGORIES = {
 
 export const NEWS_TOPICS = [
   { id: 'all', label: 'Alla nyheter', categories: [] },
+  { id: 'kopnytt', label: 'Svenska prisnyheter', categories: [], swedishPriceNews: true },
   { id: 'modeller', label: 'Nya elbilar', categories: ['modeller', 'uppdateringar'] },
   { id: 'teknik', label: 'Teknik & batterier', categories: ['batterier', 'sakerhet'] },
   { id: 'tester', label: 'Tester', categories: ['tester'] },
@@ -28,6 +29,15 @@ export function isPublishedArticle(article) {
 
 export function publicArticles(articles = []) {
   return articles.filter(isPublishedArticle).slice().sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at));
+}
+
+// This is a presentation filter on already published, sourced Swedish price news.
+// Do not infer order openings, equipment changes or a current transaction price.
+export function isSwedishPriceNews(article) {
+  if (!isPublishedArticle(article) || article.category !== 'priser' || !Array.isArray(article.sources) ||
+      !article.sources.some((source) => safeNewsLink(source?.url))) return false;
+  const title = article.title.normalize('NFC').toLocaleLowerCase('sv-SE');
+  return /(?:^|[ :–(])svensk(?:a|t)\s+(?:cirka|list|kampanj)?pris(?:et|er|erna)?(?:\s|[.,:;!?)]|$)/u.test(title);
 }
 
 export function newsDate(value) {

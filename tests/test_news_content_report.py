@@ -2,6 +2,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 import json
+import tempfile
 import sys
 import unittest
 
@@ -64,6 +65,35 @@ class ContentReportTests(unittest.TestCase):
             {'reason': 'A private source sentence'}]})
         self.assertEqual(report['held_reasons']['robots_disallowed'], 1)
         self.assertNotIn('private.example', json.dumps(report))
+
+    def test_result_file_summary_distinguishes_upstream_failure_without_leaking_bytes(self):
+        from news_run_summary import summarize_result_file
+        with tempfile.TemporaryDirectory() as folder:
+            file = Path(folder) / 'publisher-run-result.json'
+            self.assertNotIn('failure_kind', summarize_result_file(file))
+            for raw, issue in [(None, 'missing'), (b'   ', 'empty'),
+                               (b'{private token', 'invalid'), (b'[]', 'invalid'),
+                               (b'{}', 'invalid'), (b'\xff', 'unreadable')]:
+                if raw is not None:
+                    file.write_bytes(raw)
+                with self.subTest(issue=issue):
+                    report = summarize_result_file(file, worker_failed=True)
+                    self.assertEqual(report['status'], 'worker_not_completed')
+                    self.assertEqual(report['failure_kind'], 'upstream_worker_failure')
+                    self.assertEqual(report['result_file_issue'], issue)
+                    self.assertEqual(report['published'], 0)
+                    self.assertNotIn('private token', json.dumps(report))
+
+    def test_result_file_summary_preserves_structured_worker_error_and_held_count(self):
+        from news_run_summary import summarize_result_file
+        with tempfile.TemporaryDirectory() as folder:
+            file = Path(folder) / 'publisher-run-result.json'
+            file.write_text(json.dumps({'status': 'failed', 'skipped': None, 'held_candidates': 3,
+                                        'error': 'NewsProviderError:private'}))
+            report = summarize_result_file(file, worker_failed=True)
+            self.assertEqual(report['failure_kind'], 'provider_failure')
+            self.assertEqual(report['held_candidates'], 3)
+            self.assertNotIn('private', json.dumps(report))
 
 
 if __name__ == '__main__':

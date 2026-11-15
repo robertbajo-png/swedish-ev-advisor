@@ -31,7 +31,7 @@ try {
       await page.waitForURL(url => url.pathname === '/bilar' && url.searchParams.get('brand') === entry.brand && url.searchParams.get('query') === entry.model);
       const card = page.locator('.carCard').first();
       await card.waitFor().catch(error => { throw new Error('Retired link has no current model cards: '+entry.slug, {cause:error}); });
-      assert.equal(await page.locator('#desktop-price').inputValue(),'1200000');
+      assert.equal(await page.locator('#desktop-price').getAttribute('aria-valuetext'),'Inget pristak');
       assert.equal(await page.getByRole('searchbox',{name:'Sök bilmodell'}).inputValue(),entry.model);
       const titles = await page.locator('.carCard .vehicleCardTitle').allTextContents();
       assert(titles.length && titles.every(title => title.includes(entry.brand)), 'Retired link must remain within the same manufacturer');

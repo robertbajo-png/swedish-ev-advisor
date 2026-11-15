@@ -662,6 +662,8 @@ def stage(store, bundle, packet, review, request_ids, *, now=None, related_model
     old = store.get('news_articles', identity)
     if old and old['status'] == 'published':
         return old
+    # Postgres requires the cluster to exist before an item can reference it.
+    store.put('news_story_clusters', {'id': cluster_id, 'event_key': key, 'payload': {'recipe': recipe, 'event': e['event']}})
     refs = []
     for item in bundle['items']:
         p = item['payload']
@@ -673,7 +675,6 @@ def stage(store, bundle, packet, review, request_ids, *, now=None, related_model
         existing = store.get('news_sources', item['source_id'])
         store.put('news_sources', {'id': item['source_id'], 'payload': {**(existing or {}).get('payload', {}), **source}})
         store.put('news_items', {**item, 'status': 'processed', 'cluster_id': cluster_id})
-    store.put('news_story_clusters', {'id': cluster_id, 'event_key': key, 'payload': {'recipe': recipe, 'event': e['event']}})
     factual_brands = classify_metadata(' '.join(f['statement'] for f in e['facts']), '')['brands']
     payload = {**article, 'editorial_recipe': recipe, 'editorial_policy': EDITORIAL_POLICY,
         'category': e['category'], 'brands': sorted(set(factual_brands) | {m['brand'] for m in (related_models or [])}),

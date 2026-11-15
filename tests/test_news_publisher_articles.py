@@ -4,6 +4,8 @@ import hashlib
 from contextlib import closing
 from datetime import datetime, timedelta, timezone
 import json
+import re
+import sqlite3
 from pathlib import Path
 import sys
 import tempfile
@@ -236,6 +238,38 @@ class PublisherArticleTests(unittest.TestCase):
             store.publish(row['id'], daily_limit=1)
             self.assertTrue(event_duplicate(store, b, p))
             self.assertEqual(len(store.public_articles()), 1)
+
+    def test_normal_staging_and_replay_respect_production_cluster_foreign_key(self):
+        bundle, packet = fixture()
+        with tempfile.TemporaryDirectory() as folder, closing(NewsStore(Path(folder) / 'test.sqlite')) as store:
+            # Stock SQLite schema is intentionally lighter. Use the real migration's
+            # news_items table for the regression, changing only its time default.
+            migration = (Path(__file__).resolve().parents[1] / 'database/migrations/007_news_engine.sql').read_text()
+            item_ddl = re.search(r'create table if not exists news_items \(.*?\n\);', migration, re.S)[0]
+            store.db.execute('pragma foreign_keys = on')
+            store.db.execute('drop table news_items')
+            store.db.execute(item_ddl.replace('default now()', 'default current_timestamp'))
+            with self.assertRaises(sqlite3.IntegrityError):
+                store.db.execute("insert into news_items(id,source_id,url,cluster_id,payload) "
+                                 "values('orphan','missing','orphan','missing','{}')")
+            store.db.rollback()
+
+            review = accepted_review(bundle, packet)
+            ids = ['synthetic-writer', 'synthetic-review']
+            first = stage(store, bundle, packet, review, ids, now=NOW)
+            self.assertEqual(first['status'], 'draft')
+            self.assertEqual(store.public_articles(), [])
+            self.assertEqual(store.get('news_story_clusters', first['cluster_id'])['payload']['event'],
+                             packet['extraction']['event'])
+            self.assertEqual([item['cluster_id'] for item in store.rows('news_items')],
+                             [first['cluster_id']] * len(bundle['items']))
+            again = stage(store, bundle, packet, review, ids, now=NOW)
+            self.assertEqual((again['id'], again['artifact_hash']), (first['id'], first['artifact_hash']))
+            for table, count in {'news_story_clusters': 1, 'news_articles': 1,
+                                 'news_items': len(bundle['items']), 'news_article_sources': len(bundle['items']),
+                                 'news_quality_checks': 3}.items():
+                self.assertEqual(len(store.rows(table)), count, table)
+            self.assertEqual(store.public_articles(), [])
 
     def test_fixture_review_without_provider_receipts_cannot_create_public_gates(self):
         b, p = fixture()

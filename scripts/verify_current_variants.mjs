@@ -27,7 +27,7 @@ assert.equal(retiredSlug('Volvo','Ex30','EX30 Core'),'volvo-ex30-core');
 const registry = { schema_version: 1, redirects: [{ slug: 'kia-ev3', brand: 'Kia', model: 'Ev3' }] };
 assert.equal(vehicleRedirect('kia-ev3', registry), '/bilar?brand=Kia&query=Ev3');
 assert.equal(vehicleRedirect('unknown', registry), null);
-assert.deepEqual(catalogQuery('?brand=Kia&query=Ev3'), {brand:'Kia',query:'Ev3',maxPrice:1200000});
+assert.deepEqual(catalogQuery('?brand=Kia&query=Ev3'), {brand:'Kia',query:'Ev3'});
 assert.equal(catalogQuery('?query=EV3'), null);
 for (const patch of [{slug:'//evil.invalid'}, {slug:'kia-ev3\n/evil'}, {brand:'<script>'}]) {
   assert.throws(() => validateVehicleRedirects({schema_version:1,redirects:[{...registry.redirects[0],...patch}]}));
