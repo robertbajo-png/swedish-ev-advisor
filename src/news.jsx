@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Rss, Sparkles, X } from 'lucide-react';
-import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink } from './news-presentation.js';
+import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink, isSwedishPriceNews } from './news-presentation.js';
 import './news.css';
 
 export { NEWS_CATEGORIES } from './news-presentation.js';
@@ -71,8 +71,10 @@ function NewsImage({ article, priority = false, caption = false, onUnavailable }
 }
 
 function NewsMeta({ article, readingTime = false }) {
+  const swedishPriceNews = isSwedishPriceNews(article);
   return <div className="newsMeta">
     <span>{NEWS_CATEGORIES[article.category] || 'Elbilar'}</span>
+    {swedishPriceNews && <span>Svenska prisuppgifter</span>}
     <time dateTime={article.published_at}>{newsDate(article.published_at)}</time>
     {readingTime && <span className="newsReadingTime"><BookOpen size={13} /> Ca {newsReadingMinutes(article)} min läsning</span>}
   </div>;
@@ -91,7 +93,7 @@ function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, pri
       <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
       <p className="newsStoryIntro">{article.intro}</p>
       <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsagenten'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
-      {variant === 'lead' && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
+      {(variant === 'lead' || isSwedishPriceNews(article)) && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
     </div>
   </article>;
 }
@@ -126,8 +128,10 @@ export function NewsPage({ articles, loading, error, navigate }) {
   const [topic, setTopic] = useState('all');
   const published = useMemo(() => publicArticles(articles), [articles]);
   const brands = useMemo(() => [...new Set(published.flatMap((article) => article.brands || []))].sort((a, b) => a.localeCompare(b, 'sv-SE')), [published]);
-  const categories = NEWS_TOPICS.find((item) => item.id === topic)?.categories || [];
-  const filtered = published.filter((article) => (brand === 'Alla' || (article.brands || []).includes(brand)) && (!categories.length || categories.includes(article.category)));
+  const selectedTopic = NEWS_TOPICS.find((item) => item.id === topic);
+  const categories = selectedTopic?.categories || [];
+  const filtered = published.filter((article) => (brand === 'Alla' || (article.brands || []).includes(brand)) &&
+    (!categories.length || categories.includes(article.category)) && (!selectedTopic?.swedishPriceNews || isSwedishPriceNews(article)));
   const activeFilters = brand !== 'Alla' || topic !== 'all';
   const reset = () => { setBrand('Alla'); setTopic('all'); };
 
