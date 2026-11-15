@@ -1,1 +1,1 @@
-export const PUBLIC_CONTENT_VERSION = '2026-11-kia-ev5-complete-v2';
+export const PUBLIC_CONTENT_VERSION = '2026-11-kia-ev6-complete-v1';

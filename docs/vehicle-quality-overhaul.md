@@ -5,14 +5,39 @@ coverage, not just the colors. Preserve all 30 models and existing deep links.
 
 ## Phase Tracker
 
+## Kia EV6 Completion (2026-11-15)
+
+| Step | Status | Acceptance |
+| --- | --- | --- |
+| 1. Exact-version research | Complete | Eight fresh manufacturer sources bind all 27 facts and three November cash prices. Swedish 84kWh base RWD/AWD19inch and separate609/650hp GT; German same-GT AC/DC/boot rows, Swedish five-seat engine identities. Existing approved Baseline press image visually reviewed. |
+| 2. Canonical completion | Committed | Fresh eight-source transaction filled14 gaps and corrected only GT's historical drivetrain label to AWD. Three price amounts unchanged, November30 validity and independent price evidence refreshed; one sourced Crossover body type. Anonymous export:76 versions, exactly3 changed. Other vehicles/news controls and articles preserved. |
+| 3. Regression and visual QA | Passed locally | Ten extraction tests, three-profile transaction/real-price-trigger/rollback/replay/source tests and twelve prior suites pass. Anonymous export verifies exactly3 changed/73 preserved. Full release build and90 static routes, eight no-JS/hydrated checks and22 Axe audits pass. All three EV6 pages pass320/390/768/1440px, two further Axe audits, full-frame mobile/image/copy separation and real catalog-selector/comparison checks. Screenshots visually reviewed. |
+| 4. Publication | In progress | Scoped PR, exact-main CI, existing production distributor and actual HTTPS/catalog/image/mobile verification. SEO work remains deferred. |
+
+No paid AI or new migrations are planned. Preserve current news, budget,
+credentials, domain, mail and hosting configuration. Existing local edits in
+other reports/documents are not part of this batch.
+
+- The initial full-site QA invocation overlapped a local rebuild and encountered
+  a temporary missing `dist/index.html`; retain that failed result. A full rerun
+  against the completed, stable release build passes all22 Axe audits and all
+  keyboard, responsive, retry and metadata assertions without relaxed checks.
+- The first comparison-test setup used full navigations, which intentionally
+  reset this app's in-memory selection. The regression now selects all three
+  real versions through the catalog's version selector and compares them via
+  normal SPA navigation; no product persistence feature was added.
+- Catalog coverage is now48/76 versions with all nine technical fields, keeping
+  all30 models. Next batch: four Kia EV9 versions with11 missing technical values.
+  This batch does not claim that the remaining catalog gaps or photos are done.
+
 ## Kia EV5 Completion (2026-11-14)
 
 | Step | Status | Acceptance |
 | --- | --- | --- |
 | 1. Exact-version research | Complete | All 45 facts for five existing profiles bound to nine fresh manufacturer sources. Swedish MY2027 standard-wheel values and separate 306hp GT; nested X9/W5 seat/engine identities, explicit Panorama option and dated November prices. |
 | 2. Canonical completion | Committed | Fresh nine-source transaction filled 21 gaps across five versions, with no price-amount changes and one sourced SUV body type. IDs/routes, other vehicles, existing photo and market flags preserved. News controls/articles unchanged. Anonymous export still contains 76 versions and exactly five changed rows. |
-| 3. Regression and visual QA | Passed locally | Ten extraction tests, five-profile transaction/real-price-trigger/rollback/replay/price-alternative/source tests and 16 previous regression suites pass. Anonymous export verifies all 71 other versions unchanged. Client/SSR build, 90 static routes, SEO, no-JS/hydration/filter and EV5 variant/comparison tests pass. Four widths 320/390/768/1440 and two Axe audits, no runtime errors/overflow/mobile overlap. Screenshots visually reviewed. |
-| 4. Publication | In progress | Scoped PR and exact-head/current-main CI, then existing production distribution and actual public-site verification before marking complete. |
+| 3. Regression and visual QA | Passed | Ten extraction tests, five-profile transaction/real-price-trigger/rollback/replay/price-alternative/source tests and 16 previous regression suites pass. Anonymous export verifies all 71 other versions unchanged. Client/SSR build, 90 static routes, SEO, no-JS/hydration/filter and EV5 variant/comparison tests pass. All 173 final PR CI steps and exact-main CI passed. Full UI QA: 22 Axe audits and repeated route-focus tests. Actual public EV5: four widths 320/390/768/1440, two Axe audits, no runtime errors/overflow/mobile overlap. Screenshots visually reviewed. |
+| 4. Publication | Complete | PR #71 merged as 19ef340cd953be6e26adbf3134249ccc82bf2c14. Production distribution 43635023831 succeeded. Actual HTTPS/catalog/EV5/photo/metadata/mobile/comparison/advisor-focus verification completed 14 November at 20:16:03 UTC. |
 
 No paid AI or new migrations. News, budgets, credentials, DNS, mail and hosting
 configuration remain unchanged. Inspect the approved EV5 Baseline model press
@@ -49,6 +74,20 @@ photo and preserve the full frame and equipment notice; never imply a GT photo.
   focus, and test six repeated desktop/mobile transitions plus stable focus
   across two animation frames. The original focus assertion remains. Rebuild
   and rerun full QA/CI; do not rerun the already committed database transaction.
+- Release closeout: final PR CI43633842544 and exact-main CI43634697207
+  succeeded after the focus fix, followed by production distribution43635023831.
+  Actual public GET-only checks matched all76 approved records, the original
+  Baseline photo hash and qualified metadata for all five EV5 versions. Source
+  country/price-alternative/GT/Panorama/boot qualifications remain visible or
+  traceable in staging as appropriate. Mobile image/copy gap is24px, with no
+  header overlap or horizontal overflow. Actual public advisor shortcut focus
+  is stable at390/1440px. Full receipts and screenshots remain under ignored
+  `data/local/release-data/kia-ev5-completion-2026-11-14/`; PR #71 contains the
+  production closeout. No paid AI, migrations, news/control/budget or infra
+  changes. The first failed CI run is retained, not described as a pass.
+- Next batch: Kia EV6, three existing versions and14 missing technical fields.
+  EV3/EV4/EV5 now have all nine fields across15 versions. The overall catalog
+  retains30 models/76 versions, of which45 currently have all nine fields.
 
 ## Kia EV4 Completion (2026-11-14)
 
