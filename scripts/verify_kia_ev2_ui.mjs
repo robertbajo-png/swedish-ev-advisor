@@ -42,6 +42,14 @@ try{
    assert.equal(r.price_type,'list_price');assert.equal(r.price_valid_until,'2026-11-30');
    const text=await page.locator('#specifikationer').innerText();assert(!text.includes('Uppgift saknas'));assert.match(text,/10,5/);assert.match(text,/362/);
    assert.match(await page.locator('main').innerText(),/Modellbild: Kia EV2 GT Line/);
+   const guide=page.getByRole('region',{name:'Vilken version ska jag välja?'});
+   assert.equal(await guide.getByRole('article').count(),3);
+   assert.equal(await guide.getByRole('link',{name:'Kias prislista'}).count(),3);
+   const guideText=(await guide.innerText()).replace(/\s+/g,' ');
+   assert.match(guideText,/\+49 100 kr, \+136 km WLTP/);
+   assert.match(guideText,/\+78 900 kr, [-−]40 km WLTP/);
+   assert.match(guideText,/Uppskattning, inte ett körtest/);
+   assert.deepEqual(await guide.getByRole('row',{name:/^GT Line Long Range/}).getByRole('cell').allTextContents(),['2','1']);
    const layout=await page.evaluate(()=>{
     const rect=s=>document.querySelector(s).getBoundingClientRect(),media=rect('.vehicleHeroMedia'),img=document.querySelector('.vehicleHeroMedia img');
     return{overflow:document.documentElement.scrollWidth>innerWidth,gap:rect('.vehicleHeroCopy').top-media.bottom,
@@ -67,8 +75,20 @@ try{
    checks.push({slug,width,...layout});
   }
  }
- await page.setViewportSize({width:1440,height:900});await page.goto(base+'/bilar?brand=Kia&query=EV2',{waitUntil:'networkidle'});
- await page.getByRole('slider',{name:'Maxpris',exact:true}).press('End');
+ await page.setViewportSize({width:1440,height:900});
+ await page.goto(base+'/bilar',{waitUntil:'networkidle'});
+ const priceSlider=page.getByRole('slider',{name:'Maxpris',exact:true});
+ await priceSlider.waitFor();
+ const fullCount=catalog.records.length;
+ assert.equal(await priceSlider.getAttribute('aria-valuetext'),'Inget pristak');
+ assert.equal(await page.locator('.vehicleFilterNote:visible').innerText(),fullCount+' av '+fullCount+' varianter');
+ await priceSlider.press('Home');
+ assert.notEqual(await page.locator('.vehicleFilterNote:visible').innerText(),fullCount+' av '+fullCount+' varianter');
+ await page.getByRole('button',{name:'Återställ',exact:true}).click();
+ assert.equal(await priceSlider.getAttribute('aria-valuetext'),'Inget pristak');
+ assert.equal(await page.locator('.vehicleFilterNote:visible').innerText(),fullCount+' av '+fullCount+' varianter');
+ await page.goto(base+'/bilar?brand=Kia&query=EV2',{waitUntil:'networkidle'});
+ assert.equal(await priceSlider.getAttribute('aria-valuetext'),'Inget pristak');
  const picker=page.locator('.vehicleVariantPicker select');await picker.waitFor();
  for(const r of rows){await picker.selectOption(vehicleSlug(r.brand,r.model,r.variant_name));await page.locator('.homeVehicleActions button').click();await page.locator('.homeVehicleActions button[aria-pressed="true"]').waitFor();}
  await page.locator('.siteHeader').getByRole('link',{name:'Jämför',exact:true}).click();

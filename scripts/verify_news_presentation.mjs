@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink } from '../src/news-presentation.js';
+import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink, isSwedishPriceNews } from '../src/news-presentation.js';
 
 const article = { id: 'one', slug: 'en-testnyhet', title: 'Endast testdata', published_at: '2026-10-15T12:00:00Z', category: 'modeller', brands: ['Kia'], intro: 'Test av presentation.', related_models: [{ key: 'Kia|Ev6' }], paragraphs: [{ text: 'Första stycket.', kind: 'reporting' }, { text: 'Andra stycket.', kind: 'reporting' }, { text: 'Bedömningen.', kind: 'analysis' }, { text: 'Mer bedömning.', kind: 'analysis' }, { text: 'Avslutande fakta.', kind: 'reporting' }] };
 assert(isPublishedArticle(article));
@@ -24,4 +24,14 @@ const sameModel = { ...older, id: 'model', slug: 'samma-modell', category: 'test
 const unrelated = { ...article, id: 'other', slug: 'annan-nyhet', brands: ['Annat'], related_models: [], category: 'laddning' };
 assert.deepEqual(relatedNews(article, [article, unrelated, sameModel]).map((item) => item.id), ['model', 'other']);
 assert.deepEqual(new Set(NEWS_TOPICS.flatMap((topic) => topic.categories)), new Set(Object.keys(NEWS_CATEGORIES)), 'All existing categories remain reachable');
+const buyer = { ...article, sources: [{url: 'https://example.com/news'}] };
+assert.equal(isSwedishPriceNews({ ...buyer, title: 'Volkswagen ID. Cross: svenska cirkapriser presenterade', category: 'priser' }), true);
+for (const patch of [
+  { title: 'Volkswagen ID. Cross: norska cirkapriser presenterade', category: 'priser' },
+  { title: 'Ny modell visas för Sverige' },
+  { title: 'Kia EV2: svenska priser', category: 'priser', status: 'draft' },
+  { title: 'Kia EV2: svenska priser', category: 'priser', sources: [{url: 'javascript:alert(1)'}] },
+  { title: 'Svenska köpare följer tyska priser', category: 'priser' },
+  { title: 'Kia EV2 får svensk orderstart' },
+]) assert.equal(isSwedishPriceNews({ ...buyer, ...patch }), false);
 console.log(JSON.stringify({ news_presentation_ok: true, checks: ['published-only', 'dates', 'reading estimate', 'original paragraph order', 'source URL safety', 'image rights', 'related articles', 'category coverage'] }));

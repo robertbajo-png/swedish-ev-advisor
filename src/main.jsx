@@ -46,6 +46,7 @@ import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
 import { priceEvidence } from './price-evidence.js';
+import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
 import { specQualifications } from './spec-qualifications.js';
 import needGuides from './need-guides.json';
@@ -351,7 +352,9 @@ function reasonsFor(car, advisor) {
   return reasons.slice(0, 3);
 }
 
-const defaultFilters = { body: 'Alla', brand: 'Alla', query: '', maxPrice: 750000, minRange: 0, towRequired: false, priceKnown: false, sort: 'match' };
+// The final slider position is a distinct, unbounded option, not a price.
+const noPriceCapSliderValue = 1210000;
+const defaultFilters = { body: 'Alla', brand: 'Alla', query: '', maxPrice: null, minRange: 0, towRequired: false, priceKnown: false, sort: 'match' };
 const MAX_COMPARE = 3;
 const BASE_URL = (import.meta.env.VITE_SITE_URL || 'https://elbilsagenten.se').replace(/\/$/, '');
 const APP_BASE_PATH = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
@@ -595,7 +598,7 @@ export function App({ initialData } = {}) {
       .filter((car) => filters.body === 'Alla' || car.body === filters.body)
       .filter((car) => filters.brand === 'Alla' || car.brand === filters.brand)
       .filter((car) => `${car.brand} ${car.canonicalModel || ''} ${car.model}`.toLocaleLowerCase('sv-SE').includes(filters.query.trim().toLocaleLowerCase('sv-SE')))
-      .filter((car) => !car.price || car.price <= filters.maxPrice)
+      .filter((car) => filters.maxPrice == null || !car.price || car.price <= filters.maxPrice)
       .filter((car) => car.range >= filters.minRange)
       .filter((car) => !filters.towRequired || car.towing > 0)
       .filter((car) => !filters.priceKnown || !!car.price)
@@ -836,7 +839,17 @@ function FilterSidebar({ filters, setFilters, resultCount, totalCount, onReset, 
     <select id={prefix + '-brand'} value={filters.brand} onChange={(event) => update('brand', event.target.value)}><option>Alla</option>{brands.map((brand) => <option key={brand}>{brand}</option>)}</select>
     <label htmlFor={prefix + '-body'}>Kaross</label>
     <select id={prefix + '-body'} value={filters.body} onChange={(event) => update('body', event.target.value)}><option>Alla</option>{bodies.map((body) => <option key={body}>{body}</option>)}</select>
-    <div className="vehicleFilterRange"><label htmlFor={prefix + '-price'}>Maxpris</label><output htmlFor={prefix + '-price'}>{formatSEK(filters.maxPrice)}</output><input id={prefix + '-price'} type="range" min="100000" max="1200000" step="10000" value={filters.maxPrice} onChange={(event) => update('maxPrice', Number(event.target.value))} /></div>
+    <div className="vehicleFilterRange">
+      <label htmlFor={prefix + '-price'}>Maxpris</label>
+      <output htmlFor={prefix + '-price'}>{filters.maxPrice == null ? 'Inget pristak' : formatSEK(filters.maxPrice)}</output>
+      <input id={prefix + '-price'} type="range" min="100000" max={noPriceCapSliderValue} step="10000"
+        value={filters.maxPrice ?? noPriceCapSliderValue}
+        aria-valuetext={filters.maxPrice == null ? 'Inget pristak' : formatSEK(filters.maxPrice)}
+        onChange={(event) => {
+          const value = Number(event.target.value);
+          update('maxPrice', value === noPriceCapSliderValue ? null : value);
+        }} />
+    </div>
     <div className="vehicleFilterRange"><label htmlFor={prefix + '-range'}>Minsta räckvidd</label><output htmlFor={prefix + '-range'}>{filters.minRange ? filters.minRange + ' km' : 'Alla räckvidder'}</output><input id={prefix + '-range'} type="range" min="0" max="1000" step="20" value={filters.minRange} onChange={(event) => update('minRange', Number(event.target.value))} /></div>
     <div className="filterToggles"><label><input type="checkbox" checked={filters.towRequired} onChange={(event) => update('towRequired', event.target.checked)} /> Dragvikt angiven</label><label><input type="checkbox" checked={filters.priceKnown} onChange={(event) => update('priceKnown', event.target.checked)} /> Pris angivet</label></div>
     <p className="vehicleFilterNote">{resultCount} av {totalCount} varianter</p>
@@ -964,6 +977,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
     <div className="vehicleDetailBody vehicleContainer">
       {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
       <AiSummaryCard car={car} />
+      <EV2VersionGuide car={car} cars={cars} appPath={appPath} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
         <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
         <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
