@@ -197,6 +197,28 @@
       }
     ]
   },
+  "/media/vehicles/kia-ev2-press-42a663c6e0ce.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "42a663c6e0ce765ebc59d1865699e61c99909e4a1b3fe6f7b7f20204e63392d9",
+    "variants": [
+      {
+        "url": "/media/responsive/kia-ev2-press-42a663c6e0ce-480.webp",
+        "width": 480,
+        "sha256": "5ac8e6b1a9683d9e2cef576ce0e2ca48c25200a1b1283dfd0aa11a91550a78ec"
+      },
+      {
+        "url": "/media/responsive/kia-ev2-press-42a663c6e0ce-800.webp",
+        "width": 800,
+        "sha256": "6741160e6e9ad20863c88d48c28269bc610ebae35178ca73965a87e86cd0d9f7"
+      },
+      {
+        "url": "/media/responsive/kia-ev2-press-42a663c6e0ce-1280.webp",
+        "width": 1280,
+        "sha256": "74fc4c1c3d58b3b18a844518ec1b8fc7c7f1cad1161b43164c82ef0931a9bc45"
+      }
+    ]
+  },
   "/media/vehicles/kia-ev3-press-b0de32637809.jpg": {
     "width": 1500,
     "height": 1000,

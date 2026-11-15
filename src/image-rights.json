@@ -203,6 +203,35 @@
       "reviewed_candidate_sha256": "f25404eae6f78ef1a90ca42e5e2606382a27f609caf541b72e92ba4eaf5e79b0"
     },
     {
+      "model_key": "kia|ev2",
+      "source_url": "https://www.mynewsdesk.com/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874",
+      "evidence_url": "https://www.mynewsdesk.com/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "license_id": "Manufacturer-media-use",
+      "license_url": "https://www.mynewsdesk.com/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874",
+      "author": "Kia Sweden AB",
+      "credit": "Kia Sweden AB / pressbild",
+      "content_sha256": "42a663c6e0ce765ebc59d1865699e61c99909e4a1b3fe6f7b7f20204e63392d9",
+      "metadata_sha256": "1682f58ba3bf1ae7eed071c85c08d32bbe11208a35046dc82e79a815904317b6",
+      "source_content_sha256": "fd413a88e41f584f64466b663af9439258e287b11eeaf829cb09e6974f1f059a",
+      "publisher_id": "kia-ev2-mynewsdesk",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/kia-ev2-press-42a663c6e0ce.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yaubzarfva8xhxkr9xlglc",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yaubzarfva8xhxkr9xlglc",
+      "status": "documented",
+      "reviewed_at": "2026-11-15",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "changes": "Hela bildutsnittet bevaras. Endast storlek och filformat har anpassats; ingen retusch.",
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "reviewed_candidate_sha256": "876baa703380f3514723bdfa0a7d879194e82296e5f82c785f8022d597f1b867"
+    },
+    {
       "model_key": "kia|ev3",
       "source_url": "https://kia-motors.mynewsdesk.com/images/kia-ev3-gtl-ext-clean-2-print-3600x2400-punkt-jpg-3032853",
       "evidence_url": "https://kia-motors.mynewsdesk.com/images/kia-ev3-gtl-ext-clean-2-print-3600x2400-punkt-jpg-3032853",

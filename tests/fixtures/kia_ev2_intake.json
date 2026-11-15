@@ -1,0 +1,439 @@
+{
+  "adapter": "kia_ev2_sweden_pilot_v1",
+  "model": {
+    "brand": "Kia",
+    "model": "Ev2",
+    "normalized_brand": "kia",
+    "normalized_model": "ev2",
+    "body_type": "SUV"
+  },
+  "model_evidence": {
+    "body_type": {
+      "value": "SUV",
+      "quote": "en självsäker och smart SUV",
+      "source_url": "https://www.kia.com/se/nya-bilar/ev2/upptack/",
+      "source_hash": "fd47f625347b1641abd4188316f93e425e6abb5dbff70caed951a377f043990b"
+    }
+  },
+  "sources": [
+    {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+      "content_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+      "fetched_at": "2026-11-15T17:19:05.756415+00:00",
+      "key": "technical",
+      "source_type": "technical_pdf",
+      "shared": false,
+      "source_name": "Kia Sverige",
+      "country": "SE",
+      "language": "sv",
+      "source_authority": "manufacturer"
+    },
+    {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/se/nya-bilar/ev2/upptack/",
+      "content_hash": "fd47f625347b1641abd4188316f93e425e6abb5dbff70caed951a377f043990b",
+      "fetched_at": "2026-11-15T17:19:08.241923+00:00",
+      "key": "model",
+      "source_type": "manufacturer_page",
+      "shared": false,
+      "source_name": "Kia Sverige",
+      "country": "SE",
+      "language": "sv",
+      "source_authority": "manufacturer"
+    },
+    {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+      "content_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+      "fetched_at": "2026-11-15T17:19:09.605926+00:00",
+      "key": "specifications",
+      "source_type": "manufacturer_page",
+      "shared": false,
+      "source_name": "Kia Sverige",
+      "country": "SE",
+      "language": "sv",
+      "source_authority": "manufacturer"
+    },
+    {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+      "content_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+      "fetched_at": "2026-11-15T17:19:10.870313+00:00",
+      "key": "price_pdf",
+      "source_type": "price_list_pdf",
+      "shared": true,
+      "source_name": "Kia Sverige",
+      "country": "SE",
+      "language": "sv",
+      "source_authority": "manufacturer"
+    }
+  ],
+  "market": {
+    "source": {
+      "status": "reachable",
+      "http_status": 200,
+      "final_url": "https://mobilitysweden.se/storage/7F74570C4C61BEEEE06275646A852419323F77478AF198119E0CBBAF30A0A566/fd0832463d834757a568dc0f5a132daf/xlsx/media/cb12796565d84cb9abeedfe6d78e7b7e/M%C3%A5nadsrapport%20Nyregistreringar%20okt%202026.xlsx",
+      "content_hash": "1fee5254c4671bd9239b0a0b3819c027c30eac46e1c3a9c1df9c7e9bc55d92c6",
+      "fetched_at": "2026-11-15T17:19:15.039159+00:00"
+    },
+    "row": {
+      "brand_raw": "KIA",
+      "model_raw": "EV2",
+      "fuel_type_raw": "EL",
+      "normalized_brand": "kia",
+      "normalized_model": "ev2",
+      "model_group": null,
+      "needs_mapping": false,
+      "first_seen_month": "2026-10-01",
+      "last_seen_month": "2026-10-01",
+      "registrations_last_month": 407,
+      "registrations_ytd": 2138,
+      "registrations_12m": null,
+      "source_name": "Mobility Sweden",
+      "source_url": "https://mobilitysweden.se/storage/7F74570C4C61BEEEE06275646A852419323F77478AF198119E0CBBAF30A0A566/fd0832463d834757a568dc0f5a132daf/xlsx/media/cb12796565d84cb9abeedfe6d78e7b7e/M%C3%A5nadsrapport%20Nyregistreringar%20okt%202026.xlsx"
+    },
+    "sheet": "Elbil ranking",
+    "cells": "D20,F20,M20"
+  },
+  "drafts": [
+    {
+      "variant_name": "EV2 FWD 5-sits",
+      "manufacturer_identity": "6NW5ZFZ7Z-TX2",
+      "facts": {
+        "wltp_range_km": 317,
+        "wltp_consumption_kwh_100km": 15.1,
+        "battery_kwh": 42.2,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "boot_liters": 362,
+        "tow_kg": 750,
+        "seats": 5,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 317,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) SR = 317 (16\") & 308 (18\") LR = 453 (16\"), 439 (18\") & 413 (19\")",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 15.1,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP SR = 15,1 (16\") & 15,5 (18\") LR =14,9 (16\"), 15,2 (18\") & 16,3 (19\")",
+          "page": 3
+        },
+        "battery_kwh": {
+          "value": 42.2,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Batterikapacitet (kWh) 42,2 61",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "DC snabbladdning max kW 150 150",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10,5",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 362,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (ej basversionen) 5 säten = 362 / 1201 / 15",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 750,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max släpvagnsvikt, bromsat släp 750 750",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-TX2 | Elmotor FWD (El , Elektrisk); | number of seats 5 | 107,8 kW / 146,5 hk",
+          "page": null
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "variant_name": "EV2 FWD 5-sits",
+          "column_header": "EV2 FWD 5-sits | 6NW5ZFZ7Z-TX2 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-TX2 | Elmotor FWD (El , Elektrisk); | number of seats 5 | 107,8 kW / 146,5 hk",
+          "page": null
+        }
+      },
+      "extraction_confidence": 0.99,
+      "price_evidence": {
+        "value": 331900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "page": 1,
+        "quote": "EV2 331,900 kr 3,495 kr"
+      }
+    },
+    {
+      "variant_name": "EV2 FWD Long Range 5-sits",
+      "manufacturer_identity": "6NW5ZFZ7Z-TX2_V00",
+      "facts": {
+        "wltp_range_km": 453,
+        "wltp_consumption_kwh_100km": 14.9,
+        "battery_kwh": 61,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "boot_liters": 362,
+        "tow_kg": 750,
+        "seats": 5,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 453,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) SR = 317 (16\") & 308 (18\") LR = 453 (16\"), 439 (18\") & 413 (19\")",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 14.9,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP SR = 15,1 (16\") & 15,5 (18\") LR =14,9 (16\"), 15,2 (18\") & 16,3 (19\")",
+          "page": 3
+        },
+        "battery_kwh": {
+          "value": 61,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Batterikapacitet (kWh) 42,2 61",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "DC snabbladdning max kW 150 150",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10,5",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 362,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (ej basversionen) 5 säten = 362 / 1201 / 15",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 750,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max släpvagnsvikt, bromsat släp 750 750",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-TX2_V00 | Elmotor FWD (El , Elektrisk); 99,5 KW (135 hk) | number of seats 5 | 99,5 kW / 135 hk",
+          "page": null
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "variant_name": "EV2 FWD Long Range 5-sits",
+          "column_header": "EV2 FWD Long Range 5-sits | 6NW5ZFZ7Z-TX2_V00 | 16 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-TX2_V00 | Elmotor FWD (El , Elektrisk); 99,5 KW (135 hk) | number of seats 5 | 99,5 kW / 135 hk",
+          "page": null
+        }
+      },
+      "extraction_confidence": 0.99,
+      "price_evidence": {
+        "value": 381000,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "page": 1,
+        "quote": "EV2 Long Range 381,000 kr 4,195 kr"
+      }
+    },
+    {
+      "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+      "manufacturer_identity": "6NW5ZFZ7Z-LX1",
+      "facts": {
+        "wltp_range_km": 413,
+        "wltp_consumption_kwh_100km": 16.3,
+        "battery_kwh": 61,
+        "dc_charge_kw": 150,
+        "ac_charge_kw": 10.5,
+        "boot_liters": 362,
+        "tow_kg": 750,
+        "seats": 5,
+        "drivetrain": "FWD"
+      },
+      "field_evidence": {
+        "wltp_range_km": {
+          "value": 413,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max räckvidd (km) enligt WLTP (Upp till) SR = 317 (16\") & 308 (18\") LR = 453 (16\"), 439 (18\") & 413 (19\")",
+          "page": 3
+        },
+        "wltp_consumption_kwh_100km": {
+          "value": 16.3,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "FÖRBRUKNING Blandad, kWh/100km enligt WLTP SR = 15,1 (16\") & 15,5 (18\") LR =14,9 (16\"), 15,2 (18\") & 16,3 (19\")",
+          "page": 3
+        },
+        "battery_kwh": {
+          "value": 61,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Batterikapacitet (kWh) 42,2 61",
+          "page": 3
+        },
+        "dc_charge_kw": {
+          "value": 150,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "DC snabbladdning max kW 150 150",
+          "page": 3
+        },
+        "ac_charge_kw": {
+          "value": 10.5,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Bilens laddare (On Board Charger) (kW) 10,5",
+          "page": 3
+        },
+        "boot_liters": {
+          "value": 362,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "BAGAGEUTRYMME Baksäte uppfällt / nedfällt / under framhuv (ej basversionen) 5 säten = 362 / 1201 / 15",
+          "page": 3
+        },
+        "tow_kg": {
+          "value": 750,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/specifications/ev2/kia-sweden-ev2-specification.pdf",
+          "source_hash": "bd9913430e6199ad64469d850379c1c7d85465c0f2980e1fff5384516940cc8c",
+          "quote": "Max släpvagnsvikt, bromsat släp 750 750",
+          "page": 3
+        },
+        "seats": {
+          "value": 5,
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-LX1 | Elmotor FWD (El , Elektrisk); 99,5 KW (135 hk) | number of seats 5 | 99,5 kW / 135 hk",
+          "page": null
+        },
+        "drivetrain": {
+          "value": "FWD",
+          "variant_name": "EV2 GT Line FWD Long Range 5-sits",
+          "column_header": "EV2 GT Line FWD Long Range 5-sits | 6NW5ZFZ7Z-LX1 | 19 tum | 5 sittplatser",
+          "source_url": "https://www.kia.com/se/nya-bilar/ev2/specifikationer/",
+          "source_hash": "b43c5bfe53f8256d42e5813ffe511453e12166f7a62fb71d61d43753cc8681a4",
+          "quote": "6NW5ZFZ7Z-LX1 | Elmotor FWD (El , Elektrisk); 99,5 KW (135 hk) | number of seats 5 | 99,5 kW / 135 hk",
+          "page": null
+        }
+      },
+      "extraction_confidence": 0.99,
+      "price_evidence": {
+        "value": 459900,
+        "price_type": "list_price",
+        "price_valid_until": "2026-11-30",
+        "source_url": "https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/contents/utility/prislista/kia-sweden-pricelist.pdf",
+        "source_hash": "3bcff287b88f42c8c5995e8fab08a404e2f5f8a96e6478230fb9222e3259c2a3",
+        "page": 1,
+        "quote": "EV2 GT Line Long Range 459,900 kr 5,595 kr"
+      }
+    }
+  ],
+  "source_decisions": [
+    "September29 final Swedish technical sheet supersedes the old preliminary brochure. Keep all5-seat profiles separate from4-seat Plus and BlackLine.",
+    "Base16inch SR317km/15.1 and LR453km/14.9; GTLine19inch LR413km/16.3. No AWD is offered in these exact engines.",
+    "Five seats in use:362L, not four-seat sliding-row maximum403L, folded1201L or frunk15L (base version has no frunk).",
+    "OnboardAC10.5 and actual peakDC150. Towing750kg is explicitly the braked row.",
+    "November list cash amounts331900/381000/459900 match each exact Swedish engine. Never use leasing3495/4195/5595 or another seating price.",
+    "Mobility Sweden provides registration activity only; keep availability unconfirmed unless separately evidenced."
+  ],
+  "paid_calls": 0,
+  "database_writes": 0
+}

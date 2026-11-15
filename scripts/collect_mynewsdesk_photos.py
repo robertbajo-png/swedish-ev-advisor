@@ -51,8 +51,11 @@ def collect(publisher, model_key, url, output):
     with urlopen(Request(asset_url, headers={'User-Agent': 'Elbilsagenten/1.0 (kontakt@boleoai.se)'}), timeout=30) as asset:
         if urlsplit(asset.geturl()).netloc != urlsplit(policy['asset_origin']).netloc or asset.headers.get('tdm-reservation') == '1':
             raise ValueError('unexpected_image_redirect_or_reservation')
-        original = asset.read(12000001)
-    if len(original) > 12000000:
+        limit = policy.get('max_asset_bytes', 12000000)
+        if not isinstance(limit, int) or not 12000000 <= limit <= 32000000:
+            raise ValueError('bounded_registered_asset_limit_required')
+        original = asset.read(limit + 1)
+    if len(original) > limit:
         raise ValueError('press_photo_too_large')
     with Image.open(io.BytesIO(original)) as opened:
         image = ImageOps.exif_transpose(opened).convert('RGB')
