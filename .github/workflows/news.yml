@@ -85,7 +85,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/run_newsroom.py run | tee publisher-run-result.json
-          python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Fact-first outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("qualification_required","daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
+          python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Newsroom outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("qualification_required","daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","deferred_budget_or_disabled","duplicate_event_held","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
       - name: Summarize actual editorial outcome without private source bodies
         if: always()
         env:

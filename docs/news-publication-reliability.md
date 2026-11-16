@@ -11,8 +11,8 @@ Use the existing, previously approved local OpenAI credential; never show it.
 |1 Diagnose real stops | Passed | Actual budget/qualification valid, zero spent today. Four official candidates held; the free broader preview finds four ready candidates, including The Driven and existing approved European newsrooms. |
 |2 Repair orchestration offline | Passed locally |945news tests including6new orchestration cases,9provider-outcome regressions, production build and automation guards passed. Existing source/article/reviewer/publisher contracts are unchanged. |
 |3 Bounded live attempts | Passed | First actual broad candidate passed writing and separate review:118words,2settled receipts, USD0.026486total. No retries, extra allowance, model change, manual approval or weakened review. Paid attempts stopped after this result. Ordinary USD0.50day budget remains unchanged; the owner-authorized USD5ceiling was not needed. |
-|4 Publish and distribute | In progress | Genuine articledf496b8d-5545-5ad6-9660-c87a604e7026 committed16November14:44:17UTC. Exactly1today,4total; canonical rows, settings and historical accounting unchanged. Existing exact-main production distributor only. |
-|5 Recurring operation | Pending | Reviewed orchestration in current main and a genuine scheduled outcome. Report empty news days honestly; a green workflow is not evidence of publication. |
+|4 Publish and distribute | Passed | Genuine articledf496b8d-5545-5ad6-9660-c87a604e7026 committed16November14:44:17UTC. Distribution43889349265 and independent production checks passed: all4articles, HTML, RSS, approved sitemap, HTTPS and82unchanged vehicle variants. Exactly1today; settings and historical accounting unchanged. |
+|5 Recurring operation | CI review | PR77 contains the tested orchestration/reporting and notice publication support. Merge only after exact-head CI; require green current-main CI before any scheduled editorial credentials. Empty days and normal budget/duplicate holds remain explicit, not fabricated successful articles. |
 
 ## Initial Diagnosis
 

@@ -105,6 +105,9 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     assert(factFirst.if.includes("NEWS_FACT_FIRST_ENABLED == 'true'"));
     assert(factFirst.run.includes('run_newsroom.py run'),
       'The scheduled fact-first route must retain the bounded broad fallback');
+    assert(factFirst.run.includes('"deferred_budget_or_disabled"') && factFirst.run.includes('"duplicate_event_held"'),
+      'Broad-route budget and duplicate holds are expected outcomes, not technical failures');
+    assert(!factFirst.run.includes('"failed",'), 'Actual provider/accounting failures must stay actionable');
     assert(!publisher.run.includes(' trial'));
     assert(!JSON.stringify(worker.steps).includes('run_publisher_news.py qualify'),
       'A new source must not require an extra paid admission round');
