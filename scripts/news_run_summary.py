@@ -49,6 +49,23 @@ def summarize(result):
             counts = gaps.setdefault(kind, Counter())
             for subject in subjects or {'unidentified_subject'}: counts[subject] += 1
     output['held_reasons'] = dict(reasons)
+    aggregate = result.get('held_reasons')
+    if isinstance(aggregate, dict):
+        # Full counters must survive the bounded 24-detail diagnostic sample.
+        counts = Counter()
+        for reason, count in aggregate.items():
+            if type(count) is int and count >= 0:
+                counts[safe_reason(reason)] += count
+        for reason, count in reasons.items():
+            counts[reason] = max(counts[reason], count)
+        output['held_reasons'] = dict(counts)
+    stages = result.get('held_stages')
+    if isinstance(stages, dict):
+        output['held_stages'] = {key: count for key, count in stages.items()
+                                 if key in ('selection', 'collection', 'evidence') and type(count) is int and count >= 0}
+    for key in ('selection_checked', 'ai_candidates_started'):
+        if type(result.get(key)) is int and result[key] >= 0:
+            output[key] = result[key]
     output['source_gaps'] = {kind: dict(counts) for kind, counts in gaps.items()}
     return output
 

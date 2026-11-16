@@ -106,6 +106,9 @@ jobs:
       - run: python -m unittest discover -s tests -p test_news_broad_sources.py -v
       - run: python -m unittest discover -s tests -p 'test_news_publisher*.py' -v
       - run: python -m unittest discover -s tests -p test_news_fact_first.py -v
+      - run: bun run verify:news-selection-report
+      - run: bun run verify:newsroom
+      - run: bun run verify:news-factual-notices
       - run: python -m unittest discover -s tests -p test_news_bmw_newsroom.py -v
       - run: python -m unittest discover -s tests -p test_image_rights.py -v
       - run: bun run verify:licensed-images
@@ -149,6 +152,7 @@ jobs:
       - run: bun run verify:news-notices
       - run: bun run verify:news-notice-publication
       - run: bun run verify:news-notice-sql
+      - run: bun run verify:news-single-fact-release
       - run: bun run verify:news-notice-preflight
       - run: bun run verify:news-hybrid-launch
       - run: bun run verify:news-model

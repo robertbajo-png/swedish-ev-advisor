@@ -55,6 +55,12 @@ try {
   const before=(await db.query('select to_jsonb(c) c from news_ai_config c')).rows;
   const cars=(await db.query('select * from canonical_models')).rows;
   await db.exec(migration);await db.exec(migration);
+  const guardBefore=(await db.query("select prosrc from pg_proc where oid='public.news_guard_publication()'::regprocedure")).rows[0].prosrc;
+  const legacyBefore=(await db.query("select prosrc from pg_proc where oid='public.news_notice_release_error(public.news_articles)'::regprocedure")).rows[0].prosrc;
+  const singleFactMigration=await readFile(new URL('../database/migrations/024_single_fact_notice_release.sql',import.meta.url),'utf8');
+  await db.exec(singleFactMigration);await db.exec(singleFactMigration);
+  assert.equal((await db.query("select prosrc from pg_proc where oid='public.news_guard_publication()'::regprocedure")).rows[0].prosrc,guardBefore,'Shared article guard must stay identical');
+  assert.equal((await db.query("select prosrc from pg_proc where oid='public.news_legacy_notice_release_error(public.news_articles)'::regprocedure")).rows[0].prosrc,legacyBefore,'Legacy source rules must remain identical');
   assert.deepEqual((await db.query('select to_jsonb(c) c from news_ai_config c')).rows,before);
   assert.equal((await db.query('select enabled from news_notice_release_config')).rows[0].enabled,false);
   const readiness=await readFile(new URL('../database/checks/news_notice_release_readiness.sql',import.meta.url),'utf8');

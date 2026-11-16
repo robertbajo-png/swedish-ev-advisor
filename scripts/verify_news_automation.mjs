@@ -101,6 +101,10 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
     const publisher = worker.steps.find(s => s.name === 'Review and publish eligible articles from shared source templates');
     assert(publisher.if.includes("NEWS_PUBLISHER_ARTICLES_ENABLED == 'true'"));
     assert(publisher.run.includes('run_publisher_news.py run'));
+    const factFirst = worker.steps.find(s => s.id === 'fact_first_news');
+    assert(factFirst.if.includes("NEWS_FACT_FIRST_ENABLED == 'true'"));
+    assert(factFirst.run.includes('run_newsroom.py run'),
+      'The scheduled fact-first route must retain the bounded broad fallback');
     assert(!publisher.run.includes(' trial'));
     assert(!JSON.stringify(worker.steps).includes('run_publisher_news.py qualify'),
       'A new source must not require an extra paid admission round');
