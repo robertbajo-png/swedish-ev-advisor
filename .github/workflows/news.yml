@@ -76,7 +76,7 @@ jobs:
           set -euo pipefail
           python scripts/run_publisher_news.py run | tee publisher-run-result.json
           python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Publisher outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","deferred_budget_or_disabled","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","duplicate_event_held","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
-      - name: Review locked official facts and publish independently audited articles
+      - name: Review official facts or eligible broad reporting with independent audit
         id: fact_first_news
         if: ${{ vars.NEWS_PUBLISHER_ARTICLES_ENABLED == 'true' && vars.NEWS_FACT_FIRST_ENABLED == 'true' }}
         env:
@@ -84,8 +84,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/run_fact_first_news.py run | tee publisher-run-result.json
-          python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Fact-first outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("qualification_required","daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
+          python scripts/run_newsroom.py run | tee publisher-run-result.json
+          python -c 'import json; r=json.load(open("publisher-run-result.json")); print("Newsroom outcome:",r["status"]); assert r.get("published")==1 or r["status"] in ("qualification_required","daily_limit","daily_attempt_limit","already_reported","no_eligible_new_source","deferred_budget","deferred_budget_or_disabled","duplicate_event_held","quarantined","held_before_ai","candidate_stale_or_invalid","source_changed_requires_new_review","publication_disabled"), "Actionable editorial/accounting failure; no automatic paid retry"'
       - name: Summarize actual editorial outcome without private source bodies
         if: always()
         env:

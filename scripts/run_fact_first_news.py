@@ -16,6 +16,7 @@ from news_http import Collector
 from news_publisher_articles import event_duplicate
 from news_publisher_sources import collect_bundle, refresh_bundle, same_sources
 from news_reporting_policy import HISTORICAL_RECIPES
+from news_selection_report import collection_failure, held_candidate, selection_report
 from news_store import NewsStore, artifact_hash, stable_id, now_iso
 from run_publisher_news import (selection_queue, new_receipt, code_hash as publisher_hash,
                                 approved_candidate_limit)
@@ -335,22 +336,29 @@ def daily(remote, collector, max_candidates=2, owner_day=None, *, complete_quali
            and r['payload'].get('started_at', '').startswith(now_iso()[:10]) for r in previous) >= limit:
         return {'status': 'daily_attempt_limit', 'published': 0}
     queue, held = selection_queue(remote, contract.START_SOURCES)
+    checked = attempted = 0
+    def finish(result):
+        return selection_report(result, held, checked=checked, attempted=attempted)
     last_rejection = None
     for item, _ in queue:
+        checked += 1
         try:
             bundle = collect_bundle(item['source_id'], item['url'], collector, feed_date=item['payload']['published_at'])
-            if not contract.readiness(bundle)['ready']:
+            ready = contract.readiness(bundle)
+            if not ready['ready']:
+                held.append(held_candidate(item, 'evidence', ready['errors'], bundle.get('discovery_trace', [])))
                 continue
-        except Exception:
+        except Exception as exc:
+            held.append(collection_failure(item, exc))
             continue
+        attempted += 1
         record = perform(remote, bundle, private=False, max_candidates=max_candidates, owner_day=owner_day)
         if record['status'] == 'passed':
-            return release(remote, record, collector)
+            return finish(release(remote, record, collector))
         if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
-            return safe_result(record)
+            return finish(safe_result(record))
         last_rejection = safe_result(record)
-    return {**(last_rejection or {'status': 'no_eligible_new_source', 'published': 0}),
-            'held_candidates': len(held)}
+    return finish(last_rejection or {'status': 'no_eligible_new_source', 'published': 0})
 
 
 def safe_result(record):

@@ -19,6 +19,7 @@ from news_publisher_articles import (RECIPE, LIMITS, PACKET_BYTES, writer_call, 
 from news_publisher_articles import resolve_writer_output
 from news_publisher_selection import ranked_candidates, subject_brands, bounded_reading_queue
 from news_publisher_registry import PUBLISHERS
+from news_selection_report import collection_failure, held_candidate, selection_report
 from news_reporting_policy import HISTORICAL_RECIPES
 from news_model_policy import reservation_micro_usd
 from news_store import NewsStore, artifact_hash, stable_id, now_iso
@@ -38,7 +39,7 @@ HASH_FILES = ('news_publisher_sources.py', 'news_publisher_articles.py', 'run_pu
               'news_publisher_selection.py', 'news_publisher_registry.py', 'news_reporting_policy.py', 'news_primary_discovery.py',
               'news_engine.py', 'news_editorial.py', 'news_http.py', 'news_pressrooms.py', 'news_store.py', 'news_launch_hybrid.py',
               'news_document_evidence.py', 'news_byd.py', 'news_nio.py', 'news_xpeng.py', 'news_smart.py', 'news_electra.py',
-              'news_bmw_newsroom.py')
+              'news_bmw_newsroom.py', 'news_selection_report.py')
 
 
 def code_hash():
@@ -268,7 +269,7 @@ def selection_queue(remote, sources, attempted=()):
     reports, held_reports = ranked_candidates(rows, set(sources) & LEAD_SOURCES, previous | set(attempted), now,
                                              hydrate_publishers=PUBLISHERS)
     queue = originals[:4] + reports[:4] + originals[4:] + reports[4:]
-    return bounded_reading_queue(queue, reports, PUBLISHERS), (held_official + held_reports)[:24]
+    return bounded_reading_queue(queue, reports, PUBLISHERS), held_official + held_reports
 
 
 def preview_selection(remote, collector, sources=None):
@@ -319,10 +320,12 @@ def daily(remote, collector, *, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=
            and str(r['payload'].get('started_at', '')).startswith(now_iso()[:10]) for r in remote.rows('news_ingestion_runs')) >= limit_candidates:
         return {'status': 'daily_attempt_limit', 'published': 0}
     queue, skipped = selection_queue(remote, ARTICLE_LEAD_SOURCES)
+    checked = attempted = 0
+    def finish(result):
+        return selection_report(result, skipped, checked=checked, attempted=attempted)
     last_rejection = None
     for item, selection in queue:
-        context = {'source_id': item['source_id'], 'url': item['url'],
-                   'subjects': sorted(subject_brands(item['payload']['title']))}
+        checked += 1
         try:
             require_recent_publication(item['payload'].get('published_at'))
             bundle = collect_bundle(item['source_id'], item['url'], collector,
@@ -330,24 +333,23 @@ def daily(remote, collector, *, max_candidates=DAILY_CANDIDATE_LIMIT, owner_day=
                                     content_triage=selection.get('reason') == 'publisher_content_triage_required')
             material = evidence_readiness(bundle)
             if not material['ready']:
-                skipped.append({**context, 'reason': material['errors'],
-                                'discovery_trace':bundle.get('discovery_trace',[])})
+                skipped.append(held_candidate(item, 'evidence', material['errors'], bundle.get('discovery_trace', [])))
                 continue
         except Exception as exc:
-            skipped.append({**context, 'reason': str(exc)[:130],
-                            'discovery_trace':getattr(exc,'discovery_trace',[])})
+            skipped.append(collection_failure(item, exc))
             continue
+        attempted += 1
         record = perform(remote, bundle, private=False, max_candidates=limit_candidates, owner_day=owner_day, continued=continued)
         if record['status'] != 'passed':
             result = {k: v for k, v in record.items() if k in ('status', 'errors', 'error', 'cost_micro_usd', 'published')}
             if record['status'] != 'quarantined' or record.get('cost_status') != 'settled':
-                return {**result, 'skipped': skipped}
+                return finish(result)
             last_rejection = result
             continue
         if event_duplicate(remote, bundle, record['packet']):
-            return {'status': 'duplicate_event_held', 'published': 0}
-        return release(remote, record, collector)
-    return {**(last_rejection or {'status': 'no_eligible_new_source', 'published': 0}), 'skipped': skipped}
+            return finish({'status': 'duplicate_event_held', 'published': 0})
+        return finish(release(remote, record, collector))
+    return finish(last_rejection or {'status': 'no_eligible_new_source', 'published': 0})
 
 
 def qualify(remote, collector):

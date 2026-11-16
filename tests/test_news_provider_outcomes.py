@@ -112,7 +112,12 @@ class ProviderOutcomeTests(unittest.TestCase):
             release=stack.enter_context(patch.object(worker,'release',side_effect=AssertionError('No publication')))
             result=worker.daily(remote,None)
             self.assertEqual(result['status'],'failed');attempt.assert_called_once();release.assert_not_called()
-            self.assertEqual(result['skipped'],skipped)
+            self.assertEqual(result['skipped'],[{
+                'source_id':'synthetic','stage':'selection',
+                'reason':['publisher_no_primary_or_independent_pair'],
+                'subjects':['xpeng'],'discovery_trace':[{'status':'no_matching_declared_authority'}]}])
+            self.assertEqual(result['held_candidates'],1)
+            self.assertEqual(result['ai_candidates_started'],1)
             self.assertEqual(summarize(result)['source_gaps'],{'missing_authority':{'xpeng':1}})
 
     def test_failed_and_quarantined_attempts_share_the_same_two_candidate_limit(self):

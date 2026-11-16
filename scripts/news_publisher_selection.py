@@ -198,7 +198,7 @@ def ranked_candidates(items, source_ids, attempted=(), now=None, *, hydrate_sour
             held.append({'source_id': item['source_id'], 'url': item['url'], 'reason': result['reason'],
                          'subjects': sorted(subject_brands(item['payload']['title']))})
     accepted.sort(key=lambda pair: (pair[1]['priority'], pair[0]['payload']['published_at'], pair[0]['url']), reverse=True)
-    return bounded_reading_queue(accepted, accepted, hydrate_publishers or {}), held[:24]
+    return bounded_reading_queue(accepted, accepted, hydrate_publishers or {}), held
 
 
 def subject_terms(text):
