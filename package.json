@@ -156,6 +156,8 @@
     "verify:news-notices": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_notices.py -v",
     "verify:news-selection-report": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_selection_report.py -v",
     "verify:newsroom": "node scripts/run_python.mjs -m unittest discover -s tests -p test_newsroom_orchestration.py -v",
+    "verify:news-attribution": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_reported_attribution.py -v",
+    "verify:news-verification-artifact": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_verification_artifact.py -v",
     "verify:news-factual-notices": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_factual_notices.py -v",
     "verify:news-notice-publication": "node scripts/run_python.mjs -m unittest discover -s tests -p test_news_notice_publication.py -v",
     "verify:news-notice-sql": "node scripts/verify_news_notice_publication.mjs",

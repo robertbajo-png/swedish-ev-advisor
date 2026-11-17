@@ -286,6 +286,10 @@ def writer_call(bundle):
          'Name every supporting publisher in each fact; name both in the intro when using both newsrooms. '
          'Prefix the title Rapporterat: and retain attribution in every paragraph. Never label a single '
          'newsroom as independent corroboration. Reported claims are not verified Swedish car specifications. '
+         'For this route, BEGIN the intro AND EACH paragraphs[i].text with the exact '
+         'reported_attribution_prefix supplied below, followed by the supported claim. Check p0, p1, '
+         'p2, p3 and p4 individually when present. Intro attribution does not carry into a later '
+         'paragraph. Never return a reporting paragraph without its own prefix. '
          if reported(bundle) else
          'EVERY central fact needs official primary evidence. Attribute publisher-only details to that publisher '
          'in both the fact and the visible block. ') +
@@ -307,6 +311,8 @@ def writer_call(bundle):
                     'sources': [{k: v for k, v in s.items() if k not in ('CONTENT', 'passage_offsets')} for s in source_views(bundle)],
                     'literal_evidence': catalog,
                     'writing_evidence_plan': writing_evidence_plan(bundle),
+                    'reported_attribution_prefix': ('Enligt ' + ' och '.join(
+                        i['payload']['publisher'] for i in bundle['items'])) if reported(bundle) else None,
                     'lead_evidence_options': list(catalog)[1:4]}, ensure_ascii=False))
     return 'swedish_ev_article', provider_schema(schema), prompt
 
