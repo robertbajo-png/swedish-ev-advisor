@@ -76,7 +76,6 @@ jobs:
       - name: Install pinned Bun from official npm package
         run: npm install --global bun@1.3.13
       - uses: actions/setup-python@v5
-        if: steps.snapshot.outputs.upload_required == 'true'
         with:
           python-version: '3.12'
       - run: bun install --frozen-lockfile
@@ -117,5 +116,7 @@ jobs:
         run: bunx wrangler@4.154.0 pages deploy dist --project-name=elbilsagenten --branch=main --commit-hash="$DEPLOY_SHA" --commit-dirty=false --commit-message="production-news:${NEWS_SNAPSHOT_HASH}:${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}"
       - name: Verify public article HTML, snapshot and sitemap without AI calls
         run: node scripts/production_news_distribution.mjs verify
+      - name: Prepare approved sitemap from the current published snapshot
+        run: node scripts/run_python.mjs scripts/generate_sitemap.py
       - name: Verify site, HTTPS, catalog and advisor readiness using GET only
         run: node scripts/verify_deployment.mjs https://elbilsagenten.se --production

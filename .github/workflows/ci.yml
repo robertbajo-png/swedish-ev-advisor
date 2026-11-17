@@ -108,6 +108,8 @@ jobs:
       - run: python -m unittest discover -s tests -p test_news_fact_first.py -v
       - run: bun run verify:news-selection-report
       - run: bun run verify:newsroom
+      - run: bun run verify:news-attribution
+      - run: bun run verify:news-verification-artifact
       - run: bun run verify:news-factual-notices
       - run: python -m unittest discover -s tests -p test_news_bmw_newsroom.py -v
       - run: python -m unittest discover -s tests -p test_image_rights.py -v

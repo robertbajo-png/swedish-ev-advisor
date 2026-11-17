@@ -129,6 +129,11 @@ for (const file of ['news.yml', 'news-production-distribution.yml']) {
       'Unchanged snapshots still need parse5 for the GET-only deployment verifier');
     assert(source.includes('production_news_distribution.mjs confirm'));
     assert(source.includes('verify_deployment.mjs https://elbilsagenten.se --production'));
+    const sitemap = worker.steps.find(s => s.name === 'Prepare approved sitemap from the current published snapshot');
+    assert(sitemap?.run.includes('generate_sitemap.py'));
+    assert.equal(sitemap.if, undefined, 'An unchanged site still needs the current approved verification artifact');
+    assert.equal(worker.steps.find(s => s.uses === 'actions/setup-python@v5').if, undefined);
+    assert(worker.steps.indexOf(sitemap) < worker.steps.findIndex(s => s.name === 'Verify site, HTTPS, catalog and advisor readiness using GET only'));
   }
 }
 console.log(JSON.stringify({ news_automation_guards: 'passed', network_calls: 0, paid_calls: 0, publications: 0 }));
