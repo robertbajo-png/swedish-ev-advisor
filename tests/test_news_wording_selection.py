@@ -57,7 +57,9 @@ class WordingSelectionTests(unittest.TestCase):
         for guard in ('150-250', 'ENTIRE statement', 'eight consecutive source words',
                       'preliminary/homologation/optional-equipment', 'upp till',
                       'Peak DC, AC input, V2L output', 'registrations, not orders or sales',
-                      'Do not repeat the intro', 'If irrelevant or too thin'):
+                      'Default to one factual sentence in the intro', 'distinct, directly supported fact cited in intro_fact_ids',
+                      'Do not turn what a test measures into why it was developed',
+                      'a single-sentence intro is complete', 'Do not repeat the intro', 'If irrelevant or too thin'):
             self.assertIn(guard, instructions)
 
     def test_both_bad_forms_stay_rejected_and_no_facts_are_reconstructed(self):
