@@ -159,6 +159,16 @@ intro citation; do not infer broader goals or uses from a test's measurements.
 This is writing guidance, not a sentence-count gate or a change to review,
 fact-first requests, spending limits or historical outcomes.
 
+An explicit year in a cited source lead does not have to recur in the body or
+in later paragraphs of our article. For reported news, an exact narrative
+excerpt such as French "l'annee prochaine" can also support a calendar year
+derived from the verified original publication date. The 18 November Bevolt
+draft hit the old literal-digit guard even though the exact excerpt said
+next year. Headline-only evidence, uncertain year boundaries and quantities
+are not calendar references. Independent review still checks which event the
+year belongs to and whether it is a plan, expectation or confirmed date.
+Historical attempts remain untouched and cannot be retried.
+
 ## Integration And Safeguards
 
 - Version `news-article-review-2026-11-v3` prevents old proofs being reinterpreted
