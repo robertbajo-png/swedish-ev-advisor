@@ -184,7 +184,7 @@ class FlexiblePublisherPolicyTests(unittest.TestCase):
         for b in (fixtures.fixture()[0], single_fixture()[0]):
             self.assertLess(pair_bound(ai, b), 250000)
             prompt = writer_call(b)[2]
-            self.assertIn('80-149', prompt)
+            self.assertIn('50-149', prompt)
             self.assertIn('150-250', prompt)
             self.assertIn('ONE complete', prompt)
         self.assertEqual(LIMITS, {'swedish_ev_article': 2000, 'ev_news_independent_audit': 1300})
@@ -209,26 +209,46 @@ class FlexiblePublisherPolicyTests(unittest.TestCase):
 
     def test_length_boundaries_are_shared_by_precheck_and_wording(self):
         from news_publisher_articles import wording_errors
-        for size in (79, 80, 149, 150, 250, 251):
+        for size in (49, 50, 79, 80, 149, 150, 250, 251):
             b, p = fixtures.fixture()
             p['article']['intro'] = ' '.join(['syntetiskt'] * (size - 2))
             p['article']['paragraphs'] = [{'text': 'ytterligare ord', 'fact_ids': ['f1'], 'kind': 'reporting'}]
             checked = precheck(b, p, fixtures.NOW)
             self.assertEqual(checked['word_count'], size)
-            expected = size in (79, 251)
-            self.assertEqual('publisher_word_count_outside_80_250' in checked['errors'], expected)
-            self.assertEqual('publisher_word_count_outside_80_250' in wording_errors(b, p['article']), expected)
+            expected = size in (49, 251)
+            self.assertEqual('publisher_word_count_outside_50_250' in checked['errors'], expected)
+            self.assertEqual('publisher_word_count_outside_50_250' in wording_errors(b, p['article']), expected)
 
     def test_single_source_full_synthetic_worker_uses_separate_review(self):
-        b, p, review = single_fixture()
+        b, p, _ = single_fixture()
+        p['article'].update(
+            intro='Enligt CarNewsChina planerar Nordic Cells ett batteriprojekt f\u00f6r europeiska eldrivna personbilar. '
+                  'Projektet g\u00e4ller forskning inf\u00f6r fortsatt utveckling.',
+            paragraphs=[{'kind': 'reporting', 'fact_ids': ['f2', 'f3', 'f5', 'f6'],
+                         'text': 'Tv\u00e5 batterikonstruktioner ska unders\u00f6kas inomhus under kontrollerade f\u00f6rh\u00e5llanden. '
+                                 'Forskarna ska anv\u00e4nda samma laboratoriemetod f\u00f6r b\u00e5da alternativen. '
+                                 'Efter avslutad utv\u00e4rdering planerar f\u00f6retaget publicering av projektets tekniska rapport. '
+                                 'Ett externt universitetsteam ska granska m\u00e4tresultaten f\u00f6re slutrapporten.'}])
+        review = fixtures.accepted_review(b, p)
+        review['reported_not_verified'] = True
         with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
             stack.enter_context(patch.object(fixtures, 'fixture', return_value=(b, p)))
             stack.enter_context(patch.object(fixtures, 'accepted_review', return_value=review))
             remote, bundle, _, ai = fixtures.PublisherLifecycleTests().setup_environment(stack, folder)
             result = worker.perform(remote, bundle, private=True, ai=ai)
             self.assertEqual(result['state'], 'passed', result)
+            self.assertTrue(50 <= result['precheck']['word_count'] < 80)
+            self.assertLess(result['precheck']['language_signal_count'], 7)
             self.assertEqual(ai.calls, ['swedish_ev_article', 'ev_news_independent_audit'])
             self.assertEqual(remote.public_articles(), [])
+
+    def test_wrong_language_rejected_by_exact_artifact_review(self):
+        b, p, _ = single_fixture()
+        p['article']['intro'] = ('According to CarNewsChina, Nordic Cells plans battery research '
+                                 'for electric passenger cars in Europe.')
+        review = fixtures.accepted_review(b, p)
+        review.update(reported_not_verified=True, swedish_quality=False)
+        self.assertIn('hybrid_review_rejected:swedish_quality', check_review(b, p, review))
 
 
 if __name__ == '__main__':

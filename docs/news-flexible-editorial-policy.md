@@ -110,7 +110,7 @@ the shared article publisher, not canonical vehicle ingestion or historical tria
    significance/Swedish-relevance thresholds. Scores remain honest diagnostics,
    not proof of factual correctness. Advertising, corporate calendar items,
    unrelated content, speculation, duplicate events and stale sources stay held.
-2. Short news: 80-149 body words and at least two distinct supported facts.
+2. Short news: 50-149 body words and at least two distinct supported facts.
    Standard: 150-250 words and at least three. Both allow up to six facts and
    one to five body paragraphs. The model should shorten, not pad. Body word
    count includes the intro, not the headline. No fake recommendations/analysis.
@@ -122,11 +122,30 @@ the shared article publisher, not canonical vehicle ingestion or historical tria
    ordinary developments. Sensitive claims (performance, range, charging figures,
    safety, availability) require official evidence or complete matching support
    from two independent newsrooms. Every fact still needs literal evidence.
+   With one newsroom, name it in the lead, use the "Rapporterat:" headline
+   label and link to it. Subsequent paragraphs need not repeat the attribution.
+   With two newsrooms, keep explicit attribution in every reporting paragraph.
    Prices/campaigns remain on the separate, unchanged notice route.
 5. Independent review judges the exact final article, source/fact consistency,
    clarity, originality and honest market/claim qualifications, not its numeric
    newsworthiness score. It reviews all supplied excerpts for contradictions,
    not only the ones selected by the writer. All facts/blocks must pass.
+   The Swedish stopword count is a diagnostic, not a rejection. The separate
+   reviewer still approves readable Swedish on the exact article. Shared fact
+   order alone is not evidence of copying; protected expression and close
+   translation still fail.
+
+The 17 November follow-up lowers the short-news minimum from 80 to 50 words
+and removes two mechanical vetoes: repeating a sole newsroom's name and
+passing a Swedish stopword quota. Six attempted stories had stopped before
+independent review; two of the stops were source-label repetition or stopword
+count. Other failures involved unsupported claims or malformed evidence,
+which still stop publication. No earlier outcome is reclassified or retried.
+The offline follow-up passed 951 news tests and the Vite production build.
+A read-only check of four recorded drafts at their original attempt times
+found that the 101-word language-quota rejection now passes precheck, while
+the other three still fail on claims or evidence. This did not run a reviewer,
+alter a stored outcome, buy an AI call or publish an article.
 
 ## Integration And Safeguards
 

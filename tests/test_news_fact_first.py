@@ -75,10 +75,10 @@ class FactPacketTests(unittest.TestCase):
         self.assertNotIn('article', contract.extraction_call(b)[1]['properties'])
         self.assertNotIn('extraction', contract.writer_call(locked)[1]['properties'])
 
-    def test_old_recipe_keeps_its_word_limit_and_receipt_contract(self):
+    def test_article_recipes_keep_separate_length_and_receipt_contracts(self):
         b, _, locked, output, review = fixture()
         packet = contract.bind_article(locked, output)
-        self.assertIn('publisher_word_count_outside_80_250', precheck(b, packet, NOW)['errors'])
+        self.assertNotIn('publisher_word_count_outside_50_250', precheck(b, packet, NOW)['errors'])
         self.assertNotEqual(contract.RECIPE, OLD_RECIPE)
         self.assertIn('hybrid_review_artifact_changed', __import__('news_publisher_articles').check_review(b, packet, review))
 
@@ -128,7 +128,9 @@ class FactPacketTests(unittest.TestCase):
         output = {key: 'Independent English fixture text with names Nordic Cells Volkswagen Newsroom and project details.'
                   for key in output}
         packet = contract.bind_article(locked, output)
-        self.assertIn('publisher_not_swedish', precheck(b, packet, NOW)['errors'])
+        checked = precheck(b, packet, NOW)
+        self.assertLess(checked['language_signal_count'], 7)
+        self.assertNotIn('publisher_not_swedish', checked['errors'])
         self.assertNotIn('publisher_not_swedish', contract.packet_check(b, locked, output, NOW)['errors'])
         review = base.accepted_review(b, packet)
         review['brief_hash'] = brief(b, packet, recipe=contract.RECIPE)['brief_hash']
