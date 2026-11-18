@@ -102,7 +102,8 @@ Permanent project rules for the Swedish EV Advisor codebase.
   approvals. Reserve the entire bounded pipeline before starting, then reserve
   each call through the existing durable allowance. Keep USD0.50/day, USD10/month,
   one publication/day, unknown historical charges and notice switches unchanged.
-  The existing v3 route/proofs retain their own word limits and two-call contract.
+  The v3 route retains its separate word limits and two-call contract. Past
+  runs and rejected drafts retain their original outcomes.
   On 2026-11-12 the owner replaced the two-news-type introduction requirement
   with ONE genuinely passed private introduction case. It still needs exact
   approved three-request receipts and current evidence/quality revalidation.
@@ -168,12 +169,17 @@ Permanent project rules for the Swedish EV Advisor codebase.
   active publisher v2 rules below. New work uses `news-article-review-2026-11-v3`:
   source-based free eligibility/ranking before spending, not post-writing numeric
   relevance/significance vetoes. Keep honest scores for diagnostics. Short news
-  uses 80-149 body words and >=2 distinct supported facts; standard articles use
+  uses 50-149 body words and >=2 distinct supported facts; standard articles use
   150-250 words and >=3 facts, up to six facts and 1-5 body paragraphs. Never pad.
   One official release can substantiate attributed company claims. Without an
   official source, one approved, identified newsroom may support ordinary,
   visibly attributed developments; label this reported, not independently
-  corroborated or verified. Performance, range, charging figures, safety and
+  corroborated or verified. For one newsroom, name it in the lead and label
+  the headline "Rapporterat:"; paragraph-by-paragraph repetition is not required.
+  Two-newsroom coverage retains explicit attribution in every paragraph. A
+  Swedish stopword count is diagnostic; the independent reviewer must still
+  approve clear Swedish on the exact final text. Fact order alone is not copied
+  expression. Performance, range, charging figures, safety and
   availability still need official support or matching evidence from two truly
   independent newsrooms. Monetary facts retain the separate notice route. Known
   conflicts and old/future original dates cannot fall back to a single report.
