@@ -147,6 +147,18 @@ found that the 101-word language-quota rejection now passes precheck, while
 the other three still fail on claims or evidence. This did not run a reviewer,
 alter a stored outcome, buy an AI call or publish an article.
 
+The 18 November live run used two fresh The Driven candidates. The first
+writer declined. The second produced 108 words and passed precheck; the
+independent reviewer accepted the extracted facts but rejected an unsupported
+expansion of the research purpose in the second intro sentence. No article was
+published. The three settled calls cost USD0.030558 in total.
+
+Follow-up: the writer should default to a single attributed, scope-accurate
+intro sentence. A second needs a distinct fact with literal support and an
+intro citation; do not infer broader goals or uses from a test's measurements.
+This is writing guidance, not a sentence-count gate or a change to review,
+fact-first requests, spending limits or historical outcomes.
+
 ## Integration And Safeguards
 
 - Version `news-article-review-2026-11-v3` prevents old proofs being reinterpreted

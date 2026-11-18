@@ -222,11 +222,12 @@ class FlexiblePublisherPolicyTests(unittest.TestCase):
     def test_single_source_full_synthetic_worker_uses_separate_review(self):
         b, p, _ = single_fixture()
         p['article'].update(
-            intro='Enligt CarNewsChina planerar Nordic Cells ett batteriprojekt f\u00f6r europeiska eldrivna personbilar. '
-                  'Projektet g\u00e4ller forskning inf\u00f6r fortsatt utveckling.',
-            paragraphs=[{'kind': 'reporting', 'fact_ids': ['f2', 'f3', 'f5', 'f6'],
+            intro='Enligt CarNewsChina planerar Nordic Cells ett batteriprojekt f\u00f6r europeiska eldrivna personbilar.',
+            intro_fact_ids=['f1'],
+            paragraphs=[{'kind': 'reporting', 'fact_ids': ['f2', 'f3', 'f4', 'f5', 'f6'],
                          'text': 'Tv\u00e5 batterikonstruktioner ska unders\u00f6kas inomhus under kontrollerade f\u00f6rh\u00e5llanden. '
                                  'Forskarna ska anv\u00e4nda samma laboratoriemetod f\u00f6r b\u00e5da alternativen. '
+                                 'I forskningsprogrammet ing\u00e5r laddningsm\u00e4tningar och upprepade laboratoriecykler. '
                                  'Efter avslutad utv\u00e4rdering planerar f\u00f6retaget publicering av projektets tekniska rapport. '
                                  'Ett externt universitetsteam ska granska m\u00e4tresultaten f\u00f6re slutrapporten.'}])
         review = fixtures.accepted_review(b, p)
@@ -241,6 +242,21 @@ class FlexiblePublisherPolicyTests(unittest.TestCase):
             self.assertLess(result['precheck']['language_signal_count'], 7)
             self.assertEqual(ai.calls, ['swedish_ev_article', 'ev_news_independent_audit'])
             self.assertEqual(remote.public_articles(), [])
+
+    def test_review_still_rejects_an_invented_purpose_in_the_intro(self):
+        b, p, _ = single_fixture()
+        p['article']['intro'] += ' M\u00e5let \u00e4r att minska bilindustrins samlade utsl\u00e4pp.'
+        review = fixtures.accepted_review(b, p)
+        review.update(reported_not_verified=True, no_unsupported_claims=False)
+        review['blocks']['intro'] = {
+            'supported': False,
+            'reason': 'The source describes planned research but does not state this goal.',
+            'unsupported_claims': ['Industry-wide emissions goal'],
+        }
+        # Source and numeric checks alone cannot establish the meaning of the extra sentence.
+        self.assertTrue(precheck(b, p, fixtures.NOW)['passed'])
+        self.assertEqual(check_review(b, p, review),
+                         ['hybrid_review_rejected:no_unsupported_claims', 'hybrid_review_unsupported:intro'])
 
     def test_wrong_language_rejected_by_exact_artifact_review(self):
         b, p, _ = single_fixture()
