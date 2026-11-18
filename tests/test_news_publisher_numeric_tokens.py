@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import test_news_publisher_articles as fixtures
 from test_news_publisher_flexible_policy import single_fixture
 from test_news_reported_articles import rehash
-from news_publisher_articles import numbers, precheck
+from news_publisher_articles import cited_relative_years, numbers, precheck
 from news_reporting_policy import sensitive_fact
 from news_publisher_selection import candidate_assessment
 
@@ -25,6 +25,45 @@ class PublisherNumericTokenTests(unittest.TestCase):
         self.assertEqual(numbers('2,03 m and 1.83 m'), {'2.03', '1.83'})
         self.assertEqual(numbers('1 200 000'), {'1200000'})
         self.assertNotEqual(numbers('X9 100'), {'9100'})
+
+    def test_source_lead_can_support_a_year_mentioned_only_in_article_intro(self):
+        for timing in ('en 2027', "l'ann\u00e9e prochaine"):
+            with self.subTest(timing=timing):
+                bundle, packet, _ = single_fixture()
+                fact = packet['extraction']['facts'][0]
+                excerpt = ('Le projet de recherche de Nordic Cells sur les batteries de voitures '
+                           f'\u00e9lectriques en Europe doit commencer {timing}.')
+                source = bundle['items'][0]['payload']
+                source['content'] = source['content'].replace(fact['support'][0]['quote'], excerpt)
+                fact['support'][0]['quote'] = excerpt
+                fact['statement'] += ' Projektet ska starta under 2027.'
+                packet['article']['intro'] += ' Projektet ska starta under 2027.'
+                rehash(bundle)
+                checked = precheck(bundle, packet, fixtures.NOW)
+                self.assertTrue(checked['passed'], checked)
+                self.assertNotIn('2027', packet['article']['title'])
+                self.assertTrue(all('2027' not in p['text'] for p in packet['article']['paragraphs']))
+
+                fact['statement'] = fact['statement'].replace('2027', '2028')
+                packet['article']['intro'] = packet['article']['intro'].replace('2027', '2028')
+                checked = precheck(bundle, packet, fixtures.NOW)
+                self.assertIn('publisher_fact_number_not_in_evidence:f1', checked['errors'])
+                self.assertIn('publisher_reported_fact_conflicting_numbers_or_units:f1', checked['errors'])
+
+    def test_relative_year_only_binds_a_calendar_year_to_the_cited_source_date(self):
+        quote = "Le projet de recherche de Nordic Cells doit commencer l'ann\u00e9e prochaine."
+        source = {'title': 'European battery development', 'published_at': '2026-11-17T19:00:00+01:00'}
+        self.assertEqual(cited_relative_years('Projektet kommer att starta 2027.', [quote], source), {'2027'})
+        for claim in ('Projektet startar under 2028.', 'Studien omfattar 2027 batterier.',
+                      'Studien omfattar 2027 km.', 'Modellen heter X2027.',
+                      'Projektet startar under 2027 och testar 2027 batterier.'):
+            self.assertEqual(cited_relative_years(claim, [quote], source), set(), claim)
+        for other in (source | {'title': quote}, source | {'published_at': None},
+                      source | {'published_at': '2026-12-31T23:30:00+00:00'},
+                      source | {'published_at': '2027-01-01T00:30:00+00:00'}):
+            self.assertEqual(cited_relative_years('Projektet ska starta 2027.', [quote], other), set())
+        self.assertEqual(cited_relative_years('Projektet startar under 2027.',
+                                             ['Nordic Cells anticipates work over the next year.'], source), set())
 
     def test_model_context_can_match_literal_body_without_inventing_values(self):
         bundle, packet, _ = single_fixture()

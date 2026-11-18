@@ -27,6 +27,10 @@ MARKETS = ['SE', 'EU', 'CH', 'CN', 'AU', 'US', 'TH', 'JP', 'KR', 'IN', 'GLOBAL',
 CYCLES = ['WLTP', 'CLTC', 'EPA', 'TEST', 'NOT_APPLICABLE', 'UNSPECIFIED']
 SHORT_MIN_WORDS = 50
 SWEDISH_SIGNAL_WORDS = frozenset(('och', 'att', 'som', 'for', 'med', 'den', 'det', 'ar', 'en', 'kan', 'pa', 'till'))
+NEXT_CALENDAR_YEAR = re.compile(r'\b(?:l annee prochaine|nasta ar|next calendar year)\b')
+YEAR_CONTEXT = re.compile(
+    r'\b(?:\u00e5r|under|tidigast|senast|komma|starta|inledas|b\u00f6rja|lanseras|presenteras|planeras till)\s+$',
+    re.I)
 
 
 def article_length_error(count, *, fact_first):
@@ -67,6 +71,26 @@ def numbers(text, *, source_language=False):
 
 def units(text):
     return set(re.findall(r'(?<![a-z])(?:gwh|kwh|gw|mw|kw|wltp|cltc|epa)(?![a-z])', text.lower()))
+
+
+def cited_relative_years(statement, quotes, source):
+    """Resolve an explicit calendar reference in a cited narrative, not a headline."""
+    if not any(q != source['title'] and NEXT_CALENDAR_YEAR.search(normalize(q)) for q in quotes):
+        return set()
+    try:
+        publication = datetime.fromisoformat(source['published_at'])
+    except (TypeError, ValueError):
+        return set()
+    # A stored date may have been converted to UTC across the year boundary.
+    if publication.tzinfo is None or (publication.month, publication.day) in ((12, 31), (1, 1)):
+        return set()
+    year = str(publication.year + 1)
+    occurrences = list(re.finditer(r'(?<!\d)' + year + r'(?!\d)', statement))
+    if occurrences and all(YEAR_CONTEXT.search(statement[:m.start()])
+                           and re.match(r'\s*(?:[;:!?)]|[.,](?!\d)|$)', statement[m.end():])
+                           for m in occurrences):
+        return {year}
+    return set()
 
 
 def source_views(bundle):
@@ -309,7 +333,12 @@ def writer_call(bundle):
          'Prefix the title Rapporterat:. Never label a single '
          'newsroom as independent corroboration. Reported claims are not verified Swedish car specifications. '
          'Begin the intro with the supplied reported_attribution_prefix and the supported claim. ' +
-         attribution
+         attribution +
+         'A supported year can appear just once, including in the intro; no repetition is required. '
+         'If a cited narrative says next calendar year (e.g. l\'annee prochaine), anchor it to that source\'s '
+         'original publication date, not today or a quoted earlier date. Cite that exact passage. '
+         'If unambiguous, write the year at the end of the clause, e.g. under YYYY. Preserve expected timing, '
+         'and do not turn a production date into a sales or delivery date. '
          if reported(bundle) else
          'EVERY central fact needs official primary evidence. Attribute publisher-only details to that publisher '
          'in both the fact and the visible block. ') +
@@ -378,6 +407,9 @@ def reviewer_call(bundle, packet, *, fact_first=False):
          'evidence from two independently owned newsrooms or official evidence. Check for contradictions '
          'across ALL supplied excerpts, including uncited ones; never allow cherry-picking one version. '
          'Reject unsupported Swedish availability, forecasts as guarantees and reports as independent tests. '
+         'A year need not recur beyond the intro. Treat explicit next-calendar-year wording in a cited '
+         'narrative as relative to its original publication date only if that is the actual time reference. '
+         'Check the model, event and uncertainty; neither a headline nor the calendar conversion guarantees sales. '
          'Attribution must remain clear in the facts and intro. Set reported_not_verified '
          'true only if reported claims are never presented as verified. ' +
          ('There are TWO newsrooms: reject common ownership, reprints, borrowing, circular citations and '
@@ -501,7 +533,10 @@ def precheck(bundle, packet, now=None, *, fact_first=False, facts_only=False):
         if any(not any(q != views[source_id]['title'] for q in quotes)
                for source_id, quotes in source_evidence.items()):
             errors.append('publisher_headline_requires_body_support:' + fact['id'])
-        if not numbers(fact['statement']) <= numbers(' '.join(evidence), source_language=True):
+        relative_years = {source_id: cited_relative_years(fact['statement'], quotes, views[source_id])
+                          for source_id, quotes in source_evidence.items()} if reported(bundle) else {}
+        requested_numbers = numbers(fact['statement'])
+        if not requested_numbers <= numbers(' '.join(evidence), source_language=True).union(*relative_years.values()):
             errors.append('publisher_fact_number_not_in_evidence:' + fact['id'])
         if not units(fact['statement']) <= units(' '.join(evidence)):
             errors.append('publisher_fact_unit_changed:' + fact['id'])
@@ -522,9 +557,9 @@ def precheck(bundle, packet, now=None, *, fact_first=False, facts_only=False):
         if reported(bundle):
             # A model header and its numeric detail may be separate literal spans.
             # Each independent source must support the whole fact, not every span.
-            if any(not numbers(fact['statement']) <= numbers(' '.join(quotes), source_language=True)
+            if any(not requested_numbers <= numbers(' '.join(quotes), source_language=True).union(relative_years[source_id])
                    or not units(fact['statement']) <= units(' '.join(quotes))
-                   for quotes in source_evidence.values()):
+                   for source_id, quotes in source_evidence.items()):
                 errors.append('publisher_reported_fact_conflicting_numbers_or_units:' + fact['id'])
             if any(s['publisher'].lower() not in fact['statement'].lower() for s in supporting):
                 errors.append('publisher_reported_fact_attribution_missing:' + fact['id'])
