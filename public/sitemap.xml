@@ -431,6 +431,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://elbilsagenten.se/bilar/volkswagen-id-buzz-pro-4motion-sweden-olympic-edition-5-sits-my2027</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://elbilsagenten.se/bilar/volkswagen-id-buzz-pro-sweden-olympic-edition-5-sits-my2027</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://elbilsagenten.se/bilar/volkswagen-id-3-neo-trend</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
