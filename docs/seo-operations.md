@@ -50,6 +50,16 @@ unlicensed car photo; reproduce with `node scripts/generate_share_image.mjs`.
    exist. `data/local/seo-qa/mobile-lab.json` is an isolated local observation,
    not field data, a PageSpeed score or a promise of Google rankings.
 
+
+Export the **Pages** tab in **Performance** for the chosen dates and filters.
+Use the Pages CSV as `--input`. It must include the page URL and the clicks,
+impressions, CTR and average position columns. The parser accepts English and
+Swedish headers.
+
+Set `--start` and `--end` to the first and last dates selected in Search Console,
+using `YYYY-MM-DD`.
+These flags label the report period. They do not filter CSV rows.
+
 ```powershell
 node scripts/run_python.mjs scripts/search_console_report.py --input data/local/seo/pages.csv --start 2026-11-05 --end 2026-11-11 --output data/local/seo/week-1.json
 ```
