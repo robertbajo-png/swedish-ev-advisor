@@ -746,6 +746,25 @@
       "reviewed_manifest_sha256": "8e58bb219e5cc1322db15038aa4e3bba3172d5c3d583b2b6735bb0d73545e3cf"
     },
     {
+      "model_key": "volkswagen|id buzz",
+      "asset_url": "/media/vehicles/volkswagen-id-buzz-00832a4a6a37.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:VW_ID._Buzz_Pro_%E2%80%93_f_25012026.jpg",
+      "evidence_url": "https://commons.wikimedia.org/w/index.php?title=File%3AVW_ID._Buzz_Pro_%E2%80%93_f_25012026.jpg&oldid=1181861410",
+      "evidence_quote": "Attribution-Share Alike 3.0 Germany",
+      "license_id": "CC-BY-SA-3.0-DE",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+      "author": "M 93",
+      "credit": "VW ID. Buzz Pro, 25 januari 2026. M 93 / Wikimedia Commons",
+      "changes": "Originalfilen är oförändrad. Webbversionerna behåller hela bildutsnittet och samma licens.",
+      "reviewed_at": "2026-11-19",
+      "status": "documented",
+      "content_sha256": "00832a4a6a37ac1f8f88f2d2ea3a02ba3127638529184f517be224930e0f3f7d",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/VW_ID._Buzz_Pro_%E2%80%93_f_25012026.jpg",
+      "downloaded_from": "https://upload.wikimedia.org/wikipedia/commons/b/b6/VW_ID._Buzz_Pro_%E2%80%93_f_25012026.jpg",
+      "full_frame": true,
+      "model_image_notice": "Modellbild av ID. Buzz Pro. Bilden visar inte Sweden Olympic Edition."
+    },
+    {
       "model_key": "volvo|ex30",
       "asset_url": "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg",
       "source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",

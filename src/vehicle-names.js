@@ -22,7 +22,8 @@ export function stripLeadingBrand(brand, value) {
 }
 
 export function displayModelName(brand, model, variantName) {
-  const modelText = String(model || '').trim();
+  const displayModel = brand === 'Volkswagen' && model === 'Id. Buzz' ? 'ID. Buzz' : model;
+  const modelText = String(displayModel || '').trim();
   const variantText = stripLeadingBrand(brand, variantName);
   if (!variantText) return modelText;
   const normalizedModel = normalizeNameToken(modelText);

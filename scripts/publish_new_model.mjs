@@ -14,8 +14,15 @@ const collectors=new Map([['kia_ev2_sweden_pilot_v1','scripts/kia_ev2_intake.py'
  ['toyota_chr_plus_sweden_pilot_v1','scripts/toyota_chr_plus_intake.py']]);
 async function main(){
  const {values}=parseArgs({options:{adapter:{type:'string',default:'kia_ev2_sweden_pilot_v1'},'client-module':{type:'string'},
-  output:{type:'string',default:'data/local/release-data/kia-ev2-pilot-2026-11-15/publication'},apply:{type:'string'}}});
- const policy=newModelAdapter(values.adapter),collector=collectors.get(values.adapter);assert(collector);assert(values['client-module']);
+  output:{type:'string',default:'data/local/release-data/kia-ev2-pilot-2026-11-15/publication'},apply:{type:'string'},
+  review:{type:'string'},'approved-plan':{type:'string'},'prepare-only':{type:'boolean'},'export-only':{type:'boolean'}}});
+ const policy=newModelAdapter(values.adapter),collector=collectors.get(values.adapter);
+ if(policy.localOnly && values.review && values['approved-plan']){
+  const {publishApprovedIdBuzz}=await import('./publish_approved_id_buzz.mjs');
+  return publishApprovedIdBuzz(values);
+ }
+ assert(!values.review&&!values['approved-plan']&&!values['prepare-only']&&!values['export-only'],'ID. Buzz release options are model-specific');
+ assert(!policy.localOnly,'Local-only pilot cannot use the production connector');assert(collector);assert(values['client-module']);
  const folder=resolve(values.output),local=await realpath('data/local');await mkdir(folder,{recursive:true});
  const rel=relative(local,await realpath(folder));assert(rel&&!rel.startsWith('..')&&!isAbsolute(rel),'Private proof must remain under data/local');
  try{await readFile(resolve(folder,'committed-receipt.json'));throw Error('ExistingCommittedReceiptCheckBeforeRetry');}catch(e){if(e.code!=='ENOENT')throw e;}

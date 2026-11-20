@@ -3,10 +3,11 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGr
 import { ImageAttribution } from './image-attribution.jsx';
 import { NeedGuide } from './need-guide.jsx';
 import { groupCatalogVariants } from './vehicle-catalog.js';
+import { priceOfferEnd, priceTypeLabel } from './price-evidence.js';
 
 export const vehicleMoney = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 export const vehicleMetric = (value, unit = '') => value == null ? 'Uppgift saknas' : `${value}${unit ? ` ${unit}` : ''}`;
-export const vehiclePriceLabel = (car) => ({ list_price: 'Listpris', campaign_price: 'Kampanjpris', dealer_offer: 'Återförsäljarerbjudande' })[car.priceType] || 'Prisuppgift';
+export const vehiclePriceLabel = (car) => priceTypeLabel(car.priceType) || 'Prisuppgift';
 const validDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value || '');
 
 export function vehicleIdentity(car) {
@@ -28,6 +29,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
   const identity = vehicleIdentity(car);
   const Heading = 'h' + headingLevel;
   const priceType = vehiclePriceLabel(car);
+  const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
     <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
@@ -36,7 +38,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
         {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} disabled={!onVariantChange} onChange={onVariantChange ? event => onVariantChange(event.target.value) : undefined}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
       </div>
-      <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{car.priceType === 'campaign_price' && validDate(car.priceValidUntil) ? ` · gäller till ${car.priceValidUntil}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
+      <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{offerEnd ? ` \u00b7 g\u00e4ller till ${offerEnd}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
       <dl className="homeVehicleSpecs">
         {[[car.rangeIsTarget ? 'WLTP-mål' : 'WLTP', car.rangeInterval || car.rangeVerified, car.rangeInterval ? '' : 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
       </dl>

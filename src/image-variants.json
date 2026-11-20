@@ -659,6 +659,28 @@
       }
     ]
   },
+  "/media/vehicles/volkswagen-id-buzz-00832a4a6a37.jpg": {
+    "width": 4080,
+    "height": 2413,
+    "source_sha256": "00832a4a6a37ac1f8f88f2d2ea3a02ba3127638529184f517be224930e0f3f7d",
+    "variants": [
+      {
+        "url": "/media/responsive/volkswagen-id-buzz-00832a4a6a37-480.webp",
+        "width": 480,
+        "sha256": "643d881165490002fe44dfa16e3cbba83cd2e729ce9b20203c01f4da118d673f"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-buzz-00832a4a6a37-800.webp",
+        "width": 800,
+        "sha256": "42d3bc71126e9cdd2e35a23b3bc9f4ac4f4123f474e6c7e6fedd3c1580df4275"
+      },
+      {
+        "url": "/media/responsive/volkswagen-id-buzz-00832a4a6a37-1280.webp",
+        "width": 1280,
+        "sha256": "ff06f597b1be5429b504aa36303a11208e3ee59ad07782aa1d144ec392f6d1d0"
+      }
+    ]
+  },
   "/media/vehicles/volvo-ex30-0c5e3a1d5fd8.jpg": {
     "width": 1280,
     "height": 996,

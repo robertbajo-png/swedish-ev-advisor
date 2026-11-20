@@ -58,6 +58,9 @@ OFFICIAL_SWEDISH_DOMAINS = {
     "ZEEKR": "https://www.zeekr.eu/se-se",
 }
 
+VOLKSWAGEN_ID_BUZZ_URL = "https://www.volkswagen-transportbilar.se/sv/modeller/id-buzz.html"
+VOLKSWAGEN_ID_BUZZ_TECHNICAL_URL = "https://www.volkswagen-transportbilar.se/sv/modeller/id-buzz/tekniska-data.html"
+
 KNOWN_MODEL_URLS = {
     ("TESLA", "MODEL Y"): "https://www.tesla.com/sv_SE/modely",
     ("TESLA", "MODEL 3"): "https://www.tesla.com/sv_SE/model3",
@@ -79,7 +82,7 @@ KNOWN_MODEL_URLS = {
     ("VW", "ID.3"): "https://www.volkswagen.se/sv/modeller/id3.html",
     ("VW", "ID.4"): "https://www.volkswagen.se/sv/modeller/id4.html",
     ("VW", "ID.5"): "https://www.volkswagen.se/sv/modeller/id5.html",
-    ("VW", "ID. BUZZ"): "https://www.volkswagen.se/sv/modeller/id-buzz.html",
+    ("VW", "ID. BUZZ"): VOLKSWAGEN_ID_BUZZ_URL,
     ("BMW", "IX1"): "https://www.bmw.se/sv/alla-modeller/bmw-i/ix1/2022/bmw-ix1-overview.html",
     ("BMW", "IX2"): "https://www.bmw.se/sv/alla-modeller/bmw-i/ix2/2023/bmw-ix2-overview.html",
     ("BMW", "I4"): "https://www.bmw.se/sv/alla-modeller/bmw-i/i4/2024/bmw-i4-overview.html",
