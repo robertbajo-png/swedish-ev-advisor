@@ -91,6 +91,11 @@ try {
   for (const name of ['008_vehicle_access_boundary', '009_public_catalog_contract', '020_price_only_refresh']) {
     await db.exec(await readFile(`database/migrations/${name}.sql`, 'utf8'));
   }
+  // Production exposes photos on public_ev_variants, not public_ev_models.
+  const originalViews = await readFile('database/migrations/002_public_canonical_views.sql', 'utf8');
+  const modelView = originalViews.match(/create or replace view public_ev_models as[^;]+;/i)?.[0];
+  assert(modelView);
+  await db.exec('DROP VIEW public.public_ev_models; ' + modelView + ' GRANT SELECT ON public.public_ev_models TO anon;');
   let m;
   if (readbackPlan) {
     // Copy only the already scoped, read-only snapshot into an in-memory database.

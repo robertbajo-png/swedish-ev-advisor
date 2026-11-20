@@ -286,8 +286,8 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
   validateNewModelImage(after.canonical_models,plan.intake,plan.image);
   if(idBuzzRelease){
    await client.query('SET LOCAL ROLE anon');
-   const {rows:models}=await client.query('SELECT id,image_url,available_confirmed FROM public.public_ev_models WHERE id=$1',[modelId]);
-   fieldsEqual(one(models,'The reviewed model must be publicly readable'),{image_url:plan.image.asset_url,available_confirmed:m.available_confirmed});
+   const {rows:models}=await client.query('SELECT id,market_seen,available_confirmed FROM public.public_ev_models WHERE id=$1',[modelId]);
+   fieldsEqual(one(models,'The reviewed model must be publicly readable'),{market_seen:true,available_confirmed:m.available_confirmed});
    const variants=calendarDates((await client.query('SELECT * FROM public.public_ev_variants WHERE canonical_model_id=$1',[modelId])).rows);
    assert.equal(variants.length,2,'Only two reviewed variants may be public');
    for(const target of plan.targets){
@@ -295,7 +295,8 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
     delete expected.price_refresh_batch_id;
     delete expected.price_verified_at;
     fieldsEqual(one(variants.filter(row=>row.id===target.id),'Missing reviewed public variant'),
-     {...expected,variant_name:target.draft.variant_name,image_url:plan.image.asset_url});
+     {...expected,variant_name:target.draft.variant_name,image_url:plan.image.asset_url,image_source_url:plan.image.source_url,
+      available_confirmed:m.available_confirmed});
    }
    await client.query('RESET ROLE');
   }
