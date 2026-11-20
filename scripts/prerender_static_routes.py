@@ -64,6 +64,8 @@ def strip_leading_brand(brand: str, value: str) -> str:
 
 def display_model_name(brand: str, model: str, variant_name: str) -> str:
     model_text = str(model or "").strip()
+    if brand == "Volkswagen" and model_text == "Id. Buzz":
+        model_text = "ID. Buzz"
     variant_text = strip_leading_brand(brand, variant_name)
     if not variant_text:
         return model_text

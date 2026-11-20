@@ -4,7 +4,7 @@ export function priceTypeLabel(type) {
   switch (type) {
     case 'list_price': return 'Listpris';
     case 'campaign_price': return 'Kampanjpris';
-    case 'dealer_offer': return 'Pris fr\u00e5n \u00e5terf\u00f6rs\u00e4ljare';
+    case 'dealer_offer': return '\u00c5terf\u00f6rs\u00e4ljarerbjudande';
     default: return null;
   }
 }

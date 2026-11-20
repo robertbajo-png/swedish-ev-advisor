@@ -81,7 +81,7 @@ try {
       assert.equal(row.price_source_url, dealer);
       const hero = plain(await page.locator('.vehicleHeroStats').innerText());
       for (const value of [sek(row.price_sek) + ' kr', row.wltp_range_km + ' km', row.tow_kg + ' kg']) assert(hero.includes(value), value);
-      assert(hero.includes('Pris fr\u00e5n \u00e5terf\u00f6rs\u00e4ljare'));
+      assert(hero.includes('\u00c5terf\u00f6rs\u00e4ljarerbjudande'));
       assert(!hero.includes('Listpris'));
       const photo = page.locator('.vehicleHeroMedia img');
       await photo.evaluate(element => element.decode());
