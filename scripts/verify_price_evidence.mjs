@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {hasPriceEvidence,priceEvidence,priceVerificationDate,PRICE_EVIDENCE_FIELDS} from '../src/price-evidence.js';
+import {hasPriceEvidence,priceEvidence,priceOfferEnd,priceVerificationDate,PRICE_EVIDENCE_FIELDS} from '../src/price-evidence.js';
 import {normalizeCatalog,catalogHash} from './sync_public_catalog.mjs';
 import {auditReleaseConfig} from './verify_release_config.mjs';
 import {normalizePublicVariants} from '../functions/_shared/advisor-core.mjs';
@@ -12,6 +12,11 @@ const fixture={brand:'Skoda',model:'Enyaq',variant_name:'Solid Edition 85',price
 const proof={price_source_url:'https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660',price_source_hash:'b'.repeat(64),
   price_source_quote:'Synthetic campaign evidence only',price_source_name:'Skoda Sverige',price_verified_at:'2026-10-26T12:00:00Z'};
 const row={...fixture,...proof};
+assert.equal(priceOfferEnd('campaign_price',fixture.price_valid_until),fixture.price_valid_until);
+assert.equal(priceOfferEnd('dealer_offer','2026-12-31'),'2026-12-31');
+assert.equal(priceOfferEnd('dealer_offer','2026-02-30'),null);
+assert.equal(priceOfferEnd('dealer_offer',null),null);
+assert.equal(priceOfferEnd('list_price','2026-12-31'),null);
 assert.deepEqual(priceEvidence(row),proof);
 assert.equal(hasPriceEvidence(fixture),false);
 assert.equal(priceVerificationDate(row),proof.price_verified_at);

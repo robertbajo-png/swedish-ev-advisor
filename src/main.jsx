@@ -45,7 +45,7 @@ import { InfoPage } from './info-pages.jsx';
 import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
-import { priceEvidence } from './price-evidence.js';
+import { priceEvidence, priceOfferEnd } from './price-evidence.js';
 import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
 import { specQualifications } from './spec-qualifications.js';
@@ -1057,6 +1057,7 @@ function DetailInfoCard({ eyebrow, title, items, source, verifiedAt, priceSource
 
 function SourceVerificationCard({ car }) {
   const imageCredit = imageRights.assets.find(asset => asset.asset_url === car.image);
+  const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
   return <section className="vehicleSources" id="bilkallor"><details>
     <summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary>
     <div>
@@ -1065,6 +1066,8 @@ function SourceVerificationCard({ car }) {
       {car.priceSource && <p><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla: {car.priceSourceName} <ExternalLink size={15} /></a>{' · Pris verifierat '}<time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time>.</p>}
       {car.practicalSource && <p><a href={car.practicalSource} target="_blank" rel="noreferrer">Bagagevolym: Ford Danmark <ExternalLink size={15} /></a>. Uppgift om samma europeiska Explorer.</p>}
       {car.specSources?.map(source => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label} <ExternalLink size={15} /></a></p>)}
+      {car.price && car.priceType === 'dealer_offer' && <p>Priset avser &aring;terf&ouml;rs&auml;ljarens erbjudande eller exemplar, inte tillverkarens listpris.</p>}
+      {car.price && offerEnd && <p>Erbjudandet g&auml;ller till <time dateTime={offerEnd}>{offerEnd}</time>.</p>}
       <MarketStatusBadges car={car} /><p>Saknade uppgifter markeras öppet. Marknadsnärvaro innebär inte automatiskt att bilen går att beställa.</p>
       {imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}
     </div>

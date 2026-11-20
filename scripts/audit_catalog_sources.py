@@ -15,6 +15,8 @@ from urllib.parse import urljoin, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from urllib.robotparser import RobotFileParser
 
+from build_source_queue import VOLKSWAGEN_ID_BUZZ_TECHNICAL_URL, VOLKSWAGEN_ID_BUZZ_URL
+
 ROOT = Path(__file__).resolve().parents[1]
 USER_AGENT = 'SwedishEVAdvisor/0.1'
 MAX_BYTES = 8 * 1024 * 1024
@@ -30,6 +32,8 @@ def allowed_url(url, brands):
         parsed = urlsplit(url)
         if parsed.scheme != 'https' or parsed.username or parsed.password or parsed.port not in (None, 443):
             return False
+        if url in (VOLKSWAGEN_ID_BUZZ_URL, VOLKSWAGEN_ID_BUZZ_TECHNICAL_URL):
+            return any(brand.casefold() == 'volkswagen' for brand in brands)
         domains = {domain.lower() for brand in brands for name, rule in RULES.items()
                    if name.casefold() == brand.casefold() for domain in rule.get('accepted_domains', [])}
         if not any(parsed.hostname == domain or parsed.hostname.endswith('.' + domain) for domain in domains):

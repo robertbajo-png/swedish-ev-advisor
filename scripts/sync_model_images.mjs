@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import { spawnSync } from 'node:child_process';
-import { buildImagePlan, applyImagePlan, imagePlanHash } from './model_image_sync.mjs';
+import { buildImagePlan, applyImagePlan, imagePlanHash, selectImageRegistryForPublic } from './model_image_sync.mjs';
 
 async function main() {
   const { values } = parseArgs({ options: { 'client-module': { type: 'string' }, apply: { type: 'string' },
@@ -23,7 +23,7 @@ async function main() {
     client = await connector.openSourceSnapshot();
     const models = (await client.query('SELECT * FROM public.canonical_models ORDER BY id')).rows;
     const publicModels = (await client.query('SELECT * FROM public.public_ev_models ORDER BY id')).rows;
-    const plan = buildImagePlan(models, publicModels, registry);
+    const plan = buildImagePlan(models, publicModels, selectImageRegistryForPublic(publicModels, registry));
     if (!values.apply) {
       const hash = imagePlanHash(plan);
       await writeFile(path, JSON.stringify({ hash, plan }, null, 2) + '\n');

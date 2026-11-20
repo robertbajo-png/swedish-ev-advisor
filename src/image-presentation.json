@@ -152,6 +152,15 @@
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
     },
+    "volkswagen|id buzz": {
+      "asset_url": "/media/vehicles/volkswagen-id-buzz-00832a4a6a37.jpg",
+      "content_sha256": "00832a4a6a37ac1f8f88f2d2ea3a02ba3127638529184f517be224930e0f3f7d",
+      "status": "approved",
+      "reviewed_at": "2026-11-19",
+      "object_position": "50% 50%",
+      "object_fit": "contain",
+      "style": "licensed_model_photo"
+    },
     "toyota|c hr": {
       "asset_url": "/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg",
       "content_sha256": "39c5e82ee449b0b4424d5f8ddda24922ff80eadba6a54a90de9348d9e3788e1a",

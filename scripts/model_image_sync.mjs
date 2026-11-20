@@ -4,10 +4,20 @@ import { readFileSync } from 'node:fs';
 
 const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publishers.json', import.meta.url), 'utf8'));
 const toyotaPhotos = JSON.parse(readFileSync(new URL('../src/toyota-press-images.json', import.meta.url), 'utf8'));
+const buzzPhoto = JSON.parse(readFileSync(new URL('../src/id-buzz-photo-policy.json', import.meta.url), 'utf8'));
 
 const key = row => [row.brand, row.model].map(value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
 export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
 const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) => !['image_url', 'image_source_url', 'image_verified_at', 'updated_at'].includes(name)));
+
+export function selectImageRegistryForPublic(publicModels, registry) {
+  if (publicModels.some(model => key(model) === buzzPhoto.model_key)) return registry;
+  return { ...registry, assets: registry.assets.filter(asset => {
+    if (asset.model_key !== buzzPhoto.model_key) return true;
+    for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Invalid staged ID. Buzz asset');
+    return false;
+  }) };
+}
 
 export function buildImagePlan(models, publicModels, registry) {
   assert.equal(registry.schema_version, 1);
@@ -20,7 +30,9 @@ export function buildImagePlan(models, publicModels, registry) {
     assert.equal(asset.status, 'documented');
     assert.match(asset.asset_url, /^\/media\/vehicles\/[a-z0-9-]+-[a-f0-9]{12}\.jpg$/);
     assert.match(asset.content_sha256, /^[a-f0-9]{64}$/);
-    if (asset.license_id === 'Polestar-editorial') {
+    if (asset.model_key === buzzPhoto.model_key || asset.license_id === buzzPhoto.license_id) {
+      for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Exact licensed ID. Buzz photo required');
+    } else if (asset.license_id === 'Polestar-editorial') {
       assert(['polestar|2', 'polestar|4'].includes(asset.model_key));
       const match = /^https:\/\/media\.polestar\.com\/gallery\/images\/([0-9]+)$/.exec(asset.source_url);
       assert(match, 'Exact public pressroom photo required');

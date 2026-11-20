@@ -1,5 +1,20 @@
 export const PRICE_EVIDENCE_FIELDS = ['price_source_url', 'price_source_hash', 'price_source_quote', 'price_source_name', 'price_verified_at'];
 
+export function priceTypeLabel(type) {
+  switch (type) {
+    case 'list_price': return 'Listpris';
+    case 'campaign_price': return 'Kampanjpris';
+    case 'dealer_offer': return '\u00c5terf\u00f6rs\u00e4ljarerbjudande';
+    default: return null;
+  }
+}
+
+export function priceOfferEnd(type, value) {
+  if (!['campaign_price', 'dealer_offer'].includes(type) || !/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
+  const date = new Date(`${value}T00:00:00Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value ? value : null;
+}
+
 export function hasPriceEvidence(row) {
   return PRICE_EVIDENCE_FIELDS.some(field => row[field] != null);
 }

@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {newModelAdapter} from './new_model_adapters.mjs';
 import {buildImagePlan} from './model_image_sync.mjs';
+import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
 
 export const CORE_FIELDS=['wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw',
  'ac_charge_kw','boot_liters','tow_kg','seats','drivetrain'];
@@ -13,6 +14,9 @@ export const publicationHash=value=>createHash('sha256').update(JSON.stringify(v
 const same=(a,b,message)=>assert.deepEqual(plain(a),plain(b),message);
 const one=(rows,message)=>{assert.equal(rows.length,1,message);return rows[0];};
 const fieldsEqual=(row,expected)=>{for(const[k,v]of Object.entries(expected))assert.equal(typeof v==='number'?Number(row[k]):row[k],v,'Saved field disagrees: '+k);};
+const sourceMetadata=s=>({country:s.country??'SE',language:s.language??'sv',source_authority:s.source_authority??'manufacturer',
+ authorization_evidence_url:s.authorization_evidence_url??null});
+const savedSource=s=>({url:s.final_url,content_hash:s.content_hash,http_status:200,...sourceMetadata(s)});
 const uuidFor=(adapter,model,identity)=>{
  const h=publicationHash({adapter,model,identity});return `${h.slice(0,8)}-${h.slice(8,12)}-5${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}`;
 };
@@ -25,7 +29,17 @@ export function validateNewModelIntake(intake,now=new Date()){
  const policy=newModelAdapter(intake.adapter);policy.validateIntake(intake,now);
  assert(intake.drafts.length>0&&intake.drafts.length<=policy.maxVariants);
  const names=new Set(),identities=new Set(),sources=new Map(intake.sources.map(s=>[s.final_url,s]));
+ assert.equal(sources.size,intake.sources.length,'Duplicate exact source URL');
  for(const s of [...intake.sources,intake.market.source])fresh(s,now);
+ for(const s of intake.sources){
+  const meta=sourceMetadata(s);
+  if(!policy.mixedSources||s.shared||s.final_url===policy.primaryUrl){
+   same(meta,{country:'SE',language:'sv',source_authority:'manufacturer',authorization_evidence_url:null},'Expected Swedish manufacturer evidence');
+  }else if(meta.source_authority==='authorized_dealer'){
+   const proof=sources.get(meta.authorization_evidence_url);
+   assert(proof&&proof.country==='SE'&&proof.source_authority==='manufacturer','Require exact manufacturer authorization evidence');
+  }
+ }
  for(const r of intake.drafts){
   assert(!names.has(r.variant_name.toLowerCase())&&!identities.has(r.manufacturer_identity),'Duplicate version identity');
   names.add(r.variant_name.toLowerCase());identities.add(r.manufacturer_identity);
@@ -78,14 +92,17 @@ export function buildNewModelPlan(snapshot,intake,image,now=new Date()){
 const TABLES=['canonical_model_variants','canonical_models','manufacturer_sources','extracted_variant_drafts',
  'model_aliases','market_models','market_model_monthly_stats'];
 const DATE_FIELDS=new Set(['price_valid_until','first_seen_month','last_seen_month','month']);
+function calendarDates(input){
+ const rows=plain(input);
+ for(const row of rows)for(const key of DATE_FIELDS)if(row[key]!=null){
+  assert.match(row[key],/^\d{4}-\d{2}-\d{2}(?:T00:00:00\.000Z)?$/,'Unexpected SQL DATE representation');
+  row[key]=row[key].slice(0,10);
+ }
+ return rows;
+}
 export async function publicationSnapshot(client,lock=false){
  const result={};for(const table of TABLES){
-  const rows=plain((await client.query('SELECT * FROM public.'+table+' ORDER BY id'+(lock?' FOR UPDATE':''))).rows);
-  for(const row of rows)for(const key of DATE_FIELDS)if(row[key]!=null){
-   assert.match(row[key],/^\d{4}-\d{2}-\d{2}(?:T00:00:00\.000Z)?$/,'Unexpected SQL DATE representation');
-   row[key]=row[key].slice(0,10);
-  }
-  result[table]=rows;
+  result[table]=calendarDates((await client.query('SELECT * FROM public.'+table+' ORDER BY id'+(lock?' FOR UPDATE':''))).rows);
  }return result;
 }
 const variantFacts=(draft,source,batch,intake)=>({...draft.facts,price_sek:draft.price_evidence.value,
@@ -113,9 +130,45 @@ export function rollingRegistrations(rows,month){
 const marketTotal=plan=>rollingRegistrations([...plan.expected_monthly.filter(r=>r.month!==plan.intake.market.row.last_seen_month),
  {month:plan.intake.market.row.last_seen_month,registrations:plan.intake.market.row.registrations_last_month,county:null,municipality:null}],plan.intake.market.row.last_seen_month);
 
-export async function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
+export function assertIdBuzzReleaseScope(freshReport,approvedReport,approvedHash,now=new Date()){
+ for(const report of [freshReport,approvedReport]){
+  assert.equal(report.status,'ready_for_review');
+  assert.equal(report.apply_allowed,false);
+  assert.equal(report.production_writes,0);
+  assert.equal(report.plan.adapter,ID_BUZZ_ADAPTER);
+  assert.equal(report.plan.intake.adapter,ID_BUZZ_ADAPTER);
+  assert.equal(report.plan.targets.length,2);
+  assert.equal(report.plan_hash,publicationHash(report.plan));
+ }
+ assert.equal(approvedReport.plan_hash,approvedHash,'Wrong approved ID. Buzz scope');
+ assert(Date.parse(freshReport.evidence_expires_at)>now.getTime(),'Fresh ID. Buzz evidence expired');
+ const {plan:fresh}=freshReport,{plan:approved}=approvedReport;
+ const without=(value,keys)=>JSON.parse(JSON.stringify(value,(key,entry)=>keys.includes(key)?undefined:entry));
+ same(without(fresh.intake.market.source,['fetched_at']),without(approved.intake.market.source,['fetched_at']),'Reviewed market workbook changed');
+ const captured=['fetched_at','content_hash','source_hash'];
+ const releaseScope=({intake,targets,...scope})=>({...scope,
+  intake:without(intake,captured),targets:without(targets,captured)});
+ same(releaseScope(fresh),releaseScope(approved),'Reviewed facts, evidence, or production scope changed');
+ validateNewModelIntake(fresh.intake,now);
+}
+
+export function applyIdBuzzRelease(client,freshReport,approvedReport,approvedHash,now=new Date()){
+ assertIdBuzzReleaseScope(freshReport,approvedReport,approvedHash,now);
+ return applyModelTransaction(client,freshReport.plan,freshReport.plan_hash,now,true);
+}
+
+export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
+ return applyModelTransaction(client,plan,expectedHash,now,false);
+}
+
+async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
+ assert(!idBuzzRelease||policy.adapter===ID_BUZZ_ADAPTER);
+ if(policy.localOnly&&!idBuzzRelease){
+  const {PGlite}=await import('@electric-sql/pglite');
+  assert(client instanceof PGlite,'This pilot is restricted to a local PGlite database');
+ }
  validateNewModelImage([plan.expected_model],plan.intake,plan.image);
  let committed=false;
  await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
@@ -136,6 +189,7 @@ export async function applyNewModelPlan(client,plan,expectedHash,now=new Date())
     fieldsEqual(saved,{canonical_model_id:modelId,source_id:row.source_id,validation_status:'published'});same(saved.extraction_payload,receiptPayload(plan,t,expectedHash),'Applied evidence changed');
     const source=one(before.manufacturer_sources.filter(s=>s.id===row.source_id),'Missing exact source');assert.equal(source.url,primary.final_url);assert.equal(source.content_hash,primary.content_hash);
    }
+   for(const source of plan.intake.sources)fieldsEqual(one(before.manufacturer_sources.filter(s=>s.url===source.final_url),'Missing saved source'),savedSource(source));
    const market=one(before.market_models.filter(r=>r.id===plan.expected_market.id),'Missing applied market row');
    fieldsEqual(market,{canonical_model_id:modelId,first_seen_month:plan.expected_market.first_seen_month||plan.intake.market.row.last_seen_month,last_seen_month:plan.intake.market.row.last_seen_month,
     registrations_last_month:plan.intake.market.row.registrations_last_month,registrations_ytd:plan.intake.market.row.registrations_ytd,
@@ -162,14 +216,18 @@ export async function applyNewModelPlan(client,plan,expectedHash,now=new Date())
    }
    assert(!old||old.brand===plan.intake.model.brand&&old.model===plan.intake.model.model);
    assert(!old||!before.canonical_model_variants.some(v=>v.source_id===old.id),'Existing source must not be overwritten');
+   const meta=sourceMetadata(s);
    const result=await client.query(`INSERT INTO public.manufacturer_sources(canonical_model_id,brand,model,source_type,url,title,country,language,
-    fetched_at,content_hash,http_status,final_url,source_validation,source_authority,source_name,extraction_status,verified_at,is_primary)
-    VALUES($1,$2,$3,$4,$5,$6,'SE','sv',$7,$8,200,$5,'reachable_official_model_source','manufacturer',$9,'validated',$7,$10)
+    fetched_at,content_hash,http_status,final_url,source_validation,source_authority,source_name,extraction_status,verified_at,is_primary,authorization_evidence_url)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,200,$5,$11,$12,$13,'validated',$9,$14,$15)
     ON CONFLICT(url) DO UPDATE SET canonical_model_id=excluded.canonical_model_id,source_type=excluded.source_type,
      fetched_at=excluded.fetched_at,content_hash=excluded.content_hash,http_status=200,final_url=excluded.final_url,
      source_validation=excluded.source_validation,source_authority=excluded.source_authority,source_name=excluded.source_name,
+     country=excluded.country,language=excluded.language,authorization_evidence_url=excluded.authorization_evidence_url,
      extraction_status='validated',verified_at=excluded.verified_at,is_primary=excluded.is_primary,updated_at=now() RETURNING id`,
-    [modelId,plan.intake.model.brand,plan.intake.model.model,s.source_type,s.final_url,plan.intake.model.model+': versionsbundet tillverkarunderlag',s.fetched_at,s.content_hash,s.source_name,s.final_url===primary.final_url]);
+    [modelId,plan.intake.model.brand,plan.intake.model.model,s.source_type,s.final_url,plan.intake.model.model+': versionsbundet underlag',
+     meta.country,meta.language,s.fetched_at,s.content_hash,meta.source_authority==='authorized_dealer'?'reachable_authorized_dealer_model_source':'reachable_official_model_source',
+     meta.source_authority,s.source_name,s.final_url===primary.final_url,meta.authorization_evidence_url]);
    sourceIds.set(s.final_url,result.rows[0].id);changedSources.add(result.rows[0].id);
   }
   for(const t of plan.targets){
@@ -220,12 +278,28 @@ export async function applyNewModelPlan(client,plan,expectedHash,now=new Date())
   }
   for(const s of plan.intake.sources){
    const saved=one(after.manufacturer_sources.filter(r=>r.id===sourceIds.get(s.final_url)),'Missing saved source');
-   fieldsEqual(saved,{url:s.final_url,content_hash:s.content_hash,http_status:200,source_authority:'manufacturer',country:'SE',language:'sv'});
+   fieldsEqual(saved,savedSource(s));
   }
   fieldsEqual(one(after.market_models.filter(r=>r.id===marketId),'Missing saved market identity'),{canonical_model_id:modelId,
    first_seen_month:first,last_seen_month:month,registrations_last_month:mr.registrations_last_month,
    registrations_ytd:mr.registrations_ytd,registrations_12m:marketTotal(plan),source_url:plan.intake.market.source.final_url});
   validateNewModelImage(after.canonical_models,plan.intake,plan.image);
+  if(idBuzzRelease){
+   await client.query('SET LOCAL ROLE anon');
+   const {rows:models}=await client.query('SELECT id,market_seen,available_confirmed FROM public.public_ev_models WHERE id=$1',[modelId]);
+   fieldsEqual(one(models,'The reviewed model must be publicly readable'),{market_seen:true,available_confirmed:m.available_confirmed});
+   const variants=calendarDates((await client.query('SELECT * FROM public.public_ev_variants WHERE canonical_model_id=$1',[modelId])).rows);
+   assert.equal(variants.length,2,'Only two reviewed variants may be public');
+   for(const target of plan.targets){
+    const expected=variantFacts(target.draft,primary,expectedHash,plan.intake);
+    delete expected.price_refresh_batch_id;
+    delete expected.price_verified_at;
+    fieldsEqual(one(variants.filter(row=>row.id===target.id),'Missing reviewed public variant'),
+     {...expected,variant_name:target.draft.variant_name,image_url:plan.image.asset_url,image_source_url:plan.image.source_url,
+      available_confirmed:m.available_confirmed});
+   }
+   await client.query('RESET ROLE');
+  }
   await client.query('COMMIT');committed=true;
   return{committed:true,already_applied:false,variants_inserted:plan.targets.length,canonical_variant_ids:[...newIds],
    model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0};

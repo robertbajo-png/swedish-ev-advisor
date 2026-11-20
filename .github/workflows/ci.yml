@@ -183,6 +183,8 @@ jobs:
       - run: bun run verify:ev9-completion
       - run: bun run verify:ev2-intake
       - run: bun run verify:chr-plus-intake
+      - run: bun run verify:id-buzz-intake
+      - run: bun run verify:id-buzz-local-publication
       - run: bun run verify:new-model-photo
       - run: bun run verify:expansion-preflight
       - run: bun run verify:vehicle-quality
