@@ -1,9 +1,16 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
+import { mock } from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
 
+// Exercise the historical tariff with the clock used by the in-memory Postgres.
+const pricingCutoff = Date.parse('2026-11-21T00:00:00Z');
+mock.timers.enable({ apis: ['Date'], now: pricingCutoff - 1000 });
 const db = new PGlite();
+const issuePermit = id => db.query(`
+  insert into news_ab_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
+  values($1,clock_timestamp()+interval '1 hour',200000,repeat('b',64),'Owner approved one private A/B test within the ordinary shared caps.')`, [id]);
 const reserve = (o = {}) => db.query('select reserve_news_ab_ai($1,$2,$3,$4,$5,$6,$7,$8,$9) r',
   [o.permit || 'ab', o.manifest || 'b'.repeat(64), o.cell || 'model-full', o.id || randomUUID(),
     o.stage || 'swedish_ev_article', o.model || 'gpt-5.4', o.input ?? 1000, o.output ?? 1000,
@@ -21,9 +28,8 @@ try {
     '014_news_single_test_allowance.sql','015_news_private_ab_test.sql','015_news_private_ab_test.sql']) {
     await db.exec(await readFile(new URL('../database/migrations/' + file, import.meta.url),'utf8'));
   }
-  await db.exec(`update news_ai_config set pricing_valid_until=current_date+30;
-    insert into news_ab_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
-    values('ab',clock_timestamp()+interval '1 hour',200000,repeat('b',64),'Owner approved one private A/B test within the ordinary shared caps.');`);
+  await db.exec("update news_ai_config set pricing_valid_until=(now() at time zone 'UTC')::date+30;");
+  await issuePermit('ab');
   for (const role of ['anon','authenticated']) {
     await db.exec('set role ' + role);
     await denied(reserve());
@@ -42,7 +48,7 @@ try {
     assert.equal((await reserve(o)).allowed,false);
   }
   const full = await reserve();
-  assert.equal(full.allowed,true); assert.equal(Number(full.reserved_micro_usd),17500);
+  assert.equal(full.allowed,true,full.reason); assert.equal(Number(full.reserved_micro_usd),17500);
   assert.equal((await reserve({cell:'price-full'})).reason,'ab_unresolved_accounting');
   assert.equal((await settle(full.request_id,'gpt-5.4-2026-03-05')).charged_micro_usd,2000);
   assert.equal((await settle(full.request_id)).settled,true);
@@ -76,7 +82,19 @@ try {
   assert.equal(cfg.enabled,false); assert.equal(cfg.publication_enabled,false);
   assert.equal(Number(cfg.daily_limit_micro_usd),250000); assert.equal(Number(cfg.monthly_limit_micro_usd),5000000);
   assert.equal(cfg.model,'gpt-5.4-mini');
+
+  // A fresh permit isolates the price cutoff from the permit's UTC-day limit.
+  await db.exec('reset role');
+  mock.timers.setTime(pricingCutoff);
+  await issuePermit('ab-at-pricing-cutoff');
+  await db.exec('set role service_role');
+  const expired = await reserve({permit:'ab-at-pricing-cutoff'});
+  assert.equal(expired.allowed,false);
+  assert.equal(expired.reason,'ab_pricing_expired');
+
   console.log(JSON.stringify({news_ab_budget_ok:true,idempotent:true,ordinary_caps_only:true,
     two_model_rates:true,common_reviewer:true,one_attempt_per_cell_stage:true,owner_only_issuance:true,
-    unknown_usage_retained:true,model_mismatch_halts:true,production_off:true,public_denials:true}));
-} finally { await db.close(); }
+    unknown_usage_retained:true,model_mismatch_halts:true,production_off:true,public_denials:true,pricing_expiry_enforced:true}));
+} finally {
+  try { await db.close(); } finally { mock.timers.reset(); }
+}
