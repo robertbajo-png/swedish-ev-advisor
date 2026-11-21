@@ -1,9 +1,17 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
+import {mock} from 'node:test';
 import {PGlite} from '@electric-sql/pglite';
+
+const pricingCutoff=Date.parse('2026-11-21T00:00:00Z');
+const permitDurationMs=60*60*1000;
+mock.timers.enable({apis:['Date'],now:pricingCutoff-2*permitDurationMs});
 const db=new PGlite();
 const hash='b'.repeat(64);
+const issuePermit=(id,approvalNote)=>db.query(`
+  insert into news_luna_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
+  values($1,clock_timestamp()+interval '1 hour',20000,$2,$3)`,[id,hash,approvalNote]);
 const reserve=(id,caseKey='model',permit='luna',input=1000,output=1200,digest=hash)=>db.query(
   'select reserve_news_luna_ai($1,$2,$3,$4,$5,$6,$7) r',[permit,digest,caseKey,id,input,output,'a'.repeat(64)]).then(r=>r.rows[0].r);
 const response=(more={})=>({model:'gpt-6-luna',service_tier:'default',status:'completed',usage:{input_tokens:1000,
@@ -16,8 +24,8 @@ try {
   for(const file of ['007_news_engine.sql','012_news_release_guardrails.sql','013_news_unknown_usage_accounting.sql',
     '016_news_private_luna_test.sql','016_news_private_luna_test.sql'])
     await db.exec(await readFile(new URL('../database/migrations/'+file,import.meta.url),'utf8'));
-  await db.exec(`insert into news_luna_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
-    values('luna',clock_timestamp()+interval '1 hour',20000,repeat('b',64),'Owner approved one private GPT-6 Luna probe; ordinary caps remain unchanged.')`);
+  await db.exec("update news_ai_config set pricing_valid_until=(now() at time zone 'UTC')::date+30;");
+  await issuePermit('luna','Owner approved one private GPT-6 Luna probe; ordinary caps remain unchanged.');
   for(const role of ['anon','authenticated']) {
     await db.exec('set role '+role);
     await denied(reserve(randomUUID())); await denied(settle(randomUUID()));
@@ -32,7 +40,7 @@ try {
     [randomUUID(),'model','luna',1000,2500],[randomUUID(),'model','luna',1000,1200,'c'.repeat(64)]])
     assert.equal((await reserve(...args)).allowed,false);
   const id=randomUUID(); const first=await reserve(id);
-  assert.equal(first.allowed,true); assert.equal(Number(first.reserved_micro_usd),850);
+  assert.equal(first.allowed,true,first.reason); assert.equal(Number(first.reserved_micro_usd),850);
   assert.equal((await reserve(randomUUID(),'price')).reason,'luna_unresolved_accounting');
   const inconsistent=response(); inconsistent.usage.input_tokens_details.cache_write_tokens=0;
   assert.equal((await settle(id,inconsistent)).reason,'luna_inconsistent_usage_hold_retained');
@@ -46,18 +54,30 @@ try {
   assert.equal((await settle(unknown,response({model:'gpt-5.6-luna'}))).reason,'luna_unexpected_provider_contract');
   assert.equal((await reserve(randomUUID(),'statistics')).allowed,false);
   assert.equal((await settle(unknown)).settled,true); // accounting remains possible after closure
-  await db.exec(`reset role; insert into news_luna_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
-    values('caps',clock_timestamp()+interval '1 hour',20000,repeat('b',64),'Independent ordinary budget and switch tests, not an exception.');
-    insert into news_ai_requests(id,stage,model,request_hash,input_bound,output_bound,reserved_micro_usd,charged_micro_usd,provider_status,settled_at)
+  await db.exec('reset role');
+  await issuePermit('caps','Independent ordinary budget and switch tests, not an exception.');
+  await db.exec(`insert into news_ai_requests(id,stage,model,request_hash,input_bound,output_bound,reserved_micro_usd,charged_micro_usd,provider_status,settled_at)
     values('${randomUUID()}','old','gpt-5.4-mini',repeat('d',64),1,1,249000,249000,'completed',now()); set role service_role;`);
   assert.equal((await reserve(randomUUID(),'model','caps',10000)).reason,'luna_ordinary_budget_exhausted');
   await db.exec("reset role; delete from news_ai_requests where stage='old'; update news_ai_config set publication_enabled=true; set role service_role;");
   assert.equal((await reserve(randomUUID(),'model','caps')).allowed,false);
-  await db.exec("reset role; update news_ai_config set publication_enabled=false; update news_luna_test_permits set expires_at=clock_timestamp() where id='caps'; set role service_role;");
-  assert.equal((await reserve(randomUUID(),'model','caps')).allowed,false);
+  mock.timers.setTime(pricingCutoff-permitDurationMs);
+  await db.exec('reset role; update news_ai_config set publication_enabled=false; set role service_role;');
+  const expiredPermit=await reserve(randomUUID(),'model','caps');
+  assert.equal(expiredPermit.allowed,false);
+  assert.equal(expiredPermit.reason,'luna_permit_inactive_or_wrong_manifest');
+  mock.timers.setTime(pricingCutoff);
+  await db.exec('reset role');
+  await issuePermit('at-pricing-cutoff','Fresh permit to exercise the independent tariff cutoff.');
+  await db.exec('set role service_role');
+  const expiredPricing=await reserve(randomUUID(),'model','at-pricing-cutoff');
+  assert.equal(expiredPricing.allowed,false);
+  assert.equal(expiredPricing.reason,'luna_requires_unchanged_paused_production');
   const cfg=(await db.query('select * from news_ai_config')).rows[0];
   assert.equal(cfg.model,'gpt-5.4-mini'); assert.equal(cfg.enabled,false); assert.equal(cfg.publication_enabled,false);
   assert.equal(Number(cfg.daily_limit_micro_usd),250000); assert.equal(Number(cfg.monthly_limit_micro_usd),5000000);
   console.log(JSON.stringify({news_luna_budget_ok:true,idempotent:true,public_denials:true,owner_only:true,
-    three_one_use_cases:true,ordinary_caps_only:true,cache_accounting:true,unknown_usage_retained:true,closed_and_expired_denied:true,production_off:true}));
-} finally {await db.close();}
+    three_one_use_cases:true,ordinary_caps_only:true,cache_accounting:true,unknown_usage_retained:true,closed_and_expired_denied:true,production_off:true,pricing_expiry_enforced:true}));
+} finally {
+  try {await db.close();} finally {mock.timers.reset();}
+}
