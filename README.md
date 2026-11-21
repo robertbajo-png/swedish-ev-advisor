@@ -20,17 +20,20 @@ npm run mvp:export-public
 
 The npm scripts run through `scripts/run_python.mjs`, which finds a local Python runtime or the bundled Codex Python runtime on Windows.
 
-Check the current pipeline state at any time:
+Use `npm run pipeline:status` to inspect the current pipeline state without refreshing or extracting data.
+
+Run these commands for local pipeline maintenance:
 
 ```bash
-npm run pipeline:status
 npm run mvp:readiness
 npm run pipeline:refresh
 npm run pipeline:auto
 ```
 
+`pipeline:refresh` regenerates local outputs. `pipeline:auto` can call OpenAI when `OPENAI_API_KEY` is configured and extraction is ready.
+
 `pipeline:refresh` validates extracted drafts, refreshes canonical/public JSON, seeds local SQLite, exports the SQLite public view for the frontend, and regenerates sitemap/robots.
-`pipeline:auto` runs the local refresh, plans next work, preflights available official sources, runs AI extraction only when `OPENAI_API_KEY` exists, reports blockers, and builds the frontend.
+`pipeline:auto` runs the local refresh, plans next work, preflights available official sources, runs extraction when ready and configured, reports blockers, and builds the frontend.
 `mvp:readiness` writes `docs/mvp-readiness-report.md` and `data/mvp/mvp_readiness_report.json` with the current MVP coverage, public-data contracts, source health, and deployment blockers.
 
 Expand the next Mobility Sweden wave with free manufacturer/importer pages and verified authorized-dealer fallbacks:
