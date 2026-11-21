@@ -801,6 +801,35 @@
       "downloaded_from": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/2025_Zeekr_7X_front.jpg/1280px-2025_Zeekr_7X_front.jpg",
       "model_image_notice": "Modellbild. Utrustning och årsmodell kan skilja.",
       "reviewed_manifest_sha256": "8e58bb219e5cc1322db15038aa4e3bba3172d5c3d583b2b6735bb0d73545e3cf"
+    },
+    {
+      "model_key": "xpeng|g6",
+      "source_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/g6-launch-2025-exterior-urban-road-punkt-jpg-3287677",
+      "evidence_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/g6-launch-2025-exterior-urban-road-punkt-jpg-3287677",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "license_id": "Manufacturer-media-use",
+      "license_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/g6-launch-2025-exterior-urban-road-punkt-jpg-3287677",
+      "author": "XPENG Sverige",
+      "credit": "XPENG Sverige / pressbild",
+      "content_sha256": "3d0ad9b81b948e2d6bbb36a2530a9434bd2a36cda5551e58d246dbba10c2a727",
+      "metadata_sha256": "1813ad6f243c219ce4770b5320ade0eeff07f5d0eb5bf09d809546883e467cf5",
+      "source_content_sha256": "2a425a541ed66e605b156827368f3a2033e158ace2935299374dbfc32bc374bf",
+      "publisher_id": "xpeng-g6-private-review",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/xpeng-g6-press-3d0ad9b81b94.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/1fxwb9d4v0xzv1ollf9078",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/1fxwb9d4v0xzv1ollf9078",
+      "status": "documented",
+      "reviewed_at": "2026-11-20",
+      "reviewed_candidate_sha256": "1bdbf437b29d422b803cc09d0d40c35a6a40cf7273555270eeb0dbabfc64c529",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
     }
   ]
 }

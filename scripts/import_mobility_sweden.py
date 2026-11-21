@@ -165,8 +165,15 @@ def is_ambiguous(model_raw: str) -> bool:
 
 
 def parse_elbil_ranking(xlsx_path: Path, source_url: str) -> tuple[list[MarketModel], list[MonthlyStat]]:
-    workbook = load_workbook(xlsx_path, read_only=True, data_only=True)
-    worksheet = workbook["Elbil ranking"]
+    with xlsx_path.open("rb") as stream:
+        workbook = load_workbook(stream, read_only=True, data_only=True)
+        try:
+            return parse_ranking_sheet(workbook["Elbil ranking"], source_url)
+        finally:
+            workbook.close()
+
+
+def parse_ranking_sheet(worksheet, source_url: str) -> tuple[list[MarketModel], list[MonthlyStat]]:
     report_month = parse_month_from_workbook_title(worksheet.cell(row=2, column=8).value)
     month_iso = report_month.isoformat()
     market_models: list[MarketModel] = []

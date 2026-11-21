@@ -4,6 +4,8 @@ import {readFileSync} from 'node:fs';
 import {newModelAdapter} from './new_model_adapters.mjs';
 import {buildImagePlan} from './model_image_sync.mjs';
 import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
+import {ADAPTER as XPENG_G6_ADAPTER,assertXpG6PublicVariants} from './xpeng_g6_publication.mjs';
+import {catalogHash} from './sync_public_catalog.mjs';
 
 export const CORE_FIELDS=['wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw',
  'ac_charge_kw','boot_liters','tow_kg','seats','drivetrain'];
@@ -64,7 +66,8 @@ export function validateNewModelImage(models,intake,image){
  const policy=newModelAdapter(intake.adapter);
  assert.equal(image.model_key,policy.imageKey);assert.equal(image.content_sha256,policy.imageHash);
  buildImagePlan(models,[intake.model],{schema_version:1,assets:[image]});
- const body=readFileSync(new URL('../public'+image.asset_url,import.meta.url));
+ const body=policy.localOnly&&policy.readPrivateImage
+  ?policy.readPrivateImage(image):readFileSync(new URL('../public'+image.asset_url,import.meta.url));
  assert.equal(createHash('sha256').update(body).digest('hex'),image.content_sha256,'Reviewed image bytes changed');
  assert(body[0]===255&&body[1]===216&&body[2]===255);return image;
 }
@@ -114,6 +117,7 @@ const variantFacts=(draft,source,batch,intake)=>({...draft.facts,price_sek:draft
 const quoteFor=draft=>[...new Set(Object.values(draft.field_evidence).map(e=>e.source_url+' | '+e.quote))].join(' | ');
 const receiptPayload=(plan,target,batch)=>({adapter:plan.adapter,publication_batch_id:batch,canonical_variant_id:target.id,
  manufacturer_identity:target.draft.manufacturer_identity,model:plan.intake.model,model_evidence:plan.intake.model_evidence,
+ ...(plan.adapter===XPENG_G6_ADAPTER?{identity_evidence:target.draft.identity_evidence}:{}),
  field_evidence:target.draft.field_evidence,price_evidence:target.draft.price_evidence,
  market_evidence:plan.intake.market,image_evidence:plan.image,source_decisions:plan.intake.source_decisions,
  sources:plan.intake.sources});
@@ -154,18 +158,57 @@ export function assertIdBuzzReleaseScope(freshReport,approvedReport,approvedHash
 
 export function applyIdBuzzRelease(client,freshReport,approvedReport,approvedHash,now=new Date()){
  assertIdBuzzReleaseScope(freshReport,approvedReport,approvedHash,now);
- return applyModelTransaction(client,freshReport.plan,freshReport.plan_hash,now,true);
+ return applyModelTransaction(client,freshReport.plan,freshReport.plan_hash,now,ID_BUZZ_ADAPTER);
+}
+
+export async function applyXpG6Release(client,freshReport,reviewedReport,ui,approvedHash,now=new Date(),baselineHash){
+ assert.match(approvedHash??'',/^[a-f0-9]{64}$/,'Supply the exact approved G6 plan hash');
+ assert.equal(reviewedReport.plan_hash,approvedHash,'Wrong approved G6 scope');
+ const {proveG6ReviewScope}=await import('./revalidate_xpeng_g6_release.mjs');
+ proveG6ReviewScope(reviewedReport,freshReport,ui,now);
+ if(baselineHash===undefined){
+  const {PGlite}=await import('@electric-sql/pglite');
+  assert(client instanceof PGlite,'Require the reviewed production catalog hash before G6 apply');
+ }else{
+  assert.match(baselineHash,/^[a-f0-9]{64}$/);
+  assert.equal(baselineHash,ui.main_review.baseline_sha256,'Unreviewed G6 catalog hash');
+ }
+ return applyModelTransaction(client,freshReport.plan,freshReport.plan_hash,now,XPENG_G6_ADAPTER,baselineHash);
 }
 
 export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
- return applyModelTransaction(client,plan,expectedHash,now,false);
+ return applyModelTransaction(client,plan,expectedHash,now,null);
 }
 
-async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease){
+async function g6AnonymousProjection(client){
+ await client.query('SET LOCAL ROLE anon');
+ // JSONB retains SQL numeric types and avoids driver-specific calendar dates.
+ const variants=(await client.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id')).rows.map(r=>r.row);
+ const models=(await client.query('SELECT to_jsonb(m) AS row FROM public.public_ev_models m ORDER BY id')).rows.map(r=>r.row);
+ await client.query('RESET ROLE');
+ return {variants,models};
+}
+
+async function verifyG6BeforeCommit(client,plan,baseline){
+ const projection=await g6AnonymousProjection(client),id=plan.expected_model.id;
+ const variants=projection.variants.filter(row=>row.canonical_model_id===id);
+ assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'G6 public variant IDs or visibility changed');
+ assertXpG6PublicVariants(variants,plan);
+ fieldsEqual(one(projection.models.filter(row=>row.id===id),'G6 model must be visible anonymously'),{
+  brand:plan.intake.model.brand,model:plan.intake.model.model,body_type:plan.intake.model.body_type,
+  image_url:plan.image.asset_url,image_source_url:plan.image.source_url,market_seen:true,
+  ...Object.fromEntries(['available_confirmed','discontinued_candidate','coming_or_low_volume'].map(k=>[k,plan.expected_model[k]]))});
+ if(baseline){
+  same(projection.variants.filter(row=>row.canonical_model_id!==id),baseline.variants,'Existing public variants changed');
+  same(projection.models.filter(row=>row.id!==id),baseline.models,'Existing public models changed');
+ }
+}
+
+async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
- assert(!idBuzzRelease||policy.adapter===ID_BUZZ_ADAPTER);
- if(policy.localOnly&&!idBuzzRelease){
+ assert(approvedAdapter===null||policy.adapter===approvedAdapter,'Approved adapter mismatch');
+ if(policy.localOnly&&approvedAdapter===null){
   const {PGlite}=await import('@electric-sql/pglite');
   assert(client instanceof PGlite,'This pilot is restricted to a local PGlite database');
  }
@@ -177,6 +220,12 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
   await client.query('SELECT pg_advisory_xact_lock(7240040)');
   const before=await publicationSnapshot(client,true),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
   const existing=before.canonical_model_variants.filter(r=>r.canonical_model_id===modelId);
+  const verifyG6=policy.adapter===XPENG_G6_ADAPTER;
+  const g6Baseline=verifyG6&&!existing.length?await g6AnonymousProjection(client):null;
+  if(baselineHash!==undefined){
+   assert(g6Baseline,'G6 release requires the original production catalog');
+   assert.equal(catalogHash(g6Baseline.variants),baselineHash,'Anonymous catalog changed before G6 writes');
+  }
   const primary=plan.intake.sources.find(s=>s.final_url===policy.primaryUrl);assert(primary);
   if(existing.length){
    assert.equal(existing.length,plan.targets.length,'Partial/colliding publication');
@@ -194,6 +243,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
    fieldsEqual(market,{canonical_model_id:modelId,first_seen_month:plan.expected_market.first_seen_month||plan.intake.market.row.last_seen_month,last_seen_month:plan.intake.market.row.last_seen_month,
     registrations_last_month:plan.intake.market.row.registrations_last_month,registrations_ytd:plan.intake.market.row.registrations_ytd,
     registrations_12m:marketTotal(plan),source_url:plan.intake.market.source.final_url});
+   if(verifyG6)await verifyG6BeforeCommit(client,plan);
    return{committed:false,already_applied:true,variants_inserted:0,canonical_variant_ids:plan.targets.map(t=>t.id),paid_calls:0};
   }
   same(m,plan.expected_model,'Concurrent model change');
@@ -284,7 +334,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
    first_seen_month:first,last_seen_month:month,registrations_last_month:mr.registrations_last_month,
    registrations_ytd:mr.registrations_ytd,registrations_12m:marketTotal(plan),source_url:plan.intake.market.source.final_url});
   validateNewModelImage(after.canonical_models,plan.intake,plan.image);
-  if(idBuzzRelease){
+  if(approvedAdapter===ID_BUZZ_ADAPTER){
    await client.query('SET LOCAL ROLE anon');
    const {rows:models}=await client.query('SELECT id,market_seen,available_confirmed FROM public.public_ev_models WHERE id=$1',[modelId]);
    fieldsEqual(one(models,'The reviewed model must be publicly readable'),{market_seen:true,available_confirmed:m.available_confirmed});
@@ -300,8 +350,10 @@ async function applyModelTransaction(client,plan,expectedHash,now,idBuzzRelease)
    }
    await client.query('RESET ROLE');
   }
+  if(verifyG6)await verifyG6BeforeCommit(client,plan,g6Baseline);
   await client.query('COMMIT');committed=true;
   return{committed:true,already_applied:false,variants_inserted:plan.targets.length,canonical_variant_ids:[...newIds],
-   model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0};
+   model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0,
+   ...(verifyG6?{anonymous_before_commit:true}:{})};
  }finally{if(!committed)await client.query('ROLLBACK');}
 }
