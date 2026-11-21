@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
+import {mock} from 'node:test';
 import {PGlite} from '@electric-sql/pglite';
 
+const pricingCutoff=Date.parse('2026-11-21T00:00:00Z');
+mock.timers.enable({apis:['Date'],now:pricingCutoff-1000});
 const db=new PGlite();
 const sql=name=>readFile(new URL(`../database/migrations/${name}`,import.meta.url),'utf8');
 const permit=randomUUID(), digest='a'.repeat(64), writerDigest='b'.repeat(64);
@@ -22,7 +25,7 @@ const reset=async(cap=370000)=>{
     writer_input_bound,review_input_bound,approval_note) values($1,now()+interval '1 hour',$2,$3,$4,1000,5000,
     'Owner approved one bounded private Sol trial; no publication')`,[permit,cap,digest,writerDigest]);
   await db.exec(`update news_ai_config set enabled=false,publication_enabled=false,model='gpt-6-sol',
-    daily_limit_micro_usd=250000,monthly_limit_micro_usd=5000000,pricing_valid_until=current_date+30;
+    daily_limit_micro_usd=250000,monthly_limit_micro_usd=5000000,pricing_valid_until=(now() at time zone 'UTC')::date+30;
     set role service_role`);
 };
 
@@ -87,7 +90,14 @@ try {
   const cfg=(await db.query('select * from news_ai_config')).rows[0];
   assert.equal(cfg.enabled,false); assert.equal(cfg.publication_enabled,false);
   assert.equal(Number(cfg.daily_limit_micro_usd),250000); assert.equal(Number(cfg.monthly_limit_micro_usd),5000000);
+  mock.timers.setTime(pricingCutoff);
+  await reset();
+  const expiredPricing=await reserve();
+  assert.equal(expiredPricing.allowed,false);
+  assert.equal(expiredPricing.reason,'sol_test_requires_paused_unchanged_production');
   console.log(JSON.stringify({sol_single_trial_sql_ok:true,owner_only_permits:true,two_stages_once:true,
     exact_writer_hash:true,permit_expiry:true,total_reservations_capped:true,monthly_cap_unchanged:true,
-    production_off:true,vehicle_data_unchanged:true,paid_calls:0}));
-} finally {await db.close();}
+    production_off:true,vehicle_data_unchanged:true,pricing_expiry_enforced:true,paid_calls:0}));
+} finally {
+  try {await db.close();} finally {mock.timers.reset();}
+}
