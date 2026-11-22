@@ -5,8 +5,12 @@
     "official_link_evidence": "https://www.kia.com/se/om-kia/pressrum/",
     "image_path_prefix": "/se/kia/images/",
     "model_title_pattern": "^kia-ev2-gtline-ivory-silver-matt-static-highres-001\\.jpg$",
-    "approved_image_paths": ["/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874"],
-    "model_keys": ["kia|ev2"],
+    "approved_image_paths": [
+      "/se/kia/images/kia-ev2-gtline-ivory-silver-matt-static-highres-001-punkt-jpg-3389874"
+    ],
+    "model_keys": [
+      "kia|ev2"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "max_asset_bytes": 24000000,
     "license_id": "Manufacturer-media-use",
@@ -19,7 +23,13 @@
     "origin": "https://kia-motors.mynewsdesk.com",
     "publisher": "Kia Sweden AB",
     "official_link_evidence": "https://www.kia.com/se/om-kia/pressrum/",
-    "model_keys": ["kia|ev3", "kia|ev4", "kia|ev5", "kia|ev6", "kia|ev9"],
+    "model_keys": [
+      "kia|ev3",
+      "kia|ev4",
+      "kia|ev5",
+      "kia|ev6",
+      "kia|ev9"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
@@ -32,8 +42,12 @@
     "publisher": "Mazda Motor Sverige",
     "official_link_evidence": "https://www.mazda.se/varfor-mazda/press/",
     "model_title_pattern": "^2027_mazda6e_src_still_3_highres\\.jpg$",
-    "approved_image_paths": ["/images/2027-mazda6e-src-still-3-highres-punkt-jpg-3540810"],
-    "model_keys": ["mazda|6e"],
+    "approved_image_paths": [
+      "/images/2027-mazda6e-src-still-3-highres-punkt-jpg-3540810"
+    ],
+    "model_keys": [
+      "mazda|6e"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
@@ -45,8 +59,12 @@
     "origin": "https://renault.mynewsdesk.com",
     "publisher": "RN Nordic AB / Renault",
     "official_link_evidence": "https://www.renault.se/personbilar/elbilar/r5-e-tech-electric/drivlina",
-    "model_keys": ["renault|5"],
-    "approved_image_paths": ["/images/renault-5-e-tech-electric-iconic-cinq-version-pop-yellow-8-punkt-jpg-3172684"],
+    "model_keys": [
+      "renault|5"
+    ],
+    "approved_image_paths": [
+      "/images/renault-5-e-tech-electric-iconic-cinq-version-pop-yellow-8-punkt-jpg-3172684"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
@@ -77,8 +95,12 @@
     "official_link_evidence": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/pressreleases/nya-eldrivna-mercedes-benz-cla-aer-aarets-bil-2026-3424247",
     "image_path_prefix": "/se/mercedes-benz-sverige/images/",
     "model_title_pattern": "^Mercedes-Benz CLA with EQ Technology$",
-    "approved_image_paths": ["/se/mercedes-benz-sverige/images/mercedes-benz-cla-with-eq-technology-3210998"],
-    "model_keys": ["mercedes benz|cla"],
+    "approved_image_paths": [
+      "/se/mercedes-benz-sverige/images/mercedes-benz-cla-with-eq-technology-3210998"
+    ],
+    "model_keys": [
+      "mercedes benz|cla"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
@@ -92,8 +114,12 @@
     "official_link_evidence": "https://www.mynewsdesk.com/se/ford/pressreleases/ford-elektrifierar-en-ikonisk-modell-med-introduktionen-av-nya-helelektriska-explorer-utvecklad-och-byggd-i-europa-3241069",
     "image_path_prefix": "/se/ford/images/",
     "model_title_pattern": "^2023_FORD_NewElectricExplorer_1$",
-    "approved_image_paths": ["/se/ford/images/2023-ford-newelectricexplorer-1-2732257"],
-    "model_keys": ["ford|explorer"],
+    "approved_image_paths": [
+      "/se/ford/images/2023-ford-newelectricexplorer-1-2732257"
+    ],
+    "model_keys": [
+      "ford|explorer"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Medieanvändning",
@@ -106,9 +132,14 @@
     "publisher": "BMW Group Norge",
     "official_link_evidence": "https://www.mynewsdesk.com/se/bmw_group_sverige/latest_media",
     "image_path_prefix": "/no/bmw-no/images/",
-    "model_keys": ["bmw|i4"],
+    "model_keys": [
+      "bmw|i4"
+    ],
     "model_title_pattern": "^Nye BMW i4 eDrive40$",
-    "approved_image_paths": ["/no/bmw-no/images/nye-bmw-i4-edrive40-3037474", "/no/bmw-no/images/nye-bmw-i4-edrive40-3037470"],
+    "approved_image_paths": [
+      "/no/bmw-no/images/nye-bmw-i4-edrive40-3037474",
+      "/no/bmw-no/images/nye-bmw-i4-edrive40-3037470"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Bruk i media",
@@ -120,9 +151,13 @@
     "origin": "https://seat-denmark.mynewsdesk.com",
     "publisher": "SEAT & CUPRA Danmark",
     "official_link_evidence": "https://seat-denmark.mynewsdesk.com/pressreleases/den-nye-cupra-born-er-lanceret-op-til-623-km-raekkevidde-og-fire-varianter-fra-249-punktum-990-kr-3443974",
-    "model_keys": ["cupra|born"],
+    "model_keys": [
+      "cupra|born"
+    ],
     "model_title_pattern": "^NEW CUPRA BORN VZ_DARK FOREST_003\\.JPG$",
-    "approved_image_paths": ["/images/new-cupra-born-vz-dark-forest-003-punktum-jpg-3455027"],
+    "approved_image_paths": [
+      "/images/new-cupra-born-vz-dark-forest-003-punktum-jpg-3455027"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Brug i medier",
@@ -134,12 +169,35 @@
     "origin": "https://skoda-danmark.mynewsdesk.com",
     "publisher": "Škoda Danmark",
     "official_link_evidence": "https://ww4.skoda.dk/skoda/pressemeddelelser/",
-    "model_keys": ["skoda|elroq", "skoda|enyaq"],
+    "model_keys": [
+      "skoda|elroq",
+      "skoda|enyaq"
+    ],
     "asset_origin": "https://mnd-assets.mynewsdesk.com",
     "license_id": "Manufacturer-media-use",
     "license_label": "Brug i medier",
     "download_label": "Download",
     "permission_excerpt": "Materialet kan downloades af journalister, bloggere, meningsdannere etc.",
     "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
+  },
+  "renault-4-private-review": {
+    "origin": "https://renault.mynewsdesk.com",
+    "publisher": "RN Nordic AB / Renault",
+    "official_link_evidence": "https://renault.mynewsdesk.com/pressreleases/renault-4-e-tech-electric-nu-till-foersaeljning-i-sverige-3401914",
+    "model_title_pattern": "^R-DAM_1606012\\.jpg$",
+    "model_keys": [
+      "renault|4"
+    ],
+    "approved_image_paths": [
+      "/images/r-dam-1606012-punkt-jpg-3309218"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/9hc1hgc3fv8jvurhl7j5p0",
+    "approved_source_sha256": "cac89bd5aefd905c0cbea884fb98a78f946ad4037e3cb42b5d7d6e39539c99e4",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   }
 }

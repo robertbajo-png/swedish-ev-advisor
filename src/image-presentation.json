@@ -169,6 +169,15 @@
       "object_position": "50% 50%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "renault|4": {
+      "asset_url": "/media/vehicles/renault-4-press-08f8b8956c0a.jpg",
+      "content_sha256": "08f8b8956c0afdfacea4f70aa629210ec3d3a0e62c3ce592a9293a83a1c26c6f",
+      "reviewed_at": "2026-11-20",
+      "status": "approved",
+      "object_fit": "contain",
+      "object_position": "50% 50%",
+      "style": "manufacturer_press_photo"
     }
   }
 }

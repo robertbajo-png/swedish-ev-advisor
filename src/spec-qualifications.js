@@ -1,6 +1,12 @@
 // Preserve manufacturer qualifications when a scalar field represents a range.
 export function specQualifications(row) {
   const quote = row.source_quote || '';
+  const r4Source = 'https://rnautomotive.se/bilar/261900/pc-nc-renault-4-e-tech-2027';
+  const r4TechnoSource = 'https://hedinautomotive.se/bilar/kop-bil/258900/pc-nc-renault-4-e-tech-2026';
+  const r4Evolution = row.brand === 'Renault' && row.model === '4' && row.variant_name === 'Evolution EV52'
+    && row.wltp_range_km === 407 && row.wltp_consumption_kwh_100km === 15.2 && quote.includes(r4Source + ' | ');
+  const r4Techno = row.brand === 'Renault' && row.model === '4' && row.variant_name === 'Techno EV52'
+    && row.wltp_range_km === 398 && row.wltp_consumption_kwh_100km === 15.5 && quote.includes(r4TechnoSource + ' | ');
   const polestar = row.brand === 'Polestar';
   const cla = row.brand === 'Mercedes-Benz' && row.model === 'Cla' && quote.includes('Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)');
   const explorer = row.brand === 'Ford' && row.model === 'Explorer' && /^Explorer Premium Edition (RWD 79|AWD 77) kWh MY27\.25$/.test(row.variant_name);
@@ -32,7 +38,9 @@ export function specQualifications(row) {
     quote.match(/Förbrukning \(WLTP, versionsgrupp\): ([0-9]+,[0-9]+)–([0-9]+,[0-9]+) kWh\/100 km/);
   const interval = groupInterval || polestar && quote.match(/Energikonsumtion \(WLTP\)² ([0-9]+,[0-9]+)[–-]([0-9]+,[0-9]+) kWh\/100 km/);
   return {
-    imageNotice: chrPlus && row.image_url === '/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg'
+    imageNotice: (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'
+      ? `Modellbild: Renault 4 E-Tech electric. Utrustningen kan skilja sig från ${row.variant_name}.`
+      : chrPlus && row.image_url === '/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg'
       ? 'Modellbild: Toyota C-HR+ i brittiskt Design-utförande. Färg, hjul och utrustning kan skilja från den svenska versionen.'
       : idBuzz && row.image_url === '/media/vehicles/volkswagen-id-buzz-00832a4a6a37.jpg'
       ? 'Modellbild: Volkswagen ID. Buzz Pro med kort hjulbas, inte Sweden Olympic Edition. Utrustningen kan skilja sig.'
@@ -52,6 +60,8 @@ export function specQualifications(row) {
     rangeInterval: born ? '552–631 km' : null,
     rangeNote: ev3Preliminary ? '572 km är en preliminär tillverkaruppgift i väntan på homologering enligt Kias svenska faktablad, inte slutlig certifierad räckvidd. Den används inte för att bekräfta ett hårt räckviddskrav.'
       : rangeIsTarget ? 'Tillverkarens räckviddsmål enligt WLTP, inte ett slutligt certifierat värde.'
+      : r4Evolution ? '407 km och 15,2 kWh/100 km avser det svenska Evolution EV52-exemplar som RN Automotive specificerar. Renault anger också 407 km för versionen. Utrustningen kan påverka värdena.'
+      : r4Techno ? '398 km och 15,5 kWh/100 km gäller den svenska Techno EV52 av modellår 2026 med 18-tumshjul som Hedin specificerar. Renault anger också 398 km för versionen. Hjul och utrustning kan påverka värdena.'
       : chrPlus ? 'Slutlig blandad WLTP med standardhjul: Active FWD 18 tum upp till 607 km, Active AWD 18 tum 548 km och Executive AWD 20 tum 507 km. Tillvalshjul och utrustning påverkar räckvidden.'
       : idBuzz ? 'Blandad WLTP för den svenska grundkonfigurationen med kort hjulbas och fem sittplatser. Hjul och tillval kan påverka räckvidden.'
       : ev2 ? 'WLTP upp till: Standard Range 317 km och Long Range 453 km med standardhjulen 16 tum. GT Line Long Range har 19-tumshjul och anges till 413 km, inte modellens högsta 453 km. Uppgifterna gäller de femsitsiga versionerna.'
@@ -99,7 +109,13 @@ export function specQualifications(row) {
       : explorer ? 'Bagagevolymen kommer från Fords danska presentation av samma europeiska Explorer, med baksätet uppfällt. Lastgolv och utrustning påverkar utrymmet. Dragvikten gäller svensk MY27.25; kontrollera registreringsbeviset för bilen du beställer.'
       : born ? 'Bilen är inte godkänd för släp enligt den svenska instruktionsboken. 0 kg är därför ett styrkt förbud, inte saknad data. Fästet för cykelhållare får inte användas för släp; dess vertikala belastning är ingen dragvikt.' : null,
     practicalSource: explorer && quote.includes('https://www.ford.dk/koeb/kampagner/explorer-og-capri') ? 'https://www.ford.dk/koeb/kampagner/explorer-og-capri' : null,
-    specSources: chrPlus ? [
+    specSources: r4Evolution ? [
+      { label: 'Räckvidd och förbrukning: RN Automotive Tagene', url: r4Source },
+      { label: 'Renault Sverige: Evolution EV52', url: 'https://www.renault.se/personbilar/elbilar/r4-e-tech-electric/versioner-och-priser' },
+    ] : r4Techno ? [
+      { label: 'Räckvidd och förbrukning: Hedin Automotive Helsingborg', url: r4TechnoSource },
+      { label: 'Renault Sverige: Techno EV52', url: 'https://www.renault.se/personbilar/elbilar/r4-e-tech-electric/versioner-och-priser' },
+    ] : chrPlus ? [
       { label: 'Toyota Sverige: slutlig räckvidd per version och standardhjul', url: 'https://www.toyota.se/bilar/toyota-c-hr-plus' },
       { label: 'Toyota Sverige: utrustning, pris och tekniska motorkolumner', url: 'https://pdf.toyotasverigebroschyr.com/price-list/nya-toyota-c-hr' },
     ] : idBuzz ? [

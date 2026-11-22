@@ -176,3 +176,24 @@ source-ready evidence permits. EV2 approval does not preapprove these models.
 Target ten additional complete models in two waves, then
 review coverage before pursuing the remainder of ranks 31-60. Dates depend on
 source availability; missing evidence is not permission to lower the release gate.
+
+### Renault 4 paired release candidate
+
+After XPENG G6, the live baseline is 34 models and 87 variants. The Renault 4
+candidate adds only Evolution EV52 (414,900 SEK, 407 km WLTP) and Techno EV52
+(434,900 SEK, 398 km WLTP). Both use current Swedish list prices, nine verified
+technical fields, and the reviewed Renault 4 model press photo. Plein Sud is
+not included.
+
+Two fresh captures checked 19 sources each. In an isolated database using
+the deployed model view shape, the exact transaction preserved all 87 prior
+variants and added both grades and the absent verified Renault sales locator.
+It rejected catalog drift, repeat release and an incorrect scope hash, and
+rolled back both grades and the locator on a forced late failure. Browser QA
+checked both detail pages at 320, 390, 768 and 1440 px and comparison at 320,
+390 and 1440 px. The source tests, release command tests, G6 and ID. Buzz
+regressions and production build passed locally.
+
+This code change does not replace the public catalog. Before releasing the
+pair, revalidate the sources, browser evidence and reviewed transaction
+against the exact current main revision and live catalog.
