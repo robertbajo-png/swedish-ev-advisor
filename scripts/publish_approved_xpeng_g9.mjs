@@ -83,6 +83,7 @@ export async function runXpG9Release({mode,approval,reviewed},io) {
     const records = [...baseline,...normalizeCatalog(additions)].sort((a,b)=>variantKey(a)<variantKey(b)?-1:variantKey(a)>variantKey(b)?1:0);
     assert.equal(compareHash(records),delta.candidate_sha256);
     assert.equal(compareHash(await io.publicRows()),delta.candidate_sha256,'Live catalog changed during G9 export');
+    await io.assertMain(reviewed.commit);
     const catalog_sha256 = catalogHash(records);
     const current = catalogHash((await io.catalog()).records);
     assert([reviewed.baseline_sha256,catalog_sha256].includes(current),'Local catalog changed since the G9 commit');
@@ -112,6 +113,7 @@ export async function runXpG9Release({mode,approval,reviewed},io) {
     if(mode==='check') return {status:'ready_for_release_review',added:2,preserved:baseline.length,
       reviewed_scope_sha256:required,production_writes:0,paid_calls:0};
     await confirmBaseline();
+    await io.assertMain(reviewed.commit);
     assert.equal(catalogHash((await io.catalog()).records),reviewed.baseline_sha256);
     const attempt = {approval,reviewed,plan:fresh.plan,baseline,prepared_at:io.now().toISOString()};
     await io.beginJournal(attempt);

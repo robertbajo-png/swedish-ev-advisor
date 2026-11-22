@@ -78,6 +78,12 @@ export async function rehearseScopedG9({fixture,fresh,reviewed,baseline,now}) {
       /Website catalog changed/);
     const check = await runXpG9Release({mode:'check',reviewed},io);
     assert.deepEqual([check.status,check.production_writes,attempt],['ready_for_release_review',0,undefined]);
+    let mainChecks=0;
+    await assert.rejects(runXpG9Release({mode:'commit',reviewed,approval},{
+      ...io,assertMain:()=>{assert(++mainChecks===1,'Main moved before commit');},
+    }),/Main moved before commit/);
+    assert.equal(attempt,undefined,'An outdated main must not start a database attempt');
+    assert.deepEqual(await publicationSnapshot(db),restored);
     const result = await runXpG9Release({mode:'commit',reviewed,approval},io);
     assert.equal(result.status,'committed_export_pending');
     assert.equal(writes,0,'The database phase must not export');
