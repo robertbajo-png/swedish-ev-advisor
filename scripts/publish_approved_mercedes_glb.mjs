@@ -11,6 +11,7 @@ import {createGlbScope,runGlbRelease} from './mercedes_glb_release.mjs';
 import {readGlbCapture} from './mercedes_glb_publication.mjs';
 import {applyGlbRelease,publicationHash} from './new_model_publication.mjs';
 import {readGlbSnapshot} from './verify_mercedes_glb_local.mjs';
+import {CATALOG_PROJECT,catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 import {catalogHash,fetchCatalog,publicHeaders,SOURCE} from './sync_public_catalog.mjs';
 
 const project='eutcryxbitudllcnpnex', origin='https://elbilsagenten.se';
@@ -22,7 +23,8 @@ const uiFiles=['src/main.jsx','src/vehicle-ui.jsx','src/price-evidence.js','src/
 const codeFiles=[...uiFiles,'database/migrations/026_manufacturer_from_price.sql','functions/_shared/advisor-core.mjs',
   'scripts/prerender_static_routes.py','scripts/sync_public_catalog.mjs','scripts/model_image_sync.mjs','scripts/new_model_adapters.mjs',
   'scripts/new_model_publication.mjs','scripts/mercedes_glb_review.mjs','scripts/mercedes_glb_publication.mjs',
-  'scripts/mercedes_glb_release.mjs','scripts/publish_approved_mercedes_glb.mjs','scripts/verify_mercedes_glb_local.mjs'].sort();
+  'scripts/mercedes_glb_release.mjs','scripts/publish_approved_mercedes_glb.mjs','scripts/verify_mercedes_glb_local.mjs',
+  'scripts/local_catalog_connector.mjs','scripts/isolated_catalog_review.mjs'].sort();
 const clean=async path=>assert.equal(await realpath(path),path,'Require an unlinked local GLB path');
 const bytes=async path=>{await clean(path);return readFile(path);};
 const json=async path=>JSON.parse(await bytes(path));
@@ -84,7 +86,7 @@ async function main(){
   const {values}=parseArgs({options:{
     prepare:{type:'boolean'},readback:{type:'string'},ui:{type:'string'},scope:{type:'string'},fresh:{type:'string'},
     'release-commit':{type:'string'},'reader-sha256':{type:'string'},'commit-approved':{type:'string'},
-    'export-approved':{type:'string'},journal:{type:'string'},
+    'export-approved':{type:'string'},journal:{type:'string'},'client-module':{type:'string'},
   }});
   const root=await realpath('.'), release=join(root,'data','local','release-data');
   await clean(release);
@@ -119,7 +121,9 @@ async function main(){
     assert.equal(response.status,200,'Missing deployed GLB prerequisite: '+pathname);
     return response;
   };
-  let connector;
+  assert.equal(project,CATALOG_PROJECT);
+  const connection=await catalogConnectorPath(root,values['client-module']);
+  let snapshot;
   return runGlbRelease({mode,scope,target,approval},{
     now:()=>new Date(),
     async verifyProduction(reviewed,requested) {
@@ -166,7 +170,7 @@ async function main(){
     liveBaseline:async()=>(await (await live('/data/public_ev_variants.json')).json()).records,
     async publicRows(){
       stage='anonymous_supabase';
-      const env={...loadEnv('production',root,'SUPABASE_'),...loadEnv('production',root,'VITE_SUPABASE_')};
+      const env={...loadEnv('production',connection.sourceRoot,'SUPABASE_'),...loadEnv('production',connection.sourceRoot,'VITE_SUPABASE_')};
       const url=env.SUPABASE_URL||env.VITE_SUPABASE_URL, key=env.SUPABASE_ANON_KEY||env.VITE_SUPABASE_ANON_KEY;
       assert.equal(url?.replace(/\/$/,''),'https://'+project+'.supabase.co');
       publicHeaders(key);
@@ -175,14 +179,11 @@ async function main(){
     freshSource(){stage='source_replay';return readGlbCapture(values.fresh).intake;},
     async openSnapshot(){
       stage='read_only_database_prerequisites';
-      const file=join(root,'data','local','db-tools','source-client.mjs');
-      await clean(file);
-      connector=await import(pathToFileURL(file).href);
-      assert.equal(connector.PROJECT_REF,project);
-      return connector.openSourceSnapshot();
+      snapshot=await openCatalogSnapshot(connection);
+      return snapshot.client;
     },
     readSnapshot:readGlbSnapshot,
-    closeSnapshot:client=>connector.closeSourceSnapshot(client),
+    closeSnapshot:()=>snapshot.close(),
     async saveAttempt(attempt){
       stage='exclusive_local_attempt_journal';
       await mkdir(journal);
