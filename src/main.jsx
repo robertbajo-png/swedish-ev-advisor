@@ -329,9 +329,9 @@ function exportCompareCsv(cars) {
 
 function scoreCar(car, advisor) {
   const text = advisor.prompt.toLowerCase();
-  const price = car.price || 9999999;
+  const price = car.priceType === MANUFACTURER_FROM_PRICE ? null : car.price;
   const range = car.range || 0;
-  const budgetFit = price <= advisor.budget ? 30 : Math.max(0, 30 - (price - advisor.budget) / 11000);
+  const budgetFit = price == null ? 0 : Math.min(30, Math.max(0, 30 - (price - advisor.budget) / 11000));
   const rangeFit = Math.min(22, (range / advisor.range) * 22);
   const needFit =
     advisor.need === 'familj'
@@ -342,7 +342,7 @@ function scoreCar(car, advisor) {
   const textFit =
     (text.includes('drag') && car.towing >= 1500 ? 8 : 0) +
     (text.includes('barn') && car.cargo > 450 ? 6 : 0) +
-    (text.includes('billig') && car.price < 500000 ? 7 : 0) +
+    (text.includes('billig') && price != null && price < 500000 ? 7 : 0) +
     (text.includes('vinter') && car.drivetrain === 'Fyrhjulsdrift' ? 8 : 0);
   return Math.round(Math.min(100, budgetFit + rangeFit + needFit + textFit));
 }
