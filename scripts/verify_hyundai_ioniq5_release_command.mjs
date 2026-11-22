@@ -6,7 +6,7 @@ import test from 'node:test';
 import { ioniq5ReleaseReceipt } from './hyundai_ioniq5_release_scope.mjs';
 import { runIoniq5Release, verifyIoniq5RegisteredMedia } from './publish_approved_hyundai_ioniq5.mjs';
 import { publicationHash } from './new_model_publication.mjs';
-import { catalogHash, SOURCE } from './sync_public_catalog.mjs';
+import { catalogHash, SOURCE, variantKey } from './sync_public_catalog.mjs';
 
 const [scopeFile, uiFile, rowsFile] = process.argv.slice(2);
 assert(scopeFile && uiFile && rowsFile);
@@ -22,9 +22,15 @@ assert.equal(publicationHash(added), ui.transaction_rows_sha256);
 const now = new Date(reviewed.plan.intake.market.source.fetched_at);
 const fresh = ioniq5ReleaseReceipt(reviewed.plan, publicationHash({test_only: true, original: reviewed.review_hash}));
 const request = {mode: 'commit', approval: reviewed.plan_hash, reviewed, ui};
+const fixtureUuid = n => '00000000-0000-4000-8000-' + String(n).padStart(12,'0');
+const existing = baseline.map((row,index) => ({...row,id:fixtureUuid(index+1),canonical_model_id:fixtureUuid(0)}));
+const published = added.map(row => ({
+  ...row, canonical_model_id:fresh.plan.expected_model.id,
+  id:fresh.plan.targets.find(({draft}) => variantKey({...row,variant_name:draft.variant_name}) === variantKey(row)).id,
+}));
 
 function fixture() {
-  const state = { local: baseline, remote: baseline, migrated: true, opens: 0, closes: 0, commits: 0, exports: 0 };
+  const state = { local: baseline, remote: existing, migrated: true, opens: 0, closes: 0, commits: 0, exports: 0 };
   const client = {};
   const io = {
     now: () => now,
@@ -46,7 +52,7 @@ function fixture() {
       assert.equal(approval,reviewed.plan_hash);
       assert.equal(state.attempt.fresh_plan_hash, fresh.plan_hash);
       state.commits++;
-      state.remote = [...baseline, ...added];
+      state.remote = [...existing, ...published];
       return {committed:true, anonymous_before_commit:true, variants_inserted:7, model_id:fresh.plan.expected_model.id,
         canonical_variant_ids:fresh.plan.targets.map(target => target.id), publication_batch_id:fresh.plan_hash, paid_calls:0};
     },
@@ -55,6 +61,7 @@ function fixture() {
     saveCatalog: payload => {
       assert.equal(payload.source,SOURCE);
       assert.equal(payload.catalog_sha256,catalogHash(payload.records));
+      assert(payload.records.every(row => !Object.hasOwn(row,'id') && !Object.hasOwn(row,'canonical_model_id')));
       state.local = payload.records;
       state.exports++;
     },
@@ -111,19 +118,42 @@ test('simulated release exports precisely seven variants and preserves all exist
 test('incorrect edition after commit leaves export untouched and recoverable without SQL', async () => {
   const {state,io} = fixture();
   const original = io.commit;
-  const nLine = added.find(row => row.variant_name.endsWith(' N Line'));
-  const base = added.find(row => !row.variant_name.endsWith(' N Line'));
+  const nLine = published.find(row => row.variant_name.endsWith(' N Line'));
+  const base = published.find(row => !row.variant_name.endsWith(' N Line'));
   io.commit = (...args) => {
     const result = original(...args);
-    state.remote = [...baseline,...added.map(row => row === nLine ? {...row,image_url:base.image_url} : row)];
+    state.remote = [...existing,...published.map(row => row === nLine ? {...row,image_url:base.image_url} : row)];
     return result;
   };
   await assert.rejects(runIoniq5Release(request,io),/Unexpected public Ioniq 5 field: image_url/);
   assert.equal(state.exports,0);
   assert.equal(state.committed.result.committed,true);
-  state.remote = [...baseline,...added];
+  state.remote = [...existing,...published];
   const recover = {mode:'export',approval:reviewed.plan_hash};
   await runIoniq5Release(recover,io);
   await runIoniq5Release(recover,io);
+  assert.deepEqual([state.opens,state.commits,state.exports],[1,1,1]);
+});
+
+test('export rejects ID changes even when public facts are identical', async () => {
+  const {state,io} = fixture();
+  await runIoniq5Release(request,io);
+  const recover = {mode:'export',approval:reviewed.plan_hash};
+  for (const [rows, field, error] of [
+    [published,'id',/Unexpected public Ioniq 5 variant ID/],
+    [published,'canonical_model_id',/Unexpected public Ioniq 5 model ID/],
+    [existing,'id',/Existing public IDs changed/],
+  ]) {
+    state.remote = [...existing,...published].map(row => row === rows[0] ? {...row,[field]:fixtureUuid(1001)} : row);
+    await assert.rejects(runIoniq5Release(recover,io),error);
+  }
+  assert.deepEqual([state.opens,state.commits,state.exports],[1,1,1]);
+});
+
+test('export recovery refuses a mismatched main receipt without opening SQL', async () => {
+  const {state,io} = fixture();
+  await runIoniq5Release(request,io);
+  state.attempt.main_commit = state.committed.main_commit = '0'.repeat(40);
+  await assert.rejects(runIoniq5Release({mode:'export',approval:reviewed.plan_hash},io),/Expected values/);
   assert.deepEqual([state.opens,state.commits,state.exports],[1,1,1]);
 });

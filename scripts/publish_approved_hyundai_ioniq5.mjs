@@ -14,7 +14,7 @@ import { assertIoniq5PublishedRows, ioniq5ReleaseReceipt, proveIoniq5ReleaseScop
 import { applyIoniq5Release, publicationHash } from './new_model_publication.mjs';
 import { prepareIoniq5Readback } from './prepare_hyundai_ioniq5_readback.mjs';
 import { useCalendarDateText } from './refresh_kia_specs.mjs';
-import { atomicJson, catalogHash, compareCatalogs, fetchCatalog, publicHeaders, SOURCE, variantKey } from './sync_public_catalog.mjs';
+import { atomicJson, catalogHash, compareCatalogs, fetchCatalog, normalizeCatalog, publicHeaders, SOURCE, variantKey } from './sync_public_catalog.mjs';
 import { hasVariantPhotoMigration } from './verify_variant_photo_migration.mjs';
 
 const shaPattern = /^[a-f0-9]{64}$/;
@@ -23,6 +23,20 @@ const samePath = async path => assert.equal(await realpath(path), path, 'Require
 const hash = body => createHash('sha256').update(body).digest('hex');
 const saveNew = (path, value) => writeFile(path, JSON.stringify(value, null, 2) + '\n', {flag: 'wx'});
 let stage = 'arguments';
+
+export function assertIoniq5MainRevision(commit, {local = false, exportRecovery = false} = {}) {
+  const git = (...args) => execFileSync('git', args, {encoding:'utf8', timeout:20000}).trim();
+  assert.match(commit, /^[a-f0-9]{40}$/);
+  assert.equal(git('ls-remote','origin','refs/heads/main'), commit + '\trefs/heads/main',
+    'Main changed since Ioniq 5 browser review');
+  if (local) {
+    assert.equal(git('rev-parse','HEAD'), commit, 'Operate on the browser-reviewed main commit');
+    assert.equal(git('status','--porcelain=v1','--untracked-files=all','--','scripts','src','database','public/media',
+      'vite.config.mjs','package.json','bun.lock','functions','index.html',
+      ...(exportRecovery ? [] : ['public/data/public_ev_variants.json'])),
+    '', 'Release inputs differ from reviewed main');
+  }
+}
 
 export async function verifyIoniq5RegisteredMedia(root, plan, report) {
   const [base, edition] = ['base', 'nLine'].map(name => readReviewedPhoto(name).image);
@@ -66,23 +80,41 @@ function requireCommit(result, plan) {
 }
 
 async function exportReviewed(io, committed) {
-  const {plan, result, baseline, baseline_hash} = committed;
+  const {plan, result, baseline, baseline_hash, baseline_identities} = committed;
   requireCommit(result, plan);
   assert.equal(catalogHash(baseline), baseline_hash);
-  const rows = await io.publicRows();
+  const rows = await io.publicRows({includeIds:true});
   const difference = compareCatalogs(baseline, rows);
   assert.deepEqual(difference.local_only, [], 'Existing public rows disappeared');
   assert.deepEqual(difference.changed, [], 'Existing public rows changed');
   assert.deepEqual(difference.remote_only.slice().sort(),
     plan.targets.map(({draft}) => variantKey({...plan.intake.model, variant_name: draft.variant_name})).sort());
-  assertIoniq5PublishedRows(rows.filter(isIoniq5), plan);
+  const ioniq5 = rows.filter(isIoniq5);
+  assertIoniq5PublishedRows(ioniq5, plan);
+  const expected = new Map(plan.targets.map(({draft,id}) => [
+    variantKey({...plan.intake.model,variant_name:draft.variant_name}), id,
+  ]));
+  for (const row of ioniq5) {
+    assert.equal(row.id, expected.get(variantKey(row)), 'Unexpected public Ioniq 5 variant ID');
+    assert.equal(row.canonical_model_id, plan.expected_model.id, 'Unexpected public Ioniq 5 model ID');
+  }
+  assert.deepEqual(catalogIdentities(rows.filter(row => !isIoniq5(row))), baseline_identities, 'Existing public IDs changed');
   const catalog_sha256 = catalogHash(rows);
-  assert.equal(catalogHash(await io.publicRows()), catalog_sha256, 'Anonymous catalog changed during export');
+  assert.deepEqual(await io.publicRows({includeIds:true}), rows, 'Anonymous catalog changed during export');
   const current = catalogHash((await io.catalog()).records);
   assert([baseline_hash, catalog_sha256].includes(current), 'Checked-in catalog changed during release');
   if (current !== catalog_sha256) await io.saveCatalog({generated_at: io.now().toISOString(), source: SOURCE,
-    schema_version: 1, missing_view_columns: [], catalog_sha256, records: rows});
+    schema_version: 1, missing_view_columns: [], catalog_sha256, records: normalizeCatalog(rows)});
   return {status: 'export_verified', added: 7, preserved: baseline.length, catalog_sha256, paid_calls: 0};
+}
+
+function catalogIdentities(rows) {
+  const uuid = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
+  return rows.map(row => {
+    assert.match(row.id, uuid, 'Missing public variant ID');
+    assert.match(row.canonical_model_id, uuid, 'Missing public model ID');
+    return [variantKey(row), row.id, row.canonical_model_id];
+  });
 }
 
 export async function runIoniq5Release({mode, approval, reviewed, ui}, io) {
@@ -94,6 +126,9 @@ export async function runIoniq5Release({mode, approval, reviewed, ui}, io) {
     assert.equal(committed.approval, approval);
     assert.equal(attempt.fresh_plan_hash, publicationHash(committed.plan), 'Ioniq 5 commit journal differs');
     assert.equal(attempt.baseline_hash, committed.baseline_hash);
+    assert.equal(attempt.main_commit, committed.main_commit);
+    assert.equal(attempt.baseline_identity_hash, publicationHash(committed.baseline_identities));
+    await io.assertMain(committed.main_commit);
     assert.equal(await io.verifyMedia(committed.plan), attempt.media_hash);
     return exportReviewed(io, committed);
   }
@@ -104,8 +139,12 @@ export async function runIoniq5Release({mode, approval, reviewed, ui}, io) {
   assert.equal(baseline_hash, ui.baseline.baseline_sha256, 'Ioniq 5 review baseline changed');
   assert.equal(catalogHash(catalogWithComparableTimes(baseline)),ui.baseline.database_baseline_sha256,'Ioniq 5 database baseline changed');
   assert.equal(baseline.length, ui.baseline.baseline_count);
-  const confirmPublic = async () => assert.equal(catalogHash(await io.publicRows()), baseline_hash, 'Canonical catalog changed');
-  await confirmPublic();
+  const confirmPublic = async () => {
+    const rows = await io.publicRows({includeIds:true});
+    assert.equal(catalogHash(rows), baseline_hash, 'Canonical catalog changed');
+    return catalogIdentities(rows);
+  };
+  const baseline_identities = await confirmPublic();
   const media_hash = await io.verifyMedia(reviewed.plan, ui, mode);
   const input = await io.freshSource();
   const client = await io.openSnapshot();
@@ -117,12 +156,14 @@ export async function runIoniq5Release({mode, approval, reviewed, ui}, io) {
       variants: 7, preserved: baseline.length, reviewed_plan_sha256: reviewed.plan_hash,
       source_window_ends_at: fresh.evidence_expires_at, production_writes: 0, paid_calls: 0};
     assert(migration, 'Install only separately approved migration 025 before Ioniq 5 release');
-    await confirmPublic();
+    assert.deepEqual(await confirmPublic(), baseline_identities, 'Canonical identities changed');
     assert.equal(catalogHash((await io.catalog()).records), baseline_hash);
-    await io.beginJournal({approval, fresh_plan_hash: fresh.plan_hash, baseline_hash, media_hash});
+    const main_commit = ui.baseline.commit;
+    await io.beginJournal({approval, fresh_plan_hash: fresh.plan_hash, baseline_hash, media_hash, main_commit,
+      baseline_identity_hash:publicationHash(baseline_identities)});
     const result = await io.commit(client, fresh, reviewed, ui, approval);
     requireCommit(result, fresh.plan);
-    const receipt = {approval, plan: fresh.plan, baseline, baseline_hash, result};
+    const receipt = {approval, plan: fresh.plan, baseline, baseline_hash, baseline_identities, main_commit, result};
     await io.saveCommit(receipt);
     return {...await exportReviewed(io, receipt), database_transaction: 'committed'};
   } finally {
@@ -177,25 +218,33 @@ async function main() {
   let snapshot;
   const result = await runIoniq5Release(options, {
     now: () => new Date(),
-    assertMain(commit) {
+    async assertMain(commit) {
       stage = 'main_revision';
-      assert.match(commit, /^[a-f0-9]{40}$/);
-      assert.equal(execFileSync('git', ['ls-remote','origin','refs/heads/main'], {encoding:'utf8', timeout:20000}).trim(),
-        commit + '\trefs/heads/main', 'Main changed since Ioniq 5 browser review');
+      assertIoniq5MainRevision(commit, {local:mode !== 'check', exportRecovery:mode === 'export'});
+      if (mode === 'commit') assert.equal(options.ui.baseline.exact_main_code, true, 'Require browser review of registered main assets');
     },
     catalog: () => mode === 'check'
       ? JSON.parse(execFileSync('git', ['show', options.ui.baseline.commit + ':public/data/public_ev_variants.json'],
         {cwd:sourceRoot, encoding:'utf8', maxBuffer:5000000}))
       : json(catalog),
-    async publicRows() {
+    async publicRows({includeIds = false} = {}) {
       stage = 'anonymous_catalog';
-      return fetchCatalog({url,key,onSchema: missing => assert.deepEqual(missing, [], 'Missing public view columns')});
+      return fetchCatalog({url,key,includeIds,onSchema: missing => assert.deepEqual(missing, [], 'Missing public view columns')});
     },
     verifyMedia: async (plan, ui) => {
       stage = 'media_scope';
       return verifyIoniq5RegisteredMedia(root, plan, ui);
     },
-    freshSource: () => {stage = 'source_replay'; return readIoniq5Capture(values.fresh);},
+    async freshSource() {
+      stage = 'source_replay';
+      const capture = await readIoniq5Capture(values.fresh);
+      if (mode === 'commit') {
+        const timestamps = intake => [intake.market.source, ...intake.sources].map(source => Date.parse(source.fetched_at));
+        assert(Math.min(...timestamps(capture.intake)) > Math.max(...timestamps(options.reviewed.plan.intake)),
+          'Commit capture must have been fetched after the browser-reviewed source capture');
+      }
+      return capture;
+    },
     async openSnapshot() {
       stage = 'open_readonly_snapshot';
       snapshot = await openCatalogSnapshot(connection);

@@ -11,10 +11,12 @@ import { readReviewedPhoto } from './hyundai_ioniq5_publication.mjs';
 import { isIoniq5, isIoniq5NLine as isNLine, verifyIoniq5CatalogDelta } from './hyundai_ioniq5_distribution.mjs';
 import { catalogWithComparableTimes, readCommittedPublicBaseline } from './isolated_catalog_review.mjs';
 import { publicationHash } from './new_model_publication.mjs';
+import { assertIoniq5MainRevision, verifyIoniq5RegisteredMedia } from './publish_approved_hyundai_ioniq5.mjs';
 import { launchQaBrowser } from './qa_browser.mjs';
 import { catalogHash, normalizeCatalog, variantKey } from './sync_public_catalog.mjs';
 
-const { values } = parseArgs({ options: { transaction: { type: 'string' } } });
+const { values } = parseArgs({ options: { transaction: { type: 'string' }, 'exact-main': { type: 'boolean' } } });
+const exactMain = values['exact-main'] === true;
 assert(values.transaction, 'Supply an isolated Ioniq 5 transaction receipt');
 const root = await realpath('data/local/release-data');
 assert.equal(root, join(await realpath('.'), 'data', 'local', 'release-data'));
@@ -52,11 +54,10 @@ for (const row of rows) {
 
 const output = await mkdtemp(join(root, 'hyundai-ioniq5-ui-'));
 const {sourceRoot, base, proof} = await readCommittedPublicBaseline(root, output, {imageTools: true});
+if (exactMain) assertIoniq5MainRevision(proof.commit, { local: true });
 assert(!base.some(isIoniq5), 'An existing public model must not be replaced by a test');
 const catalog = normalizeCatalog([...base, ...rows]);
 assert.deepEqual(catalog.filter(row => !isIoniq5(row)), base);
-const rights = await json(join(sourceRoot, 'src/image-rights.json'));
-for (const shot of Object.values(photos)) assert(!rights.assets.some(row => row.asset_url === shot.image.asset_url));
 const assets = Object.values(photos).map(shot => ({ ...shot.image, changes: 'Hela originalmotivet. Storlek och format anpassade.' }));
 assets[1].variant_names = rows.filter(isNLine).map(row => row.variant_name);
 const delta = verifyIoniq5CatalogDelta(base, catalog, rows, assets);
@@ -84,19 +85,26 @@ assert.equal(key, photos.nLine.image.publisher_id);
 const publisher = (await json('src/press-image-publishers.json'))[key];
 assert.deepEqual(publisher.model_keys, ['hyundai|ioniq 5']);
 assert.deepEqual(publisher.approved_image_paths, assets.map(asset => new URL(asset.source_url).pathname));
-assert.equal(publishers[key], undefined);
-const lookup = await json(join(sourceRoot, 'src/model-images.json'));
-assert.equal(lookup['hyundai|ioniq 5'], undefined);
-assert(!rights.assets.some(asset => asset.model_key === 'hyundai|ioniq 5'));
-await put('src/press-image-publishers.json', {...publishers, [key]: publisher});
-await put('src/image-rights.json', {...rights, assets: [...rights.assets, ...assets]});
-await put('src/model-images.json', {...lookup, 'hyundai|ioniq 5': assets[0].asset_url});
-for (const {image, body} of Object.values(photos)) await writeFile(join(sourceRoot, 'public', image.asset_url.slice(1)), body, {flag: 'wx'});
+if (exactMain) {
+  assert.deepEqual(publishers[key], publisher);
+  await verifyIoniq5RegisteredMedia(sourceRoot, {image: photos.base.image, targets: rows.map(draft => ({draft}))});
+} else {
+  const rights = await json(join(sourceRoot, 'src/image-rights.json'));
+  const lookup = await json(join(sourceRoot, 'src/model-images.json'));
+  assert.equal(publishers[key], undefined);
+  assert.equal(lookup['hyundai|ioniq 5'], undefined);
+  assert(!rights.assets.some(asset => asset.model_key === 'hyundai|ioniq 5'));
+  for (const shot of Object.values(photos)) assert(!rights.assets.some(row => row.asset_url === shot.image.asset_url));
+  await put('src/press-image-publishers.json', {...publishers, [key]: publisher});
+  await put('src/image-rights.json', {...rights, assets: [...rights.assets, ...assets]});
+  await put('src/model-images.json', {...lookup, 'hyundai|ioniq 5': assets[0].asset_url});
+  for (const {image, body} of Object.values(photos)) await writeFile(join(sourceRoot, 'public', image.asset_url.slice(1)), body, {flag: 'wx'});
+}
 const dryRunSource = 'isolated_ioniq5_distribution_rehearsal';
 await put('public/data/public_ev_variants.json', {source: dryRunSource, publication_approved: false, records: catalog});
 const python = (name, ...args) => JSON.parse(execFileSync(process.execPath, ['scripts/run_python.mjs',
   join(sourceRoot, 'scripts', name), ...args], {encoding: 'utf8', timeout: 90000, windowsHide: true}));
-python('prepare_responsive_images.py', '--write');
+if (!exactMain) python('prepare_responsive_images.py', '--write');
 const rightsAudit = python('audit_image_rights.py', '--check');
 assert.equal(rightsAudit.all_documented, true);
 for (const asset of assets) assert(rightsAudit.checks.some(check => check.asset_url === asset.asset_url && check.documented));
@@ -109,8 +117,8 @@ const shipped = new Map(assets.map(asset => {
   return [asset.asset_url, [{url: asset.asset_url, sha256: asset.content_sha256}, ...responsive.variants]];
 }));
 const outDir = join(output, 'dist');
-await build({root: sourceRoot, configFile: false, envFile: false, base: '/', logLevel: 'silent', build: {outDir},
-  plugins: [react()],
+await build({root: sourceRoot, envFile: false, base: '/', logLevel: 'silent', build: {outDir},
+  ...(exactMain ? {configFile: join(sourceRoot, 'vite.config.mjs'), configLoader: 'runner'} : {configFile: false, plugins: [react()]}),
 });
 const { vehicleSlug } = await import(pathToFileURL(join(sourceRoot, 'src/vehicle-names.js')).href);
 const slug = row => vehicleSlug(row.brand, row.model, row.variant_name);
@@ -219,7 +227,7 @@ try {
   assert.deepEqual(errors, []);
   const report = {status: 'passed_local_only', runs, listing: true, comparison: true,
     photos: receipt.scoped_photos, plan_hash: receipt.plan_hash, transaction_rows_sha256: receipt.preview_rows_sha256,
-    baseline: {...proof, database_baseline_sha256: catalogHash(catalogWithComparableTimes(base)),
+    baseline: {...proof, exact_main_code: exactMain, database_baseline_sha256: catalogHash(catalogWithComparableTimes(base)),
       candidate_count: catalog.length, candidate_sha256: catalogHash(catalog)},
     distribution: {...delta, static_assets: [...shipped.values()].flat(), intercepted_catalog: false,
       intercepted_images: false, rejected_export_mutations: alteredExports.length, approved_for_deployment: false},

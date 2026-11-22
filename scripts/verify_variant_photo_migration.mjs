@@ -12,6 +12,7 @@ const variants = 'public.canonical_model_variants';
 const digest = value => createHash('sha256').update(value).digest('hex');
 const migrationFile = new URL('../database/migrations/025_variant_photo_override.sql', import.meta.url);
 const roles = ['anon', 'authenticated'];
+const unchangedBoundary = ['protected_rows','owner_can_read','view_options','view_comment','columns','access','grants'];
 
 async function contract(client) {
   const { rows: [flags] } = await client.query(`SELECT
@@ -84,6 +85,46 @@ export async function hasVariantPhotoMigration(client) {
   return installed;
 }
 
+async function anonymousRows(client) {
+  await client.query('SET LOCAL ROLE anon');
+  const {rows} = await client.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id');
+  await client.query('RESET ROLE');
+  return rows.map(entry => entry.row);
+}
+
+export async function applyVariantPhotoMigration(client, {expectedHash, verifyBaseline, execute = sql => client.query(sql)}) {
+  const sql = (await readFile(migrationFile, 'utf8')).replaceAll('\r\n','\n');
+  assert.equal(digest(sql), expectedHash, 'Unexpected variant-photo migration SHA-256');
+  const transaction = /^(--[^\n]*\nbegin;\n)([\s\S]+)\ncommit;\n?$/.exec(sql);
+  assert(transaction, 'Expected exactly the reviewed migration transaction envelope');
+  assert.equal(typeof verifyBaseline, 'function');
+  await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
+  try {
+    await client.query("SET LOCAL lock_timeout = '5s'");
+    await client.query("SET LOCAL statement_timeout = '60s'");
+    await client.query('LOCK TABLE public.canonical_models, public.canonical_model_variants IN SHARE ROW EXCLUSIVE MODE');
+    const before = await contract(client);
+    assertBoundary(before);
+    assertMigrationState(before, false);
+    const rows = await anonymousRows(client);
+    await verifyBaseline(rows);
+    await execute(transaction[2]);
+    const after = await contract(client);
+    assertBoundary(after);
+    assertMigrationState(after, true);
+    for (const key of unchangedBoundary) {
+      assert.deepEqual(after[key], before[key], 'Migration changed existing view contract: ' + key);
+    }
+    assert.deepEqual(await anonymousRows(client), rows, 'Variant-photo migration changed existing public rows');
+    await client.query('COMMIT');
+    return {status:'installed_and_catalog_unchanged', public_rows:rows.length, public_columns:after.columns.length,
+      migration_sha256:expectedHash};
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  }
+}
+
 async function readOnlyProduction(installed) {
   const root = await realpath('.');
   assert(!/[\\/]onedrive(?:commercial|consumer)?(?:[\\/]|$)/i.test(root));
@@ -101,10 +142,8 @@ async function readOnlyProduction(installed) {
     const state = await contract(base);
     assertBoundary(state);
     assertMigrationState(state, installed);
-    await base.query('SET LOCAL ROLE anon');
-    const { rows } = await base.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id');
-    assert.equal(catalogHash(rows.map(entry => entry.row)), catalogHash(baseline), 'Canonical anonymous catalog changed since main');
-    await base.query('RESET ROLE');
+    const rows = await anonymousRows(base);
+    assert.equal(catalogHash(rows), catalogHash(baseline), 'Canonical anonymous catalog changed since main');
     console.log(JSON.stringify({ status: installed ? 'installed_and_catalog_unchanged' : 'ready_for_review',
       mode: 'production_read_only', base_commit: commit,
       current_public_rows: rows.length, current_catalog_sha256: catalogHash(baseline),
@@ -215,9 +254,31 @@ async function localProof() {
       await blocked.close();
     }
   }
+  const guarded = await localFixture();
+  try {
+    const before = await contract(guarded), baseline = await readPublic(guarded);
+    const options = {expectedHash:digest(sql.replaceAll('\r\n','\n')),
+      verifyBaseline: rows => assert.deepEqual(rows,baseline), execute: query => guarded.exec(query)};
+    await assert.rejects(applyVariantPhotoMigration(guarded,{...options,expectedHash:'0'.repeat(64)}), /SHA-256/);
+    await assert.rejects(applyVariantPhotoMigration(guarded,{...options,verifyBaseline: () => {
+      throw new Error('Baseline differs');
+    }}), /Baseline differs/);
+    await assert.rejects(applyVariantPhotoMigration(guarded,{...options,execute: async query => {
+      await guarded.exec(query);
+      await guarded.exec('UPDATE canonical_model_variants SET price_sek=1 WHERE id=1');
+    }}), /changed existing public rows/);
+    assert.deepEqual(await contract(guarded), before, 'An after-DDL failure must roll back the entire migration');
+    assert.deepEqual(await readPublic(guarded), baseline);
+    const installed = await applyVariantPhotoMigration(guarded,options);
+    assert.equal(installed.public_rows, baseline.length);
+    assert.equal(await hasVariantPhotoMigration(guarded), true);
+    assert.deepEqual(await readPublic(guarded), baseline);
+  } finally {
+    await guarded.close();
+  }
   console.log(JSON.stringify({ status: 'passed_local_only', migration_sha256: digest(sql), idempotent: true,
     grants_and_view_columns_preserved: true, edition_projection: true, identity_invalidation: true,
-    rejected_migration_cases: conflicts.length, production_writes: 0 }));
+    rejected_migration_cases: conflicts.length + 3, guarded_apply_rollback: true, production_writes: 0 }));
 }
 
 async function main() {
