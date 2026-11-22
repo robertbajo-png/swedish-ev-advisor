@@ -747,6 +747,23 @@
       }
     ]
   },
+  "/media/vehicles/polestar-3-press-450c917205da.jpg": {
+    "width": 12302,
+    "height": 9227,
+    "source_sha256": "450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71",
+    "variants": [
+      {
+        "url": "/media/responsive/polestar-3-press-450c917205da-746.webp",
+        "width": 746,
+        "sha256": "c4423dc606812862886358d167f3b313d9aff0521a31d8f8d9a9c409ba4cc877"
+      },
+      {
+        "url": "/media/responsive/polestar-3-press-450c917205da-1782.webp",
+        "width": 1782,
+        "sha256": "8892e7843d3a75339289fc3eef7055561eeba218b928b6a8c2b751697e572ee7"
+      }
+    ]
+  },
   "/media/vehicles/renault-4-press-08f8b8956c0a.jpg": {
     "width": 1500,
     "height": 844,

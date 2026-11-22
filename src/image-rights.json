@@ -832,6 +832,34 @@
       "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
     },
     {
+      "model_key": "polestar|3",
+      "publisher_id": "polestar-3-have-private-3332240",
+      "source_url": "https://www.mynewsdesk.com/dk/have-as/images/polestar-250527-1251-v004-dot-jpg-3332240",
+      "evidence_url": "https://www.mynewsdesk.com/dk/have-as/images/polestar-250527-1251-v004-dot-jpg-3332240",
+      "license_url": "https://www.mynewsdesk.com/dk/have-as/images/polestar-250527-1251-v004-dot-jpg-3332240",
+      "license_id": "Manufacturer-media-use",
+      "evidence_quote": "Det kan bruges og deles i forskellige medier-kanaler | forudsat at materialet er uredigeret og publiceret i sin helhed",
+      "full_frame": true,
+      "content_sha256": "450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71",
+      "source_content_sha256": "450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71",
+      "metadata_sha256": "40fab8d4ce1ef5ad51fa432f2be90b4bdf277c8ab18f4ac3dd74ef04fb871279",
+      "author": "Polestar / HAVE Kommunikation",
+      "credit": "Polestar / HAVE Kommunikation / pressbild",
+      "status": "documented",
+      "reviewed_at": "2026-11-21",
+      "asset_url": "/media/vehicles/polestar-3-press-450c917205da.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/cc0rfrdd93oqbsifnhj2ex",
+      "reviewed_candidate_sha256": "274370847f9921f8df1e5cf91afccc9d4478d8a3fb33f583da907f7a98bf771a",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Polestar 3 med 800 V. Bilden visar inte en viss svensk konfiguration.",
+      "changes": "Originalfilen har inte redigerats."
+    },
+    {
       "model_key": "renault|4",
       "source_url": "https://renault.mynewsdesk.com/images/r-dam-1606012-punkt-jpg-3309218",
       "evidence_url": "https://renault.mynewsdesk.com/images/r-dam-1606012-punkt-jpg-3309218",

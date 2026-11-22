@@ -44,14 +44,15 @@ function releaseProof() {
   const priceQuote = 'Performance | 999 000 kr';
   const flags = {market_seen:true, available_confirmed:false, discontinued_candidate:false, coming_or_low_volume:false};
   const facts = {wltp_range_km:601, wltp_consumption_kwh_100km:20.5, dc_charge_kw:350};
+  const fetchedAt = '2026-11-22T15:10:44.913Z';
   const candidateRow = {...row, ...facts, ...flags, body_type:MODEL.body_type, source_name:'Polestar',
     price_valid_until:null, price_source_url:row.source_url, price_source_hash:row.source_hash,
-    price_source_quote:priceQuote, price_source_name:'Polestar', price_verified_at:'2026-11-22',
+    price_source_quote:priceQuote, price_source_name:'Polestar', price_verified_at:fetchedAt, verified_at:fetchedAt,
     image_url:photo.asset_url, image_source_url:photo.source_url, extraction_confidence:0.96};
   const baseline = [{...row, ...flags, brand:'Cupra', model:'Tavascan', variant_name:'Drive', extraction_confidence:0.97}];
   const candidate = [...baseline, candidateRow];
   const plan = {adapter:ADAPTER, image:photo, expected_model:{...flags, id:'isolated-model'},
-    intake:{sources:[{final_url:row.source_url, content_hash:row.source_hash}]}, targets:[{id:row.id, draft:{
+    intake:{sources:[{final_url:row.source_url, content_hash:row.source_hash, source_name:'Polestar', fetched_at:fetchedAt}]}, targets:[{id:row.id, draft:{
       facts, extraction_confidence:0.96,
       price_evidence:{source_hash:row.source_hash, quote:priceQuote},
       field_evidence:{wltp_range_km:{source_url:manual, quote:row.source_quote.split(' | ').slice(1).join(' | ')}},
@@ -92,6 +93,8 @@ test('Polestar additions cannot change other catalog prices or replace certified
     p=>{p.candidate[1].wltp_range_km=742;},
     p=>{p.candidate[1].source_quote='Performance | 601 km';},
     p=>{p.candidate[1].price_source_quote='Dual motor | 924 000 kr';},
+    p=>{p.candidate[1].price_verified_at='2026-11-23';},
+    p=>{p.candidate[1].price_source_name='Another publisher';},
   ]) {
     const proof = releaseProof();
     change(proof);

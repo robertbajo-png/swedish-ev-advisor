@@ -41,7 +41,12 @@ export function validatePolestar3Delta(baseline,candidate,plan) {
   assert.equal(variantKey(row),key);
   if(Object.hasOwn(row,'id')) assert.equal(row.id,id,'Unexpected Polestar variant ID');
   if(Object.hasOwn(row,'canonical_model_id')) assert.equal(row.canonical_model_id,plan.expected_model.id,'Unexpected Polestar model ID');
-  assert.equal(row.source_hash,plan.intake.sources.find(source=>source.final_url===policy.primaryUrl).content_hash);
+  const source=plan.intake.sources.find(source=>source.final_url===policy.primaryUrl);
+  assert.equal(row.source_hash,source.content_hash);
+  assert.deepEqual([row.source_name,row.price_source_name],[source.source_name,source.source_name]);
+  const verified=Date.parse(source.fetched_at);
+  assert(Number.isFinite(verified));
+  assert.deepEqual([Date.parse(row.verified_at),Date.parse(row.price_verified_at)],[verified,verified]);
   assert.equal(row.price_source_quote,draft.price_evidence.quote);
   assert.equal(row.source_quote,[...new Set(Object.values(draft.field_evidence).map(e=>e.source_url+' | '+e.quote))].join(' | '));
   assert.equal(row.extraction_confidence,draft.extraction_confidence);
@@ -110,9 +115,16 @@ export async function verifyRegisteredPolestar3Media(root,photo,ui) {
     [photo.asset_url,photo.content_sha256,'approved','contain']);
   const rights=(await json('src/image-rights.json')).assets.filter(row=>row.model_key===photo.model_key);
   assert.deepEqual(rights,[{...photo,changes:'Originalfilen har inte redigerats.'}]);
+  const publisher=(await json('src/press-image-publishers.json'))[photo.publisher_id];
+  assert.deepEqual(publisher.model_keys,[photo.model_key]);
+  assert.deepEqual(publisher.approved_image_paths,[new URL(photo.source_url).pathname]);
+  assert.deepEqual([publisher.approved_asset_url,publisher.approved_source_sha256],
+    [photo.downloaded_from,photo.content_sha256]);
   const entry=(await json('src/image-variants.json'))[photo.asset_url];
   assert.deepEqual([entry.width,entry.height,entry.source_sha256],[12302,9227,photo.content_sha256]);
   assert.deepEqual(entry.variants.map(asset=>asset.width),[746,1782]);
+  assert.deepEqual(entry.variants.map(({width,sha256})=>({width,sha256})),
+    publisher.publisher_responsive_variants.map(({width,sha256})=>({width,sha256})));
   const files=[{url:photo.asset_url,sha256:photo.content_sha256},...entry.variants.map(({url,sha256})=>({url,sha256}))];
   assert.deepEqual(files,polestar3Media(photo),'Preserve the publisher-supplied native image sizes');
   assert.deepEqual(files,ui.media,'Registered Polestar media changed since the browser proof');

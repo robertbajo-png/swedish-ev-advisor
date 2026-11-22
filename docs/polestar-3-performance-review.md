@@ -27,7 +27,12 @@ The updated preview also passed at 390 and 1440 px against the earlier
 isolated 88-variant candidate, loading the exact 746 and 1782 px
 publisher WebP files. This is not proof against current main.
 
+The local release branch now registers only the three verified media
+files. Their original and publisher-size hashes match, the image
+audit and production build pass, and the existing 92-record export
+is unchanged. No Polestar variant has been written to production.
+
 Next: repeat the read-only capture and isolated insertion on the
-deployed CUPRA baseline, register only the verified image assets in
-the release branch, and prove the final code with the exact-main
-browser check before enabling a scoped Polestar transaction.
+deployed CUPRA baseline. Keep the three files, registered rights
+evidence and the scoped writer together, then prove the final code
+with the exact-main browser check before any Polestar insertion.
