@@ -12,6 +12,7 @@ import {ADAPTER as POLESTAR3_ADAPTER} from './polestar_3_publication.mjs';
 import {ADAPTER as IONIQ5_ADAPTER} from './hyundai_ioniq5_publication.mjs';
 import {ADAPTER as PUMA_ADAPTER} from './ford_puma_gen_e_publication.mjs';
 import {ADAPTER as GLB_ADAPTER} from './mercedes_glb_publication.mjs';
+import {ADAPTER as IONIQ9_ADAPTER} from './hyundai_ioniq9_publication.mjs';
 import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewedPumaIdentity} from './ford_puma_identity.mjs';
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
@@ -69,7 +70,7 @@ export function validateNewModelIntake(intake,now=new Date()){
   }
   const p=r.price_evidence;assert(Number.isInteger(p.value)&&p.value>=100000&&p.value<=3000000);
   assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type)
-   || ([PUMA_ADAPTER,GLB_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
+   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
   assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(p.quote?.trim());
   if(p.price_valid_until)assert(p.price_valid_until>=now.toISOString().slice(0,10));
   if(p.price_type==='campaign_price')assert(p.price_valid_until);
@@ -437,7 +438,11 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
     fieldsEqual(saved,{canonical_model_id:modelId,source_id:row.source_id,validation_status:'published'});same(saved.extraction_payload,receiptPayload(plan,t,expectedHash),'Applied evidence changed');
     const source=one(before.manufacturer_sources.filter(s=>s.id===row.source_id),'Missing exact source');assert.equal(source.url,primary.final_url);assert.equal(source.content_hash,primary.content_hash);
    }
-   for(const source of plan.intake.sources)fieldsEqual(one(before.manufacturer_sources.filter(s=>s.url===source.final_url),'Missing saved source'),savedSource(source));
+   for(const source of plan.intake.sources){
+    const saved=one(before.manufacturer_sources.filter(s=>s.url===source.final_url),'Missing saved source');
+    policy.reuseEvidenceSource?.(source,saved,before);
+    fieldsEqual(saved,savedSource(source));
+   }
    const market=one(before.market_models.filter(r=>r.id===plan.expected_market.id),'Missing applied market row');
    fieldsEqual(market,{canonical_model_id:modelId,first_seen_month:plan.expected_market.first_seen_month||plan.intake.market.row.last_seen_month,last_seen_month:plan.intake.market.row.last_seen_month,
     registrations_last_month:plan.intake.market.row.registrations_last_month,registrations_ytd:plan.intake.market.row.registrations_ytd,
@@ -463,6 +468,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   const changedSources=new Set(),newDraftIds=new Set(),sourceIds=new Map();
   for(const s of plan.intake.sources){
    const old=before.manufacturer_sources.find(r=>r.url===s.final_url);
+   if(policy.reuseEvidenceSource?.(s,old,before)){sourceIds.set(s.final_url,old.id);continue;}
    if(old?.canonical_model_id&&old.canonical_model_id!==modelId)assert(s.shared&&old.canonical_model_id===null,'Source belongs to another model');
    if(s.shared){
     if(!old&&renault4Release){

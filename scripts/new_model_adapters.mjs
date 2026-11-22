@@ -11,7 +11,8 @@ import {policy as polestar3} from './polestar_3_publication.mjs';
 import {policy as ioniq5} from './hyundai_ioniq5_publication.mjs';
 import {policy as fordPumaGenE} from './ford_puma_gen_e_publication.mjs';
 import {policy as mercedesGlb} from './mercedes_glb_publication.mjs';
-const adapters=new Map([kiaEv2,toyotaChrPlus,volkswagenIdBuzz,xpengG6,xpengG9,renault4Evolution,renault4Pair,cupraTavascan,polestar3,ioniq5,fordPumaGenE,mercedesGlb].map(policy=>[policy.adapter,policy]));
+import {policy as ioniq9} from './hyundai_ioniq9_publication.mjs';
+const adapters=new Map([kiaEv2,toyotaChrPlus,volkswagenIdBuzz,xpengG6,xpengG9,renault4Evolution,renault4Pair,cupraTavascan,polestar3,ioniq5,fordPumaGenE,mercedesGlb,ioniq9].map(policy=>[policy.adapter,policy]));
 export function newModelAdapter(name){
  const adapter=adapters.get(name);assert(adapter,'Unregistered new-model adapter');return adapter;
 }
