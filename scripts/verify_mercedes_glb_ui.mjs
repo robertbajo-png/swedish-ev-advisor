@@ -115,6 +115,12 @@ const flat=value=>value.replace(/\s+/gu,' ').trim();
 const money=value=>flat(new Intl.NumberFormat('sv-SE').format(value))+' kr';
 const label=priceTypeLabel(MANUFACTURER_FROM_PRICE);
 const checks=[],errors=[];
+const retiredLabels=/Tillg\u00e4nglighet (?:ej )?bekr\u00e4ftad|Aktuell tillg\u00e4nglighet \u00e4r inte separat bekr\u00e4ftad|Marknadsn\u00e4rvaro inneb\u00e4r inte|\b(?:lagerbil|best\u00e4llningsbil)(?:en(?:s)?)?\b/i;
+async function checkInventoryCopy(page) {
+  const details=page.locator('#bilkallor details');
+  if(await details.count()&&!(await details.evaluate(item=>item.open)))await details.locator('summary').click();
+  assert.doesNotMatch(await page.locator('.vehicleDetail').innerText(),retiredLabels);
+}
 let browser;
 try {
   assert.equal(address.address,'127.0.0.1');
@@ -131,7 +137,7 @@ try {
   }
   const page=await context.newPage();
   page.on('pageerror',error=>errors.push(error.message));
-  for(const width of [390,1440]) {
+  for(const width of [320,390,1440]) {
     await page.setViewportSize({width,height:900});
     for(const row of variants) {
       assert((await page.goto(origin+'/bilar/'+slug(row)+'/',{waitUntil:'networkidle'})).ok());
@@ -142,7 +148,7 @@ try {
         await img.decode();
         return {path:new URL(img.currentSrc).pathname,width:img.naturalWidth,fit:getComputedStyle(img).objectFit};
       });
-      assert.equal(loaded.path,responsive.variants[width===390?0:1].url);
+      assert.equal(loaded.path,responsive.variants[width<800?0:1].url);
       assert(loaded.width>0&&loaded.fit==='contain');
       const stats=flat(await hero.locator('.vehicleHeroStats').innerText());
       for(const value of [label,money(row.price_sek),row.wltp_range_km+' km','320 kW',row.tow_kg+' kg'])assert(stats.includes(value),value);
@@ -160,7 +166,11 @@ try {
           separate:rect('.vehicleHeroCopy').top>=rect('.vehicleHeroMedia').bottom-1};
       });
       assert(!layout.overflow);
-      if(width===390)assert(layout.separate,'Mobile copy overlaps the press image');
+      if(width<800)assert(layout.separate,'Mobile copy overlaps the press image');
+      await checkInventoryCopy(page);
+      assert.equal(await page.locator('#bilkallor').getByRole('link',{name:/bilens faktakälla/i}).getAttribute('href'),row.source_url);
+      assert.equal(await page.locator('#bilkallor').getByRole('link',{name:/^Priskälla:/i}).getAttribute('href'),row.price_source_url);
+      await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
       await page.screenshot({path:join(output,slug(row)+'-'+width+'.png')});
       checks.push({variant:row.variant_name,viewport:width,asset:loaded.path});
     }
@@ -179,13 +189,24 @@ try {
     [619000,659000].map(price=>label+': '+money(price)));
   await page.getByRole('button',{name:'Skapa rapport',exact:true}).click();
   assert.match(await page.locator('.reportWinner').innerText(),/bara tekniska v\u00e4rden/);
-  assert.deepEqual(errors,[]);
   await page.screenshot({path:join(output,'comparison-1440.png')});
+  assert.doesNotMatch(await page.locator('main').innerText(),retiredLabels);
+  await page.setViewportSize({width:390,height:900});
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Comparison overflows mobile viewport');
+  await page.screenshot({path:join(output,'comparison-390.png')});
+  const legacy=old.find(row=>row.brand==='BMW'&&row.model==='i4'&&/\blagerbil\b/i.test(row.variant_name));
+  assert(legacy,'Need one incumbent variant with a retired label');
+  assert((await page.goto(origin+'/bilar/'+oldSlug(legacy.brand,legacy.model,legacy.variant_name)+'/',{waitUntil:'networkidle'})).ok());
+  await page.locator('.vehicleDetailHero h1').waitFor();
+  await checkInventoryCopy(page);
+  assert.match(await page.locator('.vehicleDetailHero h1').innerText(),/BMW i4/);
+  assert.deepEqual(errors,[]);
 } finally {
   await browser?.close();
   await new Promise((done,reject)=>server.httpServer.close(error=>error?reject(error):done()));
 }
 const report={status:'glb_private_ui_verified',checks,catalog_sha256:readback.candidate_sha256,code_sha256:codeHashes,
-  comparison:true,existing_routes_preserved:old.length,publication_approved:false,production_writes:0,paid_calls:0};
+  comparison:true,existing_routes_preserved:old.length,inventory_copy_removed:true,legacy_inventory_detail_checked:true,
+  publication_approved:false,production_writes:0,paid_calls:0};
 await writeFile(join(output,'ui-report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({...report,output}));

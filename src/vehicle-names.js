@@ -21,9 +21,12 @@ export function stripLeadingBrand(brand, value) {
   return text.replace(pattern, '').trim();
 }
 
-export function displayModelName(brand, model, variantName) {
-  const displayModel = brand === 'Volkswagen' && model === 'Id. Buzz' ? 'ID. Buzz' : model;
-  const modelText = String(displayModel || '').trim();
+export function displayVariantName(variantName) {
+  return String(variantName || '').replace(/\s*\((?:lagerbil|best\u00e4llningsbil)(?:\s+[a-z0-9]+)?\)\s*$/i, '').trim();
+}
+
+function combineModelName(brand, model, variantName) {
+  const modelText = String(model || '').trim();
   const variantText = stripLeadingBrand(brand, variantName);
   if (!variantText) return modelText;
   const normalizedModel = normalizeNameToken(modelText);
@@ -37,6 +40,11 @@ export function displayModelName(brand, model, variantName) {
   return `${modelText} ${variantText}`.trim();
 }
 
+export function displayModelName(brand, model, variantName) {
+  const displayModel = brand === 'Volkswagen' && model === 'Id. Buzz' ? 'ID. Buzz' : model;
+  return combineModelName(brand, displayModel, displayVariantName(variantName));
+}
+
 export function slug(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
@@ -46,5 +54,5 @@ export function vehicleSlug(brand, model, variant) {
   const legacyClaOffer = brand === 'Mercedes-Benz' && model === 'Cla' &&
     /^CLA (?:200|250\+|350 4MATIC) Advanced Edition MY2027 \(beställningsbil\)$/.test(variant);
   const routeVariant = legacyClaOffer ? variant.replace('(beställningsbil)', '(lagerbil)') : variant;
-  return slug(`${brand} ${displayModelName(brand, model, routeVariant)}`);
+  return slug(`${brand} ${combineModelName(brand, model, routeVariant)}`);
 }

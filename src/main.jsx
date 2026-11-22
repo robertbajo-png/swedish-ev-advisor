@@ -52,7 +52,7 @@ import { specQualifications } from './spec-qualifications.js';
 import needGuides from './need-guides.json';
 import imageVariants from './image-variants.json';
 import imagePresentation from './image-presentation.json';
-import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, slug, vehicleSlug } from './vehicle-names.js';
+import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, displayVariantName, slug, vehicleSlug } from './vehicle-names.js';
 
 
 const formatSEK = (value) =>
@@ -119,7 +119,7 @@ function transformPublicVariant(row) {
     id: vehicleSlug(brand, row.model, variantName),
     canonicalKey: `${row.brand}|${row.model}|${row.variant_name}`,
     canonicalModel: row.model,
-    variantName,
+    variantName: displayVariantName(variantName),
     brand,
     model,
     body: row.body_type || 'Elbil',

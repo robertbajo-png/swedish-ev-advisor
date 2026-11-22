@@ -59,7 +59,7 @@ jobs:
       - run: node scripts/verify_variant_photo_migration.mjs
       - run: node --test tests/manufacturer-from-price.test.mjs
       - run: node --test tests/ford-puma-identity.test.mjs
-      - run: node --test tests/mercedes-glb-review.test.mjs tests/mercedes-glb-release.test.mjs tests/mercedes-glb-staged-media.test.mjs
+      - run: node --test tests/mercedes-glb-review.test.mjs tests/mercedes-glb-release.test.mjs tests/mercedes-glb-staged-media.test.mjs tests/vehicle-display-names.test.mjs
       - run: bun run verify:dev-file-boundary
       - run: bun run verify:toyota-publication
       - run: bun run verify:cloudflare
