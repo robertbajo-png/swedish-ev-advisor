@@ -116,7 +116,7 @@ try {
   await db.exec("update news_ai_requests set created_at=date_trunc('month',now() at time zone 'UTC') at time zone 'UTC'-interval '1 minute'");
   assert.equal((await reserve()).allowed, true);
   await resetBudget();
-  await db.exec('update news_ai_config set pricing_valid_until=current_date');
+  await db.exec("update news_ai_config set pricing_valid_until=(now() at time zone 'UTC')::date");
   assert.equal((await reserve()).reason, 'news_pricing_expired');
   await resetBudget();
   const anomaly = await reserve();
