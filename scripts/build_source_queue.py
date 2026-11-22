@@ -96,7 +96,7 @@ KNOWN_MODEL_URLS = {
     ("PORSCHE", "TAYCAN"): "https://www.porsche.com/sweden/models/taycan/",
     ("PORSCHE", "MACAN"): "https://www.porsche.com/sweden/models/macan/macan-electric-models/",
     ("CUPRA", "BORN"): "https://www.cupraofficial.se/bilar/cupra-born",
-    ("CUPRA", "TAVASCAN"): "https://www.cupraofficial.se/bilar/cupra-tavascan",
+    ("CUPRA", "TAVASCAN"): "https://www.cupraofficial.se/bilar/tavascan",
     ("LEXUS", "RZ"): "https://www.lexus.se/new-cars/rz",
     ("FORD", "EXPLORER"): "https://www.ford.se/personbilar/explorer-elektrisk",
     ("FORD", "CAPRI"): "https://www.ford.se/personbilar/nya-capri",

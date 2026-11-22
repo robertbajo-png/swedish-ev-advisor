@@ -790,5 +790,27 @@
         "sha256": "aa664e9cdc80a791f64e42c6564b4447b48323ebad2be602479546d1cf857ad1"
       }
     ]
+  },
+  "/media/vehicles/cupra-tavascan-press-9c79705e02a2.jpg": {
+    "width": 1500,
+    "height": 842,
+    "source_sha256": "9c79705e02a2ca65b8a9aeefc2718b83272453dd132c509c576e4262dd38a697",
+    "variants": [
+      {
+        "url": "/media/responsive/cupra-tavascan-press-9c79705e02a2-480.webp",
+        "width": 480,
+        "sha256": "b8cb884d08abda9041cd92ea8af02fcc382ad77a264bf23d080c16d57e7041fa"
+      },
+      {
+        "url": "/media/responsive/cupra-tavascan-press-9c79705e02a2-800.webp",
+        "width": 800,
+        "sha256": "15a8198f9311976471706370cc427c5998811e527fd99fdb64ccc7457e2d3086"
+      },
+      {
+        "url": "/media/responsive/cupra-tavascan-press-9c79705e02a2-1280.webp",
+        "width": 1280,
+        "sha256": "7b22514f945cf18df225147896424832f789480eb5851305d8bf896596c21a21"
+      }
+    ]
   }
 }

@@ -7,6 +7,7 @@ import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
 import {ADAPTER as XPENG_G6_ADAPTER,assertXpG6PublicVariants} from './xpeng_g6_publication.mjs';
 import {ADAPTER as XPENG_G9_ADAPTER} from './xpeng_g9_publication.mjs';
 import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_pair_publication.mjs';
+import {ADAPTER as TAVASCAN_ADAPTER} from './cupra_tavascan_drive_publication.mjs';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 
@@ -213,6 +214,15 @@ export async function applyRenault4PairRelease(client,fresh,reviewed,ui,approved
   {baselineHash:reviewed.database_baseline_hash,check:assertRenault4PairPublishedRows});
 }
 
+export async function applyTavascanDriveRelease(client,fresh,reviewed,ui,approval,now=new Date()){
+ const {proveTavascanRelease,verifyTavascanProjection}=await import('./cupra_tavascan_release_scope.mjs');
+ proveTavascanRelease(reviewed,fresh,ui,approval,now);
+ return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,TAVASCAN_ADAPTER,undefined,{
+  baselineHash:reviewed.public_projection_sha256,
+  baselineError:'Public catalog changed inside the release transaction',
+  verifyDelta:(before,after)=>verifyTavascanProjection(before,after,fresh.plan,reviewed.public_projection_sha256)});
+}
+
 export async function applyXpG9Release(client,fresh,reviewed,approval,now=new Date()){
  const {proveFreshG9Release,validateG9PostG6Delta}=await import('./xpeng_g9_release_review.mjs');
  proveFreshG9Release(reviewed,fresh,approval,now);
@@ -304,7 +314,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   same(buildNewModelPlan(before,plan.intake,plan.image,now),plan,'Publication scope changed');
   const publicBefore=check?await anonymousProjection(client):null;
   if(scopedRelease)assert.equal(catalogHash(catalogWithComparableTimes(publicBefore.variants)),
-   scopedRelease.baselineHash,'Anonymous catalog changed before scoped writes');
+   scopedRelease.baselineHash,scopedRelease.baselineError??'Anonymous catalog changed before scoped writes');
   if(publicBefore){
    assert(!publicBefore.models.some(row=>row.id===modelId),'Unexpected existing public model');
    assert(!publicBefore.variants.some(row=>row.canonical_model_id===modelId),'Unexpected existing public variants');

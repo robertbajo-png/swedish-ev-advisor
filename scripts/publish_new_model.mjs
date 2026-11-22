@@ -7,6 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {newModelAdapter} from './new_model_adapters.mjs';
 import {publicationSnapshot,buildNewModelPlan,applyNewModelPlan,publicationHash} from './new_model_publication.mjs';
 import {useCalendarDateText,reportFailure} from './refresh_kia_specs.mjs';
+import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
 const read=async p=>JSON.parse(await readFile(p,'utf8'));
 const save=async(p,v)=>writeFile(p,JSON.stringify(v,null,2)+'\n');
 const fingerprint=v=>JSON.parse(JSON.stringify(v,(k,value)=>['content_hash','source_hash','fetched_at'].includes(k)?undefined:value));
@@ -17,7 +18,7 @@ async function main(){
   output:{type:'string',default:'data/local/release-data/kia-ev2-pilot-2026-11-15/publication'},apply:{type:'string'},
   review:{type:'string'},'approved-plan':{type:'string'},'prepare-only':{type:'boolean'},'export-only':{type:'boolean'}}});
  const policy=newModelAdapter(values.adapter),collector=collectors.get(values.adapter);
- if(policy.localOnly && values.review && values['approved-plan']){
+ if(policy.adapter===ID_BUZZ_ADAPTER && values.review && values['approved-plan']){
   const {publishApprovedIdBuzz}=await import('./publish_approved_id_buzz.mjs');
   return publishApprovedIdBuzz(values);
  }

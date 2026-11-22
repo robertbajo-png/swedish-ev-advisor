@@ -90,10 +90,17 @@ export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250
   assert.equal(rows.length, total);
   const normalized = normalizeCatalog(rows);
   if (!includeIds) return normalized;
-  const ids = new Map(rows.map(row => [variantKey(row), row.id]));
-  for (const id of ids.values()) assert.match(id, /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i, 'Missing public variant ID');
-  assert.equal(new Set(ids.values()).size, ids.size, 'Duplicate public variant ID');
-  return normalized.map(row => ({...row, id: ids.get(variantKey(row))}));
+  const uuid = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
+  const identities = new Map(rows.map(row => {
+    assert.match(row.id, uuid, 'Missing public variant ID');
+    if (Object.hasOwn(row, 'canonical_model_id')) {
+      assert.match(row.canonical_model_id, uuid, 'Invalid public canonical model ID');
+      return [variantKey(row), {id: row.id, canonical_model_id: row.canonical_model_id}];
+    }
+    return [variantKey(row), {id: row.id}];
+  }));
+  assert.equal(new Set([...identities.values()].map(row => row.id)).size, identities.size, 'Duplicate public variant ID');
+  return normalized.map(row => ({...row, ...identities.get(variantKey(row))}));
 }
 
 export function compareCatalogs(local, remote) {

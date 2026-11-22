@@ -179,6 +179,15 @@
       "object_position": "50% 50%",
       "style": "manufacturer_press_photo"
     },
+    "cupra|tavascan": {
+      "asset_url": "/media/vehicles/cupra-tavascan-press-9c79705e02a2.jpg",
+      "content_sha256": "9c79705e02a2ca65b8a9aeefc2718b83272453dd132c509c576e4262dd38a697",
+      "reviewed_at": "2026-11-20",
+      "status": "approved",
+      "object_fit": "contain",
+      "object_position": "50% 50%",
+      "style": "manufacturer_press_photo"
+    },
     "xpeng|g6": {
       "asset_url": "/media/vehicles/xpeng-g6-press-3d0ad9b81b94.jpg",
       "content_sha256": "3d0ad9b81b948e2d6bbb36a2530a9434bd2a36cda5551e58d246dbba10c2a727",
