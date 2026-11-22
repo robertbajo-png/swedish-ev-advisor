@@ -53,8 +53,20 @@ try {
         assert(await fontSize('.vehicleCard .homeVehicleSpecs dt') >= 13);
         assert(await fontSize('.vehicleCard .homeVehicleActions a') >= 14);
         if (width > 560) {
-          const prices = await page.locator('.carCard .homeVehiclePrice').evaluateAll((nodes) => nodes.slice(0, 2).map((node) => node.getBoundingClientRect().y));
-          assert(Math.abs(prices[0] - prices[1]) < 2, `${width}: card prices share a baseline`);
+          const cards = await page.locator('.carCard').evaluateAll((nodes) => nodes.map((node) => ({
+            top: node.getBoundingClientRect().top,
+            price: node.querySelector('.homeVehiclePrice').getBoundingClientRect().top,
+            title: node.querySelector('.vehicleCardTitle').textContent,
+          })));
+          let pairs = 0;
+          for (let i = 1; i < cards.length; i++) {
+            const previous = cards[i - 1], current = cards[i];
+            if (Math.abs(current.top - previous.top) < 2) {
+              pairs++;
+              assert(Math.abs(current.price - previous.price) < 2, `${width}: card prices share a baseline (${previous.title}, ${current.title})`);
+            }
+          }
+          assert(pairs > 0, `${width}: multicolumn catalog rows are exercised`);
         }
         if (width <= 800) {
           const sizes = await page.locator('.catalogViewToggle button, .catalogFilterTrigger, .catalogSort select').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().height));

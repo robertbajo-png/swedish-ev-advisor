@@ -38,15 +38,17 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
         {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} disabled={!onVariantChange} onChange={onVariantChange ? event => onVariantChange(event.target.value) : undefined}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
       </div>
-      <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{offerEnd ? ` \u00b7 g\u00e4ller till ${offerEnd}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
-      <dl className="homeVehicleSpecs">
-        {[[car.rangeIsTarget ? 'WLTP-mål' : 'WLTP', car.rangeInterval || car.rangeVerified, car.rangeInterval ? '' : 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
-      </dl>
-      {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
-      {recommendation && <div className="homeVehicleReason"><h4>Varför den passar</h4><ul>{recommendation.reasons?.slice(0, 2).map((reason) => <li key={reason}><Check size={15} />{reason}</li>)}</ul>{!!recommendation.tradeoffs?.length && <><h4>Att tänka på</h4><p>{recommendation.tradeoffs.slice(0, 2).join(' ')}</p></>}</div>}
-      <div className="vehicleSourceLine"><a href={car.source} target="_blank" rel="noreferrer"><BadgeCheck size={13} /> Bilens källa <ArrowUpRight size={12} /></a>{validDate(car.verifiedAt) && <time dateTime={car.verifiedAt}>{car.verifiedAt}</time>}</div>
-      {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla <ArrowUpRight size={12} /></a><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}
-      <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
+      <div className="vehicleCardDetails">
+        <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{offerEnd ? ` \u00b7 g\u00e4ller till ${offerEnd}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
+        <dl className="homeVehicleSpecs">
+          {[[car.rangeIsTarget ? 'WLTP-mål' : 'WLTP', car.rangeInterval || car.rangeVerified, car.rangeInterval ? '' : 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
+        </dl>
+        {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
+        {recommendation && <div className="homeVehicleReason"><h4>Varför den passar</h4><ul>{recommendation.reasons?.slice(0, 2).map((reason) => <li key={reason}><Check size={15} />{reason}</li>)}</ul>{!!recommendation.tradeoffs?.length && <><h4>Att tänka på</h4><p>{recommendation.tradeoffs.slice(0, 2).join(' ')}</p></>}</div>}
+        <div className="vehicleSourceLine"><a href={car.source} target="_blank" rel="noreferrer"><BadgeCheck size={13} /> Bilens källa <ArrowUpRight size={12} /></a>{validDate(car.verifiedAt) && <time dateTime={car.verifiedAt}>{car.verifiedAt}</time>}</div>
+        {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla <ArrowUpRight size={12} /></a><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}
+        <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
+      </div>
     </div>
     <ImageAttribution car={car} />
   </article>;
