@@ -44,6 +44,7 @@ jobs:
       - run: bun run verify:cupra-sync
       - run: bun run verify:bmw-sync
       - run: bun run verify:decimal-ac
+      - run: node --test tests/decimal-dc-migration.test.mjs
       - run: bun run verify:ev3-completion-sync
       - run: bun run verify:ev4-completion-sync
       - run: bun run verify:ev5-completion-sync

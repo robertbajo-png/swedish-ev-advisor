@@ -16,11 +16,12 @@ import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewe
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
+import {assertDcChargePower,assertDcStorageForDrafts} from './verify_exact_dc_migration.mjs';
 
 export const CORE_FIELDS=['wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw',
  'ac_charge_kw','boot_liters','tow_kg','seats','drivetrain'];
 const bounds={wltp_range_km:[50,1200],wltp_consumption_kwh_100km:[5,50],battery_kwh:[5,300],
- dc_charge_kw:[20,600],ac_charge_kw:[1,50],boot_liters:[50,3500],tow_kg:[0,4000],seats:[1,9]};
+ ac_charge_kw:[1,50],boot_liters:[50,3500],tow_kg:[0,4000],seats:[1,9]};
 const plain=v=>JSON.parse(JSON.stringify(v));
 export const publicationHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const same=(a,b,message)=>assert.deepEqual(plain(a),plain(b),message);
@@ -60,6 +61,7 @@ export function validateNewModelIntake(intake,now=new Date()){
   same(Object.keys(r.facts).sort(),[...CORE_FIELDS].sort(),'A complete technical profile is mandatory');
   for(const[field,value]of Object.entries(r.facts)){
    if(field==='drivetrain')assert(['FWD','RWD','AWD'].includes(value));
+   else if(field==='dc_charge_kw')assertDcChargePower(value);
    else{assert(Number.isFinite(value)&&value>=bounds[field][0]&&value<=bounds[field][1]);
     if(!['battery_kwh','ac_charge_kw','wltp_consumption_kwh_100km'].includes(field))assert(Number.isInteger(value));}
    const p=r.field_evidence[field];assert.equal(p.value,value);assert.equal(p.variant_name,r.variant_name);
@@ -407,6 +409,7 @@ async function applyPumaAtomicTransaction(client,packet,expectedHash,now,release
 }
 
 async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapter,baselineHash,scopedRelease){
+  await assertDcStorageForDrafts(client,plan.intake.drafts);
   const modelId=plan.expected_model.id;
   const before=await publicationSnapshot(client,true),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
   const existing=before.canonical_model_variants.filter(r=>r.canonical_model_id===modelId);
