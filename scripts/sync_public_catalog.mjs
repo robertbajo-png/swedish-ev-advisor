@@ -65,7 +65,7 @@ export function catalogHash(rows) {
   return createHash('sha256').update(JSON.stringify(normalizeCatalog(rows))).digest('hex');
 }
 
-export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250, onSchema = () => {} }) {
+export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250, onSchema = () => {}, includeIds = false }) {
   const base = secureUrl(url);
   assert(base.pathname === '/' && !base.search && !base.hash, 'Use the plain Supabase project URL');
   const headers = { ...publicHeaders(key), prefer: 'count=exact' };
@@ -88,7 +88,12 @@ export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250
     rows.push(...page);
   }
   assert.equal(rows.length, total);
-  return normalizeCatalog(rows);
+  const normalized = normalizeCatalog(rows);
+  if (!includeIds) return normalized;
+  const ids = new Map(rows.map(row => [variantKey(row), row.id]));
+  for (const id of ids.values()) assert.match(id, /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i, 'Missing public variant ID');
+  assert.equal(new Set(ids.values()).size, ids.size, 'Duplicate public variant ID');
+  return normalized.map(row => ({...row, id: ids.get(variantKey(row))}));
 }
 
 export function compareCatalogs(local, remote) {
