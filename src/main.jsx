@@ -45,7 +45,7 @@ import { InfoPage } from './info-pages.jsx';
 import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
 import { ImageAttribution } from './image-attribution.jsx';
-import { priceEvidence, priceOfferEnd } from './price-evidence.js';
+import { MANUFACTURER_FROM_PRICE, priceEvidence, priceOfferEnd, verifiedManufacturerFrom } from './price-evidence.js';
 import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
 import { specQualifications } from './spec-qualifications.js';
@@ -104,7 +104,8 @@ function transformPublicVariant(row) {
   const variantName = row.variant_name || '';
   const model = displayModelName(brand, row.model, variantName);
   const rangeVerified = verifiedNumber(row.wltp_range_km);
-  const price = Number(row.price_sek) || null;
+  const price = row.price_type === MANUFACTURER_FROM_PRICE && !verifiedManufacturerFrom(row)
+    ? null : Number(row.price_sek) || null;
   const dcVerified = verifiedNumber(row.dc_charge_kw);
   const cargoVerified = verifiedNumber(row.boot_liters);
   const towingVerified = verifiedNumber(row.tow_kg);
@@ -270,8 +271,9 @@ function localAdvisorResult(advisor, cars) {
 }
 
 function buildLocalCompareReport(cars) {
+  const usePrice = !cars.some(car => car.priceType === MANUFACTURER_FROM_PRICE);
   const compared = cars.map((car) => {
-    const priceScore = car.price ? Math.max(0, 35 - (car.price / 1200000) * 20) : 10;
+    const priceScore = usePrice ? (car.price ? Math.max(0, 35 - (car.price / 1200000) * 20) : 10) : 0;
     const rangeScore = Math.min(30, ((car.rangeVerified || 0) / 700) * 30);
     const practicalScore = Math.min(25, ((car.cargoVerified || 0) / 700) * 12 + ((car.towingVerified || 0) / 2500) * 13);
     return {
@@ -286,10 +288,12 @@ function buildLocalCompareReport(cars) {
   const winner = compared[0];
   return {
     mode: 'local',
-    summary: winner ? `${winner.name} får högst lokal beslutsmatchning baserat på verifierade pris-, räckvidds- och praktikalitetsfält.` : 'Välj bilar för rapport.',
+    summary: !usePrice ? 'J\u00e4mf\u00f6relsen v\u00e4ger bara tekniska v\u00e4rden eftersom minst en bil bara har ett fr\u00e5npris.'
+      : winner ? `${winner.name} får högst lokal beslutsmatchning baserat på verifierade pris-, räckvidds- och praktikalitetsfält.` : 'Välj bilar för rapport.',
     winner,
     compared,
-    reasons: ['Markerar starkast kombination av pris, räckvidd och praktisk användning i den valda jämförelsen.'],
+    reasons: [usePrice ? 'Markerar starkast kombination av pris, räckvidd och praktisk användning i den valda jämförelsen.'
+      : 'Fr\u00e5npriser r\u00e4knas inte in i beslutsbed\u00f6mningen.'],
     tradeoffs: ['Saknade fält räknas försiktigt och visas som uppgift saknas, inte som noll.'],
   };
 }
@@ -303,7 +307,7 @@ function exportCompareCsv(cars) {
   const headers = ['Bil', 'Prisuppgift', 'WLTP km', 'Räckviddens status', 'DC kW', 'Dragvikt kg', 'Bagage liter', 'Källa'];
   const rows = cars.map((car) => [
     `${car.brand} ${car.model}`,
-    car.price,
+    car.price && car.priceType === MANUFACTURER_FROM_PRICE ? priceLabel(car) + ': ' + car.price : car.price,
     car.rangeVerified,
     car.rangeVerified == null ? 'Uppgift saknas' : car.rangeNote || 'Angiven WLTP-räckvidd',
     car.dcVerified,
@@ -325,9 +329,9 @@ function exportCompareCsv(cars) {
 
 function scoreCar(car, advisor) {
   const text = advisor.prompt.toLowerCase();
-  const price = car.price || 9999999;
+  const price = car.priceType === MANUFACTURER_FROM_PRICE ? null : car.price;
   const range = car.range || 0;
-  const budgetFit = price <= advisor.budget ? 30 : Math.max(0, 30 - (price - advisor.budget) / 11000);
+  const budgetFit = price == null ? 0 : Math.min(30, Math.max(0, 30 - (price - advisor.budget) / 11000));
   const rangeFit = Math.min(22, (range / advisor.range) * 22);
   const needFit =
     advisor.need === 'familj'
@@ -338,14 +342,14 @@ function scoreCar(car, advisor) {
   const textFit =
     (text.includes('drag') && car.towing >= 1500 ? 8 : 0) +
     (text.includes('barn') && car.cargo > 450 ? 6 : 0) +
-    (text.includes('billig') && car.price < 500000 ? 7 : 0) +
+    (text.includes('billig') && price != null && price < 500000 ? 7 : 0) +
     (text.includes('vinter') && car.drivetrain === 'Fyrhjulsdrift' ? 8 : 0);
   return Math.round(Math.min(100, budgetFit + rangeFit + needFit + textFit));
 }
 
 function reasonsFor(car, advisor) {
   const reasons = [];
-  if (car.price && car.price <= advisor.budget) reasons.push(`${priceLabel(car).toLowerCase()} ${formatSEK(car.price)} inom vald budget`);
+  if (car.price && car.price <= advisor.budget && car.priceType !== MANUFACTURER_FROM_PRICE) reasons.push(`${priceLabel(car).toLowerCase()} ${formatSEK(car.price)} inom vald budget`);
   if (car.rangeVerified && (car.rangeMinimum ?? car.rangeVerified) >= advisor.range) reasons.push(`${car.rangeInterval || car.rangeVerified + ' km'} WLTP mot ditt mål på ${advisor.range} km`);
   if (car.towing >= 1500) reasons.push(`dragvikt upp till ${car.towing} kg`);
   if (advisor.need === 'vinter' && car.drivetrain === 'Fyrhjulsdrift') reasons.push('fyrhjulsdrift för vintervägar');
@@ -492,6 +496,7 @@ function setSeo({ title, description, jsonLd }) {
 
 function carJsonLd(car) {
   const properties = [
+    car.price != null && car.priceType === MANUFACTURER_FROM_PRICE ? { '@type': 'PropertyValue', name: priceLabel(car), value: car.price, unitText: 'SEK' } : null,
     car.rangeVerified != null ? { '@type': 'PropertyValue', name: car.rangeIsTarget ? 'Tillverkarens WLTP-räckviddsmål' : 'WLTP-räckvidd', value: car.rangeInterval || `${car.rangeVerified} km` } : null,
     car.dcVerified != null ? { '@type': 'PropertyValue', name: 'DC-laddning', value: `${car.dcVerified} kW` } : null,
     car.towingVerified != null ? { '@type': 'PropertyValue', name: 'Dragvikt', value: `${car.towingVerified} kg` } : null,
@@ -506,7 +511,7 @@ function carJsonLd(car) {
     image: car.image || undefined,
     url: `${BASE_URL}/bilar/${car.id}`,
     vehicleSeatingCapacity: car.seatsVerified ?? undefined,
-    offers: car.price
+    offers: car.price && car.priceType !== MANUFACTURER_FROM_PRICE
       ? {
           '@type': 'Offer',
           price: car.price,
@@ -642,6 +647,11 @@ export function App({ initialData } = {}) {
     if (!compareCars.length) {
       setCompareReport(buildLocalCompareReport(compareCars));
       setCompareReportStatus({ state: 'error', message: 'Välj minst en bil för att skapa en rapport.' });
+      return;
+    }
+    if (compareCars.some(car => car.priceType === MANUFACTURER_FROM_PRICE)) {
+      setCompareReport(buildLocalCompareReport(compareCars));
+      setCompareReportStatus({ state: 'ready', message: '' });
       return;
     }
     setCompareReportStatus({ state: 'loading', message: 'Skapar beslutsrapport från verifierade biluppgifter...' });
@@ -863,7 +873,10 @@ function decisionSignalsFor(car, advisor = {}) {
   const wantsTow = String(advisor.prompt || '').toLowerCase().includes('drag');
   const signals = [];
 
-  if (car.price && budget && car.price <= budget) signals.push({ type: 'good', label: 'Inom budget' });
+  if (car.price && budget && car.price <= budget) {
+    signals.push(car.priceType === MANUFACTURER_FROM_PRICE
+      ? { type: 'watch', label: 'Slutpris ej verifierat' } : { type: 'good', label: 'Inom budget' });
+  }
   if (car.price && budget && car.price > budget) signals.push({ type: 'watch', label: 'Över budget' });
   if (!car.price) signals.push({ type: 'warn', label: 'Pris saknas' });
   if (minRange && car.range >= minRange) signals.push({ type: 'good', label: 'Klarar räckvidd' });
@@ -1115,7 +1128,8 @@ function RecommendationText({ cars, report, status, onRunReport, onExportCsv }) 
               <strong>{item.name}</strong>
               <span>{Math.round(item.decision_score)} poäng</span>
               <small>
-                {item.price_sek ? formatSEK(item.price_sek) : 'Pris saknas'} · {item.wltp_range_km ? `${item.wltp_range_km} km WLTP` : 'WLTP saknas'}
+                {item.price_sek ? (cars.some(car => car.canonicalKey === item.variant_key && car.priceType === MANUFACTURER_FROM_PRICE)
+                  ? 'Fr\u00e5n ' + formatSEK(item.price_sek) : formatSEK(item.price_sek)) : 'Pris saknas'} · {item.wltp_range_km ? `${item.wltp_range_km} km WLTP` : 'WLTP saknas'}
               </small>
               {item.source_url && <a href={item.source_url} target="_blank" rel="noreferrer">Källa</a>}
             </div>
@@ -1325,14 +1339,16 @@ function TcoNumberInput({ label, value, unit, step, onChange }) {
 
 function TcoResultCard({ car, result, isBest }) {
   if (!result.calculable) {
+    const fromOnly = result.reason === 'manufacturer_from_only';
     return (
       <article className="tcoResultCard isMissing">
         <span>{car.brand}</span>
         <h3>{car.model}</h3>
         <div className="tcoMissingPrice">
           <WalletCards size={22} />
-          <strong>Pris saknas</strong>
-          <p>Ägandekostnaden kan inte beräknas utan ett publicerat svenskt pris.</p>
+          <strong>{fromOnly ? 'Bara fr\u00e5npris' : 'Pris saknas'}</strong>
+          <p>{fromOnly ? 'Ett fr\u00e5npris r\u00e4cker inte f\u00f6r att ber\u00e4kna versionens \u00e4gandekostnad.'
+            : 'Ägandekostnaden kan inte beräknas utan ett publicerat svenskt pris.'}</p>
         </div>
         {car.source && <a href={car.source} target="_blank" rel="noreferrer">Öppna bilens källa <ExternalLink size={14} /></a>}
       </article>
@@ -1381,7 +1397,7 @@ function ComparisonTable({ cars }) {
   if (!cars.length) return null;
   const valueMetric = (field) => (car) => car[field];
   const rows = [
-    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType) && new Set(cars.map((car) => car.priceType)).size === 1 },
+    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType && car.priceType !== MANUFACTURER_FROM_PRICE) && new Set(cars.map((car) => car.priceType)).size === 1 },
     { label: 'WLTP-räckvidd', get: (car) => (car.rangeInterval || detailValue(car.rangeVerified, 'km')) + (car.rangeIsTarget ? ' (tillverkarens mål)' : ''), value: car => car.rangeIsTarget || car.rangeInterval ? null : car.rangeVerified, best: 'max' },
     { label: 'Batteri', get: (car) => detailValue(car.batteryVerified, 'kWh') },
     { label: 'DC-laddning', get: (car) => detailValue(car.dcVerified, 'kW'), value: valueMetric('dcVerified'), best: 'max' },

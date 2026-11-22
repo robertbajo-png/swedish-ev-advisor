@@ -36,6 +36,29 @@
     "permission_excerpt": "Det kan bruges og deles i forskellige medier-kanaler",
     "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
   },
+  "ford-puma-gen-e-private-review": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Ford Sverige / Hedin HMC Motor Company AB",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/ford/pressreleases/helt-elektriska-puma-gen-e-blir-aennu-baettre-3416694",
+    "image_path_prefix": "/se/ford/images/",
+    "model_title_pattern": "^Puma_Gen-E_ Digital_Aqua_Blue_019[.]jpg$",
+    "approved_image_paths": [
+      "/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679"
+    ],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/4uspsj7htir1vlvnhzjtkn",
+    "approved_source_sha256": "bae5ec3b9efc29bd09b3f2b704da97cd1d11d27fdb106877fc59c737f6d03c29",
+    "model_keys": [
+      "ford|puma gen e"
+    ],
+    "preserve_original_jpeg": true,
+    "max_asset_bytes": 22000000,
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "kia-ev2-mynewsdesk": {
     "origin": "https://www.mynewsdesk.com",
     "publisher": "Kia Sweden AB",

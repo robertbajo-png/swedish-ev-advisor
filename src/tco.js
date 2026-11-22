@@ -1,3 +1,5 @@
+import { MANUFACTURER_FROM_PRICE } from './price-evidence.js';
+
 export const DEFAULT_TCO_ASSUMPTIONS = Object.freeze({
   annualKm: 15000,
   years: 5,
@@ -40,10 +42,10 @@ export function normalizeTcoAssumptions(input = {}) {
 export function calculateTco(car, rawAssumptions = {}) {
   const assumptions = normalizeTcoAssumptions(rawAssumptions);
   const price = finiteNumber(car?.price, 0);
-  if (price <= 0) {
+  if (price <= 0 || car?.priceType === MANUFACTURER_FROM_PRICE) {
     return {
       calculable: false,
-      reason: 'missing_price',
+      reason: car?.priceType === MANUFACTURER_FROM_PRICE ? 'manufacturer_from_only' : 'missing_price',
       carId: car?.id || null,
       monthlySek: null,
       totalSek: null,

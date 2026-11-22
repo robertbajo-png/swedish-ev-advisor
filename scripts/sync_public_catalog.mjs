@@ -4,7 +4,7 @@ import { readFile, writeFile, rename, mkdir, unlink } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
-import { PRICE_EVIDENCE_FIELDS, hasPriceEvidence, priceEvidence } from '../src/price-evidence.js';
+import { MANUFACTURER_FROM_PRICE, PRICE_EVIDENCE_FIELDS, PRICE_TYPES, hasPriceEvidence, priceEvidence, verifiedManufacturerFrom } from '../src/price-evidence.js';
 
 export const SOURCE = 'supabase_public_ev_variants';
 export const FIELDS = ['brand', 'model', 'variant_name', 'body_type', 'price_sek', 'price_type', 'price_valid_until',
@@ -51,7 +51,11 @@ export function normalizeCatalog(rows) {
       assert(value === null || (typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max), `Invalid numeric field: ${field}`);
     }
     assert(row.price_sek !== null || row.wltp_range_km !== null, 'Missing both price and WLTP');
-    assert([null, 'list_price', 'campaign_price', 'dealer_offer'].includes(row.price_type), 'Invalid price classification');
+    assert(row.price_type === null || PRICE_TYPES.includes(row.price_type), 'Invalid price classification');
+    if (row.price_type === MANUFACTURER_FROM_PRICE) {
+      assert(verifiedManufacturerFrom(row),
+        'Manufacturer starting price requires its own current price evidence');
+    }
     for (const field of ['verified_at', 'price_valid_until']) if (row[field] !== null) assert(Number.isFinite(Date.parse(row[field])), `Invalid ${field}`);
     assert(typeof row.extraction_confidence === 'number' && row.extraction_confidence >= 0 && row.extraction_confidence <= 1, 'Invalid confidence');
     assert(row.validation_status === 'published_reviewed' || row.extraction_confidence >= 0.92, 'Unreviewed low-confidence record');

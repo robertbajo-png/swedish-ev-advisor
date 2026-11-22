@@ -36,6 +36,9 @@ export async function seedCatalogFixture(db, {models, sources, variants, legacy}
     '021_source_type_alignment', '023_decimal_ac_charging']) {
     await db.exec(await readRepo('database/migrations/' + name + '.sql'));
   }
+  if (variants.some(row => row.variant_image_url != null || row.variant_image_source_url != null)) {
+    await db.exec(await readRepo('database/migrations/025_variant_photo_override.sql'));
+  }
   // Mirror deployed legacy nullability without inventing provenance for old rows.
   if (legacy.nullable_authority) await db.exec('ALTER TABLE public.manufacturer_sources ALTER COLUMN source_authority DROP NOT NULL');
   const insert = async (table, rows) => {

@@ -255,13 +255,14 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
             range_label = 'WLTP-räckvidd, upp till'
         description_parts = [name]
         if price:
-            price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
+            price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'manufacturer_from': 'tillverkarens fr\u00e5npris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
             description_parts.append(f"{price_label} {price}")
         if wltp:
             description_parts.append(f"{range_label} {range_display} km")
         description = ", ".join(description_parts) + ". Verifierade svenska källor och tydliga nyckeltal."
 
         properties = [
+            metric_property("Tillverkarens fr\u00e5npris", row["price_sek"], "SEK") if price and row.get("price_type") == "manufacturer_from" else None,
             metric_property(range_label, range_display, "km"),
             metric_property("DC-laddning", row.get("dc_charge_kw"), "kW"),
             metric_property("AC-laddning", row.get("ac_charge_kw"), "kW"),
@@ -284,7 +285,7 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
             "url": f"{SITE_URL}{path}",
             "additionalProperty": [item for item in properties if item],
         }
-        if row.get("price_sek"):
+        if row.get("price_sek") and row.get("price_type") != "manufacturer_from":
             offer = {"@type": "Offer", "priceCurrency": "SEK", "price": row["price_sek"]}
             if row.get("available_confirmed") is True:
                 offer["availability"] = "https://schema.org/InStock"
