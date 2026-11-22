@@ -200,6 +200,27 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "xpeng-g9-private-review": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "XPENG Sverige",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/pressreleases/nya-xpeng-g9-svenska-priser-och-foersaeljningsstart-3396460",
+    "image_path_prefix": "/se/xpeng-motors-sweden-ab/images/",
+    "model_title_pattern": "^Nya G9 1[.]jpeg$",
+    "approved_image_paths": [
+      "/se/xpeng-motors-sweden-ab/images/nya-g9-1-punkt-jpeg-3270628"
+    ],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/lld1uznnjzjj7sww9nu8da",
+    "approved_source_sha256": "2d8d2f0910722f82bc00ae404e4c28fa9541aeaf79c59ece40488842d3614b20",
+    "model_keys": [
+      "xpeng|g9"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "cupra-tavascan-dk-mynewsdesk": {
     "origin": "https://www.mynewsdesk.com",
     "publisher": "SEAT & CUPRA Danmark",
