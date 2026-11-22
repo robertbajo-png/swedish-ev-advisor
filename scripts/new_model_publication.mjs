@@ -5,6 +5,7 @@ import {newModelAdapter} from './new_model_adapters.mjs';
 import {buildImagePlan} from './model_image_sync.mjs';
 import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
 import {ADAPTER as XPENG_G6_ADAPTER,assertXpG6PublicVariants} from './xpeng_g6_publication.mjs';
+import {ADAPTER as XPENG_G9_ADAPTER} from './xpeng_g9_publication.mjs';
 import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_pair_publication.mjs';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
@@ -187,12 +188,12 @@ async function anonymousProjection(client){
  return {variants,models};
 }
 
-async function verifyRenault4Readback(client,plan,baseline,check){
+async function verifyScopedReadback(client,plan,baseline,check,verifyDelta){
  const projection=await anonymousProjection(client),id=plan.expected_model.id;
  const variants=projection.variants.filter(row=>row.canonical_model_id===id);
- assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'Unexpected public Renault 4 variants');
+ assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'Unexpected public variant IDs');
  check(variants,plan);
- const model=one(projection.models.filter(row=>row.id===id),'Renault 4 must be visible anonymously');
+ const model=one(projection.models.filter(row=>row.id===id),'Reviewed model must be visible anonymously');
  fieldsEqual(model,{
   brand:plan.intake.model.brand,model:plan.intake.model.model,body_type:plan.intake.model.body_type,
   market_seen:true,
@@ -202,6 +203,7 @@ async function verifyRenault4Readback(client,plan,baseline,check){
   same(projection.variants.filter(row=>row.canonical_model_id!==id),baseline.variants,'Existing public variants changed');
   same(projection.models.filter(row=>row.id!==id),baseline.models,'Existing public models changed');
  }
+ if(verifyDelta)verifyDelta(baseline.variants,projection.variants);
 }
 
 export async function applyRenault4PairRelease(client,fresh,reviewed,ui,approvedHash,now=new Date()){
@@ -209,6 +211,15 @@ export async function applyRenault4PairRelease(client,fresh,reviewed,ui,approved
  proveRenault4PairRelease(reviewed,fresh,ui,approvedHash,now);
  return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,RENAULT4_PAIR_ADAPTER,undefined,
   {baselineHash:reviewed.database_baseline_hash,check:assertRenault4PairPublishedRows});
+}
+
+export async function applyXpG9Release(client,fresh,reviewed,approval,now=new Date()){
+ const {proveFreshG9Release,validateG9PostG6Delta}=await import('./xpeng_g9_release_review.mjs');
+ proveFreshG9Release(reviewed,fresh,approval,now);
+ assert.match(reviewed.database_baseline_sha256,/^[a-f0-9]{64}$/,'Require the reviewed public baseline');
+ return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,XPENG_G9_ADAPTER,undefined,{
+  baselineHash:reviewed.database_baseline_sha256,
+  verifyDelta:(before,after)=>validateG9PostG6Delta(before,after,fresh.plan)});
 }
 
 export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
@@ -238,7 +249,7 @@ async function verifyG6BeforeCommit(client,plan,baseline){
  }
 }
 
-async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,renault4Release=null){
+async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
  assert(approvedAdapter===null||policy.adapter===approvedAdapter,'Approved adapter mismatch');
@@ -260,8 +271,9 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
    assert(g6Baseline,'G6 release requires the original production catalog');
    assert.equal(catalogHash(g6Baseline.variants),baselineHash,'Anonymous catalog changed before G6 writes');
   }
-  const check=renault4Release?.check??policy.verifyPublic;
-  if(renault4Release)assert(!existing.length,'An approved release requires an unpublished canonical model');
+  const renault4Release=approvedAdapter===RENAULT4_PAIR_ADAPTER;
+  const check=scopedRelease?.check??policy.verifyPublic;
+  if(scopedRelease)assert(!existing.length,'An approved release requires an unpublished canonical model');
   const primary=plan.intake.sources.find(s=>s.final_url===policy.primaryUrl);assert(primary);
   if(existing.length){
    assert.equal(existing.length,plan.targets.length,'Partial/colliding publication');
@@ -280,7 +292,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
     registrations_last_month:plan.intake.market.row.registrations_last_month,registrations_ytd:plan.intake.market.row.registrations_ytd,
     registrations_12m:marketTotal(plan),source_url:plan.intake.market.source.final_url});
    if(verifyG6)await verifyG6BeforeCommit(client,plan);
-   if(check)await verifyRenault4Readback(client,plan,null,check);
+   if(check)await verifyScopedReadback(client,plan,null,check);
    return{committed:false,already_applied:true,variants_inserted:0,canonical_variant_ids:plan.targets.map(t=>t.id),paid_calls:0};
   }
   same(m,plan.expected_model,'Concurrent model change');
@@ -291,8 +303,8 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   // Revalidate the original resolved scope, not only the caller-provided hash.
   same(buildNewModelPlan(before,plan.intake,plan.image,now),plan,'Publication scope changed');
   const publicBefore=check?await anonymousProjection(client):null;
-  if(renault4Release)assert.equal(catalogHash(catalogWithComparableTimes(publicBefore.variants)),
-   renault4Release.baselineHash,'Anonymous catalog changed before scoped writes');
+  if(scopedRelease)assert.equal(catalogHash(catalogWithComparableTimes(publicBefore.variants)),
+   scopedRelease.baselineHash,'Anonymous catalog changed before scoped writes');
   if(publicBefore){
    assert(!publicBefore.models.some(row=>row.id===modelId),'Unexpected existing public model');
    assert(!publicBefore.variants.some(row=>row.canonical_model_id===modelId),'Unexpected existing public variants');
@@ -405,7 +417,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
    await client.query('RESET ROLE');
   }
   if(verifyG6)await verifyG6BeforeCommit(client,plan,g6Baseline);
-  if(check)await verifyRenault4Readback(client,plan,publicBefore,check);
+  if(check)await verifyScopedReadback(client,plan,publicBefore,check,scopedRelease?.verifyDelta);
   await client.query('COMMIT');committed=true;
   return{committed:true,already_applied:false,variants_inserted:plan.targets.length,canonical_variant_ids:[...newIds],
    model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0,

@@ -187,6 +187,15 @@
       "object_position": "50% 50%",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "xpeng|g9": {
+      "asset_url": "/media/vehicles/xpeng-g9-press-3872869a55dd.jpg",
+      "content_sha256": "3872869a55dd3c8eaf93aa0493f8f8f71df5bb26501b92ce7c0a109223d1e87a",
+      "status": "approved",
+      "reviewed_at": "2026-11-21",
+      "object_position": "center",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
     }
   }
 }
