@@ -5,7 +5,9 @@ import {newModelAdapter} from './new_model_adapters.mjs';
 import {buildImagePlan} from './model_image_sync.mjs';
 import {ADAPTER as ID_BUZZ_ADAPTER} from './volkswagen_id_buzz_publication.mjs';
 import {ADAPTER as XPENG_G6_ADAPTER,assertXpG6PublicVariants} from './xpeng_g6_publication.mjs';
+import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_pair_publication.mjs';
 import {catalogHash} from './sync_public_catalog.mjs';
+import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 
 export const CORE_FIELDS=['wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw',
  'ac_charge_kw','boot_liters','tow_kg','seats','drivetrain'];
@@ -117,7 +119,7 @@ const variantFacts=(draft,source,batch,intake)=>({...draft.facts,price_sek:draft
 const quoteFor=draft=>[...new Set(Object.values(draft.field_evidence).map(e=>e.source_url+' | '+e.quote))].join(' | ');
 const receiptPayload=(plan,target,batch)=>({adapter:plan.adapter,publication_batch_id:batch,canonical_variant_id:target.id,
  manufacturer_identity:target.draft.manufacturer_identity,model:plan.intake.model,model_evidence:plan.intake.model_evidence,
- ...(plan.adapter===XPENG_G6_ADAPTER?{identity_evidence:target.draft.identity_evidence}:{}),
+ ...(target.draft.identity_evidence?{identity_evidence:target.draft.identity_evidence}:{}),
  field_evidence:target.draft.field_evidence,price_evidence:target.draft.price_evidence,
  market_evidence:plan.intake.market,image_evidence:plan.image,source_decisions:plan.intake.source_decisions,
  sources:plan.intake.sources});
@@ -176,11 +178,7 @@ export async function applyXpG6Release(client,freshReport,reviewedReport,ui,appr
  return applyModelTransaction(client,freshReport.plan,freshReport.plan_hash,now,XPENG_G6_ADAPTER,baselineHash);
 }
 
-export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
- return applyModelTransaction(client,plan,expectedHash,now,null);
-}
-
-async function g6AnonymousProjection(client){
+async function anonymousProjection(client){
  await client.query('SET LOCAL ROLE anon');
  // JSONB retains SQL numeric types and avoids driver-specific calendar dates.
  const variants=(await client.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id')).rows.map(r=>r.row);
@@ -189,8 +187,42 @@ async function g6AnonymousProjection(client){
  return {variants,models};
 }
 
+async function verifyRenault4Readback(client,plan,baseline,check){
+ const projection=await anonymousProjection(client),id=plan.expected_model.id;
+ const variants=projection.variants.filter(row=>row.canonical_model_id===id);
+ assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'Unexpected public Renault 4 variants');
+ check(variants,plan);
+ const model=one(projection.models.filter(row=>row.id===id),'Renault 4 must be visible anonymously');
+ fieldsEqual(model,{
+  brand:plan.intake.model.brand,model:plan.intake.model.model,body_type:plan.intake.model.body_type,
+  market_seen:true,
+  ...Object.fromEntries(['available_confirmed','discontinued_candidate','coming_or_low_volume'].map(k=>[k,plan.expected_model[k]]))});
+ assertPublicModelPhoto(model,plan);
+ if(baseline){
+  same(projection.variants.filter(row=>row.canonical_model_id!==id),baseline.variants,'Existing public variants changed');
+  same(projection.models.filter(row=>row.id!==id),baseline.models,'Existing public models changed');
+ }
+}
+
+export async function applyRenault4PairRelease(client,fresh,reviewed,ui,approvedHash,now=new Date()){
+ const {proveRenault4PairRelease,assertRenault4PairPublishedRows}=await import('./renault_4_pair_release_scope.mjs');
+ proveRenault4PairRelease(reviewed,fresh,ui,approvedHash,now);
+ return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,RENAULT4_PAIR_ADAPTER,undefined,
+  {baselineHash:reviewed.database_baseline_hash,check:assertRenault4PairPublishedRows});
+}
+
+export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){
+ return applyModelTransaction(client,plan,expectedHash,now,null);
+}
+
+function assertPublicModelPhoto(model,plan){
+ // Older model views omit photos; the canonical row and every public variant still require the exact photo.
+ if(Object.hasOwn(model,'image_url')||Object.hasOwn(model,'image_source_url'))
+  fieldsEqual(model,{image_url:plan.image.asset_url,image_source_url:plan.image.source_url});
+}
+
 async function verifyG6BeforeCommit(client,plan,baseline){
- const projection=await g6AnonymousProjection(client),id=plan.expected_model.id;
+ const projection=await anonymousProjection(client),id=plan.expected_model.id;
  const variants=projection.variants.filter(row=>row.canonical_model_id===id);
  assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'G6 public variant IDs or visibility changed');
  assertXpG6PublicVariants(variants,plan);
@@ -199,16 +231,14 @@ async function verifyG6BeforeCommit(client,plan,baseline){
   brand:plan.intake.model.brand,model:plan.intake.model.model,body_type:plan.intake.model.body_type,
   market_seen:true,
   ...Object.fromEntries(['available_confirmed','discontinued_candidate','coming_or_low_volume'].map(k=>[k,plan.expected_model[k]]))});
- // Older model views omit photos; the canonical row and every public variant still require the exact photo.
- if(Object.hasOwn(model,'image_url')||Object.hasOwn(model,'image_source_url'))
-  fieldsEqual(model,{image_url:plan.image.asset_url,image_source_url:plan.image.source_url});
+ assertPublicModelPhoto(model,plan);
  if(baseline){
   same(projection.variants.filter(row=>row.canonical_model_id!==id),baseline.variants,'Existing public variants changed');
   same(projection.models.filter(row=>row.id!==id),baseline.models,'Existing public models changed');
  }
 }
 
-async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash){
+async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,renault4Release=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
  assert(approvedAdapter===null||policy.adapter===approvedAdapter,'Approved adapter mismatch');
@@ -225,11 +255,13 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   const before=await publicationSnapshot(client,true),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
   const existing=before.canonical_model_variants.filter(r=>r.canonical_model_id===modelId);
   const verifyG6=policy.adapter===XPENG_G6_ADAPTER;
-  const g6Baseline=verifyG6&&!existing.length?await g6AnonymousProjection(client):null;
+  const g6Baseline=verifyG6&&!existing.length?await anonymousProjection(client):null;
   if(baselineHash!==undefined){
    assert(g6Baseline,'G6 release requires the original production catalog');
    assert.equal(catalogHash(g6Baseline.variants),baselineHash,'Anonymous catalog changed before G6 writes');
   }
+  const check=renault4Release?.check??policy.verifyPublic;
+  if(renault4Release)assert(!existing.length,'An approved release requires an unpublished canonical model');
   const primary=plan.intake.sources.find(s=>s.final_url===policy.primaryUrl);assert(primary);
   if(existing.length){
    assert.equal(existing.length,plan.targets.length,'Partial/colliding publication');
@@ -248,6 +280,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
     registrations_last_month:plan.intake.market.row.registrations_last_month,registrations_ytd:plan.intake.market.row.registrations_ytd,
     registrations_12m:marketTotal(plan),source_url:plan.intake.market.source.final_url});
    if(verifyG6)await verifyG6BeforeCommit(client,plan);
+   if(check)await verifyRenault4Readback(client,plan,null,check);
    return{committed:false,already_applied:true,variants_inserted:0,canonical_variant_ids:plan.targets.map(t=>t.id),paid_calls:0};
   }
   same(m,plan.expected_model,'Concurrent model change');
@@ -257,11 +290,27 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   same(before.manufacturer_sources.filter(r=>plan.intake.sources.some(s=>s.final_url===r.url)),plan.expected_sources,'Concurrent source change');
   // Revalidate the original resolved scope, not only the caller-provided hash.
   same(buildNewModelPlan(before,plan.intake,plan.image,now),plan,'Publication scope changed');
+  const publicBefore=check?await anonymousProjection(client):null;
+  if(renault4Release)assert.equal(catalogHash(catalogWithComparableTimes(publicBefore.variants)),
+   renault4Release.baselineHash,'Anonymous catalog changed before scoped writes');
+  if(publicBefore){
+   assert(!publicBefore.models.some(row=>row.id===modelId),'Unexpected existing public model');
+   assert(!publicBefore.variants.some(row=>row.canonical_model_id===modelId),'Unexpected existing public variants');
+  }
   const changedSources=new Set(),newDraftIds=new Set(),sourceIds=new Map();
   for(const s of plan.intake.sources){
    const old=before.manufacturer_sources.find(r=>r.url===s.final_url);
    if(old?.canonical_model_id&&old.canonical_model_id!==modelId)assert(s.shared&&old.canonical_model_id===null,'Source belongs to another model');
    if(s.shared){
+    if(!old&&renault4Release){
+     const record={...renault4LocatorRow(s),title:'Renault Sverige: aterforsaljarregister',source_name:'Renault Sverige',
+      fetched_at:s.fetched_at,verified_at:s.fetched_at,extraction_status:'validated'};
+     const values=Object.values(record);
+     const {rows:[inserted]}=await client.query(
+      `INSERT INTO public.manufacturer_sources(${Object.keys(record).join(',')}) VALUES(${values.map((_,i)=>'$'+(i+1)).join(',')}) RETURNING id`,values);
+     sourceIds.set(s.final_url,inserted.id);changedSources.add(inserted.id);continue;
+    }
+    if(renault4Release&&old)fieldsEqual(old,renault4LocatorRow(s));
     assert(old&&old.brand===plan.intake.model.brand&&old.model==='*'&&old.canonical_model_id===null);
     assert.equal(old.content_hash,s.content_hash,'Shared source needs separate refresh');assert.equal(old.http_status,200);assert.equal(old.source_authority,'manufacturer');
     assert.equal(old.country,'SE');assert.equal(old.language,'sv');assert.equal(old.final_url,s.final_url);
@@ -333,6 +382,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   for(const s of plan.intake.sources){
    const saved=one(after.manufacturer_sources.filter(r=>r.id===sourceIds.get(s.final_url)),'Missing saved source');
    fieldsEqual(saved,savedSource(s));
+   if(s.shared&&renault4Release)fieldsEqual(saved,renault4LocatorRow(s));
   }
   fieldsEqual(one(after.market_models.filter(r=>r.id===marketId),'Missing saved market identity'),{canonical_model_id:modelId,
    first_seen_month:first,last_seen_month:month,registrations_last_month:mr.registrations_last_month,
@@ -355,9 +405,10 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
    await client.query('RESET ROLE');
   }
   if(verifyG6)await verifyG6BeforeCommit(client,plan,g6Baseline);
+  if(check)await verifyRenault4Readback(client,plan,publicBefore,check);
   await client.query('COMMIT');committed=true;
   return{committed:true,already_applied:false,variants_inserted:plan.targets.length,canonical_variant_ids:[...newIds],
    model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0,
-   ...(verifyG6?{anonymous_before_commit:true}:{})};
+   ...(verifyG6||check?{anonymous_before_commit:true}:{})};
  }finally{if(!committed)await client.query('ROLLBACK');}
 }

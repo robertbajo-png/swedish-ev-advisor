@@ -746,5 +746,27 @@
         "sha256": "19fa01d6e8de34ea443aaf1d5558aae8029a04909f1f22d1b56a30f6287019ee"
       }
     ]
+  },
+  "/media/vehicles/renault-4-press-08f8b8956c0a.jpg": {
+    "width": 1500,
+    "height": 844,
+    "source_sha256": "08f8b8956c0afdfacea4f70aa629210ec3d3a0e62c3ce592a9293a83a1c26c6f",
+    "variants": [
+      {
+        "url": "/media/responsive/renault-4-press-08f8b8956c0a-480.webp",
+        "width": 480,
+        "sha256": "8c0a8833db9ea75852901df1c3a864bb6c2e9efa3675f4fc2910d401db6de737"
+      },
+      {
+        "url": "/media/responsive/renault-4-press-08f8b8956c0a-800.webp",
+        "width": 800,
+        "sha256": "5457b2572e9e06bbd7695dcc32e0f5c84c7e093929dac792b26923f19b8147d3"
+      },
+      {
+        "url": "/media/responsive/renault-4-press-08f8b8956c0a-1280.webp",
+        "width": 1280,
+        "sha256": "916f48a51199b5857e44cdc96e20424b1e3bc4e4f99a33248b97a61fc578defc"
+      }
+    ]
   }
 }

@@ -170,6 +170,15 @@
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
     },
+    "renault|4": {
+      "asset_url": "/media/vehicles/renault-4-press-08f8b8956c0a.jpg",
+      "content_sha256": "08f8b8956c0afdfacea4f70aa629210ec3d3a0e62c3ce592a9293a83a1c26c6f",
+      "reviewed_at": "2026-11-20",
+      "status": "approved",
+      "object_fit": "contain",
+      "object_position": "50% 50%",
+      "style": "manufacturer_press_photo"
+    },
     "xpeng|g6": {
       "asset_url": "/media/vehicles/xpeng-g6-press-3d0ad9b81b94.jpg",
       "content_sha256": "3d0ad9b81b948e2d6bbb36a2530a9434bd2a36cda5551e58d246dbba10c2a727",

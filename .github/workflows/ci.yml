@@ -185,6 +185,7 @@ jobs:
       - run: bun run verify:chr-plus-intake
       - run: bun run verify:id-buzz-intake
       - run: bun run verify:id-buzz-local-publication
+      - run: python -m unittest discover -s tests -p test_renault_4_review.py -v
       - run: bun run verify:new-model-photo
       - run: bun run verify:expansion-preflight
       - run: bun run verify:vehicle-quality

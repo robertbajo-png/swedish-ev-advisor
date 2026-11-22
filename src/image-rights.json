@@ -830,6 +830,34 @@
       ],
       "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
       "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
+    },
+    {
+      "model_key": "renault|4",
+      "source_url": "https://renault.mynewsdesk.com/images/r-dam-1606012-punkt-jpg-3309218",
+      "evidence_url": "https://renault.mynewsdesk.com/images/r-dam-1606012-punkt-jpg-3309218",
+      "license_url": "https://renault.mynewsdesk.com/images/r-dam-1606012-punkt-jpg-3309218",
+      "license_id": "Manufacturer-media-use",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "publisher_id": "renault-4-private-review",
+      "author": "RN Nordic AB / Renault",
+      "credit": "RN Nordic AB / Renault / pressbild",
+      "content_sha256": "08f8b8956c0afdfacea4f70aa629210ec3d3a0e62c3ce592a9293a83a1c26c6f",
+      "source_content_sha256": "cac89bd5aefd905c0cbea884fb98a78f946ad4037e3cb42b5d7d6e39539c99e4",
+      "metadata_sha256": "58a001bcea70c37816b0383a72d5e6c0eb863f291eaa2e3111d8f92c0925c6b6",
+      "full_frame": true,
+      "status": "documented",
+      "reviewed_at": "2026-11-20",
+      "asset_url": "/media/vehicles/renault-4-press-08f8b8956c0a.jpg",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/9hc1hgc3fv8jvurhl7j5p0",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/9hc1hgc3fv8jvurhl7j5p0",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
     }
   ]
 }
