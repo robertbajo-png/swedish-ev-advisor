@@ -724,5 +724,27 @@
         "sha256": "9627f65bf3438cd08cf646e67fad848553bc41cd42bd4d963e3f5033108fb2c6"
       }
     ]
+  },
+  "/media/vehicles/xpeng-g6-press-3d0ad9b81b94.jpg": {
+    "width": 1500,
+    "height": 844,
+    "source_sha256": "3d0ad9b81b948e2d6bbb36a2530a9434bd2a36cda5551e58d246dbba10c2a727",
+    "variants": [
+      {
+        "url": "/media/responsive/xpeng-g6-press-3d0ad9b81b94-480.webp",
+        "width": 480,
+        "sha256": "8344c272ef60f06826ef4b0352751bbfe22c4c7a1eb00f0de3347a67e61822eb"
+      },
+      {
+        "url": "/media/responsive/xpeng-g6-press-3d0ad9b81b94-800.webp",
+        "width": 800,
+        "sha256": "aec7aab8f34cb811f19d25374a5ba1f72c3d674c227312e058cbfca54bee4bf9"
+      },
+      {
+        "url": "/media/responsive/xpeng-g6-press-3d0ad9b81b94-1280.webp",
+        "width": 1280,
+        "sha256": "19fa01d6e8de34ea443aaf1d5558aae8029a04909f1f22d1b56a30f6287019ee"
+      }
+    ]
   }
 }

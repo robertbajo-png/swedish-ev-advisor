@@ -54,6 +54,23 @@
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   },
+  "xpeng-g6-private-review": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "XPENG Sverige",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/pressreleases/nya-xpeng-g6-svenska-priser-och-foersaeljningsstart-3396446",
+    "image_path_prefix": "/se/xpeng-motors-sweden-ab/images/",
+    "model_title_pattern": "^G6 Launch 2025_Exterior Urban Road[.]jpg$",
+    "approved_image_paths": ["/se/xpeng-motors-sweden-ab/images/g6-launch-2025-exterior-urban-road-punkt-jpg-3287677"],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/1fxwb9d4v0xzv1ollf9078",
+    "approved_source_sha256": "2a425a541ed66e605b156827368f3a2033e158ace2935299374dbfc32bc374bf",
+    "model_keys": ["xpeng|g6"],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanv\u00e4ndning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Inneh\u00e5llet f\u00e5r laddas ner, anv\u00e4ndas och delas i olika mediekanaler",
+    "condition_excerpt": "s\u00e5 l\u00e4nge inneh\u00e5llet anv\u00e4nds of\u00f6r\u00e4ndrat och i dess helhet"
+  },
   "mercedes-se-mynewsdesk": {
     "origin": "https://www.mynewsdesk.com",
     "publisher": "Mercedes-Benz Sverige AB",
