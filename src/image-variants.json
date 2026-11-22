@@ -769,6 +769,28 @@
       }
     ]
   },
+  "/media/vehicles/xpeng-g9-press-3872869a55dd.jpg": {
+    "width": 1500,
+    "height": 841,
+    "source_sha256": "3872869a55dd3c8eaf93aa0493f8f8f71df5bb26501b92ce7c0a109223d1e87a",
+    "variants": [
+      {
+        "url": "/media/responsive/xpeng-g9-press-3872869a55dd-480.webp",
+        "width": 480,
+        "sha256": "58799c1d2b795310a50253d48c1d68bebb28f4b5aa2e68d5d34a170d2b67948a"
+      },
+      {
+        "url": "/media/responsive/xpeng-g9-press-3872869a55dd-800.webp",
+        "width": 800,
+        "sha256": "6b529ea4a440e5ce65722454c87b796e05300d65ac861beac392bb29e328ef56"
+      },
+      {
+        "url": "/media/responsive/xpeng-g9-press-3872869a55dd-1280.webp",
+        "width": 1280,
+        "sha256": "aa664e9cdc80a791f64e42c6564b4447b48323ebad2be602479546d1cf857ad1"
+      }
+    ]
+  },
   "/media/vehicles/cupra-tavascan-press-9c79705e02a2.jpg": {
     "width": 1500,
     "height": 842,

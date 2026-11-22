@@ -860,6 +860,35 @@
       "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
     },
     {
+      "model_key": "xpeng|g9",
+      "source_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/nya-g9-1-punkt-jpeg-3270628",
+      "evidence_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/nya-g9-1-punkt-jpeg-3270628",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "license_id": "Manufacturer-media-use",
+      "license_url": "https://www.mynewsdesk.com/se/xpeng-motors-sweden-ab/images/nya-g9-1-punkt-jpeg-3270628",
+      "author": "XPENG Sverige",
+      "credit": "XPENG Sverige / pressbild",
+      "content_sha256": "3872869a55dd3c8eaf93aa0493f8f8f71df5bb26501b92ce7c0a109223d1e87a",
+      "metadata_sha256": "2eecaf45716fb5c07865c6e60c099707e7ff17508874dc30fbc792525fc0a524",
+      "source_content_sha256": "2d8d2f0910722f82bc00ae404e4c28fa9541aeaf79c59ece40488842d3614b20",
+      "publisher_id": "xpeng-g9-private-review",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/xpeng-g9-press-3872869a55dd.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/lld1uznnjzjj7sww9nu8da",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/lld1uznnjzjj7sww9nu8da",
+      "status": "documented",
+      "reviewed_at": "2026-11-21",
+      "reviewed_candidate_sha256": "abc4b41a87b2d7aa7262295921de37e62683c8c6fbf7736885824678934721d0",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild av G9 Black Edition. Standardutrustning kan skilja mellan versioner.",
+      "changes": "Pressbild av G9 Black Edition. Standardutrustning kan skilja mellan versioner. Endast storlek och format har anpassats."
+    },
+    {
       "model_key": "cupra|tavascan",
       "source_url": "https://www.mynewsdesk.com/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079",
       "evidence_url": "https://www.mynewsdesk.com/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079",

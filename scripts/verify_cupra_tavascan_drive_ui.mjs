@@ -32,9 +32,8 @@ if(values['output-root']){
 const output=await mkdtemp(join(outputRoot,'tavascan-ui-'));
 const root=join(output,'source');
 await cp(baselineRoot,root,{recursive:true,errorOnExist:true,force:false});
-const reviewedUi=await readFile(new URL('../src/main.jsx',import.meta.url),'utf8');
+const reviewedUi=await readFile(join(root,'src/main.jsx'),'utf8');
 assert(!reviewedUi.includes('MarketStatusBadges'),'Reviewed UI still displays market-status badges');
-await writeFile(join(root,'src/main.jsx'),reviewedUi);
 const json=async path=>JSON.parse(await readFile(path,'utf8'));
 const put=async (path,data)=>{
   const file=join(root,path);
@@ -63,21 +62,30 @@ const presentation=await json(join(root,'src/image-presentation.json'));
 const reviewedPresentation=(await json('src/image-presentation.json')).models[image.model_key];
 assert.deepEqual([reviewedPresentation.asset_url,reviewedPresentation.content_sha256,reviewedPresentation.object_fit],
   [image.asset_url,image.content_sha256,'contain']);
-assert(!(image.model_key in presentation.models));
-await put('src/image-presentation.json',{...presentation,models:{...presentation.models,[image.model_key]:reviewedPresentation}});
 const approved=(await json('src/press-image-publishers.json'))[image.publisher_id];
 assert.deepEqual(approved.model_keys,[image.model_key]);
 assert.deepEqual(approved.approved_image_paths,[new URL(image.source_url).pathname]);
 assert.equal(approved.approved_asset_url,image.downloaded_from);
 assert.equal(approved.approved_source_sha256,image.source_content_sha256);
-if(image.publisher_id in publishers) assert.deepEqual(publishers[image.publisher_id],approved);
-assert(!rights.assets.some(row=>row.model_key===image.model_key));
-assert(!(image.model_key in lookup));
-await put('src/model-images.json',{...lookup,[image.model_key]:image.asset_url});
-await put('src/press-image-publishers.json',{...publishers,[image.publisher_id]:approved});
-await put('src/image-rights.json',{...rights,assets:[...rights.assets,{...image,changes:'Hela bildutsnittet bevaras. Endast storlek och format har anpassats.'}]});
+const imageEntry={...image,changes:'Hela bildutsnittet bevaras. Endast storlek och format har anpassats.'};
+const imageRows=rights.assets.filter(row=>row.model_key===image.model_key);
+const imagePath=join(root,'public',image.asset_url.slice(1));
+if(image.model_key in lookup){
+  assert.equal(lookup[image.model_key],image.asset_url);
+  assert.deepEqual(presentation.models[image.model_key],reviewedPresentation);
+  assert.deepEqual(publishers[image.publisher_id],approved);
+  assert.deepEqual(imageRows,[imageEntry]);
+  assert.equal(createHash('sha256').update(await readFile(imagePath)).digest('hex'),image.content_sha256);
+}else{
+  assert(!(image.model_key in presentation.models)&&!imageRows.length,'Partly registered Tavascan image');
+  if(image.publisher_id in publishers) assert.deepEqual(publishers[image.publisher_id],approved);
+  await put('src/image-presentation.json',{...presentation,models:{...presentation.models,[image.model_key]:reviewedPresentation}});
+  await put('src/model-images.json',{...lookup,[image.model_key]:image.asset_url});
+  await put('src/press-image-publishers.json',{...publishers,[image.publisher_id]:approved});
+  await put('src/image-rights.json',{...rights,assets:[...rights.assets,imageEntry]});
+  await writeFile(imagePath,policy.readPrivateImage(image),{flag:'wx'});
+}
 await put('public/data/public_ev_variants.json',{...candidate,publication_approved:false});
-await writeFile(join(root,'public',image.asset_url.slice(1)),policy.readPrivateImage(image),{flag:'wx'});
 const python=(name,...args)=>JSON.parse(execFileSync(process.execPath,['scripts/run_python.mjs',join(root,'scripts',name),...args],
   {encoding:'utf8',timeout:90000,windowsHide:true}));
 python('prepare_responsive_images.py','--write');

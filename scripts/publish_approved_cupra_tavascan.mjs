@@ -7,11 +7,11 @@ import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import { loadEnv } from 'vite';
 import { readDriveCapture, readDriveImage } from './cupra_tavascan_drive_publication.mjs';
-import { hashPattern, proveTavascanRelease, reviewApproval, tavascanCatalogHash, verifyTavascanProjection } from './cupra_tavascan_release_scope.mjs';
+import { hashPattern, proveTavascanRelease, reviewApproval, tavascanCatalogHash, variant, verifyTavascanProjection } from './cupra_tavascan_release_scope.mjs';
 import { applyTavascanDriveRelease, publicationHash, validateNewModelIntake } from './new_model_publication.mjs';
 import { readTavascanDriveScope } from './prepare_cupra_tavascan_drive_readback.mjs';
 import { useCalendarDateText } from './refresh_kia_specs.mjs';
-import { atomicJson, catalogHash, fetchCatalog, publicHeaders, SOURCE } from './sync_public_catalog.mjs';
+import { atomicJson, catalogHash, fetchCatalog, publicHeaders, SOURCE, variantKey } from './sync_public_catalog.mjs';
 
 const project='eutcryxbitudllcnpnex';
 const repo='robertbajo-png/swedish-ev-advisor';
@@ -74,9 +74,15 @@ export async function exportTavascanCommit({attempt,committed,approval,publicRow
   assert.deepEqual([attempt.fresh_plan_hash,attempt.baseline_sha256,attempt.ui_sha256],
     [fresh.plan_hash,reviewed.baseline_sha256,sha(JSON.stringify(ui))]);
   assert.equal(catalogHash(baseline),reviewed.baseline_sha256);
-  const rows=verifyTavascanProjection(baseline,await publicRows(),fresh.plan,reviewed.public_projection_sha256);
+  const readExact=async()=>{
+    const rows=await publicRows(),added=rows.find(row=>variantKey(row)===variant);
+    assert.equal(added?.id,fresh.plan.targets[0].id,'Unexpected public Tavascan field: id');
+    assert.equal(added?.canonical_model_id,fresh.plan.expected_model.id,'Unexpected public Tavascan field: canonical_model_id');
+    return rows;
+  };
+  const rows=verifyTavascanProjection(baseline,await readExact(),fresh.plan,reviewed.public_projection_sha256);
   const catalog_sha256=catalogHash(rows);
-  assert.equal(catalogHash(await publicRows()),catalog_sha256,'Canonical catalog changed during export');
+  assert.equal(catalogHash(await readExact()),catalog_sha256,'Canonical catalog changed during export');
   const localHash=catalogHash((await catalog()).records);
   assert([reviewed.baseline_sha256,catalog_sha256].includes(localHash),'Local catalog changed during release');
   if(localHash!==catalog_sha256) await saveCatalog({generated_at:now.toISOString(),source:SOURCE,
@@ -121,7 +127,8 @@ async function main() {
   const url=env.SUPABASE_URL||env.VITE_SUPABASE_URL,key=env.SUPABASE_ANON_KEY||env.VITE_SUPABASE_ANON_KEY;
   assert.equal(new URL(url).origin,`https://${project}.supabase.co`);
   publicHeaders(key);
-  const publicRows=()=>fetchCatalog({url,key,onSchema:missing=>assert.deepEqual(missing,[],'Missing public view columns')});
+  const publicRows=()=>fetchCatalog({url,key,includeIds:Boolean(values['resume-export']),
+    onSchema:missing=>assert.deepEqual(missing,[],'Missing public view columns')});
   const catalog=async()=>{const path=join(checkout,catalogPath);await unlinked(path);return json(path);};
   const assertMain=commit=>{
     assert.match(commit,/^[a-f0-9]{40}$/);

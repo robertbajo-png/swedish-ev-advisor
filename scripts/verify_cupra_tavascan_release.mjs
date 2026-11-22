@@ -54,7 +54,7 @@ export async function verifyTavascanReleaseRehearsal({reviewed,fresh,ui,scope,ba
     const after=await anonymousCatalogRows(db);
     assert.equal(after.length,publicInitial.length+1);
     assert.deepEqual(after.filter(row=>variantKey(row)!==variant),publicInitial);
-    await assert.rejects(apply(),/Public catalog changed inside/);
+    await assert.rejects(apply(),/requires an unpublished canonical model/);
     const added=after.find(row=>variantKey(row)===variant);
     const attempt={approval:scope,fresh_plan_hash:fresh.plan_hash,baseline_sha256:reviewed.baseline_sha256,ui_sha256:publicationHash(ui)};
     const committed={approval:scope,fresh,reviewed,ui,baseline,result,committed_at:now.toISOString()};
@@ -65,6 +65,8 @@ export async function verifyTavascanReleaseRehearsal({reviewed,fresh,ui,scope,ba
     await assert.rejects(exportTavascanCommit({...input,publicRows:async()=>[...baseline,{...added,price_sek:999999}]}));
     await assert.rejects(exportTavascanCommit({...input,publicRows:async()=>[...baseline,{...added,id:prior.id}]}),
       /Unexpected public Tavascan field: id/);
+    await assert.rejects(exportTavascanCommit({...input,publicRows:async()=>[...baseline,{...added,canonical_model_id:undefined}]}),
+      /Unexpected public Tavascan field: canonical_model_id/);
     assert.equal(writes,0);
     const distribution=await exportTavascanCommit(input);
     assert.equal(distribution.catalog_sha256,catalogHash(exported.records));

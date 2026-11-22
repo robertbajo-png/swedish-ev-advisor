@@ -65,7 +65,7 @@ export function catalogHash(rows) {
   return createHash('sha256').update(JSON.stringify(normalizeCatalog(rows))).digest('hex');
 }
 
-export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250, onSchema = () => {} }) {
+export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250, onSchema = () => {}, includeIds = false }) {
   const base = secureUrl(url);
   assert(base.pathname === '/' && !base.search && !base.hash, 'Use the plain Supabase project URL');
   const headers = { ...publicHeaders(key), prefer: 'count=exact' };
@@ -88,7 +88,19 @@ export async function fetchCatalog({ url, key, fetchImpl = fetch, pageSize = 250
     rows.push(...page);
   }
   assert.equal(rows.length, total);
-  return normalizeCatalog(rows);
+  const normalized = normalizeCatalog(rows);
+  if (!includeIds) return normalized;
+  const uuid = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
+  const identities = new Map(rows.map(row => {
+    assert.match(row.id, uuid, 'Missing public variant ID');
+    if (Object.hasOwn(row, 'canonical_model_id')) {
+      assert.match(row.canonical_model_id, uuid, 'Invalid public canonical model ID');
+      return [variantKey(row), {id: row.id, canonical_model_id: row.canonical_model_id}];
+    }
+    return [variantKey(row), {id: row.id}];
+  }));
+  assert.equal(new Set([...identities.values()].map(row => row.id)).size, identities.size, 'Duplicate public variant ID');
+  return normalized.map(row => ({...row, ...identities.get(variantKey(row))}));
 }
 
 export function compareCatalogs(local, remote) {

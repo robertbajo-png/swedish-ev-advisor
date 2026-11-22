@@ -191,6 +191,8 @@ jobs:
       - run: python -m unittest discover -s tests -p test_renault_4_review.py -v
       - run: python -m unittest discover -s tests -p test_cupra_tavascan_review.py -v
       - run: node --test tests/cupra-tavascan-configurator.test.mjs tests/cupra-tavascan-stock-wltp.test.mjs
+      - run: python -m unittest discover -s tests -p test_xpeng_g9_review.py -v
+      - run: node --test tests/xpeng-g9-release-review.test.mjs
       - run: bun run verify:new-model-photo
       - run: bun run verify:expansion-preflight
       - run: bun run verify:vehicle-quality
