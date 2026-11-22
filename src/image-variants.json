@@ -829,5 +829,49 @@
         "sha256": "7b22514f945cf18df225147896424832f789480eb5851305d8bf896596c21a21"
       }
     ]
+  },
+  "/media/vehicles/hyundai-ioniq-5-press-6c3fdfee7a67.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "6c3fdfee7a67d2be41af312088681d670a20aa2fb0eda045c573dcdf330292b5",
+    "variants": [
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-6c3fdfee7a67-480.webp",
+        "width": 480,
+        "sha256": "9b957506f1c956f2152ed4352d4fe37162402e01052aa4a42edb1a230217e349"
+      },
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-6c3fdfee7a67-800.webp",
+        "width": 800,
+        "sha256": "e78702407cf4b4b0be9d1997c4f0799bd4d36196e9997afbd18e46a7e0c08412"
+      },
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-6c3fdfee7a67-1280.webp",
+        "width": 1280,
+        "sha256": "4b90e281acc86a1f7388f7ab752f1d7acb15871a7e5ccb79d0aba82431ecc0b1"
+      }
+    ]
+  },
+  "/media/vehicles/hyundai-ioniq-5-press-a2c20db010ce.jpg": {
+    "width": 1500,
+    "height": 1000,
+    "source_sha256": "a2c20db010ce320057d26adfb3b11cb692274a7ca7b3c76e561aff10a73d30dd",
+    "variants": [
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-a2c20db010ce-480.webp",
+        "width": 480,
+        "sha256": "9cf447d4dcca721922333ba995cc3a824a910a3e031e907e6deafe9ba9a7fff2"
+      },
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-a2c20db010ce-800.webp",
+        "width": 800,
+        "sha256": "a49bb9f41b35a533ea499869398c0eb89ee81b8991e42ea3c5cdb4604111a586"
+      },
+      {
+        "url": "/media/responsive/hyundai-ioniq-5-press-a2c20db010ce-1280.webp",
+        "width": 1280,
+        "sha256": "6142bdeee3f5b157e1625c89bd57c58159a7f7ae2635d8c725acd29bf9dddc36"
+      }
+    ]
   }
 }

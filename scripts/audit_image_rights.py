@@ -135,7 +135,11 @@ def inventory(root=ROOT, candidate_registry=False):
         key = normalize_image_key(row['brand']) + '|' + normalize_image_key(row['model'])
         url = lookup.get(key) if candidate_registry else row.get('image_url') or lookup.get(key)
         if url:
-            assets[(key, url)] = {'model_key': key, 'asset_url': url, 'surface': 'vehicle'}
+            group = assets.setdefault((key, url), {'model_key': key, 'asset_url': url, 'surface': 'vehicle',
+                                                  'variant_names': [], 'image_source_urls': []})
+            group['variant_names'].append(row.get('variant_name'))
+            if url == row.get('image_url'):
+                group['image_source_urls'].append(row.get('image_source_url'))
     for css in sorted((root / 'src').glob('*.css')):
         for url in re.findall(r'url\([\"\']?((?:https://|/media/vehicles/)[^\"\')]+)', css.read_text(encoding='utf-8')):
             matches = [key for key, value in lookup.items() if value == url]
@@ -157,6 +161,15 @@ def build_report(assets, registry, today=None, root=ROOT):
     for asset in assets:
         evidence = entries.get((asset.get('model_key'), asset['asset_url']))
         errors = rights_errors(asset, evidence, today)
+        if evidence and 'variant_names' in evidence:
+            declared, actual = evidence['variant_names'], asset.get('variant_names')
+            photo_sources = asset.get('image_source_urls', [])
+            if (not isinstance(declared, list) or not declared or
+                    any(not isinstance(name, str) or not name.strip() or name.strip() != name for name in declared) or
+                    len(declared) != len(set(declared)) or not actual or
+                    any(name not in declared for name in actual) or len(photo_sources) != len(actual) or
+                    any(url != evidence.get('source_url') for url in photo_sources)):
+                errors.append('missing_or_incorrect_variant_image_scope')
         if asset['asset_url'].startswith('/'):
             url = asset['asset_url']
             path = Path(root) / 'public' / url.lstrip('/')

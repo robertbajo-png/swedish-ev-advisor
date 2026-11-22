@@ -76,7 +76,7 @@ export async function readCommittedPublicBaseline(releaseRoot, output, {imageToo
   const commit = execFileSync('git', ['rev-parse', 'refs/remotes/origin/main'], { encoding: 'utf8' }).trim();
   assert.match(commit, /^[0-9a-f]{40}$/);
   const paths = ['index.html', 'src', 'public', 'functions/_shared'];
-  if (imageTools) paths.push('scripts/prepare_responsive_images.py', 'scripts/audit_image_rights.py', 'scripts/verify_public_images.py');
+  if (imageTools) paths.push('vite.config.mjs', 'scripts/prepare_responsive_images.py', 'scripts/audit_image_rights.py', 'scripts/verify_public_images.py');
   const tree = execFileSync('git', ['ls-tree', '-rl', commit, '--', ...paths], { encoding: 'utf8' }).trim().split('\n');
   assert(tree.length > 10 && tree.length < 10000);
   let size = 0;

@@ -11,9 +11,15 @@ export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(
 const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) => !['image_url', 'image_source_url', 'image_verified_at', 'updated_at'].includes(name)));
 
 export function selectImageRegistryForPublic(publicModels, registry) {
-  if (publicModels.some(model => key(model) === buzzPhoto.model_key)) return registry;
+  const buzzIsPublic = publicModels.some(model => key(model) === buzzPhoto.model_key);
   return { ...registry, assets: registry.assets.filter(asset => {
-    if (asset.model_key !== buzzPhoto.model_key) return true;
+    if ('variant_names' in asset) {
+      assert(Array.isArray(asset.variant_names) && asset.variant_names.length > 0
+        && asset.variant_names.every(name => typeof name === 'string' && name.trim() === name && name)
+        && new Set(asset.variant_names).size === asset.variant_names.length, 'Exact variant photo scope required');
+      return false; // This transaction updates parent-model photos only.
+    }
+    if (asset.model_key !== buzzPhoto.model_key || buzzIsPublic) return true;
     for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Invalid staged ID. Buzz asset');
     return false;
   }) };

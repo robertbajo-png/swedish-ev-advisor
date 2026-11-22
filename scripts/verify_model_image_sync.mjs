@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
-import { applyImagePlan, buildImagePlan, imagePlanHash } from './model_image_sync.mjs';
+import { applyImagePlan, buildImagePlan, imagePlanHash, selectImageRegistryForPublic } from './model_image_sync.mjs';
 import { readFile } from 'node:fs/promises';
 
 const db = new PGlite();
@@ -16,6 +16,11 @@ try {
     content_sha256: 'a'.repeat(64), source_url: 'https://commons.wikimedia.org/wiki/File:Fixture.jpg', reviewed_at: '2026-10-27' };
   const registry = { schema_version: 1, assets: [asset] };
   const plan = buildImagePlan(models, [models.find(row => row.id === 'one')], registry);
+  const editionOnly = {...asset, asset_url: '/media/vehicles/fixture-sport-abcdef123456.jpg', variant_names: ['AWD Sport']};
+  const editionRegistry = {...registry, assets: [asset, editionOnly]};
+  const live = [models.find(row => row.id === 'one')];
+  assert.deepEqual(buildImagePlan(models, live, selectImageRegistryForPublic(live, editionRegistry)), plan);
+  assert.throws(() => selectImageRegistryForPublic(live, {...registry, assets: [{...editionOnly, variant_names: [' Sport']}]}));
   const press = JSON.parse(await readFile('src/image-rights.json', 'utf8')).assets.find(row => row.license_id === 'Manufacturer-media-use' && row.model_key === 'kia|ev3');
   assert(press, 'Manufacturer media fixture must exercise current permission policy');
   const pressModel = { ...models.find(row => row.id === 'one'), brand: 'Kia', model: 'Ev3' };

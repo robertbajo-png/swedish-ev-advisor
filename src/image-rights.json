@@ -943,6 +943,68 @@
       ],
       "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
       "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
+    },
+    {
+      "model_key": "hyundai|ioniq 5",
+      "source_url": "https://www.mynewsdesk.com/se/hyundai/images/image-1-enhanced-ioniq-5-ext-2976415",
+      "evidence_url": "https://www.mynewsdesk.com/se/hyundai/images/image-1-enhanced-ioniq-5-ext-2976415",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas | så länge innehållet används oförändrat och i dess helhet",
+      "license_id": "Manufacturer-media-use",
+      "license_url": "https://www.mynewsdesk.com/se/hyundai/images/image-1-enhanced-ioniq-5-ext-2976415",
+      "author": "Hyundai Motor Sweden",
+      "credit": "Hyundai Motor Sweden / pressbild",
+      "content_sha256": "6c3fdfee7a67d2be41af312088681d670a20aa2fb0eda045c573dcdf330292b5",
+      "metadata_sha256": "24b1f64bf83b1ce5ed99f5e778bd7e3b4eda89094f56e0538d7b813d7ca6d8e0",
+      "source_content_sha256": "a9c4db87bf03feb8fe5e7272321d17112d5737bb2d58347eb791a9e80f37f2ef",
+      "publisher_id": "hyundai-ioniq5-se-mynewsdesk",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/hyundai-ioniq-5-press-6c3fdfee7a67.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/wvlvah9culjh0qfwscr1",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/wvlvah9culjh0qfwscr1",
+      "status": "documented",
+      "reviewed_at": "2026-11-20",
+      "reviewed_candidate_sha256": "ce9ca83b2c6ed77ef5bab2f64576c79523998e18b948623a6fda2141a1d71724",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "changes": "Hela originalmotivet. Storlek och format anpassade."
+    },
+    {
+      "model_key": "hyundai|ioniq 5",
+      "source_url": "https://www.mynewsdesk.com/se/hyundai/images/image-2-new-ioniq-5-n-line-ext-2976416",
+      "evidence_url": "https://www.mynewsdesk.com/se/hyundai/images/image-2-new-ioniq-5-n-line-ext-2976416",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas | så länge innehållet används oförändrat och i dess helhet",
+      "license_id": "Manufacturer-media-use",
+      "license_url": "https://www.mynewsdesk.com/se/hyundai/images/image-2-new-ioniq-5-n-line-ext-2976416",
+      "author": "Hyundai Motor Sweden",
+      "credit": "Hyundai Motor Sweden / pressbild",
+      "content_sha256": "a2c20db010ce320057d26adfb3b11cb692274a7ca7b3c76e561aff10a73d30dd",
+      "metadata_sha256": "8ce040d808914bfc14d8d0d07b14922c3b64c4b975473311f7fb018ba07f61a0",
+      "source_content_sha256": "2df52e806eb2ee435a561bd3a3b013cdfa6cc028eb00ce1e33a9bc68b7d773d6",
+      "publisher_id": "hyundai-ioniq5-se-mynewsdesk",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/hyundai-ioniq-5-press-a2c20db010ce.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/tvg1bvcp1tt4bpv4isbc",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/tvg1bvcp1tt4bpv4isbc",
+      "status": "documented",
+      "reviewed_at": "2026-11-20",
+      "reviewed_candidate_sha256": "f955f3976ba0f79c8f25b06b6cd2e7a790d0fbbce6329afafb740ddb10a7e2c6",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "changes": "Hela originalmotivet. Storlek och format anpassade.",
+      "variant_names": [
+        "84 kWh AWD N Line",
+        "84 kWh RWD N Line"
+      ]
     }
   ]
 }
