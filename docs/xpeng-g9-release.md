@@ -10,7 +10,9 @@ Black Edition press image, with a visible note that equipment may differ.
 1. After any preceding model release, regenerate the readback and browser
    review against the exact current main, anonymous production view and
    deployed catalog. Browser QA must apply to the actual candidate,
-   including the previously reviewed removal of retail-status copy.
+   including the absence of retail-status badges. A registered press
+   photo can be verified directly against the reviewed image; no preview
+   overlay is needed for an already merged candidate.
 2. Capture the same eight source records again after review. Run
    `publish_approved_xpeng_g9.mjs` with no write option for a read-only
    check. It replays the source bytes, verifies the registered image and

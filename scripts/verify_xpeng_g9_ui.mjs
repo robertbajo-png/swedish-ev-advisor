@@ -68,15 +68,23 @@ for(const {image,bytes} of Object.values(models)) {
   assert.deepEqual(approved.approved_image_paths,[new URL(image.source_url).pathname]);
   assert.equal(approved.approved_asset_url,image.downloaded_from);
   assert.equal(approved.approved_source_sha256,image.source_content_sha256);
-  if(liveG6&&image.model_key==='xpeng|g6') {
+  const registered = image.model_key in lookup;
+  if(liveG6&&image.model_key==='xpeng|g6') assert(registered,'The deployed G6 image must be registered');
+  if(registered) {
     assert.deepEqual(publishers[image.publisher_id],approved);
     assert.equal(lookup[image.model_key],image.asset_url);
-    assert.equal(rights.assets.filter(row=>row.asset_url===image.asset_url).length,1);
+    const entries = rights.assets.filter(row=>row.model_key===image.model_key);
+    assert.equal(entries.length,1);
+    assert.equal(entries[0].asset_url,image.asset_url);
+    assert.equal(entries[0].source_url,image.source_url);
+    assert.equal(entries[0].content_sha256,image.content_sha256);
+    const fit = presentation.models[image.model_key];
+    assert.deepEqual([fit?.asset_url,fit?.content_sha256,fit?.status,fit?.object_fit],
+      [image.asset_url,image.content_sha256,'approved','contain']);
     assert.equal(sha(await readFile(join(root,'public',image.asset_url.slice(1)))),image.content_sha256);
     continue;
   }
   assert(!rights.assets.some(row=>row.model_key===image.model_key));
-  assert(!(image.model_key in lookup));
   if(image.publisher_id in publishers) assert.deepEqual(publishers[image.publisher_id],approved);
   publishers[image.publisher_id] = approved;
   lookup[image.model_key] = image.asset_url;
