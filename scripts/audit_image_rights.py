@@ -36,6 +36,9 @@ def reviewed_media_permission(evidence):
         and evidence.get('license_url') == evidence.get('source_url')
         and evidence.get('evidence_quote') == policy['permission_excerpt'] + ' | ' + policy['condition_excerpt']
         and asset.scheme + '://' + asset.netloc == policy['asset_origin']
+        and ('approved_asset_url' not in policy or evidence.get('downloaded_from') == policy['approved_asset_url'])
+        and ('approved_source_sha256' not in policy or evidence.get('source_content_sha256') == policy['approved_source_sha256'])
+        and (not policy.get('preserve_original_jpeg') or evidence.get('content_sha256') == evidence.get('source_content_sha256'))
         and re.fullmatch(r'/image/upload/fl_attachment/[a-zA-Z0-9_-]+', asset.path)
         and not asset.query and not asset.fragment
         and evidence.get('usage_scope') == 'independent_vehicle_editorial'

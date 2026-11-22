@@ -85,6 +85,7 @@ export function normalizePublicVariants(rows) {
     .filter(row => !hasPriceEvidence(row) || priceEvidence(row))
     .map((row) => {
       const variantKey = `${row.brand}|${row.model}|${row.variant_name}`;
+      const qualifications = specQualifications(row);
       return {
         id: row.id || stableId(variantKey),
         variant_key: variantKey,
@@ -93,8 +94,9 @@ export function normalizePublicVariants(rows) {
         variant_name: row.variant_name,
         price_sek: toNumber(row.price_sek),
         wltp_range_km: toNumber(row.wltp_range_km),
-        wltp_range_is_target: specQualifications(row).rangeIsTarget,
-        range_note: specQualifications(row).rangeNote,
+        wltp_range_is_target: qualifications.rangeIsTarget,
+        ...(qualifications.rangeMinimum !== null ? {wltp_range_min_km: qualifications.rangeMinimum, wltp_range_interval: qualifications.rangeInterval} : {}),
+        range_note: qualifications.rangeNote,
         dc_charge_kw: toNumber(row.dc_charge_kw),
         boot_liters: toNumber(row.boot_liters),
         tow_kg: toNumber(row.tow_kg),

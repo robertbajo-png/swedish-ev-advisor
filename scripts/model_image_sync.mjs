@@ -72,6 +72,11 @@ export function buildImagePlan(models, publicModels, registry) {
       assert.equal(download.origin, policy.asset_origin);
       assert.match(download.pathname, /^\/image\/upload\/fl_attachment\/[a-zA-Z0-9_-]+$/);
       assert(!download.search && !download.hash);
+      if (policy.preserve_original_jpeg) {
+        assert.equal(asset.downloaded_from, policy.approved_asset_url, 'Exact reviewed photo URL required');
+        assert.equal(asset.source_content_sha256, policy.approved_source_sha256, 'Exact source photo hash required');
+        assert.equal(asset.content_sha256, asset.source_content_sha256, 'Published photo must retain original bytes');
+      }
     } else assert.match(asset.source_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     const matches = models.filter(model => key(model) === asset.model_key);
     assert.equal(matches.length, 1, 'Exact canonical model required');

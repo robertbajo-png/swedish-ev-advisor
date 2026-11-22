@@ -8,6 +8,12 @@ export function specQualifications(row) {
   const r4Techno = row.brand === 'Renault' && row.model === '4' && row.variant_name === 'Techno EV52'
     && row.wltp_range_km === 398 && row.wltp_consumption_kwh_100km === 15.5 && quote.includes(r4TechnoSource + ' | ');
   const polestar = row.brand === 'Polestar';
+  const polestar3 = polestar && row.model === '3' && row.variant_name === 'Performance'
+    && row.source_url === 'https://www.polestar.com/se/polestar-3/specifications/'
+    && quote.match(/https:\/\/www\.polestar\.com\/se\/manual\/polestar-3\/2027\/article\/[^ |]+\/ \| Performance \| \d{3} \| (\d{3}) \| (\d{2},\d) \| \d{3} \| (\d{3}) \| (\d{2},\d)(?= \||$)/);
+  const certified = polestar3 && Number(polestar3[1]) === row.wltp_range_km
+    && Number(polestar3[3]) < Number(polestar3[1])
+    && Number(polestar3[4].replace(',', '.')) > Number(polestar3[2].replace(',', '.')) ? polestar3 : null;
   const cla = row.brand === 'Mercedes-Benz' && row.model === 'Cla' && quote.includes('Tillåten släpvagnsvikt (bromsad släpvagn vid 12 %)');
   const explorer = row.brand === 'Ford' && row.model === 'Explorer' && /^Explorer Premium Edition (RWD 79|AWD 77) kWh MY27\.25$/.test(row.variant_name);
   const born = row.brand === 'Cupra' && row.model === 'Born' && row.variant_name === 'Born VZ' &&
@@ -40,6 +46,8 @@ export function specQualifications(row) {
   return {
     imageNotice: (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'
       ? `Modellbild: Renault 4 E-Tech electric. Utrustningen kan skilja sig från ${row.variant_name}.`
+      : certified && row.image_url === '/media/vehicles/polestar-3-press-450c917205da.jpg'
+      ? 'Pressbild av Polestar 3 med 800 V. Utrustningen kan skilja fr\u00e5n den svenska versionen.'
       : chrPlus && row.image_url === '/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg'
       ? 'Modellbild: Toyota C-HR+ i brittiskt Design-utförande. Färg, hjul och utrustning kan skilja från den svenska versionen.'
       : idBuzz && row.image_url === '/media/vehicles/volkswagen-id-buzz-00832a4a6a37.jpg'
@@ -57,8 +65,10 @@ export function specQualifications(row) {
             : ev9 && row.image_url === '/media/vehicles/kia-ev9-press-731db0e8f686.jpg'
               ? 'Modellbild: Kia EV9. Färg och utrustning kan skilja från den valda versionen.' : null,
     rangeIsTarget,
-    rangeInterval: born ? '552–631 km' : null,
-    rangeNote: ev3Preliminary ? '572 km är en preliminär tillverkaruppgift i väntan på homologering enligt Kias svenska faktablad, inte slutlig certifierad räckvidd. Den används inte för att bekräfta ett hårt räckviddskrav.'
+    rangeMinimum: certified ? Number(certified[3]) : null,
+    rangeInterval: certified ? certified[3] + '\u2013' + certified[1] + ' km' : born ? '552–631 km' : null,
+    rangeNote: certified ? 'Certifierat intervall f\u00f6r blandad WLTP, modell\u00e5r 2027. Hjul och utrustning p\u00e5verkar var i intervallet bilen hamnar.'
+      : ev3Preliminary ? '572 km är en preliminär tillverkaruppgift i väntan på homologering enligt Kias svenska faktablad, inte slutlig certifierad räckvidd. Den används inte för att bekräfta ett hårt räckviddskrav.'
       : rangeIsTarget ? 'Tillverkarens räckviddsmål enligt WLTP, inte ett slutligt certifierat värde.'
       : r4Evolution ? '407 km och 15,2 kWh/100 km avser det svenska Evolution EV52-exemplar som RN Automotive specificerar. Renault anger också 407 km för versionen. Utrustningen kan påverka värdena.'
       : r4Techno ? '398 km och 15,5 kWh/100 km gäller den svenska Techno EV52 av modellår 2026 med 18-tumshjul som Hedin specificerar. Renault anger också 398 km för versionen. Hjul och utrustning kan påverka värdena.'
@@ -72,8 +82,9 @@ export function specQualifications(row) {
       : ev5Gt ? 'Upp till 476 km enligt Kias svenska GT-sida för 306 hk. Den tyska GT-tabellen anger samma blandade WLTP-värde; 615 km där avser stadskörning, inte blandad körning.'
       : ev4Gt ? 'Upp till 505 km enligt Kias svenska GT-sida. I den tyska GT-tabellen gäller 505 km med 20-tums Pirelli och 473 km med 20-tums Michelin. Däck och utrustning påverkar räckvidden.'
       : born ? 'CUPRA:s internationella VZ-tabell anger 552–631 km WLTP för modellår 2027. Hjul och utrustning påverkar värdet; 631 km är intervallets övre gräns, inte räckvidden för varje svensk konfiguration.' : null,
-    consumptionInterval: i4 ? '14,9–17,1 kWh/100 km' : interval ? `${interval[1]}–${interval[2]} kWh/100 km` : null,
-    consumptionNote: chrPlus ? '77 kWh är bruttobatterikapacitet. Svenskt grundutförande: Active FWD 13,4, Active AWD 14,4 och Executive AWD 15,5 kWh/100 km. Active har 11 kW AC ombord, Executive 22 kW; samtliga anges till 150 kW DC.'
+    consumptionInterval: certified ? certified[2] + '\u2013' + certified[4] + ' kWh/100 km' : i4 ? '14,9–17,1 kWh/100 km' : interval ? `${interval[1]}–${interval[2]} kWh/100 km` : null,
+    consumptionNote: certified ? 'Certifierat WLTP-intervall. Kalkylen anv\u00e4nder det l\u00e4gre f\u00f6rbrukningsv\u00e4rdet. 350 kW DC g\u00e4ller vid 800 V, och Polestar anger upp till 120 kW vid 400 V. 106 kWh \u00e4r angiven batterikapacitet, inte ett nettov\u00e4rde.'
+      : chrPlus ? '77 kWh är bruttobatterikapacitet. Svenskt grundutförande: Active FWD 13,4, Active AWD 14,4 och Executive AWD 15,5 kWh/100 km. Active har 11 kW AC ombord, Executive 22 kW; samtliga anges till 150 kW DC.'
       : idBuzz ? 'Batteriet anges till 79 kWh netto. Volkswagen Transportbilar anger upp till 185 kW DC för det batteriet. AC-effekten 11 kW avser bilens ombordladdare.'
       : i4 ? 'BMW:s WLTP-intervall för eDrive40, typ 61HD, inte ett individuellt förbrukningsvärde för lagerbilen. Kostnadskalkylen använder 14,9 kWh/100 km; hjul och utrustning påverkar förbrukningen. Räckvidden 588 km kommer från just lagerbil FW37556. Batteri och laddning gäller samma tekniska typ; lagerbilens produktionsår är 2026.'
       : ev2 ? 'Svenska produktfakta från 29 september 2026: Standard Range 15,1 och Long Range 14,9 kWh/100 km med 16-tumshjul; GT Line Long Range 16,3 med 19 tum. Ombordladdaren är 10,5 kW och maximal DC-effekt 150 kW. Den äldre broschyrens preliminära värden används inte.'
@@ -93,7 +104,8 @@ export function specQualifications(row) {
         : cla ? 'Tillverkarens svenska modelltabell. Hjul och tillval kan påverka WLTP-värden och laddprestanda.'
         : explorer ? 'Svensk Premium Edition MY27.25. Hjul och utrustning påverkar WLTP-värden. Laddning och dragvikt gäller det aktuella modellåret, inte äldre Explorer.'
         : born ? 'Förbrukningen 14,2 kWh/100 km gäller grundversionen i den svenska bränsledeklarationen, oktober 2026. Batteriet är 79 kWh netto (84 kWh brutto). DC 183 kW gäller den aktuella internationella 79 kWh-tabellen; AC är 11 kW ombord, inte kabelns märkning.' : null,
-    practicalNote: chrPlus ? '416 liter bak med baksätet uppfällt och fem sittplatser. Bromsad dragvikt är 750 kg för FWD och 1 500 kg för AWD, med rätt dragutrustning. Dragkrok ingår inte automatiskt; kontrollera bilens utrustning och registreringsbevis.'
+    practicalNote: certified ? '484 liter bak upp till ryggst\u00f6den med s\u00e4tena uppf\u00e4llda, inklusive utrymmet under golvet. Det fr\u00e4mre bagaget ing\u00e5r inte. Dragvikten avser bromsat sl\u00e4p.'
+      : chrPlus ? '416 liter bak med baksätet uppfällt och fem sittplatser. Bromsad dragvikt är 750 kg för FWD och 1 500 kg för AWD, med rätt dragutrustning. Dragkrok ingår inte automatiskt; kontrollera bilens utrustning och registreringsbevis.'
       : idBuzz ? 'Bagagevolymen gäller med fem säten i bruk. Dragvikten är tillverkarens svenska uppgift för bromsat släp vid 12 % lutning med rätt dragutrustning. Kontrollera registreringsbeviset för bilen du överväger.'
       : i4 ? 'BMW anger 1 600 kg bromsad släpvagn vid 12 % lutning för typ 61HD. Lagerbilen har utrustningskod 3AC för utfällbar dragkrok; kontrollera registreringsbeviset. 75 kg kultryck är inte dragvikt. Bagagevolymen 470 liter gäller med baksätet uppfällt. Pressbilden visar samma i4 eDrive40-modell, inte nödvändigtvis lagerbilens färg och hjul.'
       : ev2 ? 'Fem sittplatser i bruk: 362 liter bak. 403 liter avser den separata fyrasitsversionens skjutbara baksäte, inte dessa bilar; 1 201 liter kräver fällt baksäte. Frunkens 15 liter ingår inte och basversionen har ingen frunk. Bromsad dragvikt är 750 kg med rätt utrustning; kontrollera registreringsbeviset.'

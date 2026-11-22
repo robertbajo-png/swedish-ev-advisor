@@ -8,6 +8,7 @@ import {ADAPTER as XPENG_G6_ADAPTER,assertXpG6PublicVariants} from './xpeng_g6_p
 import {ADAPTER as XPENG_G9_ADAPTER} from './xpeng_g9_publication.mjs';
 import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_pair_publication.mjs';
 import {ADAPTER as TAVASCAN_ADAPTER} from './cupra_tavascan_drive_publication.mjs';
+import {ADAPTER as POLESTAR3_ADAPTER} from './polestar_3_publication.mjs';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 
@@ -230,6 +231,14 @@ export async function applyXpG9Release(client,fresh,reviewed,approval,now=new Da
  return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,XPENG_G9_ADAPTER,undefined,{
   baselineHash:reviewed.database_baseline_sha256,
   verifyDelta:(before,after)=>validateG9PostG6Delta(before,after,fresh.plan)});
+}
+
+export async function applyPolestar3Release(client,fresh,reviewed,scopeHash,now=new Date()){
+ const {proveFreshPolestar3Release,validatePolestar3Delta}=await import('./polestar_3_release_scope.mjs');
+ proveFreshPolestar3Release(reviewed,fresh,scopeHash,now);
+ return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,POLESTAR3_ADAPTER,undefined,{
+  baselineHash:reviewed.database_baseline_sha256,
+  verifyDelta:(before,after)=>validatePolestar3Delta(before,after,fresh.plan)});
 }
 
 export function applyNewModelPlan(client,plan,expectedHash,now=new Date()){

@@ -55,6 +55,7 @@ jobs:
       - run: bun run verify:variant-refresh
       - run: bun run verify:price-refresh
       - run: bun run verify:price-evidence
+      - run: node --test tests/polestar-3-catalog.test.mjs tests/polestar-3-readback.test.mjs
       - run: bun run verify:dev-file-boundary
       - run: bun run verify:toyota-publication
       - run: bun run verify:cloudflare
@@ -113,6 +114,7 @@ jobs:
       - run: bun run verify:news-factual-notices
       - run: python -m unittest discover -s tests -p test_news_bmw_newsroom.py -v
       - run: python -m unittest discover -s tests -p test_image_rights.py -v
+      - run: python -m unittest discover -s tests -p test_polestar_3_press_web.py -v
       - run: bun run verify:licensed-images
       - run: bun run verify:kia-prices
       - run: bun run verify:current-intake
@@ -171,6 +173,7 @@ jobs:
       - run: bun run verify:catalog-audit
       - run: bun run verify:variant-refresh-extraction
       - run: python -m pip install -r requirements-source-intake.txt
+      - run: python -m unittest discover -s tests -p test_polestar_3_review.py
       - run: bun run verify:mazda-renault-specs
       - run: bun run verify:cla-specs
       - run: bun run verify:ford-specs
