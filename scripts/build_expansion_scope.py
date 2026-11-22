@@ -7,6 +7,10 @@ from canonical_model_names import normalize
 
 
 ROOT = Path(__file__).resolve().parents[1]
+BEV_MARKET_TO_PUBLIC = {
+    ("ford", "puma"): ("ford", "puma gen e"),
+    ("porsche", "macan"): ("porsche", "macan electric"),
+}
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -62,17 +66,22 @@ def build_expansion_scope(
         key = (market.get("normalized_brand", ""), market.get("normalized_model", ""))
         alias = aliases.get(key)
         model = canonical.get(key)
+        raw_key = model_key(market.get("brand_raw"), market.get("model_raw"))
+        bev_only = raw_key in BEV_MARKET_TO_PUBLIC or key in BEV_MARKET_TO_PUBLIC
+        unresolved_fuel = bev_only and (raw_key != key or market.get("fuel_type_raw") != "EL")
         ambiguous = boolish(market.get("needs_mapping")) or boolish(alias.get("needs_mapping") if alias else True)
-        if ambiguous or not alias or not model:
+        if ambiguous or unresolved_fuel or not alias or not model:
             quarantine.append({
                 "brand_raw": market.get("brand_raw", ""),
                 "model_raw": market.get("model_raw", ""),
                 "normalized_brand": key[0],
                 "normalized_model": key[1],
                 "market_rank": market_rank,
-                "reason": "needs_mapping" if ambiguous else "missing_alias_or_canonical_model",
+                "reason": "needs_mapping" if ambiguous or unresolved_fuel else "missing_alias_or_canonical_model",
                 "model_group": market.get("model_group", ""),
             })
+            continue
+        if BEV_MARKET_TO_PUBLIC.get(key) in public_keys:
             continue
         ranked.append({
             "market_rank": market_rank,

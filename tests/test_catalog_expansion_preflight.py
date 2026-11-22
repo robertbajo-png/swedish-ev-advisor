@@ -43,6 +43,31 @@ class ExpansionPreflightTests(unittest.TestCase):
         self.assertEqual(result['research_candidates'], [])
         self.assertEqual(result['mapping_quarantine'][0]['reason'], 'needs_mapping')
 
+    def test_exact_electric_names_exclude_only_the_corresponding_public_model(self):
+        for brand, raw, public_name in (
+            ('Ford', 'Puma', 'Puma Gen-E'),
+            ('Porsche', 'Macan', 'Macan Electric'),
+        ):
+            with self.subTest(brand=brand):
+                key = dict(normalized_brand=brand.lower(), normalized_model=raw.lower())
+                market = dict(self.market[0], brand_raw=brand.upper(), model_raw=raw.upper(),
+                              fuel_type_raw='EL', **key)
+                models, aliases = [dict(brand=brand, model=raw, **key)], [key]
+                public = dict(self.row, brand=brand, model=public_name)
+
+                def scope(row, records):
+                    return inventory([row], models, aliases, records, date(2026, 11, 15), 1, 1)
+
+                self.assertEqual(len(scope(market, [])['research_candidates']), 1)
+                self.assertEqual(scope(market, [public])['research_candidates'], [])
+                self.assertEqual(scope(market, [public])['mapping_quarantine'], [])
+                self.assertEqual(len(scope(market, [dict(public, validation_status='draft')])['research_candidates']), 1)
+                for mismatched in (dict(market, fuel_type_raw='B'), dict(market, fuel_type_raw=''),
+                                   dict(market, model_raw='OTHER'), dict(market, needs_mapping=True)):
+                    result = scope(mismatched, [public])
+                    self.assertEqual(result['research_candidates'], [])
+                    self.assertEqual(result['mapping_quarantine'][0]['reason'], 'needs_mapping')
+
     def test_report_is_inert_and_zero_is_not_missing(self):
         row = dict(self.row, ac_charge_kw=None)
         before = copy.deepcopy(row)
