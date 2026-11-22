@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { PGlite } from '@electric-sql/pglite';
+import { useNewsBudgetTestClock } from './test_news_budget_clock.mjs';
 
+const clock = useNewsBudgetTestClock();
 const db = new PGlite();
 const reserve = (o = {}) => db.query('select reserve_news_ab_ai($1,$2,$3,$4,$5,$6,$7,$8,$9) r',
   [o.permit || 'ab', o.manifest || 'b'.repeat(64), o.cell || 'model-full', o.id || randomUUID(),
@@ -76,7 +78,17 @@ try {
   assert.equal(cfg.enabled,false); assert.equal(cfg.publication_enabled,false);
   assert.equal(Number(cfg.daily_limit_micro_usd),250000); assert.equal(Number(cfg.monthly_limit_micro_usd),5000000);
   assert.equal(cfg.model,'gpt-5.4-mini');
+  clock.advanceToPricingExpiry();
+  await db.exec(`reset role;
+    insert into news_ab_test_permits(id,expires_at,maximum_micro_usd,manifest_hash,approval_note)
+    values('expiry',clock_timestamp()+interval '1 hour',200000,repeat('b',64),
+      'A valid permit cannot extend the historical pricing cutoff.');
+    set role service_role;`);
+  assert.equal((await reserve({permit:'expiry'})).reason,'ab_pricing_expired');
   console.log(JSON.stringify({news_ab_budget_ok:true,idempotent:true,ordinary_caps_only:true,
     two_model_rates:true,common_reviewer:true,one_attempt_per_cell_stage:true,owner_only_issuance:true,
-    unknown_usage_retained:true,model_mismatch_halts:true,production_off:true,public_denials:true}));
-} finally { await db.close(); }
+    unknown_usage_retained:true,model_mismatch_halts:true,production_off:true,public_denials:true,pricing_expiry:true}));
+} finally {
+  clock.restore();
+  await db.close();
+}

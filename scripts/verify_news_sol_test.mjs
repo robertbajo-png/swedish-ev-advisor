@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
+import {useNewsBudgetTestClock} from './test_news_budget_clock.mjs';
 
+const clock=useNewsBudgetTestClock();
 const db=new PGlite();
 const sql=name=>readFile(new URL(`../database/migrations/${name}`,import.meta.url),'utf8');
 const permit=randomUUID(), digest='a'.repeat(64), writerDigest='b'.repeat(64);
@@ -90,4 +92,4 @@ try {
   console.log(JSON.stringify({sol_single_trial_sql_ok:true,owner_only_permits:true,two_stages_once:true,
     exact_writer_hash:true,permit_expiry:true,total_reservations_capped:true,monthly_cap_unchanged:true,
     production_off:true,vehicle_data_unchanged:true,paid_calls:0}));
-} finally {await db.close();}
+} finally {clock.restore(); await db.close();}
