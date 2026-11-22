@@ -1,4 +1,45 @@
 {
+  "mercedes-glb-se-private-review": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Mercedes-Benz Sverige AB",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/pressreleases/nya-eldrivna-mercedes-benz-glb-visad-plats-foer-sju-och-faar-dra-upp-till-2000-kg-3420354",
+    "image_path_prefix": "/se/mercedes-benz-sverige/images/",
+    "model_title_pattern": "^Nya Mercedes-Benz GLB [(]2026[)]$",
+    "approved_image_paths": [
+      "/se/mercedes-benz-sverige/images/nya-mercedes-benz-glb-2026-3376630"
+    ],
+    "model_keys": [
+      "mercedes benz|glb"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yb6oifu0k3pjuz2aadu6pv",
+    "approved_source_sha256": "01ba09303394762f66c440ddcd2f3efdffbea8c5e8f98632b9803d358f102755",
+    "asset_author": "Mercedes-Benz AG",
+    "approved_original_dimensions": [
+      5000,
+      3333
+    ],
+    "publisher_responsive_variants": [
+      {
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_746,x_2500,y_1667/yb6oifu0k3pjuz2aadu6pv",
+        "width": 746,
+        "height": 497,
+        "sha256": "68706de6886914a5210bd3ae5874946f2aa097dc40852f4cd59ddc2b7451ba91"
+      },
+      {
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_1782,x_2500,y_1667/yb6oifu0k3pjuz2aadu6pv",
+        "width": 1782,
+        "height": 1188,
+        "sha256": "42df0da5096356264bffddbb7a236f1781ba6e8e93fb632eee8f9ec209965304"
+      }
+    ],
+    "preserve_original_jpeg": true,
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
   "polestar-3-have-private-3332240": {
     "origin": "https://www.mynewsdesk.com",
     "publisher": "Polestar / HAVE Kommunikation",

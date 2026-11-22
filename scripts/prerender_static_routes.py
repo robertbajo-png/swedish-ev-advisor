@@ -66,7 +66,9 @@ def display_model_name(brand: str, model: str, variant_name: str) -> str:
     model_text = str(model or "").strip()
     if brand == "Volkswagen" and model_text == "Id. Buzz":
         model_text = "ID. Buzz"
-    variant_text = strip_leading_brand(brand, variant_name)
+    label = re.sub(r"\s*\((?:lagerbil|best\u00e4llningsbil)(?:\s+[a-z0-9]+)?\)\s*$",
+                   "", str(variant_name or ""), flags=re.IGNORECASE)
+    variant_text = strip_leading_brand(brand, label)
     if not variant_text:
         return model_text
 

@@ -228,7 +228,7 @@ try {
       assert.match(row.image_url, /mercedes-benz-cla-press-/);
       for (const field of ['price_sek','wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw','ac_charge_kw','tow_kg','boot_liters','seats','drivetrain'])
         assert(row[field] != null, 'Completed CLA profile: ' + field);
-      assert.match(await page.locator('.vehicleDetailHero').innerText(), /beställningsbil/);
+      assert.doesNotMatch(await page.locator('.vehicleDetailHero').innerText(), /best\u00e4llningsbil|lagerbil/i);
       assert.match(await page.locator('#specifikationer').innerText(), /Monterad dragkrok ingår inte automatiskt/);
       assert.match(new URL(page.url()).pathname, /-lagerbil\/?$/);
     }

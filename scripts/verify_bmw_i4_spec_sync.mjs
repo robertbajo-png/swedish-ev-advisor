@@ -60,7 +60,11 @@ try{
  const staged=(await db.query('SELECT * FROM extracted_variant_drafts')).rows[0];
  assert.equal(staged.validation_status,'published');assert.equal(staged.extraction_payload.previous_canonical.id,'bmw');
  const info=specQualifications(current);assert.equal(info.rangeInterval,null);assert.equal(info.consumptionInterval,'14,9–17,1 kWh/100 km');
- assert.match(info.practicalNote,/75 kg kultryck/);assert.match(info.consumptionNote,/inte ett individuellt/);assert.equal(info.specSources.length,2);
+ assert.match(info.practicalNote,/75 kg kultryck/);
+ assert.match(info.consumptionNote,/gäller den tekniska typen, inte det enskilda exemplaret/);
+ assert.match(info.consumptionNote,/588 km gäller det BMW-exemplar som källan beskriver/);
+ assert.equal(info.specSources.length,2);
+ assert.doesNotMatch([info.consumptionNote,info.practicalNote,...info.specSources.map(source=>source.label)].join(' '),/lagerbil/i);
  assert.equal(specQualifications({...current,brand:'Other'}).consumptionInterval,null);
  assert.equal(specQualifications({...current,source_quote:''}).consumptionInterval,null);
  await assert.rejects(applySpecPlan(db,plan,specPlanHash(plan),now));

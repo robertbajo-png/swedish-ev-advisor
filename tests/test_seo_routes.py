@@ -47,6 +47,14 @@ class SeoRouteTests(unittest.TestCase):
                 vehicle = public_variant_routes([{**row, "price_sek": 600000, "available_confirmed": flag}])[0]["json_ld"][0]
                 self.assertEqual(vehicle["offers"].get("availability"), "https://schema.org/InStock" if flag is True else None)
 
+    def test_prerender_hides_retired_inventory_suffix_without_changing_the_url(self):
+        row = {"brand": "BMW", "model": "i4", "variant_name": "eDrive40 (lagerbil FW37556)",
+               "validation_status": "published"}
+        route = public_variant_routes([row])[0]
+        self.assertEqual(route["path"], "/bilar/bmw-i4-edrive40-lagerbil-fw37556")
+        self.assertEqual(route["json_ld"][0]["name"], "BMW i4 eDrive40")
+        self.assertNotIn("lagerbil", route["title"].lower())
+
     def test_polestar_performance_uses_certified_combined_interval(self):
         row = {"brand": "Polestar", "model": "3", "variant_name": "Performance", "validation_status": "published",
                "wltp_range_km": 601, "source_url": "https://www.polestar.com/se/polestar-3/specifications/",

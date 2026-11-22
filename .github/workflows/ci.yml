@@ -59,6 +59,7 @@ jobs:
       - run: node scripts/verify_variant_photo_migration.mjs
       - run: node --test tests/manufacturer-from-price.test.mjs
       - run: node --test tests/ford-puma-identity.test.mjs
+      - run: node --test tests/mercedes-glb-review.test.mjs tests/mercedes-glb-release.test.mjs tests/mercedes-glb-staged-media.test.mjs tests/vehicle-display-names.test.mjs
       - run: bun run verify:dev-file-boundary
       - run: bun run verify:toyota-publication
       - run: bun run verify:cloudflare
@@ -179,6 +180,7 @@ jobs:
       - run: python -m unittest discover -s tests -p test_hyundai_ioniq5_review.py -v
       - run: python -m unittest discover -s tests -p test_polestar_3_review.py
       - run: python -m unittest discover -s tests -p test_ford_puma_gen_e_review.py
+      - run: python -m unittest discover -s tests -p test_mercedes_glb_press_web.py
       - run: bun run verify:mazda-renault-specs
       - run: bun run verify:cla-specs
       - run: bun run verify:ford-specs

@@ -64,8 +64,10 @@ assert(unknownAdvice.excluded_unknown_count > 0);
 const audi = exportPayload.records.find(row=>row.brand==='Audi'&&row.model==='A6 E-Tron');
 assert(audi,'Current Audi profile required');
 const audiReport = deterministicCompareReport(normalizePublicVariants([audi]));
-assert.equal(audiReport.compared[0].name,`${audi.brand} ${audi.variant_name}`,
-  'Comparison names must not repeat the model before an exact Sportback variant');
+assert.equal(audiReport.compared[0].name,'Audi A6 Sportback e-tron performance S-line 270 kW MY2027',
+  'Comparison names must not repeat the model or show retired stock labels');
+assert.equal(audiReport.compared[0].variant_key,`${audi.brand}|${audi.model}|${audi.variant_name}`,
+  'The comparison key must still refer to the exact canonical variant');
 
 const variantKeys = advice.shortlist.map((row) => `${row.brand}|${row.model}|${row.variant_name}`);
 const compareRequest = new Request('https://seekev.se/api/compare', {
