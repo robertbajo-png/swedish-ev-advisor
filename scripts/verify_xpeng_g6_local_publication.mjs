@@ -175,9 +175,12 @@ try {
     FROM pg_attribute WHERE attrelid=$1::regclass AND attnum>0 AND NOT attisdropped`, [variantView]);
   const changedPrice = variantColumns.names.map(name => name === 'price_sek'
     ? `CASE WHEN canonical_model_id='${target.id}'::uuid THEN price_sek+1 ELSE price_sek END AS price_sek` : name).join(', ');
+  const changedPhoto = variantColumns.names.map(name => name === 'image_url'
+    ? `CASE WHEN canonical_model_id='${target.id}'::uuid THEN NULL::text ELSE image_url END AS image_url` : name).join(', ');
   for (const [name, original, broken, error] of [
     [variantView, variantsSql, `SELECT * FROM (${variantsSql}) v WHERE v.canonical_model_id<>'${target.id}'::uuid`, /G6 public variant IDs or visibility/],
     [variantView, variantsSql, `SELECT ${changedPrice} FROM (${variantsSql}) v`, /Unexpected public G6 field: price_sek/],
+    [variantView, variantsSql, `SELECT ${changedPhoto} FROM (${variantsSql}) v`, /Unexpected public G6 field: image_url/],
     [modelView, modelsSql, `SELECT * FROM (${modelsSql}) m WHERE m.id<>'${target.id}'::uuid`, /G6 model must be visible anonymously/],
   ]) {
     await setView(name, broken);
@@ -190,6 +193,11 @@ try {
     }
   }
 
+  await db.exec(`DROP VIEW ${modelView};
+    CREATE VIEW ${modelView} WITH (security_barrier=true) AS
+    SELECT id,brand,model,body_type,market_seen,available_confirmed,discontinued_candidate,coming_or_low_volume,published_at
+    FROM (${modelsSql}) m;
+    GRANT SELECT ON ${modelView} TO anon,authenticated,service_role;`);
   const result = await apply();
   assert(result.committed);
   assert.equal(result.variants_inserted, 3);
@@ -245,7 +253,8 @@ try {
   const receipt = {status: 'passed_local_only', source_review_hash: reviewHash, captured_at: capturedAt,
     plan_hash: planHash, model: 'xpeng|g6', variants: 3, technical_fields: 27,
     rollback: true, staging_collision: true, concurrent_change: true, exact_replay: true, anonymous_readback: true,
-    anonymous_before_commit: true, anonymous_projection_failure_cases_rolled_back: 3,
+    anonymous_before_commit: true, anonymous_projection_failure_cases_rolled_back: 4,
+    production_model_view_without_photos: true,
     preserved_toyota_variants: visibleBefore.length, database_fixture: liveScope ? 'isolated PGlite, scoped production readback' : 'isolated PGlite, synthetic scope',
     preview_rows_sha256: publicationHash(previewRows), approval_route_rehearsed: Boolean(approvedRoute),
     locked_catalog_guard_rehearsed: Boolean(approvedRoute),

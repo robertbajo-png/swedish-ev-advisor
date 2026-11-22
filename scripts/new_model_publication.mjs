@@ -194,10 +194,14 @@ async function verifyG6BeforeCommit(client,plan,baseline){
  const variants=projection.variants.filter(row=>row.canonical_model_id===id);
  assert.deepEqual(variants.map(row=>row.id).sort(),plan.targets.map(t=>t.id).sort(),'G6 public variant IDs or visibility changed');
  assertXpG6PublicVariants(variants,plan);
- fieldsEqual(one(projection.models.filter(row=>row.id===id),'G6 model must be visible anonymously'),{
+ const model=one(projection.models.filter(row=>row.id===id),'G6 model must be visible anonymously');
+ fieldsEqual(model,{
   brand:plan.intake.model.brand,model:plan.intake.model.model,body_type:plan.intake.model.body_type,
-  image_url:plan.image.asset_url,image_source_url:plan.image.source_url,market_seen:true,
+  market_seen:true,
   ...Object.fromEntries(['available_confirmed','discontinued_candidate','coming_or_low_volume'].map(k=>[k,plan.expected_model[k]]))});
+ // Older model views omit photos; the canonical row and every public variant still require the exact photo.
+ if(Object.hasOwn(model,'image_url')||Object.hasOwn(model,'image_source_url'))
+  fieldsEqual(model,{image_url:plan.image.asset_url,image_source_url:plan.image.source_url});
  if(baseline){
   same(projection.variants.filter(row=>row.canonical_model_id!==id),baseline.variants,'Existing public variants changed');
   same(projection.models.filter(row=>row.id!==id),baseline.models,'Existing public models changed');
