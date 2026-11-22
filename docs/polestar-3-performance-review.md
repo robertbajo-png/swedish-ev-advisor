@@ -32,7 +32,13 @@ files. Their original and publisher-size hashes match, the image
 audit and production build pass, and the existing 92-record export
 is unchanged. No Polestar variant has been written to production.
 
-Next: repeat the read-only capture and isolated insertion on the
-deployed CUPRA baseline. Keep the three files, registered rights
-evidence and the scoped writer together, then prove the final code
-with the exact-main browser check before any Polestar insertion.
+Fresh source replay and read-only database capture now match deployed
+CUPRA main `642867b`. The isolated transaction produced a 93-row
+candidate without changing the 92 public rows. The forced late failure
+rolled back, an exact replay made no changes, and both private
+viewports passed with the verified press image and certified interval.
+This run overlaid the Polestar branch, so it is not exact-main proof.
+
+Next: stage the scoped writer and the three verified media files
+together, then repeat the browser proof with exact main before
+inserting the Performance variant in production.
