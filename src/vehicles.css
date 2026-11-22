@@ -27,6 +27,7 @@
 .vehicleCard .homeVehiclePhoto img { width: 100%; height: 100%; object-fit: cover; }
 .vehicleCard img[src*="/born-2026/cc-lite/mobile/"] { object-position: center 28%; }
 .vehicleCard .homeVehicleBody { display: flex; flex-direction: column; padding: 20px; flex: 1; }
+.vehicleCardDetails { display: flex; flex: 1; flex-direction: column; }
 .vehicleCard .homeVehicleBrand { font-size: 12px; color: var(--muted); }
 .vehicleCardIdentity { min-height: 104px; display: grid; align-content: start; gap: 4px; margin-bottom: 12px; }
 .vehicleCard.homeVehicleCard .vehicleCardTitle { min-height: 0; font-size: 20px; line-height: 1.3; margin: 0; font-weight: 700; }
@@ -35,7 +36,6 @@
 .vehicleVariantPicker > span { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
 .vehicleVariantPicker small { font-size: 11px; font-weight: 400; }
 .vehicleVariantPicker select { width: 100%; min-width: 0; height: 44px; padding: 8px 32px 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: #f9faf9; color: var(--ink); font: inherit; font-size: 13px; text-overflow: ellipsis; }
-.vehicleCardIdentity:has(.vehicleVariantPicker) { min-height: 104px; }
 .vehicleCard .homeVehiclePrice { font-size: 22px; margin: 0 0 16px; line-height: 1.4; font-weight: 700; }
 .vehicleCard .homeVehiclePrice > span { display: block; color: var(--muted); font-size: 12px; font-weight: 400; margin-top: 4px; }
 .vehicleCard .homeVehicleSpecs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-block: 16px; border-block: 1px solid var(--line); margin: 0; }
@@ -68,6 +68,15 @@
 .vehicleFilterNote { font-size: 12px; color: var(--muted); }
 .catalogResults { min-width: 0; }
 .vehicleCatalog .carGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+@media (min-width: 561px) {
+  @supports (grid-template-rows: subgrid) {
+    /* Share the photo, model identity, details and credit tracks within each row. */
+    .vehicleCatalog .carGrid > .vehicleCard { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+    .vehicleCatalog .vehicleCard .homeVehicleBody { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; min-width: 0; }
+    .vehicleCatalog .vehicleCard .homeVehiclePhoto { align-self: start; }
+    .vehicleCatalog .vehicleCardIdentity { min-height: 0; }
+  }
+}
 .catalogToolbar { display: flex; align-items: center; gap: 24px; min-height: 60px; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 16px; }
 .catalogResultCount { color: var(--muted); font-size: var(--ui-control-size); margin-right: auto; }
 .catalogResultCount > span { display: inline-block; font-size: 12px; }
