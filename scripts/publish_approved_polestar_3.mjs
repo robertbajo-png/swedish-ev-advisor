@@ -24,6 +24,14 @@ const json = async path => {
 const writeOnce = (path, value) => writeFile(path, JSON.stringify(value, null, 2)+'\n', {flag:'wx'});
 const isLocal = path => !/[\\/]onedrive(?:commercial|consumer)?(?:[\\/]|$)/i.test(path);
 
+export function assertPolestarReleaseCheckout(git,commit) {
+  assert.match(commit,/^[a-f0-9]{40}$/);
+  assert.equal(git('ls-remote','origin','refs/heads/main'),commit+'\trefs/heads/main','Main changed since Polestar review');
+  assert.equal(git('rev-parse','HEAD'),commit,'Use the exact main checkout');
+  assert.equal(git('status','--porcelain','--untracked-files=no','--','scripts','src','database','public/media'),'',
+    'Release code or media changed');
+}
+
 function requireCommit(result, fresh) {
   assert.deepEqual([result.committed,result.already_applied,result.variants_inserted,result.anonymous_before_commit,result.paid_calls],
     [true,false,1,true,0]);
@@ -109,12 +117,7 @@ async function main() {
   else assert(!output,'Checking and simulation do not create a journal');
   const journal=name=>join(output,name+'.json');
   const loadCatalog=()=>json(join(root,catalogPath));
-  const requireMain=commit=>{
-    assert.match(commit,/^[a-f0-9]{40}$/);
-    assert.equal(git('ls-remote','origin','refs/heads/main'),commit+'\trefs/heads/main','Main changed since Polestar review');
-    assert.equal(git('rev-parse','HEAD'),commit,'Use the exact main checkout');
-    assert.equal(git('status','--porcelain','--untracked-files=no','--','scripts','src','database','public/media'),'Release code or media changed');
-  };
+  const requireMain=commit=>assertPolestarReleaseCheckout(git,commit);
   const image=readPolestar3Image();
   if(resume) {
     assert(!values.reviewed&&!values.ui&&!values.fresh,'Recover only from the committed journal');
