@@ -58,6 +58,26 @@ export async function exportPolestar3Commit({committed,attempt,scopeHash,publicR
   return {status:'export_verified',added:1,preserved:baseline.length,catalog_sha256,paid_calls:0};
 }
 
+export async function rehearsePolestar3Export({reviewed,fresh,scopeHash,baseline,test,now}) {
+  const [added]=test.added, target=fresh.plan.targets[0], model=fresh.plan.expected_model;
+  const row={...added,id:target.id,canonical_model_id:model.id};
+  const committed={reviewed,fresh,result:test.receipt,baseline,committed_at:now.toISOString(),scope_hash:scopeHash};
+  const attempt={scope_hash:scopeHash,fresh_plan_hash:fresh.plan_hash,baseline_sha256:reviewed.baseline_sha256};
+  let local={records:baseline},writes=0;
+  const run=(rows=[...baseline,row])=>exportPolestar3Commit({
+    committed,attempt,scopeHash,now,publicRows:async()=>rows,
+    loadCatalog:async()=>local,saveCatalog:async next=>{local=next;writes++;},
+  });
+  await assert.rejects(run([...baseline,{...row,id:'wrong'}]),/variant ID/);
+  const changed={...baseline[0],price_sek:baseline[0].price_sek===150000?151000:150000};
+  await assert.rejects(run([changed,...baseline.slice(1),row]),/catalog record/);
+  assert.equal(writes,0);
+  const written=await run();
+  assert.deepEqual([written.preserved,written.added,writes],[baseline.length,1,1]);
+  assert.deepEqual(await run(),written);
+  assert.equal(writes,1);
+}
+
 async function main() {
   const {values}=parseArgs({options:{
     reviewed:{type:'string'},ui:{type:'string'},fresh:{type:'string'},connector:{type:'string'},
@@ -136,8 +156,10 @@ async function main() {
     if(values.simulate) {
       const now=new Date();
       const test=await rehearsePolestar3({plan:freshPlan,fixture:await readPublishedFixture(client)},baseline,now,{reviewed,fresh,reviewedHash});
+      await rehearsePolestar3Export({reviewed,fresh,scopeHash:reviewedHash,baseline,test,now});
       console.log(JSON.stringify({status:'isolated_release_verified',preserved:baseline.length,inserted:test.added.length,
-        anonymous_before_commit:test.receipt.anonymous_before_commit,late_rollback:true,repeat_refused:true,production_writes:0,paid_calls:0}));
+        anonymous_before_commit:test.receipt.anonymous_before_commit,late_rollback:true,repeat_refused:true,
+        export_once:true,production_writes:0,paid_calls:0}));
       return;
     }
     if(!values.apply) {

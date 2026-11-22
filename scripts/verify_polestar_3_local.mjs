@@ -71,7 +71,9 @@ export async function rehearsePolestar3({plan, fixture}, baseline, now, scoped =
       'Live and isolated baseline rows differ');
     const before = await publicationSnapshot(db);
     const rebuilt = buildNewModelPlan(before, plan.intake, plan.image, now);
-    const apply = (target = rebuilt, time = now) => scoped
+    assert.deepEqual(rebuilt,plan,'Isolated scope differs from the reviewed source plan');
+    const targetPlan = scoped ? plan : rebuilt;
+    const apply = (target = targetPlan, time = now) => scoped
       ? applyPolestar3Release(db,{...scoped.fresh,plan:target,plan_hash:publicationHash(target)},scoped.reviewed,scoped.reviewedHash,time)
       : applyNewModelPlan(db,target,publicationHash(target),time);
     await assert.rejects(applyNewModelPlan({query: () => assert.fail('Remote query attempted')},
@@ -85,11 +87,11 @@ export async function rehearsePolestar3({plan, fixture}, baseline, now, scoped =
       x => {x.intake.market.row.registrations_last_month = 16;},
       x => {x.expected_alias.brand_raw = 'VOLVO';},
     ]) {
-      const changed = structuredClone(rebuilt);
+      const changed = structuredClone(targetPlan);
       mutate(changed);
       await assert.rejects(apply(changed));
     }
-    await assert.rejects(apply(rebuilt, new Date(+now + 910000)), /Fresh/);
+    await assert.rejects(apply(targetPlan, new Date(+now + 910000)), /Fresh/);
     assert.deepEqual(await publicationSnapshot(db), before);
 
     await db.exec(`CREATE FUNCTION public.polestar_3_late_failure() RETURNS trigger LANGUAGE plpgsql AS $$
@@ -126,7 +128,7 @@ export async function rehearsePolestar3({plan, fixture}, baseline, now, scoped =
     assert.deepEqual(publicRows.filter(row => row.id !== targetId), initial, 'Existing public variants changed');
     const added = catalogWithComparableTimes(publicRows.filter(row => row.id === targetId));
     assert.equal(added.length, 1);
-    return {plan: rebuilt, added, receipt};
+    return {plan: targetPlan, added, receipt};
   } finally { await db.close(); }
 }
 
