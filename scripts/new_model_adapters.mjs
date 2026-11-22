@@ -5,7 +5,8 @@ import {policy as volkswagenIdBuzz} from './volkswagen_id_buzz_publication.mjs';
 import {policy as xpengG6} from './xpeng_g6_publication.mjs';
 import {policy as renault4Evolution} from './renault_4_evolution_publication.mjs';
 import {policy as renault4Pair} from './renault_4_pair_publication.mjs';
-const adapters=new Map([kiaEv2,toyotaChrPlus,volkswagenIdBuzz,xpengG6,renault4Evolution,renault4Pair].map(policy=>[policy.adapter,policy]));
+import {policy as cupraTavascan} from './cupra_tavascan_drive_publication.mjs';
+const adapters=new Map([kiaEv2,toyotaChrPlus,volkswagenIdBuzz,xpengG6,renault4Evolution,renault4Pair,cupraTavascan].map(policy=>[policy.adapter,policy]));
 export function newModelAdapter(name){
  const adapter=adapters.get(name);assert(adapter,'Unregistered new-model adapter');return adapter;
 }

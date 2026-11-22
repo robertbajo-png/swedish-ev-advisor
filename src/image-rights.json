@@ -858,6 +858,34 @@
       ],
       "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
       "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
+    },
+    {
+      "model_key": "cupra|tavascan",
+      "source_url": "https://www.mynewsdesk.com/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079",
+      "evidence_url": "https://www.mynewsdesk.com/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079",
+      "license_url": "https://www.mynewsdesk.com/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079",
+      "license_id": "Manufacturer-media-use",
+      "evidence_quote": "Materialet kan downloades af journalister, bloggere, meningsdannere etc. | forudsat at materialet er uredigeret og publiceret i sin helhed",
+      "publisher_id": "cupra-tavascan-dk-mynewsdesk",
+      "author": "SEAT & CUPRA Danmark",
+      "credit": "SEAT & CUPRA Danmark / pressbild",
+      "content_sha256": "9c79705e02a2ca65b8a9aeefc2718b83272453dd132c509c576e4262dd38a697",
+      "source_content_sha256": "15d7196f1f1298043f2f5500ae96b6a626ab4244e9284cc7bad955f43298cbb5",
+      "metadata_sha256": "b63bb1e131a511c351abd8524e5bb06d742b20aed75c68bae2a6a90696d87d13",
+      "full_frame": true,
+      "status": "documented",
+      "reviewed_at": "2026-11-20",
+      "asset_url": "/media/vehicles/cupra-tavascan-press-9c79705e02a2.jpg",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yo7rqgovr2g020ec3tyins",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yo7rqgovr2g020ec3tyins",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
+      "changes": "Hela bildutsnittet bevaras. Endast storlek och format har anpassats."
     }
   ]
 }

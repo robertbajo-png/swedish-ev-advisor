@@ -199,5 +199,26 @@
     "download_label": "Ladda ner",
     "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
+  "cupra-tavascan-dk-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "SEAT & CUPRA Danmark",
+    "official_link_evidence": "https://www.mynewsdesk.com/dk/seat-danmark/pressreleases/cupra-danmark-lancerer-skrap-pris-paa-tavascan-i-fire-spaendende-konfigurationer-3336201",
+    "model_keys": [
+      "cupra|tavascan"
+    ],
+    "model_title_pattern": "^DSC00621_bred\\.jpg$",
+    "image_path_prefix": "/dk/seat-danmark/images/",
+    "approved_image_paths": [
+      "/dk/seat-danmark/images/dsc00621-bred-punktum-jpg-3072079"
+    ],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yo7rqgovr2g020ec3tyins",
+    "approved_source_sha256": "15d7196f1f1298043f2f5500ae96b6a626ab4244e9284cc7bad955f43298cbb5",
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Brug i medier",
+    "download_label": "Download",
+    "permission_excerpt": "Materialet kan downloades af journalister, bloggere, meningsdannere etc.",
+    "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
   }
 }
