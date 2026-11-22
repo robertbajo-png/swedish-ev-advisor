@@ -51,11 +51,31 @@ used. The smaller file was verified against the original frame.
   schema and comparison against a seven-seat Kia EV9. No production
   database, Pages, DNS, news or settings were changed.
 
-Next: complete the staged reader CI and static SEO checks, then implement
-the narrow fresh-source publisher bound to that staged deployment and
-current catalog baseline. Run CI on the exact main commit
-before a production insertion or distribution. No DC migration is necessary
-for this 233 kW variant.
+## Guarded production path
+
+[Support PR #108](https://github.com/robertbajo-png/swedish-ev-advisor/pull/108)
+is merged. [Exact-main CI](https://github.com/robertbajo-png/swedish-ev-advisor/actions/runs/45075042153)
+passed all 208 checks. The separate guarded operator requires a clean
+exact-main checkout, its successful push CI, a matching live reader
+bundle and both byte-exact live press assets, 104 unchanged catalog
+records, and a new current capture before a scoped write. It also
+requires the existing validated manufacturer-from-price constraints.
+
+The static test added exactly one URL to the 123 deployed URLs,
+retained seven news stories and rendered 40 old variant redirects.
+The vehicle schema distinguishes the starting-price property from an
+offer. The real-source isolated command rehearsal completed check,
+one atomic insert and read-only export recovery. Old captures, wrong
+seals, duplicate commits and altered export journals were rejected.
+
+Use `publish_hyundai_ioniq9.mjs --prepare` with the isolated readback and
+browser proof, including its sibling SEO receipt. With a fresh source
+capture, the default command only checks prerequisites. The scoped
+commit takes the exact checked release seal and an exclusive private
+journal; the separate export uses that journal and two matching
+anonymous readbacks. Recover an interrupted export rather than inserting
+the variant again. After the validated export, build and deploy the
+catalog separately. No DC migration is needed for this 233 kW variant.
 
 [config]: https://lager.hyundai.se/model/IONIQ%209/GOW7YCZ7ZHH530?customer=private&ext=R5P&int=NNB
 [model]: https://www.hyundai.com/se/sv/bilar/ioniq9.html

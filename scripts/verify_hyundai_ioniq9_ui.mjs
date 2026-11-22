@@ -148,6 +148,7 @@ try{
   await new Promise((done,reject)=>server.httpServer.close(error=>error?reject(error):done()));
 }
 const report={status:'ioniq9_private_ui_verified',output,checks,comparison:true,existing_records:original.length,
+  catalog_sha256:catalogHash(candidate),
   publication_approved:false,production_writes:0,paid_calls:0};
 await writeFile(join(output,'ui-report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify(report));

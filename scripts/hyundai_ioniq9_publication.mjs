@@ -123,7 +123,7 @@ export function readIoniq9Capture(path){
 
 function readPrivateImage(image){
   assert.deepEqual(image,imageMetadata(image.metadata_sha256),'Require the reviewed model-level Hyundai image');
-  return evidence(privateRoot(),'ioniq9-reviewed-original.jpg',12_000_000);
+  return evidence(join(root,'public','media','vehicles'),basename(imageUrl),12_000_000);
 }
 
 function validateIntake(intake){

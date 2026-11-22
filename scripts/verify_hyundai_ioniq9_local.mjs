@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {mkdtemp,realpath,writeFile} from 'node:fs/promises';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {parseArgs} from 'node:util';
 import {PGlite} from '@electric-sql/pglite';
 import {MODEL,policy,readIoniq9Capture} from './hyundai_ioniq9_publication.mjs';
@@ -11,11 +12,18 @@ import {catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connecto
 import {applyNewModelPlan,buildNewModelPlan,publicationHash,publicationSnapshot} from './new_model_publication.mjs';
 import {catalogHash,compareCatalogs,normalizeCatalog,variantKey} from './sync_public_catalog.mjs';
 
-async function readScope(db,intake){
+export async function readIoniq9Snapshot(db,intake){
   assert.equal((await db.query('SHOW transaction_read_only')).rows[0].transaction_read_only,'on');
-  const rows=async(table,predicate='',args=[])=>(
-    await db.query('SELECT to_jsonb(t) AS row FROM public.'+table+' t '+predicate+' ORDER BY id',args)
-  ).rows.map(r=>r.row);
+  if(typeof db.setTypeParser==='function')db.setTypeParser(1082,value=>value);
+  const rows=async(table,predicate='',args=[])=>JSON.parse(JSON.stringify((
+    await db.query('SELECT t.* FROM public.'+table+' t '+predicate+' ORDER BY id',args)
+  ).rows)).map(row=>{
+    for(const key of ['month','first_seen_month','last_seen_month'])if(row[key]!=null){
+      assert.match(row[key],/^\d{4}-\d{2}-\d{2}(?:T00:00:00\.000Z)?$/);
+      row[key]=row[key].slice(0,10);
+    }
+    return row;
+  });
   const only=items=>{assert.equal(items.length,1,'Require just one exact IONIQ 9 discovery record');return items[0];};
   const terms=[MODEL.normalized_brand,MODEL.normalized_model];
   const key='WHERE normalized_brand=$1 AND normalized_model=$2';
@@ -30,7 +38,8 @@ async function readScope(db,intake){
   assert.equal((await rows('canonical_model_variants','WHERE canonical_model_id=$1',[model.id])).length,0);
   assert.equal((await rows('extracted_variant_drafts','WHERE canonical_model_id=$1 OR (source_url=$2 AND variant_name=$3)',
     [model.id,policy.primaryUrl,intake.drafts[0].variant_name])).length,0);
-  return {fixture:await readPublishedFixture(db),databaseRows:await rows('public_ev_variants'),
+  const databaseRows=(await db.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id')).rows.map(r=>r.row);
+  return {fixture:await readPublishedFixture(db),databaseRows,
     expected:{expected_model:model,expected_alias:alias,expected_market:exact,expected_monthly:months,expected_sources:sources}};
 }
 
@@ -75,7 +84,7 @@ export async function rehearseIoniq9(scope,intake,image,baseline,now){
     assert.deepEqual(await anonymousCatalogRows(db),initial);
     await db.exec('DROP TRIGGER ioniq9_late_failure ON public.market_models');
     const receipt=await apply();
-    assert.deepEqual([receipt.committed,receipt.variants_inserted],[true,1]);
+    assert.deepEqual([receipt.committed,receipt.variants_inserted,receipt.anonymous_before_commit],[true,1,true]);
     const after=await publicationSnapshot(db);
     assert.equal((await apply()).already_applied,true);
     assert.deepEqual(await publicationSnapshot(db),after,'Exact replay changed rows');
@@ -100,7 +109,7 @@ async function main(){
   const {intake,image,reviewHash}=readIoniq9Capture(values.review);
   const snapshot=await openCatalogSnapshot(await catalogConnectorPath(root,values['client-module']));
   let scope;
-  try{scope=await readScope(snapshot.client,intake);}finally{await snapshot.close();}
+  try{scope=await readIoniq9Snapshot(snapshot.client,intake);}finally{await snapshot.close();}
   const folder=await mkdtemp(join(release,'hyundai-ioniq9-local-'));
   const {base,proof}=await readCommittedPublicBaseline(release,folder,{imageTools:true});
   assert.equal(execFileSync('git',['ls-remote','origin','refs/heads/main'],{encoding:'utf8',timeout:20000}).trim(),
@@ -112,7 +121,7 @@ async function main(){
   assert.deepEqual(records.filter(row=>old.has(variantKey(row))),base);
   const report={status:'ioniq9_local_insertion_verified',...proof,technical_fields:9,candidate_count:records.length,
     candidate_sha256:catalogHash(records),plan_sha256:publicationHash(plan),review_sha256:reviewHash,
-    historical_months_preserved:plan.expected_monthly.length,late_rollback:true,exact_replay_noop:true,
+    historical_months_preserved:plan.expected_monthly.length,late_rollback:true,exact_replay_noop:true,anonymous_before_commit:true,
     publication_approved:false,production_writes:0,paid_calls:0};
   const save=(name,data)=>writeFile(join(folder,name),JSON.stringify(data,null,2)+'\n',{flag:'wx'});
   await save('candidate-catalog.json',{status:'local_only',publication_approved:false,records});
@@ -121,7 +130,7 @@ async function main(){
   console.log(JSON.stringify({...report,folder}));
 }
 
-await main().catch(error=>{
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main().catch(error=>{
   console.error(JSON.stringify({status:'held',reason:error.message.split('\n')[0],
     location:error.stack?.split('\n').find(line=>/\.mjs:\d+:\d+/.test(line))?.trim(),production_writes:0}));
   process.exitCode=1;

@@ -312,6 +312,14 @@ export async function applyGlbRelease(client,fresh,scope,target,approvedHash,now
   baselineError:'Anonymous catalog changed before GLB writes'});
 }
 
+export async function applyIoniq9Release(client,fresh,scope,target,seal,now=new Date()){
+ const {proveIoniq9Release,assertStartingPriceMigration,assertIoniq9PublishedRows}=await import('./hyundai_ioniq9_release.mjs');
+ proveIoniq9Release(scope,fresh,target,seal,now);
+ return applyModelTransaction(client,fresh,publicationHash(fresh),now,IONIQ9_ADAPTER,undefined,{
+  baselineHash:scope.database_baseline_sha256,requireMigration:assertStartingPriceMigration,check:assertIoniq9PublishedRows,
+  baselineError:'Anonymous catalog changed before IONIQ 9 writes'});
+}
+
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now);
