@@ -47,6 +47,20 @@ class SeoRouteTests(unittest.TestCase):
                 vehicle = public_variant_routes([{**row, "price_sek": 600000, "available_confirmed": flag}])[0]["json_ld"][0]
                 self.assertEqual(vehicle["offers"].get("availability"), "https://schema.org/InStock" if flag is True else None)
 
+    def test_polestar_performance_uses_certified_combined_interval(self):
+        row = {"brand": "Polestar", "model": "3", "variant_name": "Performance", "validation_status": "published",
+               "wltp_range_km": 601, "source_url": "https://www.polestar.com/se/polestar-3/specifications/",
+               "source_quote": "https://www.polestar.com/se/manual/polestar-3/2027/article/certified-wltp/ | "
+                               "Performance | 742 | 601 | 20,5 | 649 | 524 | 23,1"}
+        for source, expected in ((row, "524\u2013601 km"), ({**row, "variant_name": "Dual motor"}, "601 km"),
+                                 ({**row, "source_quote": row["source_quote"].replace("/2027/", "/2026/")}, "601 km")):
+            with self.subTest(variant=source["variant_name"], quote=source["source_quote"]):
+                route = public_variant_routes([source])[0]
+                self.assertIn(expected, route["description"])
+                properties = {item["name"]: item["value"] for item in route["json_ld"][0]["additionalProperty"]}
+                self.assertEqual(properties["WLTP-r\u00e4ckvidd"], expected)
+                self.assertNotIn("742 km", route["description"])
+
     def test_prerender_preserves_zero_and_price_expiry_not_missing_specs(self):
         row = {"brand": "Kia", "model": "Ev6", "variant_name": "RWD", "validation_status": "published",
                "price_sek": 600000, "price_valid_until": "2026-12-31", "tow_kg": 0, "dc_charge_kw": None}

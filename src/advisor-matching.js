@@ -84,11 +84,20 @@ function nameMatches(value, expected) {
   return haystack.includes(folded(expected).replace(/ /g, ''));
 }
 
+function rangeNeedsConfiguration(row, target, qualifications = specQualifications(row)) {
+  const maximum = number(row.wltp_range_km);
+  const minimum = number(row.wltp_range_min_km ?? qualifications.rangeMinimum);
+  return target > 0 && minimum !== null && maximum !== null && target > minimum && target <= maximum;
+}
+
 function evaluate(row, r, asOf) {
   if (!nameMatches(row.brand, r.brand) || !nameMatches(row.model, r.model)) return 'no';
+  const qualifications = specQualifications(row);
+  const wltpMax = number(row.wltp_range_km);
+  const choiceDependent = rangeNeedsConfiguration(row, r.min_wltp_range_km, qualifications);
   const tests = [
     [r.budget_sek, currentPrice(row, asOf), (v, target) => v <= target],
-    [r.min_wltp_range_km, row.wltp_range_is_target || specQualifications(row).rangeIsTarget ? null : number(row.wltp_range_km), (v, target) => v >= target],
+    [r.min_wltp_range_km, row.wltp_range_is_target || qualifications.rangeIsTarget || choiceDependent ? null : wltpMax, (v, target) => v >= target],
     [r.min_tow_kg, number(row.tow_kg), (v, target) => v >= target],
     [r.min_seats, number(row.seats), (v, target) => v >= target],
     [r.min_boot_liters, number(row.boot_liters), (v, target) => v >= target],
@@ -123,7 +132,8 @@ function recommendation(row, r, asOf) {
     const label = row.price_type === 'campaign_price' ? 'Kampanjpris' : row.price_type === 'dealer_offer' ? '\u00c5terf\u00f6rs\u00e4ljarerbjudande' : row.price_type === 'list_price' ? 'Listpris' : 'Prisuppgift';
     reasons.push(`${label}: ${money(price)}${r.budget_sek !== null ? ', inom din budget' : ''}.`);
   } else tradeoffs.push('Ett aktuellt svenskt pris kan inte verifieras.');
-  if (number(row.wltp_range_km) !== null) reasons.push(`${row.wltp_range_km} km WLTP${r.min_wltp_range_km > 0 ? ` mot ditt krav p\u00e5 ${r.min_wltp_range_km} km` : ''}.`);
+  const rangeText = row.wltp_range_interval || (specQualifications(row).rangeMinimum !== null && specQualifications(row).rangeInterval) || row.wltp_range_km + ' km';
+  if (number(row.wltp_range_km) !== null) reasons.push(`${rangeText} WLTP${r.min_wltp_range_km > 0 ? ` mot ditt krav p\u00e5 ${r.min_wltp_range_km} km` : ''}.`);
   if (r.min_tow_kg > 0) reasons.push(`Verifierad dragvikt: ${row.tow_kg} kg.`);
   else if (r.awd_required) reasons.push('Fyrhjulsdrift anges i bilens verifierade uppgifter.');
   else if (r.priority === 'charging' && number(row.dc_charge_kw) !== null) reasons.push(`DC-laddning: upp till ${row.dc_charge_kw} kW.`);
@@ -141,14 +151,20 @@ export function matchAdvisorVariants(variants, requirements, { mode = 'determini
   const r = normalizeRequirements(requirements);
   const eligible = [];
   let unknown = 0;
+  let configurationUncertain = false;
   for (const row of variants.filter(isPublicVariant)) {
     const match = evaluate(row, r, asOf);
     if (match === 'yes') eligible.push(row);
-    else if (match === 'unknown') unknown++;
+    else if (match === 'unknown') {
+      unknown++;
+      configurationUncertain ||= rangeNeedsConfiguration(row, r.min_wltp_range_km);
+    }
   }
   eligible.sort((a, b) => score(b, r, asOf) - score(a, r, asOf) || String(a.variant_key || a.id).localeCompare(String(b.variant_key || b.id), 'sv-SE'));
   const shortlist = eligible.slice(0, 3).map((row) => recommendation(row, r, asOf));
-  const notes = [unknown ? 'Vissa bilar saknar verifierade uppgifter f\u00f6r dina krav och har inte tagits med.' : '', r.unsupported.length ? `Kan inte kontrolleras: ${r.unsupported.map((key) => UNSUPPORTED_LABELS[key]).join('; ')}.` : ''].filter(Boolean).join(' ').slice(0, 360);
+  const notes = [unknown ? 'Vissa bilar saknar verifierade uppgifter f\u00f6r dina krav och har inte tagits med.' : '',
+    configurationUncertain ? 'F\u00f6r vissa bilar ligger ditt r\u00e4ckviddskrav inom WLTP-intervallet. Exakt konfiguration beh\u00f6ver kontrolleras.' : '',
+    r.unsupported.length ? `Kan inte kontrolleras: ${r.unsupported.map((key) => UNSUPPORTED_LABELS[key]).join('; ')}.` : ''].filter(Boolean).join(' ').slice(0, 360);
   return {
     mode, interpretation_method: interpretation, recommendation_method: 'database_rules',
     interpreted_requirements: { ...r, notes },

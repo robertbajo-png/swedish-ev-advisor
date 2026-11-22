@@ -219,6 +219,15 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
         path = f"/bilar/{public_variant_slug(row)}"
         price = format_price(row.get("price_sek"))
         wltp = row.get("wltp_range_km")
+        range_display = wltp
+        if (row.get('brand') == 'Polestar' and row.get('model') == '3' and row.get('variant_name') == 'Performance'
+                and row.get('source_url') == 'https://www.polestar.com/se/polestar-3/specifications/'):
+            certified = re.search(r'https://www\.polestar\.com/se/manual/polestar-3/2027/article/[^ |]+/ \| Performance \| '
+                                  r'\d{3} \| (\d{3}) \| (\d{2},\d) \| \d{3} \| (\d{3}) \| (\d{2},\d)(?= \||$)',
+                                  row.get('source_quote') or '')
+            if (certified and int(certified[1]) == wltp and int(certified[3]) < wltp
+                    and float(certified[4].replace(',', '.')) > float(certified[2].replace(',', '.'))):
+                range_display = f'{certified[3]}\u2013{certified[1]}'
         range_label = 'Tillverkarens WLTP-räckviddsmål' if (row.get('brand') == 'Polestar' and row.get('model') == '4'
             and row.get('variant_name') == 'Dual motor' and 'Räckviddsmål (WLTP)' in row.get('source_quote', '')) else 'WLTP-räckvidd'
         if (row.get('brand') == 'Kia' and row.get('model') == 'Ev3'
@@ -249,11 +258,11 @@ def public_variant_routes(rows: list[dict]) -> list[dict]:
             price_label = {'list_price': 'listpris', 'campaign_price': 'kampanjpris', 'dealer_offer': 'återförsäljarerbjudande'}.get(row.get('price_type'), 'prisuppgift')
             description_parts.append(f"{price_label} {price}")
         if wltp:
-            description_parts.append(f"{range_label} {wltp} km")
+            description_parts.append(f"{range_label} {range_display} km")
         description = ", ".join(description_parts) + ". Verifierade svenska källor och tydliga nyckeltal."
 
         properties = [
-            metric_property(range_label, row.get("wltp_range_km"), "km"),
+            metric_property(range_label, range_display, "km"),
             metric_property("DC-laddning", row.get("dc_charge_kw"), "kW"),
             metric_property("AC-laddning", row.get("ac_charge_kw"), "kW"),
             metric_property("Batteri", row.get("battery_kwh"), "kWh"),

@@ -262,6 +262,7 @@ function localAdvisorResult(advisor, cars) {
     price_sek: car.price, price_type: car.priceType, price_valid_until: car.priceValidUntil,
     wltp_range_km: car.rangeVerified, dc_charge_kw: car.dcVerified, tow_kg: car.towingVerified,
     wltp_range_is_target: car.rangeIsTarget,
+    ...(car.rangeMinimum !== null ? {wltp_range_min_km: car.rangeMinimum, wltp_range_interval: car.rangeInterval} : {}),
     boot_liters: car.cargoVerified, seats: car.seatsVerified, drivetrain: car.drivetrain,
     source_url: car.source, source_hash: car.sourceHash, validation_status: car.validationStatus, available_confirmed: car.availableConfirmed,
   }));
@@ -344,8 +345,8 @@ function scoreCar(car, advisor) {
 
 function reasonsFor(car, advisor) {
   const reasons = [];
-  if (car.rangeVerified && car.rangeVerified >= advisor.range) reasons.push(`${car.rangeInterval || car.rangeVerified + ' km'} WLTP mot ditt mål på ${advisor.range} km`);
   if (car.price && car.price <= advisor.budget) reasons.push(`${priceLabel(car).toLowerCase()} ${formatSEK(car.price)} inom vald budget`);
+  if (car.rangeVerified && (car.rangeMinimum ?? car.rangeVerified) >= advisor.range) reasons.push(`${car.rangeInterval || car.rangeVerified + ' km'} WLTP mot ditt mål på ${advisor.range} km`);
   if (car.towing >= 1500) reasons.push(`dragvikt upp till ${car.towing} kg`);
   if (advisor.need === 'vinter' && car.drivetrain === 'Fyrhjulsdrift') reasons.push('fyrhjulsdrift för vintervägar');
   if (advisor.need === 'familj' && car.cargo > 450) reasons.push(`${car.cargo} liter lastutrymme`);
@@ -599,7 +600,7 @@ export function App({ initialData } = {}) {
       .filter((car) => filters.brand === 'Alla' || car.brand === filters.brand)
       .filter((car) => `${car.brand} ${car.canonicalModel || ''} ${car.model}`.toLocaleLowerCase('sv-SE').includes(filters.query.trim().toLocaleLowerCase('sv-SE')))
       .filter((car) => filters.maxPrice == null || !car.price || car.price <= filters.maxPrice)
-      .filter((car) => car.range >= filters.minRange)
+      .filter((car) => (car.rangeMinimum ?? car.range) >= filters.minRange)
       .filter((car) => !filters.towRequired || car.towing > 0)
       .filter((car) => !filters.priceKnown || !!car.price)
       .sort((a, b) => {

@@ -8,11 +8,31 @@ from PIL import Image, ImageOps
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def published_variants(root, asset, policy):
+    name = Path(asset['asset_url']).stem
+    if (asset['downloaded_from'] != policy['approved_asset_url']
+            or asset['content_sha256'] != policy['approved_source_sha256']
+            or asset['model_key'] not in policy['model_keys']):
+        raise ValueError('Publisher sizes must be bound to the exact reviewed press original')
+    variants = []
+    for choice in policy['publisher_responsive_variants']:
+        url = f'/media/responsive/{name}-{choice["width"]}.webp'
+        path = root / 'public' / url.lstrip('/')
+        if not path.is_file() or path.is_symlink():
+            raise ValueError('Require the reviewed unchanged publisher image sizes')
+        content = path.read_bytes()
+        if content[8:12] != b'WEBP' or hashlib.sha256(content).hexdigest() != choice['sha256']:
+            raise ValueError('Publisher image hash changed')
+        variants.append({'url': url, 'width': choice['width'], 'sha256': choice['sha256']})
+    return variants
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
     assets = json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8'))['assets']
+    publishers = json.loads((ROOT / 'src/press-image-publishers.json').read_text(encoding='utf-8'))
     manifest = ROOT / 'src/image-variants.json'
     cached = json.loads(manifest.read_text(encoding='utf-8')) if manifest.exists() else {}
     output = {}
@@ -24,6 +44,14 @@ def main():
         raw = source.read_bytes()
         if hashlib.sha256(raw).hexdigest() != asset['content_sha256']:
             raise ValueError('Licensed original image changed')
+        policy = publishers.get(asset.get('publisher_id'), {})
+        if policy.get('publisher_responsive_variants'):
+            variants = published_variants(ROOT, asset, policy)
+            width, height = policy['approved_original_dimensions']
+            output[asset['asset_url']] = {'width': width, 'height': height, 'source_sha256': asset['content_sha256'], 'variants': variants}
+            total_original += len(raw)
+            total_small += (ROOT / 'public' / variants[0]['url'].lstrip('/')).stat().st_size
+            continue
         previous = cached.get(asset['asset_url'])
         if previous and previous.get('source_sha256') == asset['content_sha256']:
             expected_widths = sorted({min(previous['width'], size) for size in (480, 800, 1280)})

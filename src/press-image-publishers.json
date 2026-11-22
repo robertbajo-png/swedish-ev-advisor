@@ -1,4 +1,41 @@
 {
+  "polestar-3-have-private-3332240": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Polestar / HAVE Kommunikation",
+    "official_link_evidence": "https://www.mynewsdesk.com/dk/have-as/pressreleases/ny-polestar-3-med-800-volt-hurtigere-opladning-mere-kraft-og-oeget-intelligens-3407736",
+    "image_path_prefix": "/dk/have-as/images/",
+    "model_title_pattern": "^Polestar-250527-1251_v004[.]jpg$",
+    "approved_image_paths": ["/dk/have-as/images/polestar-250527-1251-v004-dot-jpg-3332240"],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/cc0rfrdd93oqbsifnhj2ex",
+    "approved_source_sha256": "450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71",
+    "approved_original_dimensions": [
+      12302,
+      9227
+    ],
+    "publisher_responsive_variants": [
+      {
+        "width": 746,
+        "height": 560,
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_746,x_6151,y_5767/cc0rfrdd93oqbsifnhj2ex",
+        "sha256": "c4423dc606812862886358d167f3b313d9aff0521a31d8f8d9a9c409ba4cc877"
+      },
+      {
+        "width": 1782,
+        "height": 1337,
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_1782,x_6151,y_5767/cc0rfrdd93oqbsifnhj2ex",
+        "sha256": "8892e7843d3a75339289fc3eef7055561eeba218b928b6a8c2b751697e572ee7"
+      }
+    ],
+    "model_keys": ["polestar|3"],
+    "preserve_original_jpeg": true,
+    "max_asset_bytes": 12000000,
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Brug i medier",
+    "download_label": "Download",
+    "permission_excerpt": "Det kan bruges og deles i forskellige medier-kanaler",
+    "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
+  },
   "kia-ev2-mynewsdesk": {
     "origin": "https://www.mynewsdesk.com",
     "publisher": "Kia Sweden AB",
