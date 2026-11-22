@@ -7,13 +7,14 @@ import { parseArgs } from 'node:util';
 import react from '@vitejs/plugin-react';
 import { build, preview } from 'vite';
 import { policy, readPolestar3Image } from './polestar_3_publication.mjs';
+import { polestar3Media, verifyRegisteredPolestar3Media } from './polestar_3_release_scope.mjs';
 import { publicationHash } from './new_model_publication.mjs';
 import { launchQaBrowser } from './qa_browser.mjs';
 import { catalogHash, normalizeCatalog, variantKey } from './sync_public_catalog.mjs';
 import { vehicleSlug } from '../src/vehicle-names.js';
 
 const {values} = parseArgs({options: {readback: {type: 'string'}, 'publisher-media': {type:'string'},
-  'short-output': {type:'boolean'}}});
+  'short-output': {type:'boolean'}, 'exact-main':{type:'boolean'}}});
 assert(values.readback && values['publisher-media'], 'Supply private --readback and --publisher-media directories');
 const repo = await realpath('.');
 const evidence = await realpath('data/local/release-data');
@@ -55,6 +56,12 @@ assert.equal(publisherReview.publication_approved, false);
 const output = await mkdtemp(values['short-output'] ? join(evidence, 'polestar-ui-') : join(dir, 'ui-'));
 const root = join(output, 'source');
 await cp(join(dir, 'main-source'), root, {recursive:true, force:false, errorOnExist:true});
+const exact = Boolean(values['exact-main']);
+if(exact){
+  assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8',timeout:15000}).trim(),report.commit);
+  assert.equal(execFileSync('git',['ls-remote','origin','refs/heads/main'],{encoding:'utf8',timeout:20000}).trim(),
+    report.commit+'\trefs/heads/main','Main changed before the browser proof');
+}
 const uiFiles = ['src/main.jsx','src/vehicle-ui.jsx','src/vehicle-names.js','src/vehicles.css','src/spec-qualifications.js',
   'src/price-evidence.js','src/advisor-matching.js','src/decision-metrics.js','src/tco.js','src/press-image-publishers.json',
   'scripts/prepare_responsive_images.py'];
@@ -63,26 +70,31 @@ for (const path of uiFiles) {
   assert.equal(await realpath(join(repo, path)), join(repo, path));
   const bytes = await readFile(path);
   uiCode[path] = hash(bytes);
-  await writeFile(join(root, path), bytes);
+  if(exact) assert.equal(hash(await readFile(join(root,path))),uiCode[path],'Browser code differs from exact main: '+path);
+  else await writeFile(join(root, path), bytes);
 }
 const write = (file, body) => writeFile(join(root, file), JSON.stringify(body, null, 2) + '\n');
 const rights = await json(join(root, 'src/image-rights.json'));
 const images = await json(join(root, 'src/model-images.json'));
 const presentation = await json(join(root, 'src/image-presentation.json'));
-assert(!rights.assets.some(asset => asset.model_key === photo.model_key) && !(photo.model_key in images));
-await writeFile(join(root, 'public', photo.asset_url.slice(1)), original, {flag:'wx'});
-for (const item of publisherReview.variants) {
-  const bytes = await readFile(join(publisherMedia, item.file));
-  assert.equal(hash(bytes), item.sha256);
-  await writeFile(join(root,'public','media','responsive',item.file), bytes, {flag:'wx'});
+if(photo.model_key in images) await verifyRegisteredPolestar3Media(root,photo,{media:polestar3Media(photo)});
+else {
+  assert(!exact,'The exact-main browser proof requires the registered release photo');
+  assert(!rights.assets.some(asset => asset.model_key === photo.model_key)&&!(photo.model_key in presentation.models));
+  await writeFile(join(root, 'public', photo.asset_url.slice(1)), original, {flag:'wx'});
+  for (const item of publisherReview.variants) {
+    const bytes = await readFile(join(publisherMedia, item.file));
+    assert.equal(hash(bytes), item.sha256);
+    await writeFile(join(root,'public','media','responsive',item.file), bytes, {flag:'wx'});
+  }
+  rights.assets.push({...photo, changes:'Originalfilen har inte redigerats.'});
+  images[photo.model_key] = photo.asset_url;
+  presentation.models[photo.model_key] = {asset_url:photo.asset_url, content_sha256:photo.content_sha256, status:'approved',
+    reviewed_at:photo.reviewed_at, object_position:'center', object_fit:'contain', style:'manufacturer_press_photo'};
+  await write('src/image-rights.json', rights);
+  await write('src/model-images.json', images);
+  await write('src/image-presentation.json', presentation);
 }
-rights.assets.push({...photo, changes:'Originalfilen har inte redigerats.'});
-images[photo.model_key] = photo.asset_url;
-presentation.models[photo.model_key] = {asset_url:photo.asset_url, content_sha256:photo.content_sha256, status:'approved',
-  reviewed_at:photo.reviewed_at, object_position:'center', object_fit:'contain', style:'manufacturer_press_photo'};
-await write('src/image-rights.json', rights);
-await write('src/model-images.json', images);
-await write('src/image-presentation.json', presentation);
 await write('public/data/public_ev_variants.json', snapshot);
 const python = (script, ...args) => JSON.parse(execFileSync(process.execPath,
   ['scripts/run_python.mjs', join(root, 'scripts', script), ...args], {encoding:'utf8', timeout:120000, windowsHide:true}));
@@ -146,6 +158,8 @@ try {
   await new Promise((ok, reject) => server.httpServer.close(error => error ? reject(error) : ok()));
 }
 const result = {status:'polestar_3_private_ui_verified', candidate_sha256:report.candidate_sha256,
+  source_commit:report.commit,plan_sha256:report.plan_sha256,exact_main_code:exact,
+  media:[{url:photo.asset_url,sha256:photo.content_sha256},...responsive.variants.map(({url,sha256})=>({url,sha256}))],
   photo_sha256:photo.content_sha256, native_media_evidence:hash(await readFile(join(publisherMedia,'report.json'))),
   ui_code:uiCode, checks, publication_approved:false, production_writes:0};
 await writeFile(join(output, 'ui-report.json'), JSON.stringify(result, null, 2) + '\n', {flag:'wx'});
