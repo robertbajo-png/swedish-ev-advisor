@@ -16,11 +16,13 @@ try {
     return route.continue();
   });
   const page = await context.newPage();
-  const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  // The outlet card, not unrelated page resources, determines readiness.
+  const response = await page.goto(url, { waitUntil: 'commit', timeout: 20000 });
   assert.equal(response?.status(), 200);
   assert.notEqual(response.headers()['tdm-reservation'], '1', 'Respect the locator text-mining reservation');
   assert.equal(page.url(), url);
   await page.getByText(name, { exact: true }).first().waitFor({ state: 'attached', timeout: 15000 });
+  assert.equal(page.url(), url);
   const blocks = await page.evaluate(label => {
     const titles = [...document.querySelectorAll('h3')]
       .filter(el => el.textContent.trim() === label && !el.querySelector('*'));
