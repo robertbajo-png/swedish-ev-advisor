@@ -1,3 +1,5 @@
+import { MANUFACTURER_FROM_PRICE } from './price-evidence.js';
+
 const priceNames = { list_price: 'Listpris', campaign_price: 'Kampanjpris', dealer_offer: 'Återförsäljarerbjudande' };
 
 export function decisionMetricsFor(car, cars = [], now = new Date()) {
@@ -5,11 +7,13 @@ export function decisionMetricsFor(car, cars = [], now = new Date()) {
   const averageRange = comparable.length > 1 ? Math.round(comparable.reduce((sum, item) => sum + item.rangeVerified, 0) / comparable.length) : null;
   const type = priceNames[car.priceType];
   const expired = car.priceValidUntil && car.priceValidUntil.slice(0, 10) < now.toISOString().slice(0, 10);
-  const price = Number.isFinite(car.price) && car.price > 0 && type && !expired ? car.price : null;
+  const fromPrice = car.priceType === MANUFACTURER_FROM_PRICE;
+  const price = !fromPrice && Number.isFinite(car.price) && car.price > 0 && type && !expired ? car.price : null;
   const basis = price ? type + (car.priceValidUntil ? ', giltigt till ' + car.priceValidUntil.slice(0, 10) : '') +
     (car.rangeIsTarget ? '; baserat på tillverkarens räckviddsmål, inte slutlig certifiering' : '') +
     (car.rangeInterval ? '; beräknat på den övre gränsen i intervallet ' + car.rangeInterval : '') : 'Verifierad prisuppgift krävs';
-  const missing = expired ? 'Erbjudandet har gått ut.' : 'Beräknas med verifierat pris och WLTP.';
+  const missing = fromPrice ? 'Kr\u00e4ver mer \u00e4n tillverkarens fr\u00e5npris.'
+    : expired ? 'Erbjudandet har gått ut.' : 'Beräknas med verifierat pris och WLTP.';
   return [
     { label: 'Räckvidd per 100 000 kr', value: price && car.rangeVerified ? (car.rangeVerified / (price / 100000)).toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' km' : 'Uppgift saknas', note: price ? basis + ' och angiven WLTP-räckvidd.' : missing },
     { label: 'Pris per WLTP-km', value: price && car.rangeVerified ? Math.round(price / car.rangeVerified).toLocaleString('sv-SE') + ' kr/km' : 'Uppgift saknas', note: price ? basis + ' fördelat på angiven räckvidd. Inte körkostnad.' : missing },

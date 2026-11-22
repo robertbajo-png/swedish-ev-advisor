@@ -2,6 +2,35 @@
   "schema_version": 1,
   "assets": [
     {
+      "model_key": "ford|puma gen e",
+      "source_url": "https://www.mynewsdesk.com/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679",
+      "evidence_url": "https://www.mynewsdesk.com/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679",
+      "license_url": "https://www.mynewsdesk.com/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679",
+      "license_id": "Manufacturer-media-use",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "publisher_id": "ford-puma-gen-e-private-review",
+      "author": "Ford Sverige / Hedin HMC Motor Company AB",
+      "credit": "Ford Sverige / Hedin HMC Motor Company AB / pressbild",
+      "content_sha256": "bae5ec3b9efc29bd09b3f2b704da97cd1d11d27fdb106877fc59c737f6d03c29",
+      "source_content_sha256": "bae5ec3b9efc29bd09b3f2b704da97cd1d11d27fdb106877fc59c737f6d03c29",
+      "metadata_sha256": "f48342c731d8dd052a74b3b94adf2731eaf03a1adf287ed0abbf8954d537a224",
+      "full_frame": true,
+      "asset_url": "/media/vehicles/ford-puma-gen-e-press-bae5ec3b9efc.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/4uspsj7htir1vlvnhzjtkn",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/4uspsj7htir1vlvnhzjtkn",
+      "status": "documented",
+      "reviewed_at": "2026-11-21",
+      "reviewed_candidate_sha256": "8251e64e17f567759a40ef20786ed02c241653cf1a82c71d793d15be0c59f0ea",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild av Ford Puma Gen-E. Utrustningen kan skilja mellan versioner.",
+      "changes": "Originalfilen har inte redigerats. Responsiva kopior har endast anpassats i storlek och format."
+    },
+    {
       "model_key": "audi|a6 e tron",
       "asset_url": "/media/vehicles/audi-a6-e-tron-8f0060e96039.jpg",
       "source_url": "https://commons.wikimedia.org/wiki/File:Audi_A6_e-tron_IMG_3090_(cropped).jpg",

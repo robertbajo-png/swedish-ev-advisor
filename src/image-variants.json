@@ -197,6 +197,28 @@
       }
     ]
   },
+  "/media/vehicles/ford-puma-gen-e-press-bae5ec3b9efc.jpg": {
+    "width": 7334,
+    "height": 4889,
+    "source_sha256": "bae5ec3b9efc29bd09b3f2b704da97cd1d11d27fdb106877fc59c737f6d03c29",
+    "variants": [
+      {
+        "url": "/media/responsive/ford-puma-gen-e-press-bae5ec3b9efc-480.webp",
+        "width": 480,
+        "sha256": "9085d7d76b4c9ed17fff3647e95b4b531ef5e2a4f0d1e6cfb8b3c0924a452a40"
+      },
+      {
+        "url": "/media/responsive/ford-puma-gen-e-press-bae5ec3b9efc-800.webp",
+        "width": 800,
+        "sha256": "3fd93b33efdb3df1c7bc6fb665fb8798095033f6d21550bc32cbb7360970a871"
+      },
+      {
+        "url": "/media/responsive/ford-puma-gen-e-press-bae5ec3b9efc-1280.webp",
+        "width": 1280,
+        "sha256": "e13abe7432290e6392da265e03f6a4956637df02ac5da71b77fd3d3361465c78"
+      }
+    ]
+  },
   "/media/vehicles/kia-ev2-press-42a663c6e0ce.jpg": {
     "width": 1500,
     "height": 1000,

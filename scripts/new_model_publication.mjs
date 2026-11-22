@@ -10,6 +10,9 @@ import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_p
 import {ADAPTER as TAVASCAN_ADAPTER} from './cupra_tavascan_drive_publication.mjs';
 import {ADAPTER as POLESTAR3_ADAPTER} from './polestar_3_publication.mjs';
 import {ADAPTER as IONIQ5_ADAPTER} from './hyundai_ioniq5_publication.mjs';
+import {ADAPTER as PUMA_ADAPTER} from './ford_puma_gen_e_publication.mjs';
+import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewedPumaIdentity} from './ford_puma_identity.mjs';
+import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 
@@ -28,6 +31,7 @@ const savedSource=s=>({url:s.final_url,content_hash:s.content_hash,http_status:2
 const uuidFor=(adapter,model,identity)=>{
  const h=publicationHash({adapter,model,identity});return `${h.slice(0,8)}-${h.slice(8,12)}-5${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}`;
 };
+const modelTargets=(intake,id)=>intake.drafts.map(draft=>({id:uuidFor(intake.adapter,id,draft.manufacturer_identity),draft}));
 const fresh=(s,now)=>{
  assert.equal(s.status,'reachable');assert.equal(s.http_status,200);assert.match(s.content_hash,/^[a-f0-9]{64}$/);
  const age=now.getTime()-Date.parse(s.fetched_at);assert(Number.isFinite(age)&&age>=-60000&&age<=900000,'Fresh source capture required');
@@ -61,7 +65,8 @@ export function validateNewModelIntake(intake,now=new Date()){
    assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(typeof p.quote==='string'&&p.quote.length>5);
   }
   const p=r.price_evidence;assert(Number.isInteger(p.value)&&p.value>=100000&&p.value<=3000000);
-  assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type));
+  assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type)
+   || (policy.adapter===PUMA_ADAPTER&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
   assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(p.quote?.trim());
   if(p.price_valid_until)assert(p.price_valid_until>=now.toISOString().slice(0,10));
   if(p.price_type==='campaign_price')assert(p.price_valid_until);
@@ -96,17 +101,20 @@ export function buildNewModelPlan(snapshot,intake,image,now=new Date()){
  const alias=one(snapshot.model_aliases.filter(r=>r.normalized_brand===m.normalized_brand&&r.normalized_model===m.normalized_model),'One resolved alias required');
  assert.equal(alias.canonical_model_id,model.id);assert.equal(alias.needs_mapping,false);assert(!alias.model_group);
  assert.equal(alias.alias_rule,policy.aliasRule);assert(Number(alias.confidence)>=0.92);
- for(const field of ['brand_raw','model_raw'])assert.equal(alias[field],intake.market.row[field],'Exact raw alias required: '+field);
- const market=one(snapshot.market_models.filter(r=>r.normalized_brand===m.normalized_brand&&r.normalized_model===m.normalized_model&&r.fuel_type_raw==='EL'),'One exact BEV market row required');
+ const scopedDiscovery=policy.scopedDiscovery;
+ const marketKey=scopedDiscovery?.market??m;
+ for(const field of ['brand_raw','model_raw'])assert.equal(alias[field],(scopedDiscovery?.alias??intake.market.row)[field],'Exact raw alias required: '+field);
+ const market=one(snapshot.market_models.filter(r=>r.normalized_brand===marketKey.normalized_brand&&r.normalized_model===marketKey.normalized_model&&r.fuel_type_raw==='EL'),'One exact BEV market row required');
  assert(!market.needs_mapping&&!market.model_group);assert([null,model.id].includes(market.canonical_model_id));
  for(const f of ['brand_raw','model_raw'])assert.equal(market[f],intake.market.row[f]);
+ scopedDiscovery?.check(snapshot,model,market);
  assert(!market.last_seen_month||market.last_seen_month<=intake.market.row.last_seen_month,'Do not overwrite a newer market index');
  validateNewModelImage(snapshot.canonical_models,intake,image);
  assert(!model.image_url||model.image_url===image.asset_url,'Existing model photo needs separate review');
  const relevant=snapshot.manufacturer_sources.filter(r=>intake.sources.some(s=>s.final_url===r.url));
  return plain({adapter:intake.adapter,expected_model:model,expected_alias:alias,expected_market:market,
   expected_monthly:snapshot.market_model_monthly_stats.filter(r=>r.market_model_id===market.id),expected_sources:relevant,
-  intake,image,targets:intake.drafts.map(r=>({id:uuidFor(intake.adapter,model.id,r.manufacturer_identity),draft:r}))});
+  intake,image,targets:modelTargets(intake,model.id)});
 }
 const TABLES=['canonical_model_variants','canonical_models','manufacturer_sources','extracted_variant_drafts',
  'model_aliases','market_models','market_model_monthly_stats'];
@@ -294,18 +302,103 @@ export async function applyIoniq5Release(client,fresh,reviewed,ui,approvedHash,n
 
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
- const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
+ const policy=validateNewModelIntake(plan.intake,now);
  assert(approvedAdapter===null||policy.adapter===approvedAdapter,'Approved adapter mismatch');
  if(policy.localOnly&&approvedAdapter===null){
   const {PGlite}=await import('@electric-sql/pglite');
   assert(client instanceof PGlite,'This pilot is restricted to a local PGlite database');
  }
  validateNewModelImage([plan.expected_model],plan.intake,plan.image);
+ return modelWriteTransaction(client,()=>applyModelRows(client,plan,expectedHash,now,policy,approvedAdapter,baselineHash,scopedRelease));
+}
+
+async function modelWriteTransaction(client,write){
  let committed=false;
  await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE READ WRITE');
  try{
   await client.query('SET LOCAL search_path=pg_catalog');await client.query("SET LOCAL lock_timeout='10s'");
   await client.query('SELECT pg_advisory_xact_lock(7240040)');
+  const result=await write();
+  if(result.committed){await client.query('COMMIT');committed=true;}
+  return result;
+ }finally{if(!committed)await client.query('ROLLBACK');}
+}
+
+export async function applyPumaAtomicLocally(client,packet,expectedHash,now=new Date()){
+ const {PGlite}=await import('@electric-sql/pglite');
+ assert(client instanceof PGlite,'Atomic Puma rehearsal is restricted to local PGlite');
+ assert(!client.isInTransaction(),'Atomic Puma rehearsal owns its transaction');
+ return applyPumaAtomicTransaction(client,packet,expectedHash,now,null);
+}
+
+export async function applyPumaRelease(client,reviewed,fresh,commit,approval,now=new Date()){
+ const {assertPumaPriceMigration,assertPumaPublishedRows,provePumaRelease}=await import('./ford_puma_release_scope.mjs');
+ provePumaRelease(reviewed,fresh,commit,approval,now);
+ return applyPumaAtomicTransaction(client,fresh,publicationHash(fresh),now,{
+  requireMigration:assertPumaPriceMigration,check:assertPumaPublishedRows,
+ });
+}
+
+async function applyPumaAtomicTransaction(client,packet,expectedHash,now,release){
+ assert.equal(publicationHash(packet),expectedHash,'Prepared Puma packet changed');
+ assert.equal(packet.status,'puma_atomic_rehearsal_only');
+ assert.equal(packet.publication_approved,false);
+ const {identity,intake,image}=packet;
+ same(planPumaIdentity(identity.expected),identity,'Invalid reviewed Puma identity');
+ const policy=validateNewModelIntake(intake,now);
+ assert.equal(policy.adapter,PUMA_ADAPTER);
+ assert.equal(policy.localOnly,true);
+ assert.match(packet.baseline_sha256,/^[a-f0-9]{64}$/);
+ const parent=identity.expected.models[0].id;
+ const ids={model_id:uuidFor(PUMA_ADAPTER,parent,'canonical-bev-model'),alias_id:uuidFor(PUMA_ADAPTER,parent,'exact-bev-alias')};
+ validateNewModelImage([{id:ids.model_id,...PUMA_MODEL}],intake,image);
+ return modelWriteTransaction(client,async()=>{
+  await release?.requireMigration(client);
+  const before=await publicationSnapshot(client,true);
+  const hasParent=before.canonical_models.some(row=>row.id===ids.model_id);
+  if(release)assert(!hasParent,'Puma is already present; recover the committed release without inserting again');
+  const projected=await anonymousProjection(client);
+  assert.equal(catalogHash(catalogWithComparableTimes(projected.variants.filter(row=>row.canonical_model_id!==ids.model_id))),
+   packet.baseline_sha256,'Anonymous catalog changed before the Puma transaction');
+  let plan;
+  if(hasParent){
+   const model=one(before.canonical_models.filter(row=>row.id===ids.model_id),'Puma replay parent missing');
+   const market=one(before.market_models.filter(row=>row.id===identity.market_id),'Puma replay market row missing');
+   fieldsEqual(model,{...PUMA_MODEL,available_confirmed:false,discontinued_candidate:false,coming_or_low_volume:false});
+   policy.scopedDiscovery.check(before,model,market);
+   assert.equal(before.canonical_model_variants.filter(row=>row.canonical_model_id===ids.model_id).length,2,'Partial Puma replay');
+   plan={adapter:PUMA_ADAPTER,intake,image,expected_model:model,expected_market:identity.expected.market.find(row=>row.id===identity.market_id),
+    expected_monthly:identity.expected.months.filter(row=>row.market_model_id===identity.market_id),
+    targets:modelTargets(intake,ids.model_id)};
+  }else{
+   same(await pumaIdentitySnapshot(client),identity.expected,'Puma identity changed before the transaction');
+   same(before.manufacturer_sources.filter(row=>intake.sources.some(s=>s.final_url===row.url)),
+    packet.expected_sources,'Puma source changed before the transaction');
+   await writeReviewedPumaIdentity(client,identity,ids);
+   plan=buildNewModelPlan(await publicationSnapshot(client,true),intake,image,now);
+  }
+  const written=await applyModelRows(client,plan,expectedHash,now,policy,PUMA_ADAPTER,undefined,
+   release?{check:release.check,baselineHash:packet.baseline_sha256}:null);
+  const after=await pumaIdentitySnapshot(client);
+  fieldsEqual(one(after.aliases.filter(row=>row.id===ids.alias_id),'Exact Puma alias was not retained'),
+   {...PUMA_ALIAS,canonical_model_id:ids.model_id});
+  same(after.aliases.filter(row=>row.id!==ids.alias_id),identity.expected.aliases,'Legacy Puma alias changed');
+  same(after.models.filter(row=>row.id!==ids.model_id),identity.expected.models,'Legacy Puma model changed');
+  same(after.market.filter(row=>row.id!==identity.market_id),identity.expected.market.filter(row=>row.id!==identity.market_id),
+   'Non-BEV Puma market state changed');
+  const oldMonths=new Set(identity.expected.months.map(row=>row.id));
+  same(after.months.filter(row=>oldMonths.has(row.id)),identity.expected.months,'Original Puma registration history changed');
+  const month=one(after.months.filter(row=>row.market_model_id===identity.market_id&&row.month===intake.market.row.last_seen_month
+   &&row.county===null&&row.municipality===null),'Exact October Puma registration missing');
+  fieldsEqual(month,{brand_raw:'FORD',model_raw:'PUMA',fuel_type_raw:'EL',registrations:intake.market.row.registrations_last_month});
+  same(after.months.filter(row=>!oldMonths.has(row.id)),oldMonths.has(month.id)?[]:[month],
+   'Unexpected Puma registration rows in the transaction');
+  return {...written,atomic_identity:true,alias_id:ids.alias_id,variant_plan:hasParent?null:plan};
+ });
+}
+
+async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapter,baselineHash,scopedRelease){
+  const modelId=plan.expected_model.id;
   const before=await publicationSnapshot(client,true),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
   const existing=before.canonical_model_variants.filter(r=>r.canonical_model_id===modelId);
   const verifyG6=policy.adapter===XPENG_G6_ADAPTER;
@@ -464,9 +557,7 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   }
   if(verifyG6)await verifyG6BeforeCommit(client,plan,g6Baseline);
   if(check)await verifyScopedReadback(client,plan,publicBefore,check,scopedRelease?.verifyDelta);
-  await client.query('COMMIT');committed=true;
   return{committed:true,already_applied:false,variants_inserted:plan.targets.length,canonical_variant_ids:[...newIds],
    model_id:modelId,publication_batch_id:expectedHash,sources_changed:changedSources.size,paid_calls:0,
    ...(verifyG6||check?{anonymous_before_commit:true}:{})};
- }finally{if(!committed)await client.query('ROLLBACK');}
 }

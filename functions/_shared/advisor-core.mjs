@@ -1,8 +1,8 @@
 import { isPublicVariant, normalizeRequirements, ruleAdvice, matchAdvisorVariants } from '../../src/advisor-matching.js';
 import { REQUIREMENTS_SCHEMA, requirementsPrompt } from './advisor-requirements.mjs';
 import { AiBudgetError } from './ai-budget.mjs';
-import { hasPriceEvidence, priceEvidence } from '../../src/price-evidence.js';
 import { displayModelName } from '../../src/vehicle-names.js';
+import { MANUFACTURER_FROM_PRICE, PRICE_TYPES, hasPriceEvidence, priceEvidence, verifiedManufacturerFrom } from '../../src/price-evidence.js';
 import { specQualifications } from '../../src/spec-qualifications.js';
 
 const COMPARE_RESPONSE_SCHEMA = {
@@ -83,6 +83,7 @@ export function normalizePublicVariants(rows) {
   return (Array.isArray(rows) ? rows : [])
     .filter(isPublicVariant)
     .filter(row => !hasPriceEvidence(row) || priceEvidence(row))
+    .filter(row => row.price_type !== MANUFACTURER_FROM_PRICE || verifiedManufacturerFrom(row))
     .map((row) => {
       const variantKey = `${row.brand}|${row.model}|${row.variant_name}`;
       const qualifications = specQualifications(row);
@@ -104,7 +105,7 @@ export function normalizePublicVariants(rows) {
         drivetrain: row.drivetrain || '',
         source_url: row.source_url,
         source_hash: row.source_hash,
-        price_type: ['list_price', 'campaign_price', 'dealer_offer'].includes(row.price_type) ? row.price_type : null,
+        price_type: PRICE_TYPES.includes(row.price_type) ? row.price_type : null,
         price_valid_until: row.price_valid_until || null,
         ...priceEvidence(row),
         validation_status: row.validation_status,
@@ -118,8 +119,8 @@ export function deterministicAdvice(variants, request = {}) {
   return ruleAdvice(variants, request);
 }
 
-function compareScore(row) {
-  const priceScore = row.price_sek ? Math.max(0, 30 - (row.price_sek - 450000) / 30000) : 8;
+function compareScore(row, usePrice = true) {
+  const priceScore = usePrice ? (row.price_sek ? Math.max(0, 30 - (row.price_sek - 450000) / 30000) : 8) : 0;
   const rangeScore = row.wltp_range_km ? Math.min(28, row.wltp_range_km / 24) : 8;
   const chargeScore = row.dc_charge_kw ? Math.min(16, row.dc_charge_kw / 14) : 5;
   const utilityScore = Math.min(14, (row.boot_liters || 320) / 40) + Math.min(12, (row.tow_kg || 0) / 160);
@@ -127,8 +128,9 @@ function compareScore(row) {
 }
 
 export function deterministicCompareReport(selected) {
+  const usePrice = !selected.some(row => row.price_type === MANUFACTURER_FROM_PRICE);
   const ranked = selected
-    .map((row) => ({ ...row, decision_score: compareScore(row) }))
+    .map((row) => ({ ...row, decision_score: compareScore(row, usePrice) }))
     .sort((a, b) => b.decision_score - a.decision_score);
   const winner = ranked[0];
   return {
@@ -139,11 +141,11 @@ export function deterministicCompareReport(selected) {
       decision_score: winner.decision_score,
       source_url: winner.source_url,
     } : null,
-    summary: winner
+    summary: !usePrice ? 'J\u00e4mf\u00f6relsen v\u00e4ger bara tekniska v\u00e4rden eftersom minst en bil bara har ett fr\u00e5npris.' : winner
       ? `${displayName(winner)} ger den starkaste balansen i den här jämförelsen utifrån tillgängliga verifierade värden.`
       : 'Välj minst en publicerad bil för att skapa rapporten.',
     reasons: winner ? [
-      `Prisnivå: ${formatSek(winner.price_sek)}.`,
+      ...(usePrice ? [`Prisnivå: ${formatSek(winner.price_sek)}.`] : ['Fr\u00e5npriser r\u00e4knas inte in i beslutsbed\u00f6mningen.']),
       winner.wltp_range_km ? `${winner.wltp_range_is_target ? 'Tillverkarens räckviddsmål' : 'Räckvidd'}: ${winner.wltp_range_km} km WLTP.` : 'Räckvidd saknas i databasen.',
       winner.tow_kg ? `Dragvikt: ${winner.tow_kg} kg.` : winner.boot_liters ? `Bagage: ${winner.boot_liters} liter.` : 'Praktiska uppgifter saknas.',
     ] : [],
@@ -309,6 +311,7 @@ export async function createCompareResult({ variantKeys, variants, apiKey, model
   const requested = new Set(Array.isArray(variantKeys) ? variantKeys : []);
   const selected = variants.filter((row) => requested.has(row.variant_key)).slice(0, 3);
   if (!selected.length) return null;
+  if (selected.some(row => row.price_type === MANUFACTURER_FROM_PRICE)) return deterministicCompareReport(selected);
   let result = null;
   let aiStatus;
   if (apiKey) {

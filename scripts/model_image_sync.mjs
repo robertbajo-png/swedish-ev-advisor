@@ -5,13 +5,15 @@ import { readFileSync } from 'node:fs';
 const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publishers.json', import.meta.url), 'utf8'));
 const toyotaPhotos = JSON.parse(readFileSync(new URL('../src/toyota-press-images.json', import.meta.url), 'utf8'));
 const buzzPhoto = JSON.parse(readFileSync(new URL('../src/id-buzz-photo-policy.json', import.meta.url), 'utf8'));
+const pumaPhoto = JSON.parse(readFileSync(new URL('../src/puma-photo-policy.json', import.meta.url), 'utf8'));
 
 const key = row => [row.brand, row.model].map(value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
 export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
 const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) => !['image_url', 'image_source_url', 'image_verified_at', 'updated_at'].includes(name)));
 
 export function selectImageRegistryForPublic(publicModels, registry) {
-  const buzzIsPublic = publicModels.some(model => key(model) === buzzPhoto.model_key);
+  const scope = new Set(publicModels.map(key));
+  const staged = new Map([buzzPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
   return { ...registry, assets: registry.assets.filter(asset => {
     if ('variant_names' in asset) {
       assert(Array.isArray(asset.variant_names) && asset.variant_names.length > 0
@@ -19,9 +21,10 @@ export function selectImageRegistryForPublic(publicModels, registry) {
         && new Set(asset.variant_names).size === asset.variant_names.length, 'Exact variant photo scope required');
       return false; // This transaction updates parent-model photos only.
     }
-    if (asset.model_key !== buzzPhoto.model_key || buzzIsPublic) return true;
-    for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Invalid staged ID. Buzz asset');
-    return false;
+    const policy = staged.get(asset.model_key);
+    if (!policy) return true;
+    for (const [field, value] of Object.entries(policy)) assert.equal(asset[field], value, 'Invalid staged model asset');
+    return scope.has(asset.model_key);
   }) };
 }
 
@@ -60,6 +63,9 @@ export function buildImagePlan(models, publicModels, registry) {
     } else if (asset.license_id === 'Manufacturer-media-use') {
       const policy = pressPublishers[asset.publisher_id];
       assert(policy?.model_keys.includes(asset.model_key), 'Registered exact press model required');
+      if (asset.model_key === pumaPhoto.model_key) {
+        for (const [field, value] of Object.entries(pumaPhoto)) assert.equal(asset[field], value, 'Exact licensed Puma photo required');
+      }
       const source = new URL(asset.source_url);
       assert.equal(source.origin, policy.origin);
       const prefix = policy.image_path_prefix || '/images/';

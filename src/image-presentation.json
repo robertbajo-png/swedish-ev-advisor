@@ -10,6 +10,15 @@
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
     },
+    "ford|puma gen e": {
+      "asset_url": "/media/vehicles/ford-puma-gen-e-press-bae5ec3b9efc.jpg",
+      "content_sha256": "bae5ec3b9efc29bd09b3f2b704da97cd1d11d27fdb106877fc59c737f6d03c29",
+      "status": "approved",
+      "reviewed_at": "2026-11-21",
+      "object_position": "center",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
     "polestar|4": {
       "asset_url": "/media/vehicles/polestar-4-press-34c05d967929.jpg",
       "content_sha256": "34c05d967929c07962e7f91a3339d070ec13a178dfb8453f4c0f72359a6b7432",

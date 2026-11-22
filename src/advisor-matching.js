@@ -104,6 +104,7 @@ function evaluate(row, r, asOf) {
     [r.min_dc_charge_kw, number(row.dc_charge_kw), (v, target) => v >= target],
   ].filter(([target], index) => target !== null && (index === 0 || target > 0));
   if (tests.some(([target, value, passes]) => value !== null && !passes(value, target)) || (r.awd_required && awd(row) === false)) return 'no';
+  if (r.budget_sek !== null && row.price_type === MANUFACTURER_FROM_PRICE) return 'unknown';
   if (tests.some(([, value]) => value === null) || (r.awd_required && awd(row) === null)) return 'unknown';
   return 'yes';
 }
@@ -129,7 +130,7 @@ function recommendation(row, r, asOf) {
   const tradeoffs = [];
   const price = currentPrice(row, asOf);
   if (price !== null) {
-    const label = row.price_type === 'campaign_price' ? 'Kampanjpris' : row.price_type === 'dealer_offer' ? '\u00c5terf\u00f6rs\u00e4ljarerbjudande' : row.price_type === 'list_price' ? 'Listpris' : 'Prisuppgift';
+    const label = priceTypeLabel(row.price_type) || 'Prisuppgift';
     reasons.push(`${label}: ${money(price)}${r.budget_sek !== null ? ', inom din budget' : ''}.`);
   } else tradeoffs.push('Ett aktuellt svenskt pris kan inte verifieras.');
   const rangeText = row.wltp_range_interval || (specQualifications(row).rangeMinimum !== null && specQualifications(row).rangeInterval) || row.wltp_range_km + ' km';
@@ -152,18 +153,21 @@ export function matchAdvisorVariants(variants, requirements, { mode = 'determini
   const eligible = [];
   let unknown = 0;
   let configurationUncertain = false;
+  let fromPriceUncertain = false;
   for (const row of variants.filter(isPublicVariant)) {
     const match = evaluate(row, r, asOf);
     if (match === 'yes') eligible.push(row);
     else if (match === 'unknown') {
       unknown++;
       configurationUncertain ||= rangeNeedsConfiguration(row, r.min_wltp_range_km);
+      fromPriceUncertain ||= r.budget_sek !== null && row.price_type === MANUFACTURER_FROM_PRICE;
     }
   }
   eligible.sort((a, b) => score(b, r, asOf) - score(a, r, asOf) || String(a.variant_key || a.id).localeCompare(String(b.variant_key || b.id), 'sv-SE'));
   const shortlist = eligible.slice(0, 3).map((row) => recommendation(row, r, asOf));
   const notes = [unknown ? 'Vissa bilar saknar verifierade uppgifter f\u00f6r dina krav och har inte tagits med.' : '',
     configurationUncertain ? 'F\u00f6r vissa bilar ligger ditt r\u00e4ckviddskrav inom WLTP-intervallet. Exakt konfiguration beh\u00f6ver kontrolleras.' : '',
+    fromPriceUncertain ? 'Ett fr\u00e5npris bekr\u00e4ftar inte slutpriset.' : '',
     r.unsupported.length ? `Kan inte kontrolleras: ${r.unsupported.map((key) => UNSUPPORTED_LABELS[key]).join('; ')}.` : ''].filter(Boolean).join(' ').slice(0, 360);
   return {
     mode, interpretation_method: interpretation, recommendation_method: 'database_rules',
@@ -182,3 +186,4 @@ export function ruleAdvice(variants, request = {}, { mode = 'deterministic_fallb
   }
 }
 import { specQualifications } from './spec-qualifications.js';
+import { MANUFACTURER_FROM_PRICE, priceTypeLabel } from './price-evidence.js';
