@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
+import {useNewsBudgetTestClock} from './test_news_budget_clock.mjs';
+const clock=useNewsBudgetTestClock();
 const db=new PGlite();
 const hash='b'.repeat(64);
 const reserve=(id,caseKey='model',permit='luna',input=1000,output=1200,digest=hash)=>db.query(
@@ -53,11 +55,13 @@ try {
   assert.equal((await reserve(randomUUID(),'model','caps',10000)).reason,'luna_ordinary_budget_exhausted');
   await db.exec("reset role; delete from news_ai_requests where stage='old'; update news_ai_config set publication_enabled=true; set role service_role;");
   assert.equal((await reserve(randomUUID(),'model','caps')).allowed,false);
-  await db.exec("reset role; update news_ai_config set publication_enabled=false; update news_luna_test_permits set expires_at=clock_timestamp() where id='caps'; set role service_role;");
+  await db.exec(`reset role; update news_ai_config set publication_enabled=false;
+    update news_luna_test_permits set issued_at=clock_timestamp()-interval '1 hour',
+      expires_at=clock_timestamp() where id='caps'; set role service_role;`);
   assert.equal((await reserve(randomUUID(),'model','caps')).allowed,false);
   const cfg=(await db.query('select * from news_ai_config')).rows[0];
   assert.equal(cfg.model,'gpt-5.4-mini'); assert.equal(cfg.enabled,false); assert.equal(cfg.publication_enabled,false);
   assert.equal(Number(cfg.daily_limit_micro_usd),250000); assert.equal(Number(cfg.monthly_limit_micro_usd),5000000);
   console.log(JSON.stringify({news_luna_budget_ok:true,idempotent:true,public_denials:true,owner_only:true,
     three_one_use_cases:true,ordinary_caps_only:true,cache_accounting:true,unknown_usage_retained:true,closed_and_expired_denied:true,production_off:true}));
-} finally {await db.close();}
+} finally {clock.restore(); await db.close();}
