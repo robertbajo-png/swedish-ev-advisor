@@ -6,6 +6,7 @@ const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publ
 const toyotaPhotos = JSON.parse(readFileSync(new URL('../src/toyota-press-images.json', import.meta.url), 'utf8'));
 const buzzPhoto = JSON.parse(readFileSync(new URL('../src/id-buzz-photo-policy.json', import.meta.url), 'utf8'));
 const pumaPhoto = JSON.parse(readFileSync(new URL('../src/puma-photo-policy.json', import.meta.url), 'utf8'));
+const glbPhotoKey = 'mercedes benz|glb';
 
 const key = row => [row.brand, row.model].map(value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
 export const imagePlanHash = plan => createHash('sha256').update(JSON.stringify(plan)).digest('hex');
@@ -14,7 +15,17 @@ const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) =
 export function selectImageRegistryForPublic(publicModels, registry) {
   const scope = new Set(publicModels.map(key));
   const staged = new Map([buzzPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
+  assert(registry.assets.filter(asset => asset.model_key === glbPhotoKey).length <= 1, 'Duplicate prepared GLB model photo');
   return { ...registry, assets: registry.assets.filter(asset => {
+    if (asset.model_key === glbPhotoKey) {
+      assert.equal(asset.publisher_id, 'mercedes-glb-se-private-review', 'Unreviewed staged GLB photo');
+      assert.equal(asset.license_id, 'Manufacturer-media-use', 'Unreviewed staged GLB photo license');
+      assert.equal(asset.asset_url, '/media/vehicles/mercedes-benz-glb-press-' + asset.content_sha256?.slice(0,12) + '.jpg');
+      assert(!('variant_names' in asset), 'GLB staged photo is model-level only');
+      const pending = {id:'staged-glb-photo',brand:'Mercedes-Benz',model:'Glb',validation_status:'draft'};
+      buildImagePlan([pending],[pending],{schema_version:registry.schema_version,assets:[asset]});
+      return scope.has(glbPhotoKey);
+    }
     if ('variant_names' in asset) {
       assert(Array.isArray(asset.variant_names) && asset.variant_names.length > 0
         && asset.variant_names.every(name => typeof name === 'string' && name.trim() === name && name)
@@ -87,6 +98,7 @@ export function buildImagePlan(models, publicModels, registry) {
       if (policy.preserve_original_jpeg) {
         assert.equal(asset.downloaded_from, policy.approved_asset_url, 'Exact reviewed photo URL required');
         assert.equal(asset.source_content_sha256, policy.approved_source_sha256, 'Exact source photo hash required');
+        if (policy.asset_author) assert.equal(asset.author,policy.asset_author,'Incorrect press asset credit');
         assert.equal(asset.content_sha256, asset.source_content_sha256, 'Published photo must retain original bytes');
       }
     } else assert.match(asset.source_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);

@@ -2,6 +2,35 @@
   "schema_version": 1,
   "assets": [
     {
+      "model_key": "mercedes benz|glb",
+      "publisher_id": "mercedes-glb-se-private-review",
+      "source_url": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/images/nya-mercedes-benz-glb-2026-3376630",
+      "evidence_url": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/images/nya-mercedes-benz-glb-2026-3376630",
+      "license_url": "https://www.mynewsdesk.com/se/mercedes-benz-sverige/images/nya-mercedes-benz-glb-2026-3376630",
+      "license_id": "Manufacturer-media-use",
+      "evidence_quote": "Innehållet får laddas ner, användas och delas i olika mediekanaler | så länge innehållet används oförändrat och i dess helhet",
+      "full_frame": true,
+      "content_sha256": "01ba09303394762f66c440ddcd2f3efdffbea8c5e8f98632b9803d358f102755",
+      "source_content_sha256": "01ba09303394762f66c440ddcd2f3efdffbea8c5e8f98632b9803d358f102755",
+      "metadata_sha256": "b7a45f19aa7cd9fb3a06227c14e3414b99e2bf3b2ef72a54ff676c5463e5743c",
+      "author": "Mercedes-Benz AG",
+      "credit": "Mercedes-Benz AG / pressbild",
+      "original_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yb6oifu0k3pjuz2aadu6pv",
+      "status": "documented",
+      "reviewed_at": "2026-11-21",
+      "asset_url": "/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg",
+      "downloaded_from": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/yb6oifu0k3pjuz2aadu6pv",
+      "reviewed_candidate_sha256": "b580aab4f8bd1c484f3006c9a39db3a4b7292f1297b0e3429515b636a9c0f6b9",
+      "usage_scope": "independent_vehicle_editorial",
+      "prohibited_uses": [
+        "advertising",
+        "commercial_promotion",
+        "endorsement"
+      ],
+      "model_image_notice": "Pressbild av eldrivna GLB. Utrustningen kan skilja mellan versioner.",
+      "changes": "Originalfilen och pressrummets helbilder visas utan egen bearbetning."
+    },
+    {
       "model_key": "ford|puma gen e",
       "source_url": "https://www.mynewsdesk.com/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679",
       "evidence_url": "https://www.mynewsdesk.com/se/ford/images/puma-gen-e-digital-aqua-blue-019-dot-jpg-3363679",

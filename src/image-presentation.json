@@ -1,6 +1,15 @@
 {
   "schema_version": 1,
   "models": {
+    "mercedes benz|glb": {
+      "asset_url": "/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg",
+      "content_sha256": "01ba09303394762f66c440ddcd2f3efdffbea8c5e8f98632b9803d358f102755",
+      "status": "approved",
+      "reviewed_at": "2026-11-21",
+      "object_position": "center",
+      "object_fit": "contain",
+      "style": "manufacturer_press_photo"
+    },
     "polestar|3": {
       "asset_url": "/media/vehicles/polestar-3-press-450c917205da.jpg",
       "content_sha256": "450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71",
