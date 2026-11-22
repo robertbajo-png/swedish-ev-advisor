@@ -9,6 +9,7 @@ import {ADAPTER as XPENG_G9_ADAPTER} from './xpeng_g9_publication.mjs';
 import {ADAPTER as RENAULT4_PAIR_ADAPTER,renault4LocatorRow} from './renault_4_pair_publication.mjs';
 import {ADAPTER as TAVASCAN_ADAPTER} from './cupra_tavascan_drive_publication.mjs';
 import {ADAPTER as POLESTAR3_ADAPTER} from './polestar_3_publication.mjs';
+import {ADAPTER as IONIQ5_ADAPTER} from './hyundai_ioniq5_publication.mjs';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 
@@ -74,7 +75,17 @@ export function validateNewModelImage(models,intake,image){
  const body=policy.localOnly&&policy.readPrivateImage
   ?policy.readPrivateImage(image):readFileSync(new URL('../public'+image.asset_url,import.meta.url));
  assert.equal(createHash('sha256').update(body).digest('hex'),image.content_sha256,'Reviewed image bytes changed');
- assert(body[0]===255&&body[1]===216&&body[2]===255);return image;
+ assert(body[0]===255&&body[1]===216&&body[2]===255);
+ for(const draft of intake.drafts){
+  const variant=policy.variantPhoto?.(draft);
+  if(!variant)continue;
+  buildImagePlan(models,[intake.model],{schema_version:1,assets:[variant.image]});
+  assert.equal(variant.image.content_sha256,draft.identity_evidence.reviewed_photo_sha256);
+  assert.equal(variant.image.source_url,draft.identity_evidence.reviewed_photo_source);
+  assert.equal(createHash('sha256').update(variant.body).digest('hex'),variant.image.content_sha256,'Reviewed variant image bytes changed');
+  assert(variant.body[0]===255&&variant.body[1]===216&&variant.body[2]===255);
+ }
+ return image;
 }
 export function buildNewModelPlan(snapshot,intake,image,now=new Date()){
  const policy=validateNewModelIntake(intake,now),m=intake.model;
@@ -113,7 +124,11 @@ export async function publicationSnapshot(client,lock=false){
   result[table]=calendarDates((await client.query('SELECT * FROM public.'+table+' ORDER BY id'+(lock?' FOR UPDATE':''))).rows);
  }return result;
 }
-const variantFacts=(draft,source,batch,intake)=>({...draft.facts,price_sek:draft.price_evidence.value,
+const variantPhotoFields=(intake,draft)=>{
+ const variant=newModelAdapter(intake.adapter).variantPhoto?.(draft);
+ return variant?{variant_image_url:variant.image.asset_url,variant_image_source_url:variant.image.source_url}:{};
+};
+const variantFacts=(draft,source,batch,intake)=>({...draft.facts,...variantPhotoFields(intake,draft),price_sek:draft.price_evidence.value,
  price_type:draft.price_evidence.price_type,price_valid_until:draft.price_evidence.price_valid_until,
  price_source_url:draft.price_evidence.source_url,price_source_hash:draft.price_evidence.source_hash,
  price_source_quote:draft.price_evidence.quote,price_source_name:intake.sources.find(s=>s.final_url===draft.price_evidence.source_url).source_name,
@@ -268,6 +283,15 @@ async function verifyG6BeforeCommit(client,plan,baseline){
  }
 }
 
+export async function applyIoniq5Release(client,fresh,reviewed,ui,approvedHash,now=new Date()){
+ const {proveIoniq5ReleaseScope,assertIoniq5PublishedRows}=await import('./hyundai_ioniq5_release_scope.mjs');
+ const {assertVariantPhotoInstalled}=await import('./verify_variant_photo_migration.mjs');
+ proveIoniq5ReleaseScope(reviewed,fresh,ui,approvedHash,now);
+ return applyModelTransaction(client,fresh.plan,fresh.plan_hash,now,IONIQ5_ADAPTER,undefined,{
+  baselineHash:ui.baseline.database_baseline_sha256,requireMigration:assertVariantPhotoInstalled,check:assertIoniq5PublishedRows,
+  baselineError:'Anonymous catalog changed before Ioniq 5 writes'});
+}
+
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now),modelId=plan.expected_model.id;
@@ -292,7 +316,10 @@ async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapte
   }
   const renault4Release=approvedAdapter===RENAULT4_PAIR_ADAPTER;
   const check=scopedRelease?.check??policy.verifyPublic;
-  if(scopedRelease)assert(!existing.length,'An approved release requires an unpublished canonical model');
+  if(scopedRelease){
+   assert(!existing.length,'An approved release requires an unpublished canonical model');
+   await scopedRelease.requireMigration?.(client);
+  }
   const primary=plan.intake.sources.find(s=>s.final_url===policy.primaryUrl);assert(primary);
   if(existing.length){
    assert.equal(existing.length,plan.targets.length,'Partial/colliding publication');

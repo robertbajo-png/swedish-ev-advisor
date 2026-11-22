@@ -278,5 +278,25 @@
     "download_label": "Download",
     "permission_excerpt": "Materialet kan downloades af journalister, bloggere, meningsdannere etc.",
     "condition_excerpt": "forudsat at materialet er uredigeret og publiceret i sin helhed"
+  },
+  "hyundai-ioniq5-se-mynewsdesk": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Hyundai Motor Sweden",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/hyundai/pressreleases/hyundai-motors-ioniq-5-faar-en-boost-med-foerbaettrade-funktioner-och-ny-n-line-modell-3307768",
+    "image_path_prefix": "/se/hyundai/images/",
+    "model_title_pattern": "^Image (?:1\\) Enhanced IONIQ 5|2\\) New IONIQ 5 N Line) \\(Ext\\)$",
+    "approved_image_paths": [
+      "/se/hyundai/images/image-1-enhanced-ioniq-5-ext-2976415",
+      "/se/hyundai/images/image-2-new-ioniq-5-n-line-ext-2976416"
+    ],
+    "model_keys": [
+      "hyundai|ioniq 5"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
   }
 }

@@ -97,7 +97,8 @@ class ReservationParser(HTMLParser):
 
 class SourceFetcher:
     def __init__(self, timeout=10, document_parser=None, url_policy=None, max_bytes=MAX_BYTES, text_parser=None):
-        if not isinstance(max_bytes, int) or not 1 <= max_bytes <= 16 * 1024 * 1024:
+        limit = (32 if url_policy is not None else 16) * 1024 * 1024
+        if not isinstance(max_bytes, int) or not 1 <= max_bytes <= limit:
             raise ValueError('invalid_bounded_document_size')
         self.max_bytes = max_bytes
         self.timeout = timeout

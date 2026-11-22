@@ -56,6 +56,8 @@ jobs:
       - run: bun run verify:price-refresh
       - run: bun run verify:price-evidence
       - run: node --test tests/polestar-3-catalog.test.mjs tests/polestar-3-readback.test.mjs
+      - run: python -m unittest discover -s tests -p test_hyundai_ioniq5_review.py -v
+      - run: node scripts/verify_variant_photo_migration.mjs
       - run: bun run verify:dev-file-boundary
       - run: bun run verify:toyota-publication
       - run: bun run verify:cloudflare
