@@ -23,6 +23,19 @@ class PressImageTests(unittest.TestCase):
             usage_scope='independent_vehicle_editorial',
             prohibited_uses=['advertising', 'commercial_promotion', 'endorsement'], metadata_sha256='a' * 64)
 
+    def test_g6_full_frame_presentation_matches_the_reviewed_media(self):
+        source = Path(__file__).resolve().parents[1] / 'src'
+        registry = lambda name: json.loads((source / name).read_text(encoding='utf-8'))
+        key = 'xpeng|g6'
+        asset = registry('model-images.json')[key]
+        rights, = [row for row in registry('image-rights.json')['assets'] if row['model_key'] == key]
+        style = registry('image-presentation.json')['models'][key]
+        self.assertTrue(rights['full_frame'])
+        self.assertEqual(style['asset_url'], asset)
+        self.assertEqual(style['content_sha256'], rights['content_sha256'])
+        self.assertEqual(style['content_sha256'], registry('image-variants.json')[asset]['source_sha256'])
+        self.assertEqual((style['status'], style['object_fit']), ('approved', 'contain'))
+
     def test_exact_press_asset_is_not_relabelled_as_creative_commons(self):
         self.assertTrue(reviewed_press_permission(self.evidence))
         self.assertEqual(rights_errors(self.evidence, self.evidence), [])
