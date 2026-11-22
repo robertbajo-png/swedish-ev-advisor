@@ -7,6 +7,7 @@ import { applyPolestar3Release, publicationHash } from '../scripts/new_model_pub
 import { ADAPTER, MODEL } from '../scripts/polestar_3_publication.mjs';
 import { polestar3ApprovalHash, polestar3Media, preparePolestar3ReleaseReview, proveFreshPolestar3Release } from '../scripts/polestar_3_release_scope.mjs';
 import { catalogHash } from '../scripts/sync_public_catalog.mjs';
+import { assertPolestarReleaseCheckout } from '../scripts/publish_approved_polestar_3.mjs';
 
 const manual = 'https://www.polestar.com/se/manual/polestar-3/2027/article/certified-wltp/';
 const row = {id: 'isolated-polestar-fixture', brand: 'Polestar', model: '3', variant_name: 'Performance',
@@ -116,4 +117,20 @@ test('Polestar production entry rejects mismatched approval and reused capture b
   await assert.rejects(applyPolestar3Release(client,fresh,reviewed,polestar3ApprovalHash(reviewed)), /Re-fetch the reviewed/);
   await assert.rejects(applyPolestar3Release(client,{...fresh,capture_sha256:'d'.repeat(64),plan_hash:'e'.repeat(64)},
     reviewed,polestar3ApprovalHash(reviewed)), /Fresh Polestar plan changed/);
+});
+
+test('Polestar checkout guard admits the clean exact revision but rejects worktree or main drift', () => {
+  const commit='a'.repeat(40), other='b'.repeat(40);
+  const checkout=({remote=commit,head=commit,status=''}={})=>(...args)=>{
+    switch(args.join(' ')){
+      case 'ls-remote origin refs/heads/main': return remote+'\trefs/heads/main';
+      case 'rev-parse HEAD': return head;
+      case 'status --porcelain --untracked-files=no -- scripts src database public/media': return status;
+      default: assert.fail('Unexpected Git command');
+    }
+  };
+  assert.doesNotThrow(()=>assertPolestarReleaseCheckout(checkout(),commit));
+  assert.throws(()=>assertPolestarReleaseCheckout(checkout({remote:other}),commit),/Main changed/);
+  assert.throws(()=>assertPolestarReleaseCheckout(checkout({head:other}),commit),/exact main checkout/);
+  assert.throws(()=>assertPolestarReleaseCheckout(checkout({status:' M scripts/new_model_publication.mjs'}),commit),/code or media changed/);
 });
