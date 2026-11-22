@@ -3,9 +3,9 @@ import { test } from 'node:test';
 import { normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
 import { matchAdvisorVariants, ruleRequirements } from '../src/advisor-matching.js';
 import { specQualifications } from '../src/spec-qualifications.js';
-import { publicationHash } from '../scripts/new_model_publication.mjs';
-import { ADAPTER, MODEL, readPolestar3Image } from '../scripts/polestar_3_publication.mjs';
-import { polestar3Media, preparePolestar3ReleaseReview, proveFreshPolestar3Release } from '../scripts/polestar_3_release_scope.mjs';
+import { applyPolestar3Release, publicationHash } from '../scripts/new_model_publication.mjs';
+import { ADAPTER, MODEL } from '../scripts/polestar_3_publication.mjs';
+import { polestar3ApprovalHash, polestar3Media, preparePolestar3ReleaseReview, proveFreshPolestar3Release } from '../scripts/polestar_3_release_scope.mjs';
 import { catalogHash } from '../scripts/sync_public_catalog.mjs';
 
 const manual = 'https://www.polestar.com/se/manual/polestar-3/2027/article/certified-wltp/';
@@ -40,7 +40,11 @@ test('normalized and raw advice never confirm an interval-dependent minimum', ()
 });
 
 function releaseProof() {
-  const photo = readPolestar3Image();
+  const photo = {
+    model_key:'polestar|3', asset_url:'/media/vehicles/polestar-3-press-450c917205da.jpg',
+    source_url:'https://www.mynewsdesk.com/dk/have-as/images/polestar-250527-1251-v004-dot-jpg-3332240',
+    content_sha256:'450c917205dab2d07ea2be42dc2e02b0b0410169f666d65469f8966a28e61b71',
+  };
   const priceQuote = 'Performance | 999 000 kr';
   const flags = {market_seen:true, available_confirmed:false, discontinued_candidate:false, coming_or_low_volume:false};
   const facts = {wltp_range_km:601, wltp_consumption_kwh_100km:20.5, dc_charge_kw:350};
@@ -58,6 +62,7 @@ function releaseProof() {
       field_evidence:{wltp_range_km:{source_url:manual, quote:row.source_quote.split(' | ').slice(1).join(' | ')}},
     }}]};
   const report = {status:'polestar_3_local_insertion_verified', commit:'a'.repeat(40), variants:1, technical_fields:9,
+    review_sha256:'b'.repeat(64),
     anonymous_before_commit:true, exact_replay_noop:true, late_rollback:true, publication_approved:false, production_writes:0,
     plan_sha256:publicationHash(plan), baseline_sha256:catalogHash(baseline), candidate_sha256:catalogHash(candidate),
     baseline_count:baseline.length, candidate_count:candidate.length};
@@ -101,4 +106,14 @@ test('Polestar additions cannot change other catalog prices or replace certified
     proof.report.candidate_sha256=proof.ui.candidate_sha256=catalogHash(proof.candidate);
     assert.throws(()=>preparePolestar3ReleaseReview(proof));
   }
+});
+
+test('Polestar production entry rejects mismatched approval and reused capture before opening a transaction', async () => {
+  const reviewed = preparePolestar3ReleaseReview(releaseProof());
+  const client = {query:()=>assert.fail('A rejected review must not reach SQL')};
+  const fresh = {plan:reviewed.plan,plan_hash:publicationHash(reviewed.plan),capture_sha256:reviewed.capture_sha256};
+  await assert.rejects(applyPolestar3Release(client,fresh,reviewed,'0'.repeat(64)), /exact reviewed/);
+  await assert.rejects(applyPolestar3Release(client,fresh,reviewed,polestar3ApprovalHash(reviewed)), /Re-fetch the reviewed/);
+  await assert.rejects(applyPolestar3Release(client,{...fresh,capture_sha256:'d'.repeat(64),plan_hash:'e'.repeat(64)},
+    reviewed,polestar3ApprovalHash(reviewed)), /Fresh Polestar plan changed/);
 });

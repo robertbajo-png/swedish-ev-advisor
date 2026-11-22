@@ -66,6 +66,7 @@ export function preparePolestar3ReleaseReview({report,plan,ui,baseline,candidate
     ['polestar_3_local_insertion_verified',1,9,false,0]);
   assert(report.anonymous_before_commit&&report.exact_replay_noop&&report.late_rollback);
   assert.match(report.commit,revision);
+  assert.match(report.review_sha256,sha);
   assert.equal(publicationHash(plan),report.plan_sha256);
   assert.equal(catalogHash(baseline),report.baseline_sha256);
   assert.equal(catalogHash(candidate),report.candidate_sha256);
@@ -79,7 +80,7 @@ export function preparePolestar3ReleaseReview({report,plan,ui,baseline,candidate
   assert.deepEqual(ui.checks.map(check=>check.image),ui.media.slice(1).map(asset=>asset.url));
   assert(ui.checks.every(check=>check.exact_image&&check.certified_interval&&check.no_overflow));
   const delta=validatePolestar3Delta(baseline,candidate,plan);
-  return {plan,ui,commit:report.commit,baseline_sha256:report.baseline_sha256,candidate_sha256:report.candidate_sha256,...delta};
+  return {plan,ui,commit:report.commit,capture_sha256:report.review_sha256,baseline_sha256:report.baseline_sha256,candidate_sha256:report.candidate_sha256,...delta};
 }
 
 export const polestar3ApprovalHash = reviewed=>publicationHash(reviewed);
@@ -87,19 +88,27 @@ export const polestar3ApprovalHash = reviewed=>publicationHash(reviewed);
 export function proveFreshPolestar3Release(reviewed,fresh,approval,now=new Date()) {
   assert.equal(approval,polestar3ApprovalHash(reviewed),'Require the exact reviewed Polestar scope');
   const {plan}=fresh;
+  assert.match(fresh.capture_sha256,sha);
+  assert.notEqual(fresh.capture_sha256,reviewed.capture_sha256,'Re-fetch the reviewed Polestar evidence');
   assert.equal(fresh.plan_hash,publicationHash(plan),'Fresh Polestar plan changed');
   assert.equal(plan.adapter,ADAPTER);
   assert.equal(plan.expected_model.validation_status,'draft');
   assert.match(reviewed.commit,revision);
   assert.match(reviewed.database_baseline_sha256,sha);
+  assert.equal(reviewed.ui.exact_main_code,true,'Require exact-main browser review');
+  assert.equal(reviewed.ui.source_commit,reviewed.commit);
   assert.deepEqual(plan.image,readPolestar3Image());
   validateNewModelIntake(plan.intake,now);
-  assert(Math.min(...captureTimes(plan))>Math.max(...captureTimes(reviewed.plan)),'Re-fetch all sources after review');
+  const oldest=Math.min(...captureTimes(plan));
+  assert(oldest>Math.max(...captureTimes(reviewed.plan)),'Re-fetch all sources after review');
+  const expires=oldest+900000;
+  assert(expires>+now,'Fresh Polestar source window expired');
   for(const field of ['expected_model','expected_alias','expected_market','expected_monthly','expected_sources','image']) {
     assert.deepEqual(plan[field],reviewed.plan[field],'Reviewed Polestar scope changed: '+field);
   }
   assert.equal(plan.intake.market.source.content_hash,reviewed.plan.intake.market.source.content_hash,'Mobility Sweden workbook changed');
   for(const field of ['intake','targets']) assert.deepEqual(stable(plan[field]),stable(reviewed.plan[field]),'Reviewed Polestar evidence changed: '+field);
+  return new Date(expires).toISOString();
 }
 
 export async function verifyRegisteredPolestar3Media(root,photo,ui) {

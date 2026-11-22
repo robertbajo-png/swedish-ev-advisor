@@ -7,7 +7,7 @@ import { parseArgs } from 'node:util';
 import { PGlite } from '@electric-sql/pglite';
 import { anonymousCatalogRows, catalogWithComparableTimes, readCommittedPublicBaseline,
   readPublishedFixture, seedCatalogFixture } from './isolated_catalog_review.mjs';
-import { applyNewModelPlan, buildNewModelPlan, publicationHash, publicationSnapshot } from './new_model_publication.mjs';
+import { applyNewModelPlan, applyPolestar3Release, buildNewModelPlan, publicationHash, publicationSnapshot } from './new_model_publication.mjs';
 import { MODEL, policy, readPolestar3Capture, readPolestar3Image } from './polestar_3_publication.mjs';
 import { readPolestar3Identity } from './prepare_polestar_3_readback.mjs';
 import { useCalendarDateText } from './refresh_kia_specs.mjs';
@@ -61,7 +61,7 @@ async function readOnly(root, intake, image, now, connectorPath) {
   } finally { await closeSourceSnapshot(client); }
 }
 
-export async function rehearsePolestar3({plan, fixture}, baseline, now) {
+export async function rehearsePolestar3({plan, fixture}, baseline, now, scoped = null) {
   const db = new PGlite();
   try {
     await db.exec("SET TIME ZONE 'UTC'");
@@ -71,7 +71,9 @@ export async function rehearsePolestar3({plan, fixture}, baseline, now) {
       'Live and isolated baseline rows differ');
     const before = await publicationSnapshot(db);
     const rebuilt = buildNewModelPlan(before, plan.intake, plan.image, now);
-    const apply = (target = rebuilt, time = now) => applyNewModelPlan(db, target, publicationHash(target), time);
+    const apply = (target = rebuilt, time = now) => scoped
+      ? applyPolestar3Release(db,{...scoped.fresh,plan:target,plan_hash:publicationHash(target)},scoped.reviewed,scoped.reviewedHash,time)
+      : applyNewModelPlan(db,target,publicationHash(target),time);
     await assert.rejects(applyNewModelPlan({query: () => assert.fail('Remote query attempted')},
       rebuilt, publicationHash(rebuilt), now), /local PGlite/);
     for (const mutate of [
@@ -107,7 +109,8 @@ export async function rehearsePolestar3({plan, fixture}, baseline, now) {
     const receipt = await apply();
     assert.deepEqual([receipt.committed, receipt.variants_inserted, receipt.anonymous_before_commit], [true, 1, true]);
     const after = await publicationSnapshot(db);
-    assert.equal((await apply()).already_applied, true);
+    if(scoped) await assert.rejects(apply(), /unpublished canonical model/);
+    else assert.equal((await apply()).already_applied, true);
     assert.deepEqual(await publicationSnapshot(db), after, 'Exact replay changed the database');
     const previousMonths = new Set(before.market_model_monthly_stats.map(row => row.id));
     assert.deepEqual(after.market_model_monthly_stats.filter(row => previousMonths.has(row.id)), before.market_model_monthly_stats);

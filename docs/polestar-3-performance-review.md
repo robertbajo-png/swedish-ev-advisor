@@ -39,6 +39,17 @@ rolled back, an exact replay made no changes, and both private
 viewports passed with the verified press image and certified interval.
 This run overlaid the Polestar branch, so it is not exact-main proof.
 
-Next: stage the scoped writer and the three verified media files
-together, then repeat the browser proof with exact main before
-inserting the Performance variant in production.
+The generic adapter stays local-only. The dedicated release command
+`scripts/publish_approved_polestar_3.mjs` ties an exact-main readback
+and browser report to a second official source capture. It checks the
+three registered media hashes and matches the live and anonymous
+database baselines. Its default mode is read-only. `--simulate`
+exercises the same guarded writer in PGlite, including a late rollback
+and refusal of a repeated insert. The narrow write path needs a matching
+reviewed scope hash and a new private journal.
+
+Use `--resume-export` only on a completed journal. It validates the
+committed variant/model IDs and two anonymous reads, then exports the
+actual database view. It never reopens a write transaction. If a commit's
+outcome is uncertain, inspect readback and the journal before taking
+further action; never rerun an insert based on an upload failure.
