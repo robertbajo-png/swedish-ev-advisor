@@ -13,12 +13,11 @@ import { applyPumaAtomicLocally, applyPumaRelease, buildNewModelPlan, publicatio
 import { assertPumaPriceMigration, pumaApprovalHash } from './ford_puma_release_scope.mjs';
 import { runPumaRelease } from './publish_approved_ford_puma.mjs';
 import { catalogHash, compareCatalogs, normalizeCatalog, variantKey } from './sync_public_catalog.mjs';
+import {catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 
-async function readOnly(root, intake) {
-  const connector = join(root, 'data', 'local', 'db-tools', 'source-client.mjs');
-  assert.equal(await realpath(connector), connector);
-  const {openSourceSnapshot, closeSourceSnapshot} = await import(pathToFileURL(connector).href);
-  const client = await openSourceSnapshot();
+async function readOnly(root, intake, clientModule) {
+  const snapshot = await openCatalogSnapshot(await catalogConnectorPath(root,clientModule));
+  const {client} = snapshot;
   try {
     const identity = await readPumaIdentity(client);
     const {rows} = await client.query('SELECT to_jsonb(s) AS row FROM public.manufacturer_sources s WHERE url=ANY($1::text[]) ORDER BY id',
@@ -34,7 +33,7 @@ async function readOnly(root, intake) {
     const published = await client.query('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id');
     return {identity, existingSources, fixture: await readPublishedFixture(client),
       databaseCatalog: catalogWithComparableTimes(published.rows.map(r => r.row))};
-  } finally { await closeSourceSnapshot(client); }
+  } finally { await snapshot.close(); }
 }
 
 async function rehearseApprovedRunner(db, reviewed, packet, baseline, now) {
@@ -81,6 +80,9 @@ async function rehearseApprovedRunner(db, reviewed, packet, baseline, now) {
   assert.equal(journal.export.records.length, baseline.length + 2);
   const driftRows = (await io.publicRows()).map(row => row.brand === 'Ford' && row.model === 'Puma Gen-E' ? row : {...row, seats: null});
   await assert.rejects(runPumaRelease({...args, mode: 'export'}, {...io, publicRows: () => driftRows}), /Existing public rows changed/);
+  const wrongIdentity = (await io.publicRows()).map(row => row.brand === 'Ford' && row.model === 'Puma Gen-E'
+    ? {...row,id:'ffffffff-ffff-4fff-8fff-ffffffffffff'} : row);
+  await assert.rejects(runPumaRelease({...args,mode:'export'},{...io,publicRows:() => wrongIdentity}),/Unexpected public Puma variant ID/);
   return journal.receipt.result;
 }
 
@@ -165,7 +167,8 @@ export async function rehearse(scope, intake, image, base, now, reviewed) {
 }
 
 async function main() {
-  const {values, positionals} = parseArgs({options: {review: {type: 'string'}, 'release-scope': {type: 'string'}}, allowPositionals: true});
+  const {values, positionals} = parseArgs({options: {review: {type: 'string'}, 'release-scope': {type: 'string'},
+    'client-module': {type:'string'}}, allowPositionals: true});
   assert(values.review && !positionals.length, 'Supply the fresh private Puma review with --review');
   const root = await realpath('.');
   const evidence = await realpath('data/local/release-data');
@@ -182,7 +185,7 @@ async function main() {
   }
   const {intake, reviewHash} = readPumaCapture(values.review);
   const image = readPumaImage();
-  const scope = await readOnly(root, intake);
+  const scope = await readOnly(root, intake, values['client-module']);
   const output = await mkdtemp(join(evidence, 'ford-puma-local-'));
   const {base, proof} = await readCommittedPublicBaseline(evidence, output, {imageTools: true});
   assert.equal(execFileSync('git', ['ls-remote', 'origin', 'refs/heads/main'], {encoding: 'utf8', timeout: 20000}).trim(),

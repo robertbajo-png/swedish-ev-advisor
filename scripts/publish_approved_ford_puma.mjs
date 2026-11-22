@@ -11,10 +11,10 @@ import { readPumaIdentity } from './ford_puma_identity.mjs';
 import { assertPumaPriceMigration, pumaApprovalHash, pumaCatalogDelta, pumaReleaseReview, provePumaRelease } from './ford_puma_release_scope.mjs';
 import { applyPumaRelease, publicationHash } from './new_model_publication.mjs';
 import { catalogWithComparableTimes } from './isolated_catalog_review.mjs';
-import { catalogHash, fetchCatalog, publicHeaders, SOURCE } from './sync_public_catalog.mjs';
+import { CATALOG_PROJECT, catalogConnectorPath, openCatalogSnapshot } from './local_catalog_connector.mjs';
+import { catalogHash, fetchCatalog, publicHeaders, SOURCE, variantKey } from './sync_public_catalog.mjs';
 import { useCalendarDateText } from './refresh_kia_specs.mjs';
 
-const project = 'eutcryxbitudllcnpnex';
 const origin = 'https://elbilsagenten.se';
 const sha = /^[a-f0-9]{64}$/;
 const gitSha = /^[a-f0-9]{40}$/;
@@ -31,7 +31,7 @@ const codeFiles = [
   'scripts/ford_puma_identity.mjs', 'scripts/ford_puma_gen_e_publication.mjs', 'scripts/ford_puma_gen_e_review.py',
   'scripts/ford_puma_release_scope.mjs', 'scripts/publish_approved_ford_puma.mjs',
   'scripts/new_model_adapters.mjs', 'scripts/model_image_sync.mjs', 'src/puma-photo-policy.json',
-  'scripts/isolated_catalog_review.mjs', 'scripts/import_mobility_sweden.py',
+  'scripts/isolated_catalog_review.mjs', 'scripts/import_mobility_sweden.py', 'scripts/local_catalog_connector.mjs',
 ];
 
 export async function runPumaRelease({mode, reviewed, commit, approval}, io) {
@@ -58,7 +58,14 @@ export async function runPumaRelease({mode, reviewed, commit, approval}, io) {
     assert.deepEqual([result.variants_inserted, result.anonymous_before_commit, result.atomic_identity, result.paid_calls], [2, true, true, 0]);
     const rows = await io.publicRows();
     const records = pumaCatalogDelta(baseline, rows, result.variant_plan);
-    assert.equal(comparable(await io.publicRows()), comparable(rows), 'Canonical catalog changed during private export');
+    const keys = new Set(baseline.map(variantKey));
+    const newRows = rows.filter(row => !keys.has(variantKey(row)));
+    for (const {id, draft} of result.variant_plan.targets) {
+      const row = newRows.find(row => row.variant_name === draft.variant_name);
+      assert.equal(row.id,id,'Unexpected public Puma variant ID');
+      assert.equal(row.canonical_model_id,result.model_id,'Unexpected public Puma model ID');
+    }
+    assert.deepEqual(await io.publicRows(),rows,'Canonical catalog changed during private export');
     const digest = catalogHash(records);
     await io.saveExport({source: SOURCE, schema_version: 1, generated_at: io.now().toISOString(),
       catalog_sha256: digest, records, missing_view_columns: []});
@@ -125,6 +132,7 @@ async function main() {
   const {values, positionals} = parseArgs({options: {
     review: {type: 'string'}, ui: {type: 'string'}, scope: {type: 'string'}, fresh: {type: 'string'},
     'release-commit': {type: 'string'}, 'commit-approved': {type: 'string'}, 'export-approved': {type: 'string'}, journal: {type: 'string'},
+    'client-module': {type:'string'},
   }, allowPositionals: true});
   assert.equal(positionals.length, 0);
   const root = await realpath('.');
@@ -152,9 +160,10 @@ async function main() {
     assert.equal(dirname(journal), evidence);
     assert.match(basename(journal), /^ford-puma-apply-[a-z0-9-]+$/);
   }
-  const env = {...loadEnv('production', root, 'SUPABASE_'), ...loadEnv('production', root, 'VITE_SUPABASE_')};
+  const connection = await catalogConnectorPath(root,values['client-module']);
+  const env = {...loadEnv('production', connection.sourceRoot, 'SUPABASE_'), ...loadEnv('production', connection.sourceRoot, 'VITE_SUPABASE_')};
   const dbUrl = env.SUPABASE_URL || env.VITE_SUPABASE_URL, key = env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
-  let connector;
+  let snapshot;
   async function live(pathname) {
     const response = await fetch(origin + pathname, {redirect: 'error', signal: AbortSignal.timeout(20000)});
     assert(response.ok, 'Published Puma prerequisite missing: ' + pathname);
@@ -203,18 +212,15 @@ async function main() {
     liveBaseline: async () => (await (await live('/data/public_ev_variants.json')).json()).records,
     publicRows() {
       stage = 'anonymous_supabase';
-      assert.equal(new URL(dbUrl).origin, 'https://' + project + '.supabase.co');
+      assert.equal(new URL(dbUrl).origin, 'https://' + CATALOG_PROJECT + '.supabase.co');
       publicHeaders(key);
-      return fetchCatalog({url: dbUrl, key, onSchema: missing => assert.deepEqual(missing, [])});
+      return fetchCatalog({url: dbUrl, key, includeIds:mode==='export', onSchema: missing => assert.deepEqual(missing, [])});
     },
     freshSource: () => {stage = 'source_replay'; return readPumaCapture(values.fresh).intake;},
     async openSnapshot() {
       stage = 'read_only_database_prerequisites';
-      const path = join(root, 'data/local/db-tools/source-client.mjs');
-      await unlinked(path);
-      connector = await import(pathToFileURL(path).href);
-      assert.equal(connector.PROJECT_REF, project);
-      return connector.openSourceSnapshot();
+      snapshot = await openCatalogSnapshot(connection);
+      return snapshot.client;
     },
     async readState(client, intake) {
       const identity = await readPumaIdentity(client);
@@ -225,7 +231,7 @@ async function main() {
       assert.equal(drafts.rows.length, 0, 'Existing Puma draft requires separate review');
       return {identity, expected_sources: JSON.parse(JSON.stringify(rows))};
     },
-    closeSnapshot: client => connector.closeSourceSnapshot(client),
+    closeSnapshot: () => snapshot.close(),
     async saveAttempt(value) {
       stage = 'journal_new_attempt';
       await mkdir(journal);
