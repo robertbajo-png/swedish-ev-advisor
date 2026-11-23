@@ -128,7 +128,8 @@ async function main(){
     const rows=await fetchAnonymousRows(),records=insterCatalogDelta(baseline,rows,attempt.plan);
     assert.equal(databaseCatalogHash(await fetchAnonymousRows()),databaseCatalogHash(rows),'Public rows changed during export');
     const output=join(dir,'public_ev_variants.json');
-    await save(output,{source:SOURCE,generated_at:new Date().toISOString(),catalog_sha256:catalogHash(records),records});
+    await save(output,{source:SOURCE,schema_version:1,generated_at:new Date().toISOString(),
+      missing_view_columns:[],catalog_sha256:catalogHash(records),records});
     return {status:'private_inster_export_verified',output,added:1,catalog_sha256:catalogHash(records),deployed:false};
   }
 

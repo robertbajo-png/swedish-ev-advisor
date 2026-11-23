@@ -1,6 +1,8 @@
 {
   "source": "supabase_public_ev_variants",
+  "schema_version": 1,
   "generated_at": "2026-11-23T02:44:17.256Z",
+  "missing_view_columns": [],
   "catalog_sha256": "79a7718574d3b32589abde51ee46fa904e33c12561c56519cd7e749279c72d81",
   "records": [
     {
