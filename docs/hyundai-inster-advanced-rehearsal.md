@@ -49,10 +49,23 @@ The rehearsal writes its hash-bound candidate catalog only under ignored
 Prime original and full-frame responsive sizes (480, 800, 1280 px) were
 staged privately, with no change to the public image registry.
 
+The browser rehearsal uses the exact hash-bound readback and image packet:
+
+```sh
+node scripts/verify_hyundai_inster_advanced_ui.mjs --readback <private-readback> --photo <private-photo-packet>
+```
+
+Chromium verified 320, 390 and 1440 px, with the whole photo above the text on
+mobile, a visible Prime image qualification and the licensed credit. It
+displayed the manufacturer's starting price without a fixed JSON-LD offer,
+360 km, 85.3 kW DC, 10.5 kW AC and the explicit lack of towing capability.
+The comparison flow also showed the exact DC and trailer values next to
+Kia EV2. Screenshots and the UI receipt are stored only with the private
+readback. The local browser server has no API access.
+
 Production still did not have the verified decimal migration. No production
 write, licensed photo upload or deployment occurred. Before release,
 package the fresh capture and media in the normal release workflow,
-verify browser presentation against the candidate, then verify migration
-027 and the exact scoped production write independently.
+then verify migration 027 and the exact scoped production write independently.
 
 [photo]: https://commons.wikimedia.org/wiki/File:Hyundai_Inster_Prime_%E2%80%93_f_14022026.jpg
