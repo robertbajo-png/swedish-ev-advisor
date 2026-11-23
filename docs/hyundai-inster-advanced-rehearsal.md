@@ -92,4 +92,27 @@ No Inster row has been inserted in production. Before that write, verify
 the exact reader/media release, recheck the fresh source bundle and bind
 the scoped insertion to the approved catalog baseline.
 
+### Scoped insertion
+
+Use the rehearsal on the migrated production baseline to save the private
+plan and baseline. Bind its candidate to the browser and static receipts:
+
+```sh
+node scripts/prepare_hyundai_inster_advanced_release.mjs --readback <private-readback> --ui <private-ui-output>
+```
+
+A local repeat with `--reviewed-scope <private-scope>` and a new intake
+exercises the exact scoped transaction only inside PGlite. The 23 November
+run used a fresh manufacturer intake and the migrated production baseline:
+105 prior variants were unchanged, one Inster appeared privately with
+85.3 kW, the historic market month survived, and exact replay was a no-op.
+The production
+operator command `publish_hyundai_inster_advanced.mjs` first runs read-only
+with the reviewed scope, fresh intake, current-main commit and push CI run,
+and the deployed reader hash. It verifies all four live media files,
+catalog equality and migration 027. Its check emits the scope seal; passing
+that exact seal with `--commit-seal` permits one guarded insertion and a
+private journal. Use `--export-journal` in place of `--fresh` for the
+subsequent validated export. Neither command deploys the site or invokes AI.
+
 [photo]: https://commons.wikimedia.org/wiki/File:Hyundai_Inster_Prime_%E2%80%93_f_14022026.jpg

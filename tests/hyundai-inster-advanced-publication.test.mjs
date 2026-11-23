@@ -4,6 +4,8 @@ import test from 'node:test';
 import {ADAPTER,MODEL,MATERIAL,VARIANT,facts,policy} from '../scripts/hyundai_inster_advanced_publication.mjs';
 import {newModelAdapter} from '../scripts/new_model_adapters.mjs';
 import {buildImagePlan,selectImageRegistryForPublic} from '../scripts/model_image_sync.mjs';
+import {insterReleaseHash,proveInsterRelease} from '../scripts/hyundai_inster_advanced_release_scope.mjs';
+import {applyInsterRelease} from '../scripts/new_model_publication.mjs';
 
 function exact(){
   const config=policy.primaryUrl,stock='https://lager.hyundai.se/model/INSTER?customer=private';
@@ -60,4 +62,16 @@ test('the shared license does not make the ID. Buzz or a different Inster photo 
     {variant_names:[VARIANT]}]){
     assert.throws(()=>buildImagePlan([model],[model],registry({...image,...wrong})),/Inster/);
   }
+});
+
+test('the release seal binds model, deployed reader and main revision before any database work',async()=>{
+  const scope={status:'inster_release_scope_private',publication_approved:false,plan:{adapter:ADAPTER}};
+  const target={commit:'a'.repeat(40),reader_sha256:'b'.repeat(64)};
+  const seal=insterReleaseHash(scope,target);
+  for(const changed of [{...target,commit:'c'.repeat(40)},{...target,reader_sha256:'d'.repeat(64)}]){
+    assert.notEqual(insterReleaseHash(scope,changed),seal);
+    assert.throws(()=>proveInsterRelease(scope,null,changed,seal,new Date()),/exact reviewed Inster/);
+  }
+  const noAccess={query(){assert.fail('Invalid seal must not reach the database');}};
+  await assert.rejects(applyInsterRelease(noAccess,null,scope,target,'e'.repeat(64)),/exact reviewed Inster/);
 });

@@ -7,7 +7,8 @@ import {PGlite} from '@electric-sql/pglite';
 import {MODEL,policy,readInsterCapture} from './hyundai_inster_advanced_publication.mjs';
 import {catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 import {anonymousCatalogRows,catalogWithComparableTimes,readPublishedFixture,seedCatalogFixture} from './isolated_catalog_review.mjs';
-import {applyNewModelPlan,buildNewModelPlan,publicationHash,publicationSnapshot} from './new_model_publication.mjs';
+import {applyInsterRelease,applyNewModelPlan,buildNewModelPlan,publicationHash,publicationSnapshot} from './new_model_publication.mjs';
+import {insterReleaseHash} from './hyundai_inster_advanced_release_scope.mjs';
 import {catalogHash,compareCatalogs,normalizeCatalog,variantKey} from './sync_public_catalog.mjs';
 import {assertExactDcInstalled} from './verify_exact_dc_migration.mjs';
 
@@ -15,7 +16,7 @@ const one=(rows,label)=>{assert.equal(rows.length,1,'Require one exact Inster '+
 const normalDc=snapshot=>({...snapshot,...Object.fromEntries(['canonical_model_variants','extracted_variant_drafts'].map(table=>
   [table,snapshot[table].map(r=>({...r,dc_charge_kw:r.dc_charge_kw===null?null:Number(r.dc_charge_kw)}))]))});
 
-async function readScope(db,intake){
+export async function readInsterScope(db,intake){
   assert.equal((await db.query('SHOW transaction_read_only')).rows[0].transaction_read_only,'on');
   assert.equal((await db.query('SHOW transaction_isolation')).rows[0].transaction_isolation,'repeatable read');
   const rows=async(sql,args)=>(await db.query(sql,args)).rows.map(({row})=>row);
@@ -51,7 +52,7 @@ async function readScope(db,intake){
     fixture:await readPublishedFixture(db),publicRows:await rows('SELECT to_jsonb(v) AS row FROM public.public_ev_variants v ORDER BY id')};
 }
 
-async function rehearse(scope,intake,image,now){
+async function rehearse(scope,intake,image,now,reviewed){
   const db=new PGlite();
   try{
     await db.exec("SET TIME ZONE 'UTC'");
@@ -102,7 +103,10 @@ async function rehearse(scope,intake,image,now){
     assert.deepEqual(await publicationSnapshot(db),migrated);
     assert.deepEqual(await anonymousCatalogRows(db),initial);
     await db.exec('DROP TRIGGER inster_rollback_probe ON public.market_models');
-    const result=await apply();
+    const simulatedTarget={commit:'a'.repeat(40),reader_sha256:'b'.repeat(64)};
+    const result=reviewed
+      ?await applyInsterRelease(db,plan,reviewed,simulatedTarget,insterReleaseHash(reviewed,simulatedTarget),now)
+      :await apply();
     assert.deepEqual([result.committed,result.variants_inserted,result.anonymous_before_commit],[true,1,true]);
     const after=await publicationSnapshot(db),visible=await anonymousCatalogRows(db);
     assert.equal((await apply()).already_applied,true);
@@ -121,30 +125,41 @@ async function rehearse(scope,intake,image,now){
       technical_fields:9,dc_kw:85.3,price_sek:377900,seats:4,decimal_projections:methodRows.rows[0],
       live_decimal_migration_verified:scope.productionExactDc,pre_migration_write_rejected:true,
       remote_write_rejected:true,scope_conflicts_rejected:true,late_rollback:true,exact_replay_noop:true,
-      historical_months_preserved:history.size,production_writes:0,paid_calls:0,publication_approved:false};
-    return {report,added:visible.find(r=>r.id===id)};
+      historical_months_preserved:history.size,scoped_transaction_verified:Boolean(reviewed),
+      production_writes:0,paid_calls:0,publication_approved:false};
+    return {report,plan,added:visible.find(r=>r.id===id)};
   }finally{await db.close();}
 }
 
 async function main(){
-  const {values}=parseArgs({options:{intake:{type:'string'},'client-module':{type:'string'}}});
+  const {values}=parseArgs({options:{intake:{type:'string'},'client-module':{type:'string'},'reviewed-scope':{type:'string'}}});
   assert(values.intake,'Supply a fresh exact Inster bundle');
   const root=await realpath('.'),release=join(root,'data','local','release-data');
   assert.equal(await realpath(release),release);
   const connectorPath=await catalogConnectorPath(root,values['client-module']);
   const captureRoot=dirname(resolve(values.intake))===release?root:connectorPath.sourceRoot;
   const {intake,image,receipt_sha256}=readInsterCapture(values.intake,captureRoot);
+  let reviewed;
+  if(values['reviewed-scope']){
+    const path=resolve(values['reviewed-scope']);
+    assert.equal(await realpath(path),path);
+    assert.equal(dirname(dirname(path)),release);
+    reviewed=JSON.parse(await readFile(path,'utf8'));
+  }
   const session=await openCatalogSnapshot(connectorPath);
   let scope;
-  try{scope=await readScope(session.client,intake);}finally{await session.close();}
-  const {report:local,added}=await rehearse(scope,intake,image,new Date());
+  try{scope=await readInsterScope(session.client,intake);}finally{await session.close();}
+  const {report:local,plan,added}=await rehearse(scope,intake,image,new Date(),reviewed);
   const base=catalogWithComparableTimes(scope.publicRows);
   const existing=new Set(base.map(variantKey));
   const records=normalizeCatalog([...base,...catalogWithComparableTimes([added])]);
   assert.deepEqual(records.filter(row=>existing.has(variantKey(row))),base);
   assert.equal(records.length,base.length+1);
-  const report={...local,receipt_sha256,candidate_sha256:catalogHash(records)};
+  const report={...local,receipt_sha256,plan_sha256:publicationHash(plan),
+    baseline_sha256:catalogHash(base),candidate_sha256:catalogHash(records)};
   const folder=await mkdtemp(join(release,'inster-advanced-local-'));
+  await writeFile(join(folder,'plan.json'),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+  await writeFile(join(folder,'baseline-catalog.json'),JSON.stringify({records:base},null,2)+'\n',{flag:'wx'});
   await writeFile(join(folder,'candidate-catalog.json'),JSON.stringify({
     status:'local_only',publication_approved:false,catalog_sha256:report.candidate_sha256,records,
   },null,2)+'\n',{flag:'wx'});
