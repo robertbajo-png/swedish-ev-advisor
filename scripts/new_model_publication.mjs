@@ -15,6 +15,7 @@ import {ADAPTER as GLB_ADAPTER} from './mercedes_glb_publication.mjs';
 import {ADAPTER as IONIQ9_ADAPTER} from './hyundai_ioniq9_publication.mjs';
 import {ADAPTER as MACAN_ADAPTER} from './porsche_macan_publication.mjs';
 import {ADAPTER as INSTER_ADAPTER} from './hyundai_inster_advanced_publication.mjs';
+import {ADAPTER as LEXUS_ADAPTER} from './lexus_rz_publication.mjs';
 import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewedPumaIdentity} from './ford_puma_identity.mjs';
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
@@ -72,7 +73,7 @@ export function validateNewModelIntake(intake,now=new Date()){
   }
   const p=r.price_evidence;assert(Number.isInteger(p.value)&&p.value>=100000&&p.value<=3000000);
   assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type)
-   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER,INSTER_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
+   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER,INSTER_ADAPTER,LEXUS_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
   assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(p.quote?.trim());
   if(p.price_valid_until)assert(p.price_valid_until>=now.toISOString().slice(0,10));
   if(p.price_type==='campaign_price')assert(p.price_valid_until);
@@ -345,6 +346,14 @@ export async function applyMacanRelease(client,fresh,scope,target,seal,now=new D
   baselineError:'Anonymous catalog changed before Macan writes'});
 }
 
+export async function applyLexusRelease(client,fresh,scope,target,seal,now=new Date()){
+ const {proveLexusRelease,assertLexusPublishedRows}=await import('./lexus_rz_release_scope.mjs');
+ proveLexusRelease(scope,fresh,target,seal,now);
+ return applyModelTransaction(client,fresh,publicationHash(fresh),now,LEXUS_ADAPTER,undefined,{
+  baselineHash:scope.database_baseline_sha256,requireMigration:assertExactDcInstalled,check:assertLexusPublishedRows,
+  baselineError:'Anonymous catalog changed before Lexus RZ writes'});
+}
+
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now);
@@ -447,7 +456,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   await assertDcStorageForDrafts(client,plan.intake.drafts);
   const modelId=plan.expected_model.id;
   // Inster's reviewed SQL snapshot retains the full timestamp precision and numeric alias type.
-  const exactJson=policy.adapter===INSTER_ADAPTER||policy.adapter===MACAN_ADAPTER;
+  const exactJson=[INSTER_ADAPTER,MACAN_ADAPTER,LEXUS_ADAPTER].includes(policy.adapter);
   const checkedVariant=row=>exactJson&&row.price_verified_at
    ?{...row,price_verified_at:new Date(row.price_verified_at).toISOString()}:row;
   const before=await publicationSnapshot(client,true,{exactJson}),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
