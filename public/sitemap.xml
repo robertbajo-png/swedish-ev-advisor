@@ -506,6 +506,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://elbilsagenten.se/bilar/toyota-bz4x-touring-active-tech-fwd</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://elbilsagenten.se/bilar/toyota-bz4x-active-fwd-57-7-kwh-167-hk</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
