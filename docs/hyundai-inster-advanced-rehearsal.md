@@ -88,9 +88,17 @@ check confirmed 42 public models, 105 public variants and denied
 anonymous reads on all seven private tables. The prior encrypted backup
 artifact was present; this was not a new restore test.
 
-No Inster row has been inserted in production. Before that write, verify
-the exact reader/media release, recheck the fresh source bundle and bind
-the scoped insertion to the approved catalog baseline.
+The first support deployment retained the 105-variant catalog and seven
+existing articles. The read-only preflight verified all deployed bytes and
+blocked the initial precision mismatch before writing anything.
+
+The first production read-only preflight stopped before writes because the
+private plan had passed through a driver that rounded timestamps to
+milliseconds and read numeric alias confidence as text. Use PostgreSQL's
+exact JSON row projection in both the Inster rehearsal and its locked
+transaction. The rehearsal asserts equality with the untouched live rows
+before it saves a plan. A regression verifies that timestamps differing by
+one microsecond are still distinct; no tolerance is added to the write guard.
 
 ### Scoped insertion
 
@@ -114,5 +122,17 @@ catalog equality and migration 027. Its check emits the scope seal; passing
 that exact seal with `--commit-seal` permits one guarded insertion and a
 private journal. Use `--export-journal` in place of `--fresh` for the
 subsequent validated export. Neither command deploys the site or invokes AI.
+
+### Verified production insertion and export
+
+On 23 November after the precision fix, the live preflight passed with
+fresh sources and the unchanged catalog. The atomic transaction added one
+Inster and verified its anonymous readback before commit. The post-commit
+CLI report exposed a local name collision between the SQL result and the
+HTTP reader. The saved commit receipt confirmed success, so nothing was
+retried. An independent GET check then confirmed 43 models, 106 variants
+and all seven private access denials. The validated read-only export from
+that journal preserves all 105 old variants and adds the single reviewed
+Inster. This snapshot is ready for website distribution.
 
 [photo]: https://commons.wikimedia.org/wiki/File:Hyundai_Inster_Prime_%E2%80%93_f_14022026.jpg

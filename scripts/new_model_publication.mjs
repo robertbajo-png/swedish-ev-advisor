@@ -135,10 +135,15 @@ function calendarDates(input){
  }
  return rows;
 }
-export async function publicationSnapshot(client,lock=false){
- const result={};for(const table of TABLES){
-  result[table]=calendarDates((await client.query('SELECT * FROM public.'+table+' ORDER BY id'+(lock?' FOR UPDATE':''))).rows);
- }return result;
+export async function publicationSnapshot(client,lock=false,{exactJson=false}={}){
+ const result={};
+ for(const table of TABLES){
+  const sql=exactJson?'SELECT to_jsonb(t) AS row FROM public.'+table+' t ORDER BY t.id':
+    'SELECT * FROM public.'+table+' ORDER BY id';
+  const {rows}=await client.query(sql+(lock?' FOR UPDATE':''));
+  result[table]=calendarDates(exactJson?rows.map(r=>r.row):rows);
+ }
+ return result;
 }
 const variantPhotoFields=(intake,draft)=>{
  const variant=newModelAdapter(intake.adapter).variantPhoto?.(draft);
@@ -433,7 +438,11 @@ async function applyPumaAtomicTransaction(client,packet,expectedHash,now,release
 async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapter,baselineHash,scopedRelease){
   await assertDcStorageForDrafts(client,plan.intake.drafts);
   const modelId=plan.expected_model.id;
-  const before=await publicationSnapshot(client,true),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
+  // Inster's reviewed SQL snapshot retains the full timestamp precision and numeric alias type.
+  const exactJson=policy.adapter===INSTER_ADAPTER;
+  const checkedVariant=row=>exactJson&&row.price_verified_at
+   ?{...row,price_verified_at:new Date(row.price_verified_at).toISOString()}:row;
+  const before=await publicationSnapshot(client,true,{exactJson}),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');
   const existing=before.canonical_model_variants.filter(r=>r.canonical_model_id===modelId);
   const verifyG6=policy.adapter===XPENG_G6_ADAPTER;
   const g6Baseline=verifyG6&&!existing.length?await anonymousProjection(client):null;
@@ -454,7 +463,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
    fieldsEqual(m,{body_type:plan.intake.model.body_type,image_url:plan.image.asset_url,image_source_url:plan.image.source_url,market_seen:true});
    for(const t of plan.targets){
     const row=one(existing.filter(r=>r.id===t.id),'Different version identity');
-    fieldsEqual(row,{...variantFacts(t.draft,primary,expectedHash,plan.intake),canonical_model_id:modelId,variant_name:t.draft.variant_name,source_quote:quoteFor(t.draft)});
+    fieldsEqual(checkedVariant(row),{...variantFacts(t.draft,primary,expectedHash,plan.intake),canonical_model_id:modelId,variant_name:t.draft.variant_name,source_quote:quoteFor(t.draft)});
     const saved=one(before.extracted_variant_drafts.filter(d=>d.canonical_model_id===modelId&&d.variant_name===t.draft.variant_name),'Missing published staging receipt');
     fieldsEqual(saved,{canonical_model_id:modelId,source_id:row.source_id,validation_status:'published'});same(saved.extraction_payload,receiptPayload(plan,t,expectedHash),'Applied evidence changed');
     const source=one(before.manufacturer_sources.filter(s=>s.id===row.source_id),'Missing exact source');assert.equal(source.url,primary.final_url);assert.equal(source.content_hash,primary.content_hash);
@@ -549,7 +558,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   await client.query(`UPDATE public.market_models SET canonical_model_id=$1,first_seen_month=$2,last_seen_month=$3,
    registrations_last_month=$4,registrations_ytd=$5,registrations_12m=$8,source_url=$6,source_name='Mobility Sweden',imported_at=now(),updated_at=now() WHERE id=$7`,
    [modelId,first,month,mr.registrations_last_month,mr.registrations_ytd,plan.intake.market.source.final_url,marketId,marketTotal(plan)]);
-  const after=await publicationSnapshot(client),newIds=new Set(plan.targets.map(t=>t.id));
+  const after=await publicationSnapshot(client,false,{exactJson}),newIds=new Set(plan.targets.map(t=>t.id));
   assert.equal(after.canonical_model_variants.length,before.canonical_model_variants.length+plan.targets.length);
   same(after.canonical_model_variants.filter(r=>!newIds.has(r.id)),before.canonical_model_variants,'Existing variants changed');
   same(after.canonical_models.filter(r=>r.id!==modelId),before.canonical_models.filter(r=>r.id!==modelId),'Other model changed');
@@ -563,7 +572,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   same(after.manufacturer_sources.filter(r=>!changedSources.has(r.id)),before.manufacturer_sources.filter(r=>!changedSources.has(r.id)),'Other/shared source changed');
   same(after.extracted_variant_drafts.filter(r=>!newDraftIds.has(r.id)),before.extracted_variant_drafts,'Other staging row changed');
   for(const t of plan.targets){
-   fieldsEqual(one(after.canonical_model_variants.filter(r=>r.id===t.id),'Missing inserted version'),{...variantFacts(t.draft,primary,expectedHash,plan.intake),variant_name:t.draft.variant_name,source_quote:quoteFor(t.draft)});
+   fieldsEqual(checkedVariant(one(after.canonical_model_variants.filter(r=>r.id===t.id),'Missing inserted version')),{...variantFacts(t.draft,primary,expectedHash,plan.intake),variant_name:t.draft.variant_name,source_quote:quoteFor(t.draft)});
    const d=one(after.extracted_variant_drafts.filter(r=>newDraftIds.has(r.id)&&r.variant_name===t.draft.variant_name),'Missing saved staging');
    same(d.extraction_payload,receiptPayload(plan,t,expectedHash),'Saved evidence changed');assert.equal(d.validation_status,'published');
    fieldsEqual(d,{...t.draft.facts,price_sek:t.draft.price_evidence.value,price_type:t.draft.price_evidence.price_type,
