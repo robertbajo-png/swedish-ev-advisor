@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {mkdtemp,readFile,realpath,writeFile} from 'node:fs/promises';
-import {join,resolve} from 'node:path';
+import {dirname,join,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {parseArgs} from 'node:util';
 import {PGlite} from '@electric-sql/pglite';
@@ -132,7 +132,8 @@ async function main(){
   const root=await realpath('.'),release=join(root,'data','local','release-data');
   assert.equal(await realpath(release),release);
   const connectorPath=await catalogConnectorPath(root,values['client-module']);
-  const {intake,image,receipt_sha256}=readInsterCapture(values.intake,connectorPath.sourceRoot);
+  const captureRoot=dirname(resolve(values.intake))===release?root:connectorPath.sourceRoot;
+  const {intake,image,receipt_sha256}=readInsterCapture(values.intake,captureRoot);
   const session=await openCatalogSnapshot(connectorPath);
   let scope;
   try{scope=await readScope(session.client,intake);}finally{await session.close();}

@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
 import { normalizePublicVariants } from '../functions/_shared/advisor-core.mjs';
+import { applyExactDcMigration } from '../scripts/apply_exact_dc_migration.mjs';
 import { anonymousCatalogRows, catalogWithComparableTimes, seedCatalogFixture } from '../scripts/isolated_catalog_review.mjs';
 import { catalogHash } from '../scripts/sync_public_catalog.mjs';
 import { assertDcChargePower, assertDcStorageForDrafts, assertExactDcInstalled } from '../scripts/verify_exact_dc_migration.mjs';
@@ -148,5 +149,30 @@ test('rejects a missing, unvalidated or weaker DC check without modifying data',
     await db.exec('alter table extracted_variant_drafts alter column dc_charge_kw type numeric(5,2)');
     await assert.rejects(assertExactDcInstalled(db), /Migration 027 is required/);
     assert.deepEqual(await privateState(db), before);
+  } finally { await db.close(); }
+});
+
+test('operator wrapper rejects late catalog drift, commits exact migration and reruns read-only', async () => {
+  const db = new PGlite();
+  const client = {query: (sql, args) => sql.startsWith('set local search_path=') ? db.exec(sql) : db.query(sql, args)};
+  const source = exactDc.replaceAll('\r\n','\n');
+  try {
+    await seed(db);
+    const before = await privateState(db);
+    const readers = await anonymousCatalogRows(db);
+    const permissions = await access(db);
+    const altered = source.replace("notify pgrst,'reload schema';",
+      "UPDATE public.canonical_model_variants SET dc_charge_kw=110 WHERE dc_charge_kw=100;");
+    assert.notEqual(altered, source);
+    await db.exec('BEGIN READ ONLY');
+    await assert.rejects(applyExactDcMigration(client, altered), /Migration would change the catalog/);
+    await assert.rejects(assertExactDcInstalled(db), /Migration 027 is required/);
+    assert.deepEqual(await privateState(db), before);
+    await db.exec('BEGIN READ ONLY');
+    assert.deepEqual(await applyExactDcMigration(client, source), {installed:true, applied:true, public_variants:2});
+    assert.deepEqual(await applyExactDcMigration(client, source), {installed:true, applied:false, public_variants:2});
+    await db.exec('ROLLBACK');
+    assert.deepEqual(await anonymousCatalogRows(db), readers);
+    assert.deepEqual(await access(db), permissions);
   } finally { await db.close(); }
 });

@@ -241,6 +241,15 @@
       "object_position": "center",
       "object_fit": "contain",
       "style": "manufacturer_press_photo"
+    },
+    "hyundai|inster": {
+      "status": "approved",
+      "asset_url": "/media/vehicles/hyundai-inster-74c89ece773a.jpg",
+      "content_sha256": "74c89ece773af00d46edeead36a1ddc922bf6b015f4c9b77e36b9036b7939f12",
+      "reviewed_at": "2026-11-23",
+      "object_fit": "contain",
+      "object_position": "center",
+      "style": "licensed_model_photo"
     }
   }
 }

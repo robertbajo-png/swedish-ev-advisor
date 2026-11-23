@@ -121,8 +121,9 @@ export function readInsterCapture(path,sourceRoot){
   assert.equal(field_evidence.seats.source_hash,r.seats.seats.source_hash);
   const marketSource=receipt(r.market.source_url);
   assert.equal(marketSource.content_hash,'1fee5254c4671bd9239b0a0b3819c027c30eac46e1c3a9c1df9c7e9bc55d92c6');
-  const imageFile=join(root,'hyundai-inster-photo-8de96424','inster-prime-original.jpg');
-  assert.equal(r.image_file,imageFile);
+  const imageFile=r.image_file;
+  assert([join(folder,'inster-prime-original.jpg'),join(root,'hyundai-inster-photo-8de96424','inster-prime-original.jpg')]
+    .includes(imageFile),'Require the reviewed Inster original');
   const intake={adapter:ADAPTER,model:MODEL,sources,market:{row:r.market,source:marketSource},
     model_evidence:{url:model,swedish_material:config,scope:'regular Inster, not Cross'},
     source_decisions:{factory_receipts:factoryReceipts,model:receipt(model),photo_model_only:true},
@@ -150,7 +151,7 @@ function validateIntake(i){
 function readPrivateImage(image){
   fields(image,photoFields);
   const file=image.private_file;
-  assert.match(file,/[\\/]data[\\/]local[\\/]release-data[\\/]hyundai-inster-photo-8de96424[\\/]inster-prime-original\.jpg$/);
+  assert.match(file,/[\\/]data[\\/]local[\\/]release-data[\\/](?:hyundai-inster-photo-8de96424|inster-advanced-intake-[a-z0-9_]+)[\\/]inster-prime-original\.jpg$/);
   assert(!/[\\/]onedrive(?:commercial|consumer)?(?:[\\/]|$)/i.test(file));
   return checkedFile(file,6000000);
 }

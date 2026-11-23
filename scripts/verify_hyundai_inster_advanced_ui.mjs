@@ -68,22 +68,20 @@ async function edit(file,update){
   update(data);
   await writeFile(path,JSON.stringify(data,null,2)+'\n');
 }
-await edit('src/model-images.json',data=>{
-  assert(!(policy.imageKey in data));
-  data[policy.imageKey]=image.asset_url;
-});
+function include(data,key,value){
+  if(key in data)assert.deepEqual(data[key],value,'Registered Inster media differs from the reviewed packet');
+  else data[key]=value;
+}
+await edit('src/model-images.json',data=>include(data,policy.imageKey,image.asset_url));
 await edit('src/image-rights.json',data=>{
-  assert(!data.assets.some(asset=>asset.model_key===policy.imageKey));
-  data.assets.push(image);
+  const entries=data.assets.filter(asset=>asset.model_key===policy.imageKey);
+  if(entries.length)assert.deepEqual(entries,[image]);
+  else data.assets.push(image);
 });
-await edit('src/image-variants.json',data=>{
-  assert(!(image.asset_url in data));
-  data[image.asset_url]=responsive;
-});
+await edit('src/image-variants.json',data=>include(data,image.asset_url,responsive));
 await edit('src/image-presentation.json',data=>{
-  assert(!(policy.imageKey in data.models));
-  data.models[policy.imageKey]={status:'approved',asset_url:image.asset_url,content_sha256:policy.imageHash,
-    reviewed_at:image.reviewed_at,object_fit:'contain',object_position:'center',style:'licensed_model_photo'};
+  include(data.models,policy.imageKey,{status:'approved',asset_url:image.asset_url,content_sha256:policy.imageHash,
+    reviewed_at:image.reviewed_at,object_fit:'contain',object_position:'center',style:'licensed_model_photo'});
 });
 for(const [index,asset] of assets.entries()){
   assert.equal(asset.url,index===0?photoPolicy.asset_url:
@@ -91,7 +89,12 @@ for(const [index,asset] of assets.entries()){
   const relative=asset.url.slice(1);
   const bytes=await readFile(join(photoDir,'public',relative));
   assert.equal(sha(bytes),asset.sha256);
-  await writeFile(join(root,'public',relative),bytes,{flag:'wx'});
+  const dest=join(root,'public',relative);
+  try{await writeFile(dest,bytes,{flag:'wx'});}
+  catch(error){
+    if(error.code!=='EEXIST')throw error;
+    assert.equal(sha(await readFile(dest)),asset.sha256,'Registered Inster image bytes changed');
+  }
 }
 await edit('public/data/public_ev_variants.json',data=>{
   Object.assign(data,{status:'isolated_preview_only',publication_approved:false,records:candidate});

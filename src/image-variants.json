@@ -924,5 +924,27 @@
         "sha256": "6142bdeee3f5b157e1625c89bd57c58159a7f7ae2635d8c725acd29bf9dddc36"
       }
     ]
+  },
+  "/media/vehicles/hyundai-inster-74c89ece773a.jpg": {
+    "width": 4061,
+    "height": 2404,
+    "source_sha256": "74c89ece773af00d46edeead36a1ddc922bf6b015f4c9b77e36b9036b7939f12",
+    "variants": [
+      {
+        "url": "/media/responsive/hyundai-inster-74c89ece773a-480.webp",
+        "width": 480,
+        "sha256": "5cbb8852e50912858caeb1fd9e01c424a03880ac3546eaa218dff853e55fc0f6"
+      },
+      {
+        "url": "/media/responsive/hyundai-inster-74c89ece773a-800.webp",
+        "width": 800,
+        "sha256": "d43674fca252108c01d5c8a3bb02c6d1ba09659690ef05c80e897fce1f60fe29"
+      },
+      {
+        "url": "/media/responsive/hyundai-inster-74c89ece773a-1280.webp",
+        "width": 1280,
+        "sha256": "388d4a02c4e2b73e5f904af9c1913e67adc8a650f2c5791a90eb0ce96d3a5ede"
+      }
+    ]
   }
 }

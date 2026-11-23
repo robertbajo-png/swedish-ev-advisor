@@ -45,6 +45,7 @@ jobs:
       - run: bun run verify:bmw-sync
       - run: bun run verify:decimal-ac
       - run: node --test tests/decimal-dc-migration.test.mjs tests/hyundai-inster-advanced-publication.test.mjs
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p 'test_hyundai_inster_advanced_*.py' -v
       - run: node --test tests/hyundai-ioniq9-adapter.test.mjs tests/hyundai-ioniq9-release.test.mjs
       - run: bun run verify:ev3-completion-sync
       - run: bun run verify:ev4-completion-sync

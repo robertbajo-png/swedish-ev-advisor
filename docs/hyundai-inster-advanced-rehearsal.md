@@ -21,23 +21,26 @@ links open the exact Swedish configuration, stock pricing, cargo design
 page, owner's manual and the authorized dealer's seat evidence. The Hedin
 photo is used only to corroborate the four seats. The [licensed Inster
 Prime photograph][photo] is model-level, with credit and a trim notice.
-No photo has been registered for live Inster use here.
+The support branch registers the four reviewed image files, but does not
+add the car to the public catalog.
 
 The October Mobility Sweden workbook is used only for the existing
 resolved BEV alias and market history. It is not spec or price evidence.
 
 ```sh
+node scripts/run_python.mjs scripts/prepare_hyundai_inster_advanced.py --seat-photo <reviewed-private-rear-photo> --model-photo <reviewed-local-model-photo>
 node scripts/verify_hyundai_inster_advanced_local.mjs --intake <fresh-private-packet>
 ```
 
 The isolated checkout can specify the original workspace's read-only
-connector with `--client-module`. The fresh private packet is assembled
-from local source tools and verified raw receipts. Its three Swedish
-factory queries can now be captured independently of any saved request
-templates: run `node scripts/capture_hyundai_inster_advanced_factory.mjs`
-and use `--replay <saved-factory-packet>` to verify the resulting bytes.
-The remaining source assembly still depends on local tooling, and the
-private packets are never checked in. The verifier reads the live baseline, closes the read-only
+connector with `--client-module`. The collector needs only the two exact
+reviewed photos under `data/local/release-data` and the checked-in scripts;
+it fetches the rest, including the current listing that ties the private
+rear photo to the sold configuration. The dealer photo is not exported.
+For the three factory queries separately, run
+`node scripts/capture_hyundai_inster_advanced_factory.mjs` and use
+`--replay <saved-factory-packet>` to verify the resulting bytes.
+The private packets are never checked in. The verifier reads the live baseline, closes the read-only
 connection, and exercises the shared insertion in a new in-memory PGlite.
 
 On 23 November 2026 the old schema refused insertion before writing
@@ -57,6 +60,7 @@ The browser rehearsal uses the exact hash-bound readback and image packet:
 
 ```sh
 node scripts/verify_hyundai_inster_advanced_ui.mjs --readback <private-readback> --photo <private-photo-packet>
+node scripts/run_python.mjs scripts/verify_hyundai_inster_advanced_static.py <private-ui-output>
 ```
 
 Chromium verified 320, 390 and 1440 px, with the whole photo above the text on
@@ -67,9 +71,25 @@ The comparison flow also showed the exact DC and trailer values next to
 Kia EV2. Screenshots and the UI receipt are stored only with the private
 readback. The local browser server has no API access.
 
-Production still did not have the verified decimal migration. No production
-write, licensed photo upload or deployment occurred. Before release,
-package the fresh capture and media in the normal release workflow,
-then verify migration 027 and the exact scoped production write independently.
+The static rehearsal against the new capture on 23 November used the
+current public sitemap and news export. It produced 125 URLs, retaining
+all 124 existing URLs including all seven news articles. Only the exact
+Inster URL was added, with no fixed-price offer.
+
+### Production schema prerequisite
+
+Migration 027 was applied on 23 November from main
+`a25f5da08c1cf7c222fb439a23817bf04ca64fd6`. The runner verifies the
+view and private-table inventories before commit and validates numeric
+storage again afterward. Its late-failure test proved rollback, followed
+by an exact local application and a no-op replay. The live result
+preserved 105 public variants and all prior private data. A separate GET
+check confirmed 42 public models, 105 public variants and denied
+anonymous reads on all seven private tables. The prior encrypted backup
+artifact was present; this was not a new restore test.
+
+No Inster row has been inserted in production. Before that write, verify
+the exact reader/media release, recheck the fresh source bundle and bind
+the scoped insertion to the approved catalog baseline.
 
 [photo]: https://commons.wikimedia.org/wiki/File:Hyundai_Inster_Prime_%E2%80%93_f_14022026.jpg
