@@ -92,6 +92,14 @@ No Inster row has been inserted in production. Before that write, verify
 the exact reader/media release, recheck the fresh source bundle and bind
 the scoped insertion to the approved catalog baseline.
 
+The first production read-only preflight stopped before writes because the
+private plan had passed through a driver that rounded timestamps to
+milliseconds and read numeric alias confidence as text. Use PostgreSQL's
+exact JSON row projection in both the Inster rehearsal and its locked
+transaction. The rehearsal asserts equality with the untouched live rows
+before it saves a plan. A regression verifies that timestamps differing by
+one microsecond are still distinct; no tolerance is added to the write guard.
+
 ### Scoped insertion
 
 Use the rehearsal on the migrated production baseline to save the private

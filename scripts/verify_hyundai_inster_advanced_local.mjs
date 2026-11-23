@@ -54,23 +54,26 @@ export async function readInsterScope(db,intake){
 
 async function rehearse(scope,intake,image,now,reviewed){
   const db=new PGlite();
+  const snapshot=()=>publicationSnapshot(db,false,{exactJson:true});
   try{
     await db.exec("SET TIME ZONE 'UTC'");
     await seedCatalogFixture(db,scope.fixture,[scope.expected]);
     const initial=await anonymousCatalogRows(db);
     assert(compareCatalogs(catalogWithComparableTimes(scope.publicRows),catalogWithComparableTimes(initial)).ok,
       'Isolated starting catalog does not match the live canonical view');
-    const before=await publicationSnapshot(db);
+    const before=await snapshot();
     const plan=buildNewModelPlan(before,intake,image,now);
+    for(const [key,value] of Object.entries(scope.expected))
+      assert.deepEqual(plan[key],value,'Local rehearsal must preserve the exact live Inster scope: '+key);
     const apply=(p=plan,at=now)=>applyNewModelPlan(db,p,publicationHash(p),at);
     await assert.rejects(applyNewModelPlan({query:()=>assert.fail('Remote write attempted')},plan,publicationHash(plan),now),/local PGlite/);
     await assert.rejects(apply(),/Migration 027 is required/);
-    assert.deepEqual(await publicationSnapshot(db),before,'Pre-migration failure wrote data');
+    assert.deepEqual(await snapshot(),before,'Pre-migration failure wrote data');
     const migration=await readFile(new URL('../database/migrations/027_exact_dc_charging.sql',import.meta.url),'utf8');
     await db.exec(migration);
     await assertExactDcInstalled(db);
     assert.deepEqual(await anonymousCatalogRows(db),initial,'Decimal migration changed prior public rows or values');
-    const migrated=await publicationSnapshot(db);
+    const migrated=await snapshot();
     assert.deepEqual(normalDc(migrated),normalDc(before),'Decimal migration changed previously stored facts');
     for(const mutate of [
       p=>{p.intake.drafts[0].facts.dc_charge_kw=85;},
@@ -100,7 +103,7 @@ async function rehearse(scope,intake,image,now,reviewed){
       CREATE TRIGGER inster_rollback_probe BEFORE UPDATE ON public.market_models
         FOR EACH ROW EXECUTE FUNCTION public.inster_rollback_probe()`);
     await assert.rejects(apply(),/Inster late rollback probe/);
-    assert.deepEqual(await publicationSnapshot(db),migrated);
+    assert.deepEqual(await snapshot(),migrated);
     assert.deepEqual(await anonymousCatalogRows(db),initial);
     await db.exec('DROP TRIGGER inster_rollback_probe ON public.market_models');
     const simulatedTarget={commit:'a'.repeat(40),reader_sha256:'b'.repeat(64)};
@@ -108,9 +111,9 @@ async function rehearse(scope,intake,image,now,reviewed){
       ?await applyInsterRelease(db,plan,reviewed,simulatedTarget,insterReleaseHash(reviewed,simulatedTarget),now)
       :await apply();
     assert.deepEqual([result.committed,result.variants_inserted,result.anonymous_before_commit],[true,1,true]);
-    const after=await publicationSnapshot(db),visible=await anonymousCatalogRows(db);
+    const after=await snapshot(),visible=await anonymousCatalogRows(db);
     assert.equal((await apply()).already_applied,true);
-    assert.deepEqual(await publicationSnapshot(db),after);
+    assert.deepEqual(await snapshot(),after);
     const [id]=result.canonical_variant_ids;
     assert.deepEqual(visible.filter(r=>r.id!==id),initial);
     policy.verifyPublic(visible.filter(r=>r.id===id),plan);

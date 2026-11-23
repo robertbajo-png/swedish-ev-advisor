@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {PGlite} from '@electric-sql/pglite';
 import {ADAPTER,MODEL,MATERIAL,VARIANT,facts,policy} from '../scripts/hyundai_inster_advanced_publication.mjs';
 import {newModelAdapter} from '../scripts/new_model_adapters.mjs';
 import {buildImagePlan,selectImageRegistryForPublic} from '../scripts/model_image_sync.mjs';
 import {insterReleaseHash,proveInsterRelease} from '../scripts/hyundai_inster_advanced_release_scope.mjs';
-import {applyInsterRelease} from '../scripts/new_model_publication.mjs';
+import {applyInsterRelease,publicationSnapshot} from '../scripts/new_model_publication.mjs';
 
 function exact(){
   const config=policy.primaryUrl,stock='https://lager.hyundai.se/model/INSTER?customer=private';
@@ -74,4 +75,27 @@ test('the release seal binds model, deployed reader and main revision before any
   }
   const noAccess={query(){assert.fail('Invalid seal must not reach the database');}};
   await assert.rejects(applyInsterRelease(noAccess,null,scope,target,'e'.repeat(64)),/exact reviewed Inster/);
+});
+
+test('the locked Inster scope reads full timestamp precision and numeric alias confidence',async()=>{
+  const db=new PGlite();
+  try{
+    await db.exec(`SET TIME ZONE 'UTC';
+      CREATE TABLE canonical_models(id int primary key, updated_at timestamptz);
+      CREATE TABLE model_aliases(id int primary key, confidence numeric);
+      INSERT INTO canonical_models VALUES(1,'2026-06-06T19:50:42.631341Z');
+      INSERT INTO model_aliases VALUES(1,0.96);`);
+    for(const table of ['canonical_model_variants','manufacturer_sources','extracted_variant_drafts',
+      'market_models','market_model_monthly_stats'])await db.exec('CREATE TABLE '+table+'(id int primary key)');
+    await db.exec('BEGIN');
+    const exact=await publicationSnapshot(db,true,{exactJson:true});
+    assert.equal(exact.model_aliases[0].confidence,0.96);
+    assert.equal(exact.canonical_models[0].updated_at,'2026-06-06T19:50:42.631341+00:00');
+    await db.exec("UPDATE canonical_models SET updated_at=updated_at+interval '1 microsecond'");
+    const changed=await publicationSnapshot(db,true,{exactJson:true});
+    assert.equal(changed.canonical_models[0].updated_at,'2026-06-06T19:50:42.631342+00:00');
+    assert.notDeepEqual(changed.canonical_models,exact.canonical_models);
+    assert.equal(+new Date(changed.canonical_models[0].updated_at),+new Date(exact.canonical_models[0].updated_at));
+    await db.exec('ROLLBACK');
+  }finally{await db.close();}
 });
