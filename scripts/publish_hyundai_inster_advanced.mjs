@@ -105,7 +105,7 @@ async function main(){
     scope.database_baseline_sha256,'Live catalog changed before Inster release');
 
   const connection=await catalogConnectorPath(root,v['client-module']);
-  const publicRows=async()=>{
+  const fetchAnonymousRows=async()=>{
     const env={...loadEnv('production',connection.sourceRoot,'SUPABASE_'),
       ...loadEnv('production',connection.sourceRoot,'VITE_SUPABASE_')};
     const url=env.SUPABASE_URL||env.VITE_SUPABASE_URL,key=env.SUPABASE_ANON_KEY||env.VITE_SUPABASE_ANON_KEY;
@@ -125,23 +125,23 @@ async function main(){
     assert.deepEqual([receipt.result.committed,receipt.result.variants_inserted,receipt.result.anonymous_before_commit,
       receipt.result.publication_batch_id,receipt.result.canonical_variant_ids],
     [true,1,true,publicationHash(attempt.plan),attempt.plan.targets.map(item=>item.id)]);
-    const rows=await publicRows(),records=insterCatalogDelta(baseline,rows,attempt.plan);
-    assert.equal(databaseCatalogHash(await publicRows()),databaseCatalogHash(rows),'Public rows changed during export');
+    const rows=await fetchAnonymousRows(),records=insterCatalogDelta(baseline,rows,attempt.plan);
+    assert.equal(databaseCatalogHash(await fetchAnonymousRows()),databaseCatalogHash(rows),'Public rows changed during export');
     const output=join(dir,'public_ev_variants.json');
     await save(output,{source:SOURCE,generated_at:new Date().toISOString(),catalog_sha256:catalogHash(records),records});
     return {status:'private_inster_export_verified',output,added:1,catalog_sha256:catalogHash(records),deployed:false};
   }
 
   stage='fresh_sources';
-  assert.equal(databaseCatalogHash(await publicRows()),scope.database_baseline_sha256,'Anonymous Supabase baseline changed');
+  assert.equal(databaseCatalogHash(await fetchAnonymousRows()),scope.database_baseline_sha256,'Anonymous Supabase baseline changed');
   const fresh=readInsterCapture(v.fresh,root);
   const session=await openCatalogSnapshot(connection);
   let journal;
   try{
     stage='core_scope';
-    const {expected:e,productionExactDc,publicRows}=await readInsterScope(session.client,fresh.intake);
+    const {expected:e,productionExactDc,publicRows:sqlRows}=await readInsterScope(session.client,fresh.intake);
     assert(productionExactDc,'Migration 027 must be installed');
-    assert.equal(databaseCatalogHash(publicRows),scope.database_baseline_sha256,'SQL baseline changed');
+    assert.equal(databaseCatalogHash(sqlRows),scope.database_baseline_sha256,'SQL baseline changed');
     const plan=buildNewModelPlan({canonical_models:[e.expected_model],canonical_model_variants:[],
       model_aliases:[e.expected_alias],market_models:[e.expected_market],market_model_monthly_stats:e.expected_monthly,
       manufacturer_sources:e.expected_sources},fresh.intake,fresh.image);
@@ -158,7 +158,7 @@ async function main(){
       [true,1,true,publicationHash(plan)]);
     await save(join(journal,'commit.json'),{attempt_sha256:publicationHash(attempt),result});
     stage='separate_anon_readback';
-    const readback=insterCatalogDelta(baseline,await publicRows(),plan);
+    const readback=insterCatalogDelta(baseline,await fetchAnonymousRows(),plan);
     return {status:'inster_inserted_and_verified',journal,variants:readback.length,paid_calls:0};
   }catch(error){
     if(journal)console.error(JSON.stringify({journal,status:'inspect_journal_before_retrying'}));

@@ -1,8 +1,7 @@
 {
   "source": "supabase_public_ev_variants",
-  "schema_version": 1,
-  "generated_at": "2026-11-22T22:39:58.809Z",
-  "catalog_sha256": "8f66a343e6251b109552e9f5abdaf90f397b1222db3e7437cde18673290c2c05",
+  "generated_at": "2026-11-23T02:44:17.256Z",
+  "catalog_sha256": "79a7718574d3b32589abde51ee46fa904e33c12561c56519cd7e749279c72d81",
   "records": [
     {
       "brand": "Audi",
@@ -482,6 +481,42 @@
       "price_source_quote": "Puma Gen-E Premium Pris från 409 000 kr. FWD 168 hk Laddhastighet (10-80%) 26 min Räckvidd upp till 404 km",
       "price_source_name": "Ford Sverige",
       "price_verified_at": "2026-11-22T19:11:27.863Z"
+    },
+    {
+      "brand": "Hyundai",
+      "model": "Inster",
+      "variant_name": "49 kWh Advanced Tech 17-tum MY27",
+      "body_type": "SUV",
+      "price_sek": 377900,
+      "price_type": "manufacturer_from",
+      "price_valid_until": null,
+      "wltp_range_km": 360,
+      "wltp_consumption_kwh_100km": 15.1,
+      "battery_kwh": 49,
+      "dc_charge_kw": 85.3,
+      "ac_charge_kw": 10.5,
+      "boot_liters": 238,
+      "tow_kg": 0,
+      "seats": 4,
+      "drivetrain": "FWD",
+      "source_url": "https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB",
+      "source_name": "Hyundai Sverige",
+      "source_hash": "259bc12c03b1c726840401701204f46e889acb2e2bdae0c2b943edf6672a2efa",
+      "source_quote": "https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / EmissionQuery / allElectricRange: 360 | https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / EmissionQuery / electricityConsumpCombined: 15.10 | https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / Powertrains / evBatteryCapacityKwh: 49 | https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / Powertrains / maxChargingPower: 85,30 | https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / Powertrains / evObcMaximumCapacity: 10,5 | https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB | Hyundai Sverige 6XS5ZDZ7ZHH09P / Powertrains / powertrainNmDrivetrain: Framhjulsdrift | https://www.hyundai.com/se/sv/bilar/inster/design.html | baksätena skjutas fram 16 centimeter, vilket utökar bagageutrymmet från 238 till 351 liter | https://ownersmanual.hyundai.com/full_webhelp/AXEV/2027/sv_SE/idee195341dda.html | Det är inte tillåtet att dra en släpvagn med detta fordon. Fordonet har ingen dragkapacitet och kan inte dra en släpvagn. | https://hedinautomotive.se/bilar/kop-bil/258182/pc-nc-hyundai-inster-2027 | \"car_seats\":\"4\"",
+      "extraction_confidence": 0.98,
+      "validation_status": "published",
+      "market_seen": true,
+      "available_confirmed": false,
+      "discontinued_candidate": false,
+      "coming_or_low_volume": false,
+      "image_url": "/media/vehicles/hyundai-inster-74c89ece773a.jpg",
+      "image_source_url": "https://commons.wikimedia.org/wiki/File:Hyundai_Inster_Prime_%E2%80%93_f_14022026.jpg",
+      "verified_at": "2026-11-23T02:36:23.455Z",
+      "price_source_url": "https://lager.hyundai.se/model/INSTER?customer=private",
+      "price_source_hash": "db8c4b0d443e35c08c1a8e4531d17ff22a54083df718bb8b9f00943c43008dc7",
+      "price_source_quote": "MATNR 6XS5ZDZ7ZHH09P; ZMSRP 377900; PACKAGEPRICE 23000; COLOR 7500 (tillval)",
+      "price_source_name": "Hyundai Sverige",
+      "price_verified_at": "2026-11-23T02:36:23.907Z"
     },
     {
       "brand": "Hyundai",
@@ -3694,6 +3729,5 @@
       "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Zeekr_7X_front.jpg",
       "verified_at": null
     }
-  ],
-  "missing_view_columns": []
+  ]
 }
