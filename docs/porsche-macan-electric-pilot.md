@@ -33,6 +33,23 @@ variant. Reuse those identities, preserve March, and bind the exact
 October BEV row (43 registrations; rank 59). There is no new model row
 to insert in parallel with the existing Macan draft.
 
+The October [Mobility Sweden report][market] now has its own capture and
+replay check. It requires the workbook linked by the publisher and the
+exact BEV row (43 October, 367 YTD). October data is not a source for any
+price, technical or availability value.
+
+```sh
+node scripts/run_python.mjs scripts/porsche_macan_market.py --capture
+node scripts/porsche_macan_scope.mjs --market <private-folder> --rehearse
+```
+
+When running in an isolated checkout, pass `--client-module` pointing to
+the existing project's read-only source connector. The scope command
+checks the exact draft, alias and preserved national registration history.
+The optional PGlite check reproduces that scope and the existing
+105-variant public baseline. This is a read-only scope rehearsal, not
+the insertion transaction or permission to publish.
+
 Remaining: verify a permitted model photo and rehearse the scoped
 insertion, re-export and browser release. Never use a combustion
 Macan, Macan 4S or Turbo as a substitute image. The [Porsche Sweden launch
@@ -42,4 +59,5 @@ gallery][press] is a source to review, not yet a permission receipt.
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data
 [equipment]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=standard-equipment
 [compare]: https://compare.porsche.com/sv-SE?model-series=macan
+[market]: https://mobilitysweden.se/statistik/Nyregistreringar_per_manad_1/nyregistreringar-2026/tydligt-skifte-fran-laddhybrider-till-elbilar-i-oktober
 [press]: https://via.tt.se/pressmeddelande/3561876/porsche-fordubblar-modellutbudet-av-sin-elektriska-suv-macan?lang=sv&publisherId=1995911

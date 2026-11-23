@@ -204,7 +204,8 @@ jobs:
       - run: node --test tests/xpeng-g9-release-review.test.mjs
       - run: bun run verify:new-model-photo
       - run: bun run verify:expansion-preflight
-      - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_porsche_macan_review.py -v
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p 'test_porsche_macan_*.py' -v
+      - run: node --test tests/porsche-macan-scope.test.mjs
       - run: bun run verify:vehicle-quality
       - run: bun run verify:kia-specs
       - run: bun run verify:kia-spec-sync
