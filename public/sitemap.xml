@@ -376,6 +376,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://elbilsagenten.se/bilar/porsche-macan-electric-rwd-my27</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://elbilsagenten.se/bilar/renault-4-evolution-ev52</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
