@@ -337,6 +337,14 @@ export async function applyInsterRelease(client,fresh,scope,target,seal,now=new 
   baselineError:'Anonymous catalog changed before Inster writes'});
 }
 
+export async function applyMacanRelease(client,fresh,scope,target,seal,now=new Date()){
+ const {proveMacanRelease,assertMacanPublishedRows}=await import('./porsche_macan_release_scope.mjs');
+ proveMacanRelease(scope,fresh,target,seal,now);
+ return applyModelTransaction(client,fresh,publicationHash(fresh),now,MACAN_ADAPTER,undefined,{
+  baselineHash:scope.database_baseline_sha256,requireMigration:assertExactDcInstalled,check:assertMacanPublishedRows,
+  baselineError:'Anonymous catalog changed before Macan writes'});
+}
+
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now);
@@ -439,7 +447,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   await assertDcStorageForDrafts(client,plan.intake.drafts);
   const modelId=plan.expected_model.id;
   // Inster's reviewed SQL snapshot retains the full timestamp precision and numeric alias type.
-  const exactJson=policy.adapter===INSTER_ADAPTER;
+  const exactJson=policy.adapter===INSTER_ADAPTER||policy.adapter===MACAN_ADAPTER;
   const checkedVariant=row=>exactJson&&row.price_verified_at
    ?{...row,price_verified_at:new Date(row.price_verified_at).toISOString()}:row;
   const before=await publicationSnapshot(client,true,{exactJson}),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');

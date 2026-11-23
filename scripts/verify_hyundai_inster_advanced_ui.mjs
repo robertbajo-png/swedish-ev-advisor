@@ -7,13 +7,29 @@ import {parseArgs} from 'node:util';
 import react from '@vitejs/plugin-react';
 import {build,preview} from 'vite';
 import {launchQaBrowser} from './qa_browser.mjs';
-import {MODEL,VARIANT,facts,policy} from './hyundai_inster_advanced_publication.mjs';
+import * as inster from './hyundai_inster_advanced_publication.mjs';
+import * as macan from './porsche_macan_publication.mjs';
+import {MACAN_MODEL} from './porsche_macan_scope.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 import {catalogHash,compareCatalogs,normalizeCatalog,variantKey} from './sync_public_catalog.mjs';
 import {MANUFACTURER_FROM_PRICE,priceTypeLabel} from '../src/price-evidence.js';
 import {vehicleSlug} from '../src/vehicle-names.js';
 
-const {values}=parseArgs({options:{readback:{type:'string'},photo:{type:'string'}}});
+const {values}=parseArgs({options:{readback:{type:'string'},photo:{type:'string'},macan:{type:'boolean'}}});
+const isMacan=values.macan===true;
+const profile=isMacan?{
+  MODEL:MACAN_MODEL,VARIANT:macan.variant,facts:macan.facts,policy:macan.policy,
+  id:'macan',name:'Porsche Macan',price:970000,range:'642 km',dc:'270 kW',tow:'2000 kg',
+  formattedPrice:'970 000 kr',specs:['518 liter','11 kW','16,7 kWh/100 km','270 kW','bruttokapacitet','tillvald dragkrok'],
+  reportPrefix:'porsche-macan-local',photoPrefix:'macan-licensed-model-photo',
+  localStatus:'macan_local_atomic_rehearsal_verified',verifiedStatus:'macan_private_ui_verified',
+}:{
+  ...inster,id:'inster',name:'Hyundai Inster',price:377900,range:'360 km',dc:'85,3 kW',tow:'0 kg',
+  formattedPrice:'377 900 kr',specs:['238 liter','351 liter','10,5 kW','15,1 kWh/100 km','85,3 kW','0 kg'],
+  reportPrefix:'inster-advanced-local',photoPrefix:'inster-advanced-licensed-photo',
+  localStatus:'inster_advanced_atomic_local_verified',verifiedStatus:'inster_private_ui_verified',
+};
+const {MODEL,VARIANT,facts,policy}=profile;
 const json=async file=>JSON.parse(await readFile(file,'utf8'));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const release=await realpath('data/local/release-data');
@@ -27,31 +43,34 @@ async function privatePacket(value,prefix){
   assert.match(basename(path),new RegExp('^'+prefix+'-[a-z0-9]+$','i'));
   return path;
 }
-const dir=await privatePacket(values.readback,'inster-advanced-local');
-const photoDir=await privatePacket(values.photo,'inster-advanced-licensed-photo');
+const dir=await privatePacket(values.readback,profile.reportPrefix);
+const photoDir=await privatePacket(values.photo,profile.photoPrefix);
 const report=await json(join(dir,'report.json'));
 assert.deepEqual([report.status,report.publication_approved,report.production_writes,report.paid_calls],
-  ['inster_advanced_atomic_local_verified',false,0,0]);
+  [profile.localStatus,false,0,0]);
 const candidateFile=await json(join(dir,'candidate-catalog.json'));
 const candidate=normalizeCatalog(candidateFile.records);
 assert.deepEqual([candidateFile.status,candidateFile.publication_approved,catalogHash(candidate)],
   ['local_only',false,report.candidate_sha256]);
 const original=normalizeCatalog((await json('public/data/public_ev_variants.json')).records);
 const old=new Set(original.map(variantKey));
-assert(compareCatalogs(catalogWithComparableTimes(original),candidate.filter(row=>old.has(variantKey(row)))).ok,
-  'An incumbent catalog entry changed in the Inster readback');
+assert(compareCatalogs(catalogWithComparableTimes(original),catalogWithComparableTimes(candidate.filter(row=>old.has(variantKey(row))))).ok,
+  'An incumbent catalog entry changed in the test readback');
 const additions=candidate.filter(row=>!old.has(variantKey(row)));
 assert.equal(additions.length,1);
 const [row]=additions;
 assert.deepEqual([row.brand,row.model,row.variant_name,row.price_sek,row.price_type,row.source_url],
-  [MODEL.brand,MODEL.model,VARIANT,377900,MANUFACTURER_FROM_PRICE,policy.primaryUrl]);
+  [MODEL.brand,MODEL.model,VARIANT,profile.price,MANUFACTURER_FROM_PRICE,policy.primaryUrl]);
 for(const [field,value] of Object.entries(facts))assert.equal(row[field],value,field);
 
 const packet=await json(join(photoDir,'manifest.json'));
 assert.deepEqual([packet.status,packet.publication_approved,packet.production_writes],
-  ['inster_licensed_model_photo_prepared_private',false,0]);
-const {image_rights:image,responsive}=packet;
-const photoPolicy=await json('src/inster-photo-policy.json');
+  [isMacan?'private_reviewed_model_asset':'inster_licensed_model_photo_prepared_private',false,0]);
+const photoPolicy=await json(isMacan?'src/porsche-macan-photo-policy.json':'src/inster-photo-policy.json');
+const image=isMacan
+  ? (await json('src/image-rights.json')).assets.find(asset=>asset.model_key===policy.imageKey)
+  : packet.image_rights;
+const responsive=isMacan?(await json('src/image-variants.json'))[image.asset_url]:packet.responsive;
 for(const [key,value] of Object.entries(photoPolicy))assert.deepEqual(image[key],value,key);
 assert.equal(image.asset_url,row.image_url);
 assert.equal(responsive.source_sha256,policy.imageHash);
@@ -79,7 +98,7 @@ await edit('src/image-rights.json',data=>{
   else data.assets.push(image);
 });
 await edit('src/image-variants.json',data=>include(data,image.asset_url,responsive));
-await edit('src/image-presentation.json',data=>{
+if(!isMacan)await edit('src/image-presentation.json',data=>{
   include(data.models,policy.imageKey,{status:'approved',asset_url:image.asset_url,content_sha256:policy.imageHash,
     reviewed_at:image.reviewed_at,object_fit:'contain',object_position:'center',style:'licensed_model_photo'});
 });
@@ -130,21 +149,21 @@ try{
     assert((await page.goto(origin+'/bilar/'+slug(row)+'/',{waitUntil:'networkidle'})).ok());
     const hero=page.locator('.vehicleDetailHero');
     const heading=flat(await hero.locator('h1').innerText());
-    assert(heading.includes('Hyundai Inster')&&heading.includes(VARIANT),heading);
+    assert(heading.includes(profile.name)&&heading.includes(VARIANT),heading);
     const displayed=await hero.locator('.vehicleHeroMedia img').evaluate(async img=>{
       await img.decode();
       return {path:new URL(img.currentSrc).pathname,fit:getComputedStyle(img).objectFit,width:img.naturalWidth};
     });
     assert(assets.some(asset=>asset.url===displayed.path)&&displayed.fit==='contain'&&displayed.width>0,
-      'Unexpected rendered Inster photo: '+JSON.stringify(displayed));
+      'Unexpected rendered vehicle photo: '+JSON.stringify(displayed));
     const stats=flat(await hero.locator('.vehicleHeroStats').innerText());
-    for(const value of [priceTypeLabel(MANUFACTURER_FROM_PRICE),'377 900 kr','360 km','85,3 kW','0 kg'])
+    for(const value of [priceTypeLabel(MANUFACTURER_FROM_PRICE),profile.formattedPrice,profile.range,profile.dc,profile.tow])
       assert(stats.includes(value),stats+' lacks '+value);
-    assert((await hero.locator('.vehicleHeroDescription').innerText()).includes('85,3 kW'));
+    assert((await hero.locator('.vehicleHeroDescription').innerText()).includes(profile.dc));
     const schema=JSON.parse(await page.locator('script[data-jsonld="page"]').textContent());
     assert(!schema.offers,'A starting price is not a fixed product offer');
     const detail=flat(await page.locator('#specifikationer').innerText());
-    for(const value of ['238 liter','351 liter','10,5 kW','15,1 kWh/100 km','85,3 kW','0 kg'])
+    for(const value of profile.specs)
       assert(detail.includes(value),'Missing spec or qualification: '+value+' in '+detail);
     assert.equal(await page.locator('.vehicleImageNotice').first().innerText(),image.model_image_notice);
     assert.equal(await page.getByRole('link',{name:/^Foto: M 93/}).first().getAttribute('href'),image.source_url);
@@ -155,7 +174,7 @@ try{
     });
     assert(!layout.overflow);
     if(width<800)assert(layout.separate,'Mobile copy overlaps the model photo');
-    await page.screenshot({path:join(output,'inster-'+width+'.png')});
+    await page.screenshot({path:join(output,profile.id+'-'+width+'.png')});
     checks.push({viewport:width,asset:displayed.path});
   }
   await page.getByRole('button',{name:'L\u00e4gg till i j\u00e4mf\u00f6relse',exact:true}).first().click();
@@ -165,11 +184,11 @@ try{
   assert(ev2,'Need a verified comparison model');
   await page.getByRole('combobox',{name:'L\u00e4gg till en bil'}).selectOption(slug(ev2));
   const table=page.locator('.comparisonTable table');
-  assert.match(await table.innerText(),/Hyundai Inster/i);
+  assert((await table.innerText()).includes(profile.name));
   assert.match(await table.innerText(),/Kia EV2/i);
   const cells=async name=>table.getByRole('row').filter({has:page.getByRole('rowheader',{name})})
     .getByRole('cell').allTextContents();
-  for(const [name,value] of [[/^DC-laddning$/,'85,3 kW'],[/^WLTP-/,'360 km'],[/^Dragvikt$/,'0 kg']])
+  for(const [name,value] of [[/^DC-laddning$/,profile.dc],[/^WLTP-/,profile.range],[/^Dragvikt$/,profile.tow]])
     assert((await cells(name)).map(flat).includes(value),'Missing comparison metric: '+value);
   await page.setViewportSize({width:390,height:900});
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
@@ -179,7 +198,7 @@ try{
   await browser?.close();
   await new Promise((done,reject)=>server.httpServer.close(error=>error?reject(error):done()));
 }
-const result={status:'inster_private_ui_verified',output,checks,comparison:true,
+const result={status:profile.verifiedStatus,output,checks,comparison:true,
   existing_records:original.length,catalog_sha256:catalogHash(candidate),publication_approved:false,production_writes:0,paid_calls:0};
 await writeFile(join(output,'ui-report.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify(result));

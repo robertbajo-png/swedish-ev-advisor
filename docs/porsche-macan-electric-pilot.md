@@ -93,7 +93,8 @@ read-only transaction, and closes that connection before any trial writes.
 The exact Macan adapter then exercises the shared model insertion transaction
 in a new in-memory PGlite database. It rejects the production connector and
 requires the exact licensed model photo; the older pressroom proof is not
-eligible for this rehearsal. The trial catalog is not exported.
+eligible for this rehearsal. The candidate catalog is saved only under
+`data/local/release-data` for browser and static route checks.
 
 On 23 November the fresh source replay and private rehearsal added one
 Macan to a 105-variant baseline. All nine fields and the starting price
@@ -110,9 +111,28 @@ one Macan to the real 106-variant post-Inster baseline in isolation. It
 kept Inster's fractional charging value, all prior variants and the
 historical Macan market month. Rollback and exact no-op replay passed.
 
-Remaining: bind the complete intake and licensed image to the actual buyer
-page and scoped production release. Do not promote the rehearsal receipt
-into a production approval.
+The private build was tested at 320, 390 and 1440 px. The buyer page
+renders the licensed Macan photo without overlapping text on mobile,
+labels the price as the manufacturer's starting price, and compares
+against the existing Kia EV2. The battery note identifies the 100 kWh
+as gross capacity; the towing note specifies a braked trailer and the
+optional tow bar. The sitemap rehearsal adds only the Macan detail page
+and retains all seven public news articles. Vehicle structured data
+does not turn the starting price into a fixed offer.
+
+```sh
+node scripts/verify_hyundai_inster_advanced_ui.mjs --macan --readback <local-result> --photo <photo-packet>
+node scripts/run_python.mjs scripts/verify_hyundai_inster_advanced_static.py <ui-result> --macan
+node scripts/prepare_hyundai_inster_advanced_release.mjs --macan --readback <local-result> --ui <ui-result>
+```
+
+The Macan profile in the existing single-variant publisher defaults to
+a read-only check. It requires newer official captures, the unchanged
+canonical baseline, passing main CI, and a deployed reader with the
+four exact image files. Only the matching seal admits the Macan
+transaction. The anonymous view must show exactly one addition before
+commit and again through a separate connection before the scoped export.
+Do not substitute the private preview export for this readback.
 
 [base]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data

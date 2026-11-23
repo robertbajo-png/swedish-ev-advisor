@@ -6,7 +6,8 @@ import {fileURLToPath} from 'node:url';
 import {MACAN_MODEL} from './porsche_macan_scope.mjs';
 
 export const ADAPTER='porsche_macan_xabaa1_private';
-const identity='SE|MY27|XABAA1|RWD|5|20', variant='Electric RWD MY27';
+const identity='SE|MY27|XABAA1|RWD|5|20';
+export const variant='Electric RWD MY27';
 const base='https://configurator.porsche.com/sv-SE/mode/model/XABAA1';
 const urls={base,technical:base+'/specifications?tab=technical-data',equipment:base+'/specifications?tab=standard-equipment',
   comparison:'https://compare.porsche.com/sv-SE?model-series=macan'};
@@ -15,7 +16,7 @@ const {model_key:imageKey,content_sha256:imageHash,source_url:photoSource,asset_
 const root=realpathSync(fileURLToPath(new URL('../',import.meta.url)));
 const privateRoot=join(root,'data','local','release-data');
 const prices={value:970000,price_type:'manufacturer_from',price_valid_until:null};
-const facts=Object.freeze({wltp_range_km:642,wltp_consumption_kwh_100km:16.7,battery_kwh:100,dc_charge_kw:270,
+export const facts=Object.freeze({wltp_range_km:642,wltp_consumption_kwh_100km:16.7,battery_kwh:100,dc_charge_kw:270,
   ac_charge_kw:11,boot_liters:518,tow_kg:2000,seats:5,drivetrain:'RWD'});
 const market={brand_raw:'PORSCHE',model_raw:'MACAN',fuel_type_raw:'EL',normalized_brand:'porsche',normalized_model:'macan',
   source_name:'Mobility Sweden',last_seen_month:'2026-10-01',registrations_last_month:43,registrations_ytd:367,needs_mapping:false};

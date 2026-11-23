@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {macanIntakeFromReplay,policy} from '../scripts/porsche_macan_publication.mjs';
-import {applyNewModelPlan,publicationHash,validateNewModelImage,validateNewModelIntake} from '../scripts/new_model_publication.mjs';
+import {applyMacanRelease,applyNewModelPlan,publicationHash,validateNewModelImage,validateNewModelIntake} from '../scripts/new_model_publication.mjs';
+import {macanReleaseHash,proveMacanRelease} from '../scripts/porsche_macan_release_scope.mjs';
 import {buildImagePlan,selectImageRegistryForPublic} from '../scripts/model_image_sync.mjs';
 import {specQualifications} from '../src/spec-qualifications.js';
 
@@ -78,4 +79,32 @@ test('accept only the licensed electric Macan photo and never as proof of a trim
   assert.notEqual(specQualifications({...model,model:'Cayenne',image_url:proof.asset_url}).imageNotice,proof.model_image_notice);
   for(const patch of [{credit:'other'}, {content_sha256:'0'.repeat(64)}, {variant_names:['Electric RWD MY27']}])
     assert.throws(()=>buildImagePlan([model],[model],registry({...asset,...patch})),/Macan/);
+});
+
+test('Macan qualifications apply only to the exact XABAA1 configuration',()=>{
+  const row={brand:'Porsche',model:'Macan',variant_name:'Electric RWD MY27',source_url:base};
+  const qualified=specQualifications(row);
+  assert.match(qualified.consumptionNote,/100 kWh.*bruttokapacitet/);
+  assert.match(qualified.practicalNote,/518 liter.*tillvald dragkrok/);
+  assert.equal(specQualifications({...row,variant_name:'4S AWD'}).practicalNote,null);
+  assert.equal(specQualifications({...row,source_url:comparison}).consumptionNote,null);
+});
+
+test('Macan release binds the committed reader, fresh sources, resolved scope and exact facts',async()=>{
+  const old=macanIntakeFromReplay(fixture(),'not-a-real-photo-folder');
+  const plan={adapter:policy.adapter,...old,targets:[],expected_monthly:[{registrations:43}]};
+  const scope={status:'macan_release_scope_private',publication_approved:false,plan,plan_sha256:publicationHash(plan)};
+  const target={commit:'1'.repeat(40),reader_sha256:'2'.repeat(64)};
+  const seal=macanReleaseHash(scope,target);
+  const at=new Date(+now+10000);
+  const fresh=structuredClone(plan);
+  for(const receipt of [...fresh.intake.sources,fresh.intake.market.source])receipt.fetched_at=at.toISOString();
+  assert.doesNotThrow(()=>proveMacanRelease(scope,fresh,target,seal,at));
+  assert.throws(()=>proveMacanRelease(scope,plan,target,seal,at),/Capture official sources again/);
+  assert.throws(()=>proveMacanRelease(scope,{...fresh,expected_monthly:[]},target,seal,at),/scope changed/);
+  const wrong=structuredClone(fresh);
+  wrong.intake.drafts[0].field_evidence.wltp_range_km.quote='Changed claim';
+  assert.throws(()=>proveMacanRelease(scope,wrong,target,seal,at),/evidence or target changed/);
+  await assert.rejects(applyMacanRelease({query:()=>assert.fail('Remote query attempted')},
+    fresh,scope,{...target,reader_sha256:'3'.repeat(64)},seal,at),/exact reviewed Macan/);
 });
