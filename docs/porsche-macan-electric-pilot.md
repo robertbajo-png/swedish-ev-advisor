@@ -50,14 +50,40 @@ The optional PGlite check reproduces that scope and the existing
 105-variant public baseline. This is a read-only scope rehearsal, not
 the insertion transaction or permission to publish.
 
-Remaining: verify a permitted model photo and rehearse the scoped
-insertion, re-export and browser release. Never use a combustion
-Macan, Macan 4S or Turbo as a substitute image. The [Porsche Sweden launch
-gallery][press] is a source to review, not yet a permission receipt.
+The [Porsche press kit][press] links the separate base Macan gallery,
+not the Macan 4S gallery. The gallery identifies press asset 297892,
+credit Porsche AG. The uncropped 6000 x 4000 JPEG was independently
+opened and verified. It is a 2024 model photo, not MY27 equipment proof.
+The published [usage terms][terms] permit credited editorial reporting
+and exclude advertising and other business use. They do not establish
+permission to deploy this asset across the catalog, comparison and
+recommendation surfaces. Keep it private unless the intended use is
+covered; don't substitute a combustion Macan, 4S or Turbo.
+
+The February 2025 [front][commons-front] and [rear][commons-rear]
+photographs by M 93 are a separate CC BY-SA 3.0 DE lead. Both original
+downloads returned HTTP 429 during review. The file pages identify the
+electric generation, but do not establish the exact drivetrain. Neither
+image has been added to the catalog or marked as reviewed media.
+
+```sh
+node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --capture-photo
+node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --specs <spec-packet> --market <market-packet> --photo <photo-packet>
+```
+
+The combined intake replays the original source packets and attaches
+the exact quote, source URL, hash and fetch date to each of the nine
+technical fields and the Swedish starting price. It reports freshness
+without refreshing saved timestamps. It cannot publish or set image
+rights. Remaining: clear image usage, rehearse the scoped insertion,
+re-export and verify the car page in the browser.
 
 [base]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data
 [equipment]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=standard-equipment
 [compare]: https://compare.porsche.com/sv-SE?model-series=macan
 [market]: https://mobilitysweden.se/statistik/Nyregistreringar_per_manad_1/nyregistreringar-2026/tydligt-skifte-fran-laddhybrider-till-elbilar-i-oktober
-[press]: https://via.tt.se/pressmeddelande/3561876/porsche-fordubblar-modellutbudet-av-sin-elektriska-suv-macan?lang=sv&publisherId=1995911
+[press]: https://newsroom.porsche.com/de/pressemappen/der-neue-porsche-macan.html
+[terms]: https://newsroom.porsche.com/de/bilder-videos/porsche-newsroom-nutzungshinweise.html
+[commons-front]: https://commons.wikimedia.org/wiki/File:Porsche_Macan_(II)_%E2%80%93_f_22022025.jpg
+[commons-rear]: https://commons.wikimedia.org/wiki/File:Porsche_Macan_(II)_%E2%80%93_h_22022025.jpg
