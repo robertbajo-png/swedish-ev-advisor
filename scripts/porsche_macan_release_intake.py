@@ -105,7 +105,7 @@ def intake(specs, market, photo, now):
         receipt = specs['sources'][proof['source']]
         field_evidence[field] = {'value': value, 'quote': proof['snippet'], 'source_url': receipt['source_url'],
                                  'source_hash': receipt['content_hash'], 'fetched_at': receipt['fetched_at']}
-    receipts = [r for group in (specs, market, photo) for r in group['sources'].values()]
+    receipts = [r for group in (specs, market, photo) if group is not None for r in group['sources'].values()]
     ages = [now - datetime.fromisoformat(r['fetched_at']) for r in receipts]
     return {
         'status': 'macan_release_intake_verified_private',
@@ -116,7 +116,8 @@ def intake(specs, market, photo, now):
         'spec_sources': specs['sources'],
         'market_discovery': market['row'], 'market_sources': market['sources'], 'photo_candidate': photo,
         'all_sources_within_15_minutes': all(timedelta() <= age <= timedelta(minutes=15) for age in ages),
-        'release_holds': ['photo_terms_do_not_confirm_catalog_use', 'scoped_insertion_not_rehearsed'],
+        'release_holds': (['photo_terms_do_not_confirm_catalog_use'] if photo else ['registered_model_photo_required'])
+                         + ['scoped_production_insertion_not_prepared'],
         'publication_approved': False, 'production_writes': 0,
     }
 
@@ -131,9 +132,9 @@ if __name__ == '__main__':
     if args.capture_photo and not any((args.specs, args.market, args.photo)):
         folder, report = capture_photo()
         print(json.dumps({'folder': str(folder), **report}))
-    elif not args.capture_photo and all((args.specs, args.market, args.photo)):
-        report = intake(replay_specs(args.specs), replay_market(args.market), replay_photo(args.photo),
+    elif not args.capture_photo and args.specs and args.market:
+        report = intake(replay_specs(args.specs), replay_market(args.market), replay_photo(args.photo) if args.photo else None,
                         datetime.now(timezone.utc))
         print(json.dumps(report, indent=2))
     else:
-        parser.error('Use --capture-photo or supply all of --specs, --market and --photo')
+        parser.error('Use --capture-photo or supply --specs and --market; --photo is only for historical press evidence')

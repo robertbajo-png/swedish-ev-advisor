@@ -14,7 +14,11 @@ const receiptTimes=i=>[...i.sources,i.market.source,i.source_decisions.model,
   ...Object.values(i.source_decisions.factory_receipts)].map(r=>Date.parse(r.fetched_at));
 
 export function assertInsterPublishedRows(rows,plan,{ids=true}={}){
-  assert.equal(plan.adapter,ADAPTER);
+  return assertScopedPublishedRows(rows,plan,policy,{ids});
+}
+
+export function assertScopedPublishedRows(rows,plan,policy,{ids=true}={}){
+  assert.equal(plan.adapter,policy.adapter);
   policy.verifyPublic(rows,plan);
   const [row]=rows,[{id,draft}]=plan.targets;
   const primary=plan.intake.sources.find(source=>source.final_url===policy.primaryUrl);
@@ -25,16 +29,20 @@ export function assertInsterPublishedRows(rows,plan,{ids=true}={}){
   assert.deepEqual([row.price_source_hash,row.price_source_quote,row.price_source_name,Date.parse(row.price_verified_at)],
     [price.content_hash,draft.price_evidence.quote,price.source_name,Date.parse(price.fetched_at)]);
   for(const flag of ['available_confirmed','discontinued_candidate','coming_or_low_volume'])
-    assert.equal(row[flag],plan.expected_model[flag],'Inster market flag changed: '+flag);
+    assert.equal(row[flag],plan.expected_model[flag],'Market flag changed: '+flag);
 }
 
 export function insterCatalogDelta(baseline,rows,plan,options){
+  return singleCatalogDelta(baseline,rows,plan,policy,options);
+}
+
+export function singleCatalogDelta(baseline,rows,plan,policy,options){
   const keys=new Set(baseline.map(variantKey));
   assert.equal(databaseCatalogHash(rows.filter(row=>keys.has(variantKey(row)))),databaseCatalogHash(baseline),
     'Existing catalog changed');
   const added=rows.filter(row=>!keys.has(variantKey(row)));
-  assert.equal(added.length,1,'Release may add only the reviewed Inster');
-  assertInsterPublishedRows(added,plan,options);
+  assert.equal(added.length,1,'Release may add only the reviewed variant');
+  assertScopedPublishedRows(added,plan,policy,options);
   return normalizeCatalog([...baseline,...catalogWithComparableTimes(added)]);
 }
 

@@ -250,6 +250,15 @@
       "object_fit": "contain",
       "object_position": "center",
       "style": "licensed_model_photo"
+    },
+    "porsche|macan": {
+      "status": "approved",
+      "asset_url": "/media/vehicles/porsche-macan-electric-7a1901acfdb4.jpg",
+      "content_sha256": "7a1901acfdb40fd97315db8baff73bacb8b58251a6e6d61ca27d34525329c2d7",
+      "reviewed_at": "2026-11-23",
+      "object_fit": "contain",
+      "object_position": "center",
+      "style": "licensed_model_photo"
     }
   }
 }

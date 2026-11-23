@@ -6,6 +6,7 @@ const pressPublishers = JSON.parse(readFileSync(new URL('../src/press-image-publ
 const toyotaPhotos = JSON.parse(readFileSync(new URL('../src/toyota-press-images.json', import.meta.url), 'utf8'));
 const buzzPhoto = JSON.parse(readFileSync(new URL('../src/id-buzz-photo-policy.json', import.meta.url), 'utf8'));
 const insterPhoto = JSON.parse(readFileSync(new URL('../src/inster-photo-policy.json', import.meta.url), 'utf8'));
+const macanPhoto = JSON.parse(readFileSync(new URL('../src/porsche-macan-photo-policy.json', import.meta.url), 'utf8'));
 const pumaPhoto = JSON.parse(readFileSync(new URL('../src/puma-photo-policy.json', import.meta.url), 'utf8'));
 const stagedPublisherPhotos = {
   'mercedes benz|glb': ['GLB','Mercedes-Benz','Glb','mercedes-glb-se-private-review','mercedes-benz-glb'],
@@ -18,7 +19,7 @@ const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) =
 
 export function selectImageRegistryForPublic(publicModels, registry) {
   const scope = new Set(publicModels.map(key));
-  const staged = new Map([buzzPhoto, insterPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
+  const staged = new Map([buzzPhoto, insterPhoto, macanPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
   for (const [key, [name]] of Object.entries(stagedPublisherPhotos)) {
     assert(registry.assets.filter(asset => asset.model_key === key).length <= 1, 'Duplicate prepared '+name+' model photo');
   }
@@ -60,6 +61,9 @@ export function buildImagePlan(models, publicModels, registry) {
     if (asset.model_key === insterPhoto.model_key) {
       for (const [field, value] of Object.entries(insterPhoto)) assert.equal(asset[field], value, 'Exact licensed Inster photo required');
       assert(!('variant_names' in asset), 'Inster Prime photo represents the regular model only');
+    } else if (asset.model_key === macanPhoto.model_key) {
+      for (const [field, value] of Object.entries(macanPhoto)) assert.equal(asset[field], value, 'Exact licensed Macan Electric photo required');
+      assert(!('variant_names' in asset), 'Macan picture is model-level, not proof of RWD equipment');
     } else if (asset.model_key === buzzPhoto.model_key || asset.license_id === buzzPhoto.license_id) {
       for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Exact licensed ID. Buzz photo required');
     } else if (asset.license_id === 'Polestar-editorial') {

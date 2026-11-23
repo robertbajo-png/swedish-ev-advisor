@@ -1104,6 +1104,24 @@
       "full_frame": true,
       "status": "documented",
       "reviewed_at": "2026-11-23"
+    },
+    {
+      "model_key": "porsche|macan",
+      "asset_url": "/media/vehicles/porsche-macan-electric-7a1901acfdb4.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Porsche_Macan_(II)_%E2%80%93_f_22022025.jpg",
+      "evidence_url": "https://commons.wikimedia.org/w/index.php?title=File:Porsche_Macan_(II)_%E2%80%93_f_22022025.jpg&oldid=1226618467",
+      "downloaded_from": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Porsche_Macan_%28II%29_%E2%80%93_f_22022025.jpg",
+      "content_sha256": "7a1901acfdb40fd97315db8baff73bacb8b58251a6e6d61ca27d34525329c2d7",
+      "license_id": "CC-BY-SA-3.0-DE",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+      "author": "M 93",
+      "credit": "M 93 / Wikimedia Commons",
+      "evidence_quote": "This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Germany license.",
+      "model_image_notice": "Modellbild av Porsche Macan Electric. Utrustning och drivlina kan skilja sig fr\u00e5n den svenska versionen.",
+      "changes": "Originalbilden of\u00f6r\u00e4ndrad. Webbversionerna har anpassad storlek och format utan besk\u00e4rning, med samma licens.",
+      "full_frame": true,
+      "status": "documented",
+      "reviewed_at": "2026-11-23"
     }
   ]
 }

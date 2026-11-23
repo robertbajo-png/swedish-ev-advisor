@@ -6,10 +6,13 @@ import {basename,dirname,join,resolve} from 'node:path';
 import {parseArgs} from 'node:util';
 import {parse} from 'parse5';
 import {loadEnv} from 'vite';
-import {policy,readInsterCapture} from './hyundai_inster_advanced_publication.mjs';
+import {policy as insterPolicy,readInsterCapture} from './hyundai_inster_advanced_publication.mjs';
 import {databaseCatalogHash,insterCatalogDelta,insterReleaseHash,proveInsterRelease} from './hyundai_inster_advanced_release_scope.mjs';
+import {policy as macanPolicy,readMacanRehearsal} from './porsche_macan_publication.mjs';
+import {macanCatalogDelta,macanReleaseHash,proveMacanRelease} from './porsche_macan_release_scope.mjs';
 import {readInsterScope} from './verify_hyundai_inster_advanced_local.mjs';
-import {applyInsterRelease,buildNewModelPlan,publicationHash} from './new_model_publication.mjs';
+import {readMacanSnapshot} from './verify_porsche_macan_local.mjs';
+import {applyInsterRelease,applyMacanRelease,buildNewModelPlan,publicationHash} from './new_model_publication.mjs';
 import {CATALOG_PROJECT,catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 import {catalogHash,fetchCatalog,publicHeaders,SOURCE} from './sync_public_catalog.mjs';
 
@@ -26,7 +29,7 @@ const get=async url=>{
   return response;
 };
 const live=path=>get(site+path);
-let stage='arguments';
+let stage='arguments',model='inster';
 
 function readerPath(html){
   const hits=[];
@@ -45,7 +48,20 @@ function readerPath(html){
 async function main(){
   const {values:v}=parseArgs({options:{scope:{type:'string'},fresh:{type:'string'},'ci-run':{type:'string'},
     'release-commit':{type:'string'},'reader-sha256':{type:'string'},'commit-seal':{type:'string'},
-    'export-journal':{type:'string'},'client-module':{type:'string'}}});
+    'export-journal':{type:'string'},'client-module':{type:'string'},macan:{type:'boolean'},
+    specs:{type:'string'},market:{type:'string'},photo:{type:'string'}}});
+  const macan=v.macan===true;
+  model=macan?'macan':'inster';
+  const policy=macan?macanPolicy:insterPolicy;
+  const releaseHash=macan?macanReleaseHash:insterReleaseHash;
+  const prove=macan?proveMacanRelease:proveInsterRelease;
+  const delta=macan?macanCatalogDelta:insterCatalogDelta;
+  const apply=macan?applyMacanRelease:applyInsterRelease;
+  const mediaMarker=macan?'porsche-macan-electric-7a1901acfdb4':'hyundai-inster-74c89ece773a';
+  const applyPrefix=macan?'porsche-macan-apply-':'inster-advanced-apply-';
+  const macanArgs=[v.specs,v.market,v.photo];
+  if(macan&&!v['export-journal'])assert(macanArgs.every(Boolean)&&!v.fresh,'Provide fresh Macan specs, market and photo');
+  else assert(!macanArgs.some(Boolean),'Unexpected Macan source flags');
   const root=await realpath('.'),release=join(root,'data','local','release-data');
   assert.equal(await realpath(release),release);
   assert(!/[\\/]onedrive(?:commercial|consumer)?(?:[\\/]|$)/i.test(release));
@@ -53,15 +69,16 @@ async function main(){
   assert.match(target.commit??'',/^[a-f0-9]{40}$/);
   assert.match(target.reader_sha256??'',shaPattern);
   assert.match(v['ci-run']??'',/^[1-9][0-9]{0,19}$/);
-  assert(v.scope&&Boolean(v.fresh)!==Boolean(v['export-journal']));
+  assert(v.scope&&Boolean(macan?macanArgs.every(Boolean):v.fresh)!==Boolean(v['export-journal']));
+  assert(!v['export-journal']||!v.fresh);
   assert(!(v['commit-seal']&&v['export-journal']));
   const file=resolve(v.scope);
   assert.equal(dirname(dirname(file)),release);
-  assert.match(basename(dirname(file)),/^inster-advanced-scope-[a-z0-9]+$/i);
+  assert.match(basename(dirname(file)),macan?/^macan-release-scope-[a-z0-9]+$/i:/^inster-advanced-scope-[a-z0-9]+$/i);
   assert.equal(basename(file),'scope.json');
   const scope=await json(file);
-  const seal=insterReleaseHash(scope,target);
-  if(v['commit-seal'])assert.equal(v['commit-seal'],seal,'Require the exact verified Inster seal');
+  const seal=releaseHash(scope,target);
+  if(v['commit-seal'])assert.equal(v['commit-seal'],seal,'Require the exact verified release seal');
 
   const git=(...args)=>execFileSync('git',args,{cwd:root,timeout:30000,maxBuffer:16_000_000,windowsHide:true});
   const text=(...args)=>git(...args).toString('utf8').trim();
@@ -81,7 +98,7 @@ async function main(){
   stage='verified_live_media';
   const registry=name=>JSON.parse(stored('src/'+name+'.json'));
   const image=scope.plan.image;
-  const {private_file,...publicRights}=image;
+  const {private_file,private_folder,...publicRights}=image;
   assert.deepEqual(registry('image-rights').assets.filter(item=>item.model_key===image.model_key),[publicRights]);
   assert.equal(registry('model-images')[policy.imageKey],image.asset_url);
   const responsive=registry('image-variants')[image.asset_url],position=registry('image-presentation').models[policy.imageKey];
@@ -90,7 +107,7 @@ async function main(){
   assert.equal(responsive.source_sha256,policy.imageHash);
   assert.deepEqual(responsive.variants.map(({url,sha256})=>({url,sha256})),scope.media.slice(1));
   for(const item of scope.media){
-    assert.match(item.url,/^\/media\/(vehicles|responsive)\/hyundai-inster-74c89ece773a(?:-(?:480|800|1280))?\.(?:jpg|webp)$/);
+    assert.match(item.url,new RegExp('^/media/(vehicles|responsive)/'+mediaMarker+'(?:-(?:480|800|1280))?\\.(?:jpg|webp)$'));
     assert.equal(sha(stored('public'+item.url)),item.sha256);
     assert.equal(sha(Buffer.from(await (await live(item.url)).arrayBuffer())),item.sha256);
   }
@@ -98,11 +115,13 @@ async function main(){
   const entry=readerPath(await (await live('/')).text());
   const reader=Buffer.from(await (await live(entry)).arrayBuffer());
   assert.equal(sha(reader),target.reader_sha256);
-  assert(reader.includes('hyundai-inster-74c89ece773a'),'Deployed reader does not contain approved Inster support');
+  assert(reader.includes(mediaMarker),'Deployed reader does not contain approved model support');
   const baseline=JSON.parse(stored('public/data/public_ev_variants.json')).records;
   assert.equal(databaseCatalogHash(baseline),scope.database_baseline_sha256);
   assert.equal(databaseCatalogHash((await (await live('/data/public_ev_variants.json')).json()).records),
-    scope.database_baseline_sha256,'Live catalog changed before Inster release');
+    scope.database_baseline_sha256,'Live catalog changed before model release');
+  if(macan)assert.equal(sha(Buffer.from(await (await live('/data/news_articles.json')).arrayBuffer())),
+    scope.seo.public_news_sha256,'Live news changed since the Macan rehearsal');
 
   const connection=await catalogConnectorPath(root,v['client-module']);
   const fetchAnonymousRows=async()=>{
@@ -117,50 +136,51 @@ async function main(){
     stage='scoped_readback_export';
     const dir=resolve(v['export-journal']);
     assert.equal(dirname(dir),release);
-    assert.match(basename(dir),/^inster-advanced-apply-[a-z0-9]+$/i);
+    assert.match(basename(dir),new RegExp('^'+applyPrefix+'[a-z0-9]+$','i'));
     const attempt=await json(join(dir,'attempt.json')),receipt=await json(join(dir,'commit.json'));
     assert.deepEqual([attempt.seal,attempt.target],[seal,target]);
     assert.equal(receipt.attempt_sha256,publicationHash(attempt));
-    proveInsterRelease(scope,attempt.plan,target,seal,new Date(attempt.checked_at));
+    prove(scope,attempt.plan,target,seal,new Date(attempt.checked_at));
     assert.deepEqual([receipt.result.committed,receipt.result.variants_inserted,receipt.result.anonymous_before_commit,
       receipt.result.publication_batch_id,receipt.result.canonical_variant_ids],
     [true,1,true,publicationHash(attempt.plan),attempt.plan.targets.map(item=>item.id)]);
-    const rows=await fetchAnonymousRows(),records=insterCatalogDelta(baseline,rows,attempt.plan);
+    const rows=await fetchAnonymousRows(),records=delta(baseline,rows,attempt.plan);
     assert.equal(databaseCatalogHash(await fetchAnonymousRows()),databaseCatalogHash(rows),'Public rows changed during export');
     const output=join(dir,'public_ev_variants.json');
     await save(output,{source:SOURCE,schema_version:1,generated_at:new Date().toISOString(),
       missing_view_columns:[],catalog_sha256:catalogHash(records),records});
-    return {status:'private_inster_export_verified',output,added:1,catalog_sha256:catalogHash(records),deployed:false};
+    return {status:'private_'+model+'_export_verified',output,added:1,catalog_sha256:catalogHash(records),deployed:false};
   }
 
   stage='fresh_sources';
   assert.equal(databaseCatalogHash(await fetchAnonymousRows()),scope.database_baseline_sha256,'Anonymous Supabase baseline changed');
-  const fresh=readInsterCapture(v.fresh,root);
+  const fresh=macan?readMacanRehearsal(v):readInsterCapture(v.fresh,root);
   const session=await openCatalogSnapshot(connection);
   let journal;
   try{
     stage='core_scope';
-    const {expected:e,productionExactDc,publicRows:sqlRows}=await readInsterScope(session.client,fresh.intake);
-    assert(productionExactDc,'Migration 027 must be installed');
+    const {expected:e,productionExactDc,publicRows:sqlRows}=macan?
+      await readMacanSnapshot(session.client,fresh.intake,{fixture:false}):await readInsterScope(session.client,fresh.intake);
+    assert(macan||productionExactDc,'Migration 027 must be installed');
     assert.equal(databaseCatalogHash(sqlRows),scope.database_baseline_sha256,'SQL baseline changed');
     const plan=buildNewModelPlan({canonical_models:[e.expected_model],canonical_model_variants:[],
       model_aliases:[e.expected_alias],market_models:[e.expected_market],market_model_monthly_stats:e.expected_monthly,
       manufacturer_sources:e.expected_sources},fresh.intake,fresh.image);
-    proveInsterRelease(scope,plan,target,seal,new Date());
-    if(!v['commit-seal'])return {status:'inster_can_insert_verified_scope',seal,production_writes:0};
+    prove(scope,plan,target,seal,new Date());
+    if(!v['commit-seal'])return {status:model+'_can_insert_verified_scope',seal,production_writes:0};
     await requireRelease();
-    journal=await mkdtemp(join(release,'inster-advanced-apply-'));
+    journal=await mkdtemp(join(release,applyPrefix));
     const attempt={seal,target,plan,checked_at:new Date().toISOString()};
     await save(join(journal,'attempt.json'),attempt);
     stage='scoped_transaction';
     await session.client.query('ROLLBACK');
-    const result=await applyInsterRelease(session.client,plan,scope,target,seal);
+    const result=await apply(session.client,plan,scope,target,seal);
     assert.deepEqual([result.committed,result.variants_inserted,result.anonymous_before_commit,result.publication_batch_id],
       [true,1,true,publicationHash(plan)]);
     await save(join(journal,'commit.json'),{attempt_sha256:publicationHash(attempt),result});
     stage='separate_anon_readback';
-    const readback=insterCatalogDelta(baseline,await fetchAnonymousRows(),plan);
-    return {status:'inster_inserted_and_verified',journal,variants:readback.length,paid_calls:0};
+    const readback=delta(baseline,await fetchAnonymousRows(),plan);
+    return {status:model+'_inserted_and_verified',journal,variants:readback.length,paid_calls:0};
   }catch(error){
     if(journal)console.error(JSON.stringify({journal,status:'inspect_journal_before_retrying'}));
     throw error;
@@ -168,7 +188,7 @@ async function main(){
 }
 
 await main().then(r=>console.log(JSON.stringify(r))).catch(error=>{
-  console.error(JSON.stringify({status:'inster_release_not_verified',stage,
+  console.error(JSON.stringify({status:model+'_release_not_verified',stage,
     reason:error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'Check exact release evidence before retrying.'}));
   process.exitCode=1;
 });

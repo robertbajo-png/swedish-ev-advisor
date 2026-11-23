@@ -61,14 +61,17 @@ recommendation surfaces. Keep it private unless the intended use is
 covered; don't substitute a combustion Macan, 4S or Turbo.
 
 The February 2025 [front][commons-front] and [rear][commons-rear]
-photographs by M 93 are a separate CC BY-SA 3.0 DE lead. Both original
-downloads returned HTTP 429 during review. The file pages identify the
-electric generation, but do not establish the exact drivetrain. Neither
-image has been added to the catalog or marked as reviewed media.
+photographs by M 93 are a separate CC BY-SA 3.0 DE source. Both originals
+were subsequently fetched and visually verified as the electric XAB
+generation. They do not establish the photographed drivetrain. The
+front file is approved as a model-level image with that limitation
+shown in the caption. The staged original and 480/800/1280 px derivatives
+are hash-bound; do not distribute the Porsche pressroom copy through
+the catalog. No variant is added by this media change.
 
 ```sh
 node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --capture-photo
-node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --specs <spec-packet> --market <market-packet> --photo <photo-packet>
+node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --specs <spec-packet> --market <market-packet>
 ```
 
 The combined intake replays the original source packets and attaches
@@ -80,7 +83,7 @@ rights.
 ### Atomic rehearsal on the canonical baseline
 
 ```sh
-node scripts/verify_porsche_macan_local.mjs --specs <fresh-spec-packet> --market <fresh-market-packet> --photo <fresh-photo-packet>
+node scripts/verify_porsche_macan_local.mjs --specs <fresh-spec-packet> --market <fresh-market-packet> --photo <reviewed-licensed-photo-packet>
 ```
 
 An isolated checkout can use `--client-module` with the existing project's
@@ -89,8 +92,9 @@ resolved alias, existing Macan sources and history in a repeatable-read,
 read-only transaction, and closes that connection before any trial writes.
 The exact Macan adapter then exercises the shared model insertion transaction
 in a new in-memory PGlite database. It rejects the production connector and
-uses a private image path that cannot be shipped by the image registry.
-Neither the photo nor the trial catalog is exported.
+requires the exact licensed model photo; the older pressroom proof is not
+eligible for this rehearsal. The candidate catalog is saved only under
+`data/local/release-data` for browser and static route checks.
 
 On 23 November the fresh source replay and private rehearsal added one
 Macan to a 105-variant baseline. All nine fields and the starting price
@@ -101,9 +105,34 @@ evidence and attempts against a non-PGlite client were rejected. The late
 failure restored the initial state and rerunning the exact committed plan
 was a no-op. No production rows, public assets or site were changed.
 
-Remaining: verify catalog-use media, then replace the private-only photo
-path with a reviewed public release binding and test the actual buyer page.
-Do not promote the rehearsal receipt into a production approval.
+A second rehearsal with fresh manufacturer and Mobility Sweden receipts
+used the licensed XAB model image rather than the pressroom copy. It added
+one Macan to the real 106-variant post-Inster baseline in isolation. It
+kept Inster's fractional charging value, all prior variants and the
+historical Macan market month. Rollback and exact no-op replay passed.
+
+The private build was tested at 320, 390 and 1440 px. The buyer page
+renders the licensed Macan photo without overlapping text on mobile,
+labels the price as the manufacturer's starting price, and compares
+against the existing Kia EV2. The battery note identifies the 100 kWh
+as gross capacity; the towing note specifies a braked trailer and the
+optional tow bar. The sitemap rehearsal adds only the Macan detail page
+and retains all seven public news articles. Vehicle structured data
+does not turn the starting price into a fixed offer.
+
+```sh
+node scripts/verify_hyundai_inster_advanced_ui.mjs --macan --readback <local-result> --photo <photo-packet>
+node scripts/run_python.mjs scripts/verify_hyundai_inster_advanced_static.py <ui-result> --macan
+node scripts/prepare_hyundai_inster_advanced_release.mjs --macan --readback <local-result> --ui <ui-result>
+```
+
+The Macan profile in the existing single-variant publisher defaults to
+a read-only check. It requires newer official captures, the unchanged
+canonical baseline, passing main CI, and a deployed reader with the
+four exact image files. Only the matching seal admits the Macan
+transaction. The anonymous view must show exactly one addition before
+commit and again through a separate connection before the scoped export.
+Do not substitute the private preview export for this readback.
 
 [base]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data
