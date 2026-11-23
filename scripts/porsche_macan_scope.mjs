@@ -4,7 +4,6 @@ import {realpath} from 'node:fs/promises';
 import {basename,dirname,join,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {parseArgs} from 'node:util';
-import {PGlite} from '@electric-sql/pglite';
 import {anonymousCatalogRows,catalogWithComparableTimes,readPublishedFixture,seedCatalogFixture} from './isolated_catalog_review.mjs';
 import {catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 import {compareCatalogs} from './sync_public_catalog.mjs';
@@ -74,6 +73,7 @@ export async function readMacanScope(db, incoming) {
 }
 
 async function rehearseMacanScope(fixture, publicRows, expected, incoming) {
+  const {PGlite}=await import('@electric-sql/pglite');
   const db = new PGlite();
   try {
     await db.exec("SET TIME ZONE 'UTC'");

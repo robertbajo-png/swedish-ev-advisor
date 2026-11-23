@@ -75,8 +75,35 @@ The combined intake replays the original source packets and attaches
 the exact quote, source URL, hash and fetch date to each of the nine
 technical fields and the Swedish starting price. It reports freshness
 without refreshing saved timestamps. It cannot publish or set image
-rights. Remaining: clear image usage, rehearse the scoped insertion,
-re-export and verify the car page in the browser.
+rights.
+
+### Atomic rehearsal on the canonical baseline
+
+```sh
+node scripts/verify_porsche_macan_local.mjs --specs <fresh-spec-packet> --market <fresh-market-packet> --photo <fresh-photo-packet>
+```
+
+An isolated checkout can use `--client-module` with the existing project's
+read-only source connector. The command reads the actual canonical draft,
+resolved alias, existing Macan sources and history in a repeatable-read,
+read-only transaction, and closes that connection before any trial writes.
+The exact Macan adapter then exercises the shared model insertion transaction
+in a new in-memory PGlite database. It rejects the production connector and
+uses a private image path that cannot be shipped by the image registry.
+Neither the photo nor the trial catalog is exported.
+
+On 23 November the fresh source replay and private rehearsal added one
+Macan to a 105-variant baseline. All nine fields and the starting price
+were visible through the anonymous **local** view before commit. The
+existing variants and March registration row stayed unchanged; the local
+October row contains 43 registrations. Invalid price, identity, stale
+evidence and attempts against a non-PGlite client were rejected. The late
+failure restored the initial state and rerunning the exact committed plan
+was a no-op. No production rows, public assets or site were changed.
+
+Remaining: verify catalog-use media, then replace the private-only photo
+path with a reviewed public release binding and test the actual buyer page.
+Do not promote the rehearsal receipt into a production approval.
 
 [base]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data
