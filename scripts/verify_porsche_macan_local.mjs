@@ -41,7 +41,7 @@ async function rehearse({expected,fixture,publicRows},intake,image,now){
       p=>{p.intake.drafts[0].facts.seats=6;},
       p=>{p.intake.drafts[0].price_evidence.price_type='list_price';},
       p=>{p.intake.drafts[0].price_evidence.source_url=p.intake.market.source.final_url;},
-      p=>{p.image.catalog_use_confirmed=true;},
+      p=>{p.image.credit='Unreviewed credit';},
     ]){
       const wrong=structuredClone(plan);
       dirty(wrong);
@@ -82,7 +82,8 @@ async function rehearse({expected,fixture,publicRows},intake,image,now){
       before.market_model_monthly_stats.some(r=>r.month==='2026-10-01'&&r.county===null&&r.municipality===null)?[]:[['2026-10-01',43]]);
     return {status:'macan_local_atomic_rehearsal_verified',public_baseline:initial.length,local_variants:visible.length,
       technical_fields:9,history_rows_preserved:expected.expected_monthly.length,anonymous_before_commit:true,
-      late_rollback:true,exact_replay_noop:true,remote_write_rejected:true,scope_conflicts_rejected:true,photo_use:'private_only',
+      late_rollback:true,exact_replay_noop:true,remote_write_rejected:true,scope_conflicts_rejected:true,
+      photo_use:'licensed_model_photo_in_private_rehearsal',
       publication_approved:false,production_writes:0,paid_calls:0};
   }finally{await db.close();}
 }

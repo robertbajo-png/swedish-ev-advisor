@@ -42,6 +42,9 @@ export async function seedCatalogFixture(db, {models, sources, variants, legacy}
   if (variants.some(row => row.price_type === 'manufacturer_from')) {
     await db.exec(await readRepo('database/migrations/026_manufacturer_from_price.sql'));
   }
+  if (variants.some(row => row.dc_charge_kw != null && !Number.isInteger(Number(row.dc_charge_kw)))) {
+    await db.exec(await readRepo('database/migrations/027_exact_dc_charging.sql'));
+  }
   // Mirror deployed legacy nullability without inventing provenance for old rows.
   if (legacy.nullable_authority) await db.exec('ALTER TABLE public.manufacturer_sources ALTER COLUMN source_authority DROP NOT NULL');
   const insert = async (table, rows) => {

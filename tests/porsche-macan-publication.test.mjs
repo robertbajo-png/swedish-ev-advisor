@@ -28,9 +28,7 @@ function fixture(){
       registrations_last_month:43,registrations_ytd:367,needs_mapping:false},
     market_sources:{'market.xlsx':{final_url:'https://mobilitysweden.se/test.xlsx',status:'reachable',http_status:200,fetched_at,
       content_hash:'1fee5254c4671bd9239b0a0b3819c027c30eac46e1c3a9c1df9c7e9bc55d92c6'}},
-    photo_candidate:{status:'verified_model_photo_private_only',asset_id:'pmdb:9458fb1b-7f83-4267-ba53-8d6321764b0a',credit:'Porsche AG',
-      source_url:'https://newsroom.porsche.com/de/pressemappen/der-neue-porsche-macan.html',sha256:policy.imageHash,
-      catalog_use_confirmed:false,width:6000,height:4000,sources:{'photo.jpg':{fetched_at}}}};
+    photo_candidate:null};
 }
 
 test('exact Macan packet binds the nine facts and manufacturer starting price to separate receipts',()=>{
@@ -40,7 +38,8 @@ test('exact Macan packet binds the nine facts and manufacturer starting price to
   assert.equal(intake.drafts[0].price_evidence.corroboration.source_url,base);
   assert.equal(intake.drafts[0].price_evidence.price_type,'manufacturer_from');
   assert.equal(Object.keys(intake.drafts[0].facts).length,9);
-  assert.match(image.asset_url,/^\/private-rehearsal\//);
+  assert.match(image.asset_url,/^\/media\/vehicles\/porsche-macan-electric-/);
+  assert.equal(image.content_sha256,policy.imageHash);
 });
 
 test('reject changed identity, price, source or editorial scope',()=>{
@@ -48,7 +47,7 @@ test('reject changed identity, price, source or editorial scope',()=>{
     r=>{r.manufacturer_identity='SE|MY27|different|AWD|5|20';},
     r=>{r.field_evidence.price_sek.value=980000;},
     r=>{r.field_evidence.wltp_range_km.source_url=r.market_discovery.source_url;},
-    r=>{r.photo_candidate.catalog_use_confirmed=true;},
+    r=>{r.photo_candidate={catalog_use_confirmed:false};},
     r=>{r.all_sources_within_15_minutes=false;},
   ]){
     const r=fixture();mutate(r);
@@ -56,9 +55,9 @@ test('reject changed identity, price, source or editorial scope',()=>{
   }
 });
 
-test('do not accept a public asset route or missing private JPEG',()=>{
+test('do not accept another model asset or missing exact JPEG in a private rehearsal',()=>{
   const {intake,image}=macanIntakeFromReplay(fixture(),'not-a-real-photo-folder');
-  assert.throws(()=>validateNewModelImage([intake.model],intake,{...image,asset_url:'/media/vehicles/example.jpg'}),/asset_url/);
+  assert.throws(()=>validateNewModelImage([intake.model],intake,{...image,asset_url:'/media/vehicles/example-aaaaaaaaaaaa.jpg'}),/Macan/);
   assert.throws(()=>validateNewModelImage([intake.model],intake,image),{code:'ENOENT'});
 });
 

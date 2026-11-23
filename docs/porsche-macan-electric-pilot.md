@@ -71,7 +71,7 @@ the catalog. No variant is added by this media change.
 
 ```sh
 node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --capture-photo
-node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --specs <spec-packet> --market <market-packet> --photo <photo-packet>
+node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --specs <spec-packet> --market <market-packet>
 ```
 
 The combined intake replays the original source packets and attaches
@@ -83,7 +83,7 @@ rights.
 ### Atomic rehearsal on the canonical baseline
 
 ```sh
-node scripts/verify_porsche_macan_local.mjs --specs <fresh-spec-packet> --market <fresh-market-packet> --photo <fresh-photo-packet>
+node scripts/verify_porsche_macan_local.mjs --specs <fresh-spec-packet> --market <fresh-market-packet> --photo <reviewed-licensed-photo-packet>
 ```
 
 An isolated checkout can use `--client-module` with the existing project's
@@ -92,8 +92,8 @@ resolved alias, existing Macan sources and history in a repeatable-read,
 read-only transaction, and closes that connection before any trial writes.
 The exact Macan adapter then exercises the shared model insertion transaction
 in a new in-memory PGlite database. It rejects the production connector and
-uses a private image path that cannot be shipped by the image registry.
-Neither the photo nor the trial catalog is exported.
+requires the exact licensed model photo; the older pressroom proof is not
+eligible for this rehearsal. The trial catalog is not exported.
 
 On 23 November the fresh source replay and private rehearsal added one
 Macan to a 105-variant baseline. All nine fields and the starting price
@@ -104,9 +104,15 @@ evidence and attempts against a non-PGlite client were rejected. The late
 failure restored the initial state and rerunning the exact committed plan
 was a no-op. No production rows, public assets or site were changed.
 
-Remaining: verify catalog-use media, then replace the private-only photo
-path with a reviewed public release binding and test the actual buyer page.
-Do not promote the rehearsal receipt into a production approval.
+A second rehearsal with fresh manufacturer and Mobility Sweden receipts
+used the licensed XAB model image rather than the pressroom copy. It added
+one Macan to the real 106-variant post-Inster baseline in isolation. It
+kept Inster's fractional charging value, all prior variants and the
+historical Macan market month. Rollback and exact no-op replay passed.
+
+Remaining: bind the complete intake and licensed image to the actual buyer
+page and scoped production release. Do not promote the rehearsal receipt
+into a production approval.
 
 [base]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1
 [technical]: https://configurator.porsche.com/sv-SE/mode/model/XABAA1/specifications?tab=technical-data
