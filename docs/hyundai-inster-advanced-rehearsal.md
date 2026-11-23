@@ -32,8 +32,12 @@ node scripts/verify_hyundai_inster_advanced_local.mjs --intake <fresh-private-pa
 
 The isolated checkout can specify the original workspace's read-only
 connector with `--client-module`. The fresh private packet is assembled
-from the owner's saved source tools and verified raw receipts. It is not
-checked in. The command reads the live baseline, closes the read-only
+from local source tools and verified raw receipts. Its three Swedish
+factory queries can now be captured independently of any saved request
+templates: run `node scripts/capture_hyundai_inster_advanced_factory.mjs`
+and use `--replay <saved-factory-packet>` to verify the resulting bytes.
+The remaining source assembly still depends on local tooling, and the
+private packets are never checked in. The verifier reads the live baseline, closes the read-only
 connection, and exercises the shared insertion in a new in-memory PGlite.
 
 On 23 November 2026 the old schema refused insertion before writing
