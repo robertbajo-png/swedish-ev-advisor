@@ -113,6 +113,7 @@ def intake(specs, market, photo, now):
         'manufacturer_identity': 'SE|MY27|XABAA1|RWD|5|20',
         'price_type': specs['price_type'], 'price_valid_until': None,
         'field_evidence': field_evidence, 'qualifications': specs['qualifications'],
+        'spec_sources': specs['sources'],
         'market_discovery': market['row'], 'market_sources': market['sources'], 'photo_candidate': photo,
         'all_sources_within_15_minutes': all(timedelta() <= age <= timedelta(minutes=15) for age in ages),
         'release_holds': ['photo_terms_do_not_confirm_catalog_use', 'scoped_insertion_not_rehearsed'],
