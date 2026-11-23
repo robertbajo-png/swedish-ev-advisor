@@ -10,11 +10,14 @@ import {policy as insterPolicy,readInsterCapture} from './hyundai_inster_advance
 import {databaseCatalogHash,insterCatalogDelta,insterReleaseHash,proveInsterRelease} from './hyundai_inster_advanced_release_scope.mjs';
 import {policy as macanPolicy,readMacanRehearsal} from './porsche_macan_publication.mjs';
 import {policy as lexusPolicy,readLexusCapture} from './lexus_rz_publication.mjs';
+import {policy as touringPolicy,readTouringCapture} from './toyota_bz4x_touring_publication.mjs';
 import {macanCatalogDelta,macanReleaseHash,proveMacanRelease} from './porsche_macan_release_scope.mjs';
 import {lexusCatalogDelta,lexusReleaseHash,proveLexusRelease} from './lexus_rz_release_scope.mjs';
+import {touringCatalogDelta,touringReleaseHash,proveTouringRelease} from './toyota_bz4x_touring_release_scope.mjs';
 import {readInsterScope} from './verify_hyundai_inster_advanced_local.mjs';
 import {readLexusSnapshot,readMacanSnapshot} from './verify_porsche_macan_local.mjs';
-import {applyInsterRelease,applyLexusRelease,applyMacanRelease,buildNewModelPlan,publicationHash} from './new_model_publication.mjs';
+import {assertTouringSnapshot} from './verify_toyota_touring_release.mjs';
+import {applyInsterRelease,applyLexusRelease,applyMacanRelease,applyTouringRelease,buildNewModelPlan,buildTouringScopePlan,publicationHash} from './new_model_publication.mjs';
 import {CATALOG_PROJECT,catalogConnectorPath,openCatalogSnapshot} from './local_catalog_connector.mjs';
 import {catalogHash,fetchCatalog,publicHeaders,SOURCE} from './sync_public_catalog.mjs';
 
@@ -50,13 +53,17 @@ function readerPath(html){
 async function main(){
   const {values:v}=parseArgs({options:{scope:{type:'string'},fresh:{type:'string'},'ci-run':{type:'string'},
     'release-commit':{type:'string'},'reader-sha256':{type:'string'},'commit-seal':{type:'string'},
-    'export-journal':{type:'string'},'client-module':{type:'string'},macan:{type:'boolean'},lexus:{type:'boolean'},
+    'export-journal':{type:'string'},'client-module':{type:'string'},macan:{type:'boolean'},lexus:{type:'boolean'},touring:{type:'boolean'},
     specs:{type:'string'},market:{type:'string'},photo:{type:'string'}}});
   const macan=v.macan===true;
   const lexus=v.lexus===true;
-  assert(!(macan&&lexus),'Select exactly one release profile');
-  model=lexus?'lexus':macan?'macan':'inster';
-  const {policy,releaseHash,prove,delta,apply,mediaMarker,applyPrefix,scopeName}=lexus?{
+  const touring=v.touring===true;
+  assert([macan,lexus,touring].filter(Boolean).length<=1,'Select exactly one release profile');
+  model=touring?'touring':lexus?'lexus':macan?'macan':'inster';
+  const {policy,releaseHash,prove,delta,apply,mediaMarker,applyPrefix,scopeName}=touring?{
+    policy:touringPolicy,releaseHash:touringReleaseHash,prove:proveTouringRelease,delta:touringCatalogDelta,apply:applyTouringRelease,
+    mediaMarker:'toyota-bz4x-touring-8482ada3c9ec',applyPrefix:'toyota-touring-apply-',scopeName:/^touring-release-scope-[a-z0-9]+$/i,
+  }:lexus?{
     policy:lexusPolicy,releaseHash:lexusReleaseHash,prove:proveLexusRelease,delta:lexusCatalogDelta,apply:applyLexusRelease,
     mediaMarker:'lexus-rz-350e-efe86dce6685',applyPrefix:'lexus-rz-apply-',scopeName:/^lexus-release-scope-[a-z0-9]+$/i,
   }:macan?{
@@ -127,7 +134,7 @@ async function main(){
   assert.equal(databaseCatalogHash(baseline),scope.database_baseline_sha256);
   assert.equal(databaseCatalogHash((await (await live('/data/public_ev_variants.json')).json()).records),
     scope.database_baseline_sha256,'Live catalog changed before model release');
-  if(macan||lexus)assert.equal(sha(Buffer.from(await (await live('/data/news_articles.json')).arrayBuffer())),
+  if(macan||lexus||touring)assert.equal(sha(Buffer.from(await (await live('/data/news_articles.json')).arrayBuffer())),
     scope.seo.public_news_sha256,'Live news changed since the reviewed rehearsal');
 
   const connection=await catalogConnectorPath(root,v['client-module']);
@@ -161,19 +168,26 @@ async function main(){
 
   stage='fresh_sources';
   assert.equal(databaseCatalogHash(await fetchAnonymousRows()),scope.database_baseline_sha256,'Anonymous Supabase baseline changed');
-  const fresh=lexus?readLexusCapture(v.fresh):macan?readMacanRehearsal(v):readInsterCapture(v.fresh,root);
+  const fresh=touring?readTouringCapture(v.fresh):lexus?readLexusCapture(v.fresh):macan?readMacanRehearsal(v):readInsterCapture(v.fresh,root);
   const session=await openCatalogSnapshot(connection);
   let journal;
   try{
     stage='core_scope';
-    const {expected:e,productionExactDc,publicRows:sqlRows}=lexus?
-      await readLexusSnapshot(session.client,fresh.intake,{fixture:false}):macan?
-      await readMacanSnapshot(session.client,fresh.intake,{fixture:false}):await readInsterScope(session.client,fresh.intake);
-    assert(macan||lexus||productionExactDc,'Migration 027 must be installed');
+    let plan,sqlRows;
+    if(touring){
+      plan=buildTouringScopePlan(fresh.intake,fresh.image);
+      sqlRows=await assertTouringSnapshot(session.client,plan);
+    }else{
+      const {expected:e,productionExactDc,publicRows}=lexus?
+        await readLexusSnapshot(session.client,fresh.intake,{fixture:false}):macan?
+        await readMacanSnapshot(session.client,fresh.intake,{fixture:false}):await readInsterScope(session.client,fresh.intake);
+      assert(macan||lexus||productionExactDc,'Migration 027 must be installed');
+      sqlRows=publicRows;
+      plan=buildNewModelPlan({canonical_models:[e.expected_model],canonical_model_variants:[],
+        model_aliases:[e.expected_alias],market_models:[e.expected_market],market_model_monthly_stats:e.expected_monthly,
+        manufacturer_sources:e.expected_sources},fresh.intake,fresh.image);
+    }
     assert.equal(databaseCatalogHash(sqlRows),scope.database_baseline_sha256,'SQL baseline changed');
-    const plan=buildNewModelPlan({canonical_models:[e.expected_model],canonical_model_variants:[],
-      model_aliases:[e.expected_alias],market_models:[e.expected_market],market_model_monthly_stats:e.expected_monthly,
-      manufacturer_sources:e.expected_sources},fresh.intake,fresh.image);
     prove(scope,plan,target,seal,new Date());
     if(!v['commit-seal'])return {status:model+'_can_insert_verified_scope',seal,production_writes:0};
     await requireRelease();

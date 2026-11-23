@@ -16,6 +16,7 @@ import {ADAPTER as IONIQ9_ADAPTER} from './hyundai_ioniq9_publication.mjs';
 import {ADAPTER as MACAN_ADAPTER} from './porsche_macan_publication.mjs';
 import {ADAPTER as INSTER_ADAPTER} from './hyundai_inster_advanced_publication.mjs';
 import {ADAPTER as LEXUS_ADAPTER} from './lexus_rz_publication.mjs';
+import {ADAPTER as TOURING_ADAPTER,MODEL as TOURING_MODEL,RAW as TOURING_RAW} from './toyota_bz4x_touring_publication.mjs';
 import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewedPumaIdentity} from './ford_puma_identity.mjs';
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
@@ -73,7 +74,7 @@ export function validateNewModelIntake(intake,now=new Date()){
   }
   const p=r.price_evidence;assert(Number.isInteger(p.value)&&p.value>=100000&&p.value<=3000000);
   assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type)
-   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER,INSTER_ADAPTER,LEXUS_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
+   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER,INSTER_ADAPTER,LEXUS_ADAPTER,TOURING_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
   assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(p.quote?.trim());
   if(p.price_valid_until)assert(p.price_valid_until>=now.toISOString().slice(0,10));
   if(p.price_type==='campaign_price')assert(p.price_valid_until);
@@ -354,6 +355,89 @@ export async function applyLexusRelease(client,fresh,scope,target,seal,now=new D
   baselineError:'Anonymous catalog changed before Lexus RZ writes'});
 }
 
+export function buildTouringScopePlan(intake,image,now=new Date()){
+ const policy=validateNewModelIntake(intake,now);
+ assert.equal(policy.adapter,TOURING_ADAPTER);
+ const {normalized_brand,normalized_model}=TOURING_MODEL;
+ const id=uuidFor(TOURING_ADAPTER,normalized_model,'parent');
+ const expected_model={id,...TOURING_MODEL,validation_status:'draft',market_seen:false,available_confirmed:false,
+  coming_or_low_volume:false,discontinued_candidate:false,image_url:null,image_source_url:null};
+ const {fuel_type_raw,...rawAlias}=TOURING_RAW;
+ const exact={...rawAlias,normalized_brand,normalized_model,canonical_model_id:id,needs_mapping:false,model_group:null};
+ const expected_alias={...exact,id:uuidFor(TOURING_ADAPTER,id,'alias'),confidence:1,alias_rule:policy.aliasRule};
+ const expected_market={...exact,id:uuidFor(TOURING_ADAPTER,id,'market'),fuel_type_raw,first_seen_month:null,last_seen_month:null,
+  registrations_last_month:0,registrations_ytd:0,registrations_12m:null,source_name:'Mobility Sweden',source_url:intake.market.source.final_url};
+ validateNewModelImage([expected_model],intake,image);
+ return {adapter:TOURING_ADAPTER,expected_model,expected_alias,expected_market,expected_monthly:[],expected_sources:[],
+  intake,image,targets:modelTargets(intake,id)};
+}
+
+export function assertTouringIdentityAbsent(snapshot,plan){
+ const matching=(row,expected)=>row.id===expected.id
+  || (row.normalized_brand===expected.normalized_brand&&row.normalized_model===expected.normalized_model
+      &&row.normalized_brand==='toyota')
+  || (row.brand_raw===TOURING_RAW.brand_raw&&row.model_raw===TOURING_RAW.model_raw);
+ for(const [table,expected] of [['canonical_models',plan.expected_model],['model_aliases',plan.expected_alias],
+   ['market_models',plan.expected_market]])
+  assert(!snapshot[table].some(row=>matching(row,expected)),'Existing Touring identity needs separate review: '+table);
+ assert(!snapshot.manufacturer_sources.some(row=>plan.intake.sources.some(source=>source.final_url===row.url)),
+  'Existing Touring source needs separate review');
+ assert(!snapshot.extracted_variant_drafts.some(row=>row.brand==='Toyota'&&row.model===TOURING_MODEL.model),
+  'Existing Touring draft needs separate review');
+}
+
+export async function applyTouringAtomicLocally(client,plan,batch,baselineHash,now=new Date()){
+ const {PGlite}=await import('@electric-sql/pglite');
+ assert(client instanceof PGlite,'Atomic Touring rehearsal requires local PGlite');
+ return applyTouringTransaction(client,plan,batch,baselineHash,false,now);
+}
+
+export async function applyTouringRelease(client,fresh,scope,target,seal,now=new Date()){
+ const {proveTouringRelease}=await import('./toyota_bz4x_touring_release_scope.mjs');
+ proveTouringRelease(scope,fresh,target,seal,now);
+ return applyTouringTransaction(client,fresh,publicationHash(fresh),scope.database_baseline_sha256,true,now);
+}
+
+async function applyTouringTransaction(client,plan,batch,baselineHash,release,now){
+ assert.equal(publicationHash(plan),batch,'Prepared Touring packet changed');
+ same(buildTouringScopePlan(plan.intake,plan.image,now),plan,'Touring identity or intake changed');
+ assert.match(baselineHash,/^[a-f0-9]{64}$/);
+ const {assertTouringPublishedRows}=await import('./toyota_bz4x_touring_release_scope.mjs');
+ const {expected_model:model,expected_alias:alias,expected_market:market}=plan;
+ const policy=newModelAdapter(TOURING_ADAPTER);
+ return modelWriteTransaction(client,async()=>{
+  await assertExactDcInstalled(client);
+  const before=await publicationSnapshot(client,true,{exactJson:true});
+  const published=await anonymousProjection(client);
+  assert.equal(catalogHash(catalogWithComparableTimes(published.variants.filter(row=>row.canonical_model_id!==model.id))),
+   baselineHash,'Anonymous catalog changed before the Touring transaction');
+  if(before.canonical_models.some(row=>row.id===model.id)){
+   assert(!release,'Touring is already present; recover the first committed transaction');
+   fieldsEqual(one(before.model_aliases.filter(row=>row.id===alias.id),'Exact Touring alias missing'),alias);
+   return applyModelRows(client,plan,batch,now,policy,TOURING_ADAPTER,undefined,null);
+  }
+  assertTouringIdentityAbsent(before,plan);
+  await client.query(`INSERT INTO public.canonical_models(id,brand,model,normalized_brand,normalized_model,body_type)
+   VALUES($1,$2,$3,$4,$5,$6)`,[model.id,model.brand,model.model,model.normalized_brand,model.normalized_model,model.body_type]);
+  await client.query(`INSERT INTO public.model_aliases(id,canonical_model_id,brand_raw,model_raw,normalized_brand,normalized_model,alias_rule)
+   VALUES($1,$2,$3,$4,$5,$6,$7)`,[alias.id,model.id,alias.brand_raw,alias.model_raw,alias.normalized_brand,alias.normalized_model,alias.alias_rule]);
+  await client.query(`INSERT INTO public.market_models(id,canonical_model_id,brand_raw,model_raw,fuel_type_raw,normalized_brand,normalized_model,source_url)
+   VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,[market.id,model.id,market.brand_raw,market.model_raw,market.fuel_type_raw,
+    market.normalized_brand,market.normalized_model,market.source_url]);
+  const actual=buildNewModelPlan(await publicationSnapshot(client,true,{exactJson:true}),plan.intake,plan.image,now);
+  for(const key of ['expected_model','expected_alias','expected_market'])fieldsEqual(actual[key],plan[key]);
+  for(const key of ['expected_monthly','expected_sources','targets'])same(actual[key],plan[key],'Touring scope changed: '+key);
+  const result=await applyModelRows(client,actual,batch,now,policy,TOURING_ADAPTER,undefined,{baselineHash,check:assertTouringPublishedRows});
+  const after=await publicationSnapshot(client,false,{exactJson:true});
+  for(const [table,row] of [['canonical_models',model],['market_models',market],['model_aliases',alias]])
+   same(after[table].filter(item=>item.id!==row.id),before[table],'Existing identity changed: '+table);
+  const month=one(after.market_model_monthly_stats.filter(row=>row.market_model_id===market.id),'One Touring month required');
+  fieldsEqual(month,{...TOURING_RAW,month:plan.intake.market.row.last_seen_month,registrations:plan.intake.market.row.registrations_last_month,
+   county:null,municipality:null});
+  return {...result,atomic_identity:true};
+ });
+}
+
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
  assert.equal(publicationHash(plan),expectedHash,'Prepared publication packet changed');
  const policy=validateNewModelIntake(plan.intake,now);
@@ -456,7 +540,7 @@ async function applyModelRows(client,plan,expectedHash,now,policy,approvedAdapte
   await assertDcStorageForDrafts(client,plan.intake.drafts);
   const modelId=plan.expected_model.id;
   // Inster's reviewed SQL snapshot retains the full timestamp precision and numeric alias type.
-  const exactJson=[INSTER_ADAPTER,MACAN_ADAPTER,LEXUS_ADAPTER].includes(policy.adapter);
+  const exactJson=[INSTER_ADAPTER,MACAN_ADAPTER,LEXUS_ADAPTER,TOURING_ADAPTER].includes(policy.adapter);
   const checkedVariant=row=>exactJson&&row.price_verified_at
    ?{...row,price_verified_at:new Date(row.price_verified_at).toISOString()}:row;
   const before=await publicationSnapshot(client,true,{exactJson}),m=one(before.canonical_models.filter(r=>r.id===modelId),'Canonical parent missing');

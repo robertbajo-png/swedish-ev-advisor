@@ -17,14 +17,17 @@ SLUG = 'bilar/hyundai-inster-49-kwh-advanced-tech-17-tum-my27'
 URL = f'{SITE}/{SLUG}'
 
 
-def verify(output, macan=False, lexus=False):
-    if macan and lexus:
+def verify(output, macan=False, lexus=False, touring=False):
+    if sum((macan, lexus, touring)) > 1:
         raise ValueError('Choose exactly one private model profile')
     slug = 'bilar/lexus-rz-350e-executive' if lexus else 'bilar/porsche-macan-electric-rwd-my27' if macan else SLUG
     url = f'{SITE}/{slug}'
     model = 'lexus' if lexus else 'macan' if macan else 'inster'
     price = 599000 if lexus else 970000 if macan else 377900
     prefix = 'lexus-rz-local-' if lexus else 'porsche-macan-local-' if macan else 'inster-advanced-local-'
+    if touring:
+        slug, model, price, prefix = 'bilar/toyota-bz4x-touring-active-tech-fwd', 'touring', 569900, 'toyota-touring-local-'
+        url = f'{SITE}/{slug}'
     release = Path(__file__).resolve().parents[1] / 'data/local/release-data'
     if (output.resolve(strict=True) != output or output.parent.parent != release or not output.name.startswith('ui-')
             or not output.parent.name.startswith(prefix)
@@ -87,4 +90,5 @@ def verify(output, macan=False, lexus=False):
 
 
 if __name__ == '__main__':
-    verify(Path(os.path.abspath(sys.argv[1])), macan=sys.argv[2:] == ['--macan'], lexus=sys.argv[2:] == ['--lexus'])
+    args = sys.argv[2:]
+    verify(Path(os.path.abspath(sys.argv[1])), macan=args == ['--macan'], lexus=args == ['--lexus'], touring=args == ['--touring'])

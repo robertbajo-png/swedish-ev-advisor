@@ -8,6 +8,7 @@ const buzzPhoto = JSON.parse(readFileSync(new URL('../src/id-buzz-photo-policy.j
 const insterPhoto = JSON.parse(readFileSync(new URL('../src/inster-photo-policy.json', import.meta.url), 'utf8'));
 const macanPhoto = JSON.parse(readFileSync(new URL('../src/porsche-macan-photo-policy.json', import.meta.url), 'utf8'));
 const lexusPhoto = JSON.parse(readFileSync(new URL('../src/lexus-rz-photo-policy.json', import.meta.url), 'utf8'));
+const touringPhoto = JSON.parse(readFileSync(new URL('../src/toyota-touring-photo-policy.json', import.meta.url), 'utf8'));
 const pumaPhoto = JSON.parse(readFileSync(new URL('../src/puma-photo-policy.json', import.meta.url), 'utf8'));
 const stagedPublisherPhotos = {
   'mercedes benz|glb': ['GLB','Mercedes-Benz','Glb','mercedes-glb-se-private-review','mercedes-benz-glb'],
@@ -20,7 +21,7 @@ const retained = row => Object.fromEntries(Object.entries(row).filter(([name]) =
 
 export function selectImageRegistryForPublic(publicModels, registry) {
   const scope = new Set(publicModels.map(key));
-  const staged = new Map([buzzPhoto, insterPhoto, macanPhoto, lexusPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
+  const staged = new Map([buzzPhoto, insterPhoto, macanPhoto, lexusPhoto, touringPhoto, pumaPhoto].map(policy => [policy.model_key, policy]));
   for (const [key, [name]] of Object.entries(stagedPublisherPhotos)) {
     assert(registry.assets.filter(asset => asset.model_key === key).length <= 1, 'Duplicate prepared '+name+' model photo');
   }
@@ -68,6 +69,9 @@ export function buildImagePlan(models, publicModels, registry) {
     } else if (asset.model_key === lexusPhoto.model_key) {
       for (const [field,value] of Object.entries(lexusPhoto)) assert.equal(asset[field],value,'Exact licensed RZ 350e photo required');
       assert(!('variant_names' in asset),'Japanese Version L does not verify Swedish equipment');
+    } else if (asset.model_key === touringPhoto.model_key) {
+      for (const [field,value] of Object.entries(touringPhoto)) assert.equal(asset[field],value,'Exact licensed bZ4X Touring photo required');
+      assert(!('variant_names' in asset),'Japanese Z 4WD does not verify Swedish FWD equipment');
     } else if (asset.model_key === buzzPhoto.model_key || asset.license_id === buzzPhoto.license_id) {
       for (const [field, value] of Object.entries(buzzPhoto)) assert.equal(asset[field], value, 'Exact licensed ID. Buzz photo required');
     } else if (asset.license_id === 'Polestar-editorial') {

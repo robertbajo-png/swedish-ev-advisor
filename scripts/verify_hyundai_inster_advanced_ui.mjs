@@ -10,17 +10,24 @@ import {launchQaBrowser} from './qa_browser.mjs';
 import * as inster from './hyundai_inster_advanced_publication.mjs';
 import * as macan from './porsche_macan_publication.mjs';
 import * as lexus from './lexus_rz_publication.mjs';
+import * as touring from './toyota_bz4x_touring_publication.mjs';
 import {MACAN_MODEL} from './porsche_macan_scope.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
 import {catalogHash,compareCatalogs,normalizeCatalog,variantKey} from './sync_public_catalog.mjs';
 import {MANUFACTURER_FROM_PRICE,priceTypeLabel} from '../src/price-evidence.js';
 import {vehicleSlug} from '../src/vehicle-names.js';
 
-const {values}=parseArgs({options:{readback:{type:'string'},photo:{type:'string'},macan:{type:'boolean'},lexus:{type:'boolean'}}});
-assert(!(values.macan&&values.lexus));
+const {values}=parseArgs({options:{readback:{type:'string'},photo:{type:'string'},macan:{type:'boolean'},lexus:{type:'boolean'},touring:{type:'boolean'}}});
+assert([values.macan,values.lexus,values.touring].filter(Boolean).length<=1);
 const isMacan=values.macan===true;
 const isLexus=values.lexus===true;
-const profile=isLexus?{
+const isTouring=values.touring===true;
+const registeredPhoto=isTouring||isLexus||isMacan;
+const profile=isTouring?{
+  ...touring,id:'touring',name:'Toyota bZ4X Touring',price:569900,range:'591 km',dc:'150 kW',tow:'750 kg',
+  formattedPrice:'569 900 kr',specs:['669 liter','11 kW','14 kWh/100 km','74,7 kWh','bruttokapacitet','bromsat sl'],
+  reportPrefix:'toyota-touring-local',localStatus:'touring_local_atomic_rehearsal_verified',verifiedStatus:'touring_private_ui_verified',
+}:isLexus?{
   ...lexus,id:'lexus',name:'Lexus RZ',price:599000,range:'567 km',dc:'150 kW',tow:'750 kg',
   formattedPrice:'599 000 kr',specs:['586 liter','22 kW','14,5 kWh/100 km','150 kW','bruttokapacitet','draganordning'],
   reportPrefix:'lexus-rz-local',localStatus:'lexus_local_atomic_rehearsal_verified',verifiedStatus:'lexus_private_ui_verified',
@@ -51,8 +58,8 @@ async function privatePacket(value,prefix){
   return path;
 }
 const dir=await privatePacket(values.readback,profile.reportPrefix);
-assert(!isLexus||!values.photo);
-const photoDir=isLexus?null:await privatePacket(values.photo,profile.photoPrefix);
+assert(!(isLexus||isTouring)||!values.photo);
+const photoDir=isLexus||isTouring?null:await privatePacket(values.photo,profile.photoPrefix);
 const report=await json(join(dir,'report.json'));
 assert.deepEqual([report.status,report.publication_approved,report.production_writes,report.paid_calls],
   [profile.localStatus,false,0,0]);
@@ -74,12 +81,12 @@ for(const [field,value] of Object.entries(facts))assert.equal(row[field],value,f
 const packet=photoDir?await json(join(photoDir,'manifest.json')):null;
 if(packet)assert.deepEqual([packet.status,packet.publication_approved,packet.production_writes],
   [isMacan?'private_reviewed_model_asset':'inster_licensed_model_photo_prepared_private',false,0]);
-const photoPolicy=await json(isLexus?'src/lexus-rz-photo-policy.json':isMacan?
+const photoPolicy=await json(isTouring?'src/toyota-touring-photo-policy.json':isLexus?'src/lexus-rz-photo-policy.json':isMacan?
   'src/porsche-macan-photo-policy.json':'src/inster-photo-policy.json');
-const image=isMacan||isLexus
+const image=registeredPhoto
   ? (await json('src/image-rights.json')).assets.find(asset=>asset.model_key===policy.imageKey)
   : packet.image_rights;
-const responsive=isMacan||isLexus?(await json('src/image-variants.json'))[image.asset_url]:packet.responsive;
+const responsive=registeredPhoto?(await json('src/image-variants.json'))[image.asset_url]:packet.responsive;
 for(const [key,value] of Object.entries(photoPolicy))assert.deepEqual(image[key],value,key);
 assert.equal(image.asset_url,row.image_url);
 assert.equal(responsive.source_sha256,policy.imageHash);
@@ -107,7 +114,9 @@ await edit('src/image-rights.json',data=>{
   else data.assets.push(image);
 });
 await edit('src/image-variants.json',data=>include(data,image.asset_url,responsive));
-if(!isMacan&&!isLexus)await edit('src/image-presentation.json',data=>{
+const touringPresentation=isTouring?(await json('src/image-presentation.json')).models[policy.imageKey]:null;
+if(touringPresentation||!registeredPhoto)await edit('src/image-presentation.json',data=>{
+  if(touringPresentation){include(data.models,policy.imageKey,touringPresentation);return;}
   include(data.models,policy.imageKey,{status:'approved',asset_url:image.asset_url,content_sha256:policy.imageHash,
     reviewed_at:image.reviewed_at,object_fit:'contain',object_position:'center',style:'licensed_model_photo'});
 });
