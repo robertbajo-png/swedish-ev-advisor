@@ -96,8 +96,7 @@ const output=await mkdtemp(join(dir,'ui-')),root=join(output,'source'),archive=j
 await mkdir(root);
 execFileSync('git',['archive','--format=tar','--output='+archive,'HEAD'],{windowsHide:true});
 execFileSync('tar',['-xf',archive,'-C',root],{windowsHide:true});
-for(const file of ['src/main.jsx','src/spec-qualifications.js','src/vehicle-names.js','src/toyota-touring-photo-policy.json'])
-  await cp(file,join(root,file));
+for(const file of ['src/main.jsx','src/spec-qualifications.js','src/vehicle-names.js'])await cp(file,join(root,file));
 async function edit(file,update){
   const path=join(root,file);
   const data=await json(path);

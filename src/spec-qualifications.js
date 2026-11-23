@@ -1,5 +1,3 @@
-import touringPhoto from './toyota-touring-photo-policy.json' with { type: 'json' };
-
 // Preserve manufacturer qualifications when a scalar field represents a range.
 export function specQualifications(row) {
   const quote = row.source_quote || '';
@@ -73,7 +71,8 @@ export function specQualifications(row) {
       : macan ? 'Modellbild av Porsche Macan Electric. Utrustning och drivlina kan skilja sig fr\u00e5n den svenska versionen.'
       : lexusRz && row.image_url === '/media/vehicles/lexus-rz-350e-efe86dce6685.jpg'
       ? 'Modellbild av Lexus RZ 350e Version L. Utrustningen kan skilja sig fr\u00e5n svenska Executive.'
-      : touring && row.image_url === touringPhoto.asset_url ? touringPhoto.model_image_notice
+      : touring && row.image_url === '/media/vehicles/toyota-bz4x-touring-8482ada3c9ec.jpg'
+      ? 'Modellbild av Toyota bZ4X Touring Z 4WD. Den svenska Active Tech FWD har annan drivlina och utrustning.'
       : glb && row.image_url === '/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg'
       ? 'Pressbild av eldrivna GLB. Utrustningen kan skilja mellan versioner.'
       : (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'
