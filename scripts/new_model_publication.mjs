@@ -14,6 +14,7 @@ import {ADAPTER as PUMA_ADAPTER} from './ford_puma_gen_e_publication.mjs';
 import {ADAPTER as GLB_ADAPTER} from './mercedes_glb_publication.mjs';
 import {ADAPTER as IONIQ9_ADAPTER} from './hyundai_ioniq9_publication.mjs';
 import {ADAPTER as MACAN_ADAPTER} from './porsche_macan_publication.mjs';
+import {ADAPTER as INSTER_ADAPTER} from './hyundai_inster_advanced_publication.mjs';
 import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewedPumaIdentity} from './ford_puma_identity.mjs';
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
@@ -71,7 +72,7 @@ export function validateNewModelIntake(intake,now=new Date()){
   }
   const p=r.price_evidence;assert(Number.isInteger(p.value)&&p.value>=100000&&p.value<=3000000);
   assert(['list_price','campaign_price','dealer_offer'].includes(p.price_type)
-   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
+   || ([PUMA_ADAPTER,GLB_ADAPTER,IONIQ9_ADAPTER,MACAN_ADAPTER,INSTER_ADAPTER].includes(policy.adapter)&&p.price_type===MANUFACTURER_FROM_PRICE&&p.price_valid_until===null));
   assert.equal(p.source_hash,sources.get(p.source_url)?.content_hash);assert(p.quote?.trim());
   if(p.price_valid_until)assert(p.price_valid_until>=now.toISOString().slice(0,10));
   if(p.price_type==='campaign_price')assert(p.price_valid_until);

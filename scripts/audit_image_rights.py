@@ -18,6 +18,7 @@ POLESTAR_NOTICE = 'Content found in the Polestar media newsroom is intended for 
 PRESS_PUBLISHERS = json.loads((ROOT / 'src/press-image-publishers.json').read_text(encoding='utf-8'))
 TOYOTA_PRESS_IMAGES = json.loads((ROOT / 'src/toyota-press-images.json').read_text(encoding='utf-8'))
 ID_BUZZ_PHOTO = json.loads((ROOT / 'src/id-buzz-photo-policy.json').read_text(encoding='utf-8'))
+INSTER_PHOTO = json.loads((ROOT / 'src/inster-photo-policy.json').read_text(encoding='utf-8'))
 
 
 def reviewed_media_permission(evidence):
@@ -98,9 +99,13 @@ def rights_errors(asset, evidence, today=None):
     if evidence.get('status') != 'documented' or not str(evidence.get('evidence_quote', '')).strip():
         errors.append('permission_not_documented')
     exact_buzz_photo = all(evidence.get(key) == value for key, value in ID_BUZZ_PHOTO.items())
+    exact_inster_photo = (all(evidence.get(key) == value for key, value in INSTER_PHOTO.items())
+                          and 'variant_names' not in evidence)
     if evidence.get('model_key') == ID_BUZZ_PHOTO['model_key'] and not exact_buzz_photo:
         errors.append('exact_id_buzz_photo_required')
-    if not (exact_buzz_photo or reviewed_press_permission(evidence) or reviewed_media_permission(evidence) or reviewed_toyota_permission(evidence)) and (evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id'))):
+    if evidence.get('model_key') == INSTER_PHOTO['model_key'] and not exact_inster_photo:
+        errors.append('exact_inster_photo_required')
+    if not (exact_buzz_photo or exact_inster_photo or reviewed_press_permission(evidence) or reviewed_media_permission(evidence) or reviewed_toyota_permission(evidence)) and (evidence.get('license_id') not in LICENSES or evidence.get('license_url') != LICENSES.get(evidence.get('license_id'))):
         errors.append('license_requires_specific_review')
     for field in ('author', 'credit', 'changes'):
         if not str(evidence.get(field, '')).strip():
