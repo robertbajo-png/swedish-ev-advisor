@@ -19,7 +19,7 @@ import {PUMA_ALIAS,PUMA_MODEL,planPumaIdentity,pumaIdentitySnapshot,writeReviewe
 import {MANUFACTURER_FROM_PRICE} from '../src/price-evidence.js';
 import {catalogHash} from './sync_public_catalog.mjs';
 import {catalogWithComparableTimes} from './isolated_catalog_review.mjs';
-import {assertDcChargePower,assertDcStorageForDrafts} from './verify_exact_dc_migration.mjs';
+import {assertDcChargePower,assertDcStorageForDrafts,assertExactDcInstalled} from './verify_exact_dc_migration.mjs';
 
 export const CORE_FIELDS=['wltp_range_km','wltp_consumption_kwh_100km','battery_kwh','dc_charge_kw',
  'ac_charge_kw','boot_liters','tow_kg','seats','drivetrain'];
@@ -322,6 +322,14 @@ export async function applyIoniq9Release(client,fresh,scope,target,seal,now=new 
  return applyModelTransaction(client,fresh,publicationHash(fresh),now,IONIQ9_ADAPTER,undefined,{
   baselineHash:scope.database_baseline_sha256,requireMigration:assertStartingPriceMigration,check:assertIoniq9PublishedRows,
   baselineError:'Anonymous catalog changed before IONIQ 9 writes'});
+}
+
+export async function applyInsterRelease(client,fresh,scope,target,seal,now=new Date()){
+ const {proveInsterRelease,assertInsterPublishedRows}=await import('./hyundai_inster_advanced_release_scope.mjs');
+ proveInsterRelease(scope,fresh,target,seal,now);
+ return applyModelTransaction(client,fresh,publicationHash(fresh),now,INSTER_ADAPTER,undefined,{
+  baselineHash:scope.database_baseline_sha256,requireMigration:assertExactDcInstalled,check:assertInsterPublishedRows,
+  baselineError:'Anonymous catalog changed before Inster writes'});
 }
 
 async function applyModelTransaction(client,plan,expectedHash,now,approvedAdapter,baselineHash,scopedRelease=null){
