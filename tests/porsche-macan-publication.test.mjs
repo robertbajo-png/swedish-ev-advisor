@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {macanIntakeFromReplay,policy} from '../scripts/porsche_macan_publication.mjs';
 import {applyNewModelPlan,publicationHash,validateNewModelImage,validateNewModelIntake} from '../scripts/new_model_publication.mjs';
+import {buildImagePlan,selectImageRegistryForPublic} from '../scripts/model_image_sync.mjs';
+import {specQualifications} from '../src/spec-qualifications.js';
 
 const now=new Date('2026-11-23T00:00:00Z'),fetched_at=now.toISOString();
 const base='https://configurator.porsche.com/sv-SE/mode/model/XABAA1';
@@ -63,4 +66,17 @@ test('Macan rehearsal refuses non-PGlite connections before any query',async()=>
   const plan=macanIntakeFromReplay(fixture(),'not-a-real-photo-folder');
   await assert.rejects(applyNewModelPlan({query:()=>assert.fail('Attempted a remote query')},plan,publicationHash(plan),now),
     /local PGlite/);
+});
+
+test('accept only the licensed electric Macan photo and never as proof of a trim',()=>{
+  const proof=JSON.parse(readFileSync(new URL('../src/porsche-macan-photo-policy.json',import.meta.url),'utf8'));
+  const asset={...proof,reviewed_at:'2026-11-23',status:'documented'};
+  const model={id:'macan-draft',brand:'Porsche',model:'Macan',validation_status:'draft'};
+  const registry=entry=>({schema_version:1,assets:[entry]});
+  assert.deepEqual(selectImageRegistryForPublic([],registry(asset)).assets,[]);
+  assert.equal(buildImagePlan([model],[model],registry(asset))[0].image_url,proof.asset_url);
+  assert.equal(specQualifications({...model,image_url:proof.asset_url}).imageNotice,proof.model_image_notice);
+  assert.notEqual(specQualifications({...model,model:'Cayenne',image_url:proof.asset_url}).imageNotice,proof.model_image_notice);
+  for(const patch of [{credit:'other'}, {content_sha256:'0'.repeat(64)}, {variant_names:['Electric RWD MY27']}])
+    assert.throws(()=>buildImagePlan([model],[model],registry({...asset,...patch})),/Macan/);
 });

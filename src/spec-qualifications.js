@@ -25,6 +25,8 @@ export function specQualifications(row) {
   const inster = row.brand === 'Hyundai' && row.model === 'Inster' && row.seats === 4
     && row.variant_name === '49 kWh Advanced Tech 17-tum MY27' && row.wltp_range_km === 360
     && row.source_url === 'https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB';
+  const macan = row.brand === 'Porsche' && row.model === 'Macan'
+    && row.image_url === '/media/vehicles/porsche-macan-electric-7a1901acfdb4.jpg';
   const born = row.brand === 'Cupra' && row.model === 'Born' && row.variant_name === 'Born VZ' &&
     quote.includes('VZ (240kW/79kWh) | Range (km) 631 - 552');
   const i4 = row.brand === 'BMW' && row.model === 'i4' && quote.includes('BMW i4 eDrive40 Gran Coupé | 61HD') &&
@@ -57,6 +59,7 @@ export function specQualifications(row) {
       ? 'Pressbild av IONIQ 9. Utrustningen kan skilja mellan versioner.'
       : inster && row.image_url === '/media/vehicles/hyundai-inster-74c89ece773a.jpg'
       ? 'Bilden visar Hyundai Inster Prime. Utrustningen kan skilja sig fr\u00e5n den svenska Advanced-versionen.'
+      : macan ? 'Modellbild av Porsche Macan Electric. Utrustning och drivlina kan skilja sig fr\u00e5n den svenska versionen.'
       : glb && row.image_url === '/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg'
       ? 'Pressbild av eldrivna GLB. Utrustningen kan skilja mellan versioner.'
       : (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'

@@ -61,10 +61,13 @@ recommendation surfaces. Keep it private unless the intended use is
 covered; don't substitute a combustion Macan, 4S or Turbo.
 
 The February 2025 [front][commons-front] and [rear][commons-rear]
-photographs by M 93 are a separate CC BY-SA 3.0 DE lead. Both original
-downloads returned HTTP 429 during review. The file pages identify the
-electric generation, but do not establish the exact drivetrain. Neither
-image has been added to the catalog or marked as reviewed media.
+photographs by M 93 are a separate CC BY-SA 3.0 DE source. Both originals
+were subsequently fetched and visually verified as the electric XAB
+generation. They do not establish the photographed drivetrain. The
+front file is approved as a model-level image with that limitation
+shown in the caption. The staged original and 480/800/1280 px derivatives
+are hash-bound; do not distribute the Porsche pressroom copy through
+the catalog. No variant is added by this media change.
 
 ```sh
 node scripts/run_python.mjs scripts/porsche_macan_release_intake.py --capture-photo

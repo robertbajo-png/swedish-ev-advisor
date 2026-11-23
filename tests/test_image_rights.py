@@ -4,7 +4,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from audit_image_rights import build_report, rights_errors
+from audit_image_rights import MACAN_PHOTO, build_report, rights_errors
 
 
 class ImageRightsTests(unittest.TestCase):
@@ -39,3 +39,12 @@ class ImageRightsTests(unittest.TestCase):
         self.assertFalse(build_report([self.asset, other], registry, self.today)['all_documented'])
         with self.assertRaises(ValueError):
             build_report([self.asset], {**registry, 'assets': [self.proof, self.proof]}, self.today)
+
+    def test_exact_macan_credit_and_model_only_scope_are_required(self):
+        today = date(2026, 11, 23)
+        image = {**MACAN_PHOTO, 'reviewed_at': today.isoformat(), 'status': 'documented'}
+        self.assertEqual(rights_errors(image, image, today), [])
+        for patch in ({'license_id': 'CC0-1.0'}, {'author': 'Other'},
+                      {'variant_names': ['Electric RWD MY27']}, {'content_sha256': '0' * 64}):
+            with self.subTest(patch=patch):
+                self.assertIn('exact_macan_electric_photo_required', rights_errors(image, {**image, **patch}, today))

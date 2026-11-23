@@ -946,5 +946,27 @@
         "sha256": "388d4a02c4e2b73e5f904af9c1913e67adc8a650f2c5791a90eb0ce96d3a5ede"
       }
     ]
+  },
+  "/media/vehicles/porsche-macan-electric-7a1901acfdb4.jpg": {
+    "width": 5863,
+    "height": 3054,
+    "source_sha256": "7a1901acfdb40fd97315db8baff73bacb8b58251a6e6d61ca27d34525329c2d7",
+    "variants": [
+      {
+        "url": "/media/responsive/porsche-macan-electric-7a1901acfdb4-480.webp",
+        "width": 480,
+        "sha256": "1f2c2fdbdac74cdf876798b72de99796cc58273feb84f69446f45fe59bebf39d"
+      },
+      {
+        "url": "/media/responsive/porsche-macan-electric-7a1901acfdb4-800.webp",
+        "width": 800,
+        "sha256": "1c1082c9a8d708e72248fbcb3d4933ca1236b96e0b4aae27d8249c464f702106"
+      },
+      {
+        "url": "/media/responsive/porsche-macan-electric-7a1901acfdb4-1280.webp",
+        "width": 1280,
+        "sha256": "1f53d1e84ee023c9bb0e15b89b8c79a5feddd5633bda68f106f6bdc84e0eb55f"
+      }
+    ]
   }
 }
