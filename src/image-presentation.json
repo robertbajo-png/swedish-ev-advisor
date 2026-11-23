@@ -268,6 +268,15 @@
       "object_fit": "contain",
       "object_position": "center",
       "style": "licensed_model_photo"
+    },
+    "toyota|bz4x touring": {
+      "status": "approved",
+      "asset_url": "/media/vehicles/toyota-bz4x-touring-8482ada3c9ec.jpg",
+      "content_sha256": "8482ada3c9ec2af8b83b64f9b6ca6137546cd4bb01ad55448c4a3143882793b3",
+      "reviewed_at": "2026-11-23",
+      "object_fit": "contain",
+      "object_position": "center",
+      "style": "licensed_model_photo"
     }
   }
 }

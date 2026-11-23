@@ -990,5 +990,27 @@
         "sha256": "bb3c8dc7274beff0b490593fe7fa61473448c33830de644f276cb7a554b9d473"
       }
     ]
+  },
+  "/media/vehicles/toyota-bz4x-touring-8482ada3c9ec.jpg": {
+    "width": 5013,
+    "height": 2894,
+    "source_sha256": "8482ada3c9ec2af8b83b64f9b6ca6137546cd4bb01ad55448c4a3143882793b3",
+    "variants": [
+      {
+        "url": "/media/responsive/toyota-bz4x-touring-8482ada3c9ec-480.webp",
+        "width": 480,
+        "sha256": "532d588f93a14e4ffd9ebc23db8c7cec2e2bb30a97c30d85576845aded6e9bcb"
+      },
+      {
+        "url": "/media/responsive/toyota-bz4x-touring-8482ada3c9ec-800.webp",
+        "width": 800,
+        "sha256": "928bcfab8421b4ec78bb96721dcbb3be47b5806bb3c428c255140a19cce92b6e"
+      },
+      {
+        "url": "/media/responsive/toyota-bz4x-touring-8482ada3c9ec-1280.webp",
+        "width": 1280,
+        "sha256": "f7b7ae8b72b7d48352598e521b823440c07ad89bd7f4ce4c89a21f916ac8e595"
+      }
+    ]
   }
 }

@@ -49,12 +49,31 @@ private packet `toyota-touring-cc0-photo-eOfp40`. The narrow rear
 photograph is not the selected display candidate.
 The private `responsive-review.json` binds the original and full-frame
 480, 800 and 1280 px WebP files, all decoded locally at their expected
-dimensions. No site image registration or browser preview yet.
+dimensions. The reviewed original and derivatives are registered under
+the Touring key only.
 
-Next implement the exact identity bootstrap and reviewed publication
-adapter, register the reviewed responsive media, and prove the complete
-transaction and buyer page against current production before release.
-No bulk reseed, paid AI, public export or production write was made.
+## Release checks
+
+`verify_toyota_touring_release.mjs --fresh <capture>` reads the actual
+canonical baseline and uses its published rows in isolated PGlite. The
+checked transaction inserts the exact model, market identity and variant
+together. A forced late variant failure rolls back the identity as well;
+an exact local replay does not create rows. The local-only transaction
+rejects a remote client. The candidate has 109 variants, with all 108
+existing rows preserved.
+
+The private build passed the detail and comparison checks at 320, 390
+and 1440 px. Text sits below the photograph on mobile, and the photo
+notice and credit are visible. The actual sitemap/prerender scripts add
+one URL (127 to 128), preserve the seven public news records byte for
+byte, and do not emit a fixed-price offer for the manufacturer's from
+price.
+
+`prepare_hyundai_inster_advanced_release.mjs --touring` binds those
+receipts and the tested asset hashes. The production command with the
+same profile additionally requires current successful main CI, the exact
+deployed reader, unchanged catalog and news, and a new matching source
+capture. No bulk seed, migration or paid AI is used.
 
 [model]: https://www.toyota.se/bilar/bz4x-touring
 [specs]: https://www.toyota.se/bilar/bz4x-touring/specifications

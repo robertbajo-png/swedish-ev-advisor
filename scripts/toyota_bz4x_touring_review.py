@@ -167,7 +167,9 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--capture', action='store_true')
     mode.add_argument('--replay', type=Path)
+    parser.add_argument('--verified-report', action='store_true', help='Emit the replayed private packet as JSON')
     args = parser.parse_args()
+    require(not args.verified_report or args.replay, 'touring_report_requires_verified_replay')
     local = ROOT / 'data/local/release-data'
     require(local.resolve(strict=True) == local and not any(
         re.fullmatch(r'onedrive(?:commercial|consumer)?', part, re.I) for part in local.parts), 'touring_local_scope_required')
@@ -191,6 +193,9 @@ def main():
         observed = datetime.fromisoformat(recorded['fetched_at'])
         result = review(folder, observed.date())
         require(result | {'fetched_at': recorded['fetched_at']} == recorded, 'touring_captured_source_or_proof_changed')
+        if args.verified_report:
+            print(json.dumps(recorded))
+            return
     print(json.dumps(dict(folder=str(folder), status=result['status'], technical_fields=len(result['evidence']),
                           publication_approved=False, database_writes=0, replay=not args.capture)))
 
