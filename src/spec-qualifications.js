@@ -22,6 +22,9 @@ export function specQualifications(row) {
     && row.variant_name === 'Advanced AWD 7-sits MY27' && row.wltp_range_km === 606
     && row.source_url === 'https://www.hyundai.com/se/sv/bilar/ioniq9.html';
   const explorer = row.brand === 'Ford' && row.model === 'Explorer' && /^Explorer Premium Edition (RWD 79|AWD 77) kWh MY27\.25$/.test(row.variant_name);
+  const inster = row.brand === 'Hyundai' && row.model === 'Inster' && row.seats === 4
+    && row.variant_name === '49 kWh Advanced Tech 17-tum MY27' && row.wltp_range_km === 360
+    && row.source_url === 'https://lager.hyundai.se/model/INSTER/6XS5ZDZ7ZHH09P?customer=corporate&ext=SRM&int=NNB';
   const born = row.brand === 'Cupra' && row.model === 'Born' && row.variant_name === 'Born VZ' &&
     quote.includes('VZ (240kW/79kWh) | Range (km) 631 - 552');
   const i4 = row.brand === 'BMW' && row.model === 'i4' && quote.includes('BMW i4 eDrive40 Gran Coupé | 61HD') &&
@@ -52,6 +55,8 @@ export function specQualifications(row) {
   return {
     imageNotice: ioniq9 && row.image_url === '/media/vehicles/hyundai-ioniq-9-press-4556561b89d9.jpg'
       ? 'Pressbild av IONIQ 9. Utrustningen kan skilja mellan versioner.'
+      : inster && row.image_url === '/media/vehicles/hyundai-inster-74c89ece773a.jpg'
+      ? 'Bilden visar Hyundai Inster Prime. Utrustningen kan skilja sig fr\u00e5n den svenska Advanced-versionen.'
       : glb && row.image_url === '/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg'
       ? 'Pressbild av eldrivna GLB. Utrustningen kan skilja mellan versioner.'
       : (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'
@@ -119,6 +124,7 @@ export function specQualifications(row) {
         : explorer ? 'Svensk Premium Edition MY27.25. Hjul och utrustning påverkar WLTP-värden. Laddning och dragvikt gäller det aktuella modellåret, inte äldre Explorer.'
         : born ? 'Förbrukningen 14,2 kWh/100 km gäller grundversionen i den svenska bränsledeklarationen, oktober 2026. Batteriet är 79 kWh netto (84 kWh brutto). DC 183 kW gäller den aktuella internationella 79 kWh-tabellen; AC är 11 kW ombord, inte kabelns märkning.' : null,
     practicalNote: ioniq9 ? '338 liter bakom tredje s\u00e4tesraden med alla sju s\u00e4ten i bruk, utan frunk. 2 500 kg g\u00e4ller bromsat sl\u00e4p med r\u00e4tt dragutrustning. Kontrollera bilens registreringsbevis.'
+      : inster ? '238 liter med baks\u00e4tena l\u00e4ngst bak, upp till 351 liter n\u00e4r de skjuts fram. Hyundai anger att bilen inte f\u00e5r dra sl\u00e4p. 0 kg \u00e4r en bekr\u00e4ftad dragvikt, inte en saknad uppgift.'
       : glb ? '540 liter bak med fem s\u00e4ten i bruk, utan det fr\u00e4mre bagaget. Dragvikten avser bromsat sl\u00e4p med r\u00e4tt dragutrustning. Kontrollera bilens registreringsbevis.'
       : certified ? '484 liter bak upp till ryggst\u00f6den med s\u00e4tena uppf\u00e4llda, inklusive utrymmet under golvet. Det fr\u00e4mre bagaget ing\u00e5r inte. Dragvikten avser bromsat sl\u00e4p.'
       : chrPlus ? '416 liter bak med baksätet uppfällt och fem sittplatser. Bromsad dragvikt är 750 kg för FWD och 1 500 kg för AWD, med rätt dragutrustning. Dragkrok ingår inte automatiskt; kontrollera bilens utrustning och registreringsbevis.'
