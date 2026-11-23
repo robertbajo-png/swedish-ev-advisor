@@ -17,12 +17,14 @@ SLUG = 'bilar/hyundai-inster-49-kwh-advanced-tech-17-tum-my27'
 URL = f'{SITE}/{SLUG}'
 
 
-def verify(output, macan=False):
-    slug = 'bilar/porsche-macan-electric-rwd-my27' if macan else SLUG
+def verify(output, macan=False, lexus=False):
+    if macan and lexus:
+        raise ValueError('Choose exactly one private model profile')
+    slug = 'bilar/lexus-rz-350e-executive' if lexus else 'bilar/porsche-macan-electric-rwd-my27' if macan else SLUG
     url = f'{SITE}/{slug}'
-    model = 'macan' if macan else 'inster'
-    price = 970000 if macan else 377900
-    prefix = 'porsche-macan-local-' if macan else 'inster-advanced-local-'
+    model = 'lexus' if lexus else 'macan' if macan else 'inster'
+    price = 599000 if lexus else 970000 if macan else 377900
+    prefix = 'lexus-rz-local-' if lexus else 'porsche-macan-local-' if macan else 'inster-advanced-local-'
     release = Path(__file__).resolve().parents[1] / 'data/local/release-data'
     if (output.resolve(strict=True) != output or output.parent.parent != release or not output.name.startswith('ui-')
             or not output.parent.name.startswith(prefix)
@@ -85,4 +87,4 @@ def verify(output, macan=False):
 
 
 if __name__ == '__main__':
-    verify(Path(os.path.abspath(sys.argv[1])), macan=sys.argv[2:] == ['--macan'])
+    verify(Path(os.path.abspath(sys.argv[1])), macan=sys.argv[2:] == ['--macan'], lexus=sys.argv[2:] == ['--lexus'])

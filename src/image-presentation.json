@@ -259,6 +259,15 @@
       "object_fit": "contain",
       "object_position": "center",
       "style": "licensed_model_photo"
+    },
+    "lexus|rz": {
+      "status": "approved",
+      "asset_url": "/media/vehicles/lexus-rz-350e-efe86dce6685.jpg",
+      "content_sha256": "efe86dce668567110c1e41bafd92aeafd2f2a8d53d80b86d7bfba7fda6bde3c0",
+      "reviewed_at": "2026-11-23",
+      "object_fit": "contain",
+      "object_position": "center",
+      "style": "licensed_model_photo"
     }
   }
 }

@@ -30,6 +30,9 @@ export function specQualifications(row) {
   const macanBase = row.brand === 'Porsche' && row.model === 'Macan'
     && row.variant_name === 'Electric RWD MY27'
     && row.source_url === 'https://configurator.porsche.com/sv-SE/mode/model/XABAA1';
+  const lexusRz = row.brand === 'Lexus' && row.model === 'Rz';
+  const lexusExecutive = lexusRz && row.variant_name === '350e Executive'
+    && row.source_url === 'https://www.lexus.se/new-cars/rz';
   const born = row.brand === 'Cupra' && row.model === 'Born' && row.variant_name === 'Born VZ' &&
     quote.includes('VZ (240kW/79kWh) | Range (km) 631 - 552');
   const i4 = row.brand === 'BMW' && row.model === 'i4' && quote.includes('BMW i4 eDrive40 Gran Coupé | 61HD') &&
@@ -63,6 +66,8 @@ export function specQualifications(row) {
       : inster && row.image_url === '/media/vehicles/hyundai-inster-74c89ece773a.jpg'
       ? 'Bilden visar Hyundai Inster Prime. Utrustningen kan skilja sig fr\u00e5n den svenska Advanced-versionen.'
       : macan ? 'Modellbild av Porsche Macan Electric. Utrustning och drivlina kan skilja sig fr\u00e5n den svenska versionen.'
+      : lexusRz && row.image_url === '/media/vehicles/lexus-rz-350e-efe86dce6685.jpg'
+      ? 'Modellbild av Lexus RZ 350e Version L. Utrustningen kan skilja sig fr\u00e5n svenska Executive.'
       : glb && row.image_url === '/media/vehicles/mercedes-benz-glb-press-01ba09303394.jpg'
       ? 'Pressbild av eldrivna GLB. Utrustningen kan skilja mellan versioner.'
       : (r4Evolution || r4Techno) && row.image_url === '/media/vehicles/renault-4-press-08f8b8956c0a.jpg'
@@ -128,10 +133,12 @@ export function specQualifications(row) {
         ? 'Motor i grundutförande. Utrustning och hjul kan påverka förbrukningen.'
         : cla ? 'Tillverkarens svenska modelltabell. Hjul och tillval kan påverka WLTP-värden och laddprestanda.'
         : macanBase ? 'R\u00e4ckvidd och f\u00f6rbrukning g\u00e4ller blandad WLTP-k\u00f6rning med 20-tumshjul. Batteriets 100 kWh \u00e4r bruttokapacitet.'
+        : lexusExecutive ? 'Blandad WLTP f\u00f6r svenska 350e Executive med 18-tumshjul. Batteriets 77 kWh \u00e4r bruttokapacitet. 150 kW DC styrks av Lexus tekniska uppgifter f\u00f6r samma drivlina.'
         : explorer ? 'Svensk Premium Edition MY27.25. Hjul och utrustning påverkar WLTP-värden. Laddning och dragvikt gäller det aktuella modellåret, inte äldre Explorer.'
         : born ? 'Förbrukningen 14,2 kWh/100 km gäller grundversionen i den svenska bränsledeklarationen, oktober 2026. Batteriet är 79 kWh netto (84 kWh brutto). DC 183 kW gäller den aktuella internationella 79 kWh-tabellen; AC är 11 kW ombord, inte kabelns märkning.' : null,
     practicalNote: ioniq9 ? '338 liter bakom tredje s\u00e4tesraden med alla sju s\u00e4ten i bruk, utan frunk. 2 500 kg g\u00e4ller bromsat sl\u00e4p med r\u00e4tt dragutrustning. Kontrollera bilens registreringsbevis.'
       : macanBase ? '518 liter i bakre bagageutrymmet upp till baks\u00e4tets ryggst\u00f6d. 2 000 kg avser bromsat sl\u00e4p med tillvald dragkrok.'
+      : lexusExecutive ? '586 liter med baks\u00e4tet uppf\u00e4llt, m\u00e4tt till insynsskyddet. 750 kg avser bromsat sl\u00e4p med draganordning.'
       : inster ? '238 liter med baks\u00e4tena l\u00e4ngst bak, upp till 351 liter n\u00e4r de skjuts fram. Hyundai anger att bilen inte f\u00e5r dra sl\u00e4p. 0 kg \u00e4r en bekr\u00e4ftad dragvikt, inte en saknad uppgift.'
       : glb ? '540 liter bak med fem s\u00e4ten i bruk, utan det fr\u00e4mre bagaget. Dragvikten avser bromsat sl\u00e4p med r\u00e4tt dragutrustning. Kontrollera bilens registreringsbevis.'
       : certified ? '484 liter bak upp till ryggst\u00f6den med s\u00e4tena uppf\u00e4llda, inklusive utrymmet under golvet. Det fr\u00e4mre bagaget ing\u00e5r inte. Dragvikten avser bromsat sl\u00e4p.'

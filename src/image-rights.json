@@ -1122,6 +1122,24 @@
       "full_frame": true,
       "status": "documented",
       "reviewed_at": "2026-11-23"
+    },
+    {
+      "model_key": "lexus|rz",
+      "asset_url": "/media/vehicles/lexus-rz-350e-efe86dce6685.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lexus_RZ350e_Version_L.jpg",
+      "evidence_url": "https://commons.wikimedia.org/w/index.php?oldid=1201732326&title=File%3ALexus_RZ350e_Version_L.jpg",
+      "downloaded_from": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Lexus_RZ350e_Version_L.jpg",
+      "content_sha256": "efe86dce668567110c1e41bafd92aeafd2f2a8d53d80b86d7bfba7fda6bde3c0",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "author": "TTTNIS",
+      "credit": "TTTNIS / Wikimedia Commons",
+      "evidence_quote": "CC0 1.0 Universal Public Domain Dedication",
+      "model_image_notice": "Modellbild av Lexus RZ 350e Version L. Utrustningen kan skilja sig fr\u00e5n svenska Executive.",
+      "changes": "Originalbilden of\u00f6r\u00e4ndrad. Webbversionerna har anpassad storlek och format utan besk\u00e4rning.",
+      "full_frame": true,
+      "status": "documented",
+      "reviewed_at": "2026-11-23"
     }
   ]
 }

@@ -207,6 +207,8 @@ jobs:
       - run: bun run verify:expansion-preflight
       - run: node scripts/run_python.mjs -m unittest discover -s tests -p 'test_porsche_macan_*.py' -v
       - run: node --test tests/porsche-macan-scope.test.mjs tests/porsche-macan-publication.test.mjs
+      - run: node scripts/run_python.mjs -m unittest discover -s tests -p test_lexus_rz_review.py
+      - run: node --test tests/lexus-rz-publication.test.mjs
       - run: bun run verify:vehicle-quality
       - run: bun run verify:kia-specs
       - run: bun run verify:kia-spec-sync

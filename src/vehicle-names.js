@@ -41,7 +41,8 @@ function combineModelName(brand, model, variantName) {
 }
 
 export function displayModelName(brand, model, variantName) {
-  const displayModel = brand === 'Volkswagen' && model === 'Id. Buzz' ? 'ID. Buzz' : model;
+  const displayModel = brand === 'Volkswagen' && model === 'Id. Buzz' ? 'ID. Buzz'
+    : brand === 'Lexus' && model === 'Rz' ? 'RZ' : model;
   return combineModelName(brand, displayModel, displayVariantName(variantName));
 }
 
