@@ -85,16 +85,18 @@ function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, pri
   const Heading = 'h' + headingLevel;
   const image = approvedNewsImage(article);
   const hasImage = !!image && failedUrl !== image.url;
+  const isLead = variant === 'lead';
   const publishers = [...new Set((article.sources || []).map((source) => source.publisher).filter(Boolean))].slice(0, 2);
   return <article className={'newsStory newsStory--' + variant + (hasImage ? ' newsStory--withMedia' : '')}>
-    {hasImage && <NewsLink className="newsStoryImageLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs: ' + article.title}><NewsImage article={article} priority={priority} onUnavailable={() => setFailedUrl(image.url)} /></NewsLink>}
+    {hasImage && !isLead && <NewsLink className="newsStoryImageLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs: ' + article.title}><NewsImage article={article} priority={priority} onUnavailable={() => setFailedUrl(image.url)} /></NewsLink>}
     <div className="newsStoryContent">
       <NewsMeta article={article} />
       <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
       <p className="newsStoryIntro">{article.intro}</p>
       <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsagenten'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
-      {(variant === 'lead' || isSwedishPriceNews(article)) && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
+      {(isLead || isSwedishPriceNews(article)) && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
     </div>
+    {hasImage && isLead && <NewsImage article={article} priority={priority} caption onUnavailable={() => setFailedUrl(image.url)} />}
   </article>;
 }
 
@@ -137,7 +139,7 @@ export function NewsPage({ articles, loading, error, navigate }) {
 
   return <section className="newsPage journalPage" aria-labelledby="journal-title">
     <header className="journalMasthead">
-      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1><p>Från Sverige till resten av världen. Nya elbilar, batterier och tekniken bakom nästa bilval.</p></div>
+      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1></div>
       {!!published.length && <div className="journalLastPublished"><span>Senast publicerat</span><time dateTime={published[0].published_at}>{newsDate(published[0].published_at)}</time></div>}
     </header>
     <div className="journalTopicNav" role="group" aria-label="Nyhetskategorier">{NEWS_TOPICS.map((item) => <button type="button" key={item.id} aria-pressed={topic === item.id} onClick={() => setTopic(item.id)} disabled={loading || !published.length}>{item.label}</button>)}</div>
