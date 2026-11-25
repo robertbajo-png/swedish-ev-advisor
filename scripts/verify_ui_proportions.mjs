@@ -44,11 +44,13 @@ try {
           const description = node.nextElementSibling.getBoundingClientRect();
           return {
             font: getComputedStyle(node).fontFamily,
+            fontLoaded: [...document.fonts].some(face => face.family === 'Newsreader' && face.status === 'loaded'),
             lines: new Set(lines.map(line => Math.round(line.top))).size,
             contained: lines.every(line => line.left >= column.left && line.right <= Math.min(column.right, innerWidth) + 1 && line.bottom <= description.top + 1),
           };
         });
         assert.match(title.font, /^Newsreader/);
+        assert(title.fontLoaded, `${width}: Newsreader is loaded for the cover title`);
         assert(h1Size >= 36 && h1Size <= 106, `${width}: approved cover type scale (${h1Size}px)`);
         assert(title.lines > 0 && title.lines <= 2 && title.contained, `${width}: fully visible title with no overlapping description`);
         const firstStop = await page.locator('.bilWeekRoute summary').first().boundingBox();
@@ -72,6 +74,14 @@ try {
       if (name === 'catalog') {
         const firstCard = await page.locator('.carCard').first().boundingBox();
         const firstCardLimit = width <= 360 ? 560 : width <= 560 ? 510 : width <= 800 ? 480 : 460;
+        if (width <= 360) {
+          const nav = await page.locator('.bilHeader nav a').evaluateAll(links => links.map(link => {
+            const { top, right, left, height } = link.getBoundingClientRect();
+            return { name: link.textContent.trim(), top, right, left, height };
+          }));
+          assert(nav.length === 5 && nav.every(({ top, left, right, height }) => top === nav[0].top && left >= 0 && right <= width && height >= 44),
+            `${width}: compact, visible catalog navigation (${JSON.stringify(nav)})`);
+        }
         assert(firstCard.y < firstCardLimit, `${width}: actual cars appear promptly (${Math.round(firstCard.y)}px)`);
         assert(await fontSize('.vehicleCard .homeVehicleSpecs dt') >= 13);
         assert(await fontSize('.vehicleCard .homeVehicleActions a') >= 14);
