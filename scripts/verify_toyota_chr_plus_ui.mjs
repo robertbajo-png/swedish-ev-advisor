@@ -43,7 +43,10 @@ try{
    assert.equal(r.body_type,'SUV');assert.equal(r.battery_kwh,77);assert.equal(r.boot_liters,416);assert.equal(r.seats,5);assert.equal(r.dc_charge_kw,150);
    assert.equal(r.drivetrain,p[4]);assert.equal(r.available_confirmed,false);assert.equal(r.price_type,'list_price');assert.equal(r.price_valid_until,null);
    const text=await page.locator('#specifikationer').innerText();assert(!text.includes('Uppgift saknas'));assert(text.includes(p[10]+' kW'));assert.match(text,/416/);
-   assert.match(await page.locator('main').innerText(),/Modellbild: Toyota C-HR\+ i brittiskt Design/);
+   const notice=page.locator('.vehicleContainer > .vehicleImageNotice');
+   assert(await notice.isVisible());
+   assert.match(await notice.innerText(),/Modellbild: Toyota C-HR\+ i brittiskt Design[^.]*\. .*utrustning kan skilja/i);
+   assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
    const layout=await page.evaluate(()=>{
     const rect=s=>document.querySelector(s).getBoundingClientRect(),media=rect('.vehicleHeroMedia'),img=document.querySelector('.vehicleHeroMedia img');
     return{overflow:document.documentElement.scrollWidth>innerWidth,gap:rect('.vehicleHeroCopy').top-media.bottom,

@@ -44,7 +44,10 @@ try{
    assert(!specs.includes('Uppgift saknas'));assert.match(specs,/10,5/);assert.match(specs,/480/);
    if(row.variant_name==='EV6 GT'){assert.equal(row.drivetrain,'AWD');assert.match(specs,/609 hk/);assert.match(specs,/450 km/);}
    else assert.match(specs,/19 tum/);
-   assert.match(await page.locator('main').innerText(),/Modellbild: Kia EV6 Baseline/);
+   const notice=page.locator('.vehicleContainer > .vehicleImageNotice');
+   assert(await notice.isVisible());
+   assert.match(await notice.innerText(),/Modellbild: Kia EV6 Baseline[^.]*\. .*utrustning kan skilja/i);
+   assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
    assert.match(await page.locator('.vehicleHeroStats').innerText(),new RegExp(row.wltp_range_km+' km'));
    const layout=await page.evaluate(()=>{
     const rect=s=>document.querySelector(s).getBoundingClientRect();

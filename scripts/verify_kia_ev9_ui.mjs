@@ -30,7 +30,10 @@ try{
    assert.equal(r.body_type,'SUV');assert.equal(r.ac_charge_kw,10.5);assert.equal(r.boot_liters,333);
    assert.equal(r.price_type,'list_price');assert.equal(r.price_valid_until,'2026-11-30');
    const text=await page.locator('#specifikationer').innerText();assert(!text.includes('Uppgift saknas'));assert.match(text,/10,5/);assert.match(text,/333/);
-   assert.match(await page.locator('main').innerText(),/Modellbild: Kia EV9/);
+   const notice=page.locator('.vehicleContainer > .vehicleImageNotice');
+   assert(await notice.isVisible());
+   assert.match(await notice.innerText(),/Modellbild: Kia EV9[^.]*\. .*utrustning kan skilja/i);
+   assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
    const layout=await page.evaluate(()=>{
     const rect=s=>document.querySelector(s).getBoundingClientRect(),media=rect('.vehicleHeroMedia'),img=document.querySelector('.vehicleHeroMedia img');
     return{overflow:document.documentElement.scrollWidth>innerWidth,gap:rect('.vehicleHeroCopy').top-media.bottom,

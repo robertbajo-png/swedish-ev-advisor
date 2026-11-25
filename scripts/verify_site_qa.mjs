@@ -5,6 +5,8 @@ import { gzipSync } from 'node:zlib';
 import { AxeBuilder } from '@axe-core/playwright';
 import { launchQaBrowser } from './qa_browser.mjs';
 import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
+import { vehicleSlug } from '../src/vehicle-names.js';
+import { coverPhoto, photoCredit } from '../src/biljournal-images.js';
 
 const base = process.env.SITE_QA_URL || 'http://127.0.0.1:5174';
 const out = new URL('../data/local/design-qa/', import.meta.url);
@@ -13,6 +15,10 @@ const newsFile = new URL('../public/data/news_articles.json', import.meta.url);
 const originalCars = await readFile(carFile, 'utf8');
 const originalNews = await readFile(newsFile, 'utf8');
 const cars = JSON.parse(originalCars).records;
+const vehicleId = row => vehicleSlug(row.brand, row.model, row.variant_name);
+const tesla = cars.find(row => vehicleId(row) === 'tesla-model-3-long-range-rwd');
+const inster = cars.find(row => row.brand === 'Hyundai' && row.model === 'Inster');
+assert(tesla && inster, 'The source and image cases require canonical variants');
 // Only browser transport uses this clearly labelled story. No publication occurs.
 const articles = [{
   id: 'site-qa-story', slug: 'qa-granskning-inte-en-nyhet', status: 'published',
@@ -46,7 +52,7 @@ try {
   const go = async (path) => {
     await page.goto(base + path, { waitUntil: 'domcontentloaded' });
     await page.locator('h1').waitFor();
-    if (path === '/') await page.locator('.homeVehicleCard').first().waitFor();
+    if (path === '/' || path === '/radgivare') await page.locator('.homeVehicleCard').first().waitFor();
     if (path === '/bilar' || path === '/familj') await page.locator('.carCard').first().waitFor();
     if (path.startsWith('/bilar/')) await page.locator('.vehicleHeroStats').waitFor();
     if (path === '/nyheter') await page.locator('.newsStory').first().waitFor();
@@ -59,7 +65,7 @@ try {
     assert.equal(await page.getByRole('contentinfo').count(), 1, name + ': footer outside main');
     assert.equal(await page.locator('h1').count(), 1, name + ': one H1');
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), name + ': no document overflow');
-    const clippedText = await page.locator('.vehicleCardTitle, .vehicleVariant, .vehiclePageIntro h1, .vehicleHeroCopy h1, .comparisonVehicle h2, .tcoResultCard h3, .newsStoryTitle, .newsArticleHeader h1').evaluateAll((nodes) => nodes.filter((node) => node.scrollWidth > node.clientWidth + 1).map((node) => node.textContent));
+    const clippedText = await page.locator('.bilCover h1, .vehicleCardTitle, .vehicleVariant, .vehiclePageIntro h1, .vehicleHeroCopy h1, .comparisonVehicle h2, .bilCostVariant h2, .newsStoryTitle, .newsArticleHeader h1').evaluateAll((nodes) => nodes.filter((node) => node.scrollWidth > node.clientWidth + 1).map((node) => node.textContent));
     assert.deepEqual(clippedText, [], name + ': no clipped titles');
     const result = await new AxeBuilder({ page }).analyze();
     const violations = result.violations.map((item) => ({ id: item.id, impact: item.impact, help: item.help, nodes: item.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })) }));
@@ -67,10 +73,39 @@ try {
     report.violations.push(...violations.map((violation) => ({ page: name, ...violation })));
     console.log(JSON.stringify({ page: name, violations: violations.length, ...(violations.length ? { details: violations } : {}) }));
   };
+  const sourceRegion = page.locator('.bilSources');
+  const goToSource = async (link, post) => {
+    const target = new URL(await link.getAttribute('href'), base);
+    assert.equal(target.pathname, '/kallor');
+    assert.equal(target.searchParams.get('post'), post);
+    await link.focus();
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(id => document.activeElement?.id === id, post);
+    return sourceRegion.locator('[id="' + post + '"]').locator('..');
+  };
+  const verifyModelSource = async () => {
+    const source = await goToSource(page.getByRole('link', { name: 'Källor för modellen', exact: true }), 'bil-' + vehicleId(tesla));
+    assert(await source.locator('a[href="' + tesla.source_url + '"]').count());
+    if (tesla.price_source_url) assert(await source.locator('a[href="' + tesla.price_source_url + '"]').count());
+    await source.getByText('Källbevis', { exact: true }).click();
+    assert.match(await source.innerText(), new RegExp(tesla.source_hash));
+  };
+  const verifyCoverCredit = async () => {
+    const cover = photoCredit(coverPhoto);
+    const footer = page.getByRole('contentinfo').getByRole('link', { name: 'Källor och bildkrediter', exact: true });
+    assert.equal(await page.getByRole('link', { name: 'Källor och bildkrediter', exact: true }).count(), 1);
+    await footer.click();
+    await goToSource(page.getByRole('link', { name: 'Bildkrediter', exact: true }), 'bilder');
+    const credit = sourceRegion.locator('#bilder').locator('..').getByRole('listitem')
+      .filter({ has: page.getByRole('heading', { name: cover.title, exact: true }) });
+    assert.match(await credit.innerText(), /© M 93 \/ Wikimedia Commons.*CC-BY-SA-3.0-DE/s);
+    assert.equal(await credit.getByRole('link', { name: 'Bildkälla', exact: true }).getAttribute('href'), cover.source_url);
+    assert.equal(await credit.getByRole('link', { name: 'CC-BY-SA-3.0-DE', exact: true }).getAttribute('href'), cover.license_url);
+  };
   const routes = [
-    ['home', '/'], ['catalog', '/bilar'], ['family', '/familj'],
-    ['detail', '/bilar/tesla-model-3-long-range-rwd'], ['missing-photo', '/bilar/kia-ev6-rwd'],
-    ['compare', '/jamfor'], ['sources', '/verifiering'], ['contact', '/kontakt'], ['privacy', '/integritet'], ['journal', '/nyheter'],
+    ['home', '/'], ['advisor', '/radgivare'], ['catalog', '/bilar'], ['family', '/familj'],
+    ['detail', '/bilar/tesla-model-3-long-range-rwd'], ['inster-photo', '/bilar/' + vehicleId(inster)], ['ev6', '/bilar/kia-ev6-rwd'],
+    ['compare', '/jamfor'], ['sources', '/kallor'], ['verification', '/verifiering'], ['contact', '/kontakt'], ['privacy', '/integritet'], ['journal', '/nyheter'],
     ['article', '/nyheter/' + articles[0].slug],
   ];
   for (const [viewportName, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }]]) {
@@ -79,10 +114,38 @@ try {
       await go(path);
       if (name === 'compare') {
         for (let index = 0; index < 3; index++) await page.locator('#comparison-add-car').selectOption({ index: 1 });
-        await page.locator('.tcoAdvanced summary').click();
+        await page.locator('.bilCostAssumptions > summary').click();
+        assert.equal(await page.locator('.bilCostVariant').count(), 3);
       }
-      if (name === 'detail') await page.locator('.vehicleSources summary').click();
       await scan(viewportName + '-' + name);
+      if (name === 'detail') {
+        await verifyModelSource();
+        await scan(viewportName + '-expanded-model-evidence');
+        await go(path);
+      }
+      if (name === 'inster-photo') {
+        const image = page.locator('.vehicleHeroMedia img');
+        await image.evaluate(node => node.decode());
+        assert.equal(await image.getAttribute('src'), coverPhoto);
+        const notice = page.locator('.vehicleContainer > .vehicleImageNotice');
+        assert(await notice.isVisible());
+        assert.match(await notice.innerText(), /Hyundai Inster Prime.*utrustningen kan skilja/i);
+        assert.doesNotMatch(await notice.innerText(), /Wikimedia|CC[- ]BY|Bildkälla/);
+      }
+      if (name === 'article') {
+        const source = await goToSource(page.getByRole('link', { name: 'Källor för artikeln', exact: true }), 'artikel-' + articles[0].slug);
+        assert.equal(await source.locator('a[href="https://example.com/qa-source"]').count(), 1);
+        await go(path);
+      }
+      if (name === 'home') {
+        const cover = page.locator('.bilCover img');
+        await cover.evaluate(img => img.decode());
+        assert.equal(await cover.getAttribute('src'), coverPhoto);
+        assert.equal(await page.locator('.bilCoverPhoto figcaption').innerText(), 'Hyundai Inster Prime');
+        assert.doesNotMatch(await page.locator('body').innerText(), /Wikimedia Commons|CC[- ]BY|Bildkälla/);
+        await verifyCoverCredit();
+        await go(path);
+      }
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: fileURLToPath(new URL(`qa-${viewportName}-${name}-fixtures.png`, out)) });
     }
@@ -105,31 +168,33 @@ try {
   assert(await page.getByRole('link', { name: 'Hoppa till innehållet' }).evaluate((node) => node === document.activeElement));
   await page.keyboard.press('Enter');
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
-  await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Alla elbilar', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Katalog', exact: true }).click();
   await page.locator('.carCard').first().waitFor();
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
   await page.goBack();
-  await page.locator('#home-heading').waitFor();
+  await page.locator('#bil-cover-title').waitFor();
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
-  await page.getByRole('navigation').getByRole('link', { name: 'Alla elbilar', exact: true }).click();
-  await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
-  await page.locator('#home-advisor-query').waitFor();
-  await page.waitForFunction(() => document.activeElement?.id === 'home-advisor-query', null, { timeout: 2000 });
-  assert(await page.locator('#home-advisor-query').evaluate((node) => node === document.activeElement));
+  const primaryNav = page.getByRole('navigation', { name: 'Huvudnavigation' });
+  const verifyAdvisorFocus = async () => {
+    await primaryNav.getByRole('link', { name: 'Rådgivare', exact: true }).focus();
+    await page.keyboard.press('Enter');
+    await page.locator('#home-advisor-query').waitFor();
+    assert(await page.getByRole('main').evaluate(node => node === document.activeElement));
+    await page.keyboard.press('Tab');
+    await page.waitForFunction(() => document.activeElement?.id === 'home-advisor-query', null, { timeout: 2000 });
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    assert(await page.locator('#home-advisor-query').evaluate(node => node === document.activeElement), 'Route focus must not reclaim input focus');
+  };
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (let attempt = 0; attempt < 3; attempt++) {
-      await page.getByRole('navigation').getByRole('link', { name: 'Alla elbilar', exact: true }).click();
+      await primaryNav.getByRole('link', { name: 'Katalog', exact: true }).click();
       await page.locator('.carCard').first().waitFor();
-      await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
-      await page.waitForFunction(() => document.activeElement?.id === 'home-advisor-query', null, { timeout: 2000 });
-      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-      assert(await page.locator('#home-advisor-query').evaluate(node => node === document.activeElement), 'Route focus must not reclaim advisor focus');
+      await verifyAdvisorFocus();
     }
-    await page.getByRole('button', { name: 'Fråga AI', exact: true }).click();
-    assert(await page.locator('#home-advisor-query').evaluate(node => node === document.activeElement), 'Same-page advisor focus');
+    await verifyAdvisorFocus();
   }
-  report.keyboard.push('skip link', 'SPA route focus', 'back navigation focus', 'advisor shortcut focus');
+  report.keyboard.push('skip link', 'SPA route focus', 'back navigation focus', 'advisor navigation and first input focus', 'exact model/article source focus', 'central cover credit');
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.evaluate(() => {

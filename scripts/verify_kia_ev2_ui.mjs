@@ -41,7 +41,10 @@ try{
    assert.equal(r.drivetrain,'FWD');assert.equal(r.tow_kg,750);assert.equal(r.dc_charge_kw,150);assert.equal(r.available_confirmed,false);
    assert.equal(r.price_type,'list_price');assert.equal(r.price_valid_until,'2026-11-30');
    const text=await page.locator('#specifikationer').innerText();assert(!text.includes('Uppgift saknas'));assert.match(text,/10,5/);assert.match(text,/362/);
-   assert.match(await page.locator('main').innerText(),/Modellbild: Kia EV2 GT Line/);
+   const notice=page.locator('.vehicleContainer > .vehicleImageNotice');
+   assert(await notice.isVisible());
+   assert.match(await notice.innerText(),/Modellbild: Kia EV2 GT Line[^.]*\. .*utrustning kan skilja/i);
+   assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
    const guide=page.getByRole('region',{name:'Vilken version ska jag välja?'});
    assert.equal(await guide.getByRole('article').count(),3);
    assert.equal(await guide.getByRole('link',{name:'Kias prislista'}).count(),3);
