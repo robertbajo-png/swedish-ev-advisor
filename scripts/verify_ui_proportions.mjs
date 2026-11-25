@@ -122,8 +122,19 @@ try {
         assert(Math.max(...prices) - Math.min(...prices) < 2, `${width}: comparison prices align`);
       }
       if (name === 'compare' && width <= 560) {
-        const heights = await page.locator('.comparisonVehicle').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().height));
-        assert(heights.every((size) => size <= 176), `${width}: compact comparison selections`);
+        const cards = await page.locator('.comparisonVehicle').evaluateAll(nodes => nodes.map(node => {
+          const title = node.querySelector('h2');
+          const titleBox = title.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(title);
+          const rects = [...range.getClientRects()];
+          const extraTitleHeight = Math.max(0, titleBox.height - 2 * parseFloat(getComputedStyle(title).lineHeight));
+          return {
+            compactHeight: node.getBoundingClientRect().height - extraTitleHeight,
+            fullTitleVisible: rects.length > 0 && rects.every(rect => rect.right <= titleBox.right + 1 && rect.bottom <= titleBox.bottom + 2),
+          };
+        }));
+        assert(cards.every(card => card.compactHeight <= 176 && card.fullTitleVisible), `${width}: compact selections with full model names`);
       }
       if (width === 1440 || width === 390) {
         await page.waitForFunction(() => [...document.images].filter((image) => {
