@@ -183,6 +183,10 @@
   .bilWeekEnd p { font-size: .81rem; }
   .bilSourcesList { grid-template-columns: minmax(0,1fr); }
 }
+@media (max-width: 360px) {
+  /* Space-between still distributes the free space with a wider system font. */
+  .biljournal .bilHeader nav { column-gap: 0; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .bilCoverText { animation: bil-print .2s ease-out; }
   @keyframes bil-print { from { transform: translateY(3px); opacity: .85; } to { transform: none; opacity: 1; } }
