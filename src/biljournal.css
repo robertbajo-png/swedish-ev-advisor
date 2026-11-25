@@ -162,7 +162,7 @@
   .biljournal .bilHeader nav a { font-size: clamp(.73rem,3.1vw,.86rem); min-height: 44px; }
   .bilCoverGrid { grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); gap: 12px; padding-block: 16px; }
   .bilCoverText { padding-inline-start: 9px; }
-  .biljournal .bilCover h1 { font-size: clamp(2.1rem,9.2vw,4.2rem); }
+  .biljournal .bilCover h1 { font-size: clamp(2.25rem,9.2vw,4.2rem); }
   .bilCover p { font-size: .85rem; margin-top: 7px; }
   .bilCoverPhoto figcaption { font-size: .68rem; }
   .bilWeek { padding-block: 18px 24px; }
