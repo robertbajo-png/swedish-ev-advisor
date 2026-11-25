@@ -59,6 +59,7 @@ from validate_research_sources import build_extraction_queue, official_domain_ma
 from validate_extracted_variants import load_sources, public_variant_from_draft, validate_draft
 from apply_official_variant_overrides import apply_overrides, read_overrides
 from verify_public_images import build_report as build_public_image_report
+from verify_public_images import public_uses_exact_lookup
 from build_expansion_scope import build_expansion_scope
 from source_policy import source_is_publishable, source_policy_errors, source_url_matches_model
 from apply_expansion_sources import apply_images, merge_sources
@@ -1206,6 +1207,18 @@ class ReviewVariantQueueTests(unittest.TestCase):
 
 
 class PublicImageContractTests(unittest.TestCase):
+    def test_biljournal_image_lookup_requires_exact_model_and_rights_gate(self):
+        source = (ROOT / "src/main.jsx").read_text(encoding="utf-8")
+        self.assertTrue(public_uses_exact_lookup(source))
+        for original, broken in (
+            ("vehiclePhotoOverride(brand,row.model)", "vehiclePhotoOverride(brand,'EV3')"),
+            ("officialImageFor(brand,row.model)", "officialImageFor(brand,'EV3')"),
+            ("imageRights && offlineAsset ? originalImage : null", "originalImage"),
+        ):
+            with self.subTest(original=original):
+                self.assertIn(original, source)
+                self.assertFalse(public_uses_exact_lookup(source.replace(original, broken, 1)))
+
     def test_public_models_have_exact_images_and_no_stock_fallbacks(self):
         report = build_public_image_report(ROOT)
 

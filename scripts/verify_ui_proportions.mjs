@@ -10,7 +10,7 @@ const browser = await launchQaBrowser();
 const report = [];
 const pageErrors = [];
 const routes = [
-  ['home', '/'], ['catalog', '/bilar'],
+  ['home', '/'], ['advisor', '/radgivare'], ['catalog', '/bilar'],
   ['detail', '/bilar/tesla-model-3-long-range-rwd'], ['compare', '/jamfor'],
 ];
 try {
@@ -23,7 +23,7 @@ try {
     for (const [name, path] of routes) {
       await page.goto(base + path, { waitUntil: 'domcontentloaded' });
       await page.locator('h1').waitFor();
-      if (name === 'home') await page.locator('.homeVehicleCard').first().waitFor();
+      if (name === 'home' || name === 'advisor') await page.locator('.homeVehicleCard').first().waitFor();
       if (name === 'catalog') await page.locator('.carCard').first().waitFor();
       if (name === 'compare' && await page.locator('#comparison-add-car').count()) {
         for (let index = 0; index < 3; index++) {
@@ -35,8 +35,33 @@ try {
       await page.evaluate(() => document.fonts.ready);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${name}/${width}: no horizontal overflow`);
       const h1Size = await fontSize('h1');
-      assert(h1Size <= (width <= 560 ? 36 : name === 'home' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
       if (name === 'home') {
+        const title = await page.locator('.bilCover h1').evaluate(node => {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          const lines = [...range.getClientRects()];
+          const column = node.closest('.bilCoverText').getBoundingClientRect();
+          const description = node.nextElementSibling.getBoundingClientRect();
+          return {
+            font: getComputedStyle(node).fontFamily,
+            fontLoaded: [...document.fonts].some(face => face.family === 'Newsreader' && face.status === 'loaded'),
+            lines: new Set(lines.map(line => Math.round(line.top))).size,
+            contained: lines.every(line => line.left >= column.left && line.right <= Math.min(column.right, innerWidth) + 1 && line.bottom <= description.top + 1),
+          };
+        });
+        assert.match(title.font, /^Newsreader/);
+        assert(title.fontLoaded, `${width}: Newsreader is loaded for the cover title`);
+        assert(h1Size >= 36 && h1Size <= 106, `${width}: approved cover type scale (${h1Size}px)`);
+        assert(title.lines > 0 && title.lines <= 2 && title.contained, `${width}: fully visible title with no overlapping description`);
+        const firstStop = await page.locator('.bilWeekRoute summary').first().boundingBox();
+        const submit = await page.getByRole('button', { name: 'Visa bilurval' }).boundingBox();
+        assert(firstStop.y + firstStop.height <= height, `${width}: first route control visible in the opening viewport`);
+        assert(submit.y + submit.height <= height, `${width}: route action visible in the opening viewport`);
+        assert(await page.locator('.bilWeekRoute summary').evaluateAll(nodes => nodes.length === 3 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
+      } else {
+        assert(h1Size <= (width <= 560 ? 36 : name === 'advisor' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
+      }
+      if (name === 'advisor') {
         const button = page.getByRole('button', { name: 'Hitta min elbil', exact: true });
         assert((await button.boundingBox()).y + (await button.boundingBox()).height <= height, `${width}: advisor action visible without scrolling`);
         assert(await fontSize('.homeAdvisorForm > label') >= 13);
@@ -49,6 +74,14 @@ try {
       if (name === 'catalog') {
         const firstCard = await page.locator('.carCard').first().boundingBox();
         const firstCardLimit = width <= 360 ? 560 : width <= 560 ? 510 : width <= 800 ? 480 : 460;
+        if (width <= 360) {
+          const nav = await page.locator('.bilHeader nav a').evaluateAll(links => links.map(link => {
+            const { top, right, left, height } = link.getBoundingClientRect();
+            return { name: link.textContent.trim(), top, right, left, height };
+          }));
+          assert(nav.length === 5 && nav.every(({ top, left, right, height }) => top === nav[0].top && left >= 0 && right <= width && height >= 44),
+            `${width}: compact, visible catalog navigation (${JSON.stringify(nav)})`);
+        }
         assert(firstCard.y < firstCardLimit, `${width}: actual cars appear promptly (${Math.round(firstCard.y)}px)`);
         assert(await fontSize('.vehicleCard .homeVehicleSpecs dt') >= 13);
         assert(await fontSize('.vehicleCard .homeVehicleActions a') >= 14);
@@ -83,7 +116,7 @@ try {
         assert.deepEqual(clipped, [], `${width}: missing values fit spec panel`);
       }
       if (name === 'compare' && width > 800) {
-        const prices = await page.locator('.comparisonVehicle p').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().bottom));
+        const prices = await page.locator('.comparisonVehicle > div:last-child > p').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().bottom));
         assert(Math.max(...prices) - Math.min(...prices) < 2, `${width}: comparison prices align`);
       }
       if (name === 'compare' && width <= 560) {

@@ -36,7 +36,12 @@ try {
     await page.getByRole('link', { name: records[0].title, exact: true }).click();
     await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
     await page.getByRole('heading', { name: 'Vad betyder detta för dig som bilköpare?' }).waitFor();
-    assert.equal(await page.getByRole('link', { name: /Testkälla:/ }).getAttribute('href'), 'https://example.com/news');
+    assert.equal(await page.locator('.newsArticlePage a[href="https://example.com/news"]').count(), 0);
+    await page.getByRole('link', { name: 'Källor för artikeln' }).click();
+    const source = page.locator('[id="artikel-' + records[0].slug + '"]').locator('..');
+    assert.equal(await source.getByRole('link', { name: /Testkälla:/ }).getAttribute('href'), 'https://example.com/news');
+    await page.goBack();
+    await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
     assert.equal(await page.locator('.newsRelated').getByRole('link', { name: 'Kia EV6', exact: true }).getAttribute('href'), '/bilar/kia-ev6-rwd');
     const ld = JSON.parse(await page.locator('script[data-jsonld="page"]').textContent());
     assert.equal(ld['@type'], 'NewsArticle');

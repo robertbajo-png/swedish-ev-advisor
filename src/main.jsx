@@ -31,7 +31,12 @@ import {
 import { GitCompareArrows, Plus, Weight, X } from 'lucide-react';
 import './styles.css';
 import { vehicleRedirect, catalogQuery } from './vehicle-redirects.js';
-import { DEFAULT_TCO_ASSUMPTIONS, calculateTco } from './tco.js';
+import { OWNERSHIP_ASSUMPTIONS, distanceForWeek } from './ownership-cost.js';
+import { OwnershipCosts } from './ownership-cost.jsx';
+import { BiljournalWeek, DEFAULT_WEEK } from './biljournal-home.jsx';
+import { BiljournalSources, variantSourcePath } from './biljournal-sources.jsx';
+import { vehiclePhotoOverride, photoCredit } from './biljournal-images.js';
+import { assetPath, sitePath, isOfflineReview, isPreview } from './preview-paths.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
 import { preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
@@ -42,9 +47,8 @@ import './design-system.css';
 import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehiclePriceLabel as priceLabel } from './vehicle-ui.jsx';
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
-import imageRights from './image-rights.json';
 import licensedModelImages from './model-images.json';
-import { ImageAttribution } from './image-attribution.jsx';
+import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 import { MANUFACTURER_FROM_PRICE, priceEvidence, priceOfferEnd, verifiedManufacturerFrom } from './price-evidence.js';
 import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
@@ -52,6 +56,7 @@ import { specQualifications } from './spec-qualifications.js';
 import needGuides from './need-guides.json';
 import imageVariants from './image-variants.json';
 import imagePresentation from './image-presentation.json';
+import './biljournal.css';
 import { normalizeNameToken, normalizeVehicleNameKey, stripLeadingBrand, displayModelName, displayVariantName, slug, vehicleSlug } from './vehicle-names.js';
 
 
@@ -115,6 +120,12 @@ function transformPublicVariant(row) {
   const seats = Number(row.seats) || 5;
   const sourceQuote = row.source_quote || '';
   const priceProof = priceEvidence(row);
+  const qualifications = specQualifications(row);
+  const photo = vehiclePhotoOverride(brand,row.model);
+  const originalImage = photo?.asset_url || row.image_url || officialImageFor(brand,row.model);
+  const imageRights = photoCredit(originalImage);
+  const derivative = !imageRights?.full_frame && imageVariants[originalImage]?.variants.find((item) => item.width >= 800)?.url;
+  const offlineAsset = !isOfflineReview() || assetPath(derivative || originalImage);
   return {
     id: vehicleSlug(brand, row.model, variantName),
     canonicalKey: `${row.brand}|${row.model}|${row.variant_name}`,
@@ -133,11 +144,13 @@ function transformPublicVariant(row) {
     priceSource: priceProof?.price_source_url || null,
     priceVerifiedAt: priceProof?.price_verified_at.slice(0, 10) || null,
     priceSourceName: priceProof?.price_source_name || null,
+    priceSourceHash: priceProof?.price_source_hash || null,
+    priceSourceQuote: priceProof?.price_source_quote || null,
     range: rangeVerified || 0,
     rangeVerified,
     consumption: consumptionVerified,
     consumptionVerified,
-    ...specQualifications(row),
+    ...qualifications,
     dc: dcVerified || 0,
     dcVerified,
     cargo: cargoVerified || 0,
@@ -150,17 +163,21 @@ function transformPublicVariant(row) {
     commuteScore: rangeVerified ? Math.min(98, 55 + rangeVerified / 12) : 70,
     source: row.source_url || '#quality',
     sourceHash: row.source_hash,
+    sourceName: row.source_name,
+    sourceQuote,
     validationStatus: row.validation_status,
     verifiedAt: row.verified_at?.slice(0, 10) || null,
-    image: row.image_url || officialImageFor(row.brand, row.model),
-    imageSource: row.image_source_url || null,
+    image: imageRights && offlineAsset ? originalImage : null,
+    imageSource: photo?.source_url || row.image_source_url || null,
+    imageNotice: photo?.notice || qualifications.imageNotice || imageRights?.model_image_notice || null,
+    imageFullFrame: Boolean(imageRights?.full_frame),
     marketSeen: row.market_seen,
     availableConfirmed: row.available_confirmed,
     discontinuedCandidate: row.discontinued_candidate,
     comingOrLowVolume: row.coming_or_low_volume,
     summary:
       priceProof
-        ? ([rangeVerified && `${specQualifications(row).rangeInterval || rangeVerified + ' km'} ${specQualifications(row).rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${detailValue(dcVerified, 'kW')}.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
+        ? ([rangeVerified && `${qualifications.rangeInterval || rangeVerified + ' km'} ${qualifications.rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${detailValue(dcVerified, 'kW')}.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
         : sourceQuote
         ? `${sourceQuote.slice(0, 170)}${sourceQuote.length > 170 ? '...' : ''}`
         : 'Publicerad med verifierade svenska källor för pris och specifikationer.'
@@ -168,7 +185,7 @@ function transformPublicVariant(row) {
 }
 
 async function loadSupabaseCars() {
-  if (import.meta.env.VITE_VEHICLE_DATA_MODE !== 'live') return null;
+  if (isPreview || import.meta.env.VITE_VEHICLE_DATA_MODE !== 'live') return null;
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !anonKey) return null;
@@ -364,10 +381,23 @@ const MAX_COMPARE = 3;
 const BASE_URL = (import.meta.env.VITE_SITE_URL || 'https://elbilsagenten.se').replace(/\/$/, '');
 const APP_BASE_PATH = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
 
-function appPath(path) {
-  if (!APP_BASE_PATH) return path;
-  return `${APP_BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`;
+const appPath = sitePath;
+
+function reviewLocation() {
+  if (!isOfflineReview()) return window.location;
+  const fragment = window.location.hash;
+  return new URL(fragment.startsWith('#/') ? fragment.slice(1) : '/', 'https://preview.invalid');
 }
+
+function AppLink({ path, children, className }) {
+  return <a href={appPath(path)} className={className} onClick={(event) => {
+    if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) {
+      event.preventDefault(); navigate(path);
+    }
+  }}>{children}</a>;
+}
+
+const routeLink = (path,label) => <AppLink path={path}>{label}</AppLink>;
 
 const segments = [
   {
@@ -407,7 +437,7 @@ const segments = [
   }
 ].map((segment) => ({ ...segment, guide: needGuides[segment.slug] }));
 
-function getRoute(pathname = window.location.pathname, search = window.location.search) {
+function getRoute(pathname = reviewLocation().pathname, search = reviewLocation().search) {
   let path = pathname.replace(/\/$/, '') || '/';
   if (APP_BASE_PATH && path.startsWith(APP_BASE_PATH)) {
     path = path.slice(APP_BASE_PATH.length).replace(/\/$/, '') || '/';
@@ -415,11 +445,14 @@ function getRoute(pathname = window.location.pathname, search = window.location.
   if (path.startsWith('/bilar/')) {
     const target = vehicleRedirect(path.split('/').pop());
     if (target) {
-      if (typeof window !== 'undefined') window.history.replaceState({}, '', `${APP_BASE_PATH}${target}`);
+      if (typeof window !== 'undefined') window.history.replaceState({}, '', appPath(target));
       return { type: 'cars', catalogQuery: catalogQuery(target.split('?')[1]) };
     }
     return { type: 'car', slug: path.split('/').pop() };
   }
+  if (path === '/kallor') return { type: 'sources', sourceTarget: new URLSearchParams(search).get('post') };
+  if (path === '/radgivare') return { type: 'advisor' };
+  if (path === '/kostnad' || path.startsWith('/kostnad/')) return { type: 'ownership', slug: path.split('/')[2] };
   if (path === '/bilar') return { type: 'cars', catalogQuery: catalogQuery(search) };
   if (path === '/jamfor' || path === '/compare') return { type: 'compare' };
   if (path === '/verifiering') return { type: 'verification' };
@@ -432,8 +465,14 @@ function getRoute(pathname = window.location.pathname, search = window.location.
   return { type: 'home' };
 }
 
+function jumpToSection(event) {
+  if (!isOfflineReview()) return;
+  event.preventDefault();
+  document.getElementById(event.currentTarget.hash.slice(1))?.scrollIntoView();
+}
+
 function navigate(path) {
-  const nextPath = APP_BASE_PATH ? `${APP_BASE_PATH}${path === '/' ? '' : path}` : path;
+  const nextPath = appPath(path);
   window.history.pushState({}, '', nextPath || '/');
   window.dispatchEvent(new PopStateEvent('popstate'));
   window.scrollTo({ top: 0, behavior: preferredScrollBehavior() });
@@ -529,7 +568,7 @@ export function App({ initialData } = {}) {
   const [cars, setCars] = useState(() => (initialData?.records || []).filter((row) => ['published', 'published_reviewed'].includes(row.validation_status)).map(transformPublicVariant));
   const [dataStatus, setDataStatus] = useState(initialData ? 'ready' : 'loading');
   const news = useNews(APP_BASE_PATH, initialData?.articles);
-  const [route, setRoute] = useState(() => initialData ? getRoute(initialData.path, '') : getRoute());
+  const [route, setRoute] = useState(() => initialData && !isOfflineReview() ? getRoute(initialData.path, '') : getRoute());
   const contentRef = useRef(null);
   const previousRoute = useRef(route);
   const advisorFocusRequested = useRef(false);
@@ -539,10 +578,10 @@ export function App({ initialData } = {}) {
   };
   useEffect(() => {
     // Resolve the requested target after the new route has mounted.
-    if (advisorFocusRequested.current && route.type === 'home') {
+    if (advisorFocusRequested.current && ['home','advisor'].includes(route.type)) {
       advisorFocusRequested.current = false;
       focusAdvisorInput();
-    } else if (previousRoute.current !== route) contentRef.current?.focus({ preventScroll: true });
+    } else if (previousRoute.current !== route && !route.sourceTarget) contentRef.current?.focus({ preventScroll: true });
     previousRoute.current = route;
   }, [route]);
   const [advisor, setAdvisor] = useState({
@@ -558,6 +597,10 @@ export function App({ initialData } = {}) {
   const [compareReportStatus, setCompareReportStatus] = useState({ state: 'idle', message: '' });
   const [filters, setFilters] = useState(() => ({ ...defaultFilters, ...route.catalogQuery }));
   const [compare, setCompare] = useState([]);
+  const [ownership, setOwnership] = useState(OWNERSHIP_ASSUMPTIONS);
+  const [weekActive, setWeekActive] = useState(false);
+  const [week, setWeek] = useState(DEFAULT_WEEK);
+  const today = initialData?.asOf || new Date().toISOString().slice(0,10);
   const compareSelection = compare.join('|');
   const compareSelectionRef = useRef(compareSelection);
   compareSelectionRef.current = compareSelection;
@@ -575,11 +618,12 @@ export function App({ initialData } = {}) {
     };
     window.addEventListener('popstate', onPopState);
     // Static HTML represents the canonical path; apply bookmarked filters after hydration.
-    if (initialData && window.location.search) onPopState();
+    if (initialData && reviewLocation().search) onPopState();
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   useEffect(() => {
+    if (isOfflineReview()) return;
     loadPublicCars()
       .then((result) => {
         if (!result?.cars?.length) { setDataStatus('error'); return; }
@@ -626,7 +670,7 @@ export function App({ initialData } = {}) {
     setSubmittedAdvisor(query);
     setAdvisorStatus({ state: 'loading', message: 'Tolkar dina önskemål och söker passande bilar...' });
     try {
-      const result = await requestAdvisor(query);
+      const result = isPreview || isOfflineReview() ? localAdvisorResult(query,cars) : await requestAdvisor(query);
       setAdvisorResult(result);
       setAdvisorStatus({
         state: 'ready',
@@ -649,7 +693,7 @@ export function App({ initialData } = {}) {
       setCompareReportStatus({ state: 'error', message: 'Välj minst en bil för att skapa en rapport.' });
       return;
     }
-    if (compareCars.some(car => car.priceType === MANUFACTURER_FROM_PRICE)) {
+    if (isPreview || isOfflineReview() || compareCars.some(car => car.priceType === MANUFACTURER_FROM_PRICE)) {
       setCompareReport(buildLocalCompareReport(compareCars));
       setCompareReportStatus({ state: 'ready', message: '' });
       return;
@@ -751,26 +795,26 @@ export function App({ initialData } = {}) {
     });
   }
   const compareLimitReached = compare.length >= MAX_COMPARE;
+  const costCar = route.type === 'ownership' && route.slug ? cars.find(car => car.id === route.slug) : null;
+  const costCars = route.slug ? (costCar ? [costCar] : []) : compareCars;
+  function applyWeek(week) {
+    setWeekActive(true);
+    setOwnership(old => ({ ...old, ...distanceForWeek(week), homePercent: week.charge === 'home' ? 80 : 0 }));
+    const sort = Number(week.trip) >= 320 || Number(week.commute) >= 64 ? 'range' : week.charge === 'home' ? 'price' : 'match';
+    setFilters({ ...defaultFilters, sort });
+    navigate('/bilar');
+  }
+
 
   return (
-    <div className={`appShell page-${route.type} ${compare.length ? 'hasComparison' : ''}`} onFocusCapture={revealFocusAboveCompareBar}>
+    <div className={`appShell biljournal page-${route.type} ${compare.length ? 'hasComparison' : ''}`} onFocusCapture={revealFocusAboveCompareBar}>
       <a className="skipLink" href="#main-content" onClick={(event) => { event.preventDefault(); contentRef.current?.focus(); contentRef.current?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' }); }}>Hoppa till innehållet</a>
-      <header className={`siteHeader premiumHeader ${route.type === 'car' && routeCar ? 'siteHeaderCinematic' : ''}`}>
-        <button className="brand brandButton" type="button" onClick={() => navigate('/')}>
-          <span className="brandMark"><Zap size={18} /></span>
-          <span>Elbilsagenten</span>
-        </button>
+      <header className="siteHeader premiumHeader bilHeader">
+        <AppLink path="/" className="brand brandButton">Elbilsagenten</AppLink>
         <nav aria-label="Huvudnavigation">
-          {[[ '/', 'Hitta elbil', 'home' ], [ '/bilar', 'Alla elbilar', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
+          {[[ '/', 'Körveckan', 'home' ], [ '/bilar', 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
         </nav>
-        <button className="uiPrimary" type="button" onClick={() => {
-          if (route.type !== 'home') {
-            advisorFocusRequested.current = true;
-            navigate('/');
-          } else focusAdvisorInput();
-        }}><Sparkles size={16} /> Fråga AI</button>
       </header>
-
       <main id="main-content" className="siteMain" ref={contentRef} tabIndex={-1} aria-label="Huvudinnehåll">
       {route.type === 'car' ? (
         dataStatus === 'loading' ? <section className="newsPage"><p role="status">Hämtar bilen...</p></section> : dataStatus === 'error' ? <section className="notFoundPage vehicleContainer"><h1>Biluppgifterna kunde inte hämtas.</h1><p>Försök igen om en stund.</p><button className="uiPrimary" type="button" onClick={() => window.location.reload()}>Försök igen</button></section> : <CarDetailPage
@@ -785,10 +829,11 @@ export function App({ initialData } = {}) {
         <>
 
       {route.type === 'news' && <NewsPage {...news} navigate={navigate} />}
-      {route.type === 'newsArticle' && <NewsArticlePage article={routeArticle} articles={news.articles} loading={news.loading} error={news.error} navigate={navigate} cars={cars} renderVehicleCard={(car) => <VehicleCard car={car} selected={compare.includes(car.id)} onCompare={toggleCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />} />}
+      {route.type === 'newsArticle' && <NewsArticlePage article={routeArticle} articles={news.articles} loading={news.loading} error={news.error} navigate={navigate} cars={cars} sourceLink={routeLink} renderVehicleCard={(car) => <VehicleCard car={car} selected={compare.includes(car.id)} onCompare={toggleCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />} />}
 
-      {route.type === 'home' && (
-        <HomePage
+      {route.type === 'home' && <BiljournalWeek week={week} setWeek={setWeek} onApply={applyWeek} />}
+      {['home','advisor'].includes(route.type) && (
+        <HomePage secondary={route.type==='home'} localAdvisor={isPreview || isOfflineReview()}
           cars={cars}
           dataStatus={dataStatus}
           advisor={effectiveAdvisor}
@@ -807,6 +852,9 @@ export function App({ initialData } = {}) {
       )}
 
       {route.type === 'verification' && <VerificationPage />}
+      {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
+      {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
+      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Längst WLTP-räckvidd först med tanke på dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Välj en bil för att räkna på ägandekostnaden.</p></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}
@@ -824,7 +872,7 @@ export function App({ initialData } = {}) {
             <div className="reportCard"><RecommendationText cars={compareCars} report={compareReport} status={compareReportStatus} onRunReport={runCompareReport} onExportCsv={() => exportCompareCsv(compareCars)} /></div>
           </div>
           <section className="comparisonFacts" aria-labelledby="comparison-facts-title"><div className="vehicleSectionHeading"><span className="vehicleEyebrow">Detaljerna som gör skillnad</span><h2 id="comparison-facts-title">Fakta sida vid sida.</h2></div><ComparisonTable cars={compareCars} /></section>
-          <OwnershipCostCalculator cars={compareCars} />
+          <OwnershipCosts cars={compareCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} />
         </>}
       </section>}
 
@@ -832,10 +880,10 @@ export function App({ initialData } = {}) {
       )}
       </main>
 
-      {!['car', 'compare', 'news', 'newsArticle', 'verification', 'contact', 'privacy'].includes(route.type) && <CompareBar cars={compareCars} onRemove={toggleCompare} onClear={() => setCompare([])} />}
+      {!['car', 'compare', 'news', 'newsArticle', 'verification', 'contact', 'privacy', 'ownership', 'sources'].includes(route.type) && <CompareBar cars={compareCars} onRemove={toggleCompare} onClear={() => setCompare([])} />}
       <footer>
         <span><Zap size={16} /> Elbilsagenten · Ditt nästa bilval.</span>
-        <div>{[['/kontakt', 'Kontakt'], ['/integritet', 'Dina uppgifter'], ['/verifiering', 'Om våra uppgifter']].map(([path, label]) => <a key={path} href={appPath(path)} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}<button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
+        <div>{[['/kontakt', 'Kontakt'], ['/integritet', 'Dina uppgifter'], ['/verifiering', 'Om våra uppgifter'], ['/kallor', 'Källor och bildkrediter']].map(([path, label]) => <a key={path} href={appPath(path)} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}<button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
       </footer>
     </div>
   );
@@ -949,24 +997,24 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
         <span className="vehicleHeroSource"><BadgeCheck size={15} /> Uppgifter med svenska källor</span>
         <h1 id="vehicle-title">{car.brand} {identity.model}<span>{identity.variant}</span></h1>
         <p className="vehicleHeroDescription">{car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP. ' : ''}{car.dcVerified != null ? 'DC-laddning upp till ' + detailValue(car.dcVerified, 'kW') + '. ' : ''}Utforska detaljerna och jämför med dina alternativ.</p>
-        <div className="vehicleHeroActions"><button className="uiPrimary" type="button" aria-pressed={selected} onClick={() => onCompare(car.id)}>{selected ? <Check size={17} /> : <Plus size={17} />}{selected ? 'Tillagd i jämförelse' : 'Lägg till i jämförelse'}</button><a href={car.source} target="_blank" rel="noreferrer">Öppna källa <ExternalLink size={16} /></a>{selected && <button className="vehicleHeroCompareLink" type="button" onClick={() => navigate('/jamfor')}>Jämför nu <ArrowRight size={16} /></button>}</div>
+        <div className="vehicleHeroActions"><button className="uiPrimary" type="button" aria-pressed={selected} onClick={() => onCompare(car.id)}>{selected ? <Check size={17} /> : <Plus size={17} />}{selected ? 'Tillagd i jämförelse' : 'Lägg till i jämförelse'}</button><AppLink path={'/kostnad/'+car.id}>Ägandekostnad <ArrowRight size={16} /></AppLink>{selected && <button className="vehicleHeroCompareLink" type="button" onClick={() => navigate('/jamfor')}>Jämför nu <ArrowRight size={16} /></button>}</div>
       </div>
       <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
-    <div className="vehicleContainer"><ImageAttribution car={car} /></div>
-    <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil">Överblick</a><a href="#specifikationer">Specifikationer</a><a href="#nyckeltal">Nyckeltal</a><a href="#bilkallor">Källor</a></nav>
+    <div className="vehicleContainer"><VehicleImageNotice car={car} /></div>
+    <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil" onClick={jumpToSection}>Överblick</a><a href="#specifikationer" onClick={jumpToSection}>Specifikationer</a><a href="#nyckeltal" onClick={jumpToSection}>Nyckeltal</a></nav>
     <div className="vehicleDetailBody vehicleContainer">
       {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
       <AiSummaryCard car={car} />
       <EV2VersionGuide car={car} cars={cars} appPath={appPath} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
-        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
+        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} offerEnd={priceOfferEnd(car.priceType,car.priceValidUntil)} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
         <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
         <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} note={car.practicalNote} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
       <div id="nyckeltal"><DecisionMetricsCard car={car} cars={cars} /></div>
-      <SourceVerificationCard car={car} />
     </div>
+    <p className="bilSourceContext vehicleContainer"><AppLink path={variantSourcePath(car.id)}>Källor för modellen</AppLink></p>
     <NewsPreview articles={newsArticles} navigate={navigate} title="Senaste nytt om denna bil" relatedKey={car.canonicalKey?.split('|').slice(0, 2).join('|')} />
     <section className="vehicleSimilar vehicleContainer"><div className="vehicleSectionHeading"><span className="vehicleEyebrow">Fler perspektiv</span><h2>Andra elbilar att jämföra.</h2></div><div className="vehicleCardGrid">{distinct.map((item) => <CarCard key={item.id} car={item} selected={compare.includes(item.id)} onCompare={() => onCompare(item.id)} compareLimitReached={compare.length >= 3 && !compare.includes(item.id)} />)}</div></section>
   </div>;
@@ -1011,7 +1059,7 @@ function SummaryBlock({ title, items }) {
   );
 }
 
-function DetailInfoCard({ eyebrow, title, items, source, verifiedAt, priceSource, priceVerifiedAt, note }) {
+function DetailInfoCard({ eyebrow, title, items, verifiedAt, priceSource, priceVerifiedAt, offerEnd, note }) {
   return (
     <article className="detailInfoCard">
       <span className="eyebrow">{eyebrow}</span>
@@ -1025,42 +1073,19 @@ function DetailInfoCard({ eyebrow, title, items, source, verifiedAt, priceSource
         ))}
       </dl>
       {note && <p className="specQualificationNote">{note}</p>}
-      {priceSource && priceVerifiedAt && <p className="sectionSource">Pris verifierat {priceVerifiedAt}. <a href={priceSource} target="_blank" rel="noreferrer">Visa priskälla <ExternalLink size={13} /></a></p>}
-      {(source || verifiedAt) && (
-        <p className="sectionSource">
-          {verifiedAt ? `${priceSource ? 'Övriga uppgifter verifierade' : 'Senast verifierad'} ${verifiedAt}. ` : ''}
-          {source && <a href={source} target="_blank" rel="noreferrer">Visa källa <ExternalLink size={13} /></a>}
-        </p>
-      )}
+      {priceSource && priceVerifiedAt && <p className="sectionSource">Pris kontrollerat <time dateTime={priceVerifiedAt}>{priceVerifiedAt}</time>. {offerEnd && <>Giltigt t.o.m. <time dateTime={offerEnd}>{offerEnd}</time>.</>}</p>}
+      {verifiedAt && <p className="sectionSource">Kontrollerat <time dateTime={verifiedAt}>{verifiedAt}</time>.</p>}
     </article>
   );
-}
-
-function SourceVerificationCard({ car }) {
-  const imageCredit = imageRights.assets.find(asset => asset.asset_url === car.image);
-  const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
-  return <section className="vehicleSources" id="bilkallor"><details>
-    <summary><BadgeCheck size={18} /><span>Källor och uppdateringar</span><Plus size={17} /></summary>
-    <div>
-      <a href={car.source} target="_blank" rel="noreferrer">Öppna bilens faktakälla <ExternalLink size={15} /></a>
-      <p>{car.verifiedAt ? 'Biluppgifter verifierade ' + car.verifiedAt + '.' : 'Verifieringsdatum saknas för bilens övriga uppgifter.'}</p>
-      {car.priceSource && <p><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla: {car.priceSourceName} <ExternalLink size={15} /></a>{' · Pris verifierat '}<time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time>.</p>}
-      {car.practicalSource && <p><a href={car.practicalSource} target="_blank" rel="noreferrer">Bagagevolym: Ford Danmark <ExternalLink size={15} /></a>. Uppgift om samma europeiska Explorer.</p>}
-      {car.specSources?.map(source => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label} <ExternalLink size={15} /></a></p>)}
-      {car.price && car.priceType === 'dealer_offer' && <p>Priset avser &aring;terf&ouml;rs&auml;ljarens erbjudande eller exemplar, inte tillverkarens listpris.</p>}
-      {car.price && offerEnd && <p>Erbjudandet g&auml;ller till <time dateTime={offerEnd}>{offerEnd}</time>.</p>}
-      {imageCredit && <p><a href={imageCredit.source_url} target="_blank" rel="noreferrer">{imageCredit.credit}</a> · <a href={imageCredit.license_url} target="_blank" rel="noreferrer">{imageCredit.license_id}</a>. {imageCredit.changes}</p>}
-    </div>
-  </details></section>;
 }
 
 function CarImage({ car, priority = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
-    const responsive = imageVariants[car.image];
+    const responsive = car.imageFullFrame ? null : imageVariants[car.image];
     const presentation = Object.values(imagePresentation.models).find(item => item.asset_url === car.image && item.content_sha256 === responsive?.source_sha256 && item.status === 'approved');
     const fallback = responsive?.variants.find((item) => item.width >= 800)?.url || car.image;
-    return <img style={presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={fallback.startsWith('/') ? appPath(fallback) : fallback} srcSet={responsive?.variants.map((item) => `${appPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
+    return <img style={car.imageFullFrame ? { objectFit: 'contain', objectPosition: 'center' } : presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={assetPath(fallback)} srcSet={isOfflineReview() ? undefined : responsive?.variants.map((item) => `${assetPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
   }
   return (
     <div className="missingCarImage" role="img" aria-label={`Verifierad bild saknas for ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>
@@ -1131,7 +1156,7 @@ function RecommendationText({ cars, report, status, onRunReport, onExportCsv }) 
                 {item.price_sek ? (cars.some(car => car.canonicalKey === item.variant_key && car.priceType === MANUFACTURER_FROM_PRICE)
                   ? 'Fr\u00e5n ' + formatSEK(item.price_sek) : formatSEK(item.price_sek)) : 'Pris saknas'} · {item.wltp_range_km ? `${item.wltp_range_km} km WLTP` : 'WLTP saknas'}
               </small>
-              {item.source_url && <a href={item.source_url} target="_blank" rel="noreferrer">Källa</a>}
+              {item.source_url && <AppLink path="/kallor?post=bilfakta">Källor för bilfakta</AppLink>}
             </div>
           ))}
         </div>
@@ -1181,218 +1206,6 @@ function ReportInsightCard({ title, text, icon: Icon }) {
   );
 }
 
-const TCO_COMPONENTS = [
-  ['Värdeminskning', 'depreciationSek', '#245e5b'],
-  ['Finansiering', 'financingSek', '#647b8b'],
-  ['Laddning', 'electricitySek', '#a7c8b8'],
-  ['Försäkring', 'insuranceSek', '#bba06e'],
-  ['Service & skatt', 'serviceAndTaxSek', '#ce7668'],
-];
-
-function OwnershipCostCalculator({ cars }) {
-  const [assumptions, setAssumptions] = useState({ ...DEFAULT_TCO_ASSUMPTIONS });
-  const results = useMemo(
-    () => cars.map((car) => ({ car, result: calculateTco(car, assumptions) })),
-    [cars, assumptions]
-  );
-  const calculable = results.filter(({ result }) => result.calculable);
-  const bestMonthly = calculable.length ? Math.min(...calculable.map(({ result }) => result.monthlySek)) : null;
-
-  function updateAssumption(key, value) {
-    setAssumptions((current) => ({ ...current, [key]: Number(value) }));
-  }
-
-  return (
-    <section className="tcoCalculator" aria-labelledby="tco-title">
-      <div className="tcoHeader">
-        <div>
-          <span className="eyebrow"><Calculator size={15} /> Ägandekostnad</span>
-          <h2 id="tco-title">Vad kostar bilen för dig?</h2>
-          <p>Jämför uppskattad kostnad per månad. Bilpriset kommer från respektive källa; övriga värden är dina justerbara antaganden.</p>
-        </div>
-        <button
-          className="tcoReset"
-          type="button"
-          onClick={() => setAssumptions({ ...DEFAULT_TCO_ASSUMPTIONS })}
-          title="Återställ antaganden"
-          aria-label="Återställ antaganden"
-        >
-          <RotateCcw size={18} />
-        </button>
-      </div>
-
-      <div className="tcoLayout">
-        <div className="tcoControls">
-          <TcoRange
-            label="Körsträcka per år"
-            value={assumptions.annualKm}
-            min={5000}
-            max={50000}
-            step={1000}
-            display={`${new Intl.NumberFormat('sv-SE').format(assumptions.annualKm)} km`}
-            onChange={(value) => updateAssumption('annualKm', value)}
-          />
-          <TcoRange
-            label="Ägandetid"
-            value={assumptions.years}
-            min={2}
-            max={8}
-            step={1}
-            display={`${assumptions.years} år`}
-            onChange={(value) => updateAssumption('years', value)}
-          />
-          <TcoRange
-            label="Laddning hemma"
-            value={assumptions.homeChargingPercent}
-            min={0}
-            max={100}
-            step={10}
-            display={`${assumptions.homeChargingPercent} %`}
-            onChange={(value) => updateAssumption('homeChargingPercent', value)}
-          />
-          <TcoRange
-            label="Beräknat restvärde"
-            value={assumptions.residualPercent}
-            min={20}
-            max={70}
-            step={5}
-            display={`${assumptions.residualPercent} %`}
-            onChange={(value) => updateAssumption('residualPercent', value)}
-          />
-          <TcoRange
-            label="Ränta"
-            value={assumptions.annualInterestPercent}
-            min={0}
-            max={12}
-            step={0.5}
-            display={`${String(assumptions.annualInterestPercent).replace('.', ',')} %`}
-            onChange={(value) => updateAssumption('annualInterestPercent', value)}
-          />
-          <TcoRange
-            label="Antagen förbrukning"
-            value={assumptions.assumedConsumptionKwh100Km}
-            min={10}
-            max={35}
-            step={1}
-            display={`${assumptions.assumedConsumptionKwh100Km} kWh/100 km`}
-            onChange={(value) => updateAssumption('assumedConsumptionKwh100Km', value)}
-          />
-
-          <details className="tcoAdvanced">
-            <summary>Elpris och övriga kostnader</summary>
-            <div>
-              <TcoNumberInput label="El hemma" value={assumptions.homeElectricitySekKwh} unit="kr/kWh" step={0.1} onChange={(value) => updateAssumption('homeElectricitySekKwh', value)} />
-              <TcoNumberInput label="Publik laddning" value={assumptions.publicElectricitySekKwh} unit="kr/kWh" step={0.1} onChange={(value) => updateAssumption('publicElectricitySekKwh', value)} />
-              <TcoNumberInput label="Försäkring" value={assumptions.insuranceSekMonth} unit="kr/mån" step={50} onChange={(value) => updateAssumption('insuranceSekMonth', value)} />
-              <TcoNumberInput label="Service" value={assumptions.serviceSekYear} unit="kr/år" step={500} onChange={(value) => updateAssumption('serviceSekYear', value)} />
-              <TcoNumberInput label="Fordonsskatt" value={assumptions.taxSekYear} unit="kr/år" step={10} onChange={(value) => updateAssumption('taxSekYear', value)} />
-            </div>
-          </details>
-        </div>
-
-        <div className="tcoResults" aria-live="polite">
-          {results.length === 0 ? (
-            <div className="tcoEmpty">
-              <WalletCards size={24} />
-              <strong>Välj bilar för att beräkna kostnaden.</strong>
-              <p>Lägg till upp till tre bilar från bilsidan.</p>
-            </div>
-          ) : results.map(({ car, result }) => (
-            <TcoResultCard
-              key={car.id}
-              car={car}
-              result={result}
-              isBest={result.calculable && result.monthlySek === bestMonthly && calculable.length > 1}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="tcoDisclosure">
-        <BadgeCheck size={16} />
-        <span>Pris hämtas från bilens angivna källa. Kalkylen är en uppskattning och inkluderar inte kontantinsatsens alternativkostnad, parkering eller laddbox.</span>
-      </div>
-    </section>
-  );
-}
-
-function TcoRange({ label, value, min, max, step, display, onChange }) {
-  return (
-    <label className="tcoRange">
-      <span>{label}<strong>{display}</strong></span>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(event) => onChange(event.target.value)} />
-    </label>
-  );
-}
-
-function TcoNumberInput({ label, value, unit, step, onChange }) {
-  return (
-    <label className="tcoNumberInput">
-      <span>{label}</span>
-      <div>
-        <input type="number" min="0" step={step} value={value} onChange={(event) => onChange(event.target.value)} />
-        <small>{unit}</small>
-      </div>
-    </label>
-  );
-}
-
-function TcoResultCard({ car, result, isBest }) {
-  if (!result.calculable) {
-    const fromOnly = result.reason === 'manufacturer_from_only';
-    return (
-      <article className="tcoResultCard isMissing">
-        <span>{car.brand}</span>
-        <h3>{car.model}</h3>
-        <div className="tcoMissingPrice">
-          <WalletCards size={22} />
-          <strong>{fromOnly ? 'Bara fr\u00e5npris' : 'Pris saknas'}</strong>
-          <p>{fromOnly ? 'Ett fr\u00e5npris r\u00e4cker inte f\u00f6r att ber\u00e4kna versionens \u00e4gandekostnad.'
-            : 'Ägandekostnaden kan inte beräknas utan ett publicerat svenskt pris.'}</p>
-        </div>
-        {car.source && <a href={car.source} target="_blank" rel="noreferrer">Öppna bilens källa <ExternalLink size={14} /></a>}
-      </article>
-    );
-  }
-
-  const breakdown = {
-    ...result.components,
-    serviceAndTaxSek: result.components.serviceSek + result.components.taxSek,
-  };
-
-  return (
-    <article className={`tcoResultCard ${isBest ? 'isBest' : ''}`}>
-      <div className="tcoResultHeading">
-        <div><span>{car.brand}</span><h3>{car.model}</h3></div>
-        {isBest && <strong className="tcoBestBadge">Lägst beräknad kostnad</strong>}
-      </div>
-      <div className="tcoPrimaryValue">
-        <strong>{formatSEK(Math.round(result.monthlySek))}</strong>
-        <span>per månad</span>
-      </div>
-      <div className="tcoSecondaryValues">
-        <div><span>Total {result.assumptions.years} år</span><strong>{formatSEK(Math.round(result.totalSek))}</strong></div>
-        <div><span>Kostnad per mil</span><strong>{formatSEK(Math.round(result.costPerKmSek * 10))}</strong></div>
-      </div>
-      <div className="tcoStack" aria-label="Kostnadsfördelning">
-        {TCO_COMPONENTS.map(([label, key, color]) => {
-          const value = breakdown[key];
-          return <span key={key} style={{ width: `${(value / result.totalSek) * 100}%`, backgroundColor: color }} title={`${label}: ${formatSEK(Math.round(value))}`} />;
-        })}
-      </div>
-      <div className="tcoLegend">
-        {TCO_COMPONENTS.map(([label, key, color]) => (
-          <span key={key}><i style={{ backgroundColor: color }} />{label}</span>
-        ))}
-      </div>
-      <p className="tcoConsumptionNote">
-        <BatteryCharging size={15} /> {formatDecimal(result.consumptionKwh100Km)} kWh/100 km
-        <small title={car.consumptionNote || undefined}>{result.consumptionSource === 'verified' ? car.consumptionInterval ? 'Nedre värdet i WLTP-intervall: ' + car.consumptionInterval : car.consumptionNote ? 'Tillverkarens grundutförande' : 'Verifierad biluppgift' : 'Antagande'}</small>
-      </p>
-    </article>
-  );
-}
-
 function ComparisonTable({ cars }) {
   if (!cars.length) return null;
   const valueMetric = (field) => (car) => car[field];
@@ -1421,7 +1234,7 @@ function ComparisonTable({ cars }) {
           const tip = highlighted ? (row.best === 'min' ? 'Lägst' : 'Högst') + ' angivet värde bland de valda bilarna med denna uppgift. Saknade uppgifter är inte medräknade.' : undefined;
           return <td key={car.id} className={highlighted ? 'bestCell' : undefined} title={tip}><span>{row.get(car)}{highlighted && <Check size={14} aria-hidden="true" />}</span></td>;
         })}</tr>;
-      })}<tr><th scope="row">Källa</th>{cars.map((car) => <td key={car.id}><a href={car.source} target="_blank" rel="noreferrer">Bilens faktakälla <ExternalLink size={13} /></a>{car.verifiedAt && <small>Verifierad {car.verifiedAt}</small>}</td>)}</tr></tbody>
+      })}<tr><th scope="row">Källa</th>{cars.map((car) => <td key={car.id}><AppLink path={variantSourcePath(car.id)}>Källor för versionen</AppLink>{car.verifiedAt && <small>Verifierad {car.verifiedAt}</small>}</td>)}</tr></tbody>
     </table>
   </div>;
 }
@@ -1451,7 +1264,8 @@ if (!import.meta.env.SSR) {
   const bootstrap = document.getElementById('public-page-data');
   let initialData;
   try { if (bootstrap) initialData = JSON.parse(bootstrap.textContent); } catch { /* Recover through the normal public-data loaders. */ }
-  if (initialData && Array.isArray(initialData.records) && Array.isArray(initialData.articles)) {
+  if (isOfflineReview() && initialData) createRoot(root).render(<App initialData={initialData} />);
+  else if (initialData && Array.isArray(initialData.records) && Array.isArray(initialData.articles)) {
     const actual = window.location.pathname.replace(/\/$/, '') || '/';
     if (actual === initialData.path.replace(/\/$/, '') || actual === '/' && initialData.path === '/') hydrateRoot(root, <App initialData={initialData} />);
     else createRoot(root).render(<App initialData={{ ...initialData, path: window.location.pathname }} />);

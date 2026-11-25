@@ -33,7 +33,7 @@ try {
   });
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['tablet', { width: 820, height: 1180 }], ['mobile', { width: 390, height: 844 }], ['small', { width: 320, height: 740 }]]) {
     await page.setViewportSize(viewport);
-    await page.goto(base);
+    await page.goto(base + '/radgivare');
     await page.locator('.homeVehicleCard').first().waitFor();
     await page.evaluate(() => document.fonts.ready);
     await page.locator('.homeSpotlightImage img').evaluate((img) => img.complete || new Promise((resolve) => { img.addEventListener('load', resolve, { once: true }); img.addEventListener('error', resolve, { once: true }); setTimeout(resolve, 8000); })).catch(() => {});
@@ -63,7 +63,7 @@ try {
     await query.focus();
     assert(await query.evaluate((node) => node.matches(':focus-visible')), name + ': visible input focus');
     const focusStyle = await form.evaluate((node) => ({ border: getComputedStyle(node).borderColor, shadow: getComputedStyle(node).boxShadow }));
-    assert.equal(focusStyle.border, 'rgb(36, 94, 91)');
+    assert.equal(focusStyle.border, 'rgb(140, 43, 19)');
     assert.match(focusStyle.shadow, /0px 0px 0px 1px/);
     assert.equal(await query.evaluate((node) => getComputedStyle(node).outlineStyle), 'none', name + ': no nested input frame');
     const focusedSize = await form.boundingBox();
@@ -102,14 +102,14 @@ try {
   await page.screenshot({ path: fileURLToPath(new URL('advisor-desktop.png', out)), fullPage: true });
   await page.getByRole('button', { name: /Jämför valda/ }).click();
   await page.getByRole('heading', { name: 'Jämför sida vid sida', exact: true }).waitFor();
-  await page.getByRole('link', { name: 'Alla elbilar', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Katalog', exact: true }).click();
   await page.locator('.carGrid').waitFor();
   assert((await page.locator('.carGrid .carCard').count()) > 0);
   advisorFixtureOverride = {
     mode: 'openai', recommendation_method: 'database_rules', summary: 'Ingen bil kan bekräftas uppfylla kraven.',
     interpreted_requirements: { budget_sek: 400000, min_wltp_range_km: 500, need: 'allround', min_tow_kg: null, awd_required: false, notes: 'Vissa uppgifter saknas för dina krav.' }, shortlist: [],
   };
-  await page.goto(base);
+  await page.goto(base + '/radgivare');
   await page.locator('.homeVehicleCard').first().waitFor();
   await page.getByLabel('Vad är viktigt för dig?').fill('Jag behöver inte AWD eller dragkrok.');
   await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).click();
@@ -126,7 +126,7 @@ try {
   assert.equal(request.budget, 500000);
   await page.unroute('**/api/advisor');
   await page.route('**/api/advisor', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
-  await page.goto(base);
+  await page.goto(base + '/radgivare');
   await page.locator('.homeVehicleCard').first().waitFor();
   await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).click();
   await page.getByText(/Här visas databaserade förslag/).waitFor();
@@ -139,13 +139,13 @@ try {
   await page.unroute('**/rest/v1/public_ev_variants?**');
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ json: [...cars, { ...cars[0], brand: 'Private staging row', validation_status: 'draft' }] }));
   await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ json: { records: [...cars, { ...cars[0], brand: 'Private staging row', validation_status: 'draft' }] } }));
-  await page.goto(base);
+  await page.goto(base + '/radgivare');
   await page.locator('.homeVehicleCard').first().waitFor();
   assert.equal(await page.getByText(/Private staging row/).count(), 0);
   await page.unroute('**/rest/v1/public_ev_variants?**');
   await page.route('**/rest/v1/public_ev_variants?**', (route) => route.fulfill({ status: 503 }));
   await page.route('**/data/public_ev_variants.json', (route) => route.fulfill({ status: 503 }));
-  await page.goto(base);
+  await page.goto(base + '/radgivare');
   await page.getByText('Biluppgifterna kunde inte hämtas just nu.').waitFor();
   assert.equal(await page.locator('.homeVehicleCard').count(), 0, 'Failed data load never uses mock cars');
   assert.equal(await page.getByRole('button', { name: 'Hitta min elbil', exact: true }).isDisabled(), true);

@@ -3,7 +3,7 @@ import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, Mountai
 import './home.css';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
-import { ImageAttribution } from './image-attribution.jsx';
+import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 
 const money = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 const metric = (value, unit) => value == null ? 'Uppgift saknas' : `${value} ${unit}`;
@@ -25,7 +25,8 @@ const categories = [
 const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pendling', langresa: 'Långresor', budget: 'Budget', dragkrok: 'Dragkrok', allround: 'Vardag' };
 
 
-export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
+export function HomePage({ secondary = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
+  const Title = secondary ? 'h2' : 'h1';
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
@@ -65,8 +66,8 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
     <section className="homeHero homeContainer" id="hitta-elbil" aria-labelledby="home-heading">
       <div className="homeHeroCopy">
         <span className="homeKicker"><span className="homeLiveDot" /> Ditt nästa bilval börjar här</span>
-        <h1 id="home-heading">Hitta elbilen<br />som passar dig.</h1>
-        <p className="homeHeroIntro">Berätta vad du behöver. Vår AI hjälper dig att hitta och jämföra elbilar på den svenska marknaden.</p>
+        <Title id="home-heading">Hitta elbilen<br />som passar dig.</Title>
+        <p className="homeHeroIntro">{localAdvisor ? 'Berätta vad du behöver. Du får förslag från den svenska katalogen i förhandsvisningen.' : 'Berätta vad du behöver. Vår AI hjälper dig att hitta och jämföra elbilar på den svenska marknaden.'}</p>
         <form className="homeAdvisorForm" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
           <label htmlFor="home-advisor-query"><Sparkles size={17} /> Vad är viktigt för dig?</label>
           <textarea id="home-advisor-query" rows="3" value={advisor.prompt} onChange={(event) => setAdvisor({ ...advisor, prompt: event.target.value })} placeholder="Jag söker en familjebil under 600 000 kr med lång räckvidd och dragkrok..." />
@@ -85,7 +86,7 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
       <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
-          <ImageAttribution car={spotlight} />
+          <VehicleImageNotice car={spotlight} />
           <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsagenten</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}

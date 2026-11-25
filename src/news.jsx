@@ -3,17 +3,20 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLin
 import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink, isSwedishPriceNews } from './news-presentation.js';
 import { editorialNewsImage } from './news-editorial-images.js';
 import './news.css';
+import { assetPath, sitePath, isOfflineReview, isPreview } from './preview-paths.js';
+import { articleSourcePath } from './biljournal-sources.jsx';
 
 export { NEWS_CATEGORIES } from './news-presentation.js';
 
 export function useNews(basePath = '', initialArticles) {
   const [state, setState] = useState(() => ({ articles: publicArticles(initialArticles || []), loading: !Array.isArray(initialArticles), error: false }));
   useEffect(() => {
+    if (isOfflineReview()) return;
     const controller = new AbortController();
     async function load() {
       const url = import.meta.env.VITE_SUPABASE_URL;
       const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      if (url && key) {
+      if (!isPreview && url && key) {
         try {
           const response = await fetch(`${url}/rest/v1/public_news_articles?select=id,slug,published_at,payload&order=published_at.desc&limit=100`, {
             headers: { apikey: key, Authorization: `Bearer ${key}` }, signal: controller.signal
@@ -38,7 +41,7 @@ export function useNews(basePath = '', initialArticles) {
 
 export function newsJsonLd(article, siteUrl) {
   if (!isPublishedArticle(article)) return null;
-  const image = approvedNewsImage(article);
+  const image = editorialNewsImage(article);
   return {
     '@context': 'https://schema.org', '@type': 'NewsArticle',
     headline: article.title, description: article.intro, datePublished: article.published_at,
@@ -52,8 +55,7 @@ export function newsJsonLd(article, siteUrl) {
 }
 
 function NewsLink({ path, navigate, children, className, ...props }) {
-  const base = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
-  return <a {...props} className={className} href={base + path} onClick={(event) => {
+  return <a {...props} className={className} href={sitePath(path)} onClick={(event) => {
     if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) {
       event.preventDefault();
       navigate(path);
@@ -64,15 +66,12 @@ function NewsLink({ path, navigate, children, className, ...props }) {
 function NewsImage({ image, priority = false, caption = false, onUnavailable }) {
   const [failedUrl, setFailedUrl] = useState(null);
   if (!image || failedUrl === image.url) return null;
-  const base = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
-  const src = image.url.startsWith('/') ? base + image.url : image.url;
+  const src = assetPath(image.url);
+  if (!src) return null;
   return <figure className="journalImage">
     <img src={src} width={image.width} height={image.height} alt={image.alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => { setFailedUrl(image.url); onUnavailable?.(); }} />
     {caption && <figcaption>
       {image.caption && <strong>{image.caption}</strong>}
-      <span><a href={image.source_url} target="_blank" rel="noreferrer">{image.credit}</a>
-        {' · '}<a href={image.license_url} target="_blank" rel="noreferrer">{image.license_name || 'Bildvillkor'}</a>
-        {image.edits && ' · ' + image.edits}</span>
     </figcaption>}
   </figure>;
 }
@@ -160,7 +159,7 @@ export function NewsPage({ articles, loading, error, navigate }) {
     <div className="journalFilterRow">
       <label htmlFor="journal-brand">Märke<select id="journal-brand" aria-label="Märke" value={brand} onChange={(event) => setBrand(event.target.value)} disabled={loading || !published.length}><option>Alla</option>{brands.map((name) => <option key={name}>{name}</option>)}</select></label>
       <span role="status">{loading ? 'Hämtar nyheter' : filtered.length + (filtered.length === 1 ? ' nyhet' : ' nyheter')}</span>
-      <a className="newsReadLink" href={(import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '') + '/nyheter/rss.xml'} title="Följ Elbilsagentens nyheter via RSS"><Rss size={16} aria-hidden="true" /> RSS</a>
+      <a className="newsReadLink" href={assetPath('/nyheter/rss.xml')} download={isOfflineReview() ? 'elbilsagenten-rss.xml' : undefined} title="Följ Elbilsagentens nyheter via RSS"><Rss size={16} aria-hidden="true" /> RSS</a>
       {activeFilters && <button type="button" className="journalReset" onClick={reset}><X size={14} /> Rensa filter</button>}
     </div>
     {loading ? <NewsLoading /> : !filtered.length ? <NewsEmpty error={error} filtered={!!published.length} onReset={reset} navigate={navigate} /> : <>
@@ -170,14 +169,6 @@ export function NewsPage({ articles, loading, error, navigate }) {
       </div>
       {filtered.length > 3 && <section className="journalRecent" aria-labelledby="journal-recent-title"><div className="newsSectionHeading"><h2 id="journal-recent-title">Fler nyheter</h2></div><div className="journalRecentGrid">{filtered.slice(3).map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} variant="recent" />)}</div></section>}
     </>}
-  </section>;
-}
-
-function ArticleSources({ article }) {
-  const sources = (article.sources || []).filter((source) => safeNewsLink(source.url));
-  return <section className="newsSources" aria-labelledby="article-sources-title" id="artikelkallor">
-    <span className="journalEyebrow">Bakom nyheten</span><h2 id="article-sources-title">Källor och vidare läsning</h2>
-    {sources.length ? <ol>{sources.map((source, index) => <li key={source.item_id || source.url}><a href={source.url} target="_blank" rel="noreferrer"><span className="journalSourceNumber">{String(index + 1).padStart(2, '0')}</span><span><strong>{source.publisher}: </strong>{source.title}</span><ExternalLink size={14} /></a>{source.published_at && <time dateTime={source.published_at}>{newsDate(source.published_at)}</time>}</li>)}</ol> : <p>Källhänvisningar saknas i underlaget.</p>}
   </section>;
 }
 
@@ -202,7 +193,7 @@ function ArticleVehicles({ article, cars = [], navigate, renderVehicleCard }) {
   </section>;
 }
 
-export function NewsArticlePage({ article, articles = [], loading, error, navigate, cars = [], renderVehicleCard }) {
+export function NewsArticlePage({ article, articles = [], loading, error, navigate, cars = [], renderVehicleCard, sourceLink }) {
   if (loading) return <section className="newsPage"><NewsLoading article /></section>;
   if (error) return <section className="newsPage"><NewsEmpty error navigate={navigate} /></section>;
   if (!isPublishedArticle(article)) return <section className="newsPage newsEmpty"><Newspaper size={32} /><h1>Nyheten hittades inte</h1><NewsLink className="homeTextLink" path="/nyheter" navigate={navigate}>Till alla nyheter <ArrowRight size={16} /></NewsLink></section>;
@@ -214,8 +205,8 @@ export function NewsArticlePage({ article, articles = [], loading, error, naviga
     <NewsImage image={editorialNewsImage(article)} priority caption />
     <div className="journalReadingLayout">
       <div className="newsArticleBody">{blocks.map((block, index) => <section key={index} className={block.kind === 'analysis' ? 'journalBuyerPerspective' : 'journalReporting'} aria-label={block.kind === 'analysis' ? 'Köparperspektiv' : undefined}>{block.kind === 'analysis' && <><span className="journalEyebrow"><Sparkles size={14} /> Köparperspektiv</span><h2>Vad betyder detta för dig som bilköpare?</h2></>}{block.paragraphs.map((text, paragraphIndex) => <p key={paragraphIndex}>{text}</p>)}</section>)}</div>
-      <aside className="journalArticleAside"><ArticleSources article={article} /></aside>
     </div>
+    <p className="bilSourceContext">{sourceLink?.(articleSourcePath(article.slug),'Källor för artikeln')}</p>
     <ArticleVehicles article={article} cars={cars} navigate={navigate} renderVehicleCard={renderVehicleCard} />
     {!!more.length && <section className="journalMore" aria-labelledby="journal-more-title"><div className="newsSectionHeading"><div><span className="journalEyebrow">Fler perspektiv</span><h2 id="journal-more-title">Mer att läsa.</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div><div className="journalPreviewGrid">{more.map((item) => <NewsCard key={item.id || item.slug} article={item} navigate={navigate} />)}</div></section>}
   </article>;

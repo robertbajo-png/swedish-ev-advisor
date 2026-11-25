@@ -19,8 +19,8 @@ def news_paths():
     return ["/nyheter", *["/nyheter/" + r["slug"] for r in load_news()]]
 
 
-def news_routes(site):
-    rows = load_news()
+def news_routes(site, snapshot=None):
+    rows = load_news(snapshot)
     result = [{"path": "/nyheter", "title": "Elbilsnyheter – modeller, teknik och marknad | Elbilsagenten",
                "description": "Internationella elbilsnyheter med svenska perspektiv, tydliga källor och koppling till ditt nästa bilval.",
                "json_ld": {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Elbilsnyheter", "url": site + "/nyheter"},

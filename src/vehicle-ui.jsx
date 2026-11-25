@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BadgeCheck, Check, GitCompareArrows, LayoutGrid, List, Package, PlugZap, Plus, Route, Search, SlidersHorizontal, Weight, X } from 'lucide-react';
-import { ImageAttribution } from './image-attribution.jsx';
+import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 import { NeedGuide } from './need-guide.jsx';
 import { groupCatalogVariants } from './vehicle-catalog.js';
 import { priceOfferEnd, priceTypeLabel } from './price-evidence.js';
@@ -45,12 +45,12 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         </dl>
         {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
         {recommendation && <div className="homeVehicleReason"><h4>Varför den passar</h4><ul>{recommendation.reasons?.slice(0, 2).map((reason) => <li key={reason}><Check size={15} />{reason}</li>)}</ul>{!!recommendation.tradeoffs?.length && <><h4>Att tänka på</h4><p>{recommendation.tradeoffs.slice(0, 2).join(' ')}</p></>}</div>}
-        <div className="vehicleSourceLine"><a href={car.source} target="_blank" rel="noreferrer"><BadgeCheck size={13} /> Bilens källa <ArrowUpRight size={12} /></a>{validDate(car.verifiedAt) && <time dateTime={car.verifiedAt}>{car.verifiedAt}</time>}</div>
-        {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><a href={car.priceSource} target="_blank" rel="noreferrer">Priskälla <ArrowUpRight size={12} /></a><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}
+        <div className="vehicleSourceLine"><span>Biluppgifter kontrollerade</span>{validDate(car.verifiedAt) && <time dateTime={car.verifiedAt}>{car.verifiedAt}</time>}</div>
+        {car.priceSource && validDate(car.priceVerifiedAt) && <div className="vehicleSourceLine"><span>Pris kontrollerat</span><time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></div>}
         <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
       </div>
     </div>
-    <ImageAttribution car={car} />
+    <VehicleImageNotice car={car} />
   </article>;
 }
 
@@ -108,7 +108,7 @@ export function VehicleCatalog({ cars, ranked, filters, setFilters, resetFilters
 
 export function ComparisonSelection({ cars, allCars, onCompare, renderImage, navigate, appPath }) {
   return <div className="comparisonSelection" aria-label="Valda bilar">
-    {cars.map((car) => <article className="comparisonVehicle" key={car.id}><div className="comparisonVehiclePhoto">{renderImage(car)}<ImageAttribution car={car} /><button type="button" aria-label={`Ta bort ${car.brand} ${car.model}`} onClick={() => onCompare(car.id)}><X size={17} /></button></div><div><span>{car.brand}</span><h2 title={car.model}><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.model}</VehicleLink></h2><p>{car.price ? vehicleMoney(car.price) : 'Pris ej angivet'}</p><small className="comparisonPriceType">{!car.price ? '' : car.priceType === 'manufacturer_from' ? vehiclePriceLabel(car) : car.priceType === 'campaign_price' ? 'Kampanjpris' : car.priceType === 'dealer_offer' ? 'Återförsäljarerbjudande' : car.priceType === 'list_price' ? 'Listpris' : 'Prisuppgift'}</small></div></article>)}
+    {cars.map((car) => <article className="comparisonVehicle" key={car.id}><div className="comparisonVehiclePhoto">{renderImage(car)}<VehicleImageNotice car={car} /><button type="button" aria-label={`Ta bort ${car.brand} ${car.model}`} onClick={() => onCompare(car.id)}><X size={17} /></button></div><div><span>{car.brand}</span><h2 title={car.model}><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.model}</VehicleLink></h2><p>{car.price ? vehicleMoney(car.price) : 'Pris ej angivet'}</p><small className="comparisonPriceType">{!car.price ? '' : car.priceType === 'manufacturer_from' ? vehiclePriceLabel(car) : car.priceType === 'campaign_price' ? 'Kampanjpris' : car.priceType === 'dealer_offer' ? 'Återförsäljarerbjudande' : car.priceType === 'list_price' ? 'Listpris' : 'Prisuppgift'}</small></div></article>)}
     {cars.length < 3 && <div className="comparisonAdd"><Plus size={26} /><strong>{cars.length ? 'Ett alternativ till?' : 'Vilka bilar väljer du mellan?'}</strong><label htmlFor="comparison-add-car">Lägg till en bil</label><select id="comparison-add-car" value="" onChange={(event) => event.target.value && onCompare(event.target.value)}><option value="">Välj modell och variant</option>{allCars.filter((car) => !cars.some((item) => item.id === car.id)).map((car) => <option key={car.id} value={car.id}>{car.brand} {car.model}</option>)}</select><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.ctrlKey && !event.metaKey) { event.preventDefault(); navigate('/bilar'); } }}>Utforska alla elbilar <ArrowRight size={16} /></a></div>}
   </div>;
 }
