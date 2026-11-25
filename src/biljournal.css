@@ -123,7 +123,8 @@
 .bilWeekResult p { color: var(--bil-muted); }
 .biljournal :is(.vehiclePageIntro,.newsIntro,.vehicleSectionHeading,.homeSectionHeading) h1 { font-weight: 600; }
 .biljournal :is(.vehicleCard,.vehicleFilters,.vehicleDetailCard,.reportCard,.newsEditorialCard) { border-radius: 0; box-shadow: none; }
-.biljournal :is(.vehicleHeroActions,.bilSourceContext) a { color: var(--bil-ink); font-weight: 700; }
+.biljournal .bilSourceContext a { color: var(--bil-ink); font-weight: 700; }
+.biljournal .vehicleHeroActions a { color: var(--bil-surface); font-weight: 700; }
 .biljournal .vehicleHeroActions a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 .bilSources,.bilCost { padding-block: 36px 52px; overflow-wrap: anywhere; }
 .bilSources h1,.bilCost > h1 { font-size: clamp(2.5rem,5.2vw,4.75rem); margin-block: 0 14px; line-height: .97; }
@@ -203,3 +204,4 @@
 
 .bilFontLicense { white-space: pre-wrap; overflow-wrap: anywhere; }
 .bilSources p a { text-decoration: underline; }
+.biljournal .specQualificationNote { color: var(--bil-muted); }
