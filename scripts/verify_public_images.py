@@ -38,6 +38,27 @@ def fallback_image_urls(src):
     return re.findall(r"image:\s*['\"](https?://[^'\"]+)['\"]", body)
 
 
+def public_uses_exact_lookup(source):
+    program = re.sub(r"\s+", "", source)
+    legacy = (
+        "image:officialImageFor(row.brand,row.model)",
+        "image:row.image_url||officialImageFor(row.brand,row.model)",
+    )
+    if any(expression in program for expression in legacy):
+        return True
+
+    # Biljournalen has an exact-key override upstream of the existing model
+    # fallback. The resulting asset must still pass the rights/packaging check.
+    pipeline = (
+        "constbrand=row.brand;",
+        "constphoto=vehiclePhotoOverride(brand,row.model);",
+        "constoriginalImage=photo?.asset_url||row.image_url||officialImageFor(brand,row.model);",
+        "constimageRights=photoCredit(originalImage);",
+        "image:imageRights&&offlineAsset?originalImage:null,",
+    )
+    return all(expression in program for expression in pipeline)
+
+
 def build_report(root):
     root = Path(root)
     src = (root / "src/main.jsx").read_text(encoding="utf-8")
@@ -71,13 +92,7 @@ def build_report(root):
         "fallback_image_urls": fallback_image_urls(src),
         "prohibited_image_references": prohibited_image_references,
         "strict_null_fallback": "return officialModelImages[key] || null;" in src,
-        "public_uses_exact_lookup": any(
-            expression in src
-            for expression in (
-                "image: officialImageFor(row.brand, row.model)",
-                "image: row.image_url || officialImageFor(row.brand, row.model)",
-            )
-        ),
+        "public_uses_exact_lookup": public_uses_exact_lookup(src),
     }
 
 
