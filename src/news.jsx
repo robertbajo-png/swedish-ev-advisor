@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Rss, Sparkles, X } from 'lucide-react';
 import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink, isSwedishPriceNews } from './news-presentation.js';
+import { editorialNewsImage } from './news-editorial-images.js';
 import './news.css';
 
 export { NEWS_CATEGORIES } from './news-presentation.js';
@@ -60,13 +61,19 @@ function NewsLink({ path, navigate, children, className, ...props }) {
   }}>{children}</a>;
 }
 
-function NewsImage({ article, priority = false, caption = false, onUnavailable }) {
+function NewsImage({ image, priority = false, caption = false, onUnavailable }) {
   const [failedUrl, setFailedUrl] = useState(null);
-  const image = approvedNewsImage(article);
   if (!image || failedUrl === image.url) return null;
+  const base = (import.meta.env.VITE_APP_BASE_PATH || '').replace(/\/$/, '');
+  const src = image.url.startsWith('/') ? base + image.url : image.url;
   return <figure className="journalImage">
-    <img src={image.url} alt={image.alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => { setFailedUrl(image.url); onUnavailable?.(); }} />
-    {caption && <figcaption><span>Bild: {image.credit}</span><a href={image.source_url} target="_blank" rel="noreferrer">Bildkälla <ArrowUpRight size={12} /></a><a href={image.license_url} target="_blank" rel="noreferrer">Bildvillkor <ArrowUpRight size={12} /></a></figcaption>}
+    <img src={src} width={image.width} height={image.height} alt={image.alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => { setFailedUrl(image.url); onUnavailable?.(); }} />
+    {caption && <figcaption>
+      {image.caption && <strong>{image.caption}</strong>}
+      <span><a href={image.source_url} target="_blank" rel="noreferrer">{image.credit}</a>
+        {' · '}<a href={image.license_url} target="_blank" rel="noreferrer">{image.license_name || 'Bildvillkor'}</a>
+        {image.edits && ' · ' + image.edits}</span>
+    </figcaption>}
   </figure>;
 }
 
@@ -83,12 +90,16 @@ function NewsMeta({ article, readingTime = false }) {
 function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, priority = false }) {
   const [failedUrl, setFailedUrl] = useState(null);
   const Heading = 'h' + headingLevel;
-  const image = approvedNewsImage(article);
+  const isTeaser = variant === 'teaser';
+  const image = isTeaser ? approvedNewsImage(article) : editorialNewsImage(article);
   const hasImage = !!image && failedUrl !== image.url;
   const isLead = variant === 'lead';
+  const photo = hasImage && <NewsImage image={image} priority={priority} caption={!isTeaser} onUnavailable={() => setFailedUrl(image.url)} />;
   const publishers = [...new Set((article.sources || []).map((source) => source.publisher).filter(Boolean))].slice(0, 2);
   return <article className={'newsStory newsStory--' + variant + (hasImage ? ' newsStory--withMedia' : '')}>
-    {hasImage && !isLead && <NewsLink className="newsStoryImageLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs: ' + article.title}><NewsImage article={article} priority={priority} onUnavailable={() => setFailedUrl(image.url)} /></NewsLink>}
+    {photo && (isTeaser
+      ? <NewsLink className="newsStoryImageLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs: ' + article.title}>{photo}</NewsLink>
+      : photo)}
     <div className="newsStoryContent">
       <NewsMeta article={article} />
       <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
@@ -96,7 +107,6 @@ function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, pri
       <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsagenten'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
       {(isLead || isSwedishPriceNews(article)) && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}
     </div>
-    {hasImage && isLead && <NewsImage article={article} priority={priority} caption onUnavailable={() => setFailedUrl(image.url)} />}
   </article>;
 }
 
@@ -154,7 +164,7 @@ export function NewsPage({ articles, loading, error, navigate }) {
         <NewsCard article={filtered[0]} navigate={navigate} variant="lead" headingLevel={2} priority />
         {filtered.length > 1 && <div className="journalSecondary" aria-label="Fler aktuella nyheter">{filtered.slice(1, 3).map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} variant="secondary" headingLevel={2} />)}</div>}
       </div>
-      {filtered.length > 3 && <section className="journalRecent" aria-labelledby="journal-recent-title"><div className="newsSectionHeading"><div><span className="journalEyebrow">Fortsätt läsa</span><h2 id="journal-recent-title">Fler nyheter.</h2></div></div><div className="journalRecentGrid">{filtered.slice(3).map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} variant="recent" />)}</div></section>}
+      {filtered.length > 3 && <section className="journalRecent" aria-labelledby="journal-recent-title"><div className="newsSectionHeading"><h2 id="journal-recent-title">Fler nyheter</h2></div><div className="journalRecentGrid">{filtered.slice(3).map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} variant="recent" />)}</div></section>}
     </>}
   </section>;
 }
@@ -197,7 +207,7 @@ export function NewsArticlePage({ article, articles = [], loading, error, naviga
   return <article className="newsArticlePage journalArticle">
     <div className="journalArticleTop"><NewsLink className="newsBackLink" path="/nyheter" navigate={navigate}><ArrowLeft size={16} /> Alla nyheter</NewsLink><span className="journalEyebrow">Elbilsagenten Journal</span></div>
     <header className="newsArticleHeader"><NewsMeta article={article} readingTime /><h1>{article.title}</h1><p>{article.intro}</p><div className="journalByline"><span>Elbilsagenten{article.editorial_method ? ' · ' + article.editorial_method : ''}</span><ArticleShare key={article.id || article.slug} /></div></header>
-    <NewsImage article={article} priority caption />
+    <NewsImage image={editorialNewsImage(article)} priority caption />
     <div className="journalReadingLayout">
       <div className="newsArticleBody">{blocks.map((block, index) => <section key={index} className={block.kind === 'analysis' ? 'journalBuyerPerspective' : 'journalReporting'} aria-label={block.kind === 'analysis' ? 'Köparperspektiv' : undefined}>{block.kind === 'analysis' && <><span className="journalEyebrow"><Sparkles size={14} /> Köparperspektiv</span><h2>Vad betyder detta för dig som bilköpare?</h2></>}{block.paragraphs.map((text, paragraphIndex) => <p key={paragraphIndex}>{text}</p>)}</section>)}</div>
       <aside className="journalArticleAside"><ArticleSources article={article} /></aside>

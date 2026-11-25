@@ -27,9 +27,9 @@
 .journalFilterRow select { min-height: 40px; min-width: 170px; max-width: 260px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); font-size: 13px; }
 .journalFilterRow > span { margin-left: auto; color: var(--muted); font-size: 12px; }
 .journalReset { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; border: 0; background: transparent; color: var(--pine); padding: 8px 0; font-size: 12px; }
-.journalLeadLayout { display: grid; grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); align-items: start; gap: 40px; padding-bottom: 48px; }
+.journalLeadLayout { display: grid; grid-template-columns: minmax(0, 1.82fr) minmax(0, 1fr); align-items: start; gap: 28px; padding-bottom: 48px; }
 .journalLeadLayout--solo { grid-template-columns: minmax(0, 960px); }
-.journalSecondary { display: flex; flex-direction: column; gap: 24px; padding-top: 16px; }
+.journalSecondary { display: grid; gap: 20px; }
 .newsStory { display: flex; flex-direction: column; min-width: 0; background: transparent; }
 .newsStoryContent { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .newsMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; color: var(--muted); font-size: 12px; line-height: 1.6; }
@@ -44,36 +44,29 @@
 .newsReadLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--pine); font-size: var(--ui-label-size); font-weight: 700; }
 .newsStoryImageLink { display: block; margin-bottom: 24px; }
 .journalImage { margin: 0; }
-.journalImage img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 6px; background: #edf0ed; }
-.journalImage figcaption { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; padding-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.7; }
-.journalImage figcaption a { display: inline-flex; gap: 4px; align-items: center; color: var(--pine); }
-.newsStory--lead { padding: clamp(24px, 4vw, 52px); border: 1px solid #d7e4de; border-radius: 12px; background: #edf4ef; }
-.newsStory--lead .newsStoryTitle { font-size: clamp(32px, 4vw, 58px); line-height: 1.06; margin-block: 16px; text-wrap: balance; }
-.newsStory--lead > .journalImage { margin-top: 24px; min-width: 0; }
-.newsStory--lead > .journalImage img { display: block; aspect-ratio: auto; height: auto; background: none; }
-.newsStory--lead .journalImage figcaption { column-gap: 16px; }
-.newsStory--lead .newsStoryIntro { font-size: 17px; line-height: 1.85; max-width: 680px; }
+.journalImage img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 6px; background: #edf0ed; }
+.journalImage figcaption { display: flex; flex-wrap: wrap; gap: 2px 12px; padding-top: 10px; color: var(--muted); font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+.journalImage figcaption strong { color: #35564a; font-weight: 650; }
+.journalImage figcaption a { color: var(--pine); text-decoration: underline; text-underline-offset: 2px; }
+.newsStory--lead, .newsStory--secondary, .newsStory--recent { border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+.newsStory--lead { background: #eef5f0; border-color: #d6e5dc; }
+.newsStory--lead .newsStoryContent { padding: clamp(24px, 3.4vw, 44px); }
+.newsStory--lead .newsStoryTitle { font-size: clamp(32px, 4vw, 58px); line-height: 1.06; margin-block: 14px; text-wrap: balance; }
+.newsStory--lead > .journalImage img, .newsStory--secondary > .journalImage img, .newsStory--recent > .journalImage img { border-radius: 13px 13px 0 0; }
+.newsStory > .journalImage figcaption { padding-inline: clamp(18px, 2.2vw, 32px); }
+.newsStory--lead .newsStoryIntro { font-size: 17px; line-height: 1.7; max-width: 680px; }
 .newsStory--lead .newsStoryFooter { padding-top: 8px; margin-top: 0; }
 .newsStoryModels { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; }
 .newsStoryModels > span { color: var(--muted); }
 .newsStoryModels a { display: inline-flex; gap: 8px; align-items: center; min-height: 32px; color: var(--pine); font-weight: 600; }
-.newsStory--secondary + .newsStory--secondary { border-top: 1px solid var(--line); padding-top: 24px; }
-.newsStory--secondary .newsStoryTitle { font-size: 28px; }
-.newsStory--secondary.newsStory--withMedia { display: grid; grid-template-columns: minmax(0, 1fr) 104px; gap: 20px; }
-.newsStory--secondary .newsStoryImageLink { grid-column: 2; grid-row: 1; margin: 0; }
-.newsStory--secondary .newsStoryContent { grid-column: 1; grid-row: 1; }
-.newsStory--secondary .journalImage img { aspect-ratio: 1; }
+.newsStory--secondary .newsStoryContent, .newsStory--recent .newsStoryContent { padding: clamp(18px, 2.2vw, 28px); }
+.newsStory--secondary .newsStoryTitle, .newsStory--recent .newsStoryTitle { font-size: 29px; }
 .journalRecent { border-top: 1px solid var(--line); padding-top: 40px; }
 .newsSectionHeading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
 .newsSectionHeading h2 { font-size: 32px; line-height: 1.25; font-weight: 700; margin: 12px 0 0; }
 .newsSectionHeading > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--pine); font-size: 13px; font-weight: 700; }
-.journalRecentGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
-.newsStory--recent { padding-block: 28px; border-top: 1px solid var(--line); }
-.newsStory--recent.newsStory--withMedia { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 24px; }
-.newsStory--recent .newsStoryImageLink { margin: 0; }
-.newsStory--recent .journalImage img { aspect-ratio: 1.1; }
-.newsStory--recent .newsStoryTitle { font-size: 26px; margin-block: 12px; }
-.newsStory--recent .newsStoryIntro { font-size: 13px; }
+.journalRecentGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.newsStory--recent .newsStoryTitle { margin-block: 12px; }
 .journalPreview { padding-block: 56px; }
 .journalPreviewGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
 .journalPreviewGrid > .newsStory { padding-top: 24px; border-top: 1px solid var(--line); }
@@ -129,11 +122,7 @@
   .journalMasthead h1 { font-size: 48px; }
   .journalLeadLayout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; }
   .newsStory--secondary .newsStoryTitle { font-size: 26px; }
-  .newsStory--secondary.newsStory--withMedia { grid-template-columns: 1fr; }
-  .newsStory--secondary .newsStoryImageLink { grid-column: 1; grid-row: auto; max-width: 160px; }
-  .newsStory--secondary .newsStoryContent { grid-column: 1; grid-row: auto; }
-  .newsStory--recent.newsStory--withMedia { grid-template-columns: 1fr; }
-  .newsStory--recent .newsStoryImageLink { max-width: 240px; }
+  .journalRecentGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .journalReadingLayout { grid-template-columns: minmax(0, 1fr) 240px; gap: 48px; }
   .newsArticleHeader h1 { font-size: 44px; }
   .journalVehicleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -144,8 +133,7 @@
   .journalMasthead h1 { font-size: 44px; }
   .journalLastPublished { display: none; }
   .journalLeadLayout { grid-template-columns: 1fr; }
-  .journalSecondary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 24px; border-top: 1px solid var(--line); }
-  .newsStory--secondary + .newsStory--secondary { padding-top: 0; border-top: 0; }
+  .journalSecondary { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .journalRecentGrid, .journalPreviewGrid { gap: 24px; }
   .journalPreviewGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .journalReadingLayout { grid-template-columns: 1fr; gap: 24px; }
@@ -166,11 +154,10 @@
   .journalFilterRow label { flex: 1; min-width: 0; }
   .journalFilterRow > span { font-size: 11px; }
   .journalReset { flex-basis: 100%; }
-  .newsStory--lead { padding: 20px; }
+  .newsStory--lead .newsStoryContent { padding: 20px; }
   .newsStory--lead .newsStoryTitle { font-size: 32px; }
   .newsStory--lead .newsStoryIntro { font-size: 16px; }
   .journalSecondary, .journalRecentGrid, .journalPreviewGrid, .journalVehicleGrid { grid-template-columns: 1fr; gap: 24px; }
-  .journalSecondary .newsStory + .newsStory { border-top: 1px solid var(--line); padding-top: 24px; }
   .newsStory--secondary .newsStoryTitle, .newsStory--recent .newsStoryTitle, .newsStory--teaser .newsStoryTitle { font-size: 26px; }
   .newsStoryIntro { font-size: 14px; }
   .journalRecent { padding-top: 32px; }
