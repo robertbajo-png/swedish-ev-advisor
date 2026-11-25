@@ -7,6 +7,7 @@ import path from 'node:path';
 
 const basePath = process.env.VITE_APP_BASE_PATH || '/';
 const responsiveImages = normalizePath(fileURLToPath(new URL('./src/image-variants.json', import.meta.url)));
+const imageRights = normalizePath(fileURLToPath(new URL('./src/image-rights.json', import.meta.url)));
 
 export default defineConfig(async () => {
   // Extend the installed Vite defaults; do not replace its built-in secret rules.
@@ -15,10 +16,18 @@ export default defineConfig(async () => {
   return {
     base: basePath.endsWith('/') ? basePath : `${basePath}/`,
     plugins: [react(), {
-      name: 'public-responsive-image-manifest',
+      name: 'public-image-manifests',
       apply: 'build',
       async load(id) {
-        if (normalizePath(id) !== responsiveImages) return null;
+        const source = normalizePath(id);
+        if (source === imageRights) {
+          const registry = JSON.parse(await readFile(imageRights, 'utf8'));
+          // Production UI needs the attribution fields. Audits use the complete source file.
+          const assets = registry.assets.map(({ asset_url, author, changes, credit, license_id, license_url, source_url }) =>
+            ({ asset_url, author, changes, credit, license_id, license_url, source_url }));
+          return JSON.stringify({ assets });
+        }
+        if (source !== responsiveImages) return null;
         const registry = JSON.parse(await readFile(responsiveImages, 'utf8'));
         // Derivative digests are checked before release, not by the browser.
         return JSON.stringify(Object.fromEntries(Object.entries(registry).map(([url, image]) => [

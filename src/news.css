@@ -49,7 +49,7 @@
 .journalImage figcaption strong { color: #35564a; font-weight: 650; }
 .journalImage figcaption a { color: var(--pine); text-decoration: underline; text-underline-offset: 2px; }
 .newsStory--lead, .newsStory--secondary, .newsStory--recent { border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-.newsStory--lead { --lead-gutter: clamp(24px, 3.4vw, 44px); background: #eef5f0; border-color: #d6e5dc; }
+.newsStory--lead { --lead-gutter: clamp(24px, 3.4vw, 44px); --muted: #5c6968; background: #eef5f0; border-color: #d6e5dc; }
 .newsStoryHeader { padding: var(--lead-gutter) var(--lead-gutter) 0; }
 .newsStory--lead .newsStoryContent { padding: 20px var(--lead-gutter) var(--lead-gutter); }
 .newsStory--lead .newsStoryTitle { font-size: clamp(32px, 3.6vw, 54px); line-height: 1.06; margin-block: 14px 22px; text-wrap: balance; }
