@@ -95,14 +95,18 @@ function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, pri
   const hasImage = !!image && failedUrl !== image.url;
   const isLead = variant === 'lead';
   const photo = hasImage && <NewsImage image={image} priority={priority} caption={!isTeaser} onUnavailable={() => setFailedUrl(image.url)} />;
+  const headline = <>
+    <NewsMeta article={article} />
+    <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
+  </>;
   const publishers = [...new Set((article.sources || []).map((source) => source.publisher).filter(Boolean))].slice(0, 2);
   return <article className={'newsStory newsStory--' + variant + (hasImage ? ' newsStory--withMedia' : '')}>
+    {isLead && <header className="newsStoryHeader">{headline}</header>}
     {photo && (isTeaser
       ? <NewsLink className="newsStoryImageLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs: ' + article.title}>{photo}</NewsLink>
       : photo)}
     <div className="newsStoryContent">
-      <NewsMeta article={article} />
-      <Heading className="newsStoryTitle"><NewsLink path={'/nyheter/' + article.slug} navigate={navigate}>{article.title}</NewsLink></Heading>
+      {!isLead && headline}
       <p className="newsStoryIntro">{article.intro}</p>
       <div className="newsStoryFooter"><span>{publishers.join(' / ') || 'Elbilsagenten'}</span><NewsLink className="newsReadLink" path={'/nyheter/' + article.slug} navigate={navigate} aria-label={'Läs nyheten: ' + article.title}>Läs nyheten <ArrowUpRight size={16} /></NewsLink></div>
       {(isLead || isSwedishPriceNews(article)) && !!article.related_models?.length && <div className="newsStoryModels"><span>Bilar i nyheten</span>{article.related_models.filter((model) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(model.car_slug || '')).slice(0, 2).map((model) => <NewsLink key={model.key} path={'/bilar/' + model.car_slug} navigate={navigate}>{model.brand} {model.model} <ArrowRight size={13} /></NewsLink>)}</div>}

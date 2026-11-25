@@ -49,11 +49,15 @@
 .journalImage figcaption strong { color: #35564a; font-weight: 650; }
 .journalImage figcaption a { color: var(--pine); text-decoration: underline; text-underline-offset: 2px; }
 .newsStory--lead, .newsStory--secondary, .newsStory--recent { border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-.newsStory--lead { background: #eef5f0; border-color: #d6e5dc; }
-.newsStory--lead .newsStoryContent { padding: clamp(24px, 3.4vw, 44px); }
-.newsStory--lead .newsStoryTitle { font-size: clamp(32px, 4vw, 58px); line-height: 1.06; margin-block: 14px; text-wrap: balance; }
-.newsStory--lead > .journalImage img, .newsStory--secondary > .journalImage img, .newsStory--recent > .journalImage img { border-radius: 13px 13px 0 0; }
+.newsStory--lead { --lead-gutter: clamp(24px, 3.4vw, 44px); background: #eef5f0; border-color: #d6e5dc; }
+.newsStoryHeader { padding: var(--lead-gutter) var(--lead-gutter) 0; }
+.newsStory--lead .newsStoryContent { padding: 20px var(--lead-gutter) var(--lead-gutter); }
+.newsStory--lead .newsStoryTitle { font-size: clamp(32px, 3.6vw, 54px); line-height: 1.06; margin-block: 14px 22px; text-wrap: balance; }
+.newsStory--lead > .journalImage { margin-inline: var(--lead-gutter); }
+.newsStory--secondary > .journalImage img, .newsStory--recent > .journalImage img { border-radius: 13px 13px 0 0; }
 .newsStory > .journalImage figcaption { padding-inline: clamp(18px, 2.2vw, 32px); }
+.newsStory--lead > .journalImage figcaption { padding-inline: 0; }
+.newsStory--lead:not(.newsStory--withMedia) .newsStoryContent { padding-top: 0; }
 .newsStory--lead .newsStoryIntro { font-size: 17px; line-height: 1.7; max-width: 680px; }
 .newsStory--lead .newsStoryFooter { padding-top: 8px; margin-top: 0; }
 .newsStoryModels { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; }
@@ -154,7 +158,7 @@
   .journalFilterRow label { flex: 1; min-width: 0; }
   .journalFilterRow > span { font-size: 11px; }
   .journalReset { flex-basis: 100%; }
-  .newsStory--lead .newsStoryContent { padding: 20px; }
+  .newsStory--lead { --lead-gutter: 20px; }
   .newsStory--lead .newsStoryTitle { font-size: 32px; }
   .newsStory--lead .newsStoryIntro { font-size: 16px; }
   .journalSecondary, .journalRecentGrid, .journalPreviewGrid, .journalVehicleGrid { grid-template-columns: 1fr; gap: 24px; }
