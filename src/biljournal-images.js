@@ -29,8 +29,9 @@ export function vehiclePhotoOverride(brand, model) {
 }
 
 export function photoCredit(url) {
-  return Object.values(biljournalPhotos).find((item) => item.asset_url === url)
+  const photo = Object.values(biljournalPhotos).find((item) => item.asset_url === url)
     || rights.assets.find((item) => item.asset_url === url);
+  return photo && url === coverPhoto ? { ...photo, credit: '© ' + photo.credit } : photo;
 }
 
 export function reviewedNewsPhoto(image) {

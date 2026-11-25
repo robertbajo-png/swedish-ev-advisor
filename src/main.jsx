@@ -48,7 +48,7 @@ import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehi
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
 import licensedModelImages from './model-images.json';
-import { ImageAttribution } from './image-attribution.jsx';
+import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 import { MANUFACTURER_FROM_PRICE, priceEvidence, priceOfferEnd, verifiedManufacturerFrom } from './price-evidence.js';
 import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
@@ -1000,7 +1000,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       </div>
       <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
-    <div className="vehicleContainer"><ImageAttribution car={car} /></div>
+    <div className="vehicleContainer"><VehicleImageNotice car={car} /></div>
     <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil" onClick={jumpToSection}>Överblick</a><a href="#specifikationer" onClick={jumpToSection}>Specifikationer</a><a href="#nyckeltal" onClick={jumpToSection}>Nyckeltal</a></nav>
     <div className="vehicleDetailBody vehicleContainer">
       {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
