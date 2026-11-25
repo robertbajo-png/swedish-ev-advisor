@@ -1,0 +1,58 @@
+{
+  "nyhet-2f7b6517-7b42-5d5a-9d67-74eade31c4d6": {
+    "article_id": "2f7b6517-7b42-5d5a-9d67-74eade31c4d6",
+    "url": "/media/responsive/renault-5-press-541b86620ad3-1280.webp",
+    "width": 1280,
+    "height": 854,
+    "sha256": "746e412c1bfd18949f06bdfe9b11a8a2829784b387abe0371a1b466c3f48088e",
+    "alt": "Gul Renault 5 E-Tech Electric sedd snett framifrån",
+    "caption": "Arkivbild · Renault 5 E-Tech Electric",
+    "credit": "RN Nordic AB / Renault",
+    "source_url": "https://renault.mynewsdesk.com/images/renault-5-e-tech-electric-iconic-cinq-version-pop-yellow-8-punkt-jpg-3172684",
+    "license_url": "https://renault.mynewsdesk.com/images/renault-5-e-tech-electric-iconic-cinq-version-pop-yellow-8-punkt-jpg-3172684",
+    "license_name": "Redaktionell användning",
+    "edits": "Webbanpassad i helbild"
+  },
+  "nyhet-459bb0d0-b247-5ebd-a42b-49d757a134cb": {
+    "article_id": "459bb0d0-b247-5ebd-a42b-49d757a134cb",
+    "url": "/media/news/charging.webp",
+    "width": 960,
+    "height": 639,
+    "sha256": "46a94ebcc68a55f334f00096a480a82559a01e5a163efe4cf5511ef4bc82aad1",
+    "alt": "Nära bild av en laddstation med en ansluten laddkabel",
+    "caption": "Illustrationsfoto · Laddning av en elbil",
+    "credit": "Ivan Radic / Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Close-up_of_an_electric_car_charging_station_with_a_car_plugged_in.jpg",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "license_name": "CC BY 2.0",
+    "edits": "Webbanpassad i helbild"
+  },
+  "nyhet-df496b8d-5545-5ad6-9660-c87a604e7026": {
+    "article_id": "df496b8d-5545-5ad6-9660-c87a604e7026",
+    "url": "/media/news/stator.webp",
+    "width": 960,
+    "height": 800,
+    "sha256": "4fb858bfea5d56ee3f0c051d89686bb5b8238bea58d0ca89a4107820b607a39d",
+    "alt": "Närbild av lindningarna i en borstlös elmotor",
+    "caption": "Illustrationsfoto · Stator i en elmotor",
+    "credit": "Sergej Medvedev / Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Stator_Winding_of_a_BLDC_Motor.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "license_name": "CC BY-SA 3.0",
+    "edits": "Webbanpassad i helbild"
+  },
+  "nyhet-25ebf083-cc36-5dab-a323-0e5606f1013a": {
+    "article_id": "25ebf083-cc36-5dab-a323-0e5606f1013a",
+    "url": "/media/news/firefly.webp",
+    "width": 960,
+    "height": 640,
+    "sha256": "25a94de804239c8a5d1dfc5a9c77d7b69d1f9cf57ca303ccc7565afd1f69057c",
+    "alt": "Firefly fotograferad i Guangzhou",
+    "caption": "Arkivbild · Firefly i Guangzhou, juli 2025",
+    "credit": "Tim Wu / Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Firefly_(vehicle)_in_Tianhe,_Guangzhou_20250713.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "license_name": "CC BY-SA 4.0",
+    "edits": "Webbanpassad i helbild"
+  }
+}
