@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 import { vehicleSlug } from '../src/vehicle-names.js';
 
@@ -23,27 +24,9 @@ try {
   await page.route('**/api/compare', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
   const noOverflow = async (name) => assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name + ': no document overflow');
   const mobilePhotoClear = async () => {
-    if (page.viewportSize().width > 800) return;
-    const layout = await page.evaluate(() => {
-      const media = document.querySelector('.vehicleHeroMedia');
-      const rect = media.getBoundingClientRect();
-      const lead = media.closest('.bilVehicleLead').getBoundingClientRect();
-      const copy = document.querySelector('.vehicleHeroCopy').getBoundingClientRect();
-      const stats = document.querySelector('.vehicleHeroStats').getBoundingClientRect();
-      const header = document.querySelector('.siteHeader').getBoundingClientRect();
-      const img = media.querySelector('img');
-      const overlay = document.querySelector('.vehicleHeroOverlay');
-      return { height: rect.height, headerGap: rect.top - header.bottom, copyGap: rect.top - copy.bottom,
-        statsGap: stats.top - rect.bottom, overlayVisible: overlay && getComputedStyle(overlay).display !== 'none',
-        centerOffset: Math.abs(rect.left + rect.width / 2 - lead.left - lead.width / 2),
-        imageFit: img && getComputedStyle(img).objectFit };
-    });
-    assert(layout.height >= 160, 'Mobile model photo has a real, reserved area');
-    assert(layout.headerGap >= 0, 'Mobile navigation cannot cover the top of the photograph');
-    assert(layout.copyGap >= 12 && layout.statsGap >= 12, 'Photo frame stays clear of the model name, actions and specifications');
-    assert(!layout.overlayVisible, 'Mobile model photo is not darkened for overlaid copy');
-    assert(layout.centerOffset < 1, 'Mobile photograph is centered in the model grid');
-    if (layout.imageFit) assert.equal(layout.imageFit, 'contain', 'Mobile photograph preserves its full original frame');
+    if (page.viewportSize().width <= 800) {
+      await assertVehiclePhotoFrame(page, new URL(page.url()).pathname);
+    }
   };
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {

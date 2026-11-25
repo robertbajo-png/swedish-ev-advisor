@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import AxeBuilder from '@axe-core/playwright';
 import {launchQaBrowser} from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 import {vehicleSlug} from '../src/vehicle-names.js';
 import {matchAdvisorVariants,ruleRequirements} from '../src/advisor-matching.js';
 import {normalizePublicVariants} from '../functions/_shared/advisor-core.mjs';
@@ -47,13 +48,7 @@ try{
    assert(await notice.isVisible());
    assert.match(await notice.innerText(),/Modellbild: Toyota C-HR\+ i brittiskt Design[^.]*\. .*utrustning kan skilja/i);
    assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
-   const layout=await page.evaluate(()=>{
-    const rect=s=>document.querySelector(s).getBoundingClientRect(),media=rect('.vehicleHeroMedia'),img=document.querySelector('.vehicleHeroMedia img');
-    return{overflow:document.documentElement.scrollWidth>innerWidth,gap:rect('.vehicleHeroCopy').top-media.bottom,
-     headerGap:media.top-rect('.siteHeader').bottom,ratio:img.getBoundingClientRect().width/img.getBoundingClientRect().height,
-     naturalRatio:img.naturalWidth/img.naturalHeight,overlay:getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display};
-   });assert(!layout.overflow);
-   if(width<=800){assert(layout.gap>=16&&layout.headerGap>=0);assert.equal(layout.overlay,'none');assert(Math.abs(layout.ratio-layout.naturalRatio)<0.01);}
+   const layout = await assertVehiclePhotoFrame(page, slug);
    if(p[2]==='Executive'&&[390,1440].includes(width)){
     for(const related of await page.locator('main img[loading="lazy"]').all()){
      await related.scrollIntoViewIfNeeded();await related.evaluate(e=>new Promise((resolve,reject)=>{

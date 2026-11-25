@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import AxeBuilder from '@axe-core/playwright';
 import {launchQaBrowser} from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 import {vehicleSlug} from '../src/vehicle-names.js';
 
 const base=process.env.EV6_UI_URL||'http://127.0.0.1:5174';
@@ -49,15 +50,7 @@ try{
    assert.match(await notice.innerText(),/Modellbild: Kia EV6 Baseline[^.]*\. .*utrustning kan skilja/i);
    assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
    assert.match(await page.locator('.vehicleHeroStats').innerText(),new RegExp(row.wltp_range_km+' km'));
-   const layout=await page.evaluate(()=>{
-    const rect=s=>document.querySelector(s).getBoundingClientRect();
-    const media=rect('.vehicleHeroMedia'),photo=document.querySelector('.vehicleHeroMedia img'),copy=rect('.vehicleHeroCopy');
-    return{overflow:document.documentElement.scrollWidth>innerWidth,copyGap:copy.top-media.bottom,
-     headerGap:media.top-rect('.siteHeader').bottom,ratio:photo.getBoundingClientRect().width/photo.getBoundingClientRect().height,
-     naturalRatio:photo.naturalWidth/photo.naturalHeight,overlay:getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display};
-   });
-   assert(!layout.overflow,slug+': no overflow');
-   if(width<=800){assert(layout.copyGap>=16&&layout.headerGap>=0);assert.equal(layout.overlay,'none');assert(Math.abs(layout.ratio-layout.naturalRatio)<0.01);}
+   const layout = await assertVehiclePhotoFrame(page, slug);
    if(row.variant_name==='EV6 GT'&&[390,1440].includes(width)){
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(axe.violations,[]);
     await page.screenshot({path:resolve(output,'ev6-gt-'+width+'.png'),fullPage:true});
