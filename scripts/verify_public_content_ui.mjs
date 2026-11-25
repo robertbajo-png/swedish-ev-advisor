@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 
 const base = process.env.PUBLIC_CONTENT_QA_URL || 'http://127.0.0.1:5174';
 const origin = new URL(base).origin;
@@ -35,11 +36,7 @@ try {
       assert(!/Hämtar bilar|Hämtar bilen/.test(await page.locator('main').innerText()));
       if (!javascript) assert(await page.locator('.vehicleVariantPicker select').evaluateAll(selects => selects.every(select => select.disabled)), 'No-JS reading cannot change a version label without its specifications');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, path + ': no mobile overflow');
-      if (path.startsWith('/bilar/')) assert(await page.evaluate(() => {
-        const photo = document.querySelector('.vehicleHeroMedia').getBoundingClientRect();
-        return photo.top >= document.querySelector('.siteHeader').getBoundingClientRect().bottom &&
-          document.querySelector('.vehicleHeroCopy').getBoundingClientRect().top >= photo.bottom + 16;
-      }), 'No-JS and hydrated mobile detail photos stay clear of navigation and copy');
+      if (path.startsWith('/bilar/')) await assertVehiclePhotoFrame(page, path + (javascript ? ' hydrated' : ' no JS'));
       if (javascript) {
         await page.waitForFunction(() => !document.querySelector('script[data-prerender="page"]'));
         await page.evaluate(() => document.fonts.ready);

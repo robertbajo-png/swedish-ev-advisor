@@ -78,11 +78,14 @@ try {
     assert.equal(await page.locator('.newsStory').count(), 8);
     await page.getByRole('link', { name: records[0].title, exact: true }).click();
     await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
-    assert.equal(await page.getByRole('heading', { name: 'Vad betyder detta för dig som bilköpare?', exact: true }).count(), 1);
+    assert.equal(await page.getByRole('heading', { name: 'För dig som jämför elbilar', exact: true }).count(), 1);
     assert.deepEqual(await page.locator('.newsArticleBody p').allTextContents(), records[0].paragraphs.map((paragraph) => paragraph.text));
     assert.equal(await page.locator('.newsArticlePage').getByRole('link', { name: /Testkälla:/ }).count(), 0);
     await page.getByRole('link', { name: 'Källor för artikeln' }).click();
-    const source = page.locator('[id="artikel-' + records[0].slug + '"]').locator('..');
+    const sourceHeading = page.locator('[id="artikel-' + records[0].slug + '"]');
+    await sourceHeading.waitFor();
+    assert(await sourceHeading.evaluate((heading) => document.activeElement === heading), 'The article source deep link focuses that article');
+    const source = sourceHeading.locator('..');
     assert.equal(await source.getByRole('link', { name: /Testkälla:/ }).getAttribute('href'), records[0].sources[0].url);
     await page.goBack();
     await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
@@ -134,7 +137,7 @@ try {
   await page.locator('.journalPreview .newsStory').nth(2).waitFor();
   assert.equal(await page.locator('.journalPreview .newsStory').count(), 3);
   await page.goto(base + '/bilar/kia-ev6-rwd');
-  await page.getByRole('heading', { name: 'Senaste nytt om denna bil' }).waitFor();
+  await page.getByRole('heading', { name: 'Nyheter om modellen' }).waitFor();
   await page.locator('.journalPreview .newsStory').first().waitFor();
   assert.equal(await page.locator('.journalPreview .newsStory').count(), 1);
   await page.unroute(apiPattern);
