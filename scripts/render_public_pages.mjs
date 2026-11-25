@@ -57,18 +57,21 @@ export function replaceRoot(html, content, data) {
 }
 
 async function main() {
-  const snapshot = JSON.parse(await readFile('public/data/public_ev_variants.json', 'utf8'));
-  const news = JSON.parse(await readFile('public/data/news_articles.json', 'utf8'));
+  const root = process.env.BILJOURNAL_RENDER_DIST === '1' ? 'dist' : 'public';
+  const snapshot = JSON.parse(await readFile(root + '/data/public_ev_variants.json', 'utf8'));
+  const news = JSON.parse(await readFile(root + '/data/news_articles.json', 'utf8'));
   assert(Array.isArray(news.records) && news.records.every(isPublishedArticle), 'Invalid public news snapshot');
   assert(snapshot.source === 'supabase_public_ev_variants' && snapshot.records?.length, 'Validated canonical snapshot required');
   assert(snapshot.records.every((row) => ['published', 'published_reviewed'].includes(row.validation_status) && row.source_hash && /^https:\/\//.test(row.source_url || '')), 'Unpublished or unsourced car');
-  const sitemap = await readFile('public/sitemap.xml', 'utf8');
+  const sitemap = await readFile(root + '/sitemap.xml', 'utf8');
   const origin = (process.env.SITE_URL || 'https://elbilsagenten.se').replace(/\/$/, '');
   // Vite's SSR loader transforms the existing components without opening an HTTP listener.
   const server = await createServer({ mode: 'production', server: { middlewareMode: true, hmr: false, watch: null }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' });
   try {
     const { renderPublicPage } = await server.ssrLoadModule('/src/entry-server.jsx');
-    const paths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1]));
+    const locations = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
+    for (const path of ['/kallor', '/radgivare']) locations.add(origin + path);
+    const paths = [...locations].map((location) => new URL(location));
     for (const url of paths) {
       assert.equal(url.origin, origin, 'Unexpected sitemap origin');
       const path = url.pathname;

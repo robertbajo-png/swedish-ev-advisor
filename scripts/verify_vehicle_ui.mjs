@@ -108,7 +108,7 @@ try {
     await page.getByRole('complementary', { name: 'Din jämförelse' }).getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
     assert.equal(await page.locator('.comparisonVehicle').count(), 2);
-    assert.equal(await page.getByRole('table').count(), 1);
+    assert.equal(await page.locator('.comparisonFacts table').count(), 1);
     assert.equal(await page.locator('.comparisonTable tbody tr').filter({ hasText: 'Batteri' }).count(), 1);
     await photosReady('.comparisonVehiclePhoto img');
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
@@ -144,7 +144,11 @@ try {
     await page.screenshot({ path: fileURLToPath(new URL(`detail-hero-${name}.png`, out)) });
     await page.locator('.vehicleHeroActions').getByRole('button', { name: 'Lägg till i jämförelse', exact: true }).click();
     assert.equal(await page.locator('.vehicleHeroActions').getByRole('button', { name: 'Tillagd i jämförelse', exact: true }).getAttribute('aria-pressed'), 'true');
-    assert.equal(await page.getByRole('link', { name: 'Öppna källa', exact: true }).getAttribute('target'), '_blank');
+    const evidenceLink = page.getByRole('link', { name: 'Källor för modellen' });
+    const target = new URL(await evidenceLink.getAttribute('href'), base).searchParams.get('post');
+    await evidenceLink.click();
+    const evidence = page.locator('[id="' + target + '"]').locator('..');
+    assert.equal(await evidence.locator('a[href="' + tesla.source_url + '"]').getAttribute('target'), '_blank');
   }
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }]]) {
     await page.setViewportSize(viewport);
@@ -241,8 +245,14 @@ try {
       assert.match(await page.locator('#specifikationer').innerText(), /Fords danska/);
       assert.match(await page.locator('#nyckeltal').innerText(), /Kampanjpris, giltigt till 2026-12-30/);
       assert(!(await page.locator('#nyckeltal').innerText()).includes('Uppgift saknas'));
-      await page.locator('#bilkallor summary').click();
-      assert.equal(await page.locator('#bilkallor a[href="https://www.ford.dk/koeb/kampagner/explorer-og-capri"]').count(), 1);
+      const sourceLink = page.getByRole('link', { name: 'Källor för modellen' });
+      const post = new URL(await sourceLink.getAttribute('href'), base).searchParams.get('post');
+      await sourceLink.click();
+      const target = page.locator('[id="' + post + '"]');
+      await target.waitFor();
+      assert.equal(await target.locator('..').locator('a[href="https://www.ford.dk/koeb/kampagner/explorer-og-capri"]').count(), 1);
+      await page.goBack();
+      await page.locator('.vehicleDetailHero h1').waitFor();
     }
     await noOverflow('Complete manufacturer profile ' + row.variant_name);
   }

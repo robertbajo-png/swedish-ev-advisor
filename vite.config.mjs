@@ -23,8 +23,8 @@ export default defineConfig(async () => {
         if (source === imageRights) {
           const registry = JSON.parse(await readFile(imageRights, 'utf8'));
           // Production UI needs the attribution fields. Audits use the complete source file.
-          const assets = registry.assets.map(({ asset_url, author, changes, credit, license_id, license_url, source_url }) =>
-            ({ asset_url, author, changes, credit, license_id, license_url, source_url }));
+          const assets = registry.assets.map(({ asset_url, author, changes, credit, license_id, license_url, source_url, title, model_image_notice, full_frame }) =>
+            ({ asset_url, author, changes, credit, license_id, license_url, source_url, title, model_image_notice, full_frame }));
           return JSON.stringify({ assets });
         }
         if (source !== responsiveImages) return null;

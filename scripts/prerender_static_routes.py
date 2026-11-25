@@ -369,7 +369,15 @@ def main() -> None:
         for route_slug, metadata in SEGMENTS.items()
     )
     routes.extend(public_variant_routes(public_rows))
-    routes.extend(news_routes(SITE_URL))
+    routes.extend(news_routes(SITE_URL, os.environ.get("BILJOURNAL_REVIEW_NEWS")))
+    routes.extend([
+        {"path": "/kallor", "title": "Källor och bildkrediter | Elbilsagenten",
+         "description": "Källor för bilfakta, priser, nyhetsartiklar och bilder.",
+         "json_ld": {"@context": "https://schema.org", "@type": "WebPage", "url": SITE_URL + "/kallor"}},
+        {"path": "/radgivare", "title": "Elbilsrådgivare | Elbilsagenten",
+         "description": "Hitta elbilar som passar dina behov i den svenska katalogen.",
+         "json_ld": {"@context": "https://schema.org", "@type": "WebPage", "url": SITE_URL + "/radgivare"}},
+    ])
     routes.extend(info_routes(SITE_URL))
 
     for route in routes:

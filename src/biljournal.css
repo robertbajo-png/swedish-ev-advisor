@@ -1,0 +1,205 @@
+/* Biljournalen EV-C-1.3.1 · Newsreader (A) */
+@font-face {
+  font-family: Newsreader;
+  src: url('/fonts/newsreader-latin-variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+.biljournal {
+  --bil-paper: #f4eddf;
+  --bil-surface: #fff9ee;
+  --bil-navy: #192633;
+  --bil-muted: #4c5053;
+  --bil-ink: #8c2b13;
+  --bil-rust: #a33515;
+  --bil-orange: #ff7a40;
+  --bil-line: #c8bba7;
+  --bil-border: #867661;
+  --bil-soft: #efe2ce;
+  --bil-display: Newsreader, Georgia, serif;
+  --pine: var(--bil-ink);
+  --paper: var(--bil-surface);
+  --ink: var(--bil-navy);
+  --muted: var(--bil-muted);
+  --line: var(--bil-line);
+  --mist: var(--bil-soft);
+  --sage: var(--bil-soft);
+  --ui-background: var(--bil-paper);
+  --ui-accent: var(--bil-rust);
+  --ui-radius: 0px;
+  background: var(--bil-paper);
+  color: var(--bil-navy);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.bilWidth { width: min(1190px, calc(100% - 64px)); margin-inline: auto; }
+.biljournal :focus-visible { outline: 3px solid var(--bil-rust); outline-offset: 3px; }
+.biljournal main :is(h1,h2,h3) { font-family: var(--bil-display); letter-spacing: -.028em; }
+.biljournal main :is(a,summary) { text-underline-offset: .2em; }
+.biljournal .uiPrimary:hover:not(:disabled) { background: var(--bil-ink); border-color: var(--bil-ink); }
+.biljournal .siteHeader.bilHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 28px;
+  padding: 10px max(32px, (100% - 1190px)/2);
+  min-height: 72px;
+  background: var(--bil-paper);
+}
+.bilHeader .brandButton {
+  display: inline-flex;
+  align-items: baseline;
+  width: fit-content;
+  min-height: 44px;
+  align-content: center;
+  color: var(--bil-navy);
+  font: 650 2rem/1 var(--bil-display);
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: -.045em;
+}
+.bilHeader .brandButton::after { content: ''; width: .23em; height: .23em; margin-inline-start: .09em; background: var(--bil-rust); }
+.biljournal .bilHeader nav { gap: clamp(12px,2.3vw,36px); flex-wrap: wrap; }
+.biljournal .bilHeader nav a {
+  color: var(--bil-navy);
+  font-weight: 700;
+  border-block-end: 2px solid transparent;
+}
+.biljournal .bilHeader nav a[aria-current="page"] { color: var(--bil-ink); border-block-end-color: currentColor; }
+.biljournal > footer { background: var(--bil-paper); }
+.biljournal > footer > div { flex-wrap: wrap; }
+.biljournal > footer a { color: var(--bil-navy); }
+.bilCover { background: var(--bil-navy); color: var(--bil-surface); }
+.bilCoverGrid { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); align-items: center; gap: clamp(14px,3vw,40px); }
+.bilCoverText { border-left: 4px solid var(--bil-orange); padding: clamp(16px,4vw,60px) 0 clamp(16px,4vw,56px) clamp(13px,1.5vw,22px); }
+.biljournal .bilCover h1 {
+  max-width: 10ch;
+  margin: 0;
+  font: 600 clamp(2.65rem,7.2vw,6.6rem)/.9 var(--bil-display);
+  letter-spacing: -.044em;
+}
+.bilCover p { margin: 15px 0 0; max-width: 28ch; color: #f3dcc9; font-size: clamp(1rem,1.5vw,1.25rem); }
+.bilCoverPhoto { margin: 0; min-width: 0; }
+.bilCoverPhoto img { display: block; width: 100%; height: auto; object-fit: contain; }
+.bilCoverPhoto figcaption { padding-block: 4px 6px; color: var(--bil-surface); font-size: .75rem; }
+.bilWeek { padding-block: 28px 32px; }
+.bilWeek header, .bilWeekEnd { display: flex; justify-content: space-between; align-items: end; gap: 12px 24px; }
+.bilWeek header { border-bottom: 2px solid var(--bil-navy); padding-bottom: 5px; }
+.bilWeek header h2 { margin: 0; font-size: clamp(1.8rem,3.3vw,3rem); font-weight: 600; line-height: 1; }
+.bilWeek header p, .bilWeekEnd p { margin: 0; color: var(--bil-muted); font-size: .9rem; }
+.bilWeekRoute { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+.bilWeekRoute::before { content: ''; position: absolute; top: 20px; right: 13%; left: 17px; border-top: 1px solid var(--bil-rust); pointer-events: none; }
+.bilWeekRoute details { border-bottom: 1px solid var(--bil-line); }
+.bilWeekRoute summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  min-height: 78px;
+  padding: 29px 16px 10px 26px;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+.bilWeekRoute summary::-webkit-details-marker { display: none; }
+.bilWeekRoute summary::before { content: ''; position: absolute; left: 14px; top: 16px; width: 9px; height: 9px; background: var(--bil-paper); border: 2px solid var(--bil-rust); border-radius: 50%; }
+.bilWeekRoute summary:hover { background: #efe2ce45; }
+.bilStopLabel { font-weight: 700; }
+.bilStopLabel small { display: block; color: var(--bil-muted); font-size: .75rem; font-weight: 500; }
+.bilStopValue { grid-column: 1; color: var(--bil-ink); font-weight: 700; }
+.bilStopMark { grid-column: 2; grid-row: 1; align-self: center; width: 22px; text-align: center; line-height: 20px; border: 1px solid var(--bil-border); }
+.bilStopMark::before { content: '+'; }
+.bilWeekRoute details[open] .bilStopMark::before { content: '−'; }
+.bilStopControls { background: var(--bil-surface); padding: 10px 16px; }
+.bilWeekChoices { border: 0; margin: 0 0 8px; padding: 0; }
+.bilWeekChoices legend { font-weight: 700; font-size: .9rem; }
+.bilWeekChoices label { display: inline-flex; align-items: center; min-height: 44px; margin-inline-end: 10px; gap: 4px; }
+.bilWeekChoices input, .bilCostCheck input { accent-color: var(--bil-rust); }
+.bilWeekEnd { margin-top: 12px; }
+.bilWeekEnd .uiPrimary { min-width: min(100%, 240px); justify-content: space-between; }
+.bilWeekResult { padding-block: 20px 0; }
+.bilWeekResult h2 { margin: 0; font-size: clamp(1.8rem,4vw,2.75rem); }
+.bilWeekResult p { color: var(--bil-muted); }
+.biljournal :is(.vehiclePageIntro,.newsIntro,.vehicleSectionHeading,.homeSectionHeading) h1 { font-weight: 600; }
+.biljournal :is(.vehicleCard,.vehicleFilters,.vehicleDetailCard,.reportCard,.newsEditorialCard) { border-radius: 0; box-shadow: none; }
+.biljournal :is(.vehicleHeroActions,.bilSourceContext) a { color: var(--bil-ink); font-weight: 700; }
+.biljournal .vehicleHeroActions a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.bilSources,.bilCost { padding-block: 36px 52px; overflow-wrap: anywhere; }
+.bilSources h1,.bilCost > h1 { font-size: clamp(2.5rem,5.2vw,4.75rem); margin-block: 0 14px; line-height: .97; }
+.bilSources h2,.bilCost h2 { font-size: clamp(1.65rem,3vw,2.5rem); line-height: 1; }
+.bilSources h3,.bilSources h4,.bilCost h3 { margin-block: .75rem .3rem; }
+.bilSources nav { display: flex; gap: 16px; margin-block: 16px; }
+.bilSources :is(a,.bilSourceContext a), .bilCost .bilSourceContext a { color: var(--bil-ink); }
+.bilSources nav a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+.bilSourcesList { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 26px; list-style: none; padding: 0; }
+.bilSourcesList > li { border-top: 1px solid var(--bil-line); padding: 8px 0; }
+.bilSourcesList p { margin: 5px 0; }
+.bilSources [tabindex="-1"]:focus { outline: 3px solid var(--bil-rust); outline-offset: 4px; }
+.bilCostVariant { padding-block: 20px; border-top: 2px solid var(--bil-navy); }
+.bilCostVariant > h2 { margin: 0 0 5px; }
+.bilCostVariant > p, .bilCostMeta { margin: 6px 0 10px; }
+.bilCostMeta,.bilCostTerms p,.bilCostAssumptions p { color: var(--bil-muted); }
+.bilCostAssumptions,.bilCostTerms {
+  border-block-start: 1px solid var(--bil-border);
+  background: var(--bil-surface);
+  padding-inline: clamp(10px,2vw,24px);
+  margin: 10px 0;
+}
+.bilCostAssumptions summary,.bilCostTerms summary { padding-block: 14px; cursor: pointer; font-weight: 700; min-height: 44px; }
+.bilCostFields { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,180px),1fr)); gap: 10px; }
+.bilCostField { display: grid; align-content: end; gap: 4px; font-size: .88rem; font-weight: 600; }
+.bilCostField :is(input,select) { width: 100%; min-height: 44px; background: var(--bil-paper); border: 1px solid var(--bil-border); border-radius: 0; padding: 8px; color: var(--bil-navy); }
+.bilCostCheck { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; margin-inline-end: 12px; }
+.bilCostTable { overflow-x: auto; max-width: 100%; margin-block: 12px; }
+.bilCostTable table { border-collapse: collapse; width: 100%; min-width: 540px; text-align: left; font-variant-numeric: tabular-nums; }
+.bilCostTable :is(th,td) { border-bottom: 1px solid var(--bil-line); padding: 10px; }
+.bilCostTable thead { background: var(--bil-navy); color: var(--bil-surface); }
+.bilCostFlow { background: var(--bil-soft); padding: 12px 16px; margin-block: 10px; }
+.bilCostFlow dl { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px 12px; max-width: 600px; }
+.bilCostFlow dd { font-weight: 700; margin: 0; text-align: end; }
+@media (max-width: 759px) {
+  .bilWidth { width: calc(100% - 32px); }
+  .biljournal .siteHeader.bilHeader { align-items: start; flex-direction: column; padding: 6px 14px 0; gap: 0; min-height: 0; }
+  .bilHeader .brandButton { font-size: 1.64rem; min-height: 37px; }
+  .biljournal .bilHeader nav { justify-content: space-between; column-gap: 6px; row-gap: 0; width: 100%; }
+  .biljournal .bilHeader nav a { font-size: clamp(.73rem,3.1vw,.86rem); min-height: 44px; }
+  .bilCoverGrid { display: grid; grid-template-columns: minmax(0,1fr); width: 100%; gap: 0; }
+  .bilCoverText { margin: 13px 16px 10px; padding: 10px 14px 8px; border-left-width: 3px; }
+  .biljournal .bilCover h1 { max-width: none; font-size: clamp(2.34rem,9.6vw,4.6rem); }
+  .bilCover p { margin-top: 7px; max-width: 38ch; font-size: .94rem; }
+  .bilCoverPhoto img { max-height: 340px; }
+  .bilCoverPhoto figcaption { padding-inline: 16px; }
+  .bilWeek { padding-block: 14px 20px; }
+  .bilWeek header p { font-size: .78rem; max-width: 13ch; text-align: end; }
+  .bilWeekRoute { grid-template-columns: minmax(0,1fr); }
+  .bilWeekRoute::before { inset: 18px auto 18px 8px; border: 0; border-left: 1px solid var(--bil-rust); }
+  .bilWeekRoute summary { grid-template-columns: minmax(0,1fr) minmax(0,1.25fr) auto; align-items: center; min-height: 50px; padding: 5px 0 5px 23px; gap: 6px; font-size: .91rem; }
+  .bilWeekRoute summary::before { left: 4px; top: 20px; }
+  .bilStopValue { grid-column: 2; text-align: end; }
+  .bilStopMark { grid-column: 3; }
+  .bilWeekEnd { align-items: stretch; flex-direction: column-reverse; gap: 7px; }
+  .bilWeekEnd p { font-size: .81rem; }
+  .bilSourcesList { grid-template-columns: minmax(0,1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bilCoverText { animation: bil-print .2s ease-out; }
+  @keyframes bil-print { from { transform: translateY(3px); opacity: .85; } to { transform: none; opacity: 1; } }
+}
+
+
+.bilMobileCostLabel { display: none; }
+@media (max-width: 620px) {
+  .bilCostTable { overflow: visible; }
+  .bilCostTable table { min-width: 0; }
+  .bilCostTable thead { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+  .bilCostTable tbody,.bilCostTable tr,.bilCostTable th,.bilCostTable td { display: block; }
+  .bilCostTable tr { border-top: 1px solid var(--bil-border); }
+  .bilCostTable th { padding: 8px 6px; background: var(--bil-soft); }
+  .bilCostTable td { padding: 5px 6px; }
+  .bilCostTable td:not([colspan]) { display: flex; justify-content: space-between; gap: 8px; }
+  .bilMobileCostLabel { display: inline; font-weight: 600; }
+}
+
+.bilFontLicense { white-space: pre-wrap; overflow-wrap: anywhere; }
+.bilSources p a { text-decoration: underline; }

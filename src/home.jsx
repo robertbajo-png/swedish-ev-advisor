@@ -25,7 +25,8 @@ const categories = [
 const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pendling', langresa: 'Långresor', budget: 'Budget', dragkrok: 'Dragkrok', allround: 'Vardag' };
 
 
-export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
+export function HomePage({ secondary = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
+  const Title = secondary ? 'h2' : 'h1';
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
@@ -65,8 +66,8 @@ export function HomePage({ cars, dataStatus, advisor, setAdvisor, result, status
     <section className="homeHero homeContainer" id="hitta-elbil" aria-labelledby="home-heading">
       <div className="homeHeroCopy">
         <span className="homeKicker"><span className="homeLiveDot" /> Ditt nästa bilval börjar här</span>
-        <h1 id="home-heading">Hitta elbilen<br />som passar dig.</h1>
-        <p className="homeHeroIntro">Berätta vad du behöver. Vår AI hjälper dig att hitta och jämföra elbilar på den svenska marknaden.</p>
+        <Title id="home-heading">Hitta elbilen<br />som passar dig.</Title>
+        <p className="homeHeroIntro">{localAdvisor ? 'Berätta vad du behöver. Du får förslag från den svenska katalogen i förhandsvisningen.' : 'Berätta vad du behöver. Vår AI hjälper dig att hitta och jämföra elbilar på den svenska marknaden.'}</p>
         <form className="homeAdvisorForm" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
           <label htmlFor="home-advisor-query"><Sparkles size={17} /> Vad är viktigt för dig?</label>
           <textarea id="home-advisor-query" rows="3" value={advisor.prompt} onChange={(event) => setAdvisor({ ...advisor, prompt: event.target.value })} placeholder="Jag söker en familjebil under 600 000 kr med lång räckvidd och dragkrok..." />
