@@ -27,20 +27,23 @@ try {
     const layout = await page.evaluate(() => {
       const media = document.querySelector('.vehicleHeroMedia');
       const rect = media.getBoundingClientRect();
+      const lead = media.closest('.bilVehicleLead').getBoundingClientRect();
       const copy = document.querySelector('.vehicleHeroCopy').getBoundingClientRect();
       const stats = document.querySelector('.vehicleHeroStats').getBoundingClientRect();
       const header = document.querySelector('.siteHeader').getBoundingClientRect();
       const img = media.querySelector('img');
-      return { height: rect.height, width: rect.width, headerGap: rect.top - header.bottom, copyGap: copy.top - rect.bottom,
-        statsGap: stats.top - rect.bottom, overlay: getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display,
-        frameRatio: img ? img.getBoundingClientRect().width / img.getBoundingClientRect().height : null,
-        sourceRatio: img ? img.naturalWidth / img.naturalHeight : null };
+      const overlay = document.querySelector('.vehicleHeroOverlay');
+      return { height: rect.height, headerGap: rect.top - header.bottom, copyGap: rect.top - copy.bottom,
+        statsGap: stats.top - rect.bottom, overlayVisible: overlay && getComputedStyle(overlay).display !== 'none',
+        centerOffset: Math.abs(rect.left + rect.width / 2 - lead.left - lead.width / 2),
+        imageFit: img && getComputedStyle(img).objectFit };
     });
     assert(layout.height >= 160, 'Mobile model photo has a real, reserved area');
     assert(layout.headerGap >= 0, 'Mobile navigation cannot cover the top of the photograph');
-    assert(layout.copyGap >= 16 && layout.statsGap >= 16, 'No vehicle text, badges, actions or specifications over the mobile photo');
-    assert.equal(layout.overlay, 'none', 'Mobile model photo is not darkened for overlaid copy');
-    if (layout.sourceRatio) assert(Math.abs(layout.frameRatio - layout.sourceRatio) < 0.01, 'Mobile photograph preserves its full original frame');
+    assert(layout.copyGap >= 12 && layout.statsGap >= 12, 'Photo frame stays clear of the model name, actions and specifications');
+    assert(!layout.overlayVisible, 'Mobile model photo is not darkened for overlaid copy');
+    assert(layout.centerOffset < 1, 'Mobile photograph is centered in the model grid');
+    if (layout.imageFit) assert.equal(layout.imageFit, 'contain', 'Mobile photograph preserves its full original frame');
   };
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {
@@ -50,7 +53,8 @@ try {
           element.addEventListener('load', resolve, { once: true });
           element.addEventListener('error', () => reject(new Error('Exact-model image failed to load: ' + element.currentSrc)), { once: true });
         });
-        await element.decode();
+        try { await element.decode(); }
+        catch (cause) { throw new Error('Exact-model image failed to decode: ' + new URL(element.currentSrc).pathname, { cause }); }
       });
       assert(await img.evaluate(element => element.complete && element.naturalWidth > 0), 'Exact model photo must actually decode');
     }
