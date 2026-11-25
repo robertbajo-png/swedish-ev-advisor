@@ -120,6 +120,7 @@ function transformPublicVariant(row) {
   const seats = Number(row.seats) || 5;
   const sourceQuote = row.source_quote || '';
   const priceProof = priceEvidence(row);
+  const qualifications = specQualifications(row);
   const photo = vehiclePhotoOverride(brand,row.model);
   const originalImage = photo?.asset_url || row.image_url || officialImageFor(brand,row.model);
   const imageRights = photoCredit(originalImage);
@@ -149,7 +150,7 @@ function transformPublicVariant(row) {
     rangeVerified,
     consumption: consumptionVerified,
     consumptionVerified,
-    ...specQualifications(row),
+    ...qualifications,
     dc: dcVerified || 0,
     dcVerified,
     cargo: cargoVerified || 0,
@@ -168,7 +169,7 @@ function transformPublicVariant(row) {
     verifiedAt: row.verified_at?.slice(0, 10) || null,
     image: imageRights && offlineAsset ? originalImage : null,
     imageSource: photo?.source_url || row.image_source_url || null,
-    imageNotice: photo?.notice || imageRights?.model_image_notice || null,
+    imageNotice: photo?.notice || qualifications.imageNotice || imageRights?.model_image_notice || null,
     imageFullFrame: Boolean(imageRights?.full_frame),
     marketSeen: row.market_seen,
     availableConfirmed: row.available_confirmed,
@@ -176,7 +177,7 @@ function transformPublicVariant(row) {
     comingOrLowVolume: row.coming_or_low_volume,
     summary:
       priceProof
-        ? ([rangeVerified && `${specQualifications(row).rangeInterval || rangeVerified + ' km'} ${specQualifications(row).rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${detailValue(dcVerified, 'kW')}.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
+        ? ([rangeVerified && `${qualifications.rangeInterval || rangeVerified + ' km'} ${qualifications.rangeIsTarget ? 'räckviddsmål' : 'räckvidd'} enligt WLTP.`, dcVerified && `Maximal DC-laddning ${detailValue(dcVerified, 'kW')}.`].filter(Boolean).join(' ') || 'Tekniska uppgifter saknas i det verifierade underlaget.')
         : sourceQuote
         ? `${sourceQuote.slice(0, 170)}${sourceQuote.length > 170 ? '...' : ''}`
         : 'Publicerad med verifierade svenska källor för pris och specifikationer.'
