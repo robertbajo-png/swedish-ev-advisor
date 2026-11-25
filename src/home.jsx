@@ -65,9 +65,8 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
   return <div className="consumerHome">
     <section className="homeHero homeContainer" id="hitta-elbil" aria-labelledby="home-heading">
       <div className="homeHeroCopy">
-        <span className="homeKicker"><span className="homeLiveDot" /> Ditt nästa bilval börjar här</span>
-        <Title id="home-heading">Hitta elbilen<br />som passar dig.</Title>
-        <p className="homeHeroIntro">{localAdvisor ? 'Berätta vad du behöver. Du får förslag från den svenska katalogen i förhandsvisningen.' : 'Berätta vad du behöver. Vår AI hjälper dig att hitta och jämföra elbilar på den svenska marknaden.'}</p>
+        <Title id="home-heading">Få hjälp att välja elbil</Title>
+        <p className="homeHeroIntro">{localAdvisor ? 'Beskriv dina krav. Förhandsvisningen hämtar förslag ur den sparade katalogen.' : 'Beskriv dina krav, till exempel budget, bagageutrymme eller dragkrok.'}</p>
         <form className="homeAdvisorForm" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
           <label htmlFor="home-advisor-query"><Sparkles size={17} /> Vad är viktigt för dig?</label>
           <textarea id="home-advisor-query" rows="3" value={advisor.prompt} onChange={(event) => setAdvisor({ ...advisor, prompt: event.target.value })} placeholder="Jag söker en familjebil under 600 000 kr med lång räckvidd och dragkrok..." />
@@ -81,13 +80,12 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
           </div>
         </form>
         <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }) => <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div>
-        <p className="homeQuietNote">Dina behov i fokus. Tydliga jämförelser. Inget säljsnack.</p>
       </div>
       <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
           <VehicleImageNotice car={spotlight} />
-          <div className="homeSpotlightCaption"><div><span className="homeKicker">En bil ur Elbilsagenten</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
+          <div className="homeSpotlightCaption"><div><span className="homeKicker">Bil ur katalogen</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
       </aside>
@@ -103,11 +101,11 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
     </section>}
 
     <section className="homeExplore homeContainer" aria-labelledby="explore-title">
-      <div className="homeSectionHeading"><div><span className="homeKicker">Lär känna utbudet</span><h2 id="explore-title">En bra plats att börja.</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a></div>
+      <div className="homeSectionHeading"><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a></div>
       {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 
-    <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><span className="homeKicker">Olika liv. Olika elbilar.</span><h2>Vad behöver din nästa bil klara?</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {
+    <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><h2>Hitta bilar efter behov</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {
       const Tag = category.path ? 'a' : 'button';
       return <Tag key={category.title} href={category.path ? appPath(category.path) : undefined} type={category.path ? undefined : 'button'} onClick={(event) => {
         if (category.path) { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(category.path); } }

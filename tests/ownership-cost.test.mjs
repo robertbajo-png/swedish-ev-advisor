@@ -16,6 +16,15 @@ const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.000
 test('46 pendlarveckor plus en återkommande eller enstaka helgresa', () => {
   assert.deepEqual(distanceForWeek({ commute: '32', trip: '180', cadence: 'once' }), { annualKm: 7360, onceKm: 180 });
   assert.deepEqual(distanceForWeek({ commute: '32', trip: '180', cadence: 'monthly' }), { annualKm: 9520, onceKm: 0 });
+  assert.deepEqual(distanceForWeek({ commute: '25', trip: '240', cadence: 'fortnightly' }), { annualKm: 11990, onceKm: 0 });
+});
+
+test('en enda helgresa räknas en gång även utan pendling', () => {
+  const distance = distanceForWeek({ commute: '', trip: '240', cadence: 'once' });
+  const result = calculateOwnership(car, { ...input, ...distance }, today);
+  assert.equal(result.km, 240);
+  near(result.operating.electricity, 134.4);
+  assert.equal(calculateOwnership(car, { ...input, annualKm: 0, onceKm: 0 }, today).reason, 'assumptions');
 });
 
 test('45 000 km och 2,80 kr/kWh skiljer laddförluster från WLTP vid elmätare', () => {

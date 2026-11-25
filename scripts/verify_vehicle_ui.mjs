@@ -106,7 +106,7 @@ try {
     await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.locator('.carCard').nth(1).getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.getByRole('complementary', { name: 'Din jämförelse' }).getByRole('button', { name: 'Jämför', exact: true }).click();
-    await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
+    await page.getByRole('heading', { name: 'Jämför elbilar', level: 1 }).waitFor();
     assert.equal(await page.locator('.comparisonVehicle').count(), 2);
     assert.equal(await page.locator('.comparisonFacts table').count(), 1);
     assert.equal(await page.locator('.comparisonTable tbody tr').filter({ hasText: 'Batteri' }).count(), 1);
@@ -299,7 +299,7 @@ try {
   await page.locator('.vehicleHeroMedia .missingCarImage').waitFor();
   assert.equal(await page.locator('.vehicleHeroMedia img').count(), 0, 'Unmapped model has no lookalike fallback');
   await page.goto(base + '/compare');
-  await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
+  await page.getByRole('heading', { name: 'Jämför elbilar', level: 1 }).waitFor();
   assert.deepEqual(failures, [], 'No client runtime errors');
   console.log(JSON.stringify({ vehicle_ui_ok: true, viewports: ['1440x1000', '820x1180', '390x844', '320x740'], tested: ['filters', 'drawer + keyboard', 'sorting controls', 'card/table view', 'comparison', 'report errors', 'stale report reset', 'CSV', 'cinematic details', 'explicit zero vs null', 'missing photo'], screenshots: fileURLToPath(out) }));
 } finally { await browser.close(); }

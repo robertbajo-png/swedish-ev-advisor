@@ -30,7 +30,7 @@ function Terms({ type, enabled, setEnabled, values, update }) {
     <summary>{isLoan ? 'Lånevillkor' : 'Leasingvillkor'}</summary>
     <label className="bilCostCheck"><input type="checkbox" checked={enabled} onChange={(event) => setEnabled(event.target.checked)} /> Räkna på egna villkor</label>
     {enabled && <>
-      <p>Vad händer om? Dina inmatade villkor är ett scenario. Kontrollera amorteringsform, effektiv ränta och villkor mot avtalet.</p>
+      <p>Dina egna villkor används för att räkna på ett scenario. Jämför med den effektiva räntan och villkoren i ditt avtal.</p>
       <div className="bilCostFields">{(isLoan ? loanFields : leaseFields).map(([key,label]) =>
         <NumberField key={key} name={key} label={label} value={values[key]} onChange={update} />)}</div>
       {isLoan
@@ -105,12 +105,12 @@ export function OwnershipCosts({ cars, assumptions, setAssumptions, link, headin
   const update = (field,value) => setAssumptions({ ...assumptions, [field]: value, ...(field === 'annualKm' ? {onceKm:0} : {}) });
   return <section className="bilCost vehicleContainer" id="agandekostnad" aria-labelledby="bil-cost-heading">
     <Title id="bil-cost-heading">{heading}</Title>
-    <p>Jämför nettokostnad och kassaflöde över samma period. Försäljningsvärde och drift är antaganden. WLTP är en standardiserad mätning.</p>
+    <p>Se vad bilen kan kosta totalt och vad du betalar vid start. Du kan ändra körsträcka, elpris och andra antaganden.</p>
     {!cars.length ? <p>Välj en exakt bilversion för att räkna. {link('/bilar','Till katalogen')}</p> : <>
       <details className="bilCostAssumptions">
         <summary>Körsträcka, el och övriga antaganden</summary>
         <div className="bilCostFields">
-          {[['months','Jämförelseperiod, månader',120,1,1],['annualKm','Körsträcka, km/år',60000,100],
+          {[['months','Jämförelseperiod, månader',120,1,1],['annualKm','Körsträcka, km/år',60000,0],
             ['homePercent','Andel laddning hemma, %',100],['homeSek','Hemmaladdning, kr/kWh',50],['publicSek','Publik laddning, kr/kWh',50],
             ['overrideConsumption','Egen förbrukning, kWh/100 km',100,1],['resalePercent','Försäljningsvärde, % av inköp',100],
             ['insurance','Försäkring, kr/mån',100000],['service','Service, kr/år',100000],['tyres','Däck, kr/år',100000],['tax','Skatt, kr/år',100000]
@@ -121,7 +121,7 @@ export function OwnershipCosts({ cars, assumptions, setAssumptions, link, headin
         <details className="bilCostTerms"><summary>Parkering, trängselskatt och laddbox</summary>
           <div className="bilCostFields">{[['charger','Laddbox, engångskostnad i kr'],['parking','Parkering, kr/mån'],['tolls','Trängselskatt, kr/mån']].map(([name,label]) => <NumberField key={name} name={name} label={label} value={assumptions[name]} onChange={update} max={100000} />)}</div>
         </details>
-        <p>Tomt fält för egen förbrukning använder katalogens WLTP-uppgift, eller ett markerat antagande på 20 kWh/100 km. Egen körsträcka ersätter körveckans engångsresa.</p>
+        <p>Om du lämnar egen förbrukning tom används bilens WLTP-värde där det finns, annars 20 kWh/100 km som antagande. Om du ändrar årsmilen tas en eventuell engångsresa bort ur kalkylen.</p>
         {Number(assumptions.onceKm)>0 && <p>Engångsresa från körveckan: {assumptions.onceKm} km en gång under perioden.</p>}
       </details>
       {cars.map(car => <VariantCosts key={car.id} {...{ car, assumptions, today }} />)}
