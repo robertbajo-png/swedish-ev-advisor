@@ -17,9 +17,9 @@ function within(value, min, max) {
 }
 
 export function distanceForWeek({ commute, trip, cadence }) {
-  const tripsPerYear = { monthly: 12, weekly: 52, once: 0 };
+  const tripsPerYear = { monthly: 12, fortnightly: 26, weekly: 52, once: 0 };
   return {
-    annualKm: Number(commute) * 5 * 46 + Number(trip) * tripsPerYear[cadence],
+    annualKm: Number(commute) * 5 * 46 + Number(trip) * (tripsPerYear[cadence] ?? 0),
     onceKm: cadence === 'once' ? Number(trip) : 0,
   };
 }
@@ -87,7 +87,7 @@ export function calculateOwnership(car, assumptions, today, loanQuote, leaseQuot
   const basis = assumptions.overrideConsumption === '' || assumptions.overrideConsumption == null
     ? 'metered' : assumptions.basis;
   const valid = Number.isInteger(Number(months)) && within(months, 1, 120)
-    && within(annualKm, 100, 60000) && within(onceKm, 0, 60000) && within(homePercent, 0, 100)
+    && within(annualKm, 0, 60000) && within(onceKm, 0, 60000) && (Number(annualKm) > 0 || Number(onceKm) > 0) && within(homePercent, 0, 100)
     && within(homeSek, 0, 50) && within(publicSek, 0, 50)
     && (basis === 'metered' || basis === 'vehicle' && within(lossPercent, 0, 50))
     && within(resalePercent, 0, 100) && within(consumption, 1, 100)

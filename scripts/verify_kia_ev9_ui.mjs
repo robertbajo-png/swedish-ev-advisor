@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import AxeBuilder from '@axe-core/playwright';
 import {launchQaBrowser} from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 import {vehicleSlug} from '../src/vehicle-names.js';
 const base=process.env.EV9_UI_URL||'http://127.0.0.1:5174',origin=new URL(base).origin;
 const output=resolve(process.env.EV9_UI_OUTPUT||'data/local/release-data/kia-ev9-completion-2026-11-15/ui');
@@ -34,13 +35,7 @@ try{
    assert(await notice.isVisible());
    assert.match(await notice.innerText(),/Modellbild: Kia EV9[^.]*\. .*utrustning kan skilja/i);
    assert.doesNotMatch(await notice.innerText(),/Bildkälla|CC[- ]BY|Wikimedia Commons/);
-   const layout=await page.evaluate(()=>{
-    const rect=s=>document.querySelector(s).getBoundingClientRect(),media=rect('.vehicleHeroMedia'),img=document.querySelector('.vehicleHeroMedia img');
-    return{overflow:document.documentElement.scrollWidth>innerWidth,gap:rect('.vehicleHeroCopy').top-media.bottom,
-     headerGap:media.top-rect('.siteHeader').bottom,ratio:img.getBoundingClientRect().width/img.getBoundingClientRect().height,
-     naturalRatio:img.naturalWidth/img.naturalHeight,overlay:getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display};
-   });assert(!layout.overflow);
-   if(width<=800){assert(layout.gap>=16&&layout.headerGap>=0);assert.equal(layout.overlay,'none');assert(Math.abs(layout.ratio-layout.naturalRatio)<0.01);}
+   const layout = await assertVehiclePhotoFrame(page, slug);
    if(r.seats===6&&[390,1440].includes(width)){
     assert.equal(r.price_sek,909900);assert.equal(r.wltp_range_km,505);
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(axe.violations,[]);

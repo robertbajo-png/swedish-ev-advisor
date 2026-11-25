@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { launchQaBrowser } from './qa_browser.mjs';
+import { assertVehiclePhotoFrame } from './qa_vehicle_photo_frame.mjs';
 import { isolatePublicDataFixture } from './qa_public_data_fixture.mjs';
 import { vehicleSlug } from '../src/vehicle-names.js';
 
@@ -23,24 +24,9 @@ try {
   await page.route('**/api/compare', (route) => route.fulfill({ status: 503, json: { error: 'Test-only outage' } }));
   const noOverflow = async (name) => assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), name + ': no document overflow');
   const mobilePhotoClear = async () => {
-    if (page.viewportSize().width > 800) return;
-    const layout = await page.evaluate(() => {
-      const media = document.querySelector('.vehicleHeroMedia');
-      const rect = media.getBoundingClientRect();
-      const copy = document.querySelector('.vehicleHeroCopy').getBoundingClientRect();
-      const stats = document.querySelector('.vehicleHeroStats').getBoundingClientRect();
-      const header = document.querySelector('.siteHeader').getBoundingClientRect();
-      const img = media.querySelector('img');
-      return { height: rect.height, width: rect.width, headerGap: rect.top - header.bottom, copyGap: copy.top - rect.bottom,
-        statsGap: stats.top - rect.bottom, overlay: getComputedStyle(document.querySelector('.vehicleHeroOverlay')).display,
-        frameRatio: img ? img.getBoundingClientRect().width / img.getBoundingClientRect().height : null,
-        sourceRatio: img ? img.naturalWidth / img.naturalHeight : null };
-    });
-    assert(layout.height >= 160, 'Mobile model photo has a real, reserved area');
-    assert(layout.headerGap >= 0, 'Mobile navigation cannot cover the top of the photograph');
-    assert(layout.copyGap >= 16 && layout.statsGap >= 16, 'No vehicle text, badges, actions or specifications over the mobile photo');
-    assert.equal(layout.overlay, 'none', 'Mobile model photo is not darkened for overlaid copy');
-    if (layout.sourceRatio) assert(Math.abs(layout.frameRatio - layout.sourceRatio) < 0.01, 'Mobile photograph preserves its full original frame');
+    if (page.viewportSize().width <= 800) {
+      await assertVehiclePhotoFrame(page, new URL(page.url()).pathname);
+    }
   };
   const photosReady = async (selector) => {
     for (const img of await page.locator(selector).all()) {
@@ -50,7 +36,8 @@ try {
           element.addEventListener('load', resolve, { once: true });
           element.addEventListener('error', () => reject(new Error('Exact-model image failed to load: ' + element.currentSrc)), { once: true });
         });
-        await element.decode();
+        try { await element.decode(); }
+        catch (cause) { throw new Error('Exact-model image failed to decode: ' + new URL(element.currentSrc).pathname, { cause }); }
       });
       assert(await img.evaluate(element => element.complete && element.naturalWidth > 0), 'Exact model photo must actually decode');
     }
@@ -106,7 +93,7 @@ try {
     await page.locator('.carCard').first().getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.locator('.carCard').nth(1).getByRole('button', { name: 'Jämför', exact: true }).click();
     await page.getByRole('complementary', { name: 'Din jämförelse' }).getByRole('button', { name: 'Jämför', exact: true }).click();
-    await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
+    await page.getByRole('heading', { name: 'Jämför elbilar', level: 1 }).waitFor();
     assert.equal(await page.locator('.comparisonVehicle').count(), 2);
     assert.equal(await page.locator('.comparisonFacts table').count(), 1);
     assert.equal(await page.locator('.comparisonTable tbody tr').filter({ hasText: 'Batteri' }).count(), 1);
@@ -299,7 +286,7 @@ try {
   await page.locator('.vehicleHeroMedia .missingCarImage').waitFor();
   assert.equal(await page.locator('.vehicleHeroMedia img').count(), 0, 'Unmapped model has no lookalike fallback');
   await page.goto(base + '/compare');
-  await page.getByRole('heading', { name: 'Jämför sida vid sida', level: 1 }).waitFor();
+  await page.getByRole('heading', { name: 'Jämför elbilar', level: 1 }).waitFor();
   assert.deepEqual(failures, [], 'No client runtime errors');
   console.log(JSON.stringify({ vehicle_ui_ok: true, viewports: ['1440x1000', '820x1180', '390x844', '320x740'], tested: ['filters', 'drawer + keyboard', 'sorting controls', 'card/table view', 'comparison', 'report errors', 'stale report reset', 'CSV', 'cinematic details', 'explicit zero vs null', 'missing photo'], screenshots: fileURLToPath(out) }));
 } finally { await browser.close(); }

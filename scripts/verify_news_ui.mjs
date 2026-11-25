@@ -35,10 +35,13 @@ try {
     assert.equal(await page.getByRole('heading', { name: records[1].title }).count(), 0);
     await page.getByRole('link', { name: records[0].title, exact: true }).click();
     await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
-    await page.getByRole('heading', { name: 'Vad betyder detta för dig som bilköpare?' }).waitFor();
+    await page.getByRole('heading', { name: 'För dig som jämför elbilar' }).waitFor();
     assert.equal(await page.locator('.newsArticlePage a[href="https://example.com/news"]').count(), 0);
     await page.getByRole('link', { name: 'Källor för artikeln' }).click();
-    const source = page.locator('[id="artikel-' + records[0].slug + '"]').locator('..');
+    const sourceHeading = page.locator('[id="artikel-' + records[0].slug + '"]');
+    await sourceHeading.waitFor();
+    assert(await sourceHeading.evaluate((heading) => document.activeElement === heading), 'The article source deep link focuses that article');
+    const source = sourceHeading.locator('..');
     assert.equal(await source.getByRole('link', { name: /Testkälla:/ }).getAttribute('href'), 'https://example.com/news');
     await page.goBack();
     await page.getByRole('heading', { name: records[0].title, level: 1 }).waitFor();
@@ -51,7 +54,7 @@ try {
   await page.goto(base + '/');
   await page.getByRole('heading', { name: 'Det senaste i elbilsvärlden' }).waitFor();
   await page.goto(base + '/bilar/kia-ev6-rwd');
-  await page.getByRole('heading', { name: 'Senaste nytt om denna bil' }).waitFor();
+  await page.getByRole('heading', { name: 'Nyheter om modellen' }).waitFor();
   await page.unroute('**/data/news_articles.json');
   await page.unroute('**/rest/v1/public_news_articles?**');
   await page.route('**/data/news_articles.json', (route) => route.fulfill({ json: { records: [] } }));

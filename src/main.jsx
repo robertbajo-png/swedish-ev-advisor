@@ -800,7 +800,7 @@ export function App({ initialData } = {}) {
   function applyWeek(week) {
     setWeekActive(true);
     setOwnership(old => ({ ...old, ...distanceForWeek(week), homePercent: week.charge === 'home' ? 80 : 0 }));
-    const sort = Number(week.trip) >= 320 || Number(week.commute) >= 64 ? 'range' : week.charge === 'home' ? 'price' : 'match';
+    const sort = Number(week.trip) >= 200 || Number(week.commute) >= 60 ? 'range' : 'price';
     setFilters({ ...defaultFilters, sort });
     navigate('/bilar');
   }
@@ -854,7 +854,7 @@ export function App({ initialData } = {}) {
       {route.type === 'verification' && <VerificationPage />}
       {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
       {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
-      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Längst WLTP-räckvidd först med tanke på dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Välj en bil för att räkna på ägandekostnaden.</p></aside>}
+      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/">Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}
@@ -864,7 +864,7 @@ export function App({ initialData } = {}) {
         renderCard={(car, options = {}) => <CarCard key={options.modelKey || car.id} headingLevel={2} car={car} variants={options.variants} onVariantChange={options.onVariantChange} selected={compare.includes(car.id)} onCompare={() => toggleCompare(car.id)} compareLimitReached={!compare.includes(car.id) && compareLimitReached} />}
       />}
       {route.type === 'compare' && <section className="compareSection vehicleCompare vehicleContainer" id="compare">
-        <div className="vehiclePageIntro"><span className="vehicleEyebrow">Ditt beslutsunderlag</span><h1>Jämför sida vid sida</h1><p>Vilken passar dig bäst? Se skillnaderna i pris, räckvidd och livet med bilen.</p></div>
+        <div className="vehiclePageIntro"><h1>Jämför elbilar</h1><p>Välj upp till tre bilversioner för att jämföra pris, räckvidd, laddning och ägandekostnad.</p></div>
         <ComparisonSelection cars={compareCars} allCars={cars} onCompare={toggleCompare} renderImage={(car) => <CarImage key={car.id} car={car} />} navigate={navigate} appPath={appPath} />
         {!!compareCars.length && <>
           <div className="comparisonReport">
@@ -990,18 +990,19 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
   const distinct = [...new Map(similarCars.map((item) => [item.brand + '|' + item.canonicalModel, item])).values()].slice(0, 3);
   return <div className="vehicleDetail">
     <section className="vehicleDetailHero" aria-labelledby="vehicle-title">
-      <div className="vehicleHeroMedia"><CarImage key={car.id} car={car} priority /></div>
-      <div className="vehicleHeroOverlay" />
-      <div className="vehicleHeroCopy vehicleContainer">
+      <div className="bilVehicleLead vehicleContainer">
+      <div className="vehicleHeroCopy">
         <a className="vehicleBackLink" href={appPath('/bilar')} onClick={(event) => { if (!event.ctrlKey && !event.metaKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={15} /></a>
         <span className="vehicleHeroSource"><BadgeCheck size={15} /> Uppgifter med svenska källor</span>
         <h1 id="vehicle-title">{car.brand} {identity.model}<span>{identity.variant}</span></h1>
-        <p className="vehicleHeroDescription">{car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP. ' : ''}{car.dcVerified != null ? 'DC-laddning upp till ' + detailValue(car.dcVerified, 'kW') + '. ' : ''}Utforska detaljerna och jämför med dina alternativ.</p>
+        <p className="vehicleHeroDescription">{car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP. ' : ''}{car.dcVerified != null ? 'DC-laddning upp till ' + detailValue(car.dcVerified, 'kW') + '.' : ''}</p>
         <div className="vehicleHeroActions"><button className="uiPrimary" type="button" aria-pressed={selected} onClick={() => onCompare(car.id)}>{selected ? <Check size={17} /> : <Plus size={17} />}{selected ? 'Tillagd i jämförelse' : 'Lägg till i jämförelse'}</button><AppLink path={'/kostnad/'+car.id}>Ägandekostnad <ArrowRight size={16} /></AppLink>{selected && <button className="vehicleHeroCompareLink" type="button" onClick={() => navigate('/jamfor')}>Jämför nu <ArrowRight size={16} /></button>}</div>
+      </div>
+      <div className="vehicleHeroMedia"><CarImage key={car.id} car={car} priority wholeFrame /></div>
       </div>
       <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
-    <div className="vehicleContainer"><VehicleImageNotice car={car} /></div>
+    <div className="vehicleContainer bilVehicleNotice"><VehicleImageNotice car={car} /></div>
     <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil" onClick={jumpToSection}>Överblick</a><a href="#specifikationer" onClick={jumpToSection}>Specifikationer</a><a href="#nyckeltal" onClick={jumpToSection}>Nyckeltal</a></nav>
     <div className="vehicleDetailBody vehicleContainer">
       {car.rangeNote && <p className="vehicleSpecNote">{car.rangeNote}</p>}
@@ -1015,16 +1016,16 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       <div id="nyckeltal"><DecisionMetricsCard car={car} cars={cars} /></div>
     </div>
     <p className="bilSourceContext vehicleContainer"><AppLink path={variantSourcePath(car.id)}>Källor för modellen</AppLink></p>
-    <NewsPreview articles={newsArticles} navigate={navigate} title="Senaste nytt om denna bil" relatedKey={car.canonicalKey?.split('|').slice(0, 2).join('|')} />
-    <section className="vehicleSimilar vehicleContainer"><div className="vehicleSectionHeading"><span className="vehicleEyebrow">Fler perspektiv</span><h2>Andra elbilar att jämföra.</h2></div><div className="vehicleCardGrid">{distinct.map((item) => <CarCard key={item.id} car={item} selected={compare.includes(item.id)} onCompare={() => onCompare(item.id)} compareLimitReached={compare.length >= 3 && !compare.includes(item.id)} />)}</div></section>
+    <NewsPreview articles={newsArticles} navigate={navigate} title="Nyheter om modellen" relatedKey={car.canonicalKey?.split('|').slice(0, 2).join('|')} />
+    <section className="vehicleSimilar vehicleContainer"><div className="vehicleSectionHeading"><h2>Andra elbilar att jämföra</h2></div><div className="vehicleCardGrid">{distinct.map((item) => <CarCard key={item.id} car={item} selected={compare.includes(item.id)} onCompare={() => onCompare(item.id)} compareLimitReached={compare.length >= 3 && !compare.includes(item.id)} />)}</div></section>
   </div>;
 }
 
 function AiSummaryCard({ car }) {
   const strengths = [car.rangeVerified != null ? (car.rangeInterval || car.rangeVerified + ' km') + ' ' + (car.rangeIsTarget ? 'räckviddsmål' : 'räckvidd') + ' enligt WLTP.' : null, car.dcVerified != null ? 'DC-laddning upp till ' + detailValue(car.dcVerified, 'kW') + '.' : null, car.towingVerified != null ? 'Angiven dragvikt: ' + car.towingVerified + ' kg.' : null].filter(Boolean);
   const missing = [[car.price, 'svenskt pris'], [car.dcVerified, 'DC-laddning'], [car.towingVerified, 'dragvikt']].filter(([value]) => value == null).map(([, label]) => label);
-  const suitability = [car.rangeVerified >= 500 ? 'För dig som prioriterar lång angiven räckvidd.' : null, car.towingVerified >= 1500 ? 'För dig som behöver dra ett tyngre släp.' : null, car.cargoVerified >= 450 ? 'För dig som behöver större bagageutrymme.' : null].filter(Boolean);
-  return <section className="vehicleAssessment" id="bilprofil"><div><span className="vehicleEyebrow">Bilens profil</span><h2>Det här är bra att veta.</h2><p>Databaserad sammanfattning av bilens uppgifter, inte ett körtest.</p></div><div className="vehicleAssessmentColumns"><SummaryBlock title="Passar dig som" items={suitability.length ? suitability : ['Se specifikationerna mot dina egna behov.']} /><SummaryBlock title="Några nyckelfakta" items={strengths.length ? strengths : ['Uppgift saknas i databasen.']} /><SummaryBlock title="Att väga in" items={missing.length ? ['Uppgifter saknas om ' + missing.join(', ') + '.'] : ['WLTP är ett standardiserat mätvärde, inte en garanti för din körning.']} /></div></section>;
+  const practical = [car.seatsVerified != null ? car.seatsVerified + ' säten.' : null, car.cargoVerified != null ? 'Bagageutrymme: ' + car.cargoVerified + ' liter.' : null].filter(Boolean);
+  return <section className="vehicleAssessment" id="bilprofil"><div><h2>Uppgifter för den här versionen</h2><p>Räckvidden mäts enligt WLTP. Väder, hastighet och last påverkar hur långt du kommer.</p></div><div className="vehicleAssessmentColumns"><SummaryBlock title="Säten och bagage" items={practical.length ? practical : ['Verifierade uppgifter saknas.']} /><SummaryBlock title="Räckvidd, laddning och dragvikt" items={strengths.length ? strengths : ['Uppgift saknas i databasen.']} />{!!missing.length && <SummaryBlock title="Uppgifter som saknas" items={missing} />}</div></section>;
 }
 
 function DecisionMetricsCard({ car, cars }) {
@@ -1079,18 +1080,20 @@ function DetailInfoCard({ eyebrow, title, items, verifiedAt, priceSource, priceV
   );
 }
 
-function CarImage({ car, priority = false }) {
+function CarImage({ car, priority = false, wholeFrame = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
     const responsive = car.imageFullFrame ? null : imageVariants[car.image];
     const presentation = Object.values(imagePresentation.models).find(item => item.asset_url === car.image && item.content_sha256 === responsive?.source_sha256 && item.status === 'approved');
     const fallback = responsive?.variants.find((item) => item.width >= 800)?.url || car.image;
-    return <img style={car.imageFullFrame ? { objectFit: 'contain', objectPosition: 'center' } : presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={assetPath(fallback)} srcSet={isOfflineReview() ? undefined : responsive?.variants.map((item) => `${assetPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
+    const image = isOfflineReview() && !fallback.startsWith('/') ? '' : assetPath(fallback);
+    if (image) return <img style={wholeFrame || car.imageFullFrame ? { objectFit: 'contain', objectPosition: 'center' } : presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={image} srcSet={isOfflineReview() ? undefined : responsive?.variants.map((item) => `${assetPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;
   }
+  const message = isOfflineReview() && car?.image && failedImage !== car.image ? 'Bild ej med i förhandsvisningen' : 'Bild saknas';
   return (
-    <div className="missingCarImage" role="img" aria-label={`Verifierad bild saknas for ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>
+    <div className="missingCarImage" role="img" aria-label={`${message} för ${car?.brand ?? ''} ${car?.model ?? ''}`.trim()}>
       <CarFront size={28} />
-      <span>Bild saknas</span>
+      <span>{message}</span>
     </div>
   );
 }

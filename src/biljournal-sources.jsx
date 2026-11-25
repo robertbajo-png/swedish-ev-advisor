@@ -81,8 +81,8 @@ export function BiljournalSources({ cars, articles, target, link }) {
     }
   },[target,cars.length,published.length]);
   return <div className="bilSources bilWidth">
-    <h1>Källor och bildkrediter</h1><p>Hitta originalet till en artikel, en biluppgift eller ett foto.</p>
-    <nav aria-label="På källsidan">{link('/kallor?post=kallor','Källor')}{link('/kallor?post=bilder','Bildkrediter')}</nav>
+    <h1>Källor och bildkrediter</h1><p>Här finns uppgifternas originalkällor, kontrolldatum och villkoren för bilderna.</p>
+    <nav aria-label="På källsidan">{link('/kallor?post=artiklar','Artiklar')}{link('/kallor?post=bilfakta','Bilfakta och priser')}{link('/kallor?post=kalkyl','Kalkylmetod')}{link('/kallor?post=bilder','Bildkrediter')}</nav>
     <section aria-labelledby="kallor"><h2 id="kallor" tabIndex={-1}>Källor</h2>
       <h3 id="artiklar" tabIndex={-1}>Artiklar</h3>
       <ul className="bilSourcesList">{published.map(article => <li key={article.id}><h4 id={'artikel-'+article.slug} tabIndex={-1}>{article.title}</h4>

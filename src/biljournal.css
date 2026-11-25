@@ -19,6 +19,8 @@
   --bil-border: #867661;
   --bil-soft: #efe2ce;
   --bil-display: Newsreader, Georgia, serif;
+  --bil-gutter: 32px;
+  --bil-width: 1190px;
   --pine: var(--bil-ink);
   --paper: var(--bil-surface);
   --ink: var(--bil-navy);
@@ -34,7 +36,11 @@
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-.bilWidth { width: min(1190px, calc(100% - 64px)); margin-inline: auto; }
+.biljournal :is(.bilWidth, .homeContainer, .vehicleContainer, .newsPage, .newsArticlePage, .newsPreview, .consumerHome .newsPreview) {
+  width: min(var(--bil-width), calc(100% - 2 * var(--bil-gutter)));
+  margin-inline: auto;
+}
+.biljournal .vehicleCompare > .bilCost { width: 100%; }
 .biljournal :focus-visible { outline: 3px solid var(--bil-rust); outline-offset: 3px; }
 .biljournal main :is(h1,h2,h3) { font-family: var(--bil-display); letter-spacing: -.028em; }
 .biljournal main :is(a,summary) { text-underline-offset: .2em; }
@@ -44,7 +50,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px 28px;
-  padding: 10px max(32px, (100% - 1190px)/2);
+  padding: 10px max(var(--bil-gutter), (100% - var(--bil-width)) / 2);
   min-height: 72px;
   background: var(--bil-paper);
 }
@@ -66,61 +72,49 @@
   color: var(--bil-navy);
   font-weight: 700;
   border-block-end: 2px solid transparent;
+  border-radius: 0;
 }
 .biljournal .bilHeader nav a[aria-current="page"] { color: var(--bil-ink); border-block-end-color: currentColor; }
 .biljournal > footer { background: var(--bil-paper); }
 .biljournal > footer > div { flex-wrap: wrap; }
 .biljournal > footer a { color: var(--bil-navy); }
 .bilCover { background: var(--bil-navy); color: var(--bil-surface); }
-.bilCoverGrid { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); align-items: center; gap: clamp(14px,3vw,40px); }
-.bilCoverText { border-left: 4px solid var(--bil-orange); padding: clamp(16px,4vw,60px) 0 clamp(16px,4vw,56px) clamp(13px,1.5vw,22px); }
+.bilCoverGrid { display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); align-items: center; gap: clamp(16px,4vw,64px); padding-block: 18px; }
+.bilCoverText { border-inline-start: 3px solid var(--bil-orange); padding-inline-start: clamp(12px,2vw,28px); }
 .biljournal .bilCover h1 {
-  max-width: 10ch;
   margin: 0;
-  font: 600 clamp(2.65rem,7.2vw,6.6rem)/.9 var(--bil-display);
-  letter-spacing: -.044em;
+  font: 600 clamp(2.35rem,6.2vw,5.8rem)/.95 var(--bil-display);
+  letter-spacing: -.045em;
 }
-.bilCover p { margin: 15px 0 0; max-width: 28ch; color: #f3dcc9; font-size: clamp(1rem,1.5vw,1.25rem); }
-.bilCoverPhoto { margin: 0; min-width: 0; }
+.bilCover p { margin: 12px 0 0; max-width: 37ch; color: #f3dcc9; font-size: clamp(.9rem,1.4vw,1.18rem); line-height: 1.5; }
+.bilCoverPhoto { width: min(100%, 490px); justify-self: end; margin: 0; }
 .bilCoverPhoto img { display: block; width: 100%; height: auto; object-fit: contain; }
-.bilCoverPhoto figcaption { padding-block: 4px 6px; color: var(--bil-surface); font-size: .75rem; }
-.bilWeek { padding-block: 28px 32px; }
+.bilCoverPhoto figcaption { padding-block: 5px 2px; color: var(--bil-surface); font-size: .72rem; }
+.bilWeek { padding-block: 26px 30px; }
 .bilWeek header, .bilWeekEnd { display: flex; justify-content: space-between; align-items: end; gap: 12px 24px; }
-.bilWeek header { border-bottom: 2px solid var(--bil-navy); padding-bottom: 5px; }
-.bilWeek header h2 { margin: 0; font-size: clamp(1.8rem,3.3vw,3rem); font-weight: 600; line-height: 1; }
-.bilWeek header p, .bilWeekEnd p { margin: 0; color: var(--bil-muted); font-size: .9rem; }
-.bilWeekRoute { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
-.bilWeekRoute::before { content: ''; position: absolute; top: 20px; right: 13%; left: 17px; border-top: 1px solid var(--bil-rust); pointer-events: none; }
-.bilWeekRoute details { border-bottom: 1px solid var(--bil-line); }
-.bilWeekRoute summary {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0,1fr) auto;
-  min-height: 78px;
-  padding: 29px 16px 10px 26px;
-  gap: 8px;
-  cursor: pointer;
-  list-style: none;
-}
-.bilWeekRoute summary::-webkit-details-marker { display: none; }
-.bilWeekRoute summary::before { content: ''; position: absolute; left: 14px; top: 16px; width: 9px; height: 9px; background: var(--bil-paper); border: 2px solid var(--bil-rust); border-radius: 50%; }
-.bilWeekRoute summary:hover { background: #efe2ce45; }
-.bilStopLabel { font-weight: 700; }
-.bilStopLabel small { display: block; color: var(--bil-muted); font-size: .75rem; font-weight: 500; }
-.bilStopValue { grid-column: 1; color: var(--bil-ink); font-weight: 700; }
-.bilStopMark { grid-column: 2; grid-row: 1; align-self: center; width: 22px; text-align: center; line-height: 20px; border: 1px solid var(--bil-border); }
-.bilStopMark::before { content: '+'; }
-.bilWeekRoute details[open] .bilStopMark::before { content: '−'; }
-.bilStopControls { background: var(--bil-surface); padding: 10px 16px; }
-.bilWeekChoices { border: 0; margin: 0 0 8px; padding: 0; }
-.bilWeekChoices legend { font-weight: 700; font-size: .9rem; }
-.bilWeekChoices label { display: inline-flex; align-items: center; min-height: 44px; margin-inline-end: 10px; gap: 4px; }
-.bilWeekChoices input, .bilCostCheck input { accent-color: var(--bil-rust); }
-.bilWeekEnd { margin-top: 12px; }
-.bilWeekEnd .uiPrimary { min-width: min(100%, 240px); justify-content: space-between; }
-.bilWeekResult { padding-block: 20px 0; }
-.bilWeekResult h2 { margin: 0; font-size: clamp(1.8rem,4vw,2.75rem); }
-.bilWeekResult p { color: var(--bil-muted); }
+.bilWeek header { border-bottom: 1px solid var(--bil-navy); padding-bottom: 11px; }
+.bilWeek header h2 { margin: 0; font-size: clamp(1.85rem,3.6vw,3rem); font-weight: 600; line-height: 1; }
+.bilWeek header p, .bilWeekEnd p { margin: 6px 0 0; color: var(--bil-muted); font-size: .9rem; line-height: 1.45; }
+.bilExampleButton { align-self: end; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--bil-ink); font-weight: 700; text-align: start; text-decoration: underline; text-underline-offset: .22em; }
+.bilWeekExample { margin: 8px 0 0; color: var(--bil-muted); font-size: .88rem; }
+.bilWeekRoute { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
+.bilWeekRoute::before { content: ''; position: absolute; top: 16px; right: 0; left: 0; border-top: 1px solid var(--bil-line); pointer-events: none; }
+.bilRouteStop { position: relative; min-width: 0; padding: 23px 0 9px; }
+.bilRouteStop::before { content: ''; position: absolute; left: 0; top: 12px; width: 9px; height: 9px; background: var(--bil-paper); border: 2px solid var(--bil-rust); border-radius: 50%; }
+.bilRouteStop h3 { font-size: 1.28rem; font-weight: 600; margin: 0 0 5px; line-height: 1.1; }
+.bilRouteStop h3 small { margin-inline-start: 3px; font: 500 .75rem/1.4 system-ui, sans-serif; color: var(--bil-muted); }
+.bilRouteStop p { margin: 5px 0 0; color: var(--bil-muted); font-size: .82rem; line-height: 1.45; }
+.bilRouteField { display: grid; min-width: 0; gap: 3px; font-size: .88rem; font-weight: 650; }
+.bilRouteField :is(input,select) { min-width: 0; width: 100%; padding: 7px 8px; min-height: 44px; border: 1px solid var(--bil-border); border-radius: 0; background: var(--bil-surface); color: var(--bil-navy); font-size: 16px; }
+.bilRouteField select:disabled { opacity: 1; background: var(--bil-soft); color: var(--bil-muted); }
+.bilTripFields { display: grid; grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr); gap: 9px; align-items: end; }
+.bilWeekEnd { margin-top: 6px; align-items: center; border-top: 1px solid var(--bil-line); padding-top: 10px; }
+.bilWeekEnd .uiPrimary { min-width: min(100%, 220px); justify-content: space-between; }
+.bilWeekError { margin: 8px 0; color: var(--bil-ink); font-weight: 700; }
+.bilWeekResult { display:flex; flex-wrap:wrap; gap: 8px 24px; align-items:center; justify-content:space-between; margin-top: 20px; padding-block: 14px; border-block: 1px solid var(--bil-line); }
+.bilWeekResult h2 { margin: 0; font-size: clamp(1.65rem,4vw,2.5rem); line-height: 1.05; }
+.bilWeekResult p { margin: 5px 0; color: var(--bil-muted); max-width: 70ch; }
+.bilWeekResult a { display: inline-flex; align-items:center; gap: 8px; min-height: 44px; color: var(--bil-ink); font-weight: 700; }
 .biljournal :is(.vehiclePageIntro,.newsIntro,.vehicleSectionHeading,.homeSectionHeading) h1 { font-weight: 600; }
 .biljournal :is(.vehicleCard,.vehicleFilters,.vehicleDetailCard,.reportCard,.newsEditorialCard) { border-radius: 0; box-shadow: none; }
 .biljournal .bilSourceContext a { color: var(--bil-ink); font-weight: 700; }
@@ -130,13 +124,14 @@
 .bilSources h1,.bilCost > h1 { font-size: clamp(2.5rem,5.2vw,4.75rem); margin-block: 0 14px; line-height: .97; }
 .bilSources h2,.bilCost h2 { font-size: clamp(1.65rem,3vw,2.5rem); line-height: 1; }
 .bilSources h3,.bilSources h4,.bilCost h3 { margin-block: .75rem .3rem; }
-.bilSources nav { display: flex; gap: 16px; margin-block: 16px; }
+.bilSources nav { display: flex; flex-wrap: wrap; gap: 0 18px; margin-block: 16px; border-block: 1px solid var(--bil-line); }
 .bilSources :is(a,.bilSourceContext a), .bilCost .bilSourceContext a { color: var(--bil-ink); }
 .bilSources nav a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .bilSourcesList { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 26px; list-style: none; padding: 0; }
 .bilSourcesList > li { border-top: 1px solid var(--bil-line); padding: 8px 0; }
 .bilSourcesList p { margin: 5px 0; }
 .bilSources [tabindex="-1"]:focus { outline: 3px solid var(--bil-rust); outline-offset: 4px; }
+.bilSources [tabindex="-1"] { scroll-margin-top: 108px; }
 .bilCostVariant { padding-block: 20px; border-top: 2px solid var(--bil-navy); }
 .bilCostVariant > h2 { margin: 0 0 5px; }
 .bilCostVariant > p, .bilCostMeta { margin: 6px 0 10px; }
@@ -160,32 +155,37 @@
 .bilCostFlow dl { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px 12px; max-width: 600px; }
 .bilCostFlow dd { font-weight: 700; margin: 0; text-align: end; }
 @media (max-width: 759px) {
-  .bilWidth { width: calc(100% - 32px); }
-  .biljournal .siteHeader.bilHeader { align-items: start; flex-direction: column; padding: 6px 14px 0; gap: 0; min-height: 0; }
+  .biljournal { --bil-gutter: 16px; }
+  .biljournal .siteHeader.bilHeader { align-items: start; flex-direction: column; padding: 6px var(--bil-gutter) 0; gap: 0; min-height: 0; }
   .bilHeader .brandButton { font-size: 1.64rem; min-height: 37px; }
   .biljournal .bilHeader nav { justify-content: space-between; column-gap: 6px; row-gap: 0; width: 100%; }
   .biljournal .bilHeader nav a { font-size: clamp(.73rem,3.1vw,.86rem); min-height: 44px; }
-  .bilCoverGrid { display: grid; grid-template-columns: minmax(0,1fr); width: 100%; gap: 0; }
-  .bilCoverText { margin: 13px 16px 10px; padding: 10px 14px 8px; border-left-width: 3px; }
-  .biljournal .bilCover h1 { max-width: none; font-size: clamp(2.34rem,9.6vw,4.6rem); }
-  .bilCover p { margin-top: 7px; max-width: 38ch; font-size: .94rem; }
-  .bilCoverPhoto img { max-height: 340px; }
-  .bilCoverPhoto figcaption { padding-inline: 16px; }
-  .bilWeek { padding-block: 14px 20px; }
-  .bilWeek header p { font-size: .78rem; max-width: 13ch; text-align: end; }
-  .bilWeekRoute { grid-template-columns: minmax(0,1fr); }
-  .bilWeekRoute::before { inset: 18px auto 18px 8px; border: 0; border-left: 1px solid var(--bil-rust); }
-  .bilWeekRoute summary { grid-template-columns: minmax(0,1fr) minmax(0,1.25fr) auto; align-items: center; min-height: 50px; padding: 5px 0 5px 23px; gap: 6px; font-size: .91rem; }
-  .bilWeekRoute summary::before { left: 4px; top: 20px; }
-  .bilStopValue { grid-column: 2; text-align: end; }
-  .bilStopMark { grid-column: 3; }
-  .bilWeekEnd { align-items: stretch; flex-direction: column-reverse; gap: 7px; }
-  .bilWeekEnd p { font-size: .81rem; }
+  .bilCoverGrid { grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); gap: 12px; padding-block: 16px; }
+  .bilCoverText { padding-inline-start: 9px; }
+  .biljournal .bilCover h1 { font-size: clamp(2.25rem,9.2vw,4.2rem); }
+  .bilCover p { font-size: .85rem; margin-top: 7px; }
+  .bilCoverPhoto figcaption { font-size: .68rem; }
+  .bilWeek { padding-block: 18px 24px; }
+  .bilWeek header { display: block; padding-bottom: 2px; }
+  .bilWeekRoute { grid-template-columns: minmax(0,1fr); gap: 0; }
+  .bilWeekRoute::before { inset: 15px auto 25px 4px; border: 0; border-inline-start: 1px solid var(--bil-rust); }
+  .bilRouteStop { padding: 11px 0 9px 17px; }
+  .bilRouteStop::before { top: 15px; }
+  .bilRouteStop + .bilRouteStop { border-top: 1px solid var(--bil-line); }
+  .bilRouteStop p { font-size: .78rem; }
+  .bilWeekEnd { align-items: stretch; flex-direction: column; gap: 0; }
+  .bilWeekEnd p { margin: 0; }
+  .bilWeekEnd p:not(:empty) { margin-bottom: 6px; }
   .bilSourcesList { grid-template-columns: minmax(0,1fr); }
 }
 @media (max-width: 360px) {
   /* Space-between still distributes the free space with a wider system font. */
   .biljournal .bilHeader nav { column-gap: 0; }
+  .bilCoverGrid { grid-template-columns: minmax(0,1.4fr) minmax(0,.6fr); padding-block: 12px; }
+  .biljournal .bilCover h1 { font-size: clamp(1.8rem,9.4vw,2.1rem); }
+  .bilWeek { padding-top: 12px; }
+  .bilRouteStop { padding-block: 8px; }
+  .bilWeekEnd { padding-top: 7px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .bilCoverText { animation: bil-print .2s ease-out; }
@@ -209,3 +209,40 @@
 .bilFontLicense { white-space: pre-wrap; overflow-wrap: anywhere; }
 .bilSources p a { text-decoration: underline; }
 .biljournal .specQualificationNote { color: var(--bil-muted); }
+
+/* Keep the image centered in its own frame, and the variant name and actions on the text grid. */
+.biljournal .vehicleDetailHero { min-height: 0; gap: 22px; padding-block: 24px; background: var(--bil-navy); }
+.bilVehicleLead { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); align-items: center; gap: clamp(16px,4vw,52px); }
+.bilVehicleLead .vehicleHeroMedia { position: relative; inset: auto; z-index: auto; aspect-ratio: 16 / 10; background: var(--bil-soft); }
+.bilVehicleLead .vehicleHeroMedia img { display: block; object-fit: contain; object-position: center; }
+.bilVehicleLead .vehicleHeroMedia .missingCarImage { min-height: 0; height: 100%; padding: 12px; justify-content: center; background: var(--bil-soft); color: var(--bil-muted); }
+.bilVehicleLead .vehicleBackLink { margin-bottom: 12px; }
+.bilVehicleLead .vehicleHeroDescription:empty { display: none; }
+.biljournal .vehicleHeroStats { border-radius: 0; padding-block: 14px; background: transparent; backdrop-filter: none; }
+.biljournal .vehicleHeroStats strong { font-variant-numeric: tabular-nums; }
+.biljournal .comparisonVehicle h2 { display: block; overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .biljournal .comparisonVehicle > div:last-child { padding: 10px 12px; }
+  .biljournal .comparisonVehicle h2 { line-height: 1.18; }
+}
+.biljournal .comparisonVehiclePhoto .missingCarImage { position: absolute; inset: 0; height: 100%; width: 100%; min-height: 0; padding: 4px; text-align: center; }
+.biljournal .comparisonVehiclePhoto .missingCarImage span { font-size: .72rem; max-width: 15ch; }
+.biljournal :is(.newsStory--lead,.newsStory--secondary,.newsStory--recent) { border-radius: 0; border-color: var(--bil-line); background: var(--bil-surface); }
+.biljournal .journalImage img { border-radius: 0; background: var(--bil-soft); }
+.biljournal .journalArticle > .journalImage img { aspect-ratio: auto; max-height: 590px; }
+.biljournal .journalMasthead h1 { margin-block: 0 6px; }
+.biljournal .journalTopicNav { gap: 8px 20px; flex-wrap: wrap; overflow: visible; }
+.biljournal .journalTopicNav button { text-align: start; min-height: 44px; padding-block: 7px; }
+.biljournal .journalReadingLayout { gap: clamp(24px,5vw,64px); }
+.biljournal .journalBuyerPerspective { border-inline-start-color: var(--bil-rust); }
+.biljournal .bilSourcesList > li > ul { margin-block: 6px; padding-inline-start: 1.25rem; }
+.biljournal .bilSourceItem summary { min-height: 44px; padding-block: 10px; cursor: pointer; }
+@media (max-width: 800px) {
+  .biljournal .vehicleDetailHero { gap: 15px; padding-block: 12px 17px; }
+  .bilVehicleLead { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .bilVehicleLead .vehicleHeroMedia { max-width: min(100%, 520px); width: 100%; justify-self: center; }
+  .bilVehicleLead .vehicleHeroMedia img { height: 100%; }
+  .bilVehicleLead .vehicleHeroCopy h1 { margin-block: 8px 12px; }
+  .bilVehicleLead .vehicleHeroCopy h1 span { margin-top: 4px; }
+  .bilVehicleLead .vehicleHeroDescription { margin-block: 8px 12px; }
+}

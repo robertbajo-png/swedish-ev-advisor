@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Rss, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, Copy, ExternalLink, Newspaper, RotateCcw, Rss, X } from 'lucide-react';
 import { NEWS_CATEGORIES, NEWS_TOPICS, approvedNewsImage, articleBlocks, isPublishedArticle, newsDate, newsReadingMinutes, publicArticles, relatedNews, safeNewsLink, isSwedishPriceNews } from './news-presentation.js';
 import { editorialNewsImage } from './news-editorial-images.js';
 import './news.css';
@@ -152,7 +152,7 @@ export function NewsPage({ articles, loading, error, navigate }) {
 
   return <section className="newsPage journalPage" aria-labelledby="journal-title">
     <header className="journalMasthead">
-      <div><span className="journalEyebrow">Elbilsagenten Journal</span><h1 id="journal-title">Elbilsnyheter.</h1></div>
+      <div><h1 id="journal-title">Elbilsnyheter</h1></div>
       {!!published.length && <div className="journalLastPublished"><span>Senast publicerat</span><time dateTime={published[0].published_at}>{newsDate(published[0].published_at)}</time></div>}
     </header>
     <div className="journalTopicNav" role="group" aria-label="Nyhetskategorier">{NEWS_TOPICS.map((item) => <button type="button" key={item.id} aria-pressed={topic === item.id} onClick={() => setTopic(item.id)} disabled={loading || !published.length}>{item.label}</button>)}</div>
@@ -204,10 +204,10 @@ export function NewsArticlePage({ article, articles = [], loading, error, naviga
     <header className="newsArticleHeader"><NewsMeta article={article} readingTime /><h1>{article.title}</h1><p>{article.intro}</p><div className="journalByline"><span>Elbilsagenten{article.editorial_method ? ' · ' + article.editorial_method : ''}</span><ArticleShare key={article.id || article.slug} /></div></header>
     <NewsImage image={editorialNewsImage(article)} priority caption />
     <div className="journalReadingLayout">
-      <div className="newsArticleBody">{blocks.map((block, index) => <section key={index} className={block.kind === 'analysis' ? 'journalBuyerPerspective' : 'journalReporting'} aria-label={block.kind === 'analysis' ? 'Köparperspektiv' : undefined}>{block.kind === 'analysis' && <><span className="journalEyebrow"><Sparkles size={14} /> Köparperspektiv</span><h2>Vad betyder detta för dig som bilköpare?</h2></>}{block.paragraphs.map((text, paragraphIndex) => <p key={paragraphIndex}>{text}</p>)}</section>)}</div>
+      <div className="newsArticleBody">{blocks.map((block, index) => <section key={index} className={block.kind === 'analysis' ? 'journalBuyerPerspective' : 'journalReporting'} aria-label={block.kind === 'analysis' ? 'Köparperspektiv' : undefined}>{block.kind === 'analysis' && <><h2>För dig som jämför elbilar</h2></>}{block.paragraphs.map((text, paragraphIndex) => <p key={paragraphIndex}>{text}</p>)}</section>)}</div>
     </div>
     <p className="bilSourceContext">{sourceLink?.(articleSourcePath(article.slug),'Källor för artikeln')}</p>
     <ArticleVehicles article={article} cars={cars} navigate={navigate} renderVehicleCard={renderVehicleCard} />
-    {!!more.length && <section className="journalMore" aria-labelledby="journal-more-title"><div className="newsSectionHeading"><div><span className="journalEyebrow">Fler perspektiv</span><h2 id="journal-more-title">Mer att läsa.</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div><div className="journalPreviewGrid">{more.map((item) => <NewsCard key={item.id || item.slug} article={item} navigate={navigate} />)}</div></section>}
+    {!!more.length && <section className="journalMore" aria-labelledby="journal-more-title"><div className="newsSectionHeading"><div><h2 id="journal-more-title">Fler elbilsnyheter</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div><div className="journalPreviewGrid">{more.map((item) => <NewsCard key={item.id || item.slug} article={item} navigate={navigate} />)}</div></section>}
   </article>;
 }

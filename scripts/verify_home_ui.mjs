@@ -42,7 +42,7 @@ try {
       await photo.locator('img').evaluate((img) => img.complete || new Promise((resolve) => { img.addEventListener('load', resolve, { once: true }); img.addEventListener('error', resolve, { once: true }); setTimeout(resolve, 5000); })).catch(() => {});
     }
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-    assert.equal(await page.getByRole('heading', { name: 'Hitta elbilen som passar dig.', level: 1 }).count(), 1);
+    assert.equal(await page.getByRole('heading', { name: 'Få hjälp att välja elbil', level: 1 }).count(), 1);
     assert.equal(await page.locator('.homeVehicleCard').count(), 3);
     assert.equal(await page.locator('.compareSection').count(), 0, 'No full comparison report on homepage');
     assert.equal(await page.locator('.homeAdvisorResults').count(), 0, 'No invented AI output before submitting');
@@ -101,7 +101,7 @@ try {
   assert.equal(await page.locator('.homeRefinementNote').count(), 1);
   await page.screenshot({ path: fileURLToPath(new URL('advisor-desktop.png', out)), fullPage: true });
   await page.getByRole('button', { name: /Jämför valda/ }).click();
-  await page.getByRole('heading', { name: 'Jämför sida vid sida', exact: true }).waitFor();
+  await page.getByRole('heading', { name: 'Jämför elbilar', exact: true }).waitFor();
   await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Katalog', exact: true }).click();
   await page.locator('.carGrid').waitFor();
   assert((await page.locator('.carGrid .carCard').count()) > 0);

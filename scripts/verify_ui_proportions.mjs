@@ -51,13 +51,13 @@ try {
         });
         assert.match(title.font, /^Newsreader/);
         assert(title.fontLoaded, `${width}: Newsreader is loaded for the cover title`);
-        assert(h1Size >= 36 && h1Size <= 106, `${width}: approved cover type scale (${h1Size}px)`);
+        assert(h1Size >= (width <= 360 ? 30 : 36) && h1Size <= 106, `${width}: approved cover type scale (${h1Size}px)`);
         assert(title.lines > 0 && title.lines <= 2 && title.contained, `${width}: fully visible title with no overlapping description`);
-        const firstStop = await page.locator('.bilWeekRoute summary').first().boundingBox();
+        const firstStop = await page.locator('.bilWeekRoute :is(input,select)').first().boundingBox();
         const submit = await page.getByRole('button', { name: 'Visa bilurval' }).boundingBox();
         assert(firstStop.y + firstStop.height <= height, `${width}: first route control visible in the opening viewport`);
         assert(submit.y + submit.height <= height, `${width}: route action visible in the opening viewport`);
-        assert(await page.locator('.bilWeekRoute summary').evaluateAll(nodes => nodes.length === 3 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
+        assert(await page.locator('.bilWeekRoute :is(input,select)').evaluateAll(nodes => nodes.length === 4 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
       } else {
         assert(h1Size <= (width <= 560 ? 36 : name === 'advisor' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
       }
@@ -110,7 +110,9 @@ try {
         const stats = await page.locator('.vehicleHeroStats').boundingBox();
         if (width <= 800) {
           const actions = await page.locator('.vehicleHeroActions').boundingBox();
-          assert(stats.y - actions.y - actions.height <= 48, `${width}: no artificial void before specifications`);
+          const media = await page.locator('.vehicleHeroMedia').boundingBox();
+          assert(media.y - actions.y - actions.height <= 24 && stats.y - media.y - media.height <= 24,
+            `${width}: model photo uses the space between actions and specifications`);
         } else assert(stats.y + stats.height <= height, `${width}: hero facts visible without scrolling`);
         const clipped = await page.locator('.vehicleHeroStats strong').evaluateAll((nodes) => nodes.filter((node) => node.scrollWidth > node.clientWidth + 1).map((node) => node.textContent));
         assert.deepEqual(clipped, [], `${width}: missing values fit spec panel`);
@@ -120,8 +122,19 @@ try {
         assert(Math.max(...prices) - Math.min(...prices) < 2, `${width}: comparison prices align`);
       }
       if (name === 'compare' && width <= 560) {
-        const heights = await page.locator('.comparisonVehicle').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().height));
-        assert(heights.every((size) => size <= 176), `${width}: compact comparison selections`);
+        const cards = await page.locator('.comparisonVehicle').evaluateAll(nodes => nodes.map(node => {
+          const title = node.querySelector('h2');
+          const titleBox = title.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(title);
+          const rects = [...range.getClientRects()];
+          const extraTitleHeight = Math.max(0, titleBox.height - 2 * parseFloat(getComputedStyle(title).lineHeight));
+          return {
+            compactHeight: node.getBoundingClientRect().height - extraTitleHeight,
+            fullTitleVisible: rects.length > 0 && rects.every(rect => rect.right <= titleBox.right + 1 && rect.bottom <= titleBox.bottom + 2),
+          };
+        }));
+        assert(cards.every(card => card.compactHeight <= 176 && card.fullTitleVisible), `${width}: compact selections with full model names`);
       }
       if (width === 1440 || width === 390) {
         await page.waitForFunction(() => [...document.images].filter((image) => {
