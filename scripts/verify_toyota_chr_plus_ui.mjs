@@ -80,7 +80,7 @@ try{
    assert.equal(await details.count(),1);
    assert.equal(await summary.innerText(),'Om modellbilden');
    assert.equal(await details.getAttribute('open'),null);assert(!await note.isVisible());
-   assert.match(await note.textContent(),/Modellbild: Toyota C-HR\\+ i brittiskt Design[^.]*\\. .*utrustning kan skilja/i);
+   assert.equal(await note.textContent(),'Modellbild: Toyota C-HR+ i brittiskt Design-utförande. Färg, hjul och utrustning kan skilja från den svenska versionen.');
    const photoLink=card.locator('.homeVehiclePhoto'),id=await photoLink.getAttribute('aria-describedby');
    assert(id);assert.equal(await card.locator('#'+id).textContent(),await note.textContent());
    const cdp=await context.newCDPSession(page);
