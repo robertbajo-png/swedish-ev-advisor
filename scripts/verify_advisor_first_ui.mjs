@@ -51,6 +51,20 @@ try {
       assert.equal(style.transform, 'none');
       assert(frame && image && image.x >= frame.x - 1 && image.x + image.width <= frame.x + frame.width + 1 &&
         image.y >= frame.y - 1 && image.y + image.height <= frame.y + frame.height + 1, 'Whole image visible');
+      // Approximate visible-car centres marked on the three original image frames.
+      // Keep this source-specific: do not centre by clipping an editorial asset.
+      const centres = {
+        'bmw-i4-press-497a46b16ded.jpg': [.515, .715],
+        'cupra-born-press-7b71951e205b.jpg': [.505, .565],
+        'ford-explorer-press-050047452e4e.jpg': [.449, .539],
+      };
+      const { name, nw, nh } = await img.evaluate(el => ({ name: new URL(el.currentSrc).pathname.split('/').pop(), nw: el.naturalWidth, nh: el.naturalHeight }));
+      const centre = centres[name];
+      assert(centre && nw && nh);
+      const scale = Math.min(image.width / nw, image.height / nh);
+      const x = (image.x + (image.width - nw * scale) / 2 + nw * scale * centre[0] - frame.x) / frame.width;
+      const y = (image.y + (image.height - nh * scale) / 2 + nh * scale * centre[1] - frame.y) / frame.height;
+      assert(Math.abs(x - .5) < .03 && Math.abs(y - .55) < .04, name + ' optical motif alignment');
       observed.push([frame.width, frame.height]);
     }
     assert(observed.every(([w,h]) => Math.abs(w-observed[0][0]) < 1 && Math.abs(h-observed[0][1]) < 1));

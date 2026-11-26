@@ -46,15 +46,15 @@
 /* Align the CAR in each of the three whole-frame photographs, not the
    photographic canvas. A neutral matte absorbs the optical offsets: no crop,
    image processing, or hover zoom is allowed for these full-frame assets. */
-.homeExploreStart .vehicleCard .homeVehiclePhoto { aspect-ratio: 1.42; }
+.homeExploreStart .vehicleCard .homeVehiclePhoto { aspect-ratio: 1.36; background: #fff; }
 .homeExploreStart .vehicleCard .homeVehiclePhoto img[src$="/bmw-i4-press-497a46b16ded.jpg"] {
-  inset: 0 auto auto 8%; width: 82%; height: auto; transform: none;
+  inset: 1% auto auto 5.7%; width: 86%; height: auto; transform: none;
 }
 .homeExploreStart .vehicleCard .homeVehiclePhoto img[src$="/cupra-born-press-7b71951e205b.jpg"] {
-  inset: 1% auto auto 3%; width: 94%; height: auto; transform: none;
+  inset: 9% auto auto 4.5%; width: 90%; height: auto; transform: none;
 }
 .homeExploreStart .vehicleCard .homeVehiclePhoto img[src$="/ford-explorer-press-050047452e4e.jpg"] {
-  inset: 11% auto auto 8%; width: 92%; height: auto; transform: none;
+  inset: 17% auto auto 7%; width: 90%; height: auto; transform: none;
 }
 @media (max-width: 800px) {
   .homeExploreStart .vehicleImageNotice { padding-inline: 20px; }
