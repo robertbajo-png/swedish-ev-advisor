@@ -1,13 +1,44 @@
 {
-  "checked_at": "2026-10-20T19:04:08.296Z",
+  "checked_at": "2026-11-26T12:11:33.344Z",
   "ok": false,
-  "local_count": 66,
-  "remote_count": 67,
+  "local_count": 109,
+  "remote_count": 109,
   "local_only": [],
-  "remote_only": [
-    "toyota|bz4x|active fwd 57.7 kwh 167 hk"
+  "remote_only": [],
+  "changed": [
+    {
+      "key": "skoda|enyaq|solid edition 85",
+      "fields": [
+        "price_source_hash",
+        "price_source_quote",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition 85x",
+      "fields": [
+        "price_source_hash",
+        "price_source_quote",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition 85x sportline",
+      "fields": [
+        "price_source_hash",
+        "price_source_quote",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|enyaq|solid edition rs",
+      "fields": [
+        "price_source_hash",
+        "price_source_quote",
+        "price_verified_at"
+      ]
+    }
   ],
-  "changed": [],
   "quarantine": [
     {
       "brand": "Cupra",
@@ -113,5 +144,119 @@
     }
   ],
   "missing_view_columns": [],
-  "remote_writes": false
+  "remote_writes": false,
+  "scope": "approved_enyaq_proof_refresh_v2",
+  "representation_aliases": [
+    {
+      "key": "ford|puma gen-e|168 hk",
+      "field": "verified_at",
+      "retained": "2026-11-22T19:11:27.863Z",
+      "raw_canonical": "2026-11-22T19:11:27.863622+00:00"
+    },
+    {
+      "key": "ford|puma gen-e|168 hk",
+      "field": "price_verified_at",
+      "retained": "2026-11-22T19:11:27.863Z",
+      "raw_canonical": "2026-11-22T19:11:27.863+00:00"
+    },
+    {
+      "key": "ford|puma gen-e|premium 168 hk",
+      "field": "verified_at",
+      "retained": "2026-11-22T19:11:27.863Z",
+      "raw_canonical": "2026-11-22T19:11:27.863622+00:00"
+    },
+    {
+      "key": "ford|puma gen-e|premium 168 hk",
+      "field": "price_verified_at",
+      "retained": "2026-11-22T19:11:27.863Z",
+      "raw_canonical": "2026-11-22T19:11:27.863+00:00"
+    },
+    {
+      "key": "hyundai|inster|49 kwh advanced tech 17-tum my27",
+      "field": "verified_at",
+      "retained": "2026-11-23T02:36:23.455Z",
+      "raw_canonical": "2026-11-23T02:36:23.45535+00:00"
+    },
+    {
+      "key": "hyundai|inster|49 kwh advanced tech 17-tum my27",
+      "field": "price_verified_at",
+      "retained": "2026-11-23T02:36:23.907Z",
+      "raw_canonical": "2026-11-23T02:36:23.907+00:00"
+    },
+    {
+      "key": "hyundai|ioniq 9|advanced awd 7-sits my27",
+      "field": "verified_at",
+      "retained": "2026-11-22T22:28:51.840Z",
+      "raw_canonical": "2026-11-22T22:28:51.840903+00:00"
+    },
+    {
+      "key": "hyundai|ioniq 9|advanced awd 7-sits my27",
+      "field": "price_verified_at",
+      "retained": "2026-11-22T22:28:56.637Z",
+      "raw_canonical": "2026-11-22T22:28:56.637+00:00"
+    },
+    {
+      "key": "lexus|rz|350e executive",
+      "field": "verified_at",
+      "retained": "2026-11-23T04:44:49.224Z",
+      "raw_canonical": "2026-11-23T04:44:49.224849+00:00"
+    },
+    {
+      "key": "lexus|rz|350e executive",
+      "field": "price_verified_at",
+      "retained": "2026-11-23T04:44:49.224Z",
+      "raw_canonical": "2026-11-23T04:44:49.224+00:00"
+    },
+    {
+      "key": "mercedes-benz|glb|glb 250+ advanced edition",
+      "field": "verified_at",
+      "retained": "2026-11-22T20:20:01.103Z",
+      "raw_canonical": "2026-11-22T20:20:01.103+00:00"
+    },
+    {
+      "key": "mercedes-benz|glb|glb 250+ advanced edition",
+      "field": "price_verified_at",
+      "retained": "2026-11-22T20:20:01.103Z",
+      "raw_canonical": "2026-11-22T20:20:01.103+00:00"
+    },
+    {
+      "key": "mercedes-benz|glb|glb 350 4matic advanced edition",
+      "field": "verified_at",
+      "retained": "2026-11-22T20:20:01.103Z",
+      "raw_canonical": "2026-11-22T20:20:01.103+00:00"
+    },
+    {
+      "key": "mercedes-benz|glb|glb 350 4matic advanced edition",
+      "field": "price_verified_at",
+      "retained": "2026-11-22T20:20:01.103Z",
+      "raw_canonical": "2026-11-22T20:20:01.103+00:00"
+    },
+    {
+      "key": "porsche|macan|electric rwd my27",
+      "field": "verified_at",
+      "retained": "2026-11-23T03:48:25.235Z",
+      "raw_canonical": "2026-11-23T03:48:25.235766+00:00"
+    },
+    {
+      "key": "porsche|macan|electric rwd my27",
+      "field": "price_verified_at",
+      "retained": "2026-11-23T03:48:28.521Z",
+      "raw_canonical": "2026-11-23T03:48:28.521+00:00"
+    },
+    {
+      "key": "toyota|bz4x touring|active tech fwd",
+      "field": "verified_at",
+      "retained": "2026-11-23T06:28:36.482Z",
+      "raw_canonical": "2026-11-23T06:28:36.48254+00:00"
+    },
+    {
+      "key": "toyota|bz4x touring|active tech fwd",
+      "field": "price_verified_at",
+      "retained": "2026-11-23T06:28:36.482Z",
+      "raw_canonical": "2026-11-23T06:28:36.482+00:00"
+    }
+  ],
+  "raw_canonical_before_hash": "596e539df22119a77e8a686686d6d33f5ab484a53b9c2b0c9960bfba0e20c806",
+  "raw_canonical_after_hash": "d6eebbc11c22c3b5f0d99b6b9cbb9f09a2af3c8ad1c33439af656eab483aa619",
+  "scoped_export_verified": true
 }
