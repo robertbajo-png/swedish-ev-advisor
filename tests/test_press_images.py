@@ -3,12 +3,15 @@ import hashlib
 import json
 import sys
 import tempfile
+import shutil
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from audit_image_rights import POLESTAR_NOTICE, PRESS_PUBLISHERS, rights_errors, reviewed_press_permission, reviewed_media_permission
 from adopt_press_photos import prepare
+from audit_image_rights import ROOT, home_featured_report
+from prepare_home_featured_photos import prepare as prepare_featured
 
 
 class PressImageTests(unittest.TestCase):
@@ -135,6 +138,64 @@ class PressImageTests(unittest.TestCase):
                              '/se/mercedes-benz-sverige/images/cla-shooting-brake-123'):
                     other=policy['origin']+path
                     self.assertFalse(reviewed_media_permission({**proof,'source_url':other,'license_url':other,'evidence_url':other}))
+
+
+class HomepagePhotoTests(unittest.TestCase):
+    def setUp(self):
+        self.registry=json.loads((ROOT/'src/home-featured-photos.json').read_text(encoding='utf-8'))
+        self.manifest=ROOT/'data/review/home-featured-photo-source-candidates.json'
+        self.sha=hashlib.sha256(self.manifest.read_bytes()).hexdigest()
+
+    def test_only_two_exact_originals_with_home_only_rights(self):
+        self.assertTrue(home_featured_report()['all_documented'])
+        self.assertEqual(len(home_featured_report()['checks']),2)
+        for row in self.registry['assets']:
+            asset={'model_key':row['model_key'],'asset_url':row['asset_url'],'surface':'home_featured'}
+            self.assertTrue(reviewed_media_permission(row))
+            self.assertEqual(rights_errors(asset,row),[])
+            self.assertIn('image_placement_scope_mismatch',rights_errors({**asset,'surface':'vehicle'},row))
+            for patch in ({'placement':None},{'author':'Unverified photographer'},
+                          {'full_frame':False},{'source_content_sha256':'a'*64},
+                          {'downloaded_from':'https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/different'},
+                          {'usage_scope':'advertising'},{'source_url':'https://www.mynewsdesk.com/se/ford/images/another-123'}):
+                self.assertFalse(reviewed_media_permission({**row,**patch}),patch)
+
+    def test_frozen_source_and_bytes_cannot_be_replaced(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d)
+            copy_manifest=folder/'source.json'
+            shutil.copyfile(self.manifest,copy_manifest)
+            for row in self.registry['assets']:
+                shutil.copyfile(ROOT/'public'/row['asset_url'].lstrip('/'),folder/Path(row['asset_url']).name)
+            self.assertEqual(len(prepare_featured(copy_manifest,self.sha)),2)
+            with self.assertRaisesRegex(ValueError,'source_manifest_changed'):
+                prepare_featured(copy_manifest,'0'*64)
+            target=folder/Path(self.registry['assets'][0]['asset_url']).name
+            target.write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError,'original_bytes_changed'):
+                prepare_featured(copy_manifest,self.sha)
+
+    def test_changed_manifest_or_credit_or_canonical_lookup_fails_audit(self):
+        for mutation in ['credit','manifest','scope','original_lookup']:
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as d:
+                folder=Path(d)
+                (folder/'src').mkdir()
+                (folder/'data/review').mkdir(parents=True)
+                (folder/'public/media/vehicles').mkdir(parents=True)
+                manifest=folder/'data/review'/self.manifest.name
+                shutil.copyfile(self.manifest,manifest)
+                lookup=json.loads((ROOT/'src/model-images.json').read_text(encoding='utf-8'))
+                registry=copy.deepcopy(self.registry)
+                for row in registry['assets']:
+                    shutil.copyfile(ROOT/'public'/row['asset_url'].lstrip('/'),folder/'public'/row['asset_url'].lstrip('/'))
+                if mutation=='credit': registry['assets'][0]['credit']='Changed'
+                if mutation=='manifest': manifest.write_bytes(manifest.read_bytes()+b' ')
+                if mutation=='scope': registry['assets'][0]['placement']='vehicle'
+                if mutation=='original_lookup': lookup['bmw|i4']=registry['assets'][0]['asset_url']
+                (folder/'src/model-images.json').write_text(json.dumps(lookup),encoding='utf-8')
+                (folder/'src/home-featured-photos.json').write_text(json.dumps(registry),encoding='utf-8')
+                with self.assertRaisesRegex(ValueError,'home_featured_exact_photo_scope_mismatch'):
+                    home_featured_report(folder)
 
 
 if __name__ == '__main__':

@@ -42,19 +42,26 @@
 .homeSectionHeading h2 { margin: 8px 0 0; font-size: 30px; font-weight: 700; line-height: 1.2; }
 .homeExplore { padding-block: 40px 64px; border-top: 1px solid var(--line); }
 .homeExploreStart .vehicleImageNotice { margin: 0; padding: 0 24px 16px; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
-.homeFeaturedImageNotice { margin: 12px 0 0; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
+.homeExploreStart .homeFeaturedHeading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; }
+.homeFeaturedHeading h2 { margin: 0; }
+.homeFeaturedHeading > .homeTextLink { justify-self: end; white-space: nowrap; }
+.homeFeaturedImageContext { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; margin-top: 0; }
+.homeFeaturedImageNotice { margin: 0; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
+.homeImageCreditLink { color: var(--pine); font-size: .875rem; text-decoration: underline; text-underline-offset: 3px; line-height: 1.5; display: inline-flex; align-items: center; min-height: 44px; }
+.homeImageCreditLink:focus-visible { outline-offset: 3px; }
 /* A common, height-matched photographic stage. The original BMW, CUPRA
    and Ford media licences require the full photograph; contain rather than
    cropping content merely to force identical source aspect ratios. */
 .homeExploreStart .vehicleCard .homeVehiclePhoto {
-  aspect-ratio: 1.84; background: #f4f2ed;
+  aspect-ratio: 1.92; background: #f4f2ed;
 }
 .homeExploreStart .vehicleCard .homeVehiclePhoto img {
   inset: 8px 4% auto; width: 92%; height: calc(100% - 16px);
   object-fit: contain; object-position: center; transform: none;
 }
 .homeExploreStart .vehicleCardIdentity { min-height: 0; }
-.homeExploreStart .homeFeaturedImageNotice { padding-inline: 20px; }
+.homeExploreStart .vehicleSpecNote { margin-top: 8px; line-height: 1.55; }
+
 @media (min-width: 561px) {
   @supports (grid-template-rows: subgrid) {
     .homeExploreStart .homeVehicleGrid > .vehicleCard { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }

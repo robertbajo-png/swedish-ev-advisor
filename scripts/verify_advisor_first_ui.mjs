@@ -61,8 +61,18 @@ try {
     assert.match(await featured.locator('.vehicleSpecNote').innerText(), /631 km/);
     const gridBounds = await featured.locator('.homeVehicleGrid').boundingBox();
     const noteBounds = await note.boundingBox();
-    assert(gridBounds && noteBounds && Math.abs(gridBounds.x - noteBounds.x) < 1 && noteBounds.y >= gridBounds.y + gridBounds.height);
-    assert(await note.evaluate(el => parseFloat(getComputedStyle(el).paddingLeft) >= 20), "Shared note aligns with card text, not the edge");
+    const headingBounds = await featured.locator('#explore-title').boundingBox();
+    assert(gridBounds && noteBounds && headingBounds && Math.abs(headingBounds.x-noteBounds.x)<1
+      && noteBounds.y>=headingBounds.y+headingBounds.height-1 && noteBounds.y+noteBounds.height < gridBounds.y,
+      'Shared notice fits into the section heading, not floating below the cards');
+    const creditLink = featured.getByRole('link', {name:'Bildkrediter',exact:true});
+    assert.equal(await creditLink.getAttribute('href'), '/kallor?post=bilder');
+    assert((await creditLink.boundingBox()).height >=44);
+    assert.deepEqual(await photos.locator('img').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('src'))), [
+      '/media/vehicles/bmw-i4-press-0f228bbc4a06.jpg',
+      '/media/vehicles/cupra-born-press-7b71951e205b.jpg',
+      '/media/vehicles/ford-explorer-press-96d1dbd59dc4.jpg'
+    ]);
     assert.equal(await featured.locator(".vehiclePhotoLabel").count(), 0);
     assert.match(await featured.locator(".homeVehicleCard").filter({hasText:"Ford Explorer"}).locator(".homeVehicleSpecs").innerText(), /2200 kg/);
     const observed = [];
@@ -78,9 +88,9 @@ try {
       // Approximate visible-car centres marked on the three original image frames.
       // Keep this source-specific: do not centre by clipping an editorial asset.
       const centres = {
-        'bmw-i4-press-497a46b16ded.jpg': [.515, .715],
+        'bmw-i4-press-0f228bbc4a06.jpg': [.56, .63],
         'cupra-born-press-7b71951e205b.jpg': [.505, .565],
-        'ford-explorer-press-050047452e4e.jpg': [.449, .539],
+        'ford-explorer-press-96d1dbd59dc4.jpg': [.50, .58],
       };
       const { name, nw, nh } = await img.evaluate(el => ({ name: new URL(el.currentSrc).pathname.split('/').pop(), nw: el.naturalWidth, nh: el.naturalHeight }));
       const centre = centres[name];
@@ -109,6 +119,31 @@ try {
     if (width >= 1440) for (const key of ['y','title','price','actions']) assert(observed.every(v => Math.abs(v[key] - observed[0][key]) < 1), 'Aligned desktop row: '+key);
     if (width === 768) assert(Math.abs(observed[1].y - observed[0].y) < 1);
     assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
+    const sourceNotes = await featured.locator('.vehicleSpecNote').evaluateAll(nodes=>nodes.map(el=>({text:el.innerText, visible:el.getBoundingClientRect().height>0, size:parseFloat(getComputedStyle(el).fontSize)})));
+    assert(sourceNotes.some(note=>note.visible && note.size>=12 && note.text.includes('631 km')));
+    await creditLink.focus();
+    await page.keyboard.press('Enter');
+    await page.waitForURL('**/kallor?post=bilder');
+    await page.waitForFunction(()=>document.activeElement?.id==='bilder');
+    const credits = page.getByRole('region',{name:'Bildkrediter',exact:true});
+    const firstThree = await credits.locator('.bilSourcesList > li').evaluateAll(nodes=>nodes.slice(0,3).map(el=>el.innerText));
+    assert(firstThree[0].includes('Nye BMW i4 eDrive40.jpg') && firstThree[1].includes('Cupra Born') && firstThree[2].includes('2023_FORD_NewElectricExplorer_6'));
+    await page.screenshot({path:fileURLToPath(new URL('home-credits-'+width+'.png',out))});
+    for (const [title,author,link] of [
+      ['Nye BMW i4 eDrive40.jpg','Fabian Kirchbauer','https://www.mynewsdesk.com/no/bmw-no/images/nye-bmw-i4-edrive40-dot-jpg-3037471'],
+      ['2023_FORD_NewElectricExplorer_6','Ford Sverige / Hedin HMC Motor Company AB','https://www.mynewsdesk.com/se/ford/images/2023-ford-newelectricexplorer-6-2732259']
+    ]) {
+      const entry=credits.getByRole('listitem').filter({has:page.getByRole('heading',{name:title,exact:true})});
+      assert.equal(await entry.count(),1);
+      assert((await entry.innerText()).includes(author));
+      assert((await entry.innerText()).includes('startsidans bilurval'));
+      assert.equal(await entry.getByRole('link',{name:'Bildkälla',exact:true}).getAttribute('href'),link);
+      assert.equal(await entry.getByRole('link',{name:'Manufacturer-media-use',exact:true}).getAttribute('href'),link);
+    }
+    await page.goto(base, {waitUntil:'domcontentloaded'});
+    await page.locator('.homeVehicleCard').first().waitFor();
+    await page.evaluate(()=>scrollTo(0,0));
+
     const hero = page.locator('.homeHeroFirst');
     assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
@@ -188,6 +223,24 @@ try {
     await context.close();
     console.log(width + 'px: adviser visible, keyboard and axe clean, driving week and edit round trip, adviser shortcut, no real AI calls');
   }
+  const exactContext = await browser.newContext({viewport:{width:1440,height:900}});
+  const exactPage = await exactContext.newPage();
+  await exactContext.route('**/api/**',route=>route.abort());
+  await exactPage.goto(base+'/bilar',{waitUntil:'domcontentloaded'});
+  await exactPage.locator('.vehicleCatalog .carGrid > .vehicleCard').first().waitFor();
+  for (const [title,asset] of [['BMW i4','bmw-i4-press-497a46b16ded.jpg'],['Ford Explorer','ford-explorer-press-050047452e4e.jpg']]) {
+    const card=exactPage.locator('.vehicleCatalog .carGrid > .vehicleCard').filter({has:exactPage.locator('.vehicleCardTitle').filter({hasText:title})});
+    assert.equal(await card.count(),1);
+    assert((await card.locator('img').getAttribute('src')).endsWith(asset));
+    await exactPage.goto(base+await card.locator('.homeVehiclePhoto').getAttribute('href'),{waitUntil:'domcontentloaded'});
+    assert((await exactPage.locator('.vehicleHeroMedia img').getAttribute('src')).endsWith(asset));
+    await exactPage.goto(base+'/bilar',{waitUntil:'domcontentloaded'});
+    await exactPage.locator('.vehicleCatalog .carGrid > .vehicleCard').first().waitFor();
+  }
+  await exactPage.goto(base+'/radgivare',{waitUntil:'domcontentloaded'});
+  await exactPage.locator('.homeExplore .homeVehicleCard').first().waitFor();
+  assert.equal(await exactPage.locator('img[src*="0f228bbc4a06"],img[src*="96d1dbd59dc4"]').count(),0);
+  await exactContext.close();
   // A different, individually qualified photo must not be swept into the shared note.
   const data = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
   const rows = ['bmw-i4-press-497a46b16ded.jpg', 'cupra-born-press-7b71951e205b.jpg', 'hyundai-ioniq-9-press-4556561b89d9.jpg'].map(asset =>

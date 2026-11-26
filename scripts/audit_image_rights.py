@@ -44,6 +44,9 @@ def reviewed_media_permission(evidence):
         and re.fullmatch(r'/image/upload/fl_attachment/[a-zA-Z0-9_-]+', asset.path)
         and not asset.query and not asset.fragment
         and evidence.get('usage_scope') == 'independent_vehicle_editorial'
+        and policy.get('placement') == evidence.get('placement')
+        and (not policy.get('placement') or (evidence.get('author') == policy.get('asset_author')
+            and evidence.get('credit') == policy.get('asset_credit')))
         and evidence.get('full_frame') is True
         and all(re.fullmatch('[a-f0-9]{64}', evidence.get(name, '')) for name in ('metadata_sha256', 'source_content_sha256')))
 
@@ -92,6 +95,8 @@ def rights_errors(asset, evidence, today=None):
     if not evidence:
         return ['permission_evidence_missing']
     errors = []
+    if evidence.get('placement') and evidence.get('placement') != asset.get('surface'):
+        errors.append('image_placement_scope_mismatch')
     if evidence.get('asset_url') != asset['asset_url'] or evidence.get('model_key') != asset.get('model_key'):
         errors.append('exact_asset_or_model_mismatch')
     for field in ('source_url', 'evidence_url', 'license_url'):
@@ -196,6 +201,45 @@ def build_report(assets, registry, today=None, root=ROOT):
             'network_calls': 0, 'public_data_changed': False}
 
 
+def home_featured_report(root=ROOT, today=None):
+    """Separate editorial homepage assets: never add to the canonical model lookup."""
+    root = Path(root)
+    path = root / 'src/home-featured-photos.json'
+    if not path.is_file():
+        return None
+    registry = json.loads(path.read_text(encoding='utf-8'))
+    source_manifest = (root / 'data/review/home-featured-photo-source-candidates.json').read_bytes()
+    source_manifest_sha = hashlib.sha256(source_manifest).hexdigest()
+    sources = {row['model_key']: row for row in json.loads(source_manifest)}
+    canonical = image_lookup(root)
+    assets = []
+    for row in registry['assets']:
+        policy = PRESS_PUBLISHERS.get(row.get('publisher_id'), {})
+        key = row.get('model_key')
+        source = sources.get(key, {})
+        if (policy.get('placement') != 'home_featured'
+                or row.get('placement') != 'home_featured'
+                or row.get('replaces_only_home_image') != policy.get('replaces_only_home_image')
+                or canonical.get(key) != row.get('replaces_only_home_image')
+                or row.get('asset_url') in canonical.values()
+                or row.get('title') is None
+                or not re.fullmatch(policy.get('model_title_pattern', r'(?!)'), row['title'])
+                or row.get('source_manifest_sha256') != source_manifest_sha
+                or row.get('downloaded_from') != source.get('asset_url')
+                or any(row.get(field) != source.get(field) for field in (
+                    'source_url','release_source_url','release_metadata_sha256','evidence_url','license_url',
+                    'license_id','evidence_quote','publisher_id','author','credit','original_url','content_sha256',
+                    'source_content_sha256','metadata_sha256','width','height','full_frame','usage_scope','photographer_evidence',
+                    'replaces_only_home_image','title'))
+                or row.get('model_image_notice') != 'Pressbild. Utrustning kan skilja mellan versioner.'
+                or row.get('prohibited_uses') != ['advertising','commercial_promotion','endorsement']):
+            raise ValueError('home_featured_exact_photo_scope_mismatch')
+        assets.append({'model_key': key, 'asset_url': row['asset_url'], 'surface': 'home_featured'})
+    if sorted(row['model_key'] for row in assets) != ['bmw|i4', 'ford|explorer']:
+        raise ValueError('home_featured_exact_pair_required')
+    return build_report(assets, registry, today, root)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
@@ -203,6 +247,14 @@ def main():
     args = parser.parse_args()
     report = build_report(inventory(candidate_registry=args.candidate_registry), json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8')))
     report['candidate_registry_only'] = args.candidate_registry
+    featured = home_featured_report()
+    if featured is not None:
+        report['home_featured'] = featured
+        report['checks'].extend(featured['checks'])
+        report['assets'] += featured['assets']
+        report['documented'] += featured['documented']
+        report['pending'] += featured['pending']
+        report['all_documented'] = report['all_documented'] and featured['all_documented']
     print(json.dumps(report, ensure_ascii=True, indent=2))
     if args.check and not report['all_documented']:
         raise SystemExit(1)

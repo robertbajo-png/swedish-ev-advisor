@@ -388,5 +388,65 @@
     "download_label": "Ladda ner",
     "permission_excerpt": "Innehållet får laddas ner, användas och delas",
     "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet"
+  },
+  "bmw-no-mynewsdesk-home-3037471": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "BMW Group Norge",
+    "image_path_prefix": "/no/bmw-no/images/",
+    "model_keys": [
+      "bmw|i4"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Bruk i media",
+    "download_label": "Last ned",
+    "permission_excerpt": "Innholdet kan lastes ned, bli brukt og delt i ulike medier",
+    "condition_excerpt": "forutsatt at innholdet er uendret og brukt i sin helhet",
+    "official_link_evidence": "https://www.mynewsdesk.com/no/bmw-no/pressreleases/vaarens-produktoppdateringer-fra-bmw-3326384",
+    "model_title_pattern": "^Nye\\ BMW\\ i4\\ eDrive40\\.jpg$",
+    "approved_image_paths": [
+      "/no/bmw-no/images/nye-bmw-i4-edrive40-dot-jpg-3037471"
+    ],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/7k7hpjniqnq5ea45skqkt7",
+    "approved_source_sha256": "0f228bbc4a06bff7a3432d7fc0e4cf2232c69f3521cc516b426f3666dc796bff",
+    "approved_original_dimensions": [
+      4961,
+      3308
+    ],
+    "preserve_original_jpeg": true,
+    "asset_author": "Fabian Kirchbauer",
+    "asset_credit": "Fabian Kirchbauer / BMW Group (BMW Group Norge) / pressbild",
+    "placement": "home_featured",
+    "replaces_only_home_image": "/media/vehicles/bmw-i4-press-497a46b16ded.jpg"
+  },
+  "ford-se-mynewsdesk-home-2732259": {
+    "origin": "https://www.mynewsdesk.com",
+    "publisher": "Ford Sverige / Hedin HMC Motor Company AB",
+    "image_path_prefix": "/se/ford/images/",
+    "model_keys": [
+      "ford|explorer"
+    ],
+    "asset_origin": "https://mnd-assets.mynewsdesk.com",
+    "license_id": "Manufacturer-media-use",
+    "license_label": "Medieanvändning",
+    "download_label": "Ladda ner",
+    "permission_excerpt": "Innehållet får laddas ner, användas och delas i olika mediekanaler",
+    "condition_excerpt": "så länge innehållet används oförändrat och i dess helhet",
+    "official_link_evidence": "https://www.mynewsdesk.com/se/ford/pressreleases/ford-elektrifierar-en-ikonisk-modell-med-introduktionen-av-nya-helelektriska-explorer-utvecklad-och-byggd-i-europa-3241069",
+    "model_title_pattern": "^2023_FORD_NewElectricExplorer_6$",
+    "approved_image_paths": [
+      "/se/ford/images/2023-ford-newelectricexplorer-6-2732259"
+    ],
+    "approved_asset_url": "https://mnd-assets.mynewsdesk.com/image/upload/fl_attachment/icdjfep4xvehjiqjllg6",
+    "approved_source_sha256": "96d1dbd59dc4b8565750138d89fbdcbb33489070a362b4495ebf49f75dce9330",
+    "approved_original_dimensions": [
+      5000,
+      2606
+    ],
+    "preserve_original_jpeg": true,
+    "asset_author": "Ford Sverige / Hedin HMC Motor Company AB",
+    "asset_credit": "Ford Sverige / Hedin HMC Motor Company AB / pressbild",
+    "placement": "home_featured",
+    "replaces_only_home_image": "/media/vehicles/ford-explorer-press-050047452e4e.jpg"
   }
 }
