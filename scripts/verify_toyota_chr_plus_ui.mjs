@@ -81,7 +81,14 @@ try{
    assert.equal(await summary.innerText(),'Om modellbilden');
    assert.equal(await details.getAttribute('open'),null);assert(!await note.isVisible());
    assert.match(await note.textContent(),/Modellbild: Toyota C-HR\\+ i brittiskt Design[^.]*\\. .*utrustning kan skilja/i);
-   assert.equal(await card.locator('.homeVehiclePhoto').getAttribute('aria-describedby'),await note.getAttribute('id'));
+   const photoLink=card.locator('.homeVehiclePhoto'),id=await photoLink.getAttribute('aria-describedby');
+   assert(id);assert.equal(await card.locator('#'+id).textContent(),await note.textContent());
+   const cdp=await context.newCDPSession(page);
+   const root=await cdp.send('DOM.getDocument');
+   const dom=await cdp.send('DOM.querySelector',{nodeId:root.root.nodeId,selector:'[aria-describedby="'+id+'"]'});
+   const ax=await cdp.send('Accessibility.getPartialAXTree',{nodeId:dom.nodeId,fetchRelatives:false});
+   assert.equal(ax.nodes.find(n=>n.role?.value==='link')?.description?.value,await note.textContent());
+   await cdp.detach();
    assert((await summary.boundingBox()).height>=44);
    await summary.focus();await page.keyboard.press('Enter');assert(await note.isVisible());
    assert(await summary.evaluate(e=>document.activeElement===e&&getComputedStyle(e).outlineWidth!=='0px'));
