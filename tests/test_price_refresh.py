@@ -125,6 +125,83 @@ RS 340 558 161 0 – – 651 000 kr'''
             self.assertEqual(receipt['operation_result'], {'staged': 0, 'published': 0})
             self.assertTrue(all(d['extraction_payload']['field_evidence']['price_sek']['source_page'] == 1 for d in receipt['drafts']))
 
+    def separate_previous(self):
+        previous = copy.deepcopy(self.previous)
+        for i, row in enumerate(previous):
+            row.update(source_id='00000000-0000-4000-8000-000000000090',
+                       source_url='https://www.skoda.se/modeller/enyaq/enyaq',
+                       source_hash='c'*64, price_sek=501000+i*50000,
+                       price_type='campaign_price', price_valid_until='2026-12-15',
+                       price_source_url=URL, price_source_hash='d'*64,
+                       price_source_quote='Earlier exact approved price proof',
+                       price_source_name='Skoda Sverige',
+                       price_verified_at='2026-09-01T10:15:00.123456+00:00',
+                       price_refresh_batch_id='e'*64)
+        return previous
+
+    def test_existing_separate_price_proof_binds_both_evidence_lanes(self):
+        previous = self.separate_previous()
+        prepared = self.run_prepare(previous=previous)
+        self.assertEqual(prepared['packet']['adapter'], worker.SEPARATE_ADAPTER)
+        self.assertTrue(prepared['requires_separate_price_contract_v2'])
+        self.assertFalse(prepared['ready_for_publication'])
+        for target, row, draft in zip(prepared['packet']['targets'], previous, prepared['drafts']):
+            self.assertEqual(target['expected_technical_source_id'], row['source_id'])
+            self.assertEqual(target['expected_technical_source_url'], row['source_url'])
+            self.assertEqual(target['expected_hash'], row['source_hash'])
+            self.assertEqual(target['expected_price'], {k: row[k] for k in (*worker.PRICE_PROOF_FIELDS,*worker.PRICE_FACT_FIELDS)})
+            self.assertEqual(draft['source_url'], URL)
+            self.assertEqual(draft['source_id'], self.original['id'])
+            self.assertEqual(draft['extraction_payload']['adapter'], worker.SEPARATE_ADAPTER)
+            self.assertIsNone(draft['wltp_range_km'])
+
+    def test_separate_group_never_falls_back_when_old_proof_or_facts_differ(self):
+        for patch in [
+            {'price_source_url':'https://www.skoda.se/modeller/enyaq/enyaq'},
+            {'price_source_hash':'bad'}, {'price_source_quote':' '}, {'price_source_name':'other'},
+            {'price_verified_at':None}, {'price_verified_at':'2026-10-27T12:01:00+00:00'},
+            {'price_refresh_batch_id':None}, {'price_sek':500000},
+            {'price_type':'list_price'}, {'price_valid_until':'2026-12-16'},
+            {'source_id':None}, {'validation_status':'draft'}
+        ]:
+            previous=self.separate_previous()
+            previous[-1].update(patch)
+            with self.subTest(patch=patch), self.assertRaises(RefreshError):
+                self.run_prepare(previous=previous)
+        previous=self.separate_previous()
+        for key in worker.PRICE_PROOF_FIELDS:
+            previous[-1][key]=None
+        previous[-1]['source_url']=URL
+        with self.assertRaises(RefreshError):
+            self.run_prepare(previous=previous)
+
+    def test_v2_contract_probe_fails_before_staging_and_selects_exact_rpc(self):
+        prepared=self.run_prepare(previous=self.separate_previous())
+        class Client:
+            def __init__(self, contract): self.contract=contract;self.calls=[]
+            def _request(self, method, path, payload=None):
+                self.calls.append((method,path))
+                if method=='GET':
+                    if isinstance(self.contract, Exception): raise self.contract
+                    return self.contract
+                assert method=='POST' and path=='rpc/publish_skoda_price_refresh_v2'
+                assert payload['p_batch']['adapter']==worker.SEPARATE_ADAPTER
+                assert len(payload['p_batch']['targets'])==4
+                return {'published':4,'price_verified':True,'specifications_reverified':False}
+            def select(self, table, fields, filters):
+                self.calls.append(('GET',table)); return [{'price_verified_at':None}]
+            def upsert(self, table, rows, conflict):
+                self.calls.append(('POST',table))
+                return [{**row, 'id': f'00000000-0000-4000-8000-00000000001{i}'} for i,row in enumerate(rows)]
+        for bad in [RuntimeError('missing'),None,{'contract':'v1'},[],{'contract':worker.SEPARATE_ADAPTER,'publisher':'wrong'}]:
+            client=Client(bad)
+            with self.assertRaisesRegex(RefreshError,'migration_028'):
+                stage_or_publish(client,prepared,publish=True)
+            self.assertEqual(client.calls,[('GET','rpc/skoda_price_refresh_contract_v2')])
+        client=Client(worker.SEPARATE_CONTRACT)
+        self.assertEqual(stage_or_publish(client,prepared,publish=True)['published'],4)
+        self.assertEqual(client.calls,[('GET','rpc/skoda_price_refresh_contract_v2'),('GET','public_ev_variants'),('POST','extracted_variant_drafts'),('POST','rpc/publish_skoda_price_refresh_v2')])
+
     def test_stale_fetch_wrong_group_authority_and_large_changes_fail_closed(self):
         for patch in [{'fetched_at': '2026-10-27T11:00:00+00:00'}, {'fetched_at': '2026-10-27T13:00:00+00:00'},
                       {'fetched_at': '2026-10-27T12:00:00'}, {'status': 'blocked'}, {'http_status': 403},

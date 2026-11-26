@@ -84,3 +84,5 @@ try {
   await db.exec('reset role');
   console.log(JSON.stringify({price_refresh_contract_ok:true,rejected_batches:rejected,atomic_rollback:true,technical_facts_and_dates_preserved:true,migration_idempotent:true,public_roles_denied:true,replay_idempotent:true,replaced_price_evidence_invalidated:true,remote_requests:0,real_publications:0}));
 }finally{await db.close();}
+
+await import('./verify_price_refresh_v2.mjs');

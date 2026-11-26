@@ -74,3 +74,5 @@ if (!process.argv.includes('--fixtures-only')) {
 }
 console.log(JSON.stringify({ catalog_contract_ok: true, pagination: true, fields_compared: FIELDS.length,
   unknowns_preserved: true, quarantine_idempotent: true, public_keys_only: true, remote_calls: 0 }));
+
+await import('./verify_enyaq_proof_export.mjs');
