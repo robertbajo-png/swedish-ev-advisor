@@ -104,6 +104,102 @@ registry authority is null. It explicitly records that missing classification
 and cannot stage or publish until it is resolved. Conflicting authorities,
 models, markets or URLs are rejected, not normalized into an approval.
 
+## Page-bound campaign evidence (2026-11-26)
+
+The registered Swedish Enyaq PDF can have a newer vehicle price table on
+page 1 and an older optional-equipment footer on page 2. The flat-text
+parser still rejects ambiguous dates by default. The page-aware intake uses
+the original full PDF hash, exact full-text hash and actual PDF page
+boundaries from the same fetch; it accepts the scoped date only for the
+recognized three-page vehicle/optional-equipment/standard-equipment layout.
+The second page may contain its own distinct limited-offer footer only,
+not an additional vehicle price table. Duplicate/conflicting vehicle rows,
+other page layouts, unbound text or additional date conflicts stay in
+quarantine. Preserve the page evidence privately; do not import estimated
+specifications or optional-equipment facts.
+
+A checked PDF or private packet alone does not refresh the canonical date.
+The existing price-only RPC and approval rules still apply, including a new
+fresh fetch at execution. Price-proof URL/hash/quote/time are public data;
+a refreshed source hash or verification time changes the four canonical
+export rows even when the amounts and terms do not change. Do not modify
+the release freshness gate or substitute an uncommitted local projection
+for the canonical export. Independently review this adapter change and
+obtain the scoped data-publication approval before any staging/publication.
+
+## Existing separate price evidence contract v2 (migration 028)
+
+The four already-published Enyaq variants now have a separate technical
+source and a complete price-specific proof for the registered official PDF.
+The v1 publisher deliberately binds the technical source group; the generic
+variant publisher rewrites technical fields and is not a price-only alternative.
+
+Migration 028 is additive: it installs the exact proof-only RPC
+`publish_skoda_price_refresh_v2(jsonb)` and a stable GET capability
+`skoda_price_refresh_contract_v2()`, both executable only by the existing
+service role (never anon/authenticated/public). It changes no data, table/view
+ACL, technical source, columns or the original v1 function. Fresh schema
+contains the same migration. The v2 worker binds all four existing canonical
+rows, the six prior price-proof fields, unchanged price/type/expiry, exact
+technical source id/URL/hash, row/source versions and fresh source. It rejects
+mixed, incomplete or foreign proof, new variants, and changed amounts/terms.
+The parent and target group are locked; all four canonical proof updates and
+draft consumption remain one transaction. Replay is exact and does not update
+dates. No new grants or credentials are needed; the read-only contract probe
+must match before any staging. An explicit expected-price matrix is mandatory
+for v2 staging/publication. The existing initial v1 route is unchanged.
+
+**Separate approval is required to install migration 028 in production.**
+Local/disposable SQL tests and a reviewed code commit are not that approval.
+After installation, verify the new capability using the existing service role,
+the prior v1 definition/ACL and the before/after data fingerprints. Use a
+fresh source fetch and exact four-target dry-run; only the separately
+authorized owner operation may use the existing `--publish --expected-prices`
+command. Save the original pre-write anonymous canonical double-read receipt,
+the exact live snapshot bytes, database baseline, and actual successful
+publication packet. A dry-run or uncertain publication response is not
+publication evidence. Reconcile the original batch before any retry.
+
+The approved scoped export path uses the same anonymous canonical exporter
+and strict double-read. Nine previously published rows have UTC ISO
+millisecond-rendered dates whereas the canonical view retains offset and
+fractional precision. Keep their already published representation **only if**
+the pre-write raw canonical timestamp is unchanged byte-for-byte after the
+write and the old public representation equals its exact ISO millisecond
+rendering. All raw canonical rows are compared strictly before any
+representation restoration; even a sub-millisecond raw change is rejected.
+The default catalog comparison remains strict. The reviewed scoped path
+requires exactly the four approved price proofs to change, no other fields,
+no added/removed rows, and all other public rows stay identical.
+
+Prepare a local receipt from the actual successful saved worker packet, not
+from a simulation or a hand-edited catalog:
+
+```text
+node scripts/prepare_enyaq_proof_export_receipt.mjs <frozen-live-catalog.json> <pre-write-anonymous-readback.json> <actual-successful-price-packet.json> <private-export-receipt.json>
+node scripts/sync_public_catalog.mjs --enyaq-proof-receipt <private-export-receipt.json>
+node scripts/sync_public_catalog.mjs --enyaq-proof-receipt <private-export-receipt.json> --write
+```
+
+The pre-write readback contains `records` and `canonicalHash` from the
+stable anonymous canonical read. The output is an ordinary generated local
+canonical snapshot; there is no direct database write in export. The report
+records all representation aliases, both raw canonical hashes and strict
+scope verification. A changed baseline, invalid/missing receipt or unrelated
+raw change leaves the local snapshot unchanged. Review the exact export
+and reconcile main through protected CI, then run the ordinary release
+checks/build. No layout-only production exception exists: the existing
+production build always evaluates current price evidence before building.
+
+If installation must be reversed before/after a release, first stop use of
+the v2 worker and apply the reviewed code-only rollback
+`database/rollback/028_skoda_separate_price_proof.sql` using the normal
+authorized database procedure. It removes only the two additive functions,
+leaving v1 and all data intact; it deliberately does not resurrect stale
+price proof or technical data. A correction to already-published data needs
+its own approved evidence and transaction, not a stale-date rewind. The
+website release retains its independently verified Pages rollback version.
+
 ## Commands
 
 ```text
