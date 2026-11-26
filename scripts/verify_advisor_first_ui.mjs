@@ -30,6 +30,24 @@ try {
     const toggle = page.getByRole('button', { name: 'Mest räckvidd för pengarna', exact: true });
     const section = page.getByRole('form', { name: 'Din körvecka' });
     await page.locator('.homeVehicleCard').first().waitFor();
+    // First keyboard navigation must start in a fresh document, not after
+    // scrolling the card images (which can change sequential focus origin).
+    await page.evaluate(() => scrollTo(0, 0));
+    const skip = page.locator('.skipLink');
+    const skipState = () => skip.evaluate(el => ({ focused: el === document.activeElement, rect: el.getBoundingClientRect().toJSON() }));
+    const initialSkip = await skipState();
+    assert(!initialSkip.focused && initialSkip.rect.bottom <= 0);
+    await page.keyboard.press('Tab');
+    await page.waitForFunction(() => { const el = document.querySelector('.skipLink'), r = el.getBoundingClientRect();
+      return el === document.activeElement && r.top >= 0 && r.bottom <= innerHeight; });
+    const focusedSkip = await skipState();
+    assert(focusedSkip.focused && focusedSkip.rect.top >= 0 && focusedSkip.rect.bottom <= height);
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => document.activeElement?.id === 'main-content');
+    const activatedSkip = await skipState();
+    assert(!activatedSkip.focused && activatedSkip.rect.bottom <= 0);
+    await page.goto(base, { waitUntil: 'domcontentloaded' });
+    await page.locator('.homeVehicleCard').first().waitFor();
     const featured = page.locator('.homeExploreStart');
     const note = featured.locator('#home-featured-image-notice');
     assert.equal(await note.innerText(), 'Pressbilder. Utrustning kan skilja mellan versioner.');
@@ -79,19 +97,6 @@ try {
     if (width === 1440) assert(observed.every(v => Math.abs(v.y - observed[0].y) < 1), 'Visible photo top edges align on desktop');
     if (width === 768) assert(Math.abs(observed[1].y - observed[0].y) < 1);
     assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
-    await page.evaluate(() => scrollTo(0, 0));
-    const skip = page.locator('.skipLink');
-    const skipState = () => skip.evaluate(el => ({ focused: el === document.activeElement, rect: el.getBoundingClientRect().toJSON() }));
-    const initialSkip = await skipState();
-    assert(!initialSkip.focused && initialSkip.rect.bottom <= 0);
-    await page.keyboard.press('Tab');
-    const focusedSkip = await skipState();
-    assert(focusedSkip.focused && focusedSkip.rect.top >= 0 && focusedSkip.rect.bottom <= height);
-    await page.keyboard.press('Enter');
-    await page.waitForFunction(() => document.activeElement?.id === 'main-content');
-    const activatedSkip = await skipState();
-    assert(!activatedSkip.focused && activatedSkip.rect.bottom <= 0);
-    await page.evaluate(() => scrollTo(0, 0));
     const hero = page.locator('.homeHeroFirst');
     assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
