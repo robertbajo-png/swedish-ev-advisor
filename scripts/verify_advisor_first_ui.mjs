@@ -11,7 +11,7 @@ await mkdir(out, { recursive: true });
 const compact = (str) => str.replace(/\s+/g, ' ');
 const browser = await launchQaBrowser();
 try {
-  for (const [width, height] of [[320, 710], [390, 844], [768, 1024], [1440, 900]]) {
+  for (const [width, height] of [[320, 710], [390, 844], [768, 1024], [1440, 900], [1536, 864]]) {
     const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
     const page = await context.newPage();
     const errors = [];
@@ -62,6 +62,9 @@ try {
     const gridBounds = await featured.locator('.homeVehicleGrid').boundingBox();
     const noteBounds = await note.boundingBox();
     assert(gridBounds && noteBounds && Math.abs(gridBounds.x - noteBounds.x) < 1 && noteBounds.y >= gridBounds.y + gridBounds.height);
+    assert(await note.evaluate(el => parseFloat(getComputedStyle(el).paddingLeft) >= 20), "Shared note aligns with card text, not the edge");
+    assert.equal(await featured.locator(".vehiclePhotoLabel").count(), 0);
+    assert.match(await featured.locator(".homeVehicleCard").filter({hasText:"Ford Explorer"}).locator(".homeVehicleSpecs").innerText(), /2200 kg/);
     const observed = [];
     for (const photo of await photos.all()) {
       const img = photo.locator('img');
@@ -91,13 +94,19 @@ try {
       const visibleW = nw * scale, visibleH = nh * scale;
       const visibleY = image.y + (image.height - visibleH) / 2;
       const title = await photo.locator('..').locator('.vehicleCardTitle').boundingBox();
-      assert(title && Math.abs(visibleY - frame.y - 6) < 1 && Math.abs(visibleW / frame.width - .92) < .005, name + ' common visible photo frame');
+      assert(title && Math.abs(visibleY - frame.y - 8) < 1.5 && visibleW <= frame.width * .92 + 1, name + ' common visible photo frame');
       if (width <= 560) assert(title.y - (visibleY + visibleH) <= 38, name + ' compact mobile image-to-title gap');
-      observed.push({ w: frame.width, h: frame.height, y: visibleY });
+      const card = photo.locator('..');
+      const price = await card.locator('.homeVehiclePrice').boundingBox();
+      const identity = await card.locator('.vehicleCardIdentity').boundingBox();
+      const actions = await card.locator('.homeVehicleActions').boundingBox();
+      assert(price && identity && actions && price.y - identity.y - identity.height <= 13);
+      observed.push({ w: frame.width, h: frame.height, visibleH, y: visibleY, title: title.y, price: price.y, actions: actions.y });
     }
     assert(observed.every(v => Math.abs(v.w - observed[0].w) < 1));
+    assert(observed.every(v => Math.abs(v.visibleH - observed[0].visibleH) < 1.5), 'Actual visible photo heights, not just img boxes, agree');
     if (width >= 768) assert(observed.every(v => Math.abs(v.h - observed[0].h) < 1));
-    if (width === 1440) assert(observed.every(v => Math.abs(v.y - observed[0].y) < 1), 'Visible photo top edges align on desktop');
+    if (width >= 1440) for (const key of ['y','title','price','actions']) assert(observed.every(v => Math.abs(v[key] - observed[0][key]) < 1), 'Aligned desktop row: '+key);
     if (width === 768) assert(Math.abs(observed[1].y - observed[0].y) < 1);
     assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
     const hero = page.locator('.homeHeroFirst');

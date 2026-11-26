@@ -1,18 +1,16 @@
 import React from 'react';
 
-// Only the exact reviewed catalog photo/qualification is eligible. If the
-// notice or asset changes, retain the ordinary visible model-specific notice.
-const chrCatalogNotice = 'Modellbild: Toyota C-HR+ i brittiskt Design-utförande. Färg, hjul och utrustning kan skilja från den svenska versionen.';
-export const catalogImageNoticeDisclosure = car => car.brand === 'Toyota'
-  && car.canonicalModel?.toLowerCase() === 'c-hr+'
-  && car.image === '/media/vehicles/toyota-c-hr-press-39c5e82ee449.jpg'
-  && car.imageNotice === chrCatalogNotice;
+// Catalog-only: keep each existing complete qualification accessible through
+// its own disclosure rather than laying unstyled text across a card border.
+// The caller is deliberately restricted to catalog cards; detail/compare
+// surfaces still expose their model-specific qualifier in ordinary text.
+export const catalogImageNoticeDisclosure = car => Boolean(car.image && car.imageNotice);
 
 export function VehicleImageNotice({ car, disclosureId }) {
   if (!car.image || !car.imageNotice) return null;
   if (disclosureId) return <>
     <details className="vehicleImageNoticeDisclosure">
-      <summary>Om modellbilden</summary>
+      <summary aria-label={`Om modellbilden för ${car.brand} ${car.canonicalModel || car.model}`}>Om modellbilden</summary>
       <p className="vehicleImageNotice">{car.imageNotice}</p>
     </details>
     {/* A closed details suppresses its descendants in Chromium's accessible

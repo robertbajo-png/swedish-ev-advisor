@@ -98,6 +98,43 @@ try{
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
  }
 
+ // Normal unfiltered catalog, not a single-card Toyota filter. Include different
+ // natural aspect ratios, long identities, generic and specific qualifications.
+ const globalChecks=[];
+ for (const width of [320,390,768,1440,1536]) {
+  await page.setViewportSize({width,height:900});
+  await page.goto(base+'/bilar',{waitUntil:'domcontentloaded'});
+  const cards=page.locator('.vehicleCatalog .carGrid > .vehicleCard');
+  await cards.first().waitFor();
+  const count=await cards.count();
+  assert(count>=40);
+  const records=await cards.evaluateAll(nodes=>nodes.map(card=>{
+   const photo=card.querySelector('.homeVehiclePhoto'),img=photo.querySelector('img'),body=card.querySelector('.homeVehicleBody');
+   const details=card.querySelector('details.vehicleImageNoticeDisclosure'),summary=details?.querySelector('summary'),note=details?.querySelector('p');
+   const rect=el=>el?.getBoundingClientRect().toJSON();
+   return {photo:rect(photo),body:rect(body),title:rect(card.querySelector('.vehicleCardTitle')),price:rect(card.querySelector('.homeVehiclePrice')),actions:rect(card.querySelector('.homeVehicleActions')),
+    details:rect(details),summary:rect(summary),closed:details&&!details.open,notice:note?.textContent,desc:document.getElementById(photo.getAttribute('aria-describedby'))?.textContent,
+    fit:img&&getComputedStyle(img).objectFit,rawNote:!!card.querySelector(':scope > p.vehicleImageNotice'),label:!!photo.querySelector('.vehiclePhotoLabel')};
+  }));
+  assert(records.every(r=>!r.rawNote&&!r.label&&r.fit==='contain'&&r.notice&&r.notice===r.desc&&r.closed&&r.summary.height>=44));
+  assert(records.every(r=>Math.abs(r.details.x-r.body.x-20)<1&&Math.abs(r.details.right-r.body.right+20)<1),'Each disclosure shares card text margins');
+  if(width>=768) for(let i=1;i<count;i+=2){
+   const [a,b]=[records[i-1],records[i]];
+   if(Math.abs(a.photo.top-b.photo.top)<1) for(const key of ['photo','title','price','actions','details']) assert(Math.abs(a[key].top-b[key].top)<1,'Aligned row '+i+' '+key);
+  }
+  const targets=cards.filter({has:page.locator('.vehicleCardTitle').filter({hasText:/Cupra Tavascan|Volkswagen ID\. Buzz/})});
+  assert.equal(await targets.count(),2);
+  for(const card of await targets.all()){
+   const summary=card.locator('summary'),note=card.locator('details p');
+   await summary.focus();await page.keyboard.press('Enter');assert(await note.isVisible());
+   assert(await summary.evaluate(e=>document.activeElement===e&&getComputedStyle(e).outlineWidth!=='0px'));
+   const issues=(await new AxeBuilder({page}).include('.vehicleImageNoticeDisclosure').analyze()).violations;
+   assert.deepEqual(issues,[]);
+   await page.keyboard.press('Space');assert(!await note.isVisible());
+  }
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  globalChecks.push({width,models:count,disclosures:records.length});
+ }
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/bilar?brand=Toyota&query=C-HR%2B',{waitUntil:'networkidle'});
  await page.getByRole('slider',{name:'Maxpris',exact:true}).press('End');
  const picker=page.locator('.vehicleVariantPicker select');await picker.waitFor();
@@ -106,6 +143,6 @@ try{
  const table=await page.locator('table').first().innerText();
  for(const label of ['Toyota C-HR+','Executive AWD','150 kW','11 kW','22 kW','416','607 km','548 km','507 km'])assert(table.includes(label));
  assert.deepEqual(errors,[]);
- await writeFile(resolve(output,'report.json'),JSON.stringify({origin,checks,axe_audits:14,catalog_disclosure_checks:12,comparison:true,advisor:true,image_sha256:hash,runtime_errors:errors,paid_calls:0},null,2)+'\n');
- console.log(JSON.stringify({toyota_chr_plus_ui:'passed',origin,pages:checks.length,axe_audits:14,catalog_disclosure_checks:12,comparison:true,advisor:true,paid_calls:0}));
+ await writeFile(resolve(output,'report.json'),JSON.stringify({origin,checks,axe_audits:14,catalog_disclosure_checks:12,unfiltered_catalog:globalChecks,comparison:true,advisor:true,image_sha256:hash,runtime_errors:errors,paid_calls:0},null,2)+'\n');
+ console.log(JSON.stringify({toyota_chr_plus_ui:'passed',origin,pages:checks.length,axe_audits:14,catalog_disclosure_checks:12,unfiltered_catalog:globalChecks,comparison:true,advisor:true,paid_calls:0}));
 }finally{await browser.close();}

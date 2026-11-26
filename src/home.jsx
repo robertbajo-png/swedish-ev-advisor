@@ -130,7 +130,7 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
 
     <section className={`homeExplore homeContainer${drivingWeek ? " homeExploreStart" : ""}`} aria-labelledby="explore-title">
       <div className="homeSectionHeading"><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a></div>
-      {cars.length ? <><div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} />)}</div>
+      {cars.length ? <><div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} showPhotoHighlight={!drivingWeek} />)}</div>
         {shareFeaturedNotice && <p id={featuredNoticeId} className="homeFeaturedImageNotice">Pressbilder. Utrustning kan skilja mellan versioner.</p>}</> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 

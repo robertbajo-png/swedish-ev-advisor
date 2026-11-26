@@ -25,7 +25,7 @@ export function VehicleLink({ car, navigate, children, className, appPath, descr
   }}>{children}</a>;
 }
 
-export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3, sharedImageNoticeId, compactImageNotice = false }) {
+export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3, sharedImageNoticeId, compactImageNotice = false, showPhotoHighlight = true }) {
   const identity = vehicleIdentity(car);
   const disclosureId = compactImageNotice && car.image && car.imageNotice && !sharedImageNoticeId ? 'catalog-image-note-' + car.id : undefined;
   const Heading = 'h' + headingLevel;
@@ -33,7 +33,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
   const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
-    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto" describedBy={sharedImageNoticeId || disclosureId}>{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
+    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto" describedBy={sharedImageNoticeId || disclosureId}>{renderImage(car)}{showPhotoHighlight && highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>

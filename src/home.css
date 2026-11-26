@@ -43,23 +43,27 @@
 .homeExplore { padding-block: 40px 64px; border-top: 1px solid var(--line); }
 .homeExploreStart .vehicleImageNotice { margin: 0; padding: 0 24px 16px; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
 .homeFeaturedImageNotice { margin: 12px 0 0; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
-/* Give the reviewed full-frame assets one common photographic top edge,
-   width and quiet frame. Keep natural composition instead of moving the
-   entire image far enough to create a distracting empty matte. */
-.homeExploreStart .vehicleCard .homeVehiclePhoto:has(img:is([src$="/bmw-i4-press-497a46b16ded.jpg"], [src$="/cupra-born-press-7b71951e205b.jpg"], [src$="/ford-explorer-press-050047452e4e.jpg"])) {
-  aspect-ratio: 1.55; background: #fff;
+/* A common, height-matched photographic stage. The original BMW, CUPRA
+   and Ford media licences require the full photograph; contain rather than
+   cropping content merely to force identical source aspect ratios. */
+.homeExploreStart .vehicleCard .homeVehiclePhoto {
+  aspect-ratio: 1.84; background: #f4f2ed;
 }
-.homeExploreStart .vehicleCard .homeVehiclePhoto img:is([src$="/bmw-i4-press-497a46b16ded.jpg"], [src$="/cupra-born-press-7b71951e205b.jpg"], [src$="/ford-explorer-press-050047452e4e.jpg"]) {
-  inset: 6px auto auto 4%; width: 92%; height: auto; transform: none;
+.homeExploreStart .vehicleCard .homeVehiclePhoto img {
+  inset: 8px 4% auto; width: 92%; height: calc(100% - 16px);
+  object-fit: contain; object-position: center; transform: none;
 }
-.homeExploreStart .vehicleCard .homeVehiclePhoto img[src$="/ford-explorer-press-050047452e4e.jpg"] { left: 5.5%; }
+.homeExploreStart .vehicleCardIdentity { min-height: 0; }
+.homeExploreStart .homeFeaturedImageNotice { padding-inline: 20px; }
+@media (min-width: 561px) {
+  @supports (grid-template-rows: subgrid) {
+    .homeExploreStart .homeVehicleGrid > .vehicleCard { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+    .homeExploreStart .vehicleCard .homeVehicleBody { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; min-width: 0; }
+    .homeExploreStart .vehicleCard .homeVehiclePhoto { align-self: start; }
+  }
+}
 @media (max-width: 800px) {
   .homeExploreStart .vehicleImageNotice { padding-inline: 20px; }
-}
-@media (max-width: 560px) {
-  /* Stacked cards need no matching height; let the wide Ford photo finish
-     naturally rather than carrying the desktop alignment gap onto mobile. */
-  .homeExploreStart .vehicleCard .homeVehiclePhoto:has(img[src$="/ford-explorer-press-050047452e4e.jpg"]) { aspect-ratio: 1.86; }
 }
 .homeVehicleGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .homeVehicleCard { display: flex; flex-direction: column; min-width: 0; background: white; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }

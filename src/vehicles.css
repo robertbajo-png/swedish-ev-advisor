@@ -68,6 +68,16 @@
 .vehicleFilterNote { font-size: 12px; color: var(--muted); }
 .catalogResults { min-width: 0; }
 .vehicleCatalog .carGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+/* Keep the full vehicle rather than clipping its front/rear at mixed aspect
+   ratios. Model-level image bytes and source/credit routes remain unchanged. */
+.vehicleCatalog .vehicleCard .homeVehiclePhoto { aspect-ratio: 1.65; background: #f4f2ed; }
+.vehicleCatalog .vehicleCard .homeVehiclePhoto img { position: absolute; inset: 8px 4% auto; width: 92%; height: calc(100% - 16px); transform: none; }
+/* Move the verification block and CTA to the same bottom rhythm where the
+   row has a longer version/range qualification on a neighbouring card. */
+:is(.homeExploreStart, .vehicleCatalog) .vehicleCard .vehicleSourceLine:not(.vehicleSourceLine + .vehicleSourceLine) { margin-top: auto; }
+:is(.homeExploreStart, .vehicleCatalog) .vehicleCard .vehicleSourceLine + .vehicleSourceLine { margin-top: 0; }
+:is(.homeExploreStart, .vehicleCatalog) .vehicleCard .homeVehicleActions { margin-top: 0; }
+
 @media (min-width: 561px) {
   @supports (grid-template-rows: subgrid) {
     /* Share the photo, model identity, details and credit tracks within each row. */
@@ -125,7 +135,7 @@
 .vehicleImageCreditLine > a:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .vehicleImageCreditLine > a:last-child { flex-shrink: 0; }
 .vehicleImageNotice { display: block; }
-.vehicleCatalog .vehicleImageNoticeDisclosure { align-self: start; min-width: 0; margin: 0; padding: 0 20px 12px; }
+.vehicleCatalog .vehicleImageNoticeDisclosure { align-self: stretch; min-width: 0; margin: 0 20px 12px; padding: 0; border-top: 1px solid var(--line); }
 .vehicleCatalog .vehicleImageNoticeDisclosure > summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--bil-muted); font-size: .875rem; line-height: 1.4; font-weight: 600; text-align: left; }
 .vehicleCatalog .vehicleImageNoticeDisclosure > summary:focus-visible { outline-offset: 2px; }
 .vehicleCatalog .vehicleImageNoticeDisclosure > .vehicleImageNotice { margin: 0; padding-block: 0 8px; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }

@@ -941,8 +941,8 @@ function decisionSignalsFor(car, advisor = {}) {
 }
 
 function CarCard({ car, selected, onCompare, compareLimitReached, variants, onVariantChange, headingLevel = 3 }) {
-  return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached} compactImageNotice={catalogImageNoticeDisclosure(car)}
-    onCompare={onCompare} variants={variants} onVariantChange={onVariantChange} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />;
+  return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached} compactImageNotice={catalogImageNoticeDisclosure(car)} showPhotoHighlight={false}
+    onCompare={onCompare} variants={variants} onVariantChange={onVariantChange} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} wholeFrame />} />;
 }
 
 function SegmentHeader({ segment, count }) {
