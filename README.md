@@ -113,7 +113,7 @@ Copy `.env.example` and set:
 
 Public UI reads only from Supabase public views when configured.
 
-## Production on seekev.se
+## Production on elbilsagenten.se
 
 The production target is Cloudflare Pages with Pages Functions:
 
@@ -132,11 +132,12 @@ bun run seo:build
 bun run verify:seo
 ```
 
-For local Pages Functions testing and a manual deploy:
+For local Pages Functions testing:
 
 ```bash
 bun run pages:dev
-bun run pages:deploy
 ```
+
+The `bun run pages:deploy` script still targets the legacy `seekev` Pages project. The production deployment workflow targets the `elbilsagenten` Pages project.
 
 See `docs/cloudflare-deployment-checklist.md` for the account, environment-variable, domain, and DNS steps.
