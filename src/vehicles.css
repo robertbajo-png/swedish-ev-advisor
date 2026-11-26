@@ -125,6 +125,10 @@
 .vehicleImageCreditLine > a:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .vehicleImageCreditLine > a:last-child { flex-shrink: 0; }
 .vehicleImageNotice { display: block; }
+.vehicleCatalog .vehicleImageNoticeDisclosure { align-self: start; min-width: 0; margin: 0; padding: 0 20px 12px; }
+.vehicleCatalog .vehicleImageNoticeDisclosure > summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: var(--bil-muted); font-size: .875rem; line-height: 1.4; font-weight: 600; text-align: left; }
+.vehicleCatalog .vehicleImageNoticeDisclosure > summary:focus-visible { outline-offset: 2px; }
+.vehicleCatalog .vehicleImageNoticeDisclosure > .vehicleImageNotice { margin: 0; padding-block: 0 8px; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
 .vehicleHeroMedia .missingCarImage { height: 100%; border: 0; border-radius: 0; color: #d3ddda; background: #253635; justify-content: flex-end; padding-bottom: 180px; }
 .vehicleHeroOverlay { z-index: -1; background: linear-gradient(90deg, rgb(10 20 22 / 87%), rgb(10 20 22 / 62%) 38%, rgb(10 20 22 / 12%) 80%), linear-gradient(0deg, rgb(10 20 22 / 80%), transparent 60%); }
 .vehicleHeroCopy { margin-bottom: 0; }

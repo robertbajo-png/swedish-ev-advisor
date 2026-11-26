@@ -48,7 +48,7 @@ import { VehicleCard, VehicleCatalog, ComparisonSelection, vehicleIdentity, vehi
 import './vehicles.css';
 import { InfoPage } from './info-pages.jsx';
 import licensedModelImages from './model-images.json';
-import { VehicleImageNotice } from './vehicle-image-notice.jsx';
+import { VehicleImageNotice, catalogImageNoticeDisclosure } from './vehicle-image-notice.jsx';
 import { MANUFACTURER_FROM_PRICE, priceEvidence, priceOfferEnd, verifiedManufacturerFrom } from './price-evidence.js';
 import { EV2VersionGuide } from './ev2-version-guide.jsx';
 import { decisionMetricsFor } from './decision-metrics.js';
@@ -941,7 +941,7 @@ function decisionSignalsFor(car, advisor = {}) {
 }
 
 function CarCard({ car, selected, onCompare, compareLimitReached, variants, onVariantChange, headingLevel = 3 }) {
-  return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached}
+  return <VehicleCard className="carCard" car={car} selected={selected} headingLevel={headingLevel} compareLimitReached={compareLimitReached} compactImageNotice={catalogImageNoticeDisclosure(car)}
     onCompare={onCompare} variants={variants} onVariantChange={onVariantChange} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />;
 }
 

@@ -66,6 +66,38 @@ try{
    checks.push({slug,width,...layout});
   }
  }
+ // Catalog-only progressive disclosure: same complete model qualifier, photo and
+ // facts, visible keyboard focus, and no change to the detail-page qualifier.
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  await page.goto(base+'/bilar?brand=Toyota&query=C-HR%2B',{waitUntil:'networkidle'});
+  const card=page.locator('.vehicleCatalog .vehicleCard').filter({has:page.locator('img[src*="toyota-c-hr-press-39c5e82ee449"]')});
+  await card.waitFor();assert.equal(await card.count(),1);
+  const picker=card.locator('.vehicleVariantPicker select');
+  for(const r of rows){
+   await picker.selectOption(vehicleSlug(r.brand,r.model,r.variant_name));
+   const details=card.locator('details.vehicleImageNoticeDisclosure'),summary=details.locator('summary'),note=details.locator('.vehicleImageNotice');
+   assert.equal(await details.count(),1);
+   assert.equal(await summary.innerText(),'Om modellbilden');
+   assert.equal(await details.getAttribute('open'),null);assert(!await note.isVisible());
+   assert.equal(await note.textContent(),'Modellbild: Toyota C-HR+ i brittiskt Design-utförande. Färg, hjul och utrustning kan skilja från den svenska versionen.');
+   const photoLink=card.locator('.homeVehiclePhoto'),id=await photoLink.getAttribute('aria-describedby');
+   assert(id);assert.equal(await card.locator('#'+id).textContent(),await note.textContent());
+   const cdp=await context.newCDPSession(page);
+   const root=await cdp.send('DOM.getDocument');
+   const dom=await cdp.send('DOM.querySelector',{nodeId:root.root.nodeId,selector:'[aria-describedby="'+id+'"]'});
+   const ax=await cdp.send('Accessibility.getPartialAXTree',{nodeId:dom.nodeId,fetchRelatives:false});
+   assert.equal(ax.nodes.find(n=>n.role?.value==='link')?.description?.value,await note.textContent());
+   await cdp.detach();
+   assert((await summary.boundingBox()).height>=44);
+   await summary.focus();await page.keyboard.press('Enter');assert(await note.isVisible());
+   assert(await summary.evaluate(e=>document.activeElement===e&&getComputedStyle(e).outlineWidth!=='0px'));
+   const axe=await new AxeBuilder({page}).include('.vehicleImageNoticeDisclosure').analyze();assert.deepEqual(axe.violations,[]);
+   await page.keyboard.press('Space');assert(!await note.isVisible());
+  }
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ }
+
  await page.setViewportSize({width:1440,height:900});await page.goto(base+'/bilar?brand=Toyota&query=C-HR%2B',{waitUntil:'networkidle'});
  await page.getByRole('slider',{name:'Maxpris',exact:true}).press('End');
  const picker=page.locator('.vehicleVariantPicker select');await picker.waitFor();
@@ -74,6 +106,6 @@ try{
  const table=await page.locator('table').first().innerText();
  for(const label of ['Toyota C-HR+','Executive AWD','150 kW','11 kW','22 kW','416','607 km','548 km','507 km'])assert(table.includes(label));
  assert.deepEqual(errors,[]);
- await writeFile(resolve(output,'report.json'),JSON.stringify({origin,checks,axe_audits:2,comparison:true,advisor:true,image_sha256:hash,runtime_errors:errors,paid_calls:0},null,2)+'\n');
- console.log(JSON.stringify({toyota_chr_plus_ui:'passed',origin,pages:checks.length,axe_audits:2,comparison:true,advisor:true,paid_calls:0}));
+ await writeFile(resolve(output,'report.json'),JSON.stringify({origin,checks,axe_audits:14,catalog_disclosure_checks:12,comparison:true,advisor:true,image_sha256:hash,runtime_errors:errors,paid_calls:0},null,2)+'\n');
+ console.log(JSON.stringify({toyota_chr_plus_ui:'passed',origin,pages:checks.length,axe_audits:14,catalog_disclosure_checks:12,comparison:true,advisor:true,paid_calls:0}));
 }finally{await browser.close();}
