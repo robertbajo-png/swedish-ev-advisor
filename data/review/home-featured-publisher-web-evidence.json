@@ -1,0 +1,87 @@
+{
+  "status": "publisher_advertised_full_frame_bytes_private_candidate",
+  "captured_at": "2026-11-26T19:08:21.000789+00:00",
+  "records": [
+    {
+      "model_key": "bmw|i4",
+      "publisher_id": "bmw-no-mynewsdesk-home-3037471",
+      "source_url": "https://www.mynewsdesk.com/no/bmw-no/images/nye-bmw-i4-edrive40-dot-jpg-3037471",
+      "page_sha256": "4592fbf2f1a7ec89360013c2b913901bb58d1a3dd003f7f86ac9fa96d9dd7314",
+      "original_sha256": "0f228bbc4a06bff7a3432d7fc0e4cf2232c69f3521cc516b426f3666dc796bff",
+      "original_dimensions": [
+        4961,
+        3308
+      ],
+      "author": "Fabian Kirchbauer",
+      "credit": "Fabian Kirchbauer / BMW Group (BMW Group Norge) / pressbild",
+      "variants": [
+        {
+          "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_746/7k7hpjniqnq5ea45skqkt7",
+          "width": 746,
+          "height": 497,
+          "sha256": "0da6f2bc7c6e7af23d73e9fe78691e3a036c238fb272441294be4c06a3b18c18",
+          "bytes": 42472,
+          "file": "bmw-i4-press-0f228bbc4a06-746.webp",
+          "max_quadrant_mean_delta": 1.918,
+          "max_edge_band_mean_delta": 1.575,
+          "full_frame_comparison_passed": true,
+          "selected": false
+        },
+        {
+          "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/7k7hpjniqnq5ea45skqkt7",
+          "width": 1782,
+          "height": 1188,
+          "sha256": "a6b338b41756832e762ad94817e71d14da81938243052027a96476b3137307d1",
+          "bytes": 168746,
+          "file": "bmw-i4-press-0f228bbc4a06-1782.webp",
+          "max_quadrant_mean_delta": 1.02,
+          "max_edge_band_mean_delta": 0.947,
+          "full_frame_comparison_passed": true,
+          "selected": true
+        }
+      ]
+    },
+    {
+      "model_key": "ford|explorer",
+      "publisher_id": "ford-se-mynewsdesk-home-2732259",
+      "source_url": "https://www.mynewsdesk.com/se/ford/images/2023-ford-newelectricexplorer-6-2732259",
+      "page_sha256": "15dfc0b485be150b4187cc47e7b7cc577dfacadd3ed0de745538e2e9840a9b20",
+      "original_sha256": "96d1dbd59dc4b8565750138d89fbdcbb33489070a362b4495ebf49f75dce9330",
+      "original_dimensions": [
+        5000,
+        2606
+      ],
+      "author": "Ford Sverige / Hedin HMC Motor Company AB",
+      "credit": "Ford Sverige / Hedin HMC Motor Company AB / pressbild",
+      "variants": [
+        {
+          "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_746/icdjfep4xvehjiqjllg6",
+          "width": 746,
+          "height": 389,
+          "sha256": "470afd81482706ec08c1955b6b11b7ba6cf8545f8496a915f1b2fedd1ad94520",
+          "bytes": 45070,
+          "file": "ford-explorer-press-96d1dbd59dc4-746.webp",
+          "max_quadrant_mean_delta": 2.099,
+          "max_edge_band_mean_delta": 1.707,
+          "full_frame_comparison_passed": false,
+          "selected": false
+        },
+        {
+          "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/icdjfep4xvehjiqjllg6",
+          "width": 1782,
+          "height": 929,
+          "sha256": "78286dc82fd8362fe88bc4fc5b5fc1754d82f04a389d1dc8d6616113bade5af1",
+          "bytes": 178890,
+          "file": "ford-explorer-press-96d1dbd59dc4-1782.webp",
+          "max_quadrant_mean_delta": 1.029,
+          "max_edge_band_mean_delta": 0.994,
+          "full_frame_comparison_passed": true,
+          "selected": true
+        }
+      ]
+    }
+  ],
+  "local_reencoding": false,
+  "publication_approved": false,
+  "comparison": "Color-managed sRGB decoded pixels resampled to 150 px wide (analysis only); exact aspect, all quadrants and outer stripes. Selected both 1782 because each passes conservative <2 quadrant and <3 edge error thresholds; 746 Ford exceeds quadrant threshold. No file encoding."
+}

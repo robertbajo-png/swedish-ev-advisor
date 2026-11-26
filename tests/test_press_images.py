@@ -12,6 +12,7 @@ from audit_image_rights import POLESTAR_NOTICE, PRESS_PUBLISHERS, rights_errors,
 from adopt_press_photos import prepare
 from audit_image_rights import ROOT, home_featured_report
 from prepare_home_featured_photos import prepare as prepare_featured
+from prepare_home_featured_web import prepare as prepare_publisher_web
 
 
 class PressImageTests(unittest.TestCase):
@@ -145,10 +146,15 @@ class HomepagePhotoTests(unittest.TestCase):
         self.registry=json.loads((ROOT/'src/home-featured-photos.json').read_text(encoding='utf-8'))
         self.manifest=ROOT/'data/review/home-featured-photo-source-candidates.json'
         self.sha=hashlib.sha256(self.manifest.read_bytes()).hexdigest()
+        self.web_manifest=ROOT/'data/review/home-featured-publisher-web-evidence.json'
+        self.web_sha=hashlib.sha256(self.web_manifest.read_bytes()).hexdigest()
 
     def test_only_two_exact_originals_with_home_only_rights(self):
         self.assertTrue(home_featured_report()['all_documented'])
         self.assertEqual(len(home_featured_report()['checks']),2)
+        displays=home_featured_report()['publisher_web']
+        self.assertEqual(len(displays),2)
+        self.assertEqual(sum(row['bytes'] for row in displays),347636)
         for row in self.registry['assets']:
             asset={'model_key':row['model_key'],'asset_url':row['asset_url'],'surface':'home_featured'}
             self.assertTrue(reviewed_media_permission(row))
@@ -176,27 +182,53 @@ class HomepagePhotoTests(unittest.TestCase):
                 prepare_featured(copy_manifest,self.sha)
 
     def test_changed_manifest_or_credit_or_canonical_lookup_fails_audit(self):
-        for mutation in ['credit','manifest','scope','original_lookup']:
+        for mutation in ['credit','manifest','scope','original_lookup','web_bytes','web_manifest','web_sha','missing_display']:
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as d:
                 folder=Path(d)
                 (folder/'src').mkdir()
                 (folder/'data/review').mkdir(parents=True)
                 (folder/'public/media/vehicles').mkdir(parents=True)
+                (folder/'public/media/responsive').mkdir(parents=True)
                 manifest=folder/'data/review'/self.manifest.name
                 shutil.copyfile(self.manifest,manifest)
+                web=folder/'data/review'/self.web_manifest.name
+                shutil.copyfile(self.web_manifest,web)
                 lookup=json.loads((ROOT/'src/model-images.json').read_text(encoding='utf-8'))
                 registry=copy.deepcopy(self.registry)
                 for row in registry['assets']:
                     shutil.copyfile(ROOT/'public'/row['asset_url'].lstrip('/'),folder/'public'/row['asset_url'].lstrip('/'))
+                    display=row['publisher_display']['url'].lstrip('/')
+                    shutil.copyfile(ROOT/'public'/display,folder/'public'/display)
                 if mutation=='credit': registry['assets'][0]['credit']='Changed'
                 if mutation=='manifest': manifest.write_bytes(manifest.read_bytes()+b' ')
                 if mutation=='scope': registry['assets'][0]['placement']='vehicle'
                 if mutation=='original_lookup': lookup['bmw|i4']=registry['assets'][0]['asset_url']
+                if mutation=='web_bytes': (folder/'public'/registry['assets'][0]['publisher_display']['url'].lstrip('/')).write_bytes(b'changed')
+                if mutation=='web_manifest': web.write_bytes(web.read_bytes()+b' ')
+                if mutation=='web_sha': registry['assets'][0]['publisher_display']['sha256']='b'*64
+                if mutation=='missing_display': del registry['assets'][0]['publisher_display']
                 (folder/'src/model-images.json').write_text(json.dumps(lookup),encoding='utf-8')
                 (folder/'src/home-featured-photos.json').write_text(json.dumps(registry),encoding='utf-8')
-                with self.assertRaisesRegex(ValueError,'home_featured_exact_photo_scope_mismatch'):
+                with self.assertRaisesRegex(ValueError,'home_featured_(exact_photo_scope|publisher_web)_mismatch'):
                     home_featured_report(folder)
 
+
+    def test_publisher_web_prepare_only_exact_unchanged_bytes(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d)
+            manifest=folder/'web.json'
+            shutil.copyfile(self.web_manifest,manifest)
+            for row in self.registry['assets']:
+                url=row['publisher_display']['url']
+                shutil.copyfile(ROOT/'public'/url.lstrip('/'),folder/Path(url).name)
+            prepared, files=prepare_publisher_web(manifest,self.web_sha)
+            self.assertEqual(prepared,self.registry)
+            self.assertEqual(len(files),2)
+            with self.assertRaisesRegex(ValueError,'publisher_web_manifest_changed'):
+                prepare_publisher_web(manifest,'0'*64)
+            files[0][0].write_bytes(b'tamper')
+            with self.assertRaisesRegex(ValueError,'home_featured_publisher_web_mismatch'):
+                prepare_publisher_web(manifest,self.web_sha)
 
 if __name__ == '__main__':
     unittest.main()

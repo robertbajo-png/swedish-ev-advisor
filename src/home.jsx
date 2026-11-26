@@ -11,10 +11,10 @@ import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 // non-image-specific model notice. Other rights or notices stay on each card.
 const sharedPressNoticeAssets = new Set([
   '/media/vehicles/bmw-i4-press-497a46b16ded.jpg',
-  '/media/vehicles/bmw-i4-press-0f228bbc4a06.jpg',
+  '/media/responsive/bmw-i4-press-0f228bbc4a06-1782.webp',
   '/media/vehicles/cupra-born-press-7b71951e205b.jpg',
   '/media/vehicles/ford-explorer-press-050047452e4e.jpg',
-  '/media/vehicles/ford-explorer-press-96d1dbd59dc4.jpg',
+  '/media/responsive/ford-explorer-press-96d1dbd59dc4-1782.webp',
 ]);
 const genericPressNotice = 'Pressbild. Utrustning kan skilja mellan versioner.';
 const featuredNoticeId = 'home-featured-image-notice';

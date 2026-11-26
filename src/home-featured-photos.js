@@ -9,7 +9,7 @@ export function featuredHomePhoto(car) {
   return registry.assets.find(photo => photo.placement === 'home_featured' && photo.status === 'documented'
     && photo.model_key === key && photo.replaces_only_home_image === car.image
     && photo.model_image_notice === car.imageNotice && car.imageFullFrame
-    && photo.full_frame && assetPath(photo.asset_url)) || null;
+    && photo.full_frame && photo.publisher_display?.url && assetPath(photo.publisher_display.url)) || null;
 }
 
 export function browseCarCoverage(car) {
@@ -31,5 +31,5 @@ export function featuredCarsForHome(cars, isStart) {
 
 export function useFeaturedHomePhoto(car) {
   const photo = featuredHomePhoto(car);
-  return photo ? { ...car, image: photo.asset_url, imageFullFrame: true, imageNotice: photo.model_image_notice } : car;
+  return photo ? { ...car, image: photo.publisher_display.url, imageFullFrame: true, imageNotice: photo.model_image_notice } : car;
 }

@@ -36,7 +36,7 @@ function Photos({ cars, articles }) {
   // homepage photographs; model-view and article credits follow as before.
   for (const car of featuredCarsForHome(cars, true)) {
     const alternate = featuredHomePhoto(car);
-    if (car.image) add(alternate?.asset_url || car.image, alternate || photoCredit(car.image), car.brand+' '+car.canonicalModel+' · startsidans bilurval');
+    if (car.image) add(alternate?.publisher_display.url || car.image, alternate || photoCredit(car.image), car.brand+' '+car.canonicalModel+' · startsidans bilurval');
   }
   for (const car of cars) {
     if (!car.image) continue;

@@ -69,9 +69,9 @@ try {
     assert.equal(await creditLink.getAttribute('href'), '/kallor?post=bilder');
     assert((await creditLink.boundingBox()).height >=44);
     assert.deepEqual(await photos.locator('img').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('src'))), [
-      '/media/vehicles/bmw-i4-press-0f228bbc4a06.jpg',
+      '/media/responsive/bmw-i4-press-0f228bbc4a06-1782.webp',
       '/media/vehicles/cupra-born-press-7b71951e205b.jpg',
-      '/media/vehicles/ford-explorer-press-96d1dbd59dc4.jpg'
+      '/media/responsive/ford-explorer-press-96d1dbd59dc4-1782.webp'
     ]);
     assert.equal(await featured.locator(".vehiclePhotoLabel").count(), 0);
     assert.match(await featured.locator(".homeVehicleCard").filter({hasText:"Ford Explorer"}).locator(".homeVehicleSpecs").innerText(), /2200 kg/);
@@ -88,11 +88,12 @@ try {
       // Approximate visible-car centres marked on the three original image frames.
       // Keep this source-specific: do not centre by clipping an editorial asset.
       const centres = {
-        'bmw-i4-press-0f228bbc4a06.jpg': [.56, .63],
+        'bmw-i4-press-0f228bbc4a06-1782.webp': [.56, .63],
         'cupra-born-press-7b71951e205b.jpg': [.505, .565],
-        'ford-explorer-press-96d1dbd59dc4.jpg': [.50, .58],
+        'ford-explorer-press-96d1dbd59dc4-1782.webp': [.50, .58],
       };
       const { name, nw, nh } = await img.evaluate(el => ({ name: new URL(el.currentSrc).pathname.split('/').pop(), nw: el.naturalWidth, nh: el.naturalHeight }));
+      if (name.endsWith('.webp')) assert.equal(nw, 1782, 'Publisher full-frame web size, not original JPEG fallback');
       const centre = centres[name];
       assert(centre && nw && nh);
       const scale = Math.min(image.width / nw, image.height / nh);

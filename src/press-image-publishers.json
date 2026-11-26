@@ -416,6 +416,13 @@
     "preserve_original_jpeg": true,
     "asset_author": "Fabian Kirchbauer",
     "asset_credit": "Fabian Kirchbauer / BMW Group (BMW Group Norge) / pressbild",
+    "publisher_web_display": {
+      "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/7k7hpjniqnq5ea45skqkt7",
+      "width": 1782,
+      "height": 1188,
+      "sha256": "a6b338b41756832e762ad94817e71d14da81938243052027a96476b3137307d1",
+      "bytes": 168746
+    },
     "placement": "home_featured",
     "replaces_only_home_image": "/media/vehicles/bmw-i4-press-497a46b16ded.jpg"
   },
@@ -446,6 +453,13 @@
     "preserve_original_jpeg": true,
     "asset_author": "Ford Sverige / Hedin HMC Motor Company AB",
     "asset_credit": "Ford Sverige / Hedin HMC Motor Company AB / pressbild",
+    "publisher_web_display": {
+      "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/icdjfep4xvehjiqjllg6",
+      "width": 1782,
+      "height": 929,
+      "sha256": "78286dc82fd8362fe88bc4fc5b5fc1754d82f04a389d1dc8d6616113bade5af1",
+      "bytes": 178890
+    },
     "placement": "home_featured",
     "replaces_only_home_image": "/media/vehicles/ford-explorer-press-050047452e4e.jpg"
   }

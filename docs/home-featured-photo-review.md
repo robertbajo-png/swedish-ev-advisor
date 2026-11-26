@@ -60,3 +60,40 @@ and other articles still available. CUPRA's inline WLTP qualification and all
 price/fact dates stay in place. The pinned Frontend Design Skill informed
 the photo composition, deliberate alignment, hierarchy grouping, restrained
 spacing and keeping the existing interaction (no added animation).
+## Follow-up: publisher's web sizes (local candidate)
+
+The current two exact press pages advertise 746w and 1782w resources in their
+own main image srcsets, using the identical asset identifiers as the licensed
+original downloads. We re-fetched the literal advertised URLs with the
+existing source fetcher, checked the unchanged per-image terms, page hashes,
+title, original hash and author, and accepted **only the two 1782w** WebP files.
+They are publisher-delivered bytes; no local encoding or cropping was done.
+
+| Photograph | Publisher display size | Exact bytes | Max mean colour delta, quadrants / outer stripes |
+| --- | --- | ---: | --- |
+| BMW | 1782 × 1188 | 168746 | 1.020 / 0.947 |
+| Ford | 1782 × 929 | 178890 | 1.029 / 0.994 |
+
+BMW's original is sRGB; Ford's original is Adobe RGB (1998). The comparison
+uses colour-managed decoded sRGB pixels, normalized geometry at 150px wide,
+four quadrants and four edge strips. Both 1782 files meet the conservative
+<2 quadrant and <3 edge mean-channel error thresholds. Ford's 746w file did
+not meet the quadrant threshold (2.099), so it was not selected. The original
+documents and photographer/publisher credits remain unchanged. All original
+JPEG bytes stay available as source-audit evidence; the homepage requests
+only the registered publisher WebP bytes, never the heavy original as a
+fallback. The canonical model images remain untouched.
+
+Exact source URLs and SHA-256s are in
+`data/review/home-featured-publisher-web-evidence.json`, SHA-256
+`ea09b49ac1c2846ef39064b635c5457e7f0e9ea44a6967240847529bcd15d63b`.
+The existing scoped policy now binds both selected sources, sizes and hashes;
+the separate rights audit verifies source, credit, evidence and byte identity.
+The preparation tool `scripts/prepare_home_featured_web.py` accepts the frozen
+manifest and matching publisher files from a private review directory, with
+`--sha256` and an explicit `--apply-local` only for a local candidate.
+
+The selected pair totals 347636 bytes versus 381696 for the earlier layout
+candidate and 6209081 for the original-photo option. Mobile lab measurements
+compare the preserved snapshots with a cold browser and throttled network;
+they are not field measurements or production approval.

@@ -30,13 +30,22 @@
       "status": "documented",
       "reviewed_at": "2026-11-26",
       "source_manifest_sha256": "b9e49640ae582e282c7f301ebf06dbe96a2c773694e37200b1d134ad4fc67b24",
-      "changes": "Originalfilen visas i helbild, utan beskärning eller retusch.",
+      "changes": "Tillverkarens egen webbstorlek visas i helbild. Ingen lokal beskärning, omkodning eller retusch.",
       "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
       "prohibited_uses": [
         "advertising",
         "commercial_promotion",
         "endorsement"
-      ]
+      ],
+      "publisher_display": {
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/7k7hpjniqnq5ea45skqkt7",
+        "width": 1782,
+        "height": 1188,
+        "sha256": "a6b338b41756832e762ad94817e71d14da81938243052027a96476b3137307d1",
+        "bytes": 168746,
+        "url": "/media/responsive/bmw-i4-press-0f228bbc4a06-1782.webp",
+        "evidence_sha256": "ea09b49ac1c2846ef39064b635c5457e7f0e9ea44a6967240847529bcd15d63b"
+      }
     },
     {
       "model_key": "ford|explorer",
@@ -67,13 +76,22 @@
       "status": "documented",
       "reviewed_at": "2026-11-26",
       "source_manifest_sha256": "b9e49640ae582e282c7f301ebf06dbe96a2c773694e37200b1d134ad4fc67b24",
-      "changes": "Originalfilen visas i helbild, utan beskärning eller retusch.",
+      "changes": "Tillverkarens egen webbstorlek visas i helbild. Ingen lokal beskärning, omkodning eller retusch.",
       "model_image_notice": "Pressbild. Utrustning kan skilja mellan versioner.",
       "prohibited_uses": [
         "advertising",
         "commercial_promotion",
         "endorsement"
-      ]
+      ],
+      "publisher_display": {
+        "source_url": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/icdjfep4xvehjiqjllg6",
+        "width": 1782,
+        "height": 929,
+        "sha256": "78286dc82fd8362fe88bc4fc5b5fc1754d82f04a389d1dc8d6616113bade5af1",
+        "bytes": 178890,
+        "url": "/media/responsive/ford-explorer-press-96d1dbd59dc4-1782.webp",
+        "evidence_sha256": "ea09b49ac1c2846ef39064b635c5457e7f0e9ea44a6967240847529bcd15d63b"
+      }
     }
   ]
 }
