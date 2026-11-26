@@ -65,7 +65,7 @@ try {
     assert.equal(await page.getByRole('contentinfo').count(), 1, name + ': footer outside main');
     assert.equal(await page.locator('h1').count(), 1, name + ': one H1');
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), name + ': no document overflow');
-    const clippedText = await page.locator('.bilCover h1, .vehicleCardTitle, .vehicleVariant, .vehiclePageIntro h1, .vehicleHeroCopy h1, .comparisonVehicle h2, .bilCostVariant h2, .newsStoryTitle, .newsArticleHeader h1').evaluateAll((nodes) => nodes.filter((node) => node.scrollWidth > node.clientWidth + 1).map((node) => node.textContent));
+    const clippedText = await page.locator('#home-heading, .vehicleCardTitle, .vehicleVariant, .vehiclePageIntro h1, .vehicleHeroCopy h1, .comparisonVehicle h2, .bilCostVariant h2, .newsStoryTitle, .newsArticleHeader h1').evaluateAll((nodes) => nodes.filter((node) => node.scrollWidth > node.clientWidth + 1).map((node) => node.textContent));
     assert.deepEqual(clippedText, [], name + ': no clipped titles');
     const result = await new AxeBuilder({ page }).analyze();
     const violations = result.violations.map((item) => ({ id: item.id, impact: item.impact, help: item.help, nodes: item.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })) }));
@@ -138,7 +138,7 @@ try {
         await go(path);
       }
       if (name === 'home') {
-        const cover = page.locator('.bilCover img');
+        const cover = page.locator('.bilCoverPhoto img');
         await cover.evaluate(img => img.decode());
         assert.equal(await cover.getAttribute('src'), coverPhoto);
         assert.equal(await page.locator('.bilCoverPhoto figcaption').innerText(), 'Hyundai Inster Prime');
@@ -172,7 +172,7 @@ try {
   await page.locator('.carCard').first().waitFor();
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
   await page.goBack();
-  await page.locator('#bil-cover-title').waitFor();
+  await page.locator('#home-heading').waitFor();
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
   const primaryNav = page.getByRole('navigation', { name: 'Huvudnavigation' });
   const verifyAdvisorFocus = async () => {

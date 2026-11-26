@@ -31,9 +31,9 @@ try {
     const mobile = width === 390;
     const page = await browser.newPage({ viewport: { width, height }, isMobile: mobile, hasTouch: mobile, offline: true, reducedMotion: 'reduce' });
     await page.goto(file);
-    await page.getByRole('heading', { level: 1, name: 'Din körvecka' }).waitFor();
+    await page.getByRole('heading', { level: 1, name: /^(Få hjälp att välja elbil|Din körvecka)$/ }).waitFor();
     await page.evaluate(() => document.fonts.ready);
-    await page.locator('.bilCover img').evaluate(img => img.decode());
+    await page.locator('.bilCoverPhoto img').evaluate(img => img.decode());
     assert.doesNotMatch(await page.locator('body').innerText(), /M 93|Wikimedia Commons|CC[- ]BY|creativecommons\.org/i);
     const png = await page.screenshot();
     await writeFile(resolve(outputFolder, 'Biljournalen-start-' + width + '.png'), creditedPng(png, credits));

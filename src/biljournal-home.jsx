@@ -43,16 +43,9 @@ export function BiljournalWeek({ week, setWeek, onApply }) {
     onApply(week);
   }
 
-  return <>
-    <section className="bilCover" aria-labelledby="bil-cover-title">
-      <div className="bilWidth bilCoverGrid">
-        <div className="bilCoverText"><h1 id="bil-cover-title">Din körvecka</h1><p>Jämför elbilar och räkna på kostnaden för dina resor.</p></div>
-        <figure className="bilCoverPhoto"><img src={assetPath(coverPhoto)} width="800" height="474" alt="Hyundai Inster Prime parkerad, sedd snett framifrån" fetchPriority="high" /><figcaption>Hyundai Inster Prime</figcaption></figure>
-      </div>
-    </section>
-    <form className="bilWidth bilWeek" aria-labelledby="bil-week-title" onSubmit={submit}>
+  return <form className="bilWeek" aria-labelledby="bil-week-title" onSubmit={submit}>
       <header>
-        <div><h2 id="bil-week-title">Hur kör du?</h2><p>Sträckan och laddningen följer med till kalkylen.</p></div>
+        <div><h2 id="bil-week-title" tabIndex={-1}>Din körvecka</h2><p>Sträckan och laddningen följer med till kalkylen.</p></div>
         <button className="bilExampleButton" type="button" onClick={() => { setWeek({...EXAMPLE_WEEK, example: true}); setError(''); }}>Fyll i ett exempel</button>
       </header>
       {week.example && <p className="bilWeekExample" role="status">Exempel ifyllt. Du kan ändra varje värde.</p>}
@@ -85,6 +78,9 @@ export function BiljournalWeek({ week, setWeek, onApply }) {
         <p aria-live="polite">{hasDistance && <><strong>{km.format(distance.annualKm)} km/år</strong>{distance.onceKm > 0 && ' + ' + km.format(distance.onceKm) + ' km en gång'}</>}</p>
         <button className="uiPrimary" type="submit">Visa bilurval <ArrowRight size={18} aria-hidden="true" /></button>
       </div>
-    </form>
-  </>;
+    </form>;
+}
+
+export function BiljournalCover() {
+  return <figure className="bilCoverPhoto bilAdvisorPhoto"><img src={assetPath(coverPhoto)} width="800" height="474" alt="Hyundai Inster Prime parkerad, sedd snett framifrån" fetchPriority="high" /><figcaption>Hyundai Inster Prime</figcaption></figure>;
 }

@@ -43,9 +43,9 @@ try {
       });
       if (!file) await page.route('**/*',r => new URL(r.request().url()).origin === localOrigin ? r.continue() : r.abort());
       await page.goto(url('/'));
-      await page.getByRole('heading',{level:1,name:'Din körvecka'}).waitFor();
-      await page.locator('.bilCover img').evaluate(image => image.decode());
-      assert.equal(await page.locator('.bilCover figcaption').innerText(),'Hyundai Inster Prime');
+      await page.getByRole('heading',{level:1,name:/^(Få hjälp att välja elbil|Din körvecka)$/}).waitFor();
+      await page.locator('.bilCoverPhoto img').evaluate(image => image.decode());
+      assert.equal(await page.locator('.bilCoverPhoto figcaption').innerText(),'Hyundai Inster Prime');
       const { records, articles } = JSON.parse(await page.locator('#public-page-data').textContent());
       const car = records.find(row => row.brand === 'Hyundai' && row.model === 'Inster');
       assert.ok(car);

@@ -36,11 +36,12 @@ try {
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${name}/${width}: no horizontal overflow`);
       const h1Size = await fontSize('h1');
       if (name === 'home') {
-        const title = await page.locator('.bilCover h1').evaluate(node => {
+
+        const title = await page.locator('#home-heading').evaluate(node => {
           const range = document.createRange();
           range.selectNodeContents(node);
           const lines = [...range.getClientRects()];
-          const column = node.closest('.bilCoverText').getBoundingClientRect();
+          const column = node.closest('.homeHeroCopy').getBoundingClientRect();
           const description = node.nextElementSibling.getBoundingClientRect();
           return {
             font: getComputedStyle(node).fontFamily,
@@ -50,14 +51,18 @@ try {
           };
         });
         assert.match(title.font, /^Newsreader/);
-        assert(title.fontLoaded, `${width}: Newsreader is loaded for the cover title`);
-        assert(h1Size >= (width <= 360 ? 30 : 36) && h1Size <= 106, `${width}: approved cover type scale (${h1Size}px)`);
-        assert(title.lines > 0 && title.lines <= 2 && title.contained, `${width}: fully visible title with no overlapping description`);
-        const firstStop = await page.locator('.bilWeekRoute :is(input,select)').first().boundingBox();
-        const submit = await page.getByRole('button', { name: 'Visa bilurval' }).boundingBox();
-        assert(firstStop.y + firstStop.height <= height, `${width}: first route control visible in the opening viewport`);
-        assert(submit.y + submit.height <= height, `${width}: route action visible in the opening viewport`);
+        assert(title.fontLoaded, 'Newsreader is loaded for the home title');
+        assert(h1Size >= 30 && h1Size <= 56, 'controlled home type scale');
+        assert(title.lines > 0 && title.lines <= 2 && title.contained, 'fully visible title with no overlapping description');
+        const advisor = await page.locator('#home-advisor-query').boundingBox();
+        const action = await page.getByRole('button', {name:'Hitta min elbil', exact:true}).boundingBox();
+        assert(advisor && advisor.y + advisor.height <= height && action && action.y + action.height <= height, 'advisor visible in the opening viewport');
+        const toggle = page.getByRole('button', {name:'Mest räckvidd för pengarna', exact:true});
+        assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
+        await toggle.click();
+        assert(await page.getByRole('heading', {name:'Din körvecka', exact:true}).isVisible());
         assert(await page.locator('.bilWeekRoute :is(input,select)').evaluateAll(nodes => nodes.length === 4 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
+        await toggle.click();
       } else {
         assert(h1Size <= (width <= 560 ? 36 : name === 'advisor' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
       }

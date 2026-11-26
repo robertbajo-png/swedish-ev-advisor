@@ -249,6 +249,7 @@ jobs:
           done
           bun run verify:site-qa
           bun run verify:ui-proportions
+          bun run verify:advisor-first-ui
           bun run verify:home-ui
           bun run verify:vehicle-ui
           bun run verify:ev6-ui
