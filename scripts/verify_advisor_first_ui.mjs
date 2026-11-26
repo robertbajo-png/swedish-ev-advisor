@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { AxeBuilder } from '@axe-core/playwright';
 import { launchQaBrowser } from './qa_browser.mjs';
@@ -30,6 +30,31 @@ try {
     const toggle = page.getByRole('button', { name: 'Mest räckvidd för pengarna', exact: true });
     const section = page.getByRole('form', { name: 'Din körvecka' });
     await page.locator('.homeVehicleCard').first().waitFor();
+    const featured = page.locator('.homeExploreStart');
+    const note = featured.locator('#home-featured-image-notice');
+    assert.equal(await note.innerText(), 'Pressbilder. Utrustning kan skilja mellan versioner.');
+    assert.equal(await featured.locator('.vehicleImageNotice').count(), 0);
+    const photos = featured.locator('.homeVehiclePhoto');
+    assert.equal(await photos.count(), 3);
+    assert.deepEqual(await photos.evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-describedby'))), Array(3).fill('home-featured-image-notice'));
+    assert.match(await featured.locator('.vehicleSpecNote').innerText(), /631 km/);
+    const gridBounds = await featured.locator('.homeVehicleGrid').boundingBox();
+    const noteBounds = await note.boundingBox();
+    assert(gridBounds && noteBounds && Math.abs(gridBounds.x - noteBounds.x) < 1 && noteBounds.y >= gridBounds.y + gridBounds.height);
+    const observed = [];
+    for (const photo of await photos.all()) {
+      const img = photo.locator('img');
+      await img.evaluate(async el => { el.loading = 'eager'; await el.decode(); });
+      const frame = await photo.boundingBox(), image = await img.boundingBox();
+      const style = await img.evaluate(el => ({ fit: getComputedStyle(el).objectFit, transform: getComputedStyle(el).transform }));
+      assert.equal(style.fit, 'contain');
+      assert.equal(style.transform, 'none');
+      assert(frame && image && image.x >= frame.x - 1 && image.x + image.width <= frame.x + frame.width + 1 &&
+        image.y >= frame.y - 1 && image.y + image.height <= frame.y + frame.height + 1, 'Whole image visible');
+      observed.push([frame.width, frame.height]);
+    }
+    assert(observed.every(([w,h]) => Math.abs(w-observed[0][0]) < 1 && Math.abs(h-observed[0][1]) < 1));
+    assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
     const hero = page.locator('.homeHeroFirst');
     assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
@@ -95,6 +120,8 @@ try {
     await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Rådgivare' }).click();
     await page.waitForURL('**/radgivare');
     assert.equal(await page.locator('#din-korvecka').count(), 0);
+    assert.equal(await page.locator('#home-featured-image-notice').count(), 0);
+    assert(await page.locator('.homeExplore .vehicleImageNotice').count() > 0, 'Advisor route still has individual notices');
     await toggle.click();
     assert.match(await input.inputValue(), /räckvidd.*pengarna/);
     assert.equal(requests, 1);
@@ -102,6 +129,24 @@ try {
     await context.close();
     console.log(width + 'px: adviser visible, keyboard and axe clean, driving week and edit round trip, adviser shortcut, no real AI calls');
   }
+  // A different, individually qualified photo must not be swept into the shared note.
+  const data = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
+  const rows = ['bmw-i4-press-497a46b16ded.jpg', 'cupra-born-press-7b71951e205b.jpg', 'hyundai-ioniq-9-press-4556561b89d9.jpg'].map(asset =>
+    data.records.find(row => row.image_url?.endsWith(asset)));
+  assert(rows.every(Boolean));
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await isolatePublicDataFixture(page);
+  await page.route('**/data/public_ev_variants.json', route => route.fulfill({ json: { ...data, records: rows } }));
+  await page.goto(base);
+  const featured = page.locator('.homeExploreStart');
+  await featured.locator('.homeVehicleCard').first().waitFor();
+  assert.equal(await featured.locator('#home-featured-image-notice').count(), 0);
+  assert.equal(await featured.locator('.homeVehiclePhoto[aria-describedby]').count(), 0);
+  assert.equal(await featured.locator('.vehicleImageNotice').count(), 3);
+  assert.match(await featured.innerText(), /Pressbild av IONIQ 9. Utrustningen kan skilja mellan versioner/);
+  await ctx.close();
+  console.log('mixed image rights and model-specific notices stay on each card');
 } finally {
   await browser.close();
 }

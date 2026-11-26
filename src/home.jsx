@@ -7,6 +7,16 @@ import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from '
 import { preferredScrollBehavior } from './ui-navigation.js';
 import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 
+// These three full-frame editorial assets have the same documented,
+// non-image-specific model notice. Other rights or notices stay on each card.
+const sharedPressNoticeAssets = new Set([
+  '/media/vehicles/bmw-i4-press-497a46b16ded.jpg',
+  '/media/vehicles/cupra-born-press-7b71951e205b.jpg',
+  '/media/vehicles/ford-explorer-press-050047452e4e.jpg',
+]);
+const genericPressNotice = 'Pressbild. Utrustning kan skilja mellan versioner.';
+const featuredNoticeId = 'home-featured-image-notice';
+
 const money = (value) => new Intl.NumberFormat('sv-SE').format(value) + ' kr';
 const metric = (value, unit) => value == null ? 'Uppgift saknas' : `${value} ${unit}`;
 const suggestions = [
@@ -52,6 +62,8 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
     if (car.image && !featured.some((item) => item.brand === car.brand) && featured.length < 3) featured.push(car);
   }
   if (featured.length < 3) for (const car of featuredPool) { if (!featured.some((item) => item.canonicalModel === car.canonicalModel && item.brand === car.brand) && featured.length < 3) featured.push(car); }
+  const shareFeaturedNotice = Boolean(drivingWeek && featured.length > 1 && featured.every(car =>
+    car.imageFullFrame && sharedPressNoticeAssets.has(car.image) && car.imageNotice === genericPressNotice));
   const recommendations = (result?.shortlist || []).map((item) => {
     const key = item.canonicalKey || [item.brand, item.model, item.variant_name].join('|');
     const car = cars.find((candidate) => candidate.canonicalKey === key);
@@ -116,9 +128,10 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
       {status.state === 'loading' && <div className="homeVehicleGrid homeSkeletonGrid" aria-hidden="true">{[1, 2, 3].map((id) => <div className="homeSkeleton" key={id} />)}</div>}
     </section>}
 
-    <section className="homeExplore homeContainer" aria-labelledby="explore-title">
+    <section className={`homeExplore homeContainer${drivingWeek ? " homeExploreStart" : ""}`} aria-labelledby="explore-title">
       <div className="homeSectionHeading"><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a></div>
-      {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
+      {cars.length ? <><div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} />)}</div>
+        {shareFeaturedNotice && <p id={featuredNoticeId} className="homeFeaturedImageNotice">Pressbilder. Utrustning kan skilja mellan versioner.</p>}</> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 
     <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><h2>Hitta bilar efter behov</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {
