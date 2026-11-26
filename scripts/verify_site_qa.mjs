@@ -101,6 +101,8 @@ try {
     assert.match(await credit.innerText(), /© M 93 \/ Wikimedia Commons.*CC-BY-SA-3.0-DE/s);
     assert.equal(await credit.getByRole('link', { name: 'Bildkälla', exact: true }).getAttribute('href'), cover.source_url);
     assert.equal(await credit.getByRole('link', { name: 'CC-BY-SA-3.0-DE', exact: true }).getAttribute('href'), cover.license_url);
+    assert.match(await credit.innerText(), /Hyundai Inster.*modellvyer/s);
+    assert.doesNotMatch(await credit.innerText(), /Startsidan|Omslaget/);
   };
   const routes = [
     ['home', '/'], ['advisor', '/radgivare'], ['catalog', '/bilar'], ['family', '/familj'],
@@ -138,10 +140,8 @@ try {
         await go(path);
       }
       if (name === 'home') {
-        const cover = page.locator('.bilCoverPhoto img');
-        await cover.evaluate(img => img.decode());
-        assert.equal(await cover.getAttribute('src'), coverPhoto);
-        assert.equal(await page.locator('.bilCoverPhoto figcaption').innerText(), 'Hyundai Inster Prime');
+        assert.equal(await page.locator('.homeHeroFirst img, .bilCoverPhoto, .homeHeroFirst .homeSpotlight').count(), 0);
+        assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0);
         assert.doesNotMatch(await page.locator('body').innerText(), /Wikimedia Commons|CC[- ]BY|Bildkälla/);
         await verifyCoverCredit();
         await go(path);

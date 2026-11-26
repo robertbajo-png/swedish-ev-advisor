@@ -31,7 +31,6 @@ function Photos({ cars, articles }) {
     if (!photos.has(key)) photos.set(key, { photo, contexts: new Set() });
     photos.get(key).contexts.add(context);
   }
-  add(coverPhoto,photoCredit(coverPhoto),'Startsidan · Hyundai Inster Prime');
   for (const car of cars) {
     if (!car.image) continue;
     const candidate = !car.imageFullFrame && responsive[car.image]?.variants.find(item => item.width >= 800)?.url;
@@ -46,7 +45,7 @@ function Photos({ cars, articles }) {
       <li key={key}><h3>{photo.title || [...contexts][0]}</h3><p>{photo.credit || photo.author} · <External url={photo.source_url}>Bildkälla</External> · <External url={photo.license_url}>{photo.license_id || 'Bildvillkor'}</External></p>
         <p>{[...contexts].join(' · ')}</p>
         {photo.changes && <p>{photo.changes}</p>}
-        {key === coverPhoto && <p>Omslaget visar Hyundai Inster Prime. Storlek anpassas till skärmen och motivet visas i helbild.</p>}
+        {key === coverPhoto && <p>Fotot visar Hyundai Inster Prime. Motivet visas i helbild på modellsidan.</p>}
       </li>)}</ul></section>;
 }
 

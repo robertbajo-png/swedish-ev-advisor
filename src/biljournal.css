@@ -78,9 +78,6 @@
 .biljournal > footer { background: var(--bil-paper); }
 .biljournal > footer > div { flex-wrap: wrap; }
 .biljournal > footer a { color: var(--bil-navy); }
-.bilCoverPhoto { width: 100%; justify-self: stretch; margin: 0; }
-.bilCoverPhoto img { display: block; width: 100%; height: auto; object-fit: contain; }
-.bilCoverPhoto figcaption { padding-block: 5px 2px; color: var(--bil-muted); font-size: .72rem; }
 .bilWeek { padding-block: 26px 30px; }
 .bilWeek header, .bilWeekEnd { display: flex; justify-content: space-between; align-items: end; gap: 12px 24px; }
 .bilWeek header { border-bottom: 1px solid var(--bil-navy); padding-bottom: 11px; }
@@ -151,7 +148,6 @@
   .bilHeader .brandButton { font-size: 1.64rem; min-height: 37px; }
   .biljournal .bilHeader nav { justify-content: space-between; column-gap: 6px; row-gap: 0; width: 100%; }
   .biljournal .bilHeader nav a { font-size: clamp(.73rem,3.1vw,.86rem); min-height: 44px; }
-  .bilCoverPhoto figcaption { font-size: .68rem; }
   .bilWeek { padding-block: 18px 24px; }
   .bilWeek header { display: block; padding-bottom: 2px; }
   .bilWeekRoute { grid-template-columns: minmax(0,1fr); gap: 0; }

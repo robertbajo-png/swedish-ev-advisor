@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { coverPhoto } from './biljournal-images.js';
 import { distanceForWeek } from './ownership-cost.js';
-import { assetPath } from './preview-paths.js';
 
 const tripFrequencies = [
   ['once', 'En gång totalt'],
@@ -79,8 +77,4 @@ export function BiljournalWeek({ week, setWeek, onApply }) {
         <button className="uiPrimary" type="submit">Visa bilurval <ArrowRight size={18} aria-hidden="true" /></button>
       </div>
     </form>;
-}
-
-export function BiljournalCover() {
-  return <figure className="bilCoverPhoto bilAdvisorPhoto"><img src={assetPath(coverPhoto)} width="800" height="474" alt="Hyundai Inster Prime parkerad, sedd snett framifrån" fetchPriority="high" /><figcaption>Hyundai Inster Prime</figcaption></figure>;
 }

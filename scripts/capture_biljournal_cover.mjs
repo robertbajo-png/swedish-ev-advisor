@@ -33,10 +33,12 @@ try {
     await page.goto(file);
     await page.getByRole('heading', { level: 1, name: /^(Få hjälp att välja elbil|Din körvecka)$/ }).waitFor();
     await page.evaluate(() => document.fonts.ready);
-    await page.locator('.bilCoverPhoto img').evaluate(img => img.decode());
+    const image = page.locator('.bilCoverPhoto img');
+    const hasCover = await image.count() > 0;
+    if (hasCover) await image.evaluate(img => img.decode());
     assert.doesNotMatch(await page.locator('body').innerText(), /M 93|Wikimedia Commons|CC[- ]BY|creativecommons\.org/i);
     const png = await page.screenshot();
-    await writeFile(resolve(outputFolder, 'Biljournalen-start-' + width + '.png'), creditedPng(png, credits));
+    await writeFile(resolve(outputFolder, 'Biljournalen-start-' + width + '.png'), hasCover ? creditedPng(png, credits) : png);
     await page.close();
   }
 } finally {
