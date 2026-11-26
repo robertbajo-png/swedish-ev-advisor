@@ -44,6 +44,9 @@ def reviewed_media_permission(evidence):
         and re.fullmatch(r'/image/upload/fl_attachment/[a-zA-Z0-9_-]+', asset.path)
         and not asset.query and not asset.fragment
         and evidence.get('usage_scope') == 'independent_vehicle_editorial'
+        and policy.get('placement') == evidence.get('placement')
+        and (not policy.get('placement') or (evidence.get('author') == policy.get('asset_author')
+            and evidence.get('credit') == policy.get('asset_credit')))
         and evidence.get('full_frame') is True
         and all(re.fullmatch('[a-f0-9]{64}', evidence.get(name, '')) for name in ('metadata_sha256', 'source_content_sha256')))
 
@@ -92,6 +95,8 @@ def rights_errors(asset, evidence, today=None):
     if not evidence:
         return ['permission_evidence_missing']
     errors = []
+    if evidence.get('placement') and evidence.get('placement') != asset.get('surface'):
+        errors.append('image_placement_scope_mismatch')
     if evidence.get('asset_url') != asset['asset_url'] or evidence.get('model_key') != asset.get('model_key'):
         errors.append('exact_asset_or_model_mismatch')
     for field in ('source_url', 'evidence_url', 'license_url'):
@@ -196,6 +201,88 @@ def build_report(assets, registry, today=None, root=ROOT):
             'network_calls': 0, 'public_data_changed': False}
 
 
+def validate_home_publisher_web(row, policy, proof, evidence_sha, content):
+    """Pin the exact publisher's unchanged web bytes, never a locally encoded derivative."""
+    display = row.get('publisher_display')
+    expected = policy.get('publisher_web_display')
+    source = next((item for item in proof['records'] if item['model_key'] == row['model_key']), None)
+    selected = [v for v in source['variants'] if v.get('selected')] if source else []
+    fields = ('source_url','width','height','sha256','bytes')
+    if (not display or not expected or len(selected) != 1
+            or display.get('evidence_sha256') != evidence_sha
+            or any(display.get(k) != expected[k] or display.get(k) != selected[0][k] for k in fields)
+            or display.get('url') != '/media/responsive/' + Path(row['asset_url']).stem + '-1782.webp'
+            or display['width'] != 1782 or abs(display['height'] - round(1782 * row['height'] / row['width'])) > 1
+            or selected[0]['file'] != Path(display['url']).name
+            or not selected[0]['full_frame_comparison_passed']
+            or not selected[0]['max_quadrant_mean_delta'] < 2
+            or not selected[0]['max_edge_band_mean_delta'] < 3
+            or source['original_sha256'] != row['source_content_sha256']
+            or source['original_dimensions'] != [row['width'], row['height']]
+            or source['page_sha256'] != row['metadata_sha256']
+            or source['publisher_id'] != row['publisher_id']
+            or source['source_url'] != row['source_url']
+            or source['author'] != row['author'] or source['credit'] != row['credit']
+            or proof.get('local_reencoding') is not False
+            or content[8:12] != b'WEBP' or len(content) != display['bytes']
+            or hashlib.sha256(content).hexdigest() != display['sha256']):
+        raise ValueError('home_featured_publisher_web_mismatch')
+    return {'model_key': row['model_key'], **display}
+
+
+def home_featured_report(root=ROOT, today=None):
+    """Separate editorial homepage assets: never add to the canonical model lookup."""
+    root = Path(root)
+    path = root / 'src/home-featured-photos.json'
+    if not path.is_file():
+        return None
+    registry = json.loads(path.read_text(encoding='utf-8'))
+    source_manifest = (root / 'data/review/home-featured-photo-source-candidates.json').read_bytes()
+    source_manifest_sha = hashlib.sha256(source_manifest).hexdigest()
+    sources = {row['model_key']: row for row in json.loads(source_manifest)}
+    canonical = image_lookup(root)
+    assets = []
+    web_checks = []
+    web_proof_file = root / 'data/review/home-featured-publisher-web-evidence.json'
+    web_proof_raw = web_proof_file.read_bytes()
+    web_sha = hashlib.sha256(web_proof_raw).hexdigest()
+    web_proof = json.loads(web_proof_raw)
+    for row in registry['assets']:
+        policy = PRESS_PUBLISHERS.get(row.get('publisher_id'), {})
+        key = row.get('model_key')
+        source = sources.get(key, {})
+        if (policy.get('placement') != 'home_featured'
+                or row.get('placement') != 'home_featured'
+                or row.get('replaces_only_home_image') != policy.get('replaces_only_home_image')
+                or canonical.get(key) != row.get('replaces_only_home_image')
+                or row.get('asset_url') in canonical.values()
+                or row.get('title') is None
+                or not re.fullmatch(policy.get('model_title_pattern', r'(?!)'), row['title'])
+                or row.get('source_manifest_sha256') != source_manifest_sha
+                or row.get('downloaded_from') != source.get('asset_url')
+                or any(row.get(field) != source.get(field) for field in (
+                    'source_url','release_source_url','release_metadata_sha256','evidence_url','license_url',
+                    'license_id','evidence_quote','publisher_id','author','credit','original_url','content_sha256',
+                    'source_content_sha256','metadata_sha256','width','height','full_frame','usage_scope','photographer_evidence',
+                    'replaces_only_home_image','title'))
+                or row.get('model_image_notice') != 'Pressbild. Utrustning kan skilja mellan versioner.'
+                or row.get('prohibited_uses') != ['advertising','commercial_promotion','endorsement']):
+            raise ValueError('home_featured_exact_photo_scope_mismatch')
+        display_url = (row.get('publisher_display') or {}).get('url','')
+        if not re.fullmatch(r'/media/responsive/[a-z0-9-]+-[a-f0-9]{12}-1782[.]webp', display_url):
+            raise ValueError('home_featured_publisher_web_mismatch')
+        display_path = root / 'public' / display_url.lstrip('/')
+        if display_path.is_symlink() or not display_path.is_file():
+            raise ValueError('home_featured_publisher_web_mismatch')
+        web_checks.append(validate_home_publisher_web(row, policy, web_proof, web_sha, display_path.read_bytes()))
+        assets.append({'model_key': key, 'asset_url': row['asset_url'], 'surface': 'home_featured'})
+    if sorted(row['model_key'] for row in assets) != ['bmw|i4', 'ford|explorer']:
+        raise ValueError('home_featured_exact_pair_required')
+    report = build_report(assets, registry, today, root)
+    report['publisher_web'] = web_checks
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
@@ -203,6 +290,14 @@ def main():
     args = parser.parse_args()
     report = build_report(inventory(candidate_registry=args.candidate_registry), json.loads((ROOT / 'src/image-rights.json').read_text(encoding='utf-8')))
     report['candidate_registry_only'] = args.candidate_registry
+    featured = home_featured_report()
+    if featured is not None:
+        report['home_featured'] = featured
+        report['checks'].extend(featured['checks'])
+        report['assets'] += featured['assets']
+        report['documented'] += featured['documented']
+        report['pending'] += featured['pending']
+        report['all_documented'] = report['all_documented'] and featured['all_documented']
     print(json.dumps(report, ensure_ascii=True, indent=2))
     if args.check and not report['all_documented']:
         raise SystemExit(1)

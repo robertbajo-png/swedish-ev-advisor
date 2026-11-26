@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
 import { BiljournalWeek } from './biljournal-home.jsx';
-import { coverPhoto as biljournalCoverPhoto } from './biljournal-images.js';
+import { browseCarCoverage, featuredCarsForHome, useFeaturedHomePhoto } from './home-featured-photos.js';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
 import { VehicleImageNotice } from './vehicle-image-notice.jsx';
@@ -11,8 +11,10 @@ import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 // non-image-specific model notice. Other rights or notices stay on each card.
 const sharedPressNoticeAssets = new Set([
   '/media/vehicles/bmw-i4-press-497a46b16ded.jpg',
+  '/media/responsive/bmw-i4-press-0f228bbc4a06-1782.webp',
   '/media/vehicles/cupra-born-press-7b71951e205b.jpg',
   '/media/vehicles/ford-explorer-press-050047452e4e.jpg',
+  '/media/responsive/ford-explorer-press-96d1dbd59dc4-1782.webp',
 ]);
 const genericPressNotice = 'Pressbild. Utrustning kan skilja mellan versioner.';
 const featuredNoticeId = 'home-featured-image-notice';
@@ -52,16 +54,11 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   }, [status.state]);
   // Browse previews favour complete records and different brands, not a personalised ranking.
-  const coverage = (car) => [car.price, car.rangeVerified, car.dcVerified, car.towingVerified].filter((value) => value != null).length;
-  const browseCars = [...cars].sort((a, b) => coverage(b) - coverage(a));
+  const browseCars = [...cars].sort((a, b) => browseCarCoverage(b) - browseCarCoverage(a));
   const spotlight = browseCars.find((car) => car.image) || cars[0];
-  // Preserve the established start-page catalogue selection.
-  const featuredPool = drivingWeek ? browseCars.filter(car => car.image !== biljournalCoverPhoto) : browseCars;
-  const featured = [];
-  for (const car of featuredPool) {
-    if (car.image && !featured.some((item) => item.brand === car.brand) && featured.length < 3) featured.push(car);
-  }
-  if (featured.length < 3) for (const car of featuredPool) { if (!featured.some((item) => item.canonicalModel === car.canonicalModel && item.brand === car.brand) && featured.length < 3) featured.push(car); }
+  // Same selected variants, with separate home-only full-frame photo choices.
+  const chosen = featuredCarsForHome(cars, Boolean(drivingWeek));
+  const featured = drivingWeek ? chosen.map(useFeaturedHomePhoto) : chosen;
   const shareFeaturedNotice = Boolean(drivingWeek && featured.length > 1 && featured.every(car =>
     car.imageFullFrame && sharedPressNoticeAssets.has(car.image) && car.imageNotice === genericPressNotice));
   const recommendations = (result?.shortlist || []).map((item) => {
@@ -129,9 +126,8 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
     </section>}
 
     <section className={`homeExplore homeContainer${drivingWeek ? " homeExploreStart" : ""}`} aria-labelledby="explore-title">
-      <div className="homeSectionHeading"><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a></div>
-      {cars.length ? <><div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} />)}</div>
-        {shareFeaturedNotice && <p id={featuredNoticeId} className="homeFeaturedImageNotice">Pressbilder. Utrustning kan skilja mellan versioner.</p>}</> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
+      <div className={`homeSectionHeading${shareFeaturedNotice ? " homeFeaturedHeading" : ""}`}><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a>{shareFeaturedNotice && <div className="homeFeaturedImageContext"><p id={featuredNoticeId} className="homeFeaturedImageNotice">Pressbilder. Utrustning kan skilja mellan versioner.</p><a className="homeImageCreditLink" href={appPath('/kallor?post=bilder')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate('/kallor?post=bilder'); } }}>Bildkrediter</a></div>}</div>
+      {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} showPhotoHighlight={!drivingWeek} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 
     <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><h2>Hitta bilar efter behov</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {

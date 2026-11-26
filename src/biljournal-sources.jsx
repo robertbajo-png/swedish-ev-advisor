@@ -5,6 +5,7 @@ import { editorialNewsImage } from './news-editorial-images.js';
 import { coverPhoto, photoCredit } from './biljournal-images.js';
 import { assetPath, isOfflineReview } from './preview-paths.js';
 import responsive from './image-variants.json';
+import { featuredCarsForHome, featuredHomePhoto } from './home-featured-photos.js';
 
 export function variantSourcePath(id) {
   return '/kallor?post=bil-' + encodeURIComponent(id);
@@ -30,6 +31,12 @@ function Photos({ cars, articles }) {
     if (!photo || !safeNewsLink(photo.source_url) || !safeNewsLink(photo.license_url)) return;
     if (!photos.has(key)) photos.set(key, { photo, contexts: new Set() });
     photos.get(key).contexts.add(context);
+  }
+  // The contextual link to Bildkrediter leads directly to the current three
+  // homepage photographs; model-view and article credits follow as before.
+  for (const car of featuredCarsForHome(cars, true)) {
+    const alternate = featuredHomePhoto(car);
+    if (car.image) add(alternate?.publisher_display.url || car.image, alternate || photoCredit(car.image), car.brand+' '+car.canonicalModel+' · startsidans bilurval');
   }
   for (const car of cars) {
     if (!car.image) continue;
