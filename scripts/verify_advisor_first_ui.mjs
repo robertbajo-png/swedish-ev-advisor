@@ -64,11 +64,34 @@ try {
       const scale = Math.min(image.width / nw, image.height / nh);
       const x = (image.x + (image.width - nw * scale) / 2 + nw * scale * centre[0] - frame.x) / frame.width;
       const y = (image.y + (image.height - nh * scale) / 2 + nh * scale * centre[1] - frame.y) / frame.height;
-      assert(Math.abs(x - .5) < .03 && Math.abs(y - .55) < .04, name + ' optical motif alignment');
-      observed.push([frame.width, frame.height]);
+      // Natural compositions differ; equal top line, no clipping, and small
+      // mobile gaps matter more than an exact artificial subject midpoint.
+      assert(Math.abs(x - .5) < .06 && y > .35 && y < .76, name + ' natural motif alignment');
+      const visibleW = nw * scale, visibleH = nh * scale;
+      const visibleY = image.y + (image.height - visibleH) / 2;
+      const title = await photo.locator('..').locator('.vehicleCardTitle').boundingBox();
+      assert(title && Math.abs(visibleY - frame.y - 6) < 1 && Math.abs(visibleW / frame.width - .92) < .005, name + ' common visible photo frame');
+      if (width <= 560) assert(title.y - (visibleY + visibleH) <= 38, name + ' compact mobile image-to-title gap');
+      observed.push({ w: frame.width, h: frame.height, y: visibleY });
     }
-    assert(observed.every(([w,h]) => Math.abs(w-observed[0][0]) < 1 && Math.abs(h-observed[0][1]) < 1));
+    assert(observed.every(v => Math.abs(v.w - observed[0].w) < 1));
+    if (width >= 768) assert(observed.every(v => Math.abs(v.h - observed[0].h) < 1));
+    if (width === 1440) assert(observed.every(v => Math.abs(v.y - observed[0].y) < 1), 'Visible photo top edges align on desktop');
+    if (width === 768) assert(Math.abs(observed[1].y - observed[0].y) < 1);
     assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
+    await page.evaluate(() => scrollTo(0, 0));
+    const skip = page.locator('.skipLink');
+    const skipState = () => skip.evaluate(el => ({ focused: el === document.activeElement, rect: el.getBoundingClientRect().toJSON() }));
+    const initialSkip = await skipState();
+    assert(!initialSkip.focused && initialSkip.rect.bottom <= 0);
+    await page.keyboard.press('Tab');
+    const focusedSkip = await skipState();
+    assert(focusedSkip.focused && focusedSkip.rect.top >= 0 && focusedSkip.rect.bottom <= height);
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => document.activeElement?.id === 'main-content');
+    const activatedSkip = await skipState();
+    assert(!activatedSkip.focused && activatedSkip.rect.bottom <= 0);
+    await page.evaluate(() => scrollTo(0, 0));
     const hero = page.locator('.homeHeroFirst');
     assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
