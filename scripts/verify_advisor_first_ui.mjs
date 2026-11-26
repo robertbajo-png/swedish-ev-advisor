@@ -43,7 +43,10 @@ try {
     const focusedSkip = await skipState();
     assert(focusedSkip.focused && focusedSkip.rect.top >= 0 && focusedSkip.rect.bottom <= height);
     await page.keyboard.press('Enter');
-    await page.waitForFunction(() => document.activeElement?.id === 'main-content');
+    await page.waitForFunction(() => {
+      const el = document.querySelector('.skipLink');
+      return document.activeElement?.id === 'main-content' && document.activeElement !== el && el.getBoundingClientRect().bottom <= 0;
+    });
     const activatedSkip = await skipState();
     assert(!activatedSkip.focused && activatedSkip.rect.bottom <= 0);
     await page.goto(base, { waitUntil: 'domcontentloaded' });
