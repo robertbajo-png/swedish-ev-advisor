@@ -41,6 +41,26 @@
 .homeSectionHeading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
 .homeSectionHeading h2 { margin: 8px 0 0; font-size: 30px; font-weight: 700; line-height: 1.2; }
 .homeExplore { padding-block: 40px 64px; border-top: 1px solid var(--line); }
+.homeExploreStart .vehicleImageNotice { margin: 0; padding: 0 24px 16px; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
+.homeFeaturedImageNotice { margin: 12px 0 0; color: var(--bil-muted); font-size: .875rem; line-height: 1.5; text-align: left; }
+/* Give the reviewed full-frame assets one common photographic top edge,
+   width and quiet frame. Keep natural composition instead of moving the
+   entire image far enough to create a distracting empty matte. */
+.homeExploreStart .vehicleCard .homeVehiclePhoto:has(img:is([src$="/bmw-i4-press-497a46b16ded.jpg"], [src$="/cupra-born-press-7b71951e205b.jpg"], [src$="/ford-explorer-press-050047452e4e.jpg"])) {
+  aspect-ratio: 1.55; background: #fff;
+}
+.homeExploreStart .vehicleCard .homeVehiclePhoto img:is([src$="/bmw-i4-press-497a46b16ded.jpg"], [src$="/cupra-born-press-7b71951e205b.jpg"], [src$="/ford-explorer-press-050047452e4e.jpg"]) {
+  inset: 6px auto auto 4%; width: 92%; height: auto; transform: none;
+}
+.homeExploreStart .vehicleCard .homeVehiclePhoto img[src$="/ford-explorer-press-050047452e4e.jpg"] { left: 5.5%; }
+@media (max-width: 800px) {
+  .homeExploreStart .vehicleImageNotice { padding-inline: 20px; }
+}
+@media (max-width: 560px) {
+  /* Stacked cards need no matching height; let the wide Ford photo finish
+     naturally rather than carrying the desktop alignment gap onto mobile. */
+  .homeExploreStart .vehicleCard .homeVehiclePhoto:has(img[src$="/ford-explorer-press-050047452e4e.jpg"]) { aspect-ratio: 1.86; }
+}
 .homeVehicleGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .homeVehicleCard { display: flex; flex-direction: column; min-width: 0; background: white; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .homeVehiclePhoto { position: relative; display: block; aspect-ratio: 1.65; overflow: hidden; background: #edf0ed; }

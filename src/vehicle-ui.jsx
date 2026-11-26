@@ -18,21 +18,21 @@ export function vehicleIdentity(car) {
   return { model: car.model, variant: '' };
 }
 
-export function VehicleLink({ car, navigate, children, className, appPath }) {
+export function VehicleLink({ car, navigate, children, className, appPath, describedBy }) {
   const path = `/bilar/${car.id}`;
-  return <a className={className} href={appPath(path)} onClick={(event) => {
+  return <a className={className} href={appPath(path)} aria-describedby={describedBy} onClick={(event) => {
     if (event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); navigate(path); }
   }}>{children}</a>;
 }
 
-export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3 }) {
+export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3, sharedImageNoticeId }) {
   const identity = vehicleIdentity(car);
   const Heading = 'h' + headingLevel;
   const priceType = vehiclePriceLabel(car);
   const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
-    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto">{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
+    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto" describedBy={sharedImageNoticeId}>{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
@@ -50,7 +50,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
       </div>
     </div>
-    <VehicleImageNotice car={car} />
+    {!sharedImageNoticeId && <VehicleImageNotice car={car} />}
   </article>;
 }
 

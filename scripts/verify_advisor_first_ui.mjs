@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { AxeBuilder } from '@axe-core/playwright';
 import { launchQaBrowser } from './qa_browser.mjs';
@@ -30,6 +30,76 @@ try {
     const toggle = page.getByRole('button', { name: 'Mest räckvidd för pengarna', exact: true });
     const section = page.getByRole('form', { name: 'Din körvecka' });
     await page.locator('.homeVehicleCard').first().waitFor();
+    // First keyboard navigation must start in a fresh document, not after
+    // scrolling the card images (which can change sequential focus origin).
+    await page.evaluate(() => scrollTo(0, 0));
+    const skip = page.locator('.skipLink');
+    const skipState = () => skip.evaluate(el => ({ focused: el === document.activeElement, rect: el.getBoundingClientRect().toJSON() }));
+    const initialSkip = await skipState();
+    assert(!initialSkip.focused && initialSkip.rect.bottom <= 0);
+    await page.keyboard.press('Tab');
+    await page.waitForFunction(() => { const el = document.querySelector('.skipLink'), r = el.getBoundingClientRect();
+      return el === document.activeElement && r.top >= 0 && r.bottom <= innerHeight; });
+    const focusedSkip = await skipState();
+    assert(focusedSkip.focused && focusedSkip.rect.top >= 0 && focusedSkip.rect.bottom <= height);
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => {
+      const el = document.querySelector('.skipLink');
+      return document.activeElement?.id === 'main-content' && document.activeElement !== el && el.getBoundingClientRect().bottom <= 0;
+    });
+    const activatedSkip = await skipState();
+    assert(!activatedSkip.focused && activatedSkip.rect.bottom <= 0);
+    await page.goto(base, { waitUntil: 'domcontentloaded' });
+    await page.locator('.homeVehicleCard').first().waitFor();
+    const featured = page.locator('.homeExploreStart');
+    const note = featured.locator('#home-featured-image-notice');
+    assert.equal(await note.innerText(), 'Pressbilder. Utrustning kan skilja mellan versioner.');
+    assert.equal(await featured.locator('.vehicleImageNotice').count(), 0);
+    const photos = featured.locator('.homeVehiclePhoto');
+    assert.equal(await photos.count(), 3);
+    assert.deepEqual(await photos.evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-describedby'))), Array(3).fill('home-featured-image-notice'));
+    assert.match(await featured.locator('.vehicleSpecNote').innerText(), /631 km/);
+    const gridBounds = await featured.locator('.homeVehicleGrid').boundingBox();
+    const noteBounds = await note.boundingBox();
+    assert(gridBounds && noteBounds && Math.abs(gridBounds.x - noteBounds.x) < 1 && noteBounds.y >= gridBounds.y + gridBounds.height);
+    const observed = [];
+    for (const photo of await photos.all()) {
+      const img = photo.locator('img');
+      await img.evaluate(async el => { el.loading = 'eager'; await el.decode(); });
+      const frame = await photo.boundingBox(), image = await img.boundingBox();
+      const style = await img.evaluate(el => ({ fit: getComputedStyle(el).objectFit, transform: getComputedStyle(el).transform }));
+      assert.equal(style.fit, 'contain');
+      assert.equal(style.transform, 'none');
+      assert(frame && image && image.x >= frame.x - 1 && image.x + image.width <= frame.x + frame.width + 1 &&
+        image.y >= frame.y - 1 && image.y + image.height <= frame.y + frame.height + 1, 'Whole image visible');
+      // Approximate visible-car centres marked on the three original image frames.
+      // Keep this source-specific: do not centre by clipping an editorial asset.
+      const centres = {
+        'bmw-i4-press-497a46b16ded.jpg': [.515, .715],
+        'cupra-born-press-7b71951e205b.jpg': [.505, .565],
+        'ford-explorer-press-050047452e4e.jpg': [.449, .539],
+      };
+      const { name, nw, nh } = await img.evaluate(el => ({ name: new URL(el.currentSrc).pathname.split('/').pop(), nw: el.naturalWidth, nh: el.naturalHeight }));
+      const centre = centres[name];
+      assert(centre && nw && nh);
+      const scale = Math.min(image.width / nw, image.height / nh);
+      const x = (image.x + (image.width - nw * scale) / 2 + nw * scale * centre[0] - frame.x) / frame.width;
+      const y = (image.y + (image.height - nh * scale) / 2 + nh * scale * centre[1] - frame.y) / frame.height;
+      // Natural compositions differ; equal top line, no clipping, and small
+      // mobile gaps matter more than an exact artificial subject midpoint.
+      assert(Math.abs(x - .5) < .06 && y > .35 && y < .76, name + ' natural motif alignment');
+      const visibleW = nw * scale, visibleH = nh * scale;
+      const visibleY = image.y + (image.height - visibleH) / 2;
+      const title = await photo.locator('..').locator('.vehicleCardTitle').boundingBox();
+      assert(title && Math.abs(visibleY - frame.y - 6) < 1 && Math.abs(visibleW / frame.width - .92) < .005, name + ' common visible photo frame');
+      if (width <= 560) assert(title.y - (visibleY + visibleH) <= 38, name + ' compact mobile image-to-title gap');
+      observed.push({ w: frame.width, h: frame.height, y: visibleY });
+    }
+    assert(observed.every(v => Math.abs(v.w - observed[0].w) < 1));
+    if (width >= 768) assert(observed.every(v => Math.abs(v.h - observed[0].h) < 1));
+    if (width === 1440) assert(observed.every(v => Math.abs(v.y - observed[0].y) < 1), 'Visible photo top edges align on desktop');
+    if (width === 768) assert(Math.abs(observed[1].y - observed[0].y) < 1);
+    assert.deepEqual((await new AxeBuilder({page}).include('.homeExploreStart').analyze()).violations.map(v => v.id), []);
     const hero = page.locator('.homeHeroFirst');
     assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
@@ -89,12 +159,19 @@ try {
     assert.match(await input.inputValue(), /räckvidd.*pengarna/);
     assert(await input.evaluate(el => el === document.activeElement));
     assert.equal(requests, 0, 'opening the driving week or preparing a question must not send an AI request');
-    await submit.click();
+    // The result panel opens before the async mock transport necessarily runs.
+    // Wait for the actual intercepted response, then still require exactly one request.
+    await Promise.all([
+      page.waitForResponse(response => new URL(response.url()).pathname === '/api/advisor' && response.status() === 503),
+      submit.click(),
+    ]);
     await page.locator('#dina-forslag').waitFor();
     assert.equal(requests, 1);
     await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Rådgivare' }).click();
     await page.waitForURL('**/radgivare');
     assert.equal(await page.locator('#din-korvecka').count(), 0);
+    assert.equal(await page.locator('#home-featured-image-notice').count(), 0);
+    assert(await page.locator('.homeExplore .vehicleImageNotice').count() > 0, 'Advisor route still has individual notices');
     await toggle.click();
     assert.match(await input.inputValue(), /räckvidd.*pengarna/);
     assert.equal(requests, 1);
@@ -102,6 +179,24 @@ try {
     await context.close();
     console.log(width + 'px: adviser visible, keyboard and axe clean, driving week and edit round trip, adviser shortcut, no real AI calls');
   }
+  // A different, individually qualified photo must not be swept into the shared note.
+  const data = JSON.parse(await readFile(new URL('../public/data/public_ev_variants.json', import.meta.url), 'utf8'));
+  const rows = ['bmw-i4-press-497a46b16ded.jpg', 'cupra-born-press-7b71951e205b.jpg', 'hyundai-ioniq-9-press-4556561b89d9.jpg'].map(asset =>
+    data.records.find(row => row.image_url?.endsWith(asset)));
+  assert(rows.every(Boolean));
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await isolatePublicDataFixture(page);
+  await page.route('**/data/public_ev_variants.json', route => route.fulfill({ json: { ...data, records: rows } }));
+  await page.goto(base);
+  const featured = page.locator('.homeExploreStart');
+  await featured.locator('.homeVehicleCard').first().waitFor();
+  assert.equal(await featured.locator('#home-featured-image-notice').count(), 0);
+  assert.equal(await featured.locator('.homeVehiclePhoto[aria-describedby]').count(), 0);
+  assert.equal(await featured.locator('.vehicleImageNotice').count(), 3);
+  assert.match(await featured.innerText(), /Pressbild av IONIQ 9. Utrustningen kan skilja mellan versioner/);
+  await ctx.close();
+  console.log('mixed image rights and model-specific notices stay on each card');
 } finally {
   await browser.close();
 }
