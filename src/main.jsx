@@ -33,7 +33,7 @@ import './styles.css';
 import { vehicleRedirect, catalogQuery } from './vehicle-redirects.js';
 import { OWNERSHIP_ASSUMPTIONS, distanceForWeek } from './ownership-cost.js';
 import { OwnershipCosts } from './ownership-cost.jsx';
-import { BiljournalWeek, DEFAULT_WEEK } from './biljournal-home.jsx';
+import { DEFAULT_WEEK } from './biljournal-home.jsx';
 import { BiljournalSources, variantSourcePath } from './biljournal-sources.jsx';
 import { vehiclePhotoOverride, photoCredit } from './biljournal-images.js';
 import { assetPath, sitePath, isOfflineReview, isPreview } from './preview-paths.js';
@@ -389,10 +389,12 @@ function reviewLocation() {
   return new URL(fragment.startsWith('#/') ? fragment.slice(1) : '/', 'https://preview.invalid');
 }
 
-function AppLink({ path, children, className }) {
+function AppLink({ path, children, className, onNavigate }) {
   return <a href={appPath(path)} className={className} onClick={(event) => {
     if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) {
-      event.preventDefault(); navigate(path);
+      event.preventDefault();
+      onNavigate?.();
+      navigate(path);
     }
   }}>{children}</a>;
 }
@@ -600,6 +602,7 @@ export function App({ initialData } = {}) {
   const [ownership, setOwnership] = useState(OWNERSHIP_ASSUMPTIONS);
   const [weekActive, setWeekActive] = useState(false);
   const [week, setWeek] = useState(DEFAULT_WEEK);
+  const [weekOpen, setWeekOpen] = useState(false);
   const today = initialData?.asOf || new Date().toISOString().slice(0,10);
   const compareSelection = compare.join('|');
   const compareSelectionRef = useRef(compareSelection);
@@ -812,7 +815,7 @@ export function App({ initialData } = {}) {
       <header className="siteHeader premiumHeader bilHeader">
         <AppLink path="/" className="brand brandButton">Elbilsagenten</AppLink>
         <nav aria-label="Huvudnavigation">
-          {[[ '/', 'Körveckan', 'home' ], [ '/bilar', 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
+          {[[ '/', 'Start', 'home' ], [ '/bilar', 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
         </nav>
       </header>
       <main id="main-content" className="siteMain" ref={contentRef} tabIndex={-1} aria-label="Huvudinnehåll">
@@ -831,9 +834,8 @@ export function App({ initialData } = {}) {
       {route.type === 'news' && <NewsPage {...news} navigate={navigate} />}
       {route.type === 'newsArticle' && <NewsArticlePage article={routeArticle} articles={news.articles} loading={news.loading} error={news.error} navigate={navigate} cars={cars} sourceLink={routeLink} renderVehicleCard={(car) => <VehicleCard car={car} selected={compare.includes(car.id)} onCompare={toggleCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />} />}
 
-      {route.type === 'home' && <BiljournalWeek week={week} setWeek={setWeek} onApply={applyWeek} />}
       {['home','advisor'].includes(route.type) && (
-        <HomePage secondary={route.type==='home'} localAdvisor={isPreview || isOfflineReview()}
+        <HomePage drivingWeek={route.type === 'home' ? { week, setWeek, open: weekOpen, setOpen: setWeekOpen, onApply: applyWeek } : undefined} localAdvisor={isPreview || isOfflineReview()}
           cars={cars}
           dataStatus={dataStatus}
           advisor={effectiveAdvisor}
@@ -854,7 +856,7 @@ export function App({ initialData } = {}) {
       {route.type === 'verification' && <VerificationPage />}
       {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
       {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
-      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/">Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
+      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => setWeekOpen(true)}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}

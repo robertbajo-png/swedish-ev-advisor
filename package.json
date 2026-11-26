@@ -119,6 +119,7 @@
     "verify:journal-ui": "node scripts/verify_journal_ui.mjs",
     "verify:news-presentation": "node scripts/verify_news_presentation.mjs",
     "verify:vehicle-ui": "node scripts/verify_vehicle_ui.mjs",
+    "verify:advisor-first-ui": "node scripts/verify_advisor_first_ui.mjs",
     "verify:home-ui": "node scripts/verify_home_ui.mjs",
     "news:collect": "node scripts/run_python.mjs scripts/news_engine.py collect",
     "news:run": "node scripts/run_python.mjs scripts/news_engine.py run",

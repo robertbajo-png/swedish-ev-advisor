@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
+import { BiljournalCover, BiljournalWeek } from './biljournal-home.jsx';
+import { coverPhoto as biljournalCoverPhoto } from './biljournal-images.js';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
 import { VehicleImageNotice } from './vehicle-image-notice.jsx';
@@ -25,9 +27,17 @@ const categories = [
 const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pendling', langresa: 'Långresor', budget: 'Budget', dragkrok: 'Dragkrok', allround: 'Vardag' };
 
 
-export function HomePage({ secondary = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
-  const Title = secondary ? 'h2' : 'h1';
+export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
   const [advanced, setAdvanced] = useState(false);
+  const weekFocusRequested = useRef(false);
+  const weekOpen = drivingWeek?.open;
+  useEffect(() => {
+    if (!weekOpen || !weekFocusRequested.current) return;
+    weekFocusRequested.current = false;
+    const title = document.getElementById('bil-week-title');
+    title?.focus({ preventScroll: true });
+    title?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'nearest' });
+  }, [weekOpen]);
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   }, [status.state]);
@@ -35,11 +45,13 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
   const coverage = (car) => [car.price, car.rangeVerified, car.dcVerified, car.towingVerified].filter((value) => value != null).length;
   const browseCars = [...cars].sort((a, b) => coverage(b) - coverage(a));
   const spotlight = browseCars.find((car) => car.image) || cars[0];
+  // Read the hero photo as editorial context, not as a second catalog card.
+  const featuredPool = drivingWeek ? browseCars.filter(car => car.image !== biljournalCoverPhoto) : browseCars;
   const featured = [];
-  for (const car of browseCars) {
+  for (const car of featuredPool) {
     if (car.image && !featured.some((item) => item.brand === car.brand) && featured.length < 3) featured.push(car);
   }
-  if (featured.length < 3) for (const car of browseCars) { if (!featured.some((item) => item.canonicalModel === car.canonicalModel && item.brand === car.brand) && featured.length < 3) featured.push(car); }
+  if (featured.length < 3) for (const car of featuredPool) { if (!featured.some((item) => item.canonicalModel === car.canonicalModel && item.brand === car.brand) && featured.length < 3) featured.push(car); }
   const recommendations = (result?.shortlist || []).map((item) => {
     const key = item.canonicalKey || [item.brand, item.model, item.variant_name].join('|');
     const car = cars.find((candidate) => candidate.canonicalKey === key);
@@ -63,9 +75,9 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
   const cardProps = { navigate, renderImage, appPath, onCompare };
 
   return <div className="consumerHome">
-    <section className="homeHero homeContainer" id="hitta-elbil" aria-labelledby="home-heading">
+    <section className={drivingWeek ? "homeHero homeContainer homeHeroFirst" : "homeHero homeContainer"} id="hitta-elbil" aria-labelledby="home-heading">
       <div className="homeHeroCopy">
-        <Title id="home-heading">Få hjälp att välja elbil</Title>
+        <h1 id="home-heading">Få hjälp att välja elbil</h1>
         <p className="homeHeroIntro">{localAdvisor ? 'Beskriv dina krav. Förhandsvisningen hämtar förslag ur den sparade katalogen.' : 'Beskriv dina krav, till exempel budget, bagageutrymme eller dragkrok.'}</p>
         <form className="homeAdvisorForm" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
           <label htmlFor="home-advisor-query"><Sparkles size={17} /> Vad är viktigt för dig?</label>
@@ -79,16 +91,20 @@ export function HomePage({ secondary = false, localAdvisor = false, cars, dataSt
             <div><label htmlFor="home-range">Minsta räckvidd</label><output htmlFor="home-range">{advisor.range} km</output><input id="home-range" type="range" min="50" max="1000" step="10" value={advisor.range} onChange={(event) => setAdvisor({ ...advisor, range: Number(event.target.value), rangeExplicit: true })} /></div>
           </div>
         </form>
-        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }) => <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div>
+        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-expanded={drivingWeek.open} aria-controls="din-korvecka" onClick={() => { weekFocusRequested.current = !weekOpen; drivingWeek.setOpen(!weekOpen); }}><Icon size={14} aria-hidden="true" />{suggestion.label}<ChevronDown size={14} aria-hidden="true" /></button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div>
       </div>
-      <aside className="homeSpotlight" aria-label="Upptäck en elbil">
+      {drivingWeek ? <BiljournalCover /> : <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
           <VehicleImageNotice car={spotlight} />
           <div className="homeSpotlightCaption"><div><span className="homeKicker">Bil ur katalogen</span><h2>{spotlight.brand} {spotlight.model}</h2></div><VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeTextLink">Utforska <ArrowRight size={16} /></VehicleLink></div>
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
-      </aside>
+      </aside>}
+      {drivingWeek && <div className="homeWeekPanel" id="din-korvecka" hidden={!drivingWeek.open}>
+        <BiljournalWeek week={drivingWeek.week} setWeek={drivingWeek.setWeek} onApply={drivingWeek.onApply} />
+        <button type="button" className="homeTextLink homeWeekAsk" onClick={() => applySuggestion(suggestions[0])}>Ställ frågan till AI-rådgivaren <ArrowRight size={16} aria-hidden="true" /></button>
+      </div>}
     </section>
 
     {(status.state === 'loading' || result) && <section className="homeAdvisorResults homeContainer" id="dina-forslag" aria-labelledby="advisor-results-title" aria-busy={status.state === 'loading'}>

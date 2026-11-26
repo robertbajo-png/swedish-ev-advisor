@@ -29,7 +29,7 @@ try {
       const response = await page.goto(base + path, { waitUntil: 'networkidle' });
       assert(response.ok());
       assert.equal(await page.locator('h1').count(), 1);
-      const expected = { '/': 'Din körvecka', '/familj': 'familj', '/under-500000': '500 000', '/bilar/tesla-model-3-long-range-rwd': 'Tesla Model 3' }[path];
+      const expected = { '/': 'Få hjälp att välja elbil', '/familj': 'familj', '/under-500000': '500 000', '/bilar/tesla-model-3-long-range-rwd': 'Tesla Model 3' }[path];
       assert((await page.locator('h1').innerText()).includes(expected), path + ': correct route, not a generic SPA fallback');
       assert.equal(await page.locator('#main-content').count(), 1);
       assert(await page.locator('a[href="/bilar"]').count());
