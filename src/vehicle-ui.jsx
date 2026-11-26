@@ -25,14 +25,15 @@ export function VehicleLink({ car, navigate, children, className, appPath, descr
   }}>{children}</a>;
 }
 
-export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3, sharedImageNoticeId }) {
+export function VehicleCard({ car, selected, onCompare, navigate, renderImage, appPath, recommendation, variants, onVariantChange, className = '', compareLimitReached = false, headingLevel = 3, sharedImageNoticeId, compactImageNotice = false }) {
   const identity = vehicleIdentity(car);
+  const disclosureId = compactImageNotice && car.image && car.imageNotice && !sharedImageNoticeId ? 'catalog-image-note-' + car.id : undefined;
   const Heading = 'h' + headingLevel;
   const priceType = vehiclePriceLabel(car);
   const offerEnd = priceOfferEnd(car.priceType, car.priceValidUntil);
   const highlight = car.rangeVerified >= 650 ? `${car.rangeVerified} km WLTP` : car.towingVerified >= 2000 ? `${car.towingVerified} kg dragvikt` : null;
   return <article className={`vehicleCard homeVehicleCard ${className}`}>
-    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto" describedBy={sharedImageNoticeId}>{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
+    <VehicleLink car={car} navigate={navigate} appPath={appPath} className="homeVehiclePhoto" describedBy={sharedImageNoticeId || disclosureId}>{renderImage(car)}{highlight && <span className="vehiclePhotoLabel">{highlight}</span>}</VehicleLink>
     <div className="homeVehicleBody">
       <div className="vehicleCardIdentity">
         <Heading className="vehicleCardTitle"><VehicleLink car={car} navigate={navigate} appPath={appPath}>{car.brand} {identity.model}</VehicleLink></Heading>
@@ -50,7 +51,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         <div className="homeVehicleActions"><VehicleLink car={car} navigate={navigate} appPath={appPath}>Visa detaljer <ArrowUpRight size={16} /></VehicleLink><button type="button" aria-pressed={selected} onClick={() => onCompare(car.id)} title={selected ? 'Ta bort ur jämförelse' : compareLimitReached ? 'Ersätter äldsta valet i jämförelsen' : 'Lägg till i jämförelse'}>{selected ? <Check size={16} /> : <GitCompareArrows size={16} />}{selected ? 'Vald' : 'Jämför'}</button></div>
       </div>
     </div>
-    {!sharedImageNoticeId && <VehicleImageNotice car={car} />}
+    {!sharedImageNoticeId && <VehicleImageNotice car={car} disclosureId={disclosureId} />}
   </article>;
 }
 
