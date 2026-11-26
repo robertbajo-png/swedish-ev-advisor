@@ -156,7 +156,12 @@ try {
     assert.match(await input.inputValue(), /räckvidd.*pengarna/);
     assert(await input.evaluate(el => el === document.activeElement));
     assert.equal(requests, 0, 'opening the driving week or preparing a question must not send an AI request');
-    await submit.click();
+    // The result panel opens before the async mock transport necessarily runs.
+    // Wait for the actual intercepted response, then still require exactly one request.
+    await Promise.all([
+      page.waitForResponse(response => new URL(response.url()).pathname === '/api/advisor' && response.status() === 503),
+      submit.click(),
+    ]);
     await page.locator('#dina-forslag').waitFor();
     assert.equal(requests, 1);
     await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Rådgivare' }).click();
