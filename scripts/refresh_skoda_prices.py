@@ -8,8 +8,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from uuid import UUID
 
-from audit_catalog_sources import ROOT, SourceFetcher
-from skoda_price_intake import URL, NAMES, extract_prices
+from audit_catalog_sources import ROOT
+from skoda_price_intake import URL, NAMES, extract_prices, fetch_price_source
 from refresh_verified_variants import save
 from supabase_client import SupabaseRestClient
 from variant_refresh import RefreshError
@@ -36,7 +36,7 @@ def uuid_value(value):
         raise RefreshError('invalid_canonical_identifier') from None
 
 
-def prepare(source, text, original, previous, now=None):
+def prepare(source, text, original, previous, now=None, *, document_pages=None):
     now = now or datetime.now(timezone.utc)
     try:
         fetched = datetime.fromisoformat(source['fetched_at'])
@@ -56,7 +56,7 @@ def prepare(source, text, original, previous, now=None):
         raise RefreshError('existing_official_source_required')
     source_id = uuid_value(original.get('id'))
     model_id = uuid_value(original.get('canonical_model_id'))
-    drafts = extract_prices(text, source, previous, now.date())
+    drafts = extract_prices(text, source, previous, now.date(), document_pages=document_pages)
     names = {row['variant_name']: row for row in previous}
     if len(names) != 4 or len({row.get('id') for row in previous}) != 4:
         raise RefreshError('duplicate_canonical_target')
@@ -125,7 +125,7 @@ def main():
     mode.add_argument('--publish', action='store_true')
     parser.add_argument('--expected-prices', type=Path, help='Optional exact operator-approved price matrix; mismatch stops before staging')
     args = parser.parse_args()
-    fetched = SourceFetcher().fetch(URL, {'Skoda'})
+    fetched = fetch_price_source()
     if fetched['status'] != 'reachable':
         raise RefreshError('official_source_' + fetched['status'])
     source = {key: fetched.get(key) for key in ('status', 'http_status', 'final_url', 'content_hash', 'text_hash', 'content_type')}
@@ -135,7 +135,7 @@ def main():
     if len(sources) != 1:
         raise RefreshError('unique_existing_source_required')
     previous = client.select('canonical_model_variants', '*', {'canonical_model_id': 'eq.' + sources[0]['canonical_model_id']})
-    prepared = prepare(source, fetched['text'], sources[0], previous)
+    prepared = prepare(source, fetched['text'], sources[0], previous, document_pages=fetched['document'])
     if args.expected_prices:
         check_expected_prices(prepared['drafts'], json.loads(args.expected_prices.read_text(encoding='utf-8')))
     prepared['publication_requested'] = args.publish

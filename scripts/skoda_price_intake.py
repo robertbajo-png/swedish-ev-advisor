@@ -1,4 +1,6 @@
 """Private, price-only Enyaq intake. No canonical writes or publisher path."""
+import hashlib
+import io
 import json
 import re
 from datetime import date, datetime, timezone
@@ -13,7 +15,71 @@ NAMES = {'85': 'Solid Edition 85', '85x': 'Solid Edition 85x',
 PRICE_COLUMNS = {'85': (0, 2), '85x': (0, 2), '85x Sportline': (1, 0), 'RS': (2, 0)}
 
 
-def extract_prices(text, source, expected, today=None):
+# The underlying SourceFetcher still validates the exact HTTPS source, robots,
+# response, body size and full PDF SHA. Page boundaries are extracted from those
+# same bytes, never from a separate URL or a caller-selected page.
+def pdf_price_pages(body, content_type):
+    if 'pdf' not in content_type:
+        raise ValueError('price_source_not_pdf')
+    from pypdf import PdfReader
+    return [page.extract_text() or '' for page in PdfReader(io.BytesIO(body)).pages]
+
+
+def fetch_price_source():
+    return SourceFetcher(document_parser=pdf_price_pages).fetch(URL, {'Skoda'})
+
+
+EXPIRY = re.compile(r'g\s*äller\s+tom\s+(\d{4}-\d{2}-\d{2})', re.I)
+LIMITED = re.compile(r'erbjudandet är begränsat', re.I)
+
+
+def page_bound_vehicle_offer(text, source, document_pages):
+    """Only resolve a differing date for the recognized three-page layout.
+
+    Page 1 is the vehicle price table. Page 2 is explicitly optional equipment
+    and has its own footer; page 3 is standard equipment. A second vehicle
+    table, a second date on page 1, a date outside the options footer, or an
+    unbound/changed page structure still quarantines the entire document.
+    """
+    dates = {match.group(1) for match in EXPIRY.finditer(text)}
+    if len(dates) <= 1:
+        return text, None
+    if (not isinstance(document_pages, list) or len(document_pages) != 3
+            or any(not isinstance(p, str) or not p.strip() for p in document_pages)
+            or '\n'.join(document_pages).strip() != text.strip()
+            or hashlib.sha256(text.encode('utf-8')).hexdigest() != source.get('text_hash')):
+        raise RefreshError('campaign_expiry_ambiguous')
+    vehicle, options, standard = document_pages
+    def lines(page):
+        return [re.sub(r'\s+', ' ', l).strip() for l in page.splitlines() if l.strip()]
+    def heading(page):
+        return next((l for l in lines(page) if not re.fullmatch(r'\d+/\d+', l)), '')
+    if (normalized(heading(options)) != 'tillvalsutrustning'
+            or normalized(heading(standard)) != 'standardutrustning'):
+        raise RefreshError('campaign_expiry_ambiguous')
+    for equipment in (options, standard):
+        if ('selection sportline rs' in normalized(equipment)
+                or any(normalized(line) == normalized('Škoda Enyaq Solid Edition')
+                       or re.match(r'^(?:85x Sportline|85x|85|RS) \d{3}\b', line)
+                       or re.match(r'^Prislista\b', line, re.I) for line in lines(equipment))):
+            raise RefreshError('campaign_expiry_ambiguous')
+    vehicle_dates = {m.group(1) for m in EXPIRY.finditer(vehicle)}
+    option_matches = list(EXPIRY.finditer(options))
+    option_footer = '\n'.join(lines(options)[-3:])
+    if (len(vehicle_dates) != 1 or not LIMITED.search(vehicle)
+            or len(option_matches) != 1 or EXPIRY.search(standard)
+            or not LIMITED.search(option_footer)
+            or len(list(EXPIRY.finditer(option_footer))) != 1
+            or option_matches[0].group(1) in vehicle_dates):
+        raise RefreshError('campaign_expiry_ambiguous')
+    context = {'source_page': 1, 'source_page_count': 3,
+               'page_text_sha256': hashlib.sha256(vehicle.encode('utf-8')).hexdigest(),
+               'separate_optional_equipment_page': 2,
+               'optional_equipment_footer_expiry': option_matches[0].group(1)}
+    return vehicle, context
+
+
+def extract_prices(text, source, expected, today=None, *, document_pages=None):
     today = today or datetime.now(timezone.utc).date()
     if (source.get('url'), source.get('final_url'), source.get('brand'), source.get('model')) != (URL, URL, 'Skoda', 'Enyaq'):
         raise RefreshError('unapproved_exact_price_source')
@@ -21,13 +87,14 @@ def extract_prices(text, source, expected, today=None):
         raise RefreshError('source_hash_required')
     if {row['variant_name'] for row in expected} != set(NAMES.values()) or len(expected) != 4:
         raise RefreshError('exact_solid_edition_group_required')
+    text, page_context = page_bound_vehicle_offer(text, source, document_pages)
     lines = [re.sub(r'\s+', ' ', line).strip() for line in text.splitlines()]
     title = next((line for line in lines if normalized(line) == normalized('Škoda Enyaq Solid Edition')), None)
     if not title:
         raise RefreshError('edition_changed')
     if 'selection sportline rs' not in normalized(text):
         raise RefreshError('price_columns_changed')
-    expiry_matches = list(re.finditer(r'g\s*äller\s+tom\s+(\d{4}-\d{2}-\d{2})', text, re.I))
+    expiry_matches = list(EXPIRY.finditer(text))
     dates = {match.group(1) for match in expiry_matches}
     if len(dates) != 1:
         raise RefreshError('campaign_expiry_ambiguous')
@@ -38,7 +105,7 @@ def extract_prices(text, source, expected, today=None):
             raise RefreshError('campaign_expired')
     except ValueError:
         raise RefreshError('invalid_campaign_expiry') from None
-    qualification = re.search(r'erbjudandet är begränsat', text, re.I)
+    qualification = LIMITED.search(text)
     if not qualification:
         raise RefreshError('campaign_qualification_missing')
     # The source labels its range as estimated. This adapter imports prices only.
@@ -57,6 +124,8 @@ def extract_prices(text, source, expected, today=None):
         row = {field: None for field in FACT_FIELDS}
         proof = {'source_url': URL, 'source_hash': source['content_hash'],
                  'quote': quote, 'scope': 'exact_variant_row', 'row_label': motor, 'edition': title}
+        if page_context:
+            proof.update(page_context)
         row.update(brand='Skoda', model='Enyaq', variant_name=variant,
                    price_sek=price, price_type='campaign_price', price_valid_until=expiry,
                    source_url=URL, source_hash=source['content_hash'],
@@ -74,12 +143,13 @@ def extract_prices(text, source, expected, today=None):
 def main():
     catalog = json.loads((ROOT / 'public/data/public_ev_variants.json').read_text(encoding='utf-8'))
     expected = [row for row in catalog['records'] if (row['brand'], row['model']) == ('Skoda', 'Enyaq')]
-    fetched = SourceFetcher().fetch(URL, {'Skoda'})
+    fetched = fetch_price_source()
     if fetched['status'] != 'reachable' or 'pdf' not in fetched.get('content_type', ''):
         raise RefreshError('official_pdf_not_reachable')
     source = {'url': URL, 'final_url': fetched['final_url'], 'brand': 'Skoda', 'model': 'Enyaq',
-              'content_hash': fetched['content_hash'], 'fetched_at': datetime.now(timezone.utc).isoformat()}
-    drafts = extract_prices(fetched['text'], source, expected)
+              'content_hash': fetched['content_hash'], 'text_hash': fetched['text_hash'],
+              'fetched_at': datetime.now(timezone.utc).isoformat()}
+    drafts = extract_prices(fetched['text'], source, expected, document_pages=fetched['document'])
     directory = ROOT / 'data/local/release-data/skoda-price-intake'
     directory.mkdir(parents=True, exist_ok=True)
     packet = {'source': source, 'drafts': drafts, 'source_text': fetched['text'],

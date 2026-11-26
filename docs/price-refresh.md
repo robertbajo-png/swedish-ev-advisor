@@ -104,6 +104,29 @@ registry authority is null. It explicitly records that missing classification
 and cannot stage or publish until it is resolved. Conflicting authorities,
 models, markets or URLs are rejected, not normalized into an approval.
 
+## Page-bound campaign evidence (2026-11-26)
+
+The registered Swedish Enyaq PDF can have a newer vehicle price table on
+page 1 and an older optional-equipment footer on page 2. The flat-text
+parser still rejects ambiguous dates by default. The page-aware intake uses
+the original full PDF hash, exact full-text hash and actual PDF page
+boundaries from the same fetch; it accepts the scoped date only for the
+recognized three-page vehicle/optional-equipment/standard-equipment layout.
+The second page may contain its own distinct limited-offer footer only,
+not an additional vehicle price table. Duplicate/conflicting vehicle rows,
+other page layouts, unbound text or additional date conflicts stay in
+quarantine. Preserve the page evidence privately; do not import estimated
+specifications or optional-equipment facts.
+
+A checked PDF or private packet alone does not refresh the canonical date.
+The existing price-only RPC and approval rules still apply, including a new
+fresh fetch at execution. Price-proof URL/hash/quote/time are public data;
+a refreshed source hash or verification time changes the four canonical
+export rows even when the amounts and terms do not change. Do not modify
+the release freshness gate or substitute an uncommitted local projection
+for the canonical export. Independently review this adapter change and
+obtain the scoped data-publication approval before any staging/publication.
+
 ## Commands
 
 ```text

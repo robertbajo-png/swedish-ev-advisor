@@ -1,10 +1,17 @@
 import copy
+import hashlib
+import io
+import json
+import tempfile
 import sys
 import unittest
-from datetime import datetime, timezone
+from contextlib import redirect_stdout
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+import refresh_skoda_prices as worker
 from refresh_skoda_prices import prepare, stage_or_publish, PricePublicationUncertain, check_expected_prices
 from skoda_price_intake import URL, NAMES
 from variant_refresh import RefreshError
@@ -46,6 +53,77 @@ RS 340 558 161 0 – – 651 000 kr'''
         self.assertTrue(all(row['dc_charge_kw'] is None and row['wltp_range_km'] is None for row in packet['drafts']))
         self.assertEqual(self.previous, before)
         self.assertEqual(packet['packet']['batch_id'], self.run_prepare()['packet']['batch_id'])
+
+    def test_private_prepare_binds_full_document_and_vehicle_page(self):
+        pages = [
+            self.text,
+            '2/3\nTillvalsutrustning\nMetalliclack från 0 kr\nErbjudandet är begränsat. Gäller tom 2026-06-16.\nrekommenderade cirkapriser.',
+            '3/3\nStandardutrustning\nDragkrok'
+        ]
+        text = '\n'.join(pages).strip()
+        source = {**self.source, 'text_hash': hashlib.sha256(text.encode('utf-8')).hexdigest()}
+        prev = copy.deepcopy(self.previous)
+        result = prepare(source, text, self.original, self.previous, self.now, document_pages=pages)
+        self.assertEqual(result['published'], 0)
+        self.assertEqual(result['staged'], 0)
+        self.assertFalse(result['ready_for_publication'])
+        self.assertEqual(self.previous, prev)
+        self.assertTrue(all(r['price_valid_until'] == '2026-12-15' and r['dc_charge_kw'] is None for r in result['drafts']))
+        self.assertTrue(all(r['extraction_payload']['field_evidence']['price_sek']['source_page'] == 1 for r in result['drafts']))
+        with self.assertRaisesRegex(RefreshError, 'campaign_expiry_ambiguous'):
+            prepare(source, text, self.original, self.previous, self.now)
+
+    def test_documented_dry_run_entrypoint_reads_only_and_binds_exact_matrix(self):
+        expiry = (datetime.now(timezone.utc).date() + timedelta(days=20)).isoformat()
+        old_expiry = (datetime.now(timezone.utc).date() - timedelta(days=1)).isoformat()
+        pages = [
+            self.text.replace('2026-12-15', expiry),
+            '2/3\nTillvalsutrustning\nMetalliclack från 0 kr\nErbjudandet är begränsat. Gäller tom ' + old_expiry + '.\nrekommenderade cirkapriser.',
+            '3/3\nStandardutrustning\nDragkrok'
+        ]
+        text = '\n'.join(pages).strip()
+        fetched = {**self.source, 'text': text, 'document': pages,
+                   'text_hash': hashlib.sha256(text.encode('utf8')).hexdigest()}
+        expected = {name: {'price_sek': 501000+i*50000, 'price_type': 'campaign_price',
+                           'price_valid_until': expiry} for i, name in enumerate(NAMES.values())}
+        reads = []
+        test = self
+        class ReadOnly:
+            def select(self, table, columns, filters):
+                reads.append(table)
+                if table == 'manufacturer_sources':
+                    return [test.original]
+                if table == 'canonical_model_variants':
+                    return test.previous
+                raise AssertionError('unexpected read')
+            def upsert(self, *args):
+                raise AssertionError('dry run must never stage')
+            def _request(self, *args):
+                raise AssertionError('dry run must never publish')
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            matrix_file = folder / 'matrix.json'
+            matrix_file.write_text(json.dumps(expected), encoding='utf8')
+            receipt_dir = folder / 'receipts'
+            output = io.StringIO()
+            with patch.object(worker, 'fetch_price_source', return_value=fetched), \
+                 patch.object(worker, 'SupabaseRestClient', return_value=ReadOnly()), \
+                 patch.object(worker, 'LOCAL', receipt_dir), \
+                 patch.object(sys, 'argv', ['refresh_skoda_prices.py', '--expected-prices', str(matrix_file)]), \
+                 redirect_stdout(output):
+                worker.main()
+            report = json.loads(output.getvalue())
+            self.assertEqual(report['mode'], 'dry_run')
+            self.assertEqual(report['staged'], 0)
+            self.assertEqual(report['published'], 0)
+            self.assertFalse(report['remote_writes'])
+            self.assertEqual(reads, ['manufacturer_sources', 'canonical_model_variants'])
+            receipts = list(receipt_dir.glob('*.json'))
+            self.assertEqual(len(receipts), 1)
+            receipt = json.loads(receipts[0].read_text(encoding='utf8'))
+            self.assertEqual(receipt['source']['content_hash'], fetched['content_hash'])
+            self.assertEqual(receipt['operation_result'], {'staged': 0, 'published': 0})
+            self.assertTrue(all(d['extraction_payload']['field_evidence']['price_sek']['source_page'] == 1 for d in receipt['drafts']))
 
     def test_stale_fetch_wrong_group_authority_and_large_changes_fail_closed(self):
         for patch in [{'fetched_at': '2026-10-27T11:00:00+00:00'}, {'fetched_at': '2026-10-27T13:00:00+00:00'},
