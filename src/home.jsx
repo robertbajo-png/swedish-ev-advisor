@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
-import { BiljournalCover, BiljournalWeek } from './biljournal-home.jsx';
+import { BiljournalWeek } from './biljournal-home.jsx';
 import { coverPhoto as biljournalCoverPhoto } from './biljournal-images.js';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { preferredScrollBehavior } from './ui-navigation.js';
@@ -45,7 +45,7 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
   const coverage = (car) => [car.price, car.rangeVerified, car.dcVerified, car.towingVerified].filter((value) => value != null).length;
   const browseCars = [...cars].sort((a, b) => coverage(b) - coverage(a));
   const spotlight = browseCars.find((car) => car.image) || cars[0];
-  // Read the hero photo as editorial context, not as a second catalog card.
+  // Preserve the established start-page catalogue selection.
   const featuredPool = drivingWeek ? browseCars.filter(car => car.image !== biljournalCoverPhoto) : browseCars;
   const featured = [];
   for (const car of featuredPool) {
@@ -93,7 +93,7 @@ export function HomePage({ drivingWeek, localAdvisor = false, cars, dataStatus, 
         </form>
         <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-expanded={drivingWeek.open} aria-controls="din-korvecka" onClick={() => { weekFocusRequested.current = !weekOpen; drivingWeek.setOpen(!weekOpen); }}><Icon size={14} aria-hidden="true" />{suggestion.label}<ChevronDown size={14} aria-hidden="true" /></button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div>
       </div>
-      {drivingWeek ? <BiljournalCover /> : <aside className="homeSpotlight" aria-label="Upptäck en elbil">
+      {!drivingWeek && <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
           <VehicleImageNotice car={spotlight} />

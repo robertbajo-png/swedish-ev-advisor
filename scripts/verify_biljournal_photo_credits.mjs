@@ -28,7 +28,8 @@ async function checkEntry(page, mobile) {
   assert.match(await hero.innerText(), /© M 93 \/ Wikimedia Commons.*CC-BY-SA-3.0-DE/s);
   assert.equal(await hero.getByRole('link',{name:'Bildkälla'}).getAttribute('href'),cover.source_url);
   assert.equal(await hero.getByRole('link',{name:'CC-BY-SA-3.0-DE'}).getAttribute('href'),cover.license_url);
-  assert.match(await hero.innerText(), /Startsidan.*helbild/s);
+  assert.match(await hero.innerText(), /Hyundai Inster.*modellvyer.*helbild/s);
+  assert.doesNotMatch(await hero.innerText(), /Startsidan|Omslaget/);
 }
 const browser = await launchQaBrowser();
 try {
@@ -44,8 +45,8 @@ try {
       if (!file) await page.route('**/*',r => new URL(r.request().url()).origin === localOrigin ? r.continue() : r.abort());
       await page.goto(url('/'));
       await page.getByRole('heading',{level:1,name:/^(Få hjälp att välja elbil|Din körvecka)$/}).waitFor();
-      await page.locator('.bilCoverPhoto img').evaluate(image => image.decode());
-      assert.equal(await page.locator('.bilCoverPhoto figcaption').innerText(),'Hyundai Inster Prime');
+      assert.equal(await page.locator('.homeHeroFirst img, .bilCoverPhoto, .homeHeroFirst .homeSpotlight').count(),0);
+      assert.equal(await page.getByText('Hyundai Inster Prime',{exact:true}).count(),0);
       const { records, articles } = JSON.parse(await page.locator('#public-page-data').textContent());
       const car = records.find(row => row.brand === 'Hyundai' && row.model === 'Inster');
       assert.ok(car);

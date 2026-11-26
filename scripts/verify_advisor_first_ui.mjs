@@ -30,7 +30,13 @@ try {
     const toggle = page.getByRole('button', { name: 'Mest räckvidd för pengarna', exact: true });
     const section = page.getByRole('form', { name: 'Din körvecka' });
     await page.locator('.homeVehicleCard').first().waitFor();
-    await page.locator('.bilCoverPhoto img').evaluate(image => image.decode());
+    const hero = page.locator('.homeHeroFirst');
+    assert.equal(await hero.locator('figure, img, .homeSpotlight').count(), 0, 'The start-page advisor has no replacement hero image');
+    assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
+    const heroBox = await hero.boundingBox();
+    const formBox = await hero.locator('.homeAdvisorForm').boundingBox();
+    assert(heroBox && formBox && Math.abs(heroBox.x - formBox.x) < 1 &&
+      Math.abs(heroBox.width - formBox.width) < 1, 'The advisor fills the freed grid column');
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator('h1').count(), 1);
     assert.equal(await section.isVisible(), false);
