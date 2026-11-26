@@ -1,9 +1,9 @@
 {
+  "generated_at": "2026-11-26T12:11:33.376Z",
   "source": "supabase_public_ev_variants",
   "schema_version": 1,
-  "generated_at": "2026-11-23T06:31:37.140Z",
   "missing_view_columns": [],
-  "catalog_sha256": "9059317ce3ebd5fe86a82a19e72d3736ca90cbbf4f9f6ff47a4afe8f7d158b1b",
+  "catalog_sha256": "e54d8fcf63dcc06257f87d971fa1b41da5c1cde155a23301b71527f65bda14d1",
   "records": [
     {
       "brand": "Audi",
@@ -2809,10 +2809,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/71-new-skoda-enyaq-375466a9-1920x1280-dot-jpg-3430778",
       "verified_at": "2026-11-13T11:44:58.444431+00:00",
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
-      "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
-      "price_source_quote": "Škoda Enyaq Solid Edition | 85 286 572 155 0 599 500 kr – – | Erbjudandet är begränsat | G äller tom 2026-12-15",
+      "price_source_hash": "76c8ea8b96238a1a214d42a67c91211ae002a1d5003480a605c8e273935e3b8d",
+      "price_source_quote": "Škoda Enyaq Solid Edition | 85 286 572 155 0 599 500 kr – – | Erbjudandet är begränsat | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T09:30:59.759197+00:00"
+      "price_verified_at": "2026-11-26T12:10:32.628239+00:00"
     },
     {
       "brand": "Skoda",
@@ -2845,10 +2845,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/71-new-skoda-enyaq-375466a9-1920x1280-dot-jpg-3430778",
       "verified_at": "2026-11-13T11:44:58.444431+00:00",
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
-      "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
-      "price_source_quote": "Škoda Enyaq Solid Edition | 85x 299 572 157 0 638 500 kr – – | Erbjudandet är begränsat | G äller tom 2026-12-15",
+      "price_source_hash": "76c8ea8b96238a1a214d42a67c91211ae002a1d5003480a605c8e273935e3b8d",
+      "price_source_quote": "Škoda Enyaq Solid Edition | 85x 299 572 157 0 638 500 kr – – | Erbjudandet är begränsat | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T09:30:59.759197+00:00"
+      "price_verified_at": "2026-11-26T12:10:32.628239+00:00"
     },
     {
       "brand": "Skoda",
@@ -2881,10 +2881,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/71-new-skoda-enyaq-375466a9-1920x1280-dot-jpg-3430778",
       "verified_at": "2026-11-13T11:44:58.444431+00:00",
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
-      "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
-      "price_source_quote": "Škoda Enyaq Solid Edition | 85x Sportline 299 565 159 0 – 679 900 kr | Erbjudandet är begränsat | G äller tom 2026-12-15",
+      "price_source_hash": "76c8ea8b96238a1a214d42a67c91211ae002a1d5003480a605c8e273935e3b8d",
+      "price_source_quote": "Škoda Enyaq Solid Edition | 85x Sportline 299 565 159 0 – 679 900 kr | Erbjudandet är begränsat | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T09:30:59.759197+00:00"
+      "price_verified_at": "2026-11-26T12:10:32.628239+00:00"
     },
     {
       "brand": "Skoda",
@@ -2917,10 +2917,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/71-new-skoda-enyaq-375466a9-1920x1280-dot-jpg-3430778",
       "verified_at": "2026-11-13T11:44:58.444431+00:00",
       "price_source_url": "https://www.skoda.se/_doc/1d23f075-2685-40f9-ad6f-a31b09f3d660",
-      "price_source_hash": "3d5e8e3c76df18009ddd9ec664c20d6bdf8c064db0d112d1a3cf9cf47387092c",
-      "price_source_quote": "Škoda Enyaq Solid Edition | RS 340 558 161 0 – – 689 900 kr | Erbjudandet är begränsat | G äller tom 2026-12-15",
+      "price_source_hash": "76c8ea8b96238a1a214d42a67c91211ae002a1d5003480a605c8e273935e3b8d",
+      "price_source_quote": "Škoda Enyaq Solid Edition | RS 340 558 161 0 – – 689 900 kr | Erbjudandet är begränsat | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T09:30:59.759197+00:00"
+      "price_verified_at": "2026-11-26T12:10:32.628239+00:00"
     },
     {
       "brand": "Tesla",
