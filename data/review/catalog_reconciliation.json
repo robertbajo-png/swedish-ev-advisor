@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-26T12:11:33.344Z",
+  "checked_at": "2026-11-27T21:59:41.067Z",
   "ok": false,
   "local_count": 109,
   "remote_count": 109,
@@ -7,7 +7,70 @@
   "remote_only": [],
   "changed": [
     {
-      "key": "skoda|enyaq|solid edition 85",
+      "key": "audi|a6 e-tron|a6 sportback e-tron performance s-line 270 kw my2027 (lagerbil rrr07b)",
+      "fields": [
+        "price_sek",
+        "price_type",
+        "price_source_url",
+        "price_source_hash",
+        "price_source_quote",
+        "price_source_name",
+        "price_verified_at",
+        "price_withheld_reason",
+        "price_withheld_at"
+      ]
+    },
+    {
+      "key": "audi|q6 e-tron|q6 e-tron quattro suv 315 kw my2027 (lagerbil jce98y)",
+      "fields": [
+        "price_sek",
+        "price_type",
+        "price_source_url",
+        "price_source_hash",
+        "price_source_quote",
+        "price_source_name",
+        "price_verified_at",
+        "price_withheld_reason",
+        "price_withheld_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|60 selection explore edition",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|60 sportline explore edition",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85 selection explore edition",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85 sportline explore edition",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85x selection explore edition",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "skoda|elroq|85x sportline explore edition",
       "fields": [
         "price_source_hash",
         "price_source_quote",
@@ -15,26 +78,37 @@
       ]
     },
     {
-      "key": "skoda|enyaq|solid edition 85x",
+      "key": "skoda|elroq|rs explore edition",
       "fields": [
         "price_source_hash",
-        "price_source_quote",
         "price_verified_at"
       ]
     },
     {
-      "key": "skoda|enyaq|solid edition 85x sportline",
+      "key": "volkswagen|id.3|id.3 neo trend",
       "fields": [
         "price_source_hash",
-        "price_source_quote",
         "price_verified_at"
       ]
     },
     {
-      "key": "skoda|enyaq|solid edition rs",
+      "key": "volkswagen|id.4|id.4 pro 4motion 77 kwh my2027 (lagerbil bsj09l)",
       "fields": [
         "price_source_hash",
-        "price_source_quote",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "volvo|es90|es90 single motor extended range ultra my2026 (lagerbil jwr04c)",
+      "fields": [
+        "price_source_hash",
+        "price_verified_at"
+      ]
+    },
+    {
+      "key": "volvo|ex30|ex30 p5 long range core my2027 (lagerbil)",
+      "fields": [
+        "price_source_hash",
         "price_verified_at"
       ]
     }
@@ -145,7 +219,7 @@
   ],
   "missing_view_columns": [],
   "remote_writes": false,
-  "scope": "approved_enyaq_proof_refresh_v2",
+  "scope": "approved_scoped_price_reverification_20261127",
   "representation_aliases": [
     {
       "key": "ford|puma gen-e|168 hk",
@@ -256,7 +330,7 @@
       "raw_canonical": "2026-11-23T06:28:36.482+00:00"
     }
   ],
-  "raw_canonical_before_hash": "596e539df22119a77e8a686686d6d33f5ab484a53b9c2b0c9960bfba0e20c806",
-  "raw_canonical_after_hash": "d6eebbc11c22c3b5f0d99b6b9cbb9f09a2af3c8ad1c33439af656eab483aa619",
+  "raw_canonical_before_hash": "d6eebbc11c22c3b5f0d99b6b9cbb9f09a2af3c8ad1c33439af656eab483aa619",
+  "raw_canonical_after_hash": "819d4147556736d0389b6865194cdb95056c87106e7b702a849e89d1e5796648",
   "scoped_export_verified": true
 }

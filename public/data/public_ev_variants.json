@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-26T12:11:33.376Z",
+  "generated_at": "2026-11-27T21:59:41.099Z",
   "source": "supabase_public_ev_variants",
   "schema_version": 1,
   "missing_view_columns": [],
-  "catalog_sha256": "e54d8fcf63dcc06257f87d971fa1b41da5c1cde155a23301b71527f65bda14d1",
+  "catalog_sha256": "01720e3242771d9920c06c02b890607ff2ecefd4638d72a67a7dcf21de6c5cbd",
   "records": [
     {
       "brand": "Audi",
       "model": "A6 E-Tron",
       "variant_name": "A6 Sportback e-tron performance S-line 270 kW MY2027 (lagerbil RRR07B)",
       "body_type": null,
-      "price_sek": 769950,
-      "price_type": "dealer_offer",
+      "price_sek": null,
+      "price_type": null,
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -35,11 +35,8 @@
       "image_url": "/media/vehicles/audi-a6-e-tron-8f0060e96039.jpg",
       "image_source_url": "https://commons.wikimedia.org/wiki/File:Audi_A6_e-tron_IMG_3090_(cropped).jpg",
       "verified_at": "2026-10-27T23:13:16.051434+00:00",
-      "price_source_url": "https://lagerbilar.vwgroup.se/audi/RRR07B",
-      "price_source_hash": "e5199aa263dec9e76370f99fb0a1625b7434a339be02bcd1acef619807db06af",
-      "price_source_quote": "A6 Sportback e-tron performance S-line 270 kW MY2027 (lagerbil RRR07B) | Pris 769 000 kr | Administrationskostnad på 950:- tillkommer",
-      "price_source_name": "Volkswagen Group Sverige",
-      "price_verified_at": "2026-10-27T23:13:16.051434+00:00"
+      "price_withheld_reason": "source_unavailable",
+      "price_withheld_at": "2026-11-27T21:57:50.481936+00:00"
     },
     {
       "brand": "Audi",
@@ -77,8 +74,8 @@
       "model": "Q6 E-Tron",
       "variant_name": "Q6 e-tron quattro SUV 315 kW MY2027 (lagerbil JCE98Y)",
       "body_type": null,
-      "price_sek": 799800,
-      "price_type": "dealer_offer",
+      "price_sek": null,
+      "price_type": null,
       "price_valid_until": null,
       "wltp_range_km": null,
       "wltp_consumption_kwh_100km": null,
@@ -102,11 +99,8 @@
       "image_url": "/media/vehicles/audi-q6-e-tron-996634d6ee7a.jpg",
       "image_source_url": "https://commons.wikimedia.org/wiki/File:2025_Audi_Q6_e-tron_quattro_Premium_Plus_in_Plasma_Blue,_front_left.jpg",
       "verified_at": "2026-10-27T23:21:32.889507+00:00",
-      "price_source_url": "https://www.bilia.se/bilar/sok-bil/audi/q6-e-tron/jce98y/",
-      "price_source_hash": "22c4e374feed84ca3003ed8e60512d2056b57185658c814904079a4d24da9018",
-      "price_source_quote": "Q6 e-tron quattro SUV 315 kW MY2027 (lagerbil JCE98Y) | Kontantpris 799 800 kr",
-      "price_source_name": "Bilia Haninge Audi",
-      "price_verified_at": "2026-10-27T23:21:32.889507+00:00"
+      "price_withheld_reason": "source_gone",
+      "price_withheld_at": "2026-11-27T21:57:51.7382+00:00"
     },
     {
       "brand": "BMW",
@@ -2557,10 +2551,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | 60 | Selection | 449 500 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2593,10 +2587,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | 60 | Sportline | 469 900 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2629,10 +2623,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | 85 | Selection | 494 900 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2665,10 +2659,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | 85 | Sportline | 510 300 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2701,10 +2695,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | 85x | Selection | 544 900 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2737,10 +2731,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
-      "price_source_quote": "Škoda Elroq Explore Edition | 85x | Sportline | 559900 kr | Gäller tom 2026-12-15",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
+      "price_source_quote": "Škoda Elroq Explore Edition | 85x | Sportline | 559 900 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -2773,10 +2767,10 @@
       "image_source_url": "https://skoda-danmark.mynewsdesk.com/images/elroq-34front-6633abd7-dot-jpg-3439592",
       "verified_at": "2026-11-13T11:44:46.4404+00:00",
       "price_source_url": "https://www.skoda.se/_doc/ec8b0854-d72e-4c53-8678-3b189a5388eb",
-      "price_source_hash": "f94416eb0db21dafbd0fd8d1737b148c112ba09d91b1b0a57169576250eea705",
+      "price_source_hash": "e8d008ffcedeb89b821c3e228b4baaabedfcb2567411a33a4cd299be41ff6efd",
       "price_source_quote": "Škoda Elroq Explore Edition | RS | RS | 591 900 kr | Gäller tom 2026-12-15",
       "price_source_name": "Skoda Sverige",
-      "price_verified_at": "2026-10-27T22:13:57.942686+00:00"
+      "price_verified_at": "2026-11-27T21:57:38.628543+00:00"
     },
     {
       "brand": "Skoda",
@@ -3453,10 +3447,10 @@
       "image_source_url": "https://commons.wikimedia.org/wiki/File:Volkswagen_ID.3_Neo_IMG_8792_(cropped).jpg",
       "verified_at": "2026-10-27T22:29:21.960943+00:00",
       "price_source_url": "https://www.volkswagen.se/sv/bygg-din-bil.html/__app/30355.app",
-      "price_source_hash": "2045716e0af325488c616a91ef11d293d727d2ed553d63506ccd1ca72e42aab4",
+      "price_source_hash": "3ee6540957ec8a9c815152412cb8c5fe34de054558566dce96a8e7ba81291e17",
       "price_source_quote": "ID.3 Neo | Trend | Pris inkl. moms 409 900 kr",
       "price_source_name": "Volkswagen Sverige",
-      "price_verified_at": "2026-10-27T22:29:21.960943+00:00"
+      "price_verified_at": "2026-11-27T21:57:44.706647+00:00"
     },
     {
       "brand": "Volkswagen",
@@ -3489,10 +3483,10 @@
       "image_source_url": "https://commons.wikimedia.org/wiki/File:Volkswagen_ID.4_20240224_(front).jpg",
       "verified_at": "2026-10-27T23:13:17.170745+00:00",
       "price_source_url": "https://lagerbilar.vwgroup.se/volkswagen/BSJ09L",
-      "price_source_hash": "ac9a3e45e01a3de9fb201df2b22a4779ad00ec7a03e56de95448279be77ecb06",
+      "price_source_hash": "13c571612e4f71e022f02c10ac974b75051ed1fadb7cdc4508a43c8b26f8d5fe",
       "price_source_quote": "ID.4 Pro 4MOTION 77 kWh MY2027 (lagerbil BSJ09L) | Pris 627 600 kr | Reg avg på 950kr tillkommer.",
       "price_source_name": "Volkswagen Group Sverige",
-      "price_verified_at": "2026-10-27T23:13:17.170745+00:00"
+      "price_verified_at": "2026-11-27T21:57:46.170158+00:00"
     },
     {
       "brand": "Volvo",
@@ -3525,10 +3519,10 @@
       "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_ES90_IAA_2025_DSC_1357.jpg",
       "verified_at": "2026-10-27T22:47:09.866955+00:00",
       "price_source_url": "https://www.volvocarretail.se/bilar-i-lager/nya/volvo/es90/single-motor-extended-range-jwr04c",
-      "price_source_hash": "5eb29742922af10e60212f42a50e78c04fc3536632910ff5d2ae4936748e5d37",
+      "price_source_hash": "522adb737ef7614fbb2ecda5487447e3866bd7f0379340bafb762c42f9c396a4",
       "price_source_quote": "ES90 Single Motor Extended Range Ultra MY2026 (lagerbil JWR04C) | Kontantpris 819 000 kr",
       "price_source_name": "Volvo Car Retail",
-      "price_verified_at": "2026-10-27T22:47:09.866955+00:00"
+      "price_verified_at": "2026-11-27T21:57:47.810891+00:00"
     },
     {
       "brand": "Volvo",
@@ -3561,10 +3555,10 @@
       "image_source_url": "https://commons.wikimedia.org/wiki/File:Volvo_EX30_(front_three-quarter_view)_at_Japan_Mobility_Show_Kansai_2025.jpg",
       "verified_at": "2026-10-27T22:47:11.50412+00:00",
       "price_source_url": "https://www.volvocarretail.se/bilar-i-lager/nya/volvo/ex30/p5-long-range-01a0f17196c07c0eac58aa44aeea8ae4",
-      "price_source_hash": "df3f51cc63500c4234ae8b51b96ade4eaef33533e7c33d7e4feb2631beddc88d",
+      "price_source_hash": "c0c252fe5d6b104bde13b555c20266e35cdf06a721b4cc95b90e0e87ef536650",
       "price_source_quote": "EX30 P5 Long Range Core MY2027 (lagerbil) | Kontantpris 484 000 kr",
       "price_source_name": "Volvo Car Retail",
-      "price_verified_at": "2026-10-27T22:47:11.50412+00:00"
+      "price_verified_at": "2026-11-27T21:57:49.543871+00:00"
     },
     {
       "brand": "Xpeng",
