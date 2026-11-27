@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { parse } from 'parse5';
 import { safePageData, replaceRoot, synchronizeItemList } from './render_public_pages.mjs';
 import { isPublishedArticle } from '../src/news-presentation.js';
+import { publicImagePresentation } from './runtime_image_presentation.mjs';
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const raw = { text: '</script><script>alert(1)</script>&\u2028', records: [] };
@@ -21,6 +22,18 @@ assert(!groupedFixture.includes('Synthetic Model Base'));
 
 const rights = JSON.parse(await readFile('src/image-rights.json', 'utf8'));
 const variants = JSON.parse(await readFile('src/image-variants.json', 'utf8'));
+const presentation = JSON.parse(await readFile('src/image-presentation.json', 'utf8'));
+const projected = publicImagePresentation(presentation, variants).models;
+for (const item of Object.values(presentation.models)) {
+  const expected = item.status === 'approved' && variants[item.asset_url]?.source_sha256 === item.content_sha256;
+  assert.equal(projected.some(p => p.asset_url === item.asset_url && p.object_fit === item.object_fit && p.object_position === item.object_position), expected);
+}
+const sample = { asset_url: '/fixture.jpg', content_sha256: 'a'.repeat(64), status: 'approved', object_position: 'center' };
+const exact = { '/fixture.jpg': { source_sha256: sample.content_sha256 } };
+assert.equal(publicImagePresentation({models:{sample}},exact).models.length,1);
+assert.deepEqual(publicImagePresentation({models:{sample}},{}).models,[]);
+assert.deepEqual(publicImagePresentation({models:{sample}},{ '/fixture.jpg':{source_sha256:'b'.repeat(64)} }).models,[]);
+assert.deepEqual(publicImagePresentation({models:{sample:{...sample,status:'pending'}}},exact).models,[]);
 for (const [source, image] of Object.entries(variants)) {
   const original = rights.assets.find((asset) => asset.asset_url === source && asset.status === 'documented');
   assert(original && original.content_sha256 === image.source_sha256, 'Unlicensed or mismatched original');

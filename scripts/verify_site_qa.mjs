@@ -142,7 +142,9 @@ try {
       if (name === 'home') {
         assert.equal(await page.locator('.homeHeroFirst img, .bilCoverPhoto, .homeHeroFirst .homeSpotlight').count(), 0);
         assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0);
-        assert.doesNotMatch(await page.locator('body').innerText(), /Wikimedia Commons|CC[- ]BY|Bildkälla/);
+        await page.locator('.sandstenRoad img').evaluate(img => img.decode());
+        assert.equal(await page.locator('.sandstenCredit').getByText('Bildkrediter för förstasidan').count(), 1);
+        assert.doesNotMatch(await page.locator('main').innerText(), /Wikimedia Commons|CC[- ]BY|Bildkälla/);
         await verifyCoverCredit();
         await go(path);
       }
@@ -168,7 +170,7 @@ try {
   assert(await page.getByRole('link', { name: 'Hoppa till innehållet' }).evaluate((node) => node === document.activeElement));
   await page.keyboard.press('Enter');
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
-  await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Katalog', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: /^(Katalog|Alla elbilar)$/ }).click();
   await page.locator('.carCard').first().waitFor();
   assert(await page.getByRole('main').evaluate((node) => node === document.activeElement));
   await page.goBack();
@@ -188,7 +190,7 @@ try {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (let attempt = 0; attempt < 3; attempt++) {
-      await primaryNav.getByRole('link', { name: 'Katalog', exact: true }).click();
+      await primaryNav.getByRole('link', { name: /^(Katalog|Alla elbilar)$/ }).click();
       await page.locator('.carCard').first().waitFor();
       await verifyAdvisorFocus();
     }

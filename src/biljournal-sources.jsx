@@ -68,9 +68,10 @@ function VariantEvidence({ car }) {
     {car.priceSource && <p><External url={car.priceSource}>{car.priceSourceName || 'Priskälla'}</External>
       {car.priceVerifiedAt && <> · pris kontrollerat <time dateTime={car.priceVerifiedAt}>{car.priceVerifiedAt}</time></>}
       {car.priceValidUntil && <> · giltigt t.o.m. <time dateTime={car.priceValidUntil}>{car.priceValidUntil}</time></>}</p>}
+    {car.priceWithheldReason && <p>Tidigare lagererbjudande. Aktuellt pris ej verifierat. Källan kontrollerades <time dateTime={car.priceWithheldAt}>{car.priceWithheldAt}</time>.</p>}
     <ul>{unique.map(s=><li key={s.url}><External url={s.url}>{s.label}</External></li>)}</ul>
     {(car.sourceHash || car.priceSourceHash || car.sourceQuote || car.priceSourceQuote) && <details><summary>Källbevis</summary>
-      {car.sourceQuote && <p>{car.sourceQuote}</p>}
+      {car.sourceQuote && <p>{car.priceWithheldReason && <>Historiskt prisunderlag (inte aktuellt erbjudande): </>}{car.sourceQuote}</p>}
       {car.sourceHash && <p>SHA-256, biluppgifter <code>{car.sourceHash}</code></p>}
       {car.priceSourceQuote && <p>{car.priceSourceQuote}</p>}
       {car.priceSourceHash && <p>SHA-256, pris <code>{car.priceSourceHash}</code></p>}

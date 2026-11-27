@@ -91,7 +91,7 @@
     "catalog:skoda:prices:dry-run": "node scripts/run_python.mjs scripts/refresh_skoda_prices.py",
     "catalog:skoda:prices:stage": "node scripts/run_python.mjs scripts/refresh_skoda_prices.py --stage",
     "catalog:skoda:prices:publish": "node scripts/run_python.mjs scripts/refresh_skoda_prices.py --publish",
-    "verify:price-refresh": "node scripts/verify_price_refresh.mjs",
+    "verify:price-refresh": "node scripts/verify_price_refresh.mjs && node scripts/verify_scoped_price_reverification_20261127.mjs",
     "verify:price-refresh-worker": "node scripts/run_python.mjs -m unittest discover -s tests -p test_price_refresh.py -v",
     "verify:price-evidence": "node scripts/verify_price_evidence.mjs",
     "verify:price-evidence-ui": "node scripts/verify_price_evidence_ui.mjs",

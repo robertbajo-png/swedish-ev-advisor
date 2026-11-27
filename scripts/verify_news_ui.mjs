@@ -52,7 +52,7 @@ try {
     await page.screenshot({ path: fileURLToPath(new URL(`article-${name}.png`, out)), fullPage: true });
   }
   await page.goto(base + '/');
-  await page.getByRole('heading', { name: 'Det senaste i elbilsvärlden' }).waitFor();
+  await page.getByRole('heading', { name: 'Senaste nytt.', exact: true }).waitFor();
   await page.goto(base + '/bilar/kia-ev6-rwd');
   await page.getByRole('heading', { name: 'Nyheter om modellen' }).waitFor();
   await page.unroute('**/data/news_articles.json');

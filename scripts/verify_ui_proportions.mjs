@@ -38,9 +38,13 @@ try {
       if (name === 'home') {
 
         const title = await page.locator('#home-heading').evaluate(node => {
-          const range = document.createRange();
-          range.selectNodeContents(node);
-          const lines = [...range.getClientRects()];
+          const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+          const lines = [];
+          while (walker.nextNode()) {
+            const range = document.createRange();
+            range.selectNodeContents(walker.currentNode);
+            lines.push(...range.getClientRects());
+          }
           const column = node.closest('.homeHeroCopy').getBoundingClientRect();
           const description = node.nextElementSibling.getBoundingClientRect();
           return {
@@ -52,17 +56,17 @@ try {
         });
         assert.match(title.font, /^Newsreader/);
         assert(title.fontLoaded, 'Newsreader is loaded for the home title');
-        assert(h1Size >= 30 && h1Size <= 56, 'controlled home type scale');
-        assert(title.lines > 0 && title.lines <= 2 && title.contained, 'fully visible title with no overlapping description');
+        assert(h1Size >= 42 && h1Size <= 112, 'controlled home type scale');
+        assert(title.lines > 0 && title.lines <= 2 && title.contained, width + ': fully visible title with no overlapping description ' + JSON.stringify(title));
         const advisor = await page.locator('#home-advisor-query').boundingBox();
         const action = await page.getByRole('button', {name:'Hitta min elbil', exact:true}).boundingBox();
         assert(advisor && advisor.y + advisor.height <= height && action && action.y + action.height <= height, 'advisor visible in the opening viewport');
         const toggle = page.getByRole('button', {name:'Mest räckvidd för pengarna', exact:true});
-        assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
+        assert.equal(await toggle.getAttribute('aria-controls'), 'din-korvecka');
         await toggle.click();
         assert(await page.getByRole('heading', {name:'Din körvecka', exact:true}).isVisible());
         assert(await page.locator('.bilWeekRoute :is(input,select)').evaluateAll(nodes => nodes.length === 4 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
-        await toggle.click();
+        await page.waitForFunction(() => document.activeElement?.id === 'bil-week-title');
       } else {
         assert(h1Size <= (width <= 560 ? 36 : name === 'advisor' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
       }

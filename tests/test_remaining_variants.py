@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import sys
 import unittest
@@ -6,7 +7,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from remaining_variant_intake import elroq_grid, cupra_html, mazda_prices, vw_trend, ford_ranges, zeekr_columns, SKODA_URL, CUPRA_MODEL, MAZDA_URL, VW_URL, FORD_URL, ZEEKR_URL
+from remaining_variant_intake import page_bound_elroq_offer, elroq_grid, cupra_html, mazda_prices, vw_trend, ford_ranges, zeekr_columns, SKODA_URL, CUPRA_MODEL, MAZDA_URL, VW_URL, FORD_URL, ZEEKR_URL
 from manufacturer_embedded_data import mazda_document
 from variant_refresh import RefreshError, parse_document
 
@@ -41,6 +42,50 @@ class RemainingVariantsTests(unittest.TestCase):
         moved=self.grid(); moved.append({'text':'123','x0':405,'x1':420,'top':150,'bottom':159})
         with self.assertRaises(RefreshError):
             elroq_grid(moved,595.276,841.89,text,self.source(SKODA_URL),date(2026,10,27))
+
+    def test_elroq_separate_optional_equipment_footer_date(self):
+        vehicle = ('Škoda Elroq Explore Edition\nTillf\u00e4lligt erbjudande\n'
+                   'Erbjudandet \u00e4r begr\u00e4nsat. G\u00e4ller tom 2026-12-15.\nWLTP estimerad')
+        options = ('2/3\nTillvalsutrustning\nSelection Sportline RS\n'
+                   'Erbjudandet \u00e4r begr\u00e4nsat. G\u00e4ller tom 2026-06-16.\n'
+                   'Samtliga priser \u00e4r rekommenderade cirkapriser\n\u2013')
+        standard = '2/3\n3/3\nStandardutrustning\n60\n19 tum hjul'
+        pages = [vehicle, options, standard]
+        def bind(pages):
+            text = '\n'.join(pages).strip()
+            source = self.source(SKODA_URL)
+            source['text_hash'] = hashlib.sha256(text.encode()).hexdigest()
+            return text, source
+        text, source = bind(pages)
+        with self.assertRaises(RefreshError):
+            elroq_grid(self.grid(),595.276,841.89,text,source,date(2026,11,27))
+        scoped, context = page_bound_elroq_offer(text,source,pages)
+        self.assertEqual(scoped,vehicle)
+        self.assertEqual(context['optional_equipment_footer_expiry'],'2026-06-16')
+        rows = elroq_grid(self.grid(),595.276,841.89,scoped,source,date(2026,11,27))
+        self.assertEqual(len(rows),7)
+        self.assertTrue(all(row['price_valid_until']=='2026-12-15' for row in rows))
+        malformed = [
+          [vehicle, options.replace('Tillvalsutrustning','Prislista'),standard],
+          [vehicle+'\nG\u00e4ller tom 2026-12-14.',options,standard],
+          [vehicle, options+'\n60 190 442 155 0 449 500 kr',standard],
+          [vehicle, options+'\n'+ '\n'.join(['Extra rad']*5),standard],
+          [vehicle, options, standard+'\nG\u00e4ller tom 2026-06-16.'],
+          [vehicle, options+'\nPrislista 5 november',standard],
+        ]
+        for changed in malformed:
+            body, proof = bind(changed)
+            with self.subTest(changed=changed):
+                with self.assertRaises(RefreshError):
+                    page_bound_elroq_offer(body,proof,changed)
+        for body, proof, segments in [
+            (text,{**source,'text_hash':'b'*64},pages),
+            (text,source,pages[::-1]),
+            (text,source,None),
+            (text,{**source,'final_url':'https://example.invalid/'},pages),
+        ]:
+            with self.assertRaises(RefreshError):
+                page_bound_elroq_offer(body,proof,segments)
 
     def test_cupra_html_card_cannot_take_another_versions_price_or_lease(self):
         body='<article><h3>Born</h3><h4>Från 466.900 kr</h4></article><article><h3>Born VZ</h3><h4>Från 596.900 kr</h4></article>'

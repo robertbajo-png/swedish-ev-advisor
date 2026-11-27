@@ -40,7 +40,7 @@ export function VehicleCard({ car, selected, onCompare, navigate, renderImage, a
         {variants?.length > 1 ? <label className="vehicleVariantPicker"><span>Version <small>{variants.length} i urvalet</small></span><select aria-label={`Version för ${car.brand} ${identity.model}`} value={car.id} disabled={!onVariantChange} onChange={onVariantChange ? event => onVariantChange(event.target.value) : undefined}>{variants.map(variant => <option key={variant.id} value={variant.id}>{vehicleIdentity(variant).variant || variant.variantName || variant.model}</option>)}</select></label> : <p className="vehicleVariant">{identity.variant || 'Modelluppgifter'}</p>}
       </div>
       <div className="vehicleCardDetails">
-        <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{offerEnd ? ` \u00b7 g\u00e4ller till ${offerEnd}` : ''}</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
+        <p className="homeVehiclePrice">{car.price ? <>{vehicleMoney(car.price)}<span>{priceType}{offerEnd ? ` \u00b7 g\u00e4ller till ${offerEnd}` : ''}</span></> : car.priceWithheldReason ? <>Pris ej verifierat<span>Tidigare lagererbjudande</span></> : <>Pris ej angivet<span>Svenskt pris saknas i underlaget</span></>}</p>
         <dl className="homeVehicleSpecs">
           {[[car.rangeIsTarget ? 'WLTP-mål' : 'WLTP', car.rangeInterval || car.rangeVerified, car.rangeInterval ? '' : 'km', Route], ['DC-laddning', car.dcVerified, 'kW', PlugZap], ['Dragvikt', car.towingVerified, 'kg', Weight], ['Bagage', car.cargoVerified, 'l', Package]].map(([label, value, unit, Icon]) => <div key={label}><dt><Icon size={15} aria-hidden="true" />{label}</dt><dd>{vehicleMetric(value, unit)}</dd></div>)}
         </dl>

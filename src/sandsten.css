@@ -1,0 +1,86 @@
+@font-face{font-family:Manrope;src:url('/fonts/manrope-latin-variable.woff2') format('woff2');font-weight:200 800;font-style:normal;font-display:swap}
+.biljournal.sandstenReview{
+ --bil-paper:#f8f4ed;--bil-surface:#fdf9f3;--bil-navy:#332820;--bil-muted:#615044;--bil-ink:#863c29;--bil-rust:#863c29;--bil-border:#947766;--bil-line:#d6c7b8;--bil-soft:#eee2d4;--bil-width:1224px;--bil-gutter:56px;
+ font-family:Manrope,Arial,sans-serif
+}
+.sandstenReview .siteHeader.bilHeader{position:relative;min-height:78px;box-shadow:none;border-bottom:1px solid var(--bil-line)}
+.sandstenReview .bilHeader .brandButton{font:800 21px/1 Manrope,Arial,sans-serif;letter-spacing:-.06em;align-items:center;gap:10px}
+.sandstenReview .bilHeader .brandButton::after{display:none}
+.sandstenReview .bilHeader .brandButton::before{content:"";display:block;background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 5px);width:12px;height:20px;transform:skewX(-23deg)}
+.sandstenReview .bilHeader nav a{font-weight:600;padding-inline:0}
+.sandstenReview .bilHeader nav a:first-child{order:2}
+.sandstenReview .bilHeader nav a:last-child{order:3}
+.sandstenReview .homeHeroFirst{padding-block:clamp(52px,6.4vw,92px) clamp(49px,5.4vw,78px)}
+.sandstenHome .homeHeroFirst .homeHeroCopy{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(36px,7vw,106px);align-items:end}
+.sandstenHome .sandstenIntro .homeKicker,.sandstenHome .journalEyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.biljournal .sandstenHome .sandstenIntro h1{font-size:clamp(65px,7.15vw,112px);line-height:.86;letter-spacing:-.048em;font-weight:450;margin:23px 0 0}
+.sandstenHome .sandstenIntro h1 span{display:block}
+.sandstenHome .homeHeroFirst .homeHeroIntro{margin:23px 0 0;max-width:43ch;color:var(--bil-muted);font-size:17px;line-height:1.55}
+.sandstenHome .sandstenAsk{min-width:0}
+.sandstenHome .homeAdvisorForm{padding:15px 0 0;background:none;border:none;border-top:1px solid var(--bil-ink);box-shadow:none;border-radius:0}
+.sandstenHome .homeAdvisorForm:has(textarea:focus-visible){box-shadow:none;border-color:var(--bil-ink)}
+.sandstenHome .homeAdvisorForm label{font-size:15px;color:var(--bil-navy)}
+.sandstenHome .homeAdvisorForm textarea{min-height:55px;height:56px;resize:vertical;margin-top:9px;padding:10px 12px;border:1px solid var(--bil-border);background:var(--bil-surface);border-radius:0}
+.sandstenHome .homeAdvisorForm textarea::placeholder{color:var(--bil-muted)}
+.sandstenHome .homeAdvisorForm:has(textarea:focus-visible) textarea:focus-visible{outline:2px solid var(--bil-ink);outline-offset:2px}
+.sandstenHome .homeAdvisorFormActions{flex-direction:row-reverse;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.sandstenHome .homeAdjust{color:var(--bil-navy);font-size:13px}
+.sandstenHome .uiPrimary{min-height:46px;background:var(--bil-ink);color:white;border-color:var(--bil-ink);border-radius:0}
+.sandstenHome .uiPrimary:hover:not(:disabled){background:#632819;border-color:#632819}
+.sandstenHint{margin:7px 0 0;font-size:12px;color:var(--bil-muted)}
+.sandstenHome .homeSuggestions{gap:0 12px;margin-top:6px}
+.sandstenHome .homeSuggestions button{min-height:36px;border:0;padding:0;text-align:left;border-radius:0;font-size:11px;color:var(--bil-muted)}
+.sandstenHome .homeSuggestions button svg{display:none}
+.sandstenHome .homeSuggestions button:hover{background:none;color:var(--bil-ink);text-decoration:underline}
+.sandstenRoad{margin:0;background:#9f8d7c}
+.sandstenRoad img{width:100%;height:clamp(255px,33vw,515px);object-fit:cover;object-position:60% 51%;display:block;filter:sepia(.09) saturate(.96)}
+.sandstenWeek{background:var(--bil-soft);padding-block:clamp(52px,7vw,102px)}
+.sandstenWeek .homeWeekPanel{border:0;margin:0;scroll-margin-top:22px}
+.sandstenWeek .bilWeek{padding:0;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);column-gap:clamp(28px,6vw,95px)}
+.sandstenWeek .bilWeek header{grid-row:span 4;display:block;border:0;min-width:0}
+.sandstenWeek .bilWeek header h2{font-size:clamp(43px,5vw,76px);font-weight:450;letter-spacing:-.047em;line-height:.94}
+.sandstenWeek .bilWeek header p{font-size:15px;margin-top:15px}
+.sandstenWeek .bilWeekRoute{border-top:1px solid var(--bil-ink);grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px 20px}
+.sandstenWeek .bilWeekRoute::before,.sandstenWeek .bilRouteStop::before{display:none}
+.sandstenWeek .bilRouteStop{padding:16px 0 3px}
+.sandstenWeek .bilRouteStop:last-child{grid-column:1/-1}
+.sandstenWeek .bilWeekEnd{margin-top:14px;padding-top:14px}
+.sandstenWeek .homeWeekAsk{margin-top:10px}
+.sandstenHome .homeExplore{padding-block:68px 75px}
+.sandstenHome .homeNeedsBand{background:var(--bil-soft);padding-block:70px}
+.sandstenHome .homeNeedsGrid span{color:var(--bil-muted)}
+.sandstenHome .newsPreview.journalPreview{padding-top:clamp(55px,7vw,102px);padding-bottom:clamp(55px,7vw,102px);margin-top:0}
+.sandstenHome .newsSectionHeading h2,.sandstenHome .homeSectionHeading h2{font-size:clamp(38px,5vw,74px);font-weight:450;letter-spacing:-.04em;line-height:1}
+.sandstenHome .journalPreviewGrid{border-top:1px solid var(--bil-ink);padding-top:20px;gap:clamp(14px,2.6vw,39px)}
+.sandstenHome .journalPreviewGrid > *{background:none;border-radius:0;box-shadow:none}
+.sandstenCredit{color:var(--bil-muted);font-size:12px}
+.sandstenCredit summary{cursor:pointer;min-height:44px;align-content:center}
+.sandstenCredit p{margin:0 0 8px}
+@media(max-width:920px){.biljournal.sandstenReview{--bil-gutter:36px}}
+@media(max-width:680px){
+ .biljournal.sandstenReview{--bil-gutter:22px}
+ .sandstenReview .siteHeader.bilHeader{display:block;padding-block:11px 4px;min-height:0}
+ .sandstenReview .bilHeader nav{display:flex;justify-content:space-between;column-gap:9px;row-gap:0}
+ .sandstenReview .bilHeader nav a{font-size:12px;min-height:44px;margin:0}
+ .sandstenReview .homeHeroFirst{padding-block:41px 32px}
+ .sandstenHome .homeHeroFirst .homeHeroCopy,.sandstenWeek .bilWeek{grid-template-columns:minmax(0,1fr);gap:25px}
+ .biljournal .sandstenHome .sandstenIntro h1{font-size:clamp(49px,13vw,78px);margin-top:17px}
+ .sandstenHome .homeHeroFirst .homeHeroIntro{font-size:15px;margin-top:14px}
+ .sandstenHome .homeAdvisorFormActions{justify-content:space-between}
+ .sandstenHome .homeSuggestions button{min-height:44px}
+ .sandstenRoad img{height:clamp(225px,58vw,320px);object-position:69% 52%}
+ .sandstenWeek .bilWeek header{grid-row:auto}
+ .sandstenWeek .bilWeekRoute,.sandstenWeek .bilTripFields{grid-template-columns:minmax(0,1fr)}
+ .sandstenWeek .bilWeekEnd{align-items:start;flex-wrap:wrap}
+ .sandstenHome .homeExplore,.sandstenHome .homeNeedsBand{padding-block:52px}
+}
+.sandstenHome .journalPreviewGrid .newsStory--teaser{border:none;border-bottom:1px solid var(--bil-line)}
+.sandstenHome .journalPreviewGrid .newsStoryContent{padding:13px 0 18px}
+.sandstenHome .journalPreviewGrid .newsStoryTitle{font-family:var(--bil-display);font-weight:500;font-size:clamp(24px,2.9vw,36px);line-height:1.06;letter-spacing:-.034em}
+.sandstenHome .journalPreviewGrid .newsStoryIntro,.sandstenHome .journalPreviewGrid .newsStoryFooter{display:none}
+.sandstenHome .journalPreviewGrid .journalImage img{border-radius:0;aspect-ratio:2.15;object-fit:cover;object-position:50% 52%}
+@media(min-width:681px){
+ .sandstenHome .journalPreviewGrid{grid-template-columns:minmax(0,1.17fr) minmax(0,.83fr);grid-template-rows:auto 1fr;align-items:start}
+ .sandstenHome .journalPreviewGrid > :first-child{grid-row:span 2;border-right:1px solid var(--bil-line);padding-right:clamp(20px,3vw,39px)}
+}
+@media(max-width:680px){.sandstenHome .journalPreviewGrid{grid-template-columns:1fr}}
