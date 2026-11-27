@@ -133,7 +133,7 @@ try {
   await page.getByRole('heading', { name: records[0].title }).waitFor();
   assert.equal(await page.locator('.newsStory img').count(), 0, 'No image without approved rights');
   await page.goto(base + '/');
-  await page.getByRole('heading', { name: 'Det senaste i elbilsvärlden' }).waitFor();
+  await page.getByRole('heading', { name: 'Senaste nytt.', exact: true }).waitFor();
   await page.locator('.journalPreview .newsStory').nth(2).waitFor();
   assert.equal(await page.locator('.journalPreview .newsStory').count(), 3);
   await page.goto(base + '/bilar/kia-ev6-rwd');
