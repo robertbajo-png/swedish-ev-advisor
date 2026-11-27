@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
 import { BiljournalWeek } from './biljournal-home.jsx';
@@ -42,18 +42,11 @@ const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pend
 
 export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
   const [advanced, setAdvanced] = useState(false);
-  const weekFocusRequested = useRef(false);
-  const weekOpen = drivingWeek?.open;
   const focusWeek = () => {
     const title = document.getElementById('bil-week-title');
     title?.focus({ preventScroll: true });
     title?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   };
-  useEffect(() => {
-    if (!weekOpen || !weekFocusRequested.current) return;
-    weekFocusRequested.current = false;
-    focusWeek();
-  }, [weekOpen]);
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   }, [status.state]);
@@ -86,8 +79,7 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
     document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   };
   const cardProps = { navigate, renderImage, appPath, onCompare };
-  const weekToggle = () => { weekFocusRequested.current = !weekOpen; drivingWeek.setOpen(!weekOpen); };
-  const weekPanel = drivingWeek && <div className="homeWeekPanel" id="din-korvecka" hidden={!weekOpen && !sandsten}>
+  const weekPanel = drivingWeek && <div className="homeWeekPanel" id="din-korvecka">
     <BiljournalWeek week={drivingWeek.week} setWeek={drivingWeek.setWeek} onApply={drivingWeek.onApply} />
     <button type="button" className="homeTextLink homeWeekAsk" onClick={() => applySuggestion(suggestions[0])}>Ställ frågan till AI-rådgivaren <ArrowRight size={16} aria-hidden="true" /></button>
   </div>;
@@ -114,7 +106,7 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
           </div>
         </form>
         {sandsten && localAdvisor && <p className="sandstenHint">Förhandsvisning. Svaret hämtas lokalt ur katalogen.</p>}
-        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-expanded={sandsten ? undefined : drivingWeek.open} aria-controls="din-korvecka" onClick={sandsten ? focusWeek : weekToggle}><Icon size={14} aria-hidden="true" />{suggestion.label}<ChevronDown size={14} aria-hidden="true" /></button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
+        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-controls="din-korvecka" onClick={focusWeek}><Icon size={14} aria-hidden="true" />{suggestion.label}</button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
       </div>
       {!drivingWeek && <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
@@ -124,7 +116,6 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
           <dl className="homeSpotlightMetrics"><div><dt>{vehiclePriceLabel(spotlight)}</dt><dd>{spotlight.price ? money(spotlight.price) : 'Ej angivet'}</dd></div><div><dt>WLTP-räckvidd</dt><dd>{metric(spotlight.rangeVerified, 'km')}</dd></div><div><dt>DC-laddning</dt><dd>{metric(spotlight.dcVerified, 'kW')}</dd></div></dl>
         </> : <div className="homeSpotlightEmpty" role="status"><Search size={32} /><p>{dataStatus === 'loading' ? 'Hämtar elbilar...' : 'Biluppgifterna kunde inte hämtas just nu.'}</p></div>}
       </aside>}
-      {!sandsten && weekPanel}
     </section>
 
     {(status.state === 'loading' || result) && <section className="homeAdvisorResults homeContainer" id="dina-forslag" aria-labelledby="advisor-results-title" aria-busy={status.state === 'loading'}>

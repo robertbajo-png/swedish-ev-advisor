@@ -603,7 +603,6 @@ export function App({ initialData } = {}) {
   const [ownership, setOwnership] = useState(OWNERSHIP_ASSUMPTIONS);
   const [weekActive, setWeekActive] = useState(false);
   const [week, setWeek] = useState(DEFAULT_WEEK);
-  const [weekOpen, setWeekOpen] = useState(false);
   const today = initialData?.asOf || new Date().toISOString().slice(0,10);
   const compareSelection = compare.join('|');
   const compareSelectionRef = useRef(compareSelection);
@@ -838,7 +837,7 @@ export function App({ initialData } = {}) {
       {route.type === 'newsArticle' && <NewsArticlePage article={routeArticle} articles={news.articles} loading={news.loading} error={news.error} navigate={navigate} cars={cars} sourceLink={routeLink} renderVehicleCard={(car) => <VehicleCard car={car} selected={compare.includes(car.id)} onCompare={toggleCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />} />}
 
       {['home','advisor'].includes(route.type) && (
-        <HomePage sandsten={sandsten} drivingWeek={route.type === 'home' ? { week, setWeek, open: weekOpen, setOpen: setWeekOpen, onApply: applyWeek } : undefined} localAdvisor={isPreview || isOfflineReview()}
+        <HomePage sandsten={sandsten} drivingWeek={route.type === 'home' ? { week, setWeek, onApply: applyWeek } : undefined} localAdvisor={isPreview || isOfflineReview()}
           cars={cars}
           dataStatus={dataStatus}
           advisor={effectiveAdvisor}
@@ -859,7 +858,7 @@ export function App({ initialData } = {}) {
       {route.type === 'verification' && <VerificationPage />}
       {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
       {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
-      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => { setWeekOpen(true); requestAnimationFrame(() => { const title = document.getElementById('bil-week-title'); title?.focus({ preventScroll: true }); title?.scrollIntoView({ block: 'start' }); }); }}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
+      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => { requestAnimationFrame(() => { const title = document.getElementById('bil-week-title'); title?.focus({ preventScroll: true }); title?.scrollIntoView({ block: 'start' }); }); }}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}
