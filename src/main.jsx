@@ -1093,7 +1093,7 @@ function CarImage({ car, priority = false, wholeFrame = false }) {
   const [failedImage, setFailedImage] = useState(null);
   if (car?.image && failedImage !== car.image) {
     const responsive = car.imageFullFrame ? null : imageVariants[car.image];
-    const presentation = Object.values(imagePresentation.models).find(item => item.asset_url === car.image && item.content_sha256 === responsive?.source_sha256 && item.status === 'approved');
+    const presentation = responsive && imagePresentation.models.find(item => item.asset_url === car.image);
     const fallback = responsive?.variants.find((item) => item.width >= 800)?.url || car.image;
     const image = isOfflineReview() && !fallback.startsWith('/') ? '' : assetPath(fallback);
     if (image) return <img style={wholeFrame || car.imageFullFrame ? { objectFit: 'contain', objectPosition: 'center' } : presentation ? { objectFit: presentation.object_fit, objectPosition: presentation.object_position } : undefined} src={image} srcSet={isOfflineReview() ? undefined : responsive?.variants.map((item) => `${assetPath(item.url)} ${item.width}w`).join(', ')} sizes={responsive ? priority ? '100vw' : '(max-width: 800px) calc(100vw - 32px), (max-width: 1280px) 50vw, 620px' : undefined} width={responsive?.width} height={responsive?.height} alt={`${car.brand} ${car.canonicalModel || car.model}, modellbild`} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" onError={() => setFailedImage(car.image)} />;

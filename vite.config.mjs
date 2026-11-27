@@ -4,10 +4,12 @@ import react from '@vitejs/plugin-react';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { publicImagePresentation } from './scripts/runtime_image_presentation.mjs';
 
 const basePath = process.env.VITE_APP_BASE_PATH || '/';
 const responsiveImages = normalizePath(fileURLToPath(new URL('./src/image-variants.json', import.meta.url)));
 const imageRights = normalizePath(fileURLToPath(new URL('./src/image-rights.json', import.meta.url)));
+const imagePresentation = normalizePath(fileURLToPath(new URL('./src/image-presentation.json', import.meta.url)));
 
 export default defineConfig(async () => {
   // Extend the installed Vite defaults; do not replace its built-in secret rules.
@@ -16,6 +18,15 @@ export default defineConfig(async () => {
   return {
     base: basePath.endsWith('/') ? basePath : `${basePath}/`,
     plugins: [react(), {
+      name: 'exact-image-presentation',
+      async load(id) {
+        if (normalizePath(id) !== imagePresentation) return null;
+        this.addWatchFile(responsiveImages);
+        const presentation = JSON.parse(await readFile(imagePresentation, 'utf8'));
+        const responsive = JSON.parse(await readFile(responsiveImages, 'utf8'));
+        return JSON.stringify(publicImagePresentation(presentation, responsive));
+      },
+    }, {
       name: 'public-image-manifests',
       apply: 'build',
       async load(id) {
@@ -31,7 +42,7 @@ export default defineConfig(async () => {
         const registry = JSON.parse(await readFile(responsiveImages, 'utf8'));
         // Derivative digests are checked before release, not by the browser.
         return JSON.stringify(Object.fromEntries(Object.entries(registry).map(([url, image]) => [
-          url, { ...image, variants: image.variants.map(({ url, width }) => ({ url, width })) },
+          url, { width: image.width, height: image.height, variants: image.variants.map(({ url, width }) => ({ url, width })) },
         ])));
       },
     }, {
