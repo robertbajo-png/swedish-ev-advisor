@@ -1,3 +1,4 @@
+import { priceWithholding } from './price-withholding.js';
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import {
@@ -121,6 +122,7 @@ function transformPublicVariant(row) {
   const seats = Number(row.seats) || 5;
   const sourceQuote = row.source_quote || '';
   const priceProof = priceEvidence(row);
+  const withheldPrice = priceWithholding(row);
   const qualifications = specQualifications(row);
   const photo = vehiclePhotoOverride(brand,row.model);
   const originalImage = photo?.asset_url || row.image_url || officialImageFor(brand,row.model);
@@ -141,6 +143,8 @@ function transformPublicVariant(row) {
     acVerified: verifiedNumber(row.ac_charge_kw),
     price,
     priceType: row.price_type || null,
+    priceWithheldReason: withheldPrice?.reason || null,
+    priceWithheldAt: withheldPrice?.at.slice(0, 10) || null,
     priceValidUntil: row.price_valid_until || null,
     priceSource: priceProof?.price_source_url || null,
     priceVerifiedAt: priceProof?.price_verified_at.slice(0, 10) || null,
@@ -1005,7 +1009,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       </div>
       <div className="vehicleHeroMedia"><CarImage key={car.id} car={car} priority wholeFrame /></div>
       </div>
-      <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
+      <div className="vehicleHeroStats vehicleContainer">{[[Tag, priceLabel(car), car.price ? formatSEK(car.price) : car.priceWithheldReason ? 'Ej verifierat' : 'Ej angivet'], [Route, car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], [PlugZap, 'DC-laddning', detailValue(car.dcVerified, 'kW')], [Weight, 'Dragvikt', detailValue(car.towingVerified, 'kg')]].map(([Icon, label, value]) => <div key={label}><Icon size={20} aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>)}</div>
     </section>
     <div className="vehicleContainer bilVehicleNotice"><VehicleImageNotice car={car} /></div>
     <nav className="vehicleDetailNav vehicleContainer" aria-label="På bilsidan"><a href="#bilprofil" onClick={jumpToSection}>Överblick</a><a href="#specifikationer" onClick={jumpToSection}>Specifikationer</a><a href="#nyckeltal" onClick={jumpToSection}>Nyckeltal</a></nav>
@@ -1014,7 +1018,7 @@ function CarDetailPage({ car, cars, onCompare, selected, compare = [], newsArtic
       <AiSummaryCard car={car} />
       <EV2VersionGuide car={car} cars={cars} appPath={appPath} />
       <section className="detailSectionGrid" id="specifikationer" aria-label="Detaljerade specifikationer">
-        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} offerEnd={priceOfferEnd(car.priceType,car.priceValidUntil)} items={[[priceLabel(car), car.price ? formatSEK(car.price) : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
+        <DetailInfoCard eyebrow="Drivlina" title="Grunden i bilen" source={car.source} verifiedAt={car.verifiedAt} priceSource={car.priceSource} priceVerifiedAt={car.priceVerifiedAt} offerEnd={priceOfferEnd(car.priceType,car.priceValidUntil)} items={[[priceLabel(car), car.price ? formatSEK(car.price) : car.priceWithheldReason ? 'Ej verifierat' : 'Ej angivet'], ['Säten', detailValue(car.seatsVerified)], ['Drivning', car.drivetrain === 'Ej verifierad' ? 'Uppgift saknas' : car.drivetrain], ['Kaross', car.body === 'Elbil' ? 'Uppgift saknas' : car.body]]} />
         <DetailInfoCard eyebrow="Räckvidd och laddning" title="Energi i vardagen" source={car.source} verifiedAt={car.verifiedAt} note={car.consumptionNote} items={[[ car.rangeIsTarget ? 'WLTP-räckviddsmål' : 'WLTP-räckvidd', car.rangeInterval || detailValue(car.rangeVerified, 'km')], ['Batteri', detailValue(car.batteryVerified, 'kWh')], ['DC-laddning', detailValue(car.dcVerified, 'kW')], ['AC-laddning', detailValue(car.acVerified, 'kW')], [car.consumptionInterval ? 'Förbrukning, WLTP-intervall' : car.consumptionNote ? 'Förbrukning, grundutförande' : 'Förbrukning', car.consumptionInterval || (car.consumptionVerified != null ? formatDecimal(car.consumptionVerified) + ' kWh/100 km' : 'Uppgift saknas')]]} />
         <DetailInfoCard eyebrow="Praktikalitet" title="Plats för ditt liv" source={car.source} verifiedAt={car.verifiedAt} note={car.practicalNote} items={[[ 'Dragvikt', detailValue(car.towingVerified, 'kg')], ['Bagage', detailValue(car.cargoVerified, 'liter')], ['Säten', detailValue(car.seatsVerified)]]} />
       </section>
@@ -1218,7 +1222,7 @@ function ComparisonTable({ cars }) {
   if (!cars.length) return null;
   const valueMetric = (field) => (car) => car[field];
   const rows = [
-    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType && car.priceType !== MANUFACTURER_FROM_PRICE) && new Set(cars.map((car) => car.priceType)).size === 1 },
+    { label: 'Pris', get: (car) => car.price ? priceLabel(car) + ': ' + formatSEK(car.price) : car.priceWithheldReason ? 'Ej verifierat' : 'Ej angivet', value: valueMetric('price'), best: 'min', comparable: cars.every((car) => car.priceType && car.priceType !== MANUFACTURER_FROM_PRICE) && new Set(cars.map((car) => car.priceType)).size === 1 },
     { label: 'WLTP-räckvidd', get: (car) => (car.rangeInterval || detailValue(car.rangeVerified, 'km')) + (car.rangeIsTarget ? ' (tillverkarens mål)' : ''), value: car => car.rangeIsTarget || car.rangeInterval ? null : car.rangeVerified, best: 'max' },
     { label: 'Batteri', get: (car) => detailValue(car.batteryVerified, 'kWh') },
     { label: 'DC-laddning', get: (car) => detailValue(car.dcVerified, 'kW'), value: valueMetric('dcVerified'), best: 'max' },

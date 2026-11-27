@@ -6,12 +6,14 @@ import { pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
 import { MANUFACTURER_FROM_PRICE, PRICE_EVIDENCE_FIELDS, PRICE_TYPES, hasPriceEvidence, priceEvidence, verifiedManufacturerFrom } from '../src/price-evidence.js';
 
+import { WITHHELD_FIELDS, hasWithheldPrice, priceWithholding } from '../src/price-withholding.js';
+
 export const SOURCE = 'supabase_public_ev_variants';
 export const FIELDS = ['brand', 'model', 'variant_name', 'body_type', 'price_sek', 'price_type', 'price_valid_until',
   'wltp_range_km', 'wltp_consumption_kwh_100km', 'battery_kwh', 'dc_charge_kw', 'ac_charge_kw', 'boot_liters',
   'tow_kg', 'seats', 'drivetrain', 'source_url', 'source_name', 'source_hash', 'source_quote', 'extraction_confidence',
   'validation_status', 'market_seen', 'available_confirmed', 'discontinued_candidate', 'coming_or_low_volume',
-  'image_url', 'image_source_url', 'verified_at', ...PRICE_EVIDENCE_FIELDS];
+  'image_url', 'image_source_url', 'verified_at', ...PRICE_EVIDENCE_FIELDS, ...WITHHELD_FIELDS];
 const NUMERIC = { price_sek: [100000, 3000000], wltp_range_km: [50, 1200], wltp_consumption_kwh_100km: [5, 50],
   battery_kwh: [5, 300], dc_charge_kw: [20, 600], ac_charge_kw: [1, 50], boot_liters: [50, 3500], tow_kg: [0, 4000], seats: [1, 9] };
 const FLAGS = ['market_seen', 'available_confirmed', 'discontinued_candidate', 'coming_or_low_volume'];
@@ -38,6 +40,8 @@ export function normalizeCatalog(rows) {
     const row = Object.fromEntries(FIELDS.map((field) => [field, input[field] ?? null]));
     if (hasPriceEvidence(row)) assert(priceEvidence(row), 'Incomplete or invalid price-specific evidence');
     else for (const field of PRICE_EVIDENCE_FIELDS) delete row[field];
+    if (hasWithheldPrice(row)) assert(priceWithholding(row), 'Invalid exact withheld-stock proof');
+    else for (const field of WITHHELD_FIELDS) delete row[field];
     for (const field of ['brand', 'model', 'variant_name', 'source_url', 'source_hash', 'source_quote']) {
       assert(typeof row[field] === 'string' && row[field].trim(), `Missing published evidence/identity: ${field}`);
     }
@@ -50,7 +54,7 @@ export function normalizeCatalog(rows) {
       const value = row[field];
       assert(value === null || (typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max), `Invalid numeric field: ${field}`);
     }
-    assert(row.price_sek !== null || row.wltp_range_km !== null, 'Missing both price and WLTP');
+    assert(row.price_sek !== null || row.wltp_range_km !== null || priceWithholding(row), 'Missing both price and WLTP');
     assert(row.price_type === null || PRICE_TYPES.includes(row.price_type), 'Invalid price classification');
     if (row.price_type === MANUFACTURER_FROM_PRICE) {
       assert(verifiedManufacturerFrom(row),
@@ -236,6 +240,130 @@ export function planEnyaqProofOnlyExport(liveSnapshot,canonicalBefore,canonicalA
   return {rows,difference,representation_aliases,raw_canonical_before_hash:catalogHash(before),raw_canonical_after_hash:catalogHash(after),scope:receipt.kind};
 }
 
+
+const PRICE_20261127_NAMES = [
+  ...['60 Selection','60 Sportline','85 Selection','85 Sportline','85x Selection','85x Sportline','RS'].map(x=>['Skoda','Elroq',x+' Explore Edition']),
+  ['Volkswagen','Id.3','ID.3 Neo Trend'],
+  ['Volkswagen','Id.4','ID.4 Pro 4MOTION 77 kWh MY2027 (lagerbil BSJ09L)'],
+  ['Volvo','Es90','ES90 Single Motor Extended Range Ultra MY2026 (lagerbil JWR04C)'],
+  ['Volvo','Ex30','EX30 P5 Long Range Core MY2027 (lagerbil)'],
+  ['Audi','A6 E-Tron','A6 Sportback e-tron performance S-line 270 kW MY2027 (lagerbil RRR07B)'],
+  ['Audi','Q6 E-Tron','Q6 e-tron quattro SUV 315 kW MY2027 (lagerbil JCE98Y)']
+];
+const PRICE_20261127_KEYS=PRICE_20261127_NAMES.map(([brand,model,variant_name])=>variantKey({brand,model,variant_name})).sort();
+const WITHHELD_20261127_KEYS=PRICE_20261127_KEYS.filter(k=>k.startsWith('audi|'));
+const CURRENT_PRICE_FIELDS=['price_sek','price_type','price_valid_until',...PRICE_EVIDENCE_FIELDS];
+
+function assertExactThirteen(diff) {
+  assert(!diff.local_only.length&&!diff.remote_only.length,'Scoped price export cannot change identities');
+  assert.deepEqual(diff.changed.map(x=>x.key).sort(),PRICE_20261127_KEYS,'Expected exactly thirteen adjudicated rows');
+  for(const delta of diff.changed){
+    const held=WITHHELD_20261127_KEYS.includes(delta.key);
+    assert(delta.fields.every(f=>(held?[...CURRENT_PRICE_FIELDS,...WITHHELD_FIELDS]:PROOF_CHANGE_FIELDS).includes(f)), 'Out-of-scope field change');
+    assert(delta.fields.includes(held?'price_withheld_reason':'price_verified_at'),'Missing adjudication evidence');
+  }
+}
+
+/** The operator supplies the actual successful RPC response plus its private
+ * archive readback; only public-price expectations enter the export receipt. */
+export function prepareScopedPriceExportReceipt(liveBytes, canonicalBefore, record) {
+  const live=JSON.parse(liveBytes.toString('utf8')),before=normalizeCatalog(canonicalBefore.records);
+  assert.equal(catalogHash(live.records),live.catalog_sha256);assert.equal(catalogHash(before),canonicalBefore.canonicalHash);
+  const {packet,operation_result:r,history}=record;
+  assert(record.publication_requested===true&&r?.refreshed===11&&r.withheld===2&&r.already_applied===false&&r.technical_facts_changed===0,
+    'Successful exact-price publication required');
+  assert(packet?.adapter==='scoped_price_reverification_20261127_v1'&&packet.batch_id===r.batch_id&&/^[a-f0-9]{64}$/.test(r.batch_id||''));
+  assert.equal(packet.targets?.length,13);assert.equal(history?.length,13);
+  const b=new Map(before.map(row=>[variantKey(row),row])),expected_proofs={};
+  const ids=new Set();
+  for(const t of packet.targets) {
+    const key=variantKey(t),old=b.get(key),h=history.find(x=>x.variant_id===t.id);
+    assert(PRICE_20261127_KEYS.includes(key)&&old&&!expected_proofs[key]&&!ids.has(t.id)&&h&&h.batch_id===r.batch_id,'Exact target/archive binding required');
+    ids.add(t.id);
+    assert.equal(h.operation,t.operation);assert.deepEqual(h.before_row,t.expected);assert.deepEqual(h.evidence,t.proof);
+    if(packet.source_alignment) {
+      assert.equal(r.source_registry_aligned,true);
+      assert.deepEqual(h.source_alignment?.before,packet.source_alignment.expected);
+      assert.deepEqual(h.source_alignment?.after,{...packet.source_alignment.expected,source_authority:'manufacturer',source_name:'Skoda Sverige'});
+    } else {
+      assert.equal(r.source_registry_aligned,false);assert.equal(h.source_alignment,null);
+    }
+    assert.equal(h.before_row.id,t.id);assert.equal(h.after_row.id,t.id);
+    assert(micros(h.observed_at)===micros(t.proof.observed_at));
+    for(const f of CURRENT_PRICE_FIELDS) {
+      if(f==='price_verified_at')assert(micros(h.before_row[f])===micros(old[f]));
+      else assert.equal(h.before_row[f]??null,old[f]??null,'Prior canonical price proof mismatch');
+    }
+    const p=t.proof,held=WITHHELD_20261127_KEYS.includes(key);
+    assert.equal(t.operation,held?'withhold':'refresh');assert.equal(p.source_url,old.price_source_url);
+    if(held) {
+      for(const f of CURRENT_PRICE_FIELDS)assert.equal(h.after_row[f],null);
+      expected_proofs[key]={operation:'withhold',reason:p.reason,observed_at:p.observed_at};
+    } else {
+      for(const f of ['price_sek','price_type','price_valid_until']) {
+        assert.equal(p[f]??null,old[f]??null);assert.equal(h.after_row[f],old[f]);
+      }
+      assert.equal(h.after_row.price_source_hash,p.source_hash);assert.equal(h.after_row.price_source_quote,p.source_quote);
+      assert(micros(h.after_row.price_verified_at)===micros(p.observed_at));
+      assert.equal(h.after_row.price_refresh_batch_id,r.batch_id);
+      expected_proofs[key]={operation:'refresh',source_hash:p.source_hash,source_quote:p.source_quote,observed_at:p.observed_at};
+    }
+  }
+  assert.deepEqual(Object.keys(expected_proofs).sort(),PRICE_20261127_KEYS);
+  return {kind:'approved_scoped_price_reverification_20261127',live_snapshot_sha256:createHash('sha256').update(liveBytes).digest('hex'),
+    canonical_before_hash:canonicalBefore.canonicalHash,canonical_before_records:before,publication:{...r,adapter:packet.adapter},expected_proofs};
+}
+
+export function planScopedPriceExport(liveSnapshot,canonicalBefore,canonicalAfter,receipt) {
+  assert.equal(receipt.kind,'approved_scoped_price_reverification_20261127');
+  assert.equal(catalogHash(liveSnapshot.records),liveSnapshot.catalog_sha256);
+  const live=normalizeCatalog(liveSnapshot.records),before=normalizeCatalog(canonicalBefore),after=normalizeCatalog(canonicalAfter);
+  assert.equal(catalogHash(before),receipt.canonical_before_hash);
+  const p=receipt.publication;
+  assert(p?.adapter==='scoped_price_reverification_20261127_v1'&&p.refreshed===11&&p.withheld===2&&p.already_applied===false&&p.technical_facts_changed===0&&/^[a-f0-9]{64}$/.test(p.batch_id||''));
+  assert.deepEqual(Object.keys(receipt.expected_proofs||{}).sort(),PRICE_20261127_KEYS);
+  const byKey=rows=>new Map(rows.map(row=>[variantKey(row),row]));
+  const l=byKey(live), b=byKey(before), a=byKey(after);
+  const beforeDiff=compareCatalogs(live,before);
+  assert(!beforeDiff.local_only.length&&!beforeDiff.remote_only.length,'Live and canonical identities differ');
+  assertExactThirteen(compareCatalogs(before,after));
+  for(const key of PRICE_20261127_KEYS) {
+    const old=b.get(key),row=a.get(key),proof=receipt.expected_proofs[key];
+    if(WITHHELD_20261127_KEYS.includes(key)) {
+      assert.equal(proof.operation,'withhold');
+      const hold=priceWithholding(row);
+      assert(hold&&hold.reason===proof.reason&&micros(hold.at)===micros(proof.observed_at));
+      assert(micros(old.price_verified_at)<micros(hold.at));
+    } else {
+      assert.equal(proof.operation,'refresh');
+      assert.equal(row.price_source_hash,proof.source_hash);assert.equal(row.price_source_quote,proof.source_quote);
+      assert(micros(row.price_verified_at)===micros(proof.observed_at)&&micros(old.price_verified_at)<micros(row.price_verified_at));
+      for(const f of ['price_sek','price_type','price_valid_until','price_source_url','price_source_name'])assert.equal(row[f],old[f]);
+    }
+  }
+  const representation_aliases=[];
+  for(const delta of beforeDiff.changed) {
+    // Preserve precisely the existing proven ISO-millisecond representation of
+    // a genuinely unchanged raw field. Never round a newly changed proof.
+    for(const field of delta.fields) {
+      assert(TIMESTAMP_FIELDS.includes(field),'Unrelated baseline fact differs');
+      const old=l.get(delta.key)[field],raw=b.get(delta.key)[field];
+      micros(raw);micros(old);
+      assert.equal(old,new Date(raw).toISOString(),'Not the established UTC millisecond rendering');
+      assert.equal(a.get(delta.key)[field],raw,'Raw timestamp changed; cannot restore representation');
+      representation_aliases.push({key:delta.key,field,retained:old,raw_canonical:raw});
+    }
+  }
+  const rows=normalizeCatalog(after.map(row=>{
+    const copy={...row};
+    for(const alias of representation_aliases.filter(x=>x.key===variantKey(row)))copy[alias.field]=alias.retained;
+    return copy;
+  }));
+  const difference=compareCatalogs(live,rows);assertExactThirteen(difference);
+  for(const row of rows)if(!PRICE_20261127_KEYS.includes(variantKey(row)))assert.deepEqual(row,l.get(variantKey(row)),'Unrelated published row changed');
+  return {rows,difference,representation_aliases,raw_canonical_before_hash:catalogHash(before),raw_canonical_after_hash:catalogHash(after),scope:receipt.kind};
+}
+
 export function mergeQuarantine(previous, current, remote) {
   const published = new Set(remote.map(variantKey));
   return [...new Map([...previous, ...current].map((row) => [variantKey(row), row])).values()]
@@ -260,10 +388,13 @@ export async function syncPublicCatalog({argv=process.argv.slice(2),fetchImpl=fe
   const path = 'public/data/public_ev_variants.json';
   const previousBytes=await readFile(path);
   const previous=JSON.parse(previousBytes.toString('utf8'));
-  const receiptIndex=argv.indexOf('--enyaq-proof-receipt');
+  const receiptFlags=['--enyaq-proof-receipt','--scoped-price-reverification-receipt'];
+  const requestedFlags=argv.filter(a=>receiptFlags.includes(a));
+  assert(requestedFlags.length<=1,'Supply exactly one scoped export receipt');
+  const receiptFlag=requestedFlags[0],receiptIndex=receiptFlag?argv.indexOf(receiptFlag):-1;
   let receipt;
   if(receiptIndex>=0){
-    assert(argv[receiptIndex+1]&&argv.filter(a=>a==='--enyaq-proof-receipt').length===1,'Expected one reviewed price receipt');
+    assert(argv[receiptIndex+1]&&argv.filter(a=>a===receiptFlag).length===1,'Expected one reviewed price receipt');
     assert(argv.every((a,i)=>a==='--write'||i===receiptIndex||i===receiptIndex+1),'Unexpected scoped export argument');
     receipt=JSON.parse(await readFile(argv[receiptIndex+1],'utf8'));
     assert.equal(createHash('sha256').update(previousBytes).digest('hex'),receipt.live_snapshot_sha256,'Public baseline bytes changed');
@@ -273,7 +404,8 @@ export async function syncPublicCatalog({argv=process.argv.slice(2),fetchImpl=fe
   const confirmation = await fetchCatalog({ ...config, fetchImpl, onSchema: (fields) => { confirmationMissing = fields; } });
   assert.equal(catalogHash(rows), catalogHash(confirmation), 'Canonical catalog changed during export; retry later');
   assert.deepEqual(missingFields, confirmationMissing, 'Canonical view schema changed during export; retry later');
-  const scoped=receipt?planEnyaqProofOnlyExport(previous,receipt.canonical_before_records,rows,receipt):null;
+  if(receiptFlag==='--scoped-price-reverification-receipt')assert.equal(receipt.kind,'approved_scoped_price_reverification_20261127');
+  const scoped=receipt?(receiptFlag==='--scoped-price-reverification-receipt'?planScopedPriceExport:planEnyaqProofOnlyExport)(previous,receipt.canonical_before_records,rows,receipt):null;
   if(scoped)rows=scoped.rows;
   const difference = compareCatalogs(previous.records, rows);
   const scopeReport=scoped?{scope:scoped.scope,representation_aliases:scoped.representation_aliases,
