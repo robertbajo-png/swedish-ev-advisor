@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, GitCompareArrows, MountainSnow, PlugZap, Route, Search, SlidersHorizontal, Sparkles, Users, WalletCards, Weight, Crown } from 'lucide-react';
 import './home.css';
-import { BiljournalWeek } from './biljournal-home.jsx';
 import { browseCarCoverage, featuredCarsForHome, useFeaturedHomePhoto } from './home-featured-photos.js';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { assetPath } from './preview-paths.js';
-import { focusDrivingWeek, preferredScrollBehavior } from './ui-navigation.js';
+import { preferredScrollBehavior } from './ui-navigation.js';
 import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 
 // These three full-frame editorial assets have the same documented,
@@ -40,7 +39,7 @@ const categories = [
 const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pendling', langresa: 'Långresor', budget: 'Budget', dragkrok: 'Dragkrok', allround: 'Vardag' };
 
 
-export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
+export function HomePage({ sandsten = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
@@ -49,9 +48,9 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
   const browseCars = [...cars].sort((a, b) => browseCarCoverage(b) - browseCarCoverage(a));
   const spotlight = browseCars.find((car) => car.image) || cars[0];
   // Same selected variants, with separate home-only full-frame photo choices.
-  const chosen = featuredCarsForHome(cars, Boolean(drivingWeek));
-  const featured = drivingWeek ? chosen.map(useFeaturedHomePhoto) : chosen;
-  const shareFeaturedNotice = Boolean(drivingWeek && featured.length > 1 && featured.every(car =>
+  const chosen = featuredCarsForHome(cars, Boolean(sandsten));
+  const featured = sandsten ? chosen.map(useFeaturedHomePhoto) : chosen;
+  const shareFeaturedNotice = Boolean(sandsten && featured.length > 1 && featured.every(car =>
     car.imageFullFrame && sharedPressNoticeAssets.has(car.image) && car.imageNotice === genericPressNotice));
   const recommendations = (result?.shortlist || []).map((item) => {
     const key = item.canonicalKey || [item.brand, item.model, item.variant_name].join('|');
@@ -74,13 +73,9 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
     document.getElementById('hitta-elbil')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   };
   const cardProps = { navigate, renderImage, appPath, onCompare };
-  const weekPanel = drivingWeek && <div className="homeWeekPanel" id="din-korvecka">
-    <BiljournalWeek week={drivingWeek.week} setWeek={drivingWeek.setWeek} onApply={drivingWeek.onApply} />
-    <button type="button" className="homeTextLink homeWeekAsk" onClick={() => applySuggestion(suggestions[0])}>Ställ frågan till AI-rådgivaren <ArrowRight size={16} aria-hidden="true" /></button>
-  </div>;
 
   return <div className={sandsten ? "consumerHome sandstenHome" : "consumerHome"}>
-    <section className={drivingWeek ? "homeHero homeContainer homeHeroFirst" : "homeHero homeContainer"} id="hitta-elbil" aria-labelledby="home-heading">
+    <section className={sandsten ? "homeHero homeContainer homeHeroFirst" : "homeHero homeContainer"} id="hitta-elbil" aria-labelledby="home-heading">
       <div className="homeHeroCopy">
         <div className="sandstenIntro">
           {sandsten && <span className="homeKicker">Bilval · Räckvidd · Ägandekostnad</span>}
@@ -101,9 +96,9 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
           </div>
         </form>
         {sandsten && localAdvisor && <p className="sandstenHint">Förhandsvisning. Svaret hämtas lokalt ur katalogen.</p>}
-        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-controls="din-korvecka" onClick={focusDrivingWeek}><Icon size={14} aria-hidden="true" />{suggestion.label}</button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
+        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }) => <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
       </div>
-      {!drivingWeek && <aside className="homeSpotlight" aria-label="Upptäck en elbil">
+      {!sandsten && <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
           <VehicleLink car={spotlight} navigate={navigate} appPath={appPath} className="homeSpotlightImage">{renderImage(spotlight, true)}<span>Upptäck {spotlight.brand}</span><span className="homePhotoArrow"><ArrowUpRight size={22} /></span></VehicleLink>
           <VehicleImageNotice car={spotlight} />
@@ -123,13 +118,12 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
     </section>}
 
     {sandsten && <><figure className="sandstenRoad"><img src={assetPath('/media/biljournal/atlantkust.webp')} alt="En landsväg som svänger upp över en bro längs norska Atlantkusten" width="1920" height="703" fetchPriority="high" /></figure>
-      <div className="sandstenWeek"><div className="homeContainer">{weekPanel}</div></div>
       {newsPreview}
     </>}
 
-    <section className={`homeExplore homeContainer${drivingWeek ? " homeExploreStart" : ""}`} aria-labelledby="explore-title">
+    <section className={`homeExplore homeContainer${sandsten ? " homeExploreStart" : ""}`} aria-labelledby="explore-title">
       <div className={`homeSectionHeading${shareFeaturedNotice ? " homeFeaturedHeading" : ""}`}><div><h2 id="explore-title">Bilar ur katalogen</h2></div><a className="homeTextLink" href={appPath('/bilar')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey) { event.preventDefault(); navigate('/bilar'); } }}>Alla elbilar <ArrowRight size={17} /></a>{shareFeaturedNotice && <div className="homeFeaturedImageContext"><p id={featuredNoticeId} className="homeFeaturedImageNotice">Pressbilder. Utrustning kan skilja mellan versioner.</p><a className="homeImageCreditLink" href={appPath('/kallor?post=bilder')} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate('/kallor?post=bilder'); } }}>Bildkrediter</a></div>}</div>
-      {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} showPhotoHighlight={!drivingWeek} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
+      {cars.length ? <div className="homeVehicleGrid">{featured.map((car) => <HomeVehicleCard key={car.id} {...cardProps} car={car} selected={compare.includes(car.id)} sharedImageNoticeId={shareFeaturedNotice ? featuredNoticeId : undefined} showPhotoHighlight={!sandsten} />)}</div> : <p role="status">{dataStatus === 'loading' ? 'Hämtar bilar...' : 'Biluppgifterna är tillfälligt otillgängliga. Försök igen om en stund.'}</p>}
     </section>
 
     <section className="homeNeedsBand"><div className="homeContainer"><div className="homeSectionHeading"><div><h2>Hitta bilar efter behov</h2></div></div><div className="homeNeedsGrid">{categories.map(({ icon: Icon, ...category }) => {

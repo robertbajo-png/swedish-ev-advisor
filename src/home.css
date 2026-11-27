@@ -207,16 +207,3 @@
 .homeHeroFirst .homeHeroCopy { min-width: 0; max-width: none; }
 .homeHeroFirst h1 { margin-block: 0 12px; }
 .homeHeroFirst .homeHeroIntro { margin: 0 0 16px; }
-.homeHeroFirst .homeWeekToggle { color: var(--bil-ink); border-color: var(--bil-border); min-height: 44px; }
-.homeWeekToggle svg:last-child { transition: transform .16s ease; }
-.homeWeekToggle[aria-expanded="true"] { background: var(--bil-soft); }
-.homeWeekToggle[aria-expanded="true"] svg:last-child { transform: rotate(180deg); }
-.homeWeekPanel { grid-column: 1 / -1; border-top: 1px solid var(--bil-line); margin-top: 22px; }
-.homeWeekPanel .bilWeek { padding-bottom: 12px; }
-.homeWeekAsk { width: fit-content; min-height: 44px; text-align: left; }
-@media (max-width: 800px) {
-  .homeWeekPanel { grid-row: 2; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .homeWeekToggle svg:last-child { transition: none; }
-}

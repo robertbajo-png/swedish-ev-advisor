@@ -28,7 +28,10 @@ try {
     const input = page.locator('#home-advisor-query');
     const submit = page.getByRole('button', { name: 'Hitta min elbil', exact: true });
     const toggle = page.getByRole('button', { name: 'Mest räckvidd för pengarna', exact: true });
-    const section = page.getByRole('form', { name: 'Din körvecka' });
+    const noWeek = async () => {
+      assert.equal(await page.locator('#din-korvecka, [href*="din-korvecka"], #bil-week-title, #bil-commute, #bil-trip, .bilWeek, .bilWeekResult, .homeWeekPanel, .sandstenWeek').count(),0,'Removed module must not exist, even hidden');
+      assert.doesNotMatch(await page.locator('body').innerText(), /Din körvecka|Bilar för din vecka|Ändra körveckan|Engångsresa från körveckan/);
+    };
     await page.locator('.homeVehicleCard').first().waitFor();
     // First keyboard navigation must start in a fresh document, not after
     // scrolling the card images (which can change sequential focus origin).
@@ -154,7 +157,11 @@ try {
       formBox.x + formBox.width <= heroBox.x + heroBox.width + 1, 'The advisor remains inside the responsive hero');
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator('h1').count(), 1);
-    assert(await section.isVisible(), 'The driving-week form is present without opening a disclosure');
+    await noWeek();
+    const names = await page.getByRole('navigation',{name:'Huvudnavigation'}).getByRole('link').allTextContents();
+    assert.deepEqual(names,['Alla elbilar','Jämför','Nyheter']);
+    const hasNewsNext = await page.locator('.sandstenRoad').evaluate(el=>el.nextElementSibling?.matches('.newsPreview.journalPreview'));
+    assert(hasNewsNext,'Road image must flow directly into news, without an empty panel');
     for (const item of [input, submit, toggle]) {
       const box = await item.boundingBox();
       assert(box && box.y >= 0 && box.y + box.height <= height, width + 'px: advisor and range shortcut visible before scroll');
@@ -164,45 +171,37 @@ try {
     await input.fill('En elbil med dragkrok');
     await toggle.focus();
     await page.keyboard.press('Enter');
-    await section.waitFor();
-    assert.equal(await toggle.getAttribute('aria-controls'), 'din-korvecka');
-    assert.equal(await input.inputValue(), 'En elbil med dragkrok');
-    await page.waitForFunction(() => document.activeElement?.id === 'bil-week-title');
-    await page.keyboard.press('Tab');
-    const example = section.getByRole('button', { name: 'Fyll i ett exempel' });
-    assert(await example.evaluate(el => el === document.activeElement));
+    assert.equal(await toggle.getAttribute('aria-controls'), null);
+    assert.match(await input.inputValue(), /räckvidd.*pengarna/);
+    assert(await input.evaluate(el=>el===document.activeElement));
+    assert.equal(requests,0,'A suggested question must never submit automatically');
     await viewportFits();
     const violations = (await new AxeBuilder({ page }).include('#hitta-elbil').analyze()).violations;
     assert.deepEqual(violations.map(v => [v.id, ...v.nodes.map(n => n.target)]), []);
-    await section.locator('#bil-commute').fill('25');
-    await section.getByLabel('Var laddar du oftast?').selectOption('home');
-    await section.locator('#bil-trip').fill('240');
-    await section.getByLabel('Hur ofta?').selectOption('fortnightly');
-    assert.match(compact(await section.innerText()), /11 990 km\/år/);
-    await section.scrollIntoViewIfNeeded();
-    await capture('korvecka');
-    await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Din körvecka' }).click();
-    await page.waitForFunction(() => { const r = document.getElementById('bil-week-title').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; });
-    assert.equal(await section.locator('#bil-commute').inputValue(), '25');
-    await section.getByRole('button', { name: 'Visa bilurval' }).click();
+    const nav = page.getByRole('navigation',{name:'Huvudnavigation'});
+    await nav.getByRole('link',{name:'Alla elbilar',exact:true}).click();
     await page.waitForURL('**/bilar');
-    assert.match(compact(await page.locator('.bilWeekResult').innerText()), /11 990 km\/år · 80 % laddning hemma/);
-    assert.match(await page.locator('.bilWeekResult').innerText(), /längst angiven WLTP/);
+    await noWeek();
     await page.locator('.carCard a[href^="/bilar/"]').first().click();
-    await page.getByRole('link', { name: 'Ägandekostnad', exact: true }).first().click();
-    assert.match(compact(await page.locator('.bilCostVariant').first().innerText()), /35 970 km/);
+    await noWeek();
+    await page.getByRole('link',{name:'Ägandekostnad',exact:true}).first().click();
+    await noWeek();
+    assert.match(compact(await page.locator('.bilCostVariant').first().innerText()), /45 000 km/);
     await page.locator('.bilCostAssumptions > summary').click();
-    assert.equal(await page.getByLabel('Körsträcka, km/år').inputValue(), '11990');
-    assert.equal(await page.getByLabel('Jämförelseperiod, månader').inputValue(), '36');
-    await page.goBack();
-    await page.goBack();
-    await page.getByRole('link', { name: 'Ändra körveckan' }).click();
-    await section.waitFor();
-    assert.equal(await section.locator('#bil-trip').inputValue(), '240');
-    await page.getByRole('button', { name: 'Ställ frågan till AI-rådgivaren' }).click();
+    assert.equal(await page.getByLabel('Körsträcka, km/år').inputValue(),'15000');
+    assert.equal(await page.getByLabel('Jämförelseperiod, månader').inputValue(),'36');
+    await page.getByLabel('Körsträcka, km/år').fill('11990');
+    await page.getByLabel('Andel laddning hemma, %').fill('40');
+    assert.match(compact(await page.locator('.bilCostVariant').first().innerText()), /35 970 km/);
+    assert.equal(await page.getByLabel('Andel laddning hemma, %').inputValue(),'40');
+    assert.equal(await page.getByRole('cell',{name:'Kontantköp',exact:true}).count()+await page.getByRole('rowheader',{name:'Kontantköp',exact:true}).count(),1);
+    await capture('kostnad');
+    await page.goto(base+'/#din-korvecka',{waitUntil:'domcontentloaded'});
+    await input.waitFor();
+    await noWeek();
+    await toggle.click();
     assert.match(await input.inputValue(), /räckvidd.*pengarna/);
-    assert(await input.evaluate(el => el === document.activeElement));
-    assert.equal(requests, 0, 'opening the driving week or preparing a question must not send an AI request');
+    assert.equal(requests,0);
     // The result panel opens before the async mock transport necessarily runs.
     // Wait for the actual intercepted response, then still require exactly one request.
     await Promise.all([
@@ -216,7 +215,7 @@ try {
     await page.waitForURL('**/bilar');
     await primaryNav.getByRole('link', { name: 'Rådgivare', exact: true }).click();
     await page.waitForURL('**/radgivare');
-    assert.equal(await page.locator('#din-korvecka').count(), 0);
+    await noWeek();
     assert.equal(await page.locator('#home-featured-image-notice').count(), 0);
     assert(await page.locator('.homeExplore .vehicleImageNotice').count() > 0, 'Advisor route still has individual notices');
     await toggle.click();
@@ -224,7 +223,7 @@ try {
     assert.equal(requests, 1);
     assert.deepEqual(errors, []);
     await context.close();
-    console.log(width + 'px: adviser visible, keyboard and axe clean, driving week and edit round trip, adviser shortcut, no real AI calls');
+    console.log(width + 'px: adviser visible, keyboard and axe clean, no removed module, independent ownership and adviser shortcut, no real AI calls');
   }
   const exactContext = await browser.newContext({viewport:{width:1440,height:900}});
   const exactPage = await exactContext.newPage();

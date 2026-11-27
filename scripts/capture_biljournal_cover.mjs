@@ -31,7 +31,7 @@ try {
     const mobile = width === 390;
     const page = await browser.newPage({ viewport: { width, height }, isMobile: mobile, hasTouch: mobile, offline: true, reducedMotion: 'reduce' });
     await page.goto(file);
-    await page.getByRole('heading', { level: 1, name: /^(Få hjälp att välja elbil|Din körvecka)$/ }).waitFor();
+    await page.getByRole('heading', { level: 1, name: /^(Få hjälp att välja elbil|Hitta din nästa elbil\.)$/ }).waitFor();
     await page.evaluate(() => document.fonts.ready);
     const image = page.locator('.bilCoverPhoto img');
     const hasCover = await image.count() > 0;

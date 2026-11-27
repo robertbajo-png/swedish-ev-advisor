@@ -78,31 +78,6 @@
 .biljournal > footer { background: var(--bil-paper); }
 .biljournal > footer > div { flex-wrap: wrap; }
 .biljournal > footer a { color: var(--bil-navy); }
-.bilWeek { padding-block: 26px 30px; }
-.bilWeek header, .bilWeekEnd { display: flex; justify-content: space-between; align-items: end; gap: 12px 24px; }
-.bilWeek header { border-bottom: 1px solid var(--bil-navy); padding-bottom: 11px; }
-.bilWeek header h2 { margin: 0; font-size: clamp(1.85rem,3.6vw,3rem); font-weight: 600; line-height: 1; }
-.bilWeek header p, .bilWeekEnd p { margin: 6px 0 0; color: var(--bil-muted); font-size: .9rem; line-height: 1.45; }
-.bilExampleButton { align-self: end; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--bil-ink); font-weight: 700; text-align: start; text-decoration: underline; text-underline-offset: .22em; }
-.bilWeekExample { margin: 8px 0 0; color: var(--bil-muted); font-size: .88rem; }
-.bilWeekRoute { position: relative; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
-.bilWeekRoute::before { content: ''; position: absolute; top: 16px; right: 0; left: 0; border-top: 1px solid var(--bil-line); pointer-events: none; }
-.bilRouteStop { position: relative; min-width: 0; padding: 23px 0 9px; }
-.bilRouteStop::before { content: ''; position: absolute; left: 0; top: 12px; width: 9px; height: 9px; background: var(--bil-paper); border: 2px solid var(--bil-rust); border-radius: 50%; }
-.bilRouteStop h3 { font-size: 1.28rem; font-weight: 600; margin: 0 0 5px; line-height: 1.1; }
-.bilRouteStop h3 small { margin-inline-start: 3px; font: 500 .75rem/1.4 system-ui, sans-serif; color: var(--bil-muted); }
-.bilRouteStop p { margin: 5px 0 0; color: var(--bil-muted); font-size: .82rem; line-height: 1.45; }
-.bilRouteField { display: grid; min-width: 0; gap: 3px; font-size: .88rem; font-weight: 650; }
-.bilRouteField :is(input,select) { min-width: 0; width: 100%; padding: 7px 8px; min-height: 44px; border: 1px solid var(--bil-border); border-radius: 0; background: var(--bil-surface); color: var(--bil-navy); font-size: 16px; }
-.bilRouteField select:disabled { opacity: 1; background: var(--bil-soft); color: var(--bil-muted); }
-.bilTripFields { display: grid; grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr); gap: 9px; align-items: end; }
-.bilWeekEnd { margin-top: 6px; align-items: center; border-top: 1px solid var(--bil-line); padding-top: 10px; }
-.bilWeekEnd .uiPrimary { min-width: min(100%, 220px); justify-content: space-between; }
-.bilWeekError { margin: 8px 0; color: var(--bil-ink); font-weight: 700; }
-.bilWeekResult { display:flex; flex-wrap:wrap; gap: 8px 24px; align-items:center; justify-content:space-between; margin-top: 20px; padding-block: 14px; border-block: 1px solid var(--bil-line); }
-.bilWeekResult h2 { margin: 0; font-size: clamp(1.65rem,4vw,2.5rem); line-height: 1.05; }
-.bilWeekResult p { margin: 5px 0; color: var(--bil-muted); max-width: 70ch; }
-.bilWeekResult a { display: inline-flex; align-items:center; gap: 8px; min-height: 44px; color: var(--bil-ink); font-weight: 700; }
 .biljournal :is(.vehiclePageIntro,.newsIntro,.vehicleSectionHeading,.homeSectionHeading) h1 { font-weight: 600; }
 .biljournal :is(.vehicleCard,.vehicleFilters,.vehicleDetailCard,.reportCard,.newsEditorialCard) { border-radius: 0; box-shadow: none; }
 .biljournal .bilSourceContext a { color: var(--bil-ink); font-weight: 700; }
@@ -148,25 +123,11 @@
   .bilHeader .brandButton { font-size: 1.64rem; min-height: 37px; }
   .biljournal .bilHeader nav { justify-content: space-between; column-gap: 6px; row-gap: 0; width: 100%; }
   .biljournal .bilHeader nav a { font-size: clamp(.73rem,3.1vw,.86rem); min-height: 44px; }
-  .bilWeek { padding-block: 18px 24px; }
-  .bilWeek header { display: block; padding-bottom: 2px; }
-  .bilWeekRoute { grid-template-columns: minmax(0,1fr); gap: 0; }
-  .bilWeekRoute::before { inset: 15px auto 25px 4px; border: 0; border-inline-start: 1px solid var(--bil-rust); }
-  .bilRouteStop { padding: 11px 0 9px 17px; }
-  .bilRouteStop::before { top: 15px; }
-  .bilRouteStop + .bilRouteStop { border-top: 1px solid var(--bil-line); }
-  .bilRouteStop p { font-size: .78rem; }
-  .bilWeekEnd { align-items: stretch; flex-direction: column; gap: 0; }
-  .bilWeekEnd p { margin: 0; }
-  .bilWeekEnd p:not(:empty) { margin-bottom: 6px; }
   .bilSourcesList { grid-template-columns: minmax(0,1fr); }
 }
 @media (max-width: 360px) {
   /* Space-between still distributes the free space with a wider system font. */
   .biljournal .bilHeader nav { column-gap: 0; }
-  .bilWeek { padding-top: 12px; }
-  .bilRouteStop { padding-block: 8px; }
-  .bilWeekEnd { padding-top: 7px; }
 }
 @media (prefers-reduced-motion: no-preference) {
 }

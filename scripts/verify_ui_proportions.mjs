@@ -62,11 +62,11 @@ try {
         const action = await page.getByRole('button', {name:'Hitta min elbil', exact:true}).boundingBox();
         assert(advisor && advisor.y + advisor.height <= height && action && action.y + action.height <= height, 'advisor visible in the opening viewport');
         const toggle = page.getByRole('button', {name:'Mest räckvidd för pengarna', exact:true});
-        assert.equal(await toggle.getAttribute('aria-controls'), 'din-korvecka');
+        assert.equal(await toggle.getAttribute('aria-controls'),null);
         await toggle.click();
-        assert(await page.getByRole('heading', {name:'Din körvecka', exact:true}).isVisible());
-        assert(await page.locator('.bilWeekRoute :is(input,select)').evaluateAll(nodes => nodes.length === 4 && nodes.every(node => node.getBoundingClientRect().height >= 44)));
-        await page.waitForFunction(() => document.activeElement?.id === 'bil-week-title');
+        assert.match(await page.locator('#home-advisor-query').inputValue(),/räckvidd.*pengarna/);
+        await page.waitForFunction(()=>document.activeElement?.id==='home-advisor-query');
+        assert.equal(await page.locator('#din-korvecka, [href*="din-korvecka"], .bilWeek, .homeWeekPanel, .sandstenWeek').count(),0);
       } else {
         assert(h1Size <= (width <= 560 ? 36 : name === 'advisor' ? 56 : name === 'detail' ? 52 : 40), `${name}/${width}: controlled heading scale`);
       }
