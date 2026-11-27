@@ -112,6 +112,45 @@ def collect_pdf(url, brand):
     return source
 
 
+def page_bound_elroq_offer(text, source, pages):
+    """Resolve date conflicts only for the exact three-page Elroq price-list layout."""
+    expiry = re.compile(r'g\s*\u00e4ller\s+tom\s+(\d{4}-\d{2}-\d{2})', re.I)
+    limited = re.compile(r'erbjudandet \u00e4r begr\u00e4nsat', re.I)
+    dates = set(expiry.findall(text))
+    if len(dates) <= 1:
+        return text, None  # Existing full-document check remains strict.
+    if (source.get('final_url') != SKODA_URL or not isinstance(pages, list)
+            or len(pages) != 3 or any(not isinstance(p, str) or not p.strip() for p in pages)
+            or '\n'.join(pages).strip() != text.strip()
+            or hashlib.sha256(text.encode('utf-8')).hexdigest() != source.get('text_hash')):
+        raise RefreshError('elroq_campaign_page_binding_required')
+    def lines(page):
+        return [re.sub(r'\s+', ' ', line).strip() for line in page.splitlines() if line.strip()]
+    def heading(page):
+        return next((line for line in lines(page) if not re.fullmatch(r'\d+/\d+', line)), '')
+    vehicle, options, standard = pages
+    vehicle_dates = expiry.findall(vehicle)
+    option_dates = expiry.findall(options)
+    option_footer = '\n'.join(lines(options)[-4:])
+    if (heading(options) != 'Tillvalsutrustning' or heading(standard) != 'Standardutrustning'
+            or len(vehicle_dates) != 1 or len(option_dates) != 1 or expiry.search(standard)
+            or vehicle_dates[0] == option_dates[0] or not limited.search(vehicle)
+            or not limited.search(option_footer) or expiry.findall(option_footer) != option_dates
+            or 'Tillfälligt erbjudande' not in vehicle):
+        raise RefreshError('elroq_campaign_page_binding_required')
+    for other in (options, standard):
+        if any(re.match(r'^(?:Skoda|\u0160koda) Elroq Explore Edition$', line, re.I)
+               or re.match(r'^Prislista\b', line, re.I)
+               or re.match(r'^(?:60|85|85x|RS) \d{3} \d{3} \d{3} 0\b', line)
+               or 'Tillfälligt erbjudande' in line for line in lines(other)):
+            raise RefreshError('elroq_campaign_page_binding_required')
+    return vehicle, {'source_page': 1, 'source_page_count': 3,
+                     'page_text_sha256': hashlib.sha256(vehicle.encode('utf-8')).hexdigest(),
+                     'full_text_sha256': source['text_hash'],
+                     'separate_optional_equipment_page': 2,
+                     'optional_equipment_footer_expiry': option_dates[0]}
+
+
 def collect_elroq():
     import pdfplumber
     source = collect_pdf(SKODA_URL,'Skoda')
@@ -119,7 +158,13 @@ def collect_elroq():
         if len(document.pages) != 3:
             raise RefreshError('elroq_page_count_changed')
         page = document.pages[0]
-        profiles = elroq_grid(page.extract_words(),page.width,page.height,source['text'],source)
+        from skoda_price_intake import pdf_price_pages
+        pages = pdf_price_pages(source['document']['body'], source['content_type'])
+        text, context = page_bound_elroq_offer(source['text'], source, pages)
+        profiles = elroq_grid(page.extract_words(),page.width,page.height,text,source)
+        if context:
+            for row in profiles:
+                row['extraction_payload']['page_bound_campaign'] = context
     return profiles
 
 
