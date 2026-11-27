@@ -44,7 +44,7 @@ try {
       });
       if (!file) await page.route('**/*',r => new URL(r.request().url()).origin === localOrigin ? r.continue() : r.abort());
       await page.goto(url('/'));
-      await page.getByRole('heading',{level:1,name:/^(Få hjälp att välja elbil|Din körvecka)$/}).waitFor();
+      await page.getByRole('heading',{level:1,name:/^(Få hjälp att välja elbil|Din körvecka|Hitta din nästa elbil\.)$/}).waitFor();
       assert.equal(await page.locator('.homeHeroFirst img, .bilCoverPhoto, .homeHeroFirst .homeSpotlight').count(),0);
       assert.equal(await page.getByText('Hyundai Inster Prime',{exact:true}).count(),0);
       const { records, articles } = JSON.parse(await page.locator('#public-page-data').textContent());

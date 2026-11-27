@@ -86,11 +86,11 @@ function NewsMeta({ article, readingTime = false }) {
   </div>;
 }
 
-function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, priority = false }) {
+function NewsCard({ article, navigate, variant = 'teaser', headingLevel = 3, priority = false, homepageImage }) {
   const [failedUrl, setFailedUrl] = useState(null);
   const Heading = 'h' + headingLevel;
   const isTeaser = variant === 'teaser';
-  const image = isTeaser ? approvedNewsImage(article) : editorialNewsImage(article);
+  const image = homepageImage || (isTeaser ? approvedNewsImage(article) : editorialNewsImage(article));
   const hasImage = !!image && failedUrl !== image.url;
   const isLead = variant === 'lead';
   const photo = hasImage && <NewsImage image={image} priority={priority} caption={!isTeaser} onUnavailable={() => setFailedUrl(image.url)} />;
@@ -129,12 +129,12 @@ function NewsLoading({ article = false }) {
   </div>;
 }
 
-export function NewsPreview({ articles, navigate, title = 'Det senaste i elbilsvärlden', relatedKey, showEmpty = false, loading = false, error = false }) {
+export function NewsPreview({ articles, navigate, title = 'Det senaste i elbilsvärlden', sandsten = false, relatedKey, showEmpty = false, loading = false, error = false }) {
   const shown = publicArticles(articles).filter((article) => !relatedKey || (article.related_models || []).some((model) => model.key === relatedKey)).slice(0, 3);
   if (!shown.length && !showEmpty) return null;
   return <section className="newsPreview journalPreview" aria-label={title}>
     <div className="newsSectionHeading"><div><span className="journalEyebrow">Elbilsagenten Journal</span><h2>{title}</h2></div><NewsLink path="/nyheter" navigate={navigate}>Alla nyheter <ArrowRight size={17} /></NewsLink></div>
-    {shown.length ? <div className="journalPreviewGrid">{shown.map((article) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} />)}</div> : <p className="newsPreviewEmpty" role="status">{loading ? 'Hämtar nyheter...' : error ? 'Nyheterna kunde inte hämtas just nu.' : 'Inga nyheter är publicerade ännu.'}</p>}
+    {shown.length ? <div className="journalPreviewGrid">{shown.map((article,index) => <NewsCard key={article.id || article.slug} article={article} navigate={navigate} priority={sandsten && index === 0} homepageImage={sandsten && index === 0 && article.slug === 'nyhet-2f7b6517-7b42-5d5a-9d67-74eade31c4d6' ? {url:'/media/biljournal/renault-5-news.webp',width:960,height:527,alt:'Renault 5 E-Tech Electric'} : undefined} />)}</div> : <p className="newsPreviewEmpty" role="status">{loading ? 'Hämtar nyheter...' : error ? 'Nyheterna kunde inte hämtas just nu.' : 'Inga nyheter är publicerade ännu.'}</p>}
   </section>;
 }
 

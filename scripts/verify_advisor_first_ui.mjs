@@ -150,11 +150,11 @@ try {
     assert.equal(await page.getByText('Hyundai Inster Prime', { exact: true }).count(), 0, 'Removed cover caption');
     const heroBox = await hero.boundingBox();
     const formBox = await hero.locator('.homeAdvisorForm').boundingBox();
-    assert(heroBox && formBox && Math.abs(heroBox.x - formBox.x) < 1 &&
-      Math.abs(heroBox.width - formBox.width) < 1, 'The advisor fills the freed grid column');
+    assert(heroBox && formBox && formBox.x >= heroBox.x - 1 &&
+      formBox.x + formBox.width <= heroBox.x + heroBox.width + 1, 'The advisor remains inside the responsive hero');
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.locator('h1').count(), 1);
-    assert.equal(await section.isVisible(), false);
+    assert(await section.isVisible(), 'The driving-week form is present without opening a disclosure');
     for (const item of [input, submit, toggle]) {
       const box = await item.boundingBox();
       assert(box && box.y >= 0 && box.y + box.height <= height, width + 'px: advisor and range shortcut visible before scroll');
@@ -165,7 +165,7 @@ try {
     await toggle.focus();
     await page.keyboard.press('Enter');
     await section.waitFor();
-    assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+    assert.equal(await toggle.getAttribute('aria-controls'), 'din-korvecka');
     assert.equal(await input.inputValue(), 'En elbil med dragkrok');
     await page.waitForFunction(() => document.activeElement?.id === 'bil-week-title');
     await page.keyboard.press('Tab');
@@ -181,9 +181,8 @@ try {
     assert.match(compact(await section.innerText()), /11 990 km\/år/);
     await section.scrollIntoViewIfNeeded();
     await capture('korvecka');
-    await toggle.click();
-    assert.equal(await section.isVisible(), false);
-    await toggle.click();
+    await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Din körvecka' }).click();
+    await page.waitForFunction(() => { const r = document.getElementById('bil-week-title').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; });
     assert.equal(await section.locator('#bil-commute').inputValue(), '25');
     await section.getByRole('button', { name: 'Visa bilurval' }).click();
     await page.waitForURL('**/bilar');
@@ -212,7 +211,10 @@ try {
     ]);
     await page.locator('#dina-forslag').waitFor();
     assert.equal(requests, 1);
-    await page.getByRole('navigation', { name: 'Huvudnavigation' }).getByRole('link', { name: 'Rådgivare' }).click();
+    const primaryNav = page.getByRole('navigation', { name: 'Huvudnavigation' });
+    await primaryNav.getByRole('link', { name: 'Alla elbilar', exact: true }).click();
+    await page.waitForURL('**/bilar');
+    await primaryNav.getByRole('link', { name: 'Rådgivare', exact: true }).click();
     await page.waitForURL('**/radgivare');
     assert.equal(await page.locator('#din-korvecka').count(), 0);
     assert.equal(await page.locator('#home-featured-image-notice').count(), 0);
