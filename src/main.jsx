@@ -39,7 +39,7 @@ import { vehiclePhotoOverride, photoCredit } from './biljournal-images.js';
 import { assetPath, sitePath, isOfflineReview, isPreview } from './preview-paths.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
-import { preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
+import { focusDrivingWeek, preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
 import { advisorEndpoints } from './api-endpoints.js';
 import { ruleAdvice } from './advisor-matching.js';
 import { HomePage } from './home.jsx';
@@ -390,8 +390,8 @@ function reviewLocation() {
   return new URL(fragment.startsWith('#/') ? fragment.slice(1) : '/', 'https://preview.invalid');
 }
 
-function AppLink({ path, children, className, onNavigate }) {
-  return <a href={appPath(path)} className={className} onClick={(event) => {
+function AppLink({ path, children, className, onNavigate, current }) {
+  return <a href={appPath(path)} className={className} aria-current={current ? "page" : undefined} onClick={(event) => {
     if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) {
       event.preventDefault();
       onNavigate?.();
@@ -817,7 +817,7 @@ export function App({ initialData } = {}) {
         <AppLink path="/" className="brand brandButton">Elbilsagenten</AppLink>
         <nav aria-label="Huvudnavigation">
           {sandsten && <a href="#din-korvecka" onClick={jumpToSection}>Din körvecka</a>}
-          {[[ '/', 'Start', 'home' ], [ '/bilar', sandsten ? 'Alla elbilar' : 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].filter(([, , type]) => !sandsten || !['home','advisor'].includes(type)).map(([path, label, type]) => <a key={path} href={appPath(path)} aria-current={route.type === type ? 'page' : undefined} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}
+          {[[ '/', 'Start', 'home' ], [ '/bilar', sandsten ? 'Alla elbilar' : 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].filter(([, , type]) => !sandsten || !['home','advisor'].includes(type)).map(([path, label, type]) => <AppLink key={path} path={path} current={route.type === type}>{label}</AppLink>)}
         </nav>
       </header>
       <main id="main-content" className="siteMain" ref={contentRef} tabIndex={-1} aria-label="Huvudinnehåll">
@@ -858,7 +858,7 @@ export function App({ initialData } = {}) {
       {route.type === 'verification' && <VerificationPage />}
       {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
       {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
-      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => { requestAnimationFrame(() => { const title = document.getElementById('bil-week-title'); title?.focus({ preventScroll: true }); title?.scrollIntoView({ block: 'start' }); }); }}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
+      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => requestAnimationFrame(focusDrivingWeek)}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}
@@ -888,7 +888,7 @@ export function App({ initialData } = {}) {
       <footer>
         <span><Zap size={16} /> Elbilsagenten · Ditt nästa bilval.</span>
         {sandsten && <details className="sandstenCredit"><summary>Bildkrediter för förstasidan</summary><p><a href="https://commons.wikimedia.org/wiki/File:Atlanterhavsveien_01.jpg">Atlanterhavsveien 01</a>, Johan Bichel Lindegaard. Beskuren och tonad. <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>.</p><p><a href="https://commons.wikimedia.org/wiki/File:Renault_5_E-Tech_Electric_120_Urban_Range_Evolution_%E2%80%93_f_18042025.jpg">Renault 5 E-Tech Electric</a>, © M 93 / Wikimedia Commons. Förminskad och beskuren. <a href="https://creativecommons.org/licenses/by-sa/3.0/de/">CC BY-SA 3.0 (DE)</a>.</p></details>}
-        <div>{[['/kontakt', 'Kontakt'], ['/integritet', 'Dina uppgifter'], ['/verifiering', 'Om våra uppgifter'], ['/kallor', 'Källor och bildkrediter']].map(([path, label]) => <a key={path} href={appPath(path)} onClick={(event) => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); navigate(path); } }}>{label}</a>)}<button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
+        <div>{[['/kontakt', 'Kontakt'], ['/integritet', 'Dina uppgifter'], ['/verifiering', 'Om våra uppgifter'], ['/kallor', 'Källor och bildkrediter']].map(([path, label]) => <AppLink key={path} path={path}>{label}</AppLink>)}<button type="button" onClick={() => { window.scrollTo({ top: 0, behavior: preferredScrollBehavior() }); document.querySelector('.brandButton')?.focus({ preventScroll: true }); }}><Home size={16} /> Till toppen</button></div>
       </footer>
     </div>
   );

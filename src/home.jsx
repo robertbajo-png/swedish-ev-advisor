@@ -5,7 +5,7 @@ import { BiljournalWeek } from './biljournal-home.jsx';
 import { browseCarCoverage, featuredCarsForHome, useFeaturedHomePhoto } from './home-featured-photos.js';
 import { VehicleLink, VehicleCard as HomeVehicleCard, vehiclePriceLabel } from './vehicle-ui.jsx';
 import { assetPath } from './preview-paths.js';
-import { preferredScrollBehavior } from './ui-navigation.js';
+import { focusDrivingWeek, preferredScrollBehavior } from './ui-navigation.js';
 import { VehicleImageNotice } from './vehicle-image-notice.jsx';
 
 // These three full-frame editorial assets have the same documented,
@@ -42,11 +42,6 @@ const needNames = { familj: 'Familj', vinter: 'Vinter', pendling: 'Vardag & pend
 
 export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, cars, dataStatus, advisor, setAdvisor, result, status, submittedAdvisor, onSubmit, compare, onCompare, navigate, appPath, renderImage, newsPreview }) {
   const [advanced, setAdvanced] = useState(false);
-  const focusWeek = () => {
-    const title = document.getElementById('bil-week-title');
-    title?.focus({ preventScroll: true });
-    title?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
-  };
   useEffect(() => {
     if (status.state === 'loading') document.getElementById('dina-forslag')?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
   }, [status.state]);
@@ -106,7 +101,7 @@ export function HomePage({ drivingWeek, sandsten = false, localAdvisor = false, 
           </div>
         </form>
         {sandsten && localAdvisor && <p className="sandstenHint">Förhandsvisning. Svaret hämtas lokalt ur katalogen.</p>}
-        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-controls="din-korvecka" onClick={focusWeek}><Icon size={14} aria-hidden="true" />{suggestion.label}</button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
+        <div className="homeSuggestions" aria-label="Exempel på bilbehov">{suggestions.map(({ icon: Icon, ...suggestion }, index) => drivingWeek && index === 0 ? <button type="button" className="homeWeekToggle" key={suggestion.label} aria-controls="din-korvecka" onClick={focusDrivingWeek}><Icon size={14} aria-hidden="true" />{suggestion.label}</button> : <button type="button" key={suggestion.label} onClick={() => applySuggestion(suggestion)}><Icon size={14} />{suggestion.label}</button>)}</div></div>
       </div>
       {!drivingWeek && <aside className="homeSpotlight" aria-label="Upptäck en elbil">
         {spotlight ? <>
