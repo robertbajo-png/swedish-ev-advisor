@@ -32,15 +32,14 @@ import {
 import { GitCompareArrows, Plus, Weight, X } from 'lucide-react';
 import './styles.css';
 import { vehicleRedirect, catalogQuery } from './vehicle-redirects.js';
-import { OWNERSHIP_ASSUMPTIONS, distanceForWeek } from './ownership-cost.js';
+import { OWNERSHIP_ASSUMPTIONS } from './ownership-cost.js';
 import { OwnershipCosts } from './ownership-cost.jsx';
-import { DEFAULT_WEEK } from './biljournal-home.jsx';
 import { BiljournalSources, variantSourcePath } from './biljournal-sources.jsx';
 import { vehiclePhotoOverride, photoCredit } from './biljournal-images.js';
 import { assetPath, sitePath, isOfflineReview, isPreview } from './preview-paths.js';
 import { NewsPage, NewsArticlePage, NewsPreview, newsJsonLd, useNews } from './news.jsx';
 import { publicArticles } from './news-presentation.js';
-import { focusDrivingWeek, preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
+import { preferredScrollBehavior, revealFocusAboveCompareBar } from './ui-navigation.js';
 import { advisorEndpoints } from './api-endpoints.js';
 import { ruleAdvice } from './advisor-matching.js';
 import { HomePage } from './home.jsx';
@@ -605,8 +604,6 @@ export function App({ initialData } = {}) {
   const [filters, setFilters] = useState(() => ({ ...defaultFilters, ...route.catalogQuery }));
   const [compare, setCompare] = useState([]);
   const [ownership, setOwnership] = useState(OWNERSHIP_ASSUMPTIONS);
-  const [weekActive, setWeekActive] = useState(false);
-  const [week, setWeek] = useState(DEFAULT_WEEK);
   const today = initialData?.asOf || new Date().toISOString().slice(0,10);
   const compareSelection = compare.join('|');
   const compareSelectionRef = useRef(compareSelection);
@@ -805,13 +802,6 @@ export function App({ initialData } = {}) {
   const sandsten = route.type === 'home';
   const costCar = route.type === 'ownership' && route.slug ? cars.find(car => car.id === route.slug) : null;
   const costCars = route.slug ? (costCar ? [costCar] : []) : compareCars;
-  function applyWeek(week) {
-    setWeekActive(true);
-    setOwnership(old => ({ ...old, ...distanceForWeek(week), homePercent: week.charge === 'home' ? 80 : 0 }));
-    const sort = Number(week.trip) >= 200 || Number(week.commute) >= 60 ? 'range' : 'price';
-    setFilters({ ...defaultFilters, sort });
-    navigate('/bilar');
-  }
 
 
   return (
@@ -820,7 +810,6 @@ export function App({ initialData } = {}) {
       <header className="siteHeader premiumHeader bilHeader">
         <AppLink path="/" className="brand brandButton">Elbilsagenten</AppLink>
         <nav aria-label="Huvudnavigation">
-          {sandsten && <a href="#din-korvecka" onClick={jumpToSection}>Din körvecka</a>}
           {[[ '/', 'Start', 'home' ], [ '/bilar', sandsten ? 'Alla elbilar' : 'Katalog', 'cars' ], [ '/jamfor', 'Jämför', 'compare' ], [ '/radgivare', 'Rådgivare', 'advisor' ], [ '/nyheter', 'Nyheter', 'news' ]].filter(([, , type]) => !sandsten || !['home','advisor'].includes(type)).map(([path, label, type]) => <AppLink key={path} path={path} current={route.type === type}>{label}</AppLink>)}
         </nav>
       </header>
@@ -841,7 +830,7 @@ export function App({ initialData } = {}) {
       {route.type === 'newsArticle' && <NewsArticlePage article={routeArticle} articles={news.articles} loading={news.loading} error={news.error} navigate={navigate} cars={cars} sourceLink={routeLink} renderVehicleCard={(car) => <VehicleCard car={car} selected={compare.includes(car.id)} onCompare={toggleCompare} navigate={navigate} appPath={appPath} renderImage={(item) => <CarImage key={item.id} car={item} />} />} />}
 
       {['home','advisor'].includes(route.type) && (
-        <HomePage sandsten={sandsten} drivingWeek={route.type === 'home' ? { week, setWeek, onApply: applyWeek } : undefined} localAdvisor={isPreview || isOfflineReview()}
+        <HomePage sandsten={sandsten} localAdvisor={isPreview || isOfflineReview()}
           cars={cars}
           dataStatus={dataStatus}
           advisor={effectiveAdvisor}
@@ -862,7 +851,6 @@ export function App({ initialData } = {}) {
       {route.type === 'verification' && <VerificationPage />}
       {route.type === 'sources' && <BiljournalSources cars={cars} articles={news.articles} target={route.sourceTarget} link={routeLink} />}
       {route.type === 'ownership' && <OwnershipCosts cars={costCars} assumptions={ownership} setAssumptions={setOwnership} link={routeLink} today={today} fullPage />}
-      {route.type === 'cars' && weekActive && <aside className="bilWeekResult vehicleContainer"><div><h2>Bilar för din vecka</h2><p>{ownership.annualKm.toLocaleString('sv-SE')} km/år · {ownership.homePercent} % laddning hemma{ownership.onceKm ? ' · '+ownership.onceKm+' km engångsresa' : ''}.</p><p>{filters.sort === 'range' ? 'Sorterat efter längst angiven WLTP-räckvidd för dina längre resor.' : filters.sort === 'price' ? 'Lägsta pris först. Frånpriser är märkta.' : 'Urval ur hela katalogen.'} Du kan filtrera vidare. WLTP visar standardiserad räckvidd, inte var du behöver ladda.</p></div><AppLink path="/" onNavigate={() => requestAnimationFrame(focusDrivingWeek)}>Ändra körveckan <ArrowRight size={16} /></AppLink></aside>}
       {['contact', 'privacy'].includes(route.type) && <InfoPage type={route.type} />}
       {['cars', 'segment'].includes(route.type) && <VehicleCatalog
         cars={cars} ranked={ranked} filters={filters} setFilters={setFilters}

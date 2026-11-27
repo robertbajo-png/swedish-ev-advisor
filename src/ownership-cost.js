@@ -16,14 +16,6 @@ function within(value, min, max) {
   return Number.isFinite(n) && n >= min && n <= max;
 }
 
-export function distanceForWeek({ commute, trip, cadence }) {
-  const tripsPerYear = { monthly: 12, fortnightly: 26, weekly: 52, once: 0 };
-  return {
-    annualKm: Number(commute) * 5 * 46 + Number(trip) * (tripsPerYear[cadence] ?? 0),
-    onceKm: cadence === 'once' ? Number(trip) : 0,
-  };
-}
-
 export function electricityCost(km, kwhPer100Km, sekPerKwh, basis, lossPercent) {
   const efficiency = basis === 'vehicle' ? 1 - lossPercent / 100 : 1;
   return km * kwhPer100Km / 100 * sekPerKwh / efficiency;

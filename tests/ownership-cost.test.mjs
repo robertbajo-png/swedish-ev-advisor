@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { calculateOwnership, distanceForWeek, loanCashFlows, OWNERSHIP_ASSUMPTIONS } from '../src/ownership-cost.js';
+import { calculateOwnership, loanCashFlows, OWNERSHIP_ASSUMPTIONS } from '../src/ownership-cost.js';
 
 const today = '2026-11-25';
 const car = {
@@ -13,15 +13,8 @@ const lease = { term: 36, start: 10000, monthly: 3990, includedKm: 36000, overMi
 const input = { ...OWNERSHIP_ASSUMPTIONS, homePercent: 80, homeSek: 2, publicSek: 6 };
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.00001, actual + ' != ' + expected);
 
-test('46 pendlarveckor plus en återkommande eller enstaka helgresa', () => {
-  assert.deepEqual(distanceForWeek({ commute: '32', trip: '180', cadence: 'once' }), { annualKm: 7360, onceKm: 180 });
-  assert.deepEqual(distanceForWeek({ commute: '32', trip: '180', cadence: 'monthly' }), { annualKm: 9520, onceKm: 0 });
-  assert.deepEqual(distanceForWeek({ commute: '25', trip: '240', cadence: 'fortnightly' }), { annualKm: 11990, onceKm: 0 });
-});
-
-test('en enda helgresa räknas en gång även utan pendling', () => {
-  const distance = distanceForWeek({ commute: '', trip: '240', cadence: 'once' });
-  const result = calculateOwnership(car, { ...input, ...distance }, today);
+test('en separat engångssträcka räknas en gång under kalkylperioden', () => {
+  const result = calculateOwnership(car, { ...input, annualKm: 0, onceKm: 240 }, today);
   assert.equal(result.km, 240);
   near(result.operating.electricity, 134.4);
   assert.equal(calculateOwnership(car, { ...input, annualKm: 0, onceKm: 0 }, today).reason, 'assumptions');

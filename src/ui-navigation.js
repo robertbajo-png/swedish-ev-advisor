@@ -2,12 +2,6 @@ export function preferredScrollBehavior() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
-export function focusDrivingWeek() {
-  const title = document.getElementById('bil-week-title');
-  title?.focus({ preventScroll: true });
-  title?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
-}
-
 export function revealFocusAboveCompareBar(event) {
   const target = event.target;
   const bar = document.querySelector('.vehicleCompareBar');

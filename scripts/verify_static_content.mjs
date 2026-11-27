@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { parse } from 'parse5';
 import { safePageData, replaceRoot, synchronizeItemList } from './render_public_pages.mjs';
@@ -47,6 +47,12 @@ for (const [source, image] of Object.entries(variants)) {
 }
 const png = await readFile('public/media/elbilsguiden-share.png');
 assert.equal(png.readUInt32BE(16), 1200); assert.equal(png.readUInt32BE(20), 630);
+// The retired feature may not survive in either the static entry point or eagerly delivered client assets.
+const retired = /din-korvecka|Din körvecka|bil-week-title|bil-commute|bil-trip|bilWeekResult|homeWeekPanel|sandstenWeek/;
+assert(!retired.test(await readFile('dist/index.html','utf8')),'Removed driving-week markup returned');
+for(const name of (await readdir('dist/assets')).filter(n=>/\.(?:js|css)$/.test(n))) {
+  assert(!retired.test(await readFile('dist/assets/'+name,'utf8')),'Removed driving-week feature returned to client assets: '+name);
+}
 const sitemap = await readFile('public/sitemap.xml', 'utf8');
 let pages = 0;
 for (const match of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {

@@ -2,6 +2,8 @@
 
 Versionsbunden design för Elbilsagentens lokala produktförhandsvisning. Utgår från produktrevision `1d547d84d2e0cfac117c7bb12b85cea33080cfa1` och Boleos befintliga designbaslinje, vars SHA-256 är `70e4e9fd6b4102956334b75bd8ddd6f11e6acfb3472994a87b936db8698cbcae`.
 
+> Historiskt förhandsunderlag. Startsidan och Körveckans tidigare beteende är överspelade av [aktuell Sandsten-specifikation](sandsten.md) och ägarens uttryckliga borttagningsbeslut. Denna äldre beskrivning är inte ett mandat att återinföra modulen.
+
 ## Beslutsunderlag
 
 - Granskat koncept `EV-C-1.3.1.html`, SHA-256 `df93799070758eb62fc9c4f35126649675f3db99c823b5f3d82509ef2e12a5bc`. Granskningsbevisets SHA-256 är `145f37a8891e4e7a95edd147fcdff463ac228ca61fb0fc239aec7a7cd6927c2d`. Enhetschefen bekräftade att exakt leverans verifierats och godkänts för förhandsvisning.

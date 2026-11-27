@@ -121,8 +121,7 @@ export function OwnershipCosts({ cars, assumptions, setAssumptions, link, headin
         <details className="bilCostTerms"><summary>Parkering, trängselskatt och laddbox</summary>
           <div className="bilCostFields">{[['charger','Laddbox, engångskostnad i kr'],['parking','Parkering, kr/mån'],['tolls','Trängselskatt, kr/mån']].map(([name,label]) => <NumberField key={name} name={name} label={label} value={assumptions[name]} onChange={update} max={100000} />)}</div>
         </details>
-        <p>Om du lämnar egen förbrukning tom används bilens WLTP-värde där det finns, annars 20 kWh/100 km som antagande. Om du ändrar årsmilen tas en eventuell engångsresa bort ur kalkylen.</p>
-        {Number(assumptions.onceKm)>0 && <p>Engångsresa från körveckan: {assumptions.onceKm} km en gång under perioden.</p>}
+        <p>Om du lämnar egen förbrukning tom används bilens WLTP-värde där det finns, annars 20 kWh/100 km som antagande.</p>
       </details>
       {cars.map(car => <VariantCosts key={car.id} {...{ car, assumptions, today }} />)}
       <p className="bilSourceContext">{link('/kallor?post=kalkyl','Källor för kalkylen')}</p>

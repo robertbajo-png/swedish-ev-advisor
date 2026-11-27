@@ -8,8 +8,6 @@
 .sandstenReview .bilHeader .brandButton::after{display:none}
 .sandstenReview .bilHeader .brandButton::before{content:"";display:block;background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 5px);width:12px;height:20px;transform:skewX(-23deg)}
 .sandstenReview .bilHeader nav a{font-weight:600;padding-inline:0}
-.sandstenReview .bilHeader nav a:first-child{order:2}
-.sandstenReview .bilHeader nav a:last-child{order:3}
 .sandstenReview .homeHeroFirst{padding-block:clamp(52px,6.4vw,92px) clamp(49px,5.4vw,78px)}
 .sandstenHome .homeHeroFirst .homeHeroCopy{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(36px,7vw,106px);align-items:end}
 .sandstenHome .sandstenIntro .homeKicker,.sandstenHome .journalEyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
@@ -34,18 +32,6 @@
 .sandstenHome .homeSuggestions button:hover{background:none;color:var(--bil-ink);text-decoration:underline}
 .sandstenRoad{margin:0;background:#9f8d7c}
 .sandstenRoad img{width:100%;height:clamp(255px,33vw,515px);object-fit:cover;object-position:60% 51%;display:block;filter:sepia(.09) saturate(.96)}
-.sandstenWeek{background:var(--bil-soft);padding-block:clamp(52px,7vw,102px)}
-.sandstenWeek .homeWeekPanel{border:0;margin:0;scroll-margin-top:22px}
-.sandstenWeek .bilWeek{padding:0;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);column-gap:clamp(28px,6vw,95px)}
-.sandstenWeek .bilWeek header{grid-row:span 4;display:block;border:0;min-width:0}
-.sandstenWeek .bilWeek header h2{font-size:clamp(43px,5vw,76px);font-weight:450;letter-spacing:-.047em;line-height:.94}
-.sandstenWeek .bilWeek header p{font-size:15px;margin-top:15px}
-.sandstenWeek .bilWeekRoute{border-top:1px solid var(--bil-ink);grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px 20px}
-.sandstenWeek .bilWeekRoute::before,.sandstenWeek .bilRouteStop::before{display:none}
-.sandstenWeek .bilRouteStop{padding:16px 0 3px}
-.sandstenWeek .bilRouteStop:last-child{grid-column:1/-1}
-.sandstenWeek .bilWeekEnd{margin-top:14px;padding-top:14px}
-.sandstenWeek .homeWeekAsk{margin-top:10px}
 .sandstenHome .homeExplore{padding-block:68px 75px}
 .sandstenHome .homeNeedsBand{background:var(--bil-soft);padding-block:70px}
 .sandstenHome .homeNeedsGrid span{color:var(--bil-muted)}
@@ -63,15 +49,12 @@
  .sandstenReview .bilHeader nav{display:flex;justify-content:space-between;column-gap:9px;row-gap:0}
  .sandstenReview .bilHeader nav a{font-size:12px;min-height:44px;margin:0}
  .sandstenReview .homeHeroFirst{padding-block:41px 32px}
- .sandstenHome .homeHeroFirst .homeHeroCopy,.sandstenWeek .bilWeek{grid-template-columns:minmax(0,1fr);gap:25px}
+ .sandstenHome .homeHeroFirst .homeHeroCopy{grid-template-columns:minmax(0,1fr);gap:25px}
  .biljournal .sandstenHome .sandstenIntro h1{font-size:clamp(49px,13vw,78px);margin-top:17px}
  .sandstenHome .homeHeroFirst .homeHeroIntro{font-size:15px;margin-top:14px}
  .sandstenHome .homeAdvisorFormActions{justify-content:space-between}
  .sandstenHome .homeSuggestions button{min-height:44px}
  .sandstenRoad img{height:clamp(225px,58vw,320px);object-position:69% 52%}
- .sandstenWeek .bilWeek header{grid-row:auto}
- .sandstenWeek .bilWeekRoute,.sandstenWeek .bilTripFields{grid-template-columns:minmax(0,1fr)}
- .sandstenWeek .bilWeekEnd{align-items:start;flex-wrap:wrap}
  .sandstenHome .homeExplore,.sandstenHome .homeNeedsBand{padding-block:52px}
 }
 .sandstenHome .journalPreviewGrid .newsStory--teaser{border:none;border-bottom:1px solid var(--bil-line)}
