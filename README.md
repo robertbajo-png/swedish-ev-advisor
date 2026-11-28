@@ -4,6 +4,8 @@ Premium Swedish AI-powered EV comparison service.
 
 The service uses Mobility Sweden as the Swedish market model index and official Swedish manufacturer/importer sources for prices and specifications.
 
+See [Data Authority](AGENTS.md#data-authority) for which sources can support vehicle prices and specifications.
+
 ## Pipeline
 
 ```bash
